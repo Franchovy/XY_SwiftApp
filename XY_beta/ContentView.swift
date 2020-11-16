@@ -9,10 +9,13 @@ import SwiftUI
     
 
 struct ContentView: View {
+    
     init() {
         UITabBar.appearance().backgroundColor = UIColor.black
         UITabBar.appearance().isTranslucent = true
+       
     }
+    
 
     
     var body: some View {
@@ -42,9 +45,11 @@ struct ContentView: View {
                 .tabItem {
                     Image(systemName:"square.fill")
                     Text("Profile")
+                    
                 }
+            
         }
-        .accentColor(.green)
+        .accentColor(.white)
         
             
     }
