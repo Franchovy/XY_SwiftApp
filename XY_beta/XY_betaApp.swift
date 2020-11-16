@@ -9,6 +9,10 @@ import SwiftUI
 
 @main
 struct XY_betaApp: App {
+    init() {
+        
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -18,6 +22,6 @@ struct XY_betaApp: App {
 
 struct XY_betaApp_Previews: PreviewProvider {
     static var previews: some View {
-        Text("Preview")
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }

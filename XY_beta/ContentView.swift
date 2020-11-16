@@ -9,45 +9,52 @@ import SwiftUI
     
 
 struct ContentView: View {
+    init() {
+        UITabBar.appearance().backgroundColor = UIColor.black
+        UITabBar.appearance().isTranslucent = true
+    }
+
+    
     var body: some View {
-        GeometryReader { geometry in
-            ZStack (alignment: .bottomLeading) {
-                
-                TabView {
-                    
-                    homepage()
-                        .tabItem {
-                            Image(systemName: "house.fill")
-                            Text("Home")
-                        }.tag(0)
-                    Text("Welcome in XY")
-                        .tabItem {
-                            Image("Communities_bar_3x")
-                            Text("Communities")
-                        }.tag(0)
-                    Text("Welcome in XY")
-                        .tabItem {
-                            Image(systemName:"bell.fill")
-                            Text("Notification")
-                        }.tag(0)
-                    Text("Welcome in XY")
-                        .tabItem {
-                            Image("Icon awesome-shopping-bag")
-                            Text("Shop")
-                        }.tag(0)
-                    Text("Welcome in XY")
-                        .tabItem {
-                            Image(systemName:"square.fill")
-                            Text("Profile")
-                        }.tag(0)
+        TabView {
+            Text("Home")
+                .tabItem {
+                    Image(systemName:"house.fill")
+                    Text("Home")
                 }
-            }
+            Text("Communities")
+                .tabItem {
+                    Image(systemName:"person.3.fill")
+                    Text("Communities")
+                }
+            Text("Notifications")
+                .tabItem {
+                    Image(systemName:"bell.fill")
+                    Text("Notifications")
+                    
+                }
+            Text("XYshop")
+                .tabItem {
+                    Image(systemName:"bag.fill")
+                    Text("XYshop")
+                }
+            Text("Profile")
+                .tabItem {
+                    Image(systemName:"square.fill")
+                    Text("Profile")
+                }
         }
+        .accentColor(.red)
+        
+            
     }
 }
+        
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+
+

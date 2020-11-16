@@ -12,7 +12,6 @@ struct homepage: View {
         ScrollView(.vertical) {
             VStack (alignment: .leading,
                 spacing: 10) {
-                
                 ForEach (1...20, id: \.self) {
                     Text("Test \($0)")
                         .foregroundColor(Color.red)
