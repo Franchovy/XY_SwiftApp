@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1421BB662562C82D005E920C /* homepage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1421BB652562C82D005E920C /* homepage.swift */; };
 		14B3165E2562B571005BCA0D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 14B3165D2562B570005BCA0D /* Assets.xcassets */; };
 		14CB0FCC25607BE60081E160 /* XY_betaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CB0FCB25607BE60081E160 /* XY_betaApp.swift */; };
 		14CB0FCE25607BE60081E160 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CB0FCD25607BE60081E160 /* ContentView.swift */; };
@@ -15,7 +14,6 @@
 		14CB0FDE25607BEA0081E160 /* XY_betaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CB0FDD25607BEA0081E160 /* XY_betaTests.swift */; };
 		14CB0FE925607BEA0081E160 /* XY_betaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CB0FE825607BEA0081E160 /* XY_betaUITests.swift */; };
 		B9B92DF925647E84005D9B86 /* PostModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF725647E84005D9B86 /* PostModel.xcdatamodeld */; };
-		B9B92DFE256484C2005D9B86 /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DFD256484C2005D9B86 /* SplashScreen.swift */; };
 		B9B92E092564868D005D9B86 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92E082564868D005D9B86 /* ViewController.swift */; };
 		B9B92E1625648814005D9B86 /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92E1525648814005D9B86 /* SwiftUIView.swift */; };
 		B9B92E1B256488A7005D9B86 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92E1A256488A7005D9B86 /* Launch Screen.storyboard */; };
@@ -40,7 +38,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1421BB652562C82D005E920C /* homepage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homepage.swift; sourceTree = "<group>"; };
 		14B3165D2562B570005BCA0D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		14CB0FC825607BE60081E160 /* XY_beta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY_beta.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		14CB0FCB25607BE60081E160 /* XY_betaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XY_betaApp.swift; sourceTree = "<group>"; };
@@ -54,7 +51,6 @@
 		14CB0FE825607BEA0081E160 /* XY_betaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XY_betaUITests.swift; sourceTree = "<group>"; };
 		14CB0FEA25607BEA0081E160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF825647E84005D9B86 /* PostModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PostModel.xcdatamodel; sourceTree = "<group>"; };
-		B9B92DFD256484C2005D9B86 /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
 		B9B92E082564868D005D9B86 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B9B92E1525648814005D9B86 /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		B9B92E1A256488A7005D9B86 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -114,9 +110,7 @@
 				14CB0FCD25607BE60081E160 /* ContentView.swift */,
 				14CB0FD425607BEA0081E160 /* Info.plist */,
 				14CB0FD125607BEA0081E160 /* Preview Content */,
-				1421BB652562C82D005E920C /* homepage.swift */,
 				B9B92DF725647E84005D9B86 /* PostModel.xcdatamodeld */,
-				B9B92DFD256484C2005D9B86 /* SplashScreen.swift */,
 				B9B92E082564868D005D9B86 /* ViewController.swift */,
 				B9B92E1525648814005D9B86 /* SwiftUIView.swift */,
 				B9B92E1A256488A7005D9B86 /* Launch Screen.storyboard */,
@@ -284,11 +278,9 @@
 			files = (
 				B9B92E092564868D005D9B86 /* ViewController.swift in Sources */,
 				B9B92E1625648814005D9B86 /* SwiftUIView.swift in Sources */,
-				B9B92DFE256484C2005D9B86 /* SplashScreen.swift in Sources */,
 				14CB0FCE25607BE60081E160 /* ContentView.swift in Sources */,
 				B9B92DF925647E84005D9B86 /* PostModel.xcdatamodeld in Sources */,
 				14CB0FCC25607BE60081E160 /* XY_betaApp.swift in Sources */,
-				1421BB662562C82D005E920C /* homepage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

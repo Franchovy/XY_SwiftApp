@@ -8,6 +8,9 @@
 import SwiftUI
     
 
+// Toggle StoryBoard / SwiftUI //
+let DISPLAY_SWIFT_UI = false   //
+
 struct ContentView: View {
     
     init() {
@@ -17,37 +20,42 @@ struct ContentView: View {
     }
 
     var body: some View {
-        TabView {
-            Text("Home")
-                .tabItem {
-                    Image(systemName:"house.fill")
-                    Text("Home")
-                }
-            Text("Communities")
-                .tabItem {
-                    Image(systemName:"person.3.fill")
-                    Text("Communities")
-                }
-            Text("Notifications")
-                .tabItem {
-                    Image(systemName:"bell.fill")
-                    Text("Notifications")
-                    
-                }
-            Text("XYshop")
-                .tabItem {
-                    Image(systemName:"bag.fill")
-                    Text("XYshop")
-                }
-            Text("Profile")
-                .tabItem {
-                    Image(systemName:"square.fill")
-                    Text("Profile")
-                    
-                }
-            
+        // SwiftUI View
+        if (DISPLAY_SWIFT_UI) {
+            TabView {
+                Text("Home")
+                    .tabItem {
+                        Image(systemName:"house.fill")
+                        Text("Home")
+                    }
+                Text("Communities")
+                    .tabItem {
+                        Image(systemName:"person.3.fill")
+                        Text("Communities")
+                    }
+                Text("Notifications")
+                    .tabItem {
+                        Image(systemName:"bell.fill")
+                        Text("Notifications")
+                        
+                    }
+                Text("XYshop")
+                    .tabItem {
+                        Image(systemName:"bag.fill")
+                        Text("XYshop")
+                    }
+                Text("Profile")
+                    .tabItem {
+                        Image(systemName:"square.fill")
+                        Text("Profile")
+                        
+                    }
+            }
+            .accentColor(.blue)
+        } else {
+            // StoryBoard / UIKit View
+            SwiftUIView()
         }
-        .accentColor(.blue)
     }
 }
         

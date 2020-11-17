@@ -21,7 +21,7 @@ struct XY_betaApp: App {
     
     var body: some Scene {
         WindowGroup {
-            SwiftUIView()
+            ContentView()
         }
         
         .onChange(of: scenePhase) { phase in
