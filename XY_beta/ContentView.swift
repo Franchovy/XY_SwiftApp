@@ -15,9 +15,7 @@ struct ContentView: View {
         UITabBar.appearance().isTranslucent = true
        
     }
-    
 
-    
     var body: some View {
         TabView {
             Text("Home")
@@ -49,9 +47,7 @@ struct ContentView: View {
                 }
             
         }
-        .accentColor(.white)
-        
-            
+        .accentColor(.blue)
     }
 }
         

@@ -8,8 +8,30 @@
 import SwiftUI
 
 struct SplashScreen: View {
+    // 1.
+    @State var isActive:Bool = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            // 2.
+            if self.isActive {
+                // 3.
+                ContentView()
+            } else {
+                // 4.
+                Text("Awesome Splash Screen")
+            }
+        }
+        // 5.
+        .onAppear {
+            // 6.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
+                // 7.
+                withAnimation {
+                    self.isActive = true
+                }
+            }
+        }
     }
 }
 
