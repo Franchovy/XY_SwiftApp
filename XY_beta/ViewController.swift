@@ -9,19 +9,18 @@ import Foundation
 import SwiftUI
 import UIKit
 
-struct SwiftUIViewController: UIViewControllerRepresentable {
+struct ViewController: UIViewControllerRepresentable {
     typealias UIViewControllerType = UIViewController
     
-    func makeUIViewController(context: UIViewControllerRepresentableContext<SwiftUIViewController>) -> SwiftUIViewController.UIViewControllerType {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ViewController>) -> ViewController.UIViewControllerType {
         
         let storyboard = UIStoryboard(name: "Main",bundle: Bundle.main)
         let controller = storyboard.instantiateViewController(identifier: "Home")
-    
         
         return controller
     }
     
-    func updateUIViewController(_ uiViewController: SwiftUIViewController.UIViewControllerType, context: UIViewControllerRepresentableContext<SwiftUIViewController>) {
+    func updateUIViewController(_ uiViewController: ViewController.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewController>) {
         
     }
     

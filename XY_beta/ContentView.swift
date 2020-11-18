@@ -7,23 +7,11 @@
 
 import SwiftUI
     
-
-// Toggle StoryBoard / SwiftUI //
-let DISPLAY_SWIFT_UI = false   //
-
 struct ContentView: View {
-    
-
-
     var body: some View {
-        // SwiftUI View
-       
-            // StoryBoard / UIKit View
-            SwiftUIView()
-        }
+        ViewController()
     }
-
-        
+}
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
