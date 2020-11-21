@@ -14,6 +14,9 @@ struct ViewController: UIViewControllerRepresentable {
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ViewController>) -> ViewController.UIViewControllerType {
         
+       
+    
+        
         let storyboard = UIStoryboard(name: "Main",bundle: Bundle.main)
         let controller = storyboard.instantiateViewController(identifier: "Home")
         
@@ -24,4 +27,11 @@ struct ViewController: UIViewControllerRepresentable {
         
     }
     
+}
+
+
+struct ViewController_Previews: PreviewProvider {
+    static var previews: some View {
+        /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
+    }
 }
