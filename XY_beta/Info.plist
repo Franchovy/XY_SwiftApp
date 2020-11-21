@@ -42,16 +42,22 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UIMainStoryboardFile</key>
 	<string>Launch Screen</string>
 =======
+=======
+>>>>>>> 32d67db1e40b42be748bb206d95741ed0984ab98
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
+<<<<<<< HEAD
 >>>>>>> main
+=======
+>>>>>>> 32d67db1e40b42be748bb206d95741ed0984ab98
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

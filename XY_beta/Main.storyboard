@@ -9,6 +9,7 @@
     </dependencies>
     <scenes>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <!--View Controller-->
         <scene sceneID="uDc-Th-sdc">
             <objects>
@@ -31,6 +32,8 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Rettangolo 8" translatesAutoresizingMaskIntoConstraints="NO" id="aws-gc-aZZ">
                                 <rect key="frame" x="16" y="243" width="365" height="443"/>
 =======
+=======
+>>>>>>> 32d67db1e40b42be748bb206d95741ed0984ab98
         <!--LoginViewController-->
         <scene sceneID="hFo-aB-2TJ">
             <objects>

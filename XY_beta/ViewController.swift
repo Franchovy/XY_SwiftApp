@@ -8,6 +8,7 @@
 import UIKit
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 struct ViewController: UIViewControllerRepresentable {
     typealias UIViewControllerType = UIViewController
     
@@ -25,11 +26,14 @@ struct ViewController: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: ViewController.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewController>) {
         
 =======
+=======
+>>>>>>> 32d67db1e40b42be748bb206d95741ed0984ab98
 class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+<<<<<<< HEAD
 >>>>>>> main
     }
 
@@ -45,3 +49,10 @@ struct ViewController_Previews: PreviewProvider {
 }
 =======
 >>>>>>> main
+=======
+    }
+
+
+}
+
+>>>>>>> 32d67db1e40b42be748bb206d95741ed0984ab98
