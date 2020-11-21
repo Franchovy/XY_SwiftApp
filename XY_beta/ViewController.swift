@@ -2,13 +2,12 @@
 //  ViewController.swift
 //  XY_beta
 //
-//  Created by Maxime Franchot on 17/11/2020.
+//  Created by Maxime Franchot on 21/11/2020.
 //
 
-import Foundation
-import SwiftUI
 import UIKit
 
+<<<<<<< HEAD
 struct ViewController: UIViewControllerRepresentable {
     typealias UIViewControllerType = UIViewController
     
@@ -25,13 +24,24 @@ struct ViewController: UIViewControllerRepresentable {
     
     func updateUIViewController(_ uiViewController: ViewController.UIViewControllerType, context: UIViewControllerRepresentableContext<ViewController>) {
         
+=======
+class ViewController: UIViewController {
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+>>>>>>> main
     }
-    
+
+
 }
 
+<<<<<<< HEAD
 
 struct ViewController_Previews: PreviewProvider {
     static var previews: some View {
         /*@START_MENU_TOKEN@*/Text("Hello, World!")/*@END_MENU_TOKEN@*/
     }
 }
+=======
+>>>>>>> main
