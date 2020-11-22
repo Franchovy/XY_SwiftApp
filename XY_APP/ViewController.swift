@@ -7,16 +7,9 @@
 
 import UIKit
 
-let API_URL = "192.168.18.103"
+let API_URL = "192.168.43.155"
 
 class ViewController: UIViewController {
-
-
-   
-    
- 
-    
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
