@@ -11,11 +11,21 @@ let API_URL = "192.168.18.103"
 
 class ViewController: UIViewController {
 
+
+   
+    
+ 
+    
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+     
     }
+    
+
     //MARK: - Navigator
     
     //MARK: - Dependencies
@@ -57,7 +67,7 @@ class ViewController: UIViewController {
     
     @IBAction func postRequestButton(_ sender: UIButton) {
         let url = URL(string:  API_URL + "/post")!
-        let request = URLRequest(url: url)
+        _ = URLRequest(url: url)
         
         
     }
