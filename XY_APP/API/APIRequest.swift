@@ -24,11 +24,12 @@ struct APIRequest {
         self.resourceURL = resourceURL
     }
     
-    func save (_ messageToSave:Message, completion: @escaping(Result<Message, APIError>) -> Void) {
+    func save (_ messageToSave:LoginRequestMessage, completion: @escaping(Result<Message, APIError>) -> Void) {
         do {
             var urlRequest = URLRequest(url: resourceURL)
             urlRequest.httpMethod = "POST"
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
+            urlRequest.addValue(messageToSave.csrfToken, forHTTPHeaderField: "X-CSRFToken")
             urlRequest.httpBody = try JSONEncoder().encode(messageToSave)
             
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in
