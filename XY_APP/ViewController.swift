@@ -7,7 +7,10 @@
 
 import UIKit
 
-let API_URL = "http://192.168.43.155:5000"
+let API_URL = "http://0.0.0.0:5000"
+struct SessionTokenResponse: Decodable {
+    let url: URL
+}
 
 class ViewController: UIViewController {
         
@@ -46,37 +49,19 @@ class ViewController: UIViewController {
         
         do {
             URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
-                if let err = err {
-                    print("Failed to login:", err)
-                    return
-                }
                 
-                print("Data: ", data)
+                let message = Message(message: "Testing")
                 
+                let postRequest = APIRequest(apiUrl: API_URL, endpoint: "message")
                 
-                loginRequest.httpMethod = "POST"
-                do {
-                    let params = "username=maxime&password=secretword&submit=1&remember_me=1".data(using: .utf8)
-                    loginRequest.httpBody = params
-                    
-                    
-                    URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
-                        if let err = err {
-                            print("Failed to login:", err)
-                            return
-                        }
-                        print(resp)
-                        // Check login session authenticated.
-                        if let data = data,
-                                let urlContent = NSString(data: data, encoding: String.Encoding.ascii.rawValue) {
-                                print(urlContent)
-                            } else {
-                                print("Error: \(err)")
-                            }
-                    }.resume()
-                } catch {
-                    print("Failed to serialize data:", error)
-                }
+                postRequest.save(message, completion: { result in
+                    switch result {
+                    case .success(let message):
+                        print("The following message has been sent: " + message.message)
+                    case .failure(let error):
+                        print("An error occured: \(error)")
+                    }
+                })
             }.resume()
         } catch {
             print("Error bruh")
@@ -112,6 +97,7 @@ class DebuggerViewController: UIViewController {
                 if let data = data,
                         let urlContent = NSString(data: data, encoding: String.Encoding.ascii.rawValue) {
                         print(urlContent)
+                    
                         print("Probably has login session.")
                     } else {
                         print("Error: \(err)")
