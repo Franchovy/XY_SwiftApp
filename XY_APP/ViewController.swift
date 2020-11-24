@@ -50,10 +50,7 @@ class ViewController: UIViewController {
         do {
             URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
                 
-                let csrfToken = data?.base64EncodedString() ?? ""
-                print("CSRF token: \(csrfToken)")
-                
-                let message = LoginRequestMessage(username: "maxime", password: "secretword", csrfToken: csrfToken)
+                let message = LoginRequestMessage(username: "maxime", password: "secretword")
                 //let message = Message(message: "this is a message")
                 
                 let postRequest = APIRequest(apiUrl: API_URL, endpoint: "login")

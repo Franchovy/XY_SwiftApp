@@ -19,12 +19,10 @@ final class Message: Codable {
 final class LoginRequestMessage: Codable {
     var username:String
     var password:String
-    var csrfToken: String
     
     init(username: String, password: String) {
         self.username = username
         self.password = password
-        self.csrfToken = csrfToken
     }
 }
 
