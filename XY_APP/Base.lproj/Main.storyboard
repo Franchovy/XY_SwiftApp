@@ -4,7 +4,6 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -77,11 +76,11 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3H-bp-f0f">
-                                <rect key="frame" x="146" y="748" width="83" height="30"/>
+                                <rect key="frame" x="149" y="748" width="77" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Debug View"/>
+                                <state key="normal" title="VerifyLogin"/>
                                 <connections>
-                                    <segue destination="e9p-KN-Myx" kind="show" id="aVp-4Y-VzS"/>
+                                    <action selector="verifyLoginButtonPressed:" destination="BYZ-38-t0r" eventType="primaryActionTriggered" id="3J4-5u-6S0"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -96,46 +95,9 @@
             </objects>
             <point key="canvasLocation" x="18.399999999999999" y="93.103448275862078"/>
         </scene>
-        <!--DebuggerViewController-->
-        <scene sceneID="48r-hU-htA">
-            <objects>
-                <viewController title="DebuggerViewController" id="e9p-KN-Myx" customClass="DebuggerViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="C7I-5t-NPc">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xHa-5f-jLM">
-                                <rect key="frame" x="145" y="45" width="85" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Check Login"/>
-                                <connections>
-                                    <action selector="CheckLoginButtonPressed:" destination="e9p-KN-Myx" eventType="primaryActionTriggered" id="aVG-dD-ti8"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POM-r0-caw">
-                                <rect key="frame" x="144" y="98" width="86" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Check CSRF"/>
-                                <connections>
-                                    <action selector="CheckCSRFButtonPressed:" destination="e9p-KN-Myx" eventType="primaryActionTriggered" id="WcF-S8-Qlr"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="ldu-qk-CTz"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="qjy-uz-rIF"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="H2A-48-XMh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="766" y="93"/>
-        </scene>
     </scenes>
     <resources>
         <image name="LogoXY" width="87.666664123535156" height="46.666667938232422"/>
         <image name="Rettangolo 1" width="113.66666412353516" height="163"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
     </resources>
 </document>

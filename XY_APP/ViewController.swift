@@ -13,7 +13,7 @@ struct SessionTokenResponse: Decodable {
 }
 
 class ViewController: UIViewController {
-        
+            
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -50,15 +50,17 @@ class ViewController: UIViewController {
         do {
             URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
                 
-                let message = LoginRequestMessage(username: "maxime", password: "secretword")
-                //let message = Message(message: "this is a message")
+                let message = try! LoginRequestMessage(username: "maxime", password: "secretword")
+                let response = Message(message: "")
+                let postRequest = try! APIRequest(apiUrl: API_URL, endpoint: "login", httpMethod: "POST") // Todo: Change this to LoginRequest
                 
-                let postRequest = APIRequest(apiUrl: API_URL, endpoint: "login")
-                
-                postRequest.save(message, completion: { result in
+                postRequest.save(message, requestResponse: response, completion: { result in
                     switch result {
                     case .success(let message):
-                        print("POST request response: \"" + message.message)
+                        print("POST request response: \"" + message.message + "\"")
+                        let sessionToken = message.token ?? ""
+                        print(sessionToken)
+                        APIRequest.setSessionToken(newSessionToken: sessionToken)
                     case .failure(let error):
                         print("An error occured: \(error)")
                     }
@@ -68,71 +70,26 @@ class ViewController: UIViewController {
             print("Error bruh")
         }
     }
-}
-
-
-class DebuggerViewController: UIViewController {
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
-     
-    }
     
-    @IBAction func CheckLoginButtonPressed(_ sender: Any) {
-        // Check if login session is open.
-        
-        // Send Request to url
-        guard let url = URL(string: API_URL + "/auth") else { return }
+    @IBAction func verifyLoginButtonPressed(_ sender: Any) {
+        guard let url = URL(string: API_URL + "/verifyLogin") else { return }
         
         var loginRequest = URLRequest(url: url)
         loginRequest.httpMethod = "GET"
+        loginRequest.setValue(APIRequest.sessionToken, forHTTPHeaderField: "session")
         
         do {
-            URLSession.shared.dataTask(with: url) { (data, resp, err) in
-                if let err = err {
-                    print("Failed to get login session:", err)
+            URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
+                if ((err) != nil) {
+                    print("Error validating: ", err)
                     return
                 }
-                
-                if let data = data,
-                        let urlContent = NSString(data: data, encoding: String.Encoding.ascii.rawValue) {
-                        print(urlContent)
-                    
-                        print("Probably has login session.")
-                    } else {
-                        print("Error: \(err)")
-                    }
+                let urlContent = NSString(data: data.unsafelyUnwrapped, encoding: String.Encoding.ascii.rawValue)
+                 
+                print(urlContent)
             }.resume()
         } catch {
-            print("Failed to serialize data:", error)
+            print("big fail")
         }
     }
-    @IBAction func CheckCSRFButtonPressed(_ sender: Any) {
-        // Get CSRF Token
-        guard let url = URL(string: API_URL + "/csrf") else { return }
-        
-        var csrfRequest = URLRequest(url: url)
-        csrfRequest.httpMethod = "GET"
-        
-        do {
-            URLSession.shared.dataTask(with: csrfRequest) { (data, resp, err) in
-                if let err = err {
-                    print("Failed to login:", err)
-                    return
-                }
-                print(resp)
-                // Check login session authenticated.
-                if let data = data,
-                        let urlContent = NSString(data: data, encoding: String.Encoding.ascii.rawValue) {
-                        print(urlContent)
-                    } else {
-                        print("Error: \(err)")
-                    }
-            }.resume()
-        } catch {
-            print("Failed to serialize data:", error)
-        }
-    }
-    
 }
