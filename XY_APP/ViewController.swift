@@ -40,8 +40,9 @@ class ViewController: UIViewController {
     
 
     @IBAction func LoginButtonPressed(_ sender: Any) {
+        // Get data from textfields
+                
         // Send Signup to url
-        
         let postRequest = LoginRequest()
         let response = Message(message: "")
         let loginData = try! LoginRequestMessage(username: "maxime", password: "secretword")
