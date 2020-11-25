@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     @IBAction func placeholderName(_ sender: UITextField) {
     }
     
-    @IBAction func LoginButtonPressed(_ sender: Any) {
+    @IBAction func signupButton(_ sender: Any)  {
         // Get data from textfields
                 
         // Send Signup to url
