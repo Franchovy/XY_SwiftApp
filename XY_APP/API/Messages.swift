@@ -32,7 +32,6 @@ final class LoginRequestMessage: Codable {
     init?(username: String, password: String) throws {
         self.username = username
         self.password = password
-        
     }
 }
 
@@ -41,6 +40,10 @@ final class RegisterRequestMessage: Codable {
     var username:String
     var password:String
     
+    init?(username: String, password: String) throws {
+        self.username = username
+        self.password = password
+    }
 }
 
 final class ProfileEditMessage: Codable {
