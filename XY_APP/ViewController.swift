@@ -38,7 +38,9 @@ class ViewController: UIViewController {
     //MARK: - Interaction
     
     
-
+    @IBAction func placeholderName(_ sender: UITextField) {
+    }
+    
     @IBAction func LoginButtonPressed(_ sender: Any) {
         // Get data from textfields
                 
