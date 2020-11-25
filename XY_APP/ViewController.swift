@@ -7,7 +7,6 @@
 
 import UIKit
 
-let API_URL = "http://0.0.0.0:5000"
 struct SessionTokenResponse: Decodable {
     let url: URL
 }
@@ -42,41 +41,30 @@ class ViewController: UIViewController {
 
     @IBAction func LoginButtonPressed(_ sender: Any) {
         // Send Signup to url
-        guard let url = URL(string: API_URL + "/login") else { return }
         
-        var loginRequest = URLRequest(url: url)
-        loginRequest.httpMethod = "GET"
+        let postRequest = LoginRequest()
+        let response = Message(message: "")
+        let loginData = try! LoginRequestMessage(username: "maxime", password: "secretword")
         
-        do {
-            URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
-                
-                let message = try! LoginRequestMessage(username: "maxime", password: "secretword")
-                let response = Message(message: "")
-                let postRequest = try! APIRequest(apiUrl: API_URL, endpoint: "login", httpMethod: "POST") // Todo: Change this to LoginRequest
-                
-                postRequest.save(message, requestResponse: response, completion: { result in
-                    switch result {
-                    case .success(let message):
-                        print("POST request response: \"" + message.message + "\"")
-                        let sessionToken = message.token ?? ""
-                        print(sessionToken)
-                        APIRequest.setSessionToken(newSessionToken: sessionToken)
-                    case .failure(let error):
-                        print("An error occured: \(error)")
-                    }
-                })
-            }.resume()
-        } catch {
-            print("Error bruh")
-        }
+        postRequest.getAPIRequest().save(loginData, requestResponse: response, completion: { result in
+            switch result {
+            case .success(let message):
+                print("POST request response: \"" + message.message + "\"")
+                let sessionToken = message.token ?? ""
+                print(sessionToken)
+                API.setSessionToken(newSessionToken: sessionToken)
+            case .failure(let error):
+                print("An error occured: \(error)")
+            }
+        })
     }
     
     @IBAction func verifyLoginButtonPressed(_ sender: Any) {
-        guard let url = URL(string: API_URL + "/verifyLogin") else { return }
+        guard let url = URL(string: API.url + "/verifyLogin") else { return }
         
         var loginRequest = URLRequest(url: url)
         loginRequest.httpMethod = "GET"
-        loginRequest.setValue(APIRequest.sessionToken, forHTTPHeaderField: "session")
+        loginRequest.setValue(API.getSessionToken(), forHTTPHeaderField: "session")
         
         do {
             URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in

@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+
+struct LoginRequest {
+    let apiRequest: APIRequest
+    
+    init() {
+        apiRequest = APIRequest(endpoint: "login", httpMethod: "POST")
+    }
+    
+    func getAPIRequest() -> APIRequest {
+        return apiRequest
+    }
+}

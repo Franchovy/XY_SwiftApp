@@ -7,6 +7,27 @@
 
 import Foundation
 
+
+struct API {
+
+    // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
+    static let url = "http://0.0.0.0:5000"
+
+    // Session token coming from server
+    static var sessionToken: String = ""
+
+    // Static function for setting the session token
+    static func setSessionToken(newSessionToken: String) {
+        API.sessionToken = newSessionToken
+    }
+    
+    // Static function for getting the session token
+    static func getSessionToken() -> String {
+        return API.sessionToken
+    }
+}
+
+
 enum APIError:Error {
     case responseProblem
     case encodingProblem
@@ -18,10 +39,9 @@ struct APIRequest {
     let resourceURL: URL
     let httpMethod: String
     
-    static var sessionToken: String = ""
     
-    init(apiUrl:String, endpoint: String, httpMethod: String) throws {
-        let resourceString = apiUrl + "/" + endpoint
+    init(endpoint: String, httpMethod: String) {
+        let resourceString = API.url + "/" + endpoint
         guard let resourceURL = URL(string: resourceString) else {fatalError()}
         
         switch httpMethod {
@@ -30,7 +50,7 @@ struct APIRequest {
         case "PUT": self.httpMethod = httpMethod
         default:
             print("ERROR: The given httpMethod is unavailable: \(httpMethod)")
-            throw APIError.otherProblem
+            fatalError()
         }
         
         self.resourceURL = resourceURL
@@ -68,15 +88,6 @@ struct APIRequest {
             completion(.failure(.encodingProblem))
         }
     }
-    
-    // Static function for setting the session token
-    static func setSessionToken(newSessionToken: String) {
-        APIRequest.sessionToken = newSessionToken
-    }
-    
-    // Static function for getting the session token
-    static func getSessionToken() -> String {
-        return APIRequest.sessionToken
-    }
+
 }
 

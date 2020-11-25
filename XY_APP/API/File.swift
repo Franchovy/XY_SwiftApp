@@ -8,10 +8,12 @@
 
 import Foundation
 
+// Error types for http data messages
 enum CodableMessageError: Error {
     case invalidMethodError
 }
 
+// Default message class for sending and receiving http data
 final class Message: Codable {
     var id:Int?
     var message:String
@@ -22,6 +24,7 @@ final class Message: Codable {
     }
 }
 
+// LoginRequestMessage for sending login data through POST request.
 final class LoginRequestMessage: Codable {
     var username:String
     var password:String
@@ -33,6 +36,7 @@ final class LoginRequestMessage: Codable {
     }
 }
 
+// RegisterRequestMessage for sending register new user through POST request.
 final class RegisterRequestMessage: Codable {
     var username:String
     var password:String
