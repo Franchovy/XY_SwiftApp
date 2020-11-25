@@ -56,19 +56,22 @@ struct APIRequest {
         self.resourceURL = resourceURL
     }
     
-    func save<T: Encodable> (_ messageToSave:T, requestResponse:Message, completion: @escaping(Result<Message, APIError>) -> Void) {
+    func save (message:Message, completion: @escaping(Result<Message, APIError>) -> Void) {
         do {
             // Initialise the Http Request
             var urlRequest = URLRequest(url: resourceURL)
             urlRequest.httpMethod = self.httpMethod
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
             // Encode the codableMessage properties into JSON for Http Request
-            urlRequest.httpBody = try JSONEncoder().encode(messageToSave)
+            urlRequest.httpBody = try JSONEncoder().encode(message)
+            print("Sending request: \(message)")
+            print("request: \(urlRequest)")
             
             // Open the task as urlRequest
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in
                 // Save response or handle Error
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
+                    print("Error: response problem: \(response)")
                     completion(.failure(.responseProblem))
                     return
                 }

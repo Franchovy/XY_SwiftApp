@@ -38,7 +38,8 @@ class ViewController: UIViewController {
     //MARK: - Interaction
     
     
-    @IBAction func placeholderName(_ sender: UITextField) {
+    @IBAction func textFieldChanged(_ sender: UITextField) {
+        print("sent: \(sender.text)")
     }
     
     @IBAction func signupButton(_ sender: Any)  {
@@ -47,9 +48,9 @@ class ViewController: UIViewController {
         // Send Signup to url
         let postRequest = LoginRequest()
         let response = Message(message: "")
-        let loginData = try! LoginRequestMessage(username: "maxime", password: "secretword")
+        let message = Message(message: "username=maxime&password=secretword")
         
-        postRequest.getAPIRequest().save(loginData, requestResponse: response, completion: { result in
+        postRequest.getAPIRequest().save(message: message, completion: { result in
             switch result {
             case .success(let message):
                 print("POST request response: \"" + message.message + "\"")
