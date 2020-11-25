@@ -11,11 +11,19 @@
       "size" : "20x20"
     },
     {
+      "filename" : "XY_LOGO_GRADIENT.png",
+      "idiom" : "iphone",
+      "scale" : "1x",
+      "size" : "29x29"
+    },
+    {
+      "filename" : "XY_LOGO_GRADIENT@2x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "XY_LOGO_GRADIENT@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
@@ -31,11 +39,13 @@
       "size" : "40x40"
     },
     {
+      "filename" : "120@3x.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "180@3x.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
