@@ -17,6 +17,7 @@
 		B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DDF25644A41005D9B86 /* Assets.xcassets */; };
 		B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */; };
 		B9B92DF225644F9B005D9B86 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* ViewController.swift */; };
+		B9E54624256ED3BE00988B90 /* SignupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E54623256ED3BE00988B90 /* SignupRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		B9B92DE225644A41005D9B86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9B92DE425644A41005D9B86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF125644F9B005D9B86 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B9E54623256ED3BE00988B90 /* SignupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +53,7 @@
 				B950D6F6256D25460065E756 /* Messages.swift */,
 				B950D6FA256D25B10065E756 /* APIRequest.swift */,
 				B950D6FE256DAC130065E756 /* LoginRequest.swift */,
+				B9E54623256ED3BE00988B90 /* SignupRequest.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* ViewController.swift in Sources */,
 				B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */,
+				B9E54624256ED3BE00988B90 /* SignupRequest.swift in Sources */,
 				B950D6FF256DAC130065E756 /* LoginRequest.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 			);
