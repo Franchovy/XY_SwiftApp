@@ -46,24 +46,40 @@ class ViewController: UIViewController {
         // Get data from textfields
                 
         // Send Signup to url
-        let postRequest = LoginRequest()
-        let response = Message(message: "")
-        let message = Message(message: "username=maxime&password=secretword")
+        struct Profile {
+        var name : String
+        var response : [String:Int]
+        var message : [String : Int]
         
-        postRequest.getAPIRequest().save(message: message, completion: { result in
-            switch result {
-            case .success(let message):
-                print("POST request response: \"" + message.message + "\"")
-                let sessionToken = message.token ?? ""
-                print(sessionToken)
-                API.setSessionToken(newSessionToken: sessionToken)
-            case .failure(let error):
-                print("An error occured: \(error)")
-            }
-        })
-    }
+            
+            init(profileName : String, answer : [String:Int], xymessage : [String : Int]) {
+            
+            self.name = profileName
+            self.response = answer
+            self.message = xymessage
+         }
+            
+           // func postRequest.getAPIRequest(){
+                    //print()
+              // }
+            
+            
+            
+        
+       //  postRequest.getAPIRequest().save(message: message, completion: { result in
+            //   switch result {
+            //   case .success(let message):
+            //    print("POST request response: \"" + message.message + "\"")
+            //   let sessionToken = message.token ?? ""
+            //   print(sessionToken)
+            //   API.setSessionToken(newSessionToken: sessionToken)
+            // case .failure(let error):
+            //      print("An error occured: \(error)")
+            //   }
+            // })
+            // }
     
-    @IBAction func verifyLoginButtonPressed(_ sender: Any) {
+            func verifyLoginButtonPressed(_ sender: Any) {
         guard let url = URL(string: API.url + "/verifyLogin") else { return }
         
         var loginRequest = URLRequest(url: url)
@@ -83,5 +99,7 @@ class ViewController: UIViewController {
         } catch {
             print("big fail")
         }
+    }
+}
     }
 }
