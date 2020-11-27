@@ -27,6 +27,10 @@ class ViewController: UIViewController {
     
     //MARK: = Properties
     
+    var usernameTextFieldValue:String? = ""
+    var emailPhoneTextFieldValue:String? = ""
+    var passwordTextFieldValue:String? = ""
+    
     //MARK: - Buckets
     
     //MARK: - Navigation Items
@@ -38,8 +42,21 @@ class ViewController: UIViewController {
     //MARK: - Interaction
     
     
+    @IBAction func passwordFieldChanged(_ sender: UITextField) {
+        
+    }
     @IBAction func textFieldChanged(_ sender: UITextField) {
-        print("sent: \(sender.text)")
+        print("username:\(sender.placeholder)sent: \(sender.text)")
+        switch sender.placeholder {
+        case "XYName":
+            usernameTextFieldValue = sender.text ?? ""
+        case "Email or Phone number":
+            emailPhoneTextFieldValue = sender.text ?? ""
+        case "Password":
+            passwordTextFieldValue = sender.text ?? ""
+        default:
+            print("Error: \(sender.placeholder) not listed")
+        }
     }
     
     @IBAction func signupButton(_ sender: Any)  {
