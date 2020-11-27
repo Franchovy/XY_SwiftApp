@@ -52,7 +52,7 @@ class SignupViewController: UIViewController {
         // Checks on login data
         
         // Send Signup to url
-        let postRequest = LoginRequest()
+        let postRequest = SignupRequest()
         let message = Message(message: "username=\(usernameText!)&password=\(passwordText!)")
         print(message.message)
 

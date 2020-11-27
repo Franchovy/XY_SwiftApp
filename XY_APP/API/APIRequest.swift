@@ -11,7 +11,7 @@ import Foundation
 struct API {
 
     // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
-    static let url = "http://192.168.1.2:5000"
+    static let url = "http://192.168.1.4:5000"
 
     // Session token coming from server
     static var sessionToken: String = ""
@@ -64,8 +64,8 @@ struct APIRequest {
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
             // Encode the codableMessage properties into JSON for Http Request
             urlRequest.httpBody = try JSONEncoder().encode(message)
-            print("Sending request: \(message)")
-            print("request: \(urlRequest)")
+            print("Sending request: \(message.message)")
+            
             
             // Open the task as urlRequest
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in

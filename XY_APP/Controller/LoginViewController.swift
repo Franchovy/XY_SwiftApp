@@ -1,17 +1,13 @@
 //
-//  ViewController.swift
+//  LoginViewController.swift
 //  XY_APP
 //
-//  Created by Maxime Franchot on 17/11/2020.
+//  Created by Maxime Franchot on 27/11/2020.
 //
 
 import UIKit
 
-struct SessionTokenResponse: Decodable {
-    let url: URL
-}
-
-class SignupViewController: UIViewController {
+class LoginViewController: UIViewController {
             
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,10 +15,9 @@ class SignupViewController: UIViewController {
         
     }
     
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var emailPhoneTextField: UITextField!
+    @IBOutlet weak var usernameEmailPhoneTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var repeatPasswordTextField: UITextField!
+
     
     
     //MARK: - Navigator
@@ -44,16 +39,14 @@ class SignupViewController: UIViewController {
 
     @IBAction func signupButton(_ sender: Any)  {
         // Get data from textfields
-        let usernameText = usernameTextField.text
-        let emailPhoneText = emailPhoneTextField.text
+        let usernameEmailPhoneText = usernameEmailPhoneTextField.text
         let passwordText = passwordTextField.text
-        let repeatPassword = repeatPasswordTextField.text
         
         // Checks on login data
         
         // Send Signup to url
         let postRequest = LoginRequest()
-        let message = Message(message: "username=\(usernameText!)&password=\(passwordText!)")
+        let message = Message(message: "username=\(usernameEmailPhoneText!)&password=\(passwordText!)")
         print(message.message)
 
          postRequest.getAPIRequest().save(message: message, completion: { result in

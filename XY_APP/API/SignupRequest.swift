@@ -6,3 +6,15 @@
 //
 
 import Foundation
+
+struct SignupRequest {
+    let apiRequest: APIRequest
+    
+    init() {
+        apiRequest = APIRequest(endpoint: "register", httpMethod: "POST")
+    }
+    
+    func getAPIRequest() -> APIRequest {
+        return apiRequest
+    }
+}
