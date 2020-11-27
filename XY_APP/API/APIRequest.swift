@@ -64,7 +64,7 @@ struct APIRequest {
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
             // Encode the codableMessage properties into JSON for Http Request
             urlRequest.httpBody = try JSONEncoder().encode(message)
-            print("Sending request: \(message.message)")
+            print("Sending request: \(message): \(message.message)")
             
             
             // Open the task as urlRequest

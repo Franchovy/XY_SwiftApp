@@ -37,7 +37,7 @@ class LoginViewController: UIViewController {
     //MARK: - Interaction
     
 
-    @IBAction func signupButton(_ sender: Any)  {
+    @IBAction func loginButton(_ sender: Any)  {
         // Get data from textfields
         let usernameEmailPhoneText = usernameEmailPhoneTextField.text
         let passwordText = passwordTextField.text
