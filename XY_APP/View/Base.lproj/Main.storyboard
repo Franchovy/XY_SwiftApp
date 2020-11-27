@@ -104,11 +104,6 @@
                                     <segue destination="53h-pf-nzi" kind="show" id="qh0-V1-AD0"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y3H-bp-f0f">
-                                <rect key="frame" x="151" y="639" width="77" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="VerifyLogin"/>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" semanticContentAttribute="playback" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yEd-Fv-XAD">
                                 <rect key="frame" x="74" y="440" width="226" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -357,15 +352,22 @@
                                 </state>
                                 <connections>
                                     <action selector="loginButton:" destination="53h-pf-nzi" eventType="primaryActionTriggered" id="bzt-jj-yKO"/>
-                                    <segue destination="1VQ-l3-tSx" kind="show" id="KOB-IC-NyJ"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="⚠️ Login failed!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EO4-hY-5aW">
+                                <rect key="frame" x="134" y="597" width="120" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="NXQ-13-ahB"/>
                         <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="fLa-qI-dmz"/>
                     <connections>
+                        <outlet property="loginFailLabel" destination="EO4-hY-5aW" id="yrL-jC-vFT"/>
                         <outlet property="passwordTextField" destination="xGp-jJ-w5P" id="CKS-9V-cIv"/>
                         <outlet property="usernameEmailPhoneTextField" destination="rVd-kj-ivA" id="mtv-0Q-Tte"/>
                     </connections>
@@ -374,10 +376,10 @@
             </objects>
             <point key="canvasLocation" x="60" y="1164.5320197044337"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--HomeViewController-->
         <scene sceneID="R15-tR-vLt">
             <objects>
-                <tabBarController modalPresentationStyle="fullScreen" id="1VQ-l3-tSx" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomeScreen" title="HomeViewController" modalPresentationStyle="fullScreen" id="1VQ-l3-tSx" customClass="HomeViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="fTB-k2-9gm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -386,6 +388,7 @@
                         <color key="selectedImageTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
+                        <outlet property="tabBar" destination="fTB-k2-9gm" id="dJP-jG-985"/>
                         <segue destination="p61-cw-hWG" kind="relationship" relationship="viewControllers" id="BTA-3O-v7r"/>
                         <segue destination="4DB-Pv-q7K" kind="relationship" relationship="viewControllers" id="VRz-IR-ZYQ"/>
                         <segue destination="YUV-Ld-Y7t" kind="relationship" relationship="viewControllers" id="bnQ-mp-Ltb"/>
@@ -400,7 +403,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="4DB-Pv-q7K" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YXp-2u-pLo">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="vUe-QI-prX"/>
                         <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -416,7 +419,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="YUV-Ld-Y7t" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fbB-bI-pl2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <navigationBar contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M6e-Cn-Aut">
@@ -450,11 +453,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="p61-cw-hWG" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UnV-bW-ikC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NRt-RO-Ize">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="675"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="685"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="laH-Of-0Vs">
                                         <rect key="frame" x="0.0" y="0.0" width="359" height="841"/>
@@ -533,6 +536,7 @@
                     <tabBarItem key="tabBarItem" title="Home" image="Icon ionic-ios-home-1" id="ira-Fh-15c">
                         <color key="badgeColor" systemColor="systemGreenColor"/>
                     </tabBarItem>
+                    <navigationItem key="navigationItem" id="gpL-9g-Nwa"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCv-tS-MLM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

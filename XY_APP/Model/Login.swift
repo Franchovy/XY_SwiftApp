@@ -36,7 +36,7 @@ struct Login {
         loginRequestMessage = LoginRequestMessage(username: username, password: password, rememberMe: rememberMe)
     }
     
-    func requestLogin() {
+    func requestLogin() -> Bool {
         // Make API request to backend to login.
         let loginRequest = APIRequest(endpoint: "login", httpMethod: "POST")
         
@@ -49,10 +49,12 @@ struct Login {
                 let sessionToken = message.token ?? ""
                 print(sessionToken)
                 API.setSessionToken(newSessionToken: sessionToken)
+                    
               case .failure(let error):
                    print("An error occured: \(error)")
              }
             })
         }
+        return false
     }
 }

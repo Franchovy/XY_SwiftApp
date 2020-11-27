@@ -57,29 +57,12 @@ class SignupViewController: UIViewController {
         signup.validateSignupForm(username: usernameText!, password: passwordText!, email: emailPhoneText!, phoneNumber: "")
         
         // Send signup request
-        signup.requestSignup()
-     }
-    
-    func verifyLoginButtonPressed(_ sender: Any) {
-        guard let url = URL(string: API.url + "/verifyLogin") else { return }
-        
-        var loginRequest = URLRequest(url: url)
-        loginRequest.httpMethod = "GET"
-        loginRequest.setValue(API.getSessionToken(), forHTTPHeaderField: "session")
-        
-        do {
-            URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
-                if ((err) != nil) {
-                    print("Error validating: ", err)
-                    return
-                }
-                let urlContent = NSString(data: data.unsafelyUnwrapped, encoding: String.Encoding.ascii.rawValue)
-                 
-                print(urlContent)
-            }.resume()
-        } catch {
-            print("big fail")
+        let success = signup.requestSignup()
+        if success {
+            //Signup successful
+        } else {
+            //Error
         }
-    }
+     }
 }
  

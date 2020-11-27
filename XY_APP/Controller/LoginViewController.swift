@@ -8,15 +8,17 @@
 import UIKit
 
 class LoginViewController: UIViewController {
-            
+
+    @IBOutlet weak var usernameEmailPhoneTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+
+    @IBOutlet weak var loginFailLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
     }
-    
-    @IBOutlet weak var usernameEmailPhoneTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
 
     
     
@@ -47,31 +49,20 @@ class LoginViewController: UIViewController {
         login.validateLoginForm(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
         
         // Send login request
-        login.requestLogin()
-        //IF success -> next page
-        //IF fail -> display fail
-     }
-    
-    func verifyLoginButtonPressed(_ sender: Any) {
-        guard let url = URL(string: API.url + "/verifyLogin") else { return }
+        var success = login.requestLogin()
         
-        var loginRequest = URLRequest(url: url)
-        loginRequest.httpMethod = "GET"
-        loginRequest.setValue(API.getSessionToken(), forHTTPHeaderField: "session")
-        
-        do {
-            URLSession.shared.dataTask(with: loginRequest) { (data, resp, err) in
-                if ((err) != nil) {
-                    print("Error validating: ", err)
-                    return
-                }
-                let urlContent = NSString(data: data.unsafelyUnwrapped, encoding: String.Encoding.ascii.rawValue)
-                 
-                print(urlContent)
-            }.resume()
-        } catch {
-            print("big fail")
+        // DEBUG - force if fail twice
+        if loginFailLabel.isHidden == false {
+            success = true
         }
-    }
+        
+        if success {
+            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let homeViewController = storyBoard.instantiateViewController(withIdentifier: "HomeScreen") as! HomeViewController
+            self.present(homeViewController, animated: false, completion: nil)
+        } else {
+            loginFailLabel.isHidden = false
+        }
+     }
 }
  

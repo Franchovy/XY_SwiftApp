@@ -38,7 +38,7 @@ struct Signup {
         signupRequestMessage = SignupRequestMessage(username: username, password: password,  email: email, phoneNumber: phoneNumber)
     }
     
-    func requestSignup() {
+    func requestSignup() -> Bool {
         // Make API request to backend to signup.
         let signupRequest = APIRequest(endpoint: "register", httpMethod: "POST")
         
@@ -47,14 +47,15 @@ struct Signup {
             signupRequest.save(message: signupRequestMessage, completion: { result in
                 switch result {
                 case .success(let message):
-                 print("POST request response: \"" + message.message + "\"")
-                let sessionToken = message.token ?? ""
-                print(sessionToken)
-                API.setSessionToken(newSessionToken: sessionToken)
-              case .failure(let error):
-                   print("An error occured: \(error)")
+                    print("POST request response: \"" + message.message + "\"")
+                    let sessionToken = message.token ?? ""
+                    print(sessionToken)
+                    API.setSessionToken(newSessionToken: sessionToken)
+                case .failure(let error):
+                    print("An error occured: \(error)")
              }
             })
         }
+        return false
     }
 }
