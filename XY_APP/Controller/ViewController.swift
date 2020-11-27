@@ -17,7 +17,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        
     }
     
 
@@ -43,17 +42,18 @@ class ViewController: UIViewController {
     
     
     @IBAction func passwordFieldChanged(_ sender: UITextField) {
-        
+        // To-do: turn password characters into secret characters
+        passwordTextFieldValue = sender.text ?? ""
     }
     @IBAction func textFieldChanged(_ sender: UITextField) {
         print("username:\(sender.placeholder)sent: \(sender.text)")
         switch sender.placeholder {
         case "XYName":
-            usernameTextFieldValue = sender.text ?? ""
+            usernameTextFieldValue = sender.text!
         case "Email or Phone number":
-            emailPhoneTextFieldValue = sender.text ?? ""
+            emailPhoneTextFieldValue = sender.text!
         case "Password":
-            passwordTextFieldValue = sender.text ?? ""
+            passwordTextFieldValue = sender.text!
         default:
             print("Error: \(sender.placeholder) not listed")
         }
@@ -61,42 +61,26 @@ class ViewController: UIViewController {
     
     @IBAction func signupButton(_ sender: Any)  {
         // Get data from textfields
-                
+        
         // Send Signup to url
-        struct Profile {
-        var name : String
-        var response : [String:Int]
-        var message : [String : Int]
-        
-            
-            init(profileName : String, answer : [String:Int], xymessage : [String : Int]) {
-            
-            self.name = profileName
-            self.response = answer
-            self.message = xymessage
-         }
-            
-           // func postRequest.getAPIRequest(){
-                    //print()
-              // }
-            
-            
-            
-        
-       //  postRequest.getAPIRequest().save(message: message, completion: { result in
-            //   switch result {
-            //   case .success(let message):
-            //    print("POST request response: \"" + message.message + "\"")
-            //   let sessionToken = message.token ?? ""
-            //   print(sessionToken)
-            //   API.setSessionToken(newSessionToken: sessionToken)
-            // case .failure(let error):
-            //      print("An error occured: \(error)")
-            //   }
-            // })
-            // }
+        let postRequest = LoginRequest()
+        let message = Message(message: "username=\(usernameTextFieldValue!)&password=\(passwordTextFieldValue!)")
+        print(message.message)
+
+         postRequest.getAPIRequest().save(message: message, completion: { result in
+               switch result {
+               case .success(let message):
+                print("POST request response: \"" + message.message + "\"")
+               let sessionToken = message.token ?? ""
+               print(sessionToken)
+               API.setSessionToken(newSessionToken: sessionToken)
+             case .failure(let error):
+                  print("An error occured: \(error)")
+            }
+         })
+     }
     
-            func verifyLoginButtonPressed(_ sender: Any) {
+    func verifyLoginButtonPressed(_ sender: Any) {
         guard let url = URL(string: API.url + "/verifyLogin") else { return }
         
         var loginRequest = URLRequest(url: url)
@@ -118,5 +102,4 @@ class ViewController: UIViewController {
         }
     }
 }
-    }
-}
+ 
