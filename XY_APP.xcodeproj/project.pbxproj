@@ -63,6 +63,13 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		B94FA39225710C9D00A44085 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		B950D6F5256D25370065E756 /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +100,7 @@
 		B9B92DD225644A3F005D9B86 /* XY_APP */ = {
 			isa = PBXGroup;
 			children = (
+				B94FA39225710C9D00A44085 /* Model */,
 				B950D6F5256D25370065E756 /* API */,
 				B9B92DD325644A3F005D9B86 /* AppDelegate.swift */,
 				B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */,
