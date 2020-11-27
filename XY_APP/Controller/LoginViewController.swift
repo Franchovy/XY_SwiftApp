@@ -43,23 +43,13 @@ class LoginViewController: UIViewController {
         let passwordText = passwordTextField.text
         
         // Checks on login data
+        var login = Login() // Create Login Model
+        login.validateLogin(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
         
-        // Send Signup to url
-        let postRequest = LoginRequest()
-        let message = Message(message: "username=\(usernameEmailPhoneText!)&password=\(passwordText!)")
-        print(message.message)
-
-         postRequest.getAPIRequest().save(message: message, completion: { result in
-               switch result {
-               case .success(let message):
-                print("POST request response: \"" + message.message + "\"")
-               let sessionToken = message.token ?? ""
-               print(sessionToken)
-               API.setSessionToken(newSessionToken: sessionToken)
-             case .failure(let error):
-                  print("An error occured: \(error)")
-            }
-         })
+        // Send login request
+        login.requestLogin()
+        //IF success -> next page
+        //IF fail -> display fail
      }
     
     func verifyLoginButtonPressed(_ sender: Any) {

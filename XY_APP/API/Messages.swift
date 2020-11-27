@@ -24,16 +24,6 @@ final class Message: Codable {
     }
 }
 
-// LoginRequestMessage for sending login data through POST request.
-final class LoginRequestMessage: Codable {
-    var username:String
-    var password:String
-    
-    init?(username: String, password: String) {
-        self.username = username
-        self.password = password
-    }
-}
 
 // RegisterRequestMessage for sending register new user through POST request.
 final class RegisterRequestMessage: Codable {

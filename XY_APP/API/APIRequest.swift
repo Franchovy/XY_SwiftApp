@@ -56,7 +56,7 @@ struct APIRequest {
         self.resourceURL = resourceURL
     }
     
-    func save (message:Message, completion: @escaping(Result<Message, APIError>) -> Void) {
+    func save<T: Codable> (message:T, completion: @escaping(Result<Message, APIError>) -> Void) {
         do {
             // Initialise the Http Request
             var urlRequest = URLRequest(url: resourceURL)
@@ -64,7 +64,7 @@ struct APIRequest {
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
             // Encode the codableMessage properties into JSON for Http Request
             urlRequest.httpBody = try JSONEncoder().encode(message)
-            print("Sending request: \(message): \(message.message)")
+            print("Sending request: \(message)") // decode struct
             
             
             // Open the task as urlRequest
