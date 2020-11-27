@@ -44,7 +44,7 @@ class LoginViewController: UIViewController {
         
         // Checks on login data
         var login = Login() // Create Login Model
-        login.validateLogin(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
+        login.validateLoginForm(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
         
         // Send login request
         login.requestLogin()

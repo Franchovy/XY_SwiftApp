@@ -26,7 +26,7 @@ struct Login {
         loginRequestMessage = nil
     }
     
-    mutating func validateLogin(username:String, password:String, rememberMe:Bool) {
+    mutating func validateLoginForm(username:String, password:String, rememberMe:Bool) {
         
         if username == nil || password == nil || rememberMe == nil {
             fatalError("One or more fields of login were empty!")
@@ -38,7 +38,7 @@ struct Login {
     
     func requestLogin() {
         // Make API request to backend to login.
-        let loginRequest = APIRequest(endpoint: "/login", httpMethod: "POST")
+        let loginRequest = APIRequest(endpoint: "login", httpMethod: "POST")
         
         // Check LoginRequestMessage is valid
         if (loginRequestMessage != nil) {

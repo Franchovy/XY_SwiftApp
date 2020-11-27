@@ -47,26 +47,17 @@ class SignupViewController: UIViewController {
         let usernameText = usernameTextField.text
         let emailPhoneText = emailPhoneTextField.text
         let passwordText = passwordTextField.text
-        let repeatPassword = repeatPasswordTextField.text
+        let repeatPasswordText = repeatPasswordTextField.text
         
-        // Checks on login data
+        // Checks on signup data
+        if (passwordText != repeatPasswordText) {
+            return
+        }
+        var signup = Signup()
+        signup.validateSignupForm(username: usernameText!, password: passwordText!, email: emailPhoneText!, phoneNumber: "")
         
-        // Send Signup to url
-        let postRequest = SignupRequest()
-        let message = Message(message: "username=\(usernameText!)&password=\(passwordText!)")
-        print(message.message)
-
-         postRequest.getAPIRequest().save(message: message, completion: { result in
-               switch result {
-               case .success(let message):
-                print("POST request response: \"" + message.message + "\"")
-               let sessionToken = message.token ?? ""
-               print(sessionToken)
-               API.setSessionToken(newSessionToken: sessionToken)
-             case .failure(let error):
-                  print("An error occured: \(error)")
-            }
-         })
+        // Send signup request
+        signup.requestSignup()
      }
     
     func verifyLoginButtonPressed(_ sender: Any) {
