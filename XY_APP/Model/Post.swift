@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 struct Post {
-    var image = UIImage(named: "technology rectangle")
-    var username = "Test user"
+    var username:String
+    var content:String
 }

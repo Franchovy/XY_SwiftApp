@@ -11,10 +11,7 @@ import UIKit
 class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // Data model: These strings will be the data for the table view cells
-    let animalsName: [String] = ["XYUser", "XYUser", "XYUser"]
-    let animals: [String] = [
-            "Man, today is a great day for XY.", "I can't wait to work on the algorithms!", "GIVE ME YOUR XP!!"]
-    
+    var posts: [Post] = []
     
     // cell reuse id (cells that scroll out of view can be reused)
     let cellReuseIdentifier = "cell"
@@ -25,6 +22,8 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        posts.append(Post(username: "XYUser", content: "Just a test."))
         
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
@@ -40,7 +39,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.animals.count
+        return self.posts.count
     }
     
     // create a cell for each table view row
@@ -50,8 +49,8 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         let cell:MyCustomCell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! MyCustomCell
         
         // set the text from the data model
-        cell.nameLabel.text = self.animalsName[indexPath.row]
-        cell.contentLabel.text = self.animals[indexPath.row]
+        cell.nameLabel.text = self.posts[indexPath.row].username
+        cell.contentLabel.text = self.posts[indexPath.row].content
         cell.contentLabel.numberOfLines = 0
         
         // add border and color
