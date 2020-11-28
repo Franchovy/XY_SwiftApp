@@ -11,10 +11,13 @@ import UIKit
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // Data model: These strings will be the data for the table view cells
-    let animals: [String] = ["Horse", "Cow", "Camel", "Sheep", "Goat"]
-    // These are the colors of the square views in our table view cells.
-    // In a real project you might use UIImages.
-    let colors = [UIColor.blue, UIColor.yellow, UIColor.magenta, UIColor.red, UIColor.brown]
+    let animalsName: [String] = ["Horse", "Cow", "Camel", "Sheep", "Goat"]
+    let animals: [String] = [
+            "Ten horses:  horse horse horse horse horse horse horse horse horse horse ",
+            "Three cows:  cow, cow, cow",
+            "One camel:  camel",
+            "Ninety-nine sheep:  sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep baaaa sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep sheep",
+            "Thirty goats:  goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat goat "]
     
     
     // cell reuse id (cells that scroll out of view can be reused)
@@ -26,15 +29,16 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // Register the table view cell class and its reuse id
-        self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellReuseIdentifier)
-        
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
 
         // This view controller itself will provide the delegate methods and row data for the table view.
         tableView.delegate = self
         tableView.dataSource = self
+        
+        // Along with auto layout, these are the keys for enabling variable cell height
+        tableView.estimatedRowHeight = 44.0
+        tableView.rowHeight = UITableView.automaticDimension
     }
     
     // number of rows in table view
@@ -49,9 +53,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         let cell:MyCustomCell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! MyCustomCell
         
         // set the text from the data model
-        cell.myView.backgroundColor = self.colors[indexPath.row]
-                cell.myCellLabel.text = self.animals[indexPath.row]
-        
+        cell.nameLabel.text = self.animalsName[indexPath.row]
+        cell.contentLabel.text = self.animals[indexPath.row]
+        cell.contentLabel.numberOfLines = 0
         return cell
     }
     
@@ -63,8 +67,8 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
 
 class MyCustomCell: UITableViewCell {
-    @IBOutlet weak var myView: UIView!
-    @IBOutlet weak var myCellLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
 }
 
 class ViewTableCell: UITableViewCell {
