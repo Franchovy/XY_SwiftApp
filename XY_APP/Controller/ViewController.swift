@@ -11,7 +11,7 @@ struct SessionTokenResponse: Decodable {
     let url: URL
 }
 
-class SignupViewController: UIViewController {
+class SignupViewController: UIViewContikjroller {
             
     override func viewDidLoad() {
         super.viewDidLoad()

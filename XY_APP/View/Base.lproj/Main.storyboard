@@ -136,10 +136,10 @@
             </objects>
             <point key="canvasLocation" x="18.399999999999999" y="93.103448275862078"/>
         </scene>
-        <!--View Controller-->
+        <!--Interests View Controller-->
         <scene sceneID="8JE-Xi-sDV">
             <objects>
-                <viewController id="32E-jl-zIX" sceneMemberID="viewController">
+                <viewController id="32E-jl-zIX" customClass="InterestsViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Ph-QO-MIy" userLabel="Interestes">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="758"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -148,18 +148,6 @@
                                 <rect key="frame" x="22" y="20" width="348" height="82"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="animals" translatesAutoresizingMaskIntoConstraints="NO" id="1ej-IN-awD">
-                                <rect key="frame" x="205" y="128" width="148" height="57"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9gK-XX-HE0">
-                                <rect key="frame" x="219" y="134" width="114" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
-                                <state key="normal" title="🙈 Animals">
-                                    <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="animals" translatesAutoresizingMaskIntoConstraints="NO" id="z5X-FE-gTx">
                                 <rect key="frame" x="16" y="192" width="148" height="57"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -171,6 +159,9 @@
                                 <state key="normal" title="🛫 Travels">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="2sh-iF-kY2"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="animals" translatesAutoresizingMaskIntoConstraints="NO" id="Ou2-5U-OIr">
                                 <rect key="frame" x="205" y="255" width="148" height="57"/>
@@ -183,6 +174,9 @@
                                 <state key="normal" title="📝 Blogs">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="tE2-eL-eyV"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="animals" translatesAutoresizingMaskIntoConstraints="NO" id="deY-vO-Nql">
                                 <rect key="frame" x="16" y="306" width="148" height="57"/>
@@ -195,6 +189,9 @@
                                 <state key="normal" title="🌌 Space">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="QdO-Zv-ElO"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="animals" translatesAutoresizingMaskIntoConstraints="NO" id="7Jh-2L-oH1">
                                 <rect key="frame" x="202" y="375" width="148" height="57"/>
@@ -207,6 +204,9 @@
                                 <state key="normal" title=" 🍕 Food">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="d0N-1q-OMH"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="animals" translatesAutoresizingMaskIntoConstraints="NO" id="zZI-Jx-joL">
                                 <rect key="frame" x="16" y="435" width="148" height="57"/>
@@ -219,6 +219,9 @@
                                 <state key="normal" title="🎨 Art">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="0Ez-5W-iQ2"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="technolgy rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="gAM-gm-lA8">
                                 <rect key="frame" x="142" y="519" width="217" height="63"/>
@@ -231,6 +234,9 @@
                                 <state key="normal" title="🦾Technology">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="jQL-u6-7mW"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="technolgy rectangle" translatesAutoresizingMaskIntoConstraints="NO" id="Ofn-WA-tLG">
                                 <rect key="frame" x="16" y="594" width="217" height="63"/>
@@ -247,6 +253,9 @@
                                 <state key="normal" title="🎧Music">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="Kzd-IV-CdU"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eqU-Ku-r5a">
                                 <rect key="frame" x="38" y="606" width="173" height="39"/>
@@ -255,29 +264,59 @@
                                 <state key="normal" title="📱Entertainment">
                                     <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="GMg-de-VaI"/>
+                                </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Swipe right if you like it, " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDM-6A-4Yi">
-                                <rect key="frame" x="105" y="31" width="164" height="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose at least 5 interestes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EDM-6A-4Yi">
+                                <rect key="frame" x="94" y="43" width="187" height="18"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Otherwise it's only another swipe left." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wby-PQ-bTK">
-                                <rect key="frame" x="70" y="52" width="252" height="18"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9gK-XX-HE0">
+                                <rect key="frame" x="205" y="156" width="144" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="25"/>
+                                <state key="normal" title="animals" backgroundImage="animalsButtonINterestes ">
+                                    <color key="titleColor" red="0.89455800510000005" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="interestButtonPressed:" destination="32E-jl-zIX" eventType="touchUpInside" id="SFr-LZ-rzW"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nei-VV-WxW" userLabel="Score">
+                                <rect key="frame" x="184" y="117" width="6" height="12"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="10"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="/ 5" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JPt-89-4kC">
+                                <rect key="frame" x="194" y="117" width="13" height="12"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="10"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="v8M-53-lU0">
+                                <rect key="frame" x="119" y="110" width="155" height="5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="progressTintColor" systemColor="systemPinkColor"/>
+                            </progressView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Z3h-BU-zyF"/>
                         <color key="backgroundColor" red="0.1490020454" green="0.15294399859999999" blue="0.15700510140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <connections>
+                        <outlet property="progressBar" destination="v8M-53-lU0" id="eFN-w2-ucq"/>
+                        <outlet property="progressBarScore" destination="Nei-VV-WxW" id="fEh-MO-VD9"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imS-1i-gAo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="961" y="-920"/>
+            <point key="canvasLocation" x="960.79999999999995" y="-920.68965517241384"/>
         </scene>
         <!--LoginViewController-->
         <scene sceneID="b9y-5q-Ph3">
@@ -538,6 +577,7 @@
         <image name="Rettangolo 1" width="103.66666412353516" height="152.66667175292969"/>
         <image name="Rettangolo signin" width="113.66666412353516" height="110.66666412353516"/>
         <image name="animals" width="53.666667938232422" height="20"/>
+        <image name="animalsButtonINterestes " width="48.333332061767578" height="14"/>
         <image name="button_Signup" width="53.333332061767578" height="11"/>
         <image name="communities" width="41.666667938232422" height="29.333333969116211"/>
         <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
@@ -548,6 +588,12 @@
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemPinkColor">
+            <color red="1" green="0.17647058823529413" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

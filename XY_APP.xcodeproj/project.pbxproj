@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B94D46F1257253BA00A21355 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* Post.swift */; };
+		1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456020F25724DEE0093FDA7 /* InterestsViewController.swift */; };
 		B94FA399257112C700A44085 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94FA398257112C700A44085 /* Profile.swift */; };
 		B950D6F7256D25460065E756 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950D6F6256D25460065E756 /* Messages.swift */; };
 		B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950D6FA256D25B10065E756 /* APIRequest.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		B94D46F0257253BA00A21355 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
 		B94FA398257112C700A44085 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		B950D6F6256D25460065E756 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		B950D6FA256D25B10065E756 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				B9B92DF125644F9B005D9B86 /* SignupViewController.swift */,
 				B9599A3B25711D810057B7D9 /* LoginViewController.swift */,
 				B9599A46257154EB0057B7D9 /* HomeViewController.swift */,
+				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -212,6 +215,7 @@
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */,
 				B9599A4225713A820057B7D9 /* Signup.swift in Sources */,
+				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B9E54624256ED3BE00988B90 /* SignupRequest.swift in Sources */,
 				B950D6FF256DAC130065E756 /* LoginRequest.swift in Sources */,
 				B94D46F1257253BA00A21355 /* Post.swift in Sources */,
