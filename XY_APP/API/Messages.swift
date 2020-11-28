@@ -30,16 +30,24 @@ final class RegisterRequestMessage: Codable {
     var username:String
     var password:String
     
-    init?(username: String, password: String) throws {
+    init?(username: String, password: String) {
         self.username = username
         self.password = password
     }
 }
 
-final class ProfileEditMessage: Codable {
-    
+
+final class GetAllPostsRequestMessage: Codable {
+    var token:String
+    init?(token: String) {
+        self.token = token
+    }
 }
 
 final class CreatePostMessage: Codable {
+    
+}
+
+final class ProfileEditMessage: Codable {
     
 }

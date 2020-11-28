@@ -11,7 +11,7 @@ import Foundation
 struct API {
 
     // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
-    static let url = "http://192.168.1.4:5000"
+    static let url = "http://192.168.1.9:5000"
 
     // Session token coming from server
     static var sessionToken: String = ""

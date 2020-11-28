@@ -23,8 +23,14 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        posts.append(Post(username: "XYUser", content: "Just a test."))
-        
+        // Get posts from backend
+        if let allPosts = Post.getAllPosts() {
+            posts.append(contentsOf: allPosts)
+        } else {
+            // Failed to get posts from backend.
+            posts.append(Post(username: "XY_AI", content: "Sorry, couldn't connect to the backend!"))
+        }
+                
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
 
@@ -88,22 +94,7 @@ class MyCustomCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     }
 }
-
-class ViewTableCell: UITableViewCell {
-    //MARK: Properties
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-    }
-    
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-    }
-}
-
