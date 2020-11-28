@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
         
         if success {
             let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let homeViewController = storyBoard.instantiateViewController(withIdentifier: "HomeScreen") as! HomeViewController
+            let homeViewController = storyBoard.instantiateViewController(withIdentifier: "HomeScreen") as! NewsFeedViewController
             self.present(homeViewController, animated: false, completion: nil)
         } else {
             loginFailLabel.isHidden = false

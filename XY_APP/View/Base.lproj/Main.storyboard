@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="53h-pf-nzi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="53h-pf-nzi">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -466,7 +466,7 @@
         <!--HomeViewController-->
         <scene sceneID="JN1-xQ-9eP">
             <objects>
-                <viewController title="HomeViewController" modalPresentationStyle="fullScreen" id="p61-cw-hWG" customClass="HomeViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="HomeViewController" modalPresentationStyle="fullScreen" id="p61-cw-hWG" customClass="NewsFeedViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UnV-bW-ikC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -475,15 +475,16 @@
                                 <rect key="frame" x="0.0" y="44" width="375" height="685"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ml7-7u-hK9">
-                                        <rect key="frame" x="32" y="30" width="311" height="613"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="685"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <color key="separatorColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" rowHeight="82" id="RBW-7w-N2M" customClass="MyCustomCell" customModule="XY_APP" customModuleProvider="target">
-                                                <rect key="frame" x="0.0" y="28" width="311" height="82"/>
+                                                <rect key="frame" x="0.0" y="28" width="375" height="82"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RBW-7w-N2M" translatesAutoresizingMaskIntoConstraints="NO" id="m0i-r2-ZfD">
-                                                    <rect key="frame" x="0.0" y="0.0" width="311" height="82"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="82"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7e6-YN-pGb">
                                                             <rect key="frame" x="16" y="10" width="45" height="21"/>
@@ -512,6 +513,7 @@
                                                         <constraint firstItem="7e6-YN-pGb" firstAttribute="top" secondItem="m0i-r2-ZfD" secondAttribute="top" constant="10" id="w67-54-XeE"/>
                                                     </constraints>
                                                 </tableViewCellContentView>
+                                                <color key="backgroundColor" systemColor="systemGreenColor"/>
                                                 <connections>
                                                     <outlet property="contentLabel" destination="HoL-Sy-WUe" id="2lA-iP-qjW"/>
                                                     <outlet property="nameLabel" destination="7e6-YN-pGb" id="c4P-7f-dlm"/>
@@ -555,9 +557,6 @@
         <image name="communities" width="41.666667938232422" height="29.333333969116211"/>
         <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
         <image name="profile" width="33.333332061767578" height="33.333332061767578"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
