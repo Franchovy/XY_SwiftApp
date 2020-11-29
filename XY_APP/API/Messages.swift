@@ -44,6 +44,10 @@ final class GetAllPostsRequestMessage: Codable {
     }
 }
 
+final class GetRequestEmptyMessage: Codable {
+    
+}
+
 final class CreatePostMessage: Codable {
     
 }

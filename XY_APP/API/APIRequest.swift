@@ -63,8 +63,11 @@ struct APIRequest {
             urlRequest.httpMethod = self.httpMethod
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
             // Encode the codableMessage properties into JSON for Http Request
-            urlRequest.httpBody = try JSONEncoder().encode(message)
-            print("Sending request: \(message)") // decode struct
+            if message != nil {
+                urlRequest.httpBody = try JSONEncoder().encode(message)
+                print("Sending request: \(message)") // decode struct
+            }
+            urlRequest.addValue(API.getSessionToken(), forHTTPHeaderField: "Session")
             
             
             // Open the task as urlRequest
