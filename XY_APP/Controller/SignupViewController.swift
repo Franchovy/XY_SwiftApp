@@ -19,28 +19,13 @@ class SignupViewController: UIViewController {
         
     }
     
+    // UI Textfield reference outlets
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var emailPhoneTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var repeatPasswordTextField: UITextField!
-    
-    
-    //MARK: - Navigator
-    
-    //MARK: - Dependencies
-    
-    //MARK: = Properties
-    
-    //MARK: - Buckets
-    
-    //MARK: - Navigation Items
-    
-    //MARK: - Configures
-    
-    //MARK: - Layout
-    
-    //MARK: - Interaction
-    
+    // Error notification reference outlets
+    @IBOutlet weak var signupErrorLabel: UILabel!
 
     @IBAction func signupButton(_ sender: Any)  {
         // Get data from textfields
@@ -57,11 +42,19 @@ class SignupViewController: UIViewController {
         signup.validateSignupForm(username: usernameText!, password: passwordText!, email: emailPhoneText!, phoneNumber: "")
         
         // Send signup request
-        let success = signup.requestSignup()
-        if success {
-            //Signup successful
-        } else {
-            //Error
+        var success = signup.requestSignup { result in
+            switch result {
+            case .success(let message):
+                print("Signup Success: ", message)
+                // Segue to home screen
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let secondVC = storyboard.instantiateViewController(identifier: "InterestsPage")
+                self.show(secondVC, sender: self)
+
+            case .failure(let error):
+                print("Signup failure: ", error)
+                self.signupErrorLabel.isHidden = false
+            }
         }
      }
 }
