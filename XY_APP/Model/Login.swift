@@ -36,7 +36,7 @@ struct Login {
         loginRequestMessage = LoginRequestMessage(username: username, password: password, rememberMe: rememberMe)
     }
     
-    func requestLogin() -> Bool {
+    func requestLogin(completion: @escaping(Result<Message, APIError>) -> Void) {
         // Make API request to backend to login.
         let loginRequest = APIRequest(endpoint: "login", httpMethod: "POST")
         
@@ -45,16 +45,21 @@ struct Login {
             loginRequest.save(message: loginRequestMessage, completion: { result in
                 switch result {
                 case .success(let message):
-                 print("POST request response: \"" + message.message + "\"")
-                let sessionToken = message.token ?? ""
-                print(sessionToken)
-                API.setSessionToken(newSessionToken: sessionToken)
+                    print("POST request response: \"" + message.message + "\"")
+                    let sessionToken = message.token ?? ""
+                    print(sessionToken)
+                    API.setSessionToken(newSessionToken: sessionToken)
+                    DispatchQueue.main.async {
+                        completion(.success(message))
+                    }
                     
-              case .failure(let error):
-                   print("An error occured: \(error)")
+                case .failure(let error):
+                    print("An error occured: \(error)")
+                    DispatchQueue.main.async {
+                        completion(.failure(error))
+                    }
              }
             })
         }
-        return false
     }
 }

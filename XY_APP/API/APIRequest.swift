@@ -74,7 +74,7 @@ struct APIRequest {
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in
                 // Save response or handle Error
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
-                    print("Error: response problem: \(response)")
+                    print("Error: response problem with API call to \(resourceURL): \(response)")
                     completion(.failure(.responseProblem))
                     return
                 }

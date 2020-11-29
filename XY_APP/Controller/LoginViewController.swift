@@ -49,19 +49,19 @@ class LoginViewController: UIViewController {
         login.validateLoginForm(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
         
         // Send login request
-        var success = login.requestLogin()
-        
-        // DEBUG - force if fail twice
-        if loginFailLabel.isHidden == false {
-            success = true
-        }
-        
-        if success {
-            let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            let homeViewController = storyBoard.instantiateViewController(withIdentifier: "HomeScreen") as! NewsFeedViewController
-            self.present(homeViewController, animated: false, completion: nil)
-        } else {
-            loginFailLabel.isHidden = false
+        var success = login.requestLogin { result in
+            switch result {
+            case .success(let message):
+                print("Login Success: ", message)
+                // Segue to home screen
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let secondVC = storyboard.instantiateViewController(identifier: "HomeViewController")
+                self.show(secondVC, sender: self)
+
+            case .failure(let error):
+                print("Login failure: ", error)
+                self.loginFailLabel.isHidden = false
+            }
         }
      }
 }
