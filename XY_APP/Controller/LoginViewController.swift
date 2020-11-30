@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
                 print("Login Success: ", message)
                 // Segue to home screen
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let secondVC = storyboard.instantiateViewController(identifier: "HomeViewController")
+                let secondVC = storyboard.instantiateViewController(identifier: "NewsFeedViewController")
                 self.show(secondVC, sender: self)
 
             case .failure(let error):
