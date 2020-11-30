@@ -11,7 +11,7 @@
         <!--SignupViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="SignupViewController" modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="SignupViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SignupViewController" title="SignupViewController" modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="SignupViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC" userLabel="Sign up">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -525,7 +525,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="R15-tR-vLt">
             <objects>
-                <tabBarController modalPresentationStyle="fullScreen" id="1VQ-l3-tSx" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="HomeScreen" modalPresentationStyle="fullScreen" id="1VQ-l3-tSx" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="qUC-gw-TLr"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" id="fTB-k2-9gm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -598,7 +598,7 @@
         <!--HomeViewController-->
         <scene sceneID="JN1-xQ-9eP">
             <objects>
-                <viewController storyboardIdentifier="HomeViewController" title="HomeViewController" modalPresentationStyle="fullScreen" id="p61-cw-hWG" customClass="NewsFeedViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="HomeViewController" modalPresentationStyle="fullScreen" id="p61-cw-hWG" customClass="NewsFeedViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="UnV-bW-ikC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

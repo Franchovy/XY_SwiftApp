@@ -38,7 +38,7 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var emailPhoneTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var repeatPasswordTextField: UITextField!
-
+    
     // Error notification reference outlets
     @IBOutlet weak var signupErrorLabel: UILabel!
 
