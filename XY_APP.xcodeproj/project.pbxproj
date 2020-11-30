@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456020F25724DEE0093FDA7 /* InterestsViewController.swift */; };
+		149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */; };
 		B94D46F1257253BA00A21355 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* Post.swift */; };
 		B94D46FE2574280800A21355 /* Post.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B94D46FC2574280800A21355 /* Post.xcdatamodeld */; };
 		B94FA399257112C700A44085 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94FA398257112C700A44085 /* Profile.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
+		149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeProfileViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		B94D46FD2574280800A21355 /* Post.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Post.xcdatamodel; sourceTree = "<group>"; };
 		B94FA398257112C700A44085 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -76,6 +78,7 @@
 				B9599A3B25711D810057B7D9 /* LoginViewController.swift */,
 				B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */,
 				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
+				149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 			files = (
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
 				B9B92DDE25644A3F005D9B86 /* XY_APP.xcdatamodeld in Sources */,
+				149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */,
