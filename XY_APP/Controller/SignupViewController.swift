@@ -38,6 +38,7 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var emailPhoneTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var repeatPasswordTextField: UITextField!
+    
     // Error notification reference outlets
     @IBOutlet weak var signupErrorLabel: UILabel!
 
@@ -56,7 +57,7 @@ class SignupViewController: UIViewController {
         signup.validateSignupForm(username: usernameText!, password: passwordText!, email: emailPhoneText!, phoneNumber: "")
         
         // Send signup request
-        var success = signup.requestSignup { result in
+        signup.requestSignup { result in
             switch result {
             case .success(let message):
                 print("Signup Success: ", message)
