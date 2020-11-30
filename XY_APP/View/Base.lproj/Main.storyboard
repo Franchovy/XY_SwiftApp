@@ -91,21 +91,6 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </textField>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="button_Signup" translatesAutoresizingMaskIntoConstraints="NO" id="ByP-Fo-pvU">
-                                <rect key="frame" x="69" y="592" width="240" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qRU-fC-ecK">
-                                <rect key="frame" x="154" y="588" width="69" height="35"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
-                                <state key="normal" title="Sign up">
-                                    <color key="titleColor" red="0.89455800513698636" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="signupButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ncS-NX-DCs"/>
-                                </connections>
-                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bdq-85-970">
                                 <rect key="frame" x="167" y="490" width="0.0" height="0.0"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -156,6 +141,13 @@
                                     <segue destination="32E-jl-zIX" kind="show" id="vC9-02-dGw"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="⚠️ Signup failed!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tfj-4k-ze7">
+                                <rect key="frame" x="108" y="655" width="131" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="1" colorSpace="calibratedRGB"/>
@@ -170,6 +162,7 @@
                         <outlet property="passwordTextField" destination="SzZ-mm-Gvz" id="o88-Fg-SLV"/>
                         <outlet property="repeatPasswordTextField" destination="yEd-Fv-XAD" id="7Rg-BI-CTk"/>
                         <outlet property="signupButton" destination="iPc-AD-7GF" id="LvY-tU-6Xx"/>
+                        <outlet property="signupErrorLabel" destination="Tfj-4k-ze7" id="0Vn-eB-Fpp"/>
                         <outlet property="usernameTextField" destination="RQS-Kp-Ep8" id="Dg1-F1-tl2"/>
                     </connections>
                 </viewController>
@@ -360,7 +353,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="Button_Arrow_Right"/>
                                 <connections>
-                                    <segue destination="jYo-wL-a2g" kind="show" id="HjW-vy-VbD"/>
+                                    <segue destination="jYo-wL-a2g" kind="show" id="jWL-lV-3uv"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -406,7 +399,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Bgq-s6-0DA"/>
                     <connections>
-                        <outlet property="photoView" destination="T3N-0a-xQD" id="dHq-hW-Dpl"/>
+                        <outlet property="photoView" destination="T3N-0a-xQD" id="n4M-9f-v1y"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lic-bW-WjJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -465,6 +458,9 @@
                                         <state key="normal" title="Log in">
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="loginButton:" destination="53h-pf-nzi" eventType="primaryActionTriggered" id="5DE-jn-nKb"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -687,7 +683,6 @@
         <image name="Button_Arrow_Right" width="27.666666030883789" height="27.666666030883789"/>
         <image name="Icon ionic-ios-home-1" width="27.333333969116211" height="27.333333969116211"/>
         <image name="LogoXY" width="87.666664123535156" height="46.666667938232422"/>
-        <image name="button_Signup" width="53.333332061767578" height="11"/>
         <image name="communities" width="41.666667938232422" height="29.333333969116211"/>
         <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
         <image name="profile" width="33.333332061767578" height="33.333332061767578"/>

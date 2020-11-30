@@ -9,7 +9,8 @@ import UIKit
 
 class CustomizeProfileViewController: UIViewController {
     
- 
+    @IBOutlet weak var photoView: UIView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
