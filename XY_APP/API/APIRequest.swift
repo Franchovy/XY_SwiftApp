@@ -11,7 +11,7 @@ import Foundation
 struct API {
 
     // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
-    static let url = "http://192.168.1.9:5000"
+    static let url = "http://192.168.43.155:5000"
 
     // Session token coming from server
     static var sessionToken: String = ""
@@ -63,7 +63,7 @@ struct APIRequest {
             urlRequest.httpMethod = self.httpMethod
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
             // Encode the codableMessage properties into JSON for Http Request
-            if message != nil {
+            if urlRequest.httpMethod != "GET" {
                 urlRequest.httpBody = try JSONEncoder().encode(message)
                 print("Sending request: \(message)") // decode struct
             }
