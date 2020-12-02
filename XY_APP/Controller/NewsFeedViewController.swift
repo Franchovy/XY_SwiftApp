@@ -11,7 +11,7 @@ import UIKit
 class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // Data model: These strings will be the data for the table view cells
-    var posts: [Post] = []
+    var posts: [PostModel] = []
     
     // cell reuse id (cells that scroll out of view can be reused)
     let cellReuseIdentifier = "cell"
@@ -24,11 +24,11 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
         // Get posts from backend
-        if let allPosts = Post.getAllPosts() {
+        if let allPosts = PostModel.getAllPosts() {
             posts.append(contentsOf: allPosts)
         } else {
             // Failed to get posts from backend.
-            posts.append(Post(username: "XY_AI", content: "Sorry, couldn't connect to the backend!"))
+            posts.append(PostModel(username: "XY_AI", content: "Sorry, couldn't connect to the backend!"))
         }
                 
         // Remove the extra empty cell divider lines

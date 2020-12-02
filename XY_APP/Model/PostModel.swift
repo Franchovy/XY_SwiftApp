@@ -29,7 +29,9 @@ struct PostModel {
             switch result {
             case .success(let message):
                 print("POST request response: \"\(message.status)\"")
-                print("Message data: \(message.response ?? "no data")")
+                if let response = message.response {
+                    print("Message data: \(response)")
+                }
             case .failure(let error):
                 print("An error occured: \(error)")
          }

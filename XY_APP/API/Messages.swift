@@ -17,11 +17,30 @@ enum CodableMessageError: Error {
 final class Message: Codable {
     var id:Int?
     var message:String
+    var data:String?
     var token:String?
     
     init(message: String) {
         self.message = message
     }
+}
+
+final class ResponseMessage: Codable {
+    var response: String?
+    var mimetype: String?
+    var status: Int
+    var message:String?
+    var data:String?
+    var token:String?
+}
+
+struct Post: Codable {
+    var username: String
+    var content: String
+    
+    enum CodingKeys: String, CodingKey {
+           case username, content
+        }
 }
 
 
