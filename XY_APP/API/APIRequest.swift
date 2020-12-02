@@ -83,19 +83,23 @@ struct APIRequest {
                 // Handle result
                 do {
                     // Decode the response
-                    let messageData = try JSONDecoder().decode(ResponseMessage.self, from: jsonData) // Todo: Change Message struct for response
+                    let messageData = try JSONDecoder().decode(GetPostsResponse.self, from: jsonData) // Todo: Change Message struct for response
                     if let responseData = messageData.response {
-                        // This type differs from the previous as ResponseStruct has [Post] type used in response.                        
-                        for post in responseData {
-                            print("New post:")
-                            print(post)
+                        // This type differs from the previous as ResponseStruct has [Post] type used in response.
+                        if let posts = messageData.response {
+                            for post in posts {
+                                print("New post:")
+                                print(post)
+                            }
                         }
-                            
                     }
                     
-                    completion(.success(messageData))
+                    let responseMessageData = try JSONDecoder().decode(ResponseMessage.self, from: jsonData) // Todo: Change Message struct for response
+                    completion(.success(responseMessageData))
                 } catch {
                     // Error decoding the message
+                    print("Error decoding the response.")
+                    print(error)
                     completion(.failure(.decodingProblem))
                 }
             }

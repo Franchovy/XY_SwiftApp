@@ -34,13 +34,22 @@ final class ResponseMessage: Codable {
     var token:String?
 }
 
+final class GetPostsResponse: Codable {
+    var response: [Post]?
+    var mimetype: String?
+    var status: Int
+    var message:String?
+    var data:String?
+    var token:String?
+}
+
 struct Post: Codable {
     var username: String
     var content: String
     
     enum CodingKeys: String, CodingKey {
-           case username, content
-        }
+       case username, content
+    }
 }
 
 
