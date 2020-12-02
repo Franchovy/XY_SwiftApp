@@ -32,6 +32,15 @@ final class ResponseMessage: Codable {
     var message:String?
     var data:String?
     var token:String?
+    
+    init() {
+        response = nil
+        mimetype = nil
+        status = 0
+        message = nil
+        data = nil
+        token = nil
+    }
 }
 
 final class GetPostsResponse: Codable {
@@ -41,6 +50,15 @@ final class GetPostsResponse: Codable {
     var message:String?
     var data:String?
     var token:String?
+    
+    init() {
+        response = nil
+        mimetype = nil
+        status = 0
+        message = nil
+        data = nil
+        token = nil
+    }
 }
 
 struct Post: Codable {

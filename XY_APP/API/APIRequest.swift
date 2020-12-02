@@ -56,7 +56,7 @@ struct APIRequest {
         self.resourceURL = resourceURL
     }
     
-    func save<T: Codable> (message:T, completion: @escaping(Result<ResponseMessage, APIError>) -> Void) {
+    func save<T: Codable, ResponseType: Codable> (message:T,response:ResponseType, completion: @escaping(Result<ResponseType, APIError>) -> Void) {
 
         
         do {
@@ -83,19 +83,8 @@ struct APIRequest {
                 // Handle result
                 do {
                     // Decode the response
-                    let messageData = try JSONDecoder().decode(GetPostsResponse.self, from: jsonData) // Todo: Change Message struct for response
-                    if let responseData = messageData.response {
-                        // This type differs from the previous as ResponseStruct has [Post] type used in response.
-                        if let posts = messageData.response {
-                            for post in posts {
-                                print("New post:")
-                                print(post)
-                            }
-                        }
-                    }
-                    
-                    let responseMessageData = try JSONDecoder().decode(ResponseMessage.self, from: jsonData) // Todo: Change Message struct for response
-                    completion(.success(responseMessageData))
+                    let messageData = try JSONDecoder().decode(ResponseType.self, from: jsonData) // Todo: Change Message struct for response
+                    completion(.success(messageData))
                 } catch {
                     // Error decoding the message
                     print("Error decoding the response.")

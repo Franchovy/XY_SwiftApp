@@ -24,13 +24,18 @@ struct PostModel {
         let getAllPostsRequest = APIRequest(endpoint: "get_all_posts", httpMethod: "GET")
                 
         let message = GetAllPostsRequestMessage(token: API.getSessionToken())
-        
-        getAllPostsRequest.save(message: message, completion: { result in
+        let response = GetPostsResponse()
+        getAllPostsRequest.save(message: message,response: response, completion: { result in
             switch result {
             case .success(let message):
                 print("POST request response: \"\(message.status)\"")
-                if let response = message.response {
-                    print("Message data: \(response)")
+                
+                // This type differs from the previous as ResponseStruct has [Post] type used in response.
+                if let posts = message.response {
+                    for post in posts {
+                        print("New post:")
+                        print(post)
+                    }
                 }
             case .failure(let error):
                 print("An error occured: \(error)")

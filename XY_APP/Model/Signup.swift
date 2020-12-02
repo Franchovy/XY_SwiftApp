@@ -41,10 +41,10 @@ struct Signup {
     func requestSignup(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) -> Bool {
         // Make API request to backend to signup.
         let signupRequest = APIRequest(endpoint: "register", httpMethod: "POST")
-        
+        let response = ResponseMessage()
         // Check LoginRequestMessage is valid
         if (signupRequestMessage != nil) {
-            signupRequest.save(message: signupRequestMessage, completion: { result in
+            signupRequest.save(message: signupRequestMessage, response: response, completion: { result in
                 switch result {
                 case .success(let message):
                     if let message = message.message {
