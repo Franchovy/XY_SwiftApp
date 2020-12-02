@@ -19,6 +19,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     
     // don't forget to hook this up from the storyboard
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var submitButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +36,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
                 print("Failed to get posts! \(error)")
             }
         })
+        self.tableView.addSubview(submitButton)
                 
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
@@ -46,6 +48,11 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         // Along with auto layout, these are the keys for enabling variable cell height
         tableView.estimatedRowHeight = 44.0
         tableView.rowHeight = UITableView.automaticDimension
+    }
+    
+    @IBAction func submitPostButtonPressed(_ sender: Any) {
+        let newPost = PostModel(username: "user", content: "This is my first post on XY.")
+        newPost.submitPost()
     }
     
     // number of rows in table view

@@ -82,7 +82,6 @@ final class RegisterRequestMessage: Codable {
     }
 }
 
-
 final class GetAllPostsRequestMessage: Codable {
     var token:String
     init?(token: String) {
@@ -94,7 +93,10 @@ final class GetRequestEmptyMessage: Codable {
 }
 
 final class CreatePostMessage: Codable {
-    
+    var content: String
+    init(content: String) {
+        self.content = content
+    }
 }
 
 final class ProfileEditMessage: Codable {

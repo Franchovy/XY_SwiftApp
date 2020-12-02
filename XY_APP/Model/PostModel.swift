@@ -23,6 +23,22 @@ struct PostModel {
         return 0
     }
     
+    //
+    func submitPost() {
+        let submitPostRequest = APIRequest(endpoint: "create_post", httpMethod: "POST")
+        let message = CreatePostMessage(content: self.content)
+        let response = ResponseMessage()
+        submitPostRequest.save(message: message, response: response, completion: { result in
+            switch result {
+            case .success(let message):
+                print("POST request response: \(message.message)")
+            case .failure(let error):
+                print("Error with request response: \(error)")
+            }
+            
+        })
+    }
+    
     // Function to fetch from API to get all recent posts.
     static func getAllPosts(completion: @escaping(Result<[PostModel]?, APIError>) -> Void) -> [PostModel]? {
         // Make API request to backend to signup.

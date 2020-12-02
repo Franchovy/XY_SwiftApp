@@ -606,6 +606,14 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NRt-RO-Ize">
                                 <rect key="frame" x="0.0" y="44" width="375" height="685"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="oel-1L-JRr">
+                                        <rect key="frame" x="0.0" y="293" width="375" height="99"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="Submit post"/>
+                                        <connections>
+                                            <action selector="submitPostButtonPressed:" destination="p61-cw-hWG" eventType="primaryActionTriggered" id="RIz-aS-UKc"/>
+                                        </connections>
+                                    </button>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ml7-7u-hK9">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="685"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -671,12 +679,13 @@
                     <navigationItem key="navigationItem" id="gpL-9g-Nwa"/>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="submitButton" destination="oel-1L-JRr" id="UaG-mn-cN6"/>
                         <outlet property="tableView" destination="Ml7-7u-hK9" id="Us2-T0-uMB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wCv-tS-MLM" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3412" y="197"/>
+            <point key="canvasLocation" x="3412" y="196.55172413793105"/>
         </scene>
     </scenes>
     <resources>
