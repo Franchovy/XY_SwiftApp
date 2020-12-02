@@ -20,24 +20,14 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     // don't forget to hook this up from the storyboard
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
+    @IBOutlet weak var createPostTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Get posts from backend
-        PostModel.getAllPosts(completion: { result in
-            switch result {
-            case .success(let newposts):
-                if let newposts = newposts {
-                    self.posts.append(contentsOf: newposts)
-                }
-                self.tableView.reloadData()
-            case .failure(let error):
-                print("Failed to get posts! \(error)")
-            }
-        })
-        self.tableView.addSubview(submitButton)
-                
+        getPosts()
+                        
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
 
@@ -51,8 +41,37 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @IBAction func submitPostButtonPressed(_ sender: Any) {
-        let newPost = PostModel(username: "user", content: "This is my first post on XY.")
-        newPost.submitPost()
+        if let text = self.createPostTextField.text {
+            let newPost = PostModel(username: "user", content: text)
+            newPost.submitPost(completion: {result in
+                switch result {
+                case .success:
+                    // Refresh posts feed
+                    self.getPosts()
+                case .failure:
+                    print("Error submitting post")
+                }
+            })
+        }
+    }
+    
+    func getPosts() {
+        // Clear current posts in feed
+        posts.removeAll()
+        tableView.reloadData()
+        
+        // Get posts from backend
+        PostModel.getAllPosts(completion: { result in
+            switch result {
+            case .success(let newposts):
+                if let newposts = newposts {
+                    self.posts.append(contentsOf: newposts)
+                }
+                self.tableView.reloadData()
+            case .failure(let error):
+                print("Failed to get posts! \(error)")
+            }
+        })
     }
     
     // number of rows in table view

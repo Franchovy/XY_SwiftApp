@@ -24,16 +24,20 @@ struct PostModel {
     }
     
     //
-    func submitPost() {
+    func submitPost(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) {
         let submitPostRequest = APIRequest(endpoint: "create_post", httpMethod: "POST")
         let message = CreatePostMessage(content: self.content)
         let response = ResponseMessage()
         submitPostRequest.save(message: message, response: response, completion: { result in
             switch result {
             case .success(let message):
-                print("POST request response: \(message.message)")
+                DispatchQueue.main.async {
+                    completion(.success(message))
+                }
             case .failure(let error):
-                print("Error with request response: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
             
         })
