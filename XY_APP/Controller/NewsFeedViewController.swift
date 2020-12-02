@@ -24,12 +24,17 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
         // Get posts from backend
-        if let allPosts = PostModel.getAllPosts() {
-            posts.append(contentsOf: allPosts)
-        } else {
-            // Failed to get posts from backend.
-            posts.append(PostModel(username: "XY_AI", content: "Sorry, couldn't connect to the backend!"))
-        }
+        PostModel.getAllPosts(completion: { result in
+            switch result {
+            case .success(let newposts):
+                if let newposts = newposts {
+                    self.posts.append(contentsOf: newposts)
+                }
+                self.tableView.reloadData()
+            case .failure(let error):
+                print("Failed to get posts! \(error)")
+            }
+        })
                 
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()

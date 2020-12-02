@@ -40,7 +40,7 @@ class LoginViewController: UIViewController {
         login.validateLoginForm(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
         
         // Send login request
-        var success = login.requestLogin { result in
+        login.requestLogin { result in
             switch result {
             case .success(let message):
                 print("Login Success: ", message)

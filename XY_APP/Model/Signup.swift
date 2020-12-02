@@ -38,7 +38,7 @@ struct Signup {
         signupRequestMessage = SignupRequestMessage(username: username, password: password,  email: email, phoneNumber: phoneNumber)
     }
     
-    func requestSignup(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) -> Bool {
+    func requestSignup(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) -> Bool { //todo remove return value
         // Make API request to backend to signup.
         let signupRequest = APIRequest(endpoint: "register", httpMethod: "POST")
         let response = ResponseMessage()

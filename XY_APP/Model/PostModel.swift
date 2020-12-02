@@ -13,13 +13,18 @@ struct PostModel {
     var username:String
     var content:String
     
+    init(username:String, content:String) {
+        self.username = username
+        self.content = content
+    }
+    
     // Get XP gained from the post since last time this was used.
     func getXP() -> Int {
         return 0
     }
     
     // Function to fetch from API to get all recent posts.
-    static func getAllPosts() -> [PostModel]? {
+    static func getAllPosts(completion: @escaping(Result<[PostModel]?, APIError>) -> Void) -> [PostModel]? {
         // Make API request to backend to signup.
         let getAllPostsRequest = APIRequest(endpoint: "get_all_posts", httpMethod: "GET")
                 
@@ -29,16 +34,27 @@ struct PostModel {
             switch result {
             case .success(let message):
                 print("POST request response: \"\(message.status)\"")
+                var postmodels = [PostModel]()
                 
-                // This type differs from the previous as ResponseStruct has [Post] type used in response.
+                // Decode posts json into postModels for app use
                 if let posts = message.response {
                     for post in posts {
                         print("New post:")
                         print(post)
+                        let postModel = PostModel(username: post.username, content: post.content)
+                        postmodels.append(postModel)
+                        
                     }
                 }
+                DispatchQueue.main.async {
+                    completion(.success(postmodels))
+                }
+                
             case .failure(let error):
                 print("An error occured: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
          }
         })
     
