@@ -123,6 +123,16 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
 class MyCustomCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
+        
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+    }
+}
+
+class ButtonCell: UITableViewCell {
+    @IBOutlet weak var createPostButton: UIButton!
     
     override func layoutSubviews() {
         super.layoutSubviews()

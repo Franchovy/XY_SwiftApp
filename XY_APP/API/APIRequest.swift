@@ -72,6 +72,7 @@ struct APIRequest {
             urlRequest.addValue(API.getSessionToken(), forHTTPHeaderField: "Session")
             
             
+            
             // Open the task as urlRequest
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in
                 // Save response or handle Error
@@ -98,6 +99,5 @@ struct APIRequest {
             completion(.failure(.encodingProblem))
         }
     }
-
 }
 
