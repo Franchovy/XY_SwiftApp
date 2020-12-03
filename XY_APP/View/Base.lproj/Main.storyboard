@@ -570,10 +570,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="immagine di copertina " translatesAutoresizingMaskIntoConstraints="NO" id="j7L-nY-H8t">
-                                <rect key="frame" x="7" y="115" width="360" height="200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M6e-Cn-Aut">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -581,38 +577,21 @@
                                     <navigationItem title="Profile" id="clt-vV-Ag0"/>
                                 </items>
                             </navigationBar>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z6x-Y1-nLx">
-                                <rect key="frame" x="7" y="335" width="360" height="123"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bEt-mi-kWr">
-                                        <rect key="frame" x="18" y="24" width="75" height="75"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <state key="normal" title="Follow" image="NavigationBar_messages_Icon">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dQf-Kk-F3J"/>
                         <color key="backgroundColor" red="0.054893009360000002" green="0.058821916580000001" blue="0.062896996740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="aOV-gR-0bM">
                         <barButtonItem key="leftBarButtonItem" systemItem="camera" id="g19-eK-dQC">
+                            <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="uploadImageButtonPressed:" destination="YUV-Ld-Y7t" id="f3U-YQ-Bts"/>
+                                <action selector="cameraButton:" destination="YUV-Ld-Y7t" id="fPR-Si-jUO"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="NavigationBar_messages_Icon" id="3wq-JJ-sPD">
+                            <color key="tintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <outlet property="coverPicture" destination="j7L-nY-H8t" id="IAv-7A-dM8"/>
-                        <outlet property="followButton" destination="bEt-mi-kWr" id="Znk-Ts-37H"/>
-                        <outlet property="profileCoverImage" destination="j7L-nY-H8t" id="CaE-ox-5au"/>
-                        <outlet property="profileDash" destination="z6x-Y1-nLx" id="b89-LC-xLA"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebE-hX-laR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -766,7 +745,6 @@
         <image name="LogoXY" width="87.666664123535156" height="46.666667938232422"/>
         <image name="NavigationBar_messages_Icon" width="30.666666030883789" height="26.666666030883789"/>
         <image name="communities" width="41.666667938232422" height="29.333333969116211"/>
-        <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
         <image name="profile" width="33.333332061767578" height="33.333332061767578"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
