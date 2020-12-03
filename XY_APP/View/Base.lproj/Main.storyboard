@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="53h-pf-nzi">
-    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -570,10 +570,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="immagine di copertina " translatesAutoresizingMaskIntoConstraints="NO" id="j7L-nY-H8t">
-                                <rect key="frame" x="7" y="115" width="360" height="200"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M6e-Cn-Aut">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -581,37 +577,61 @@
                                     <navigationItem title="Profile" id="clt-vV-Ag0"/>
                                 </items>
                             </navigationBar>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z6x-Y1-nLx">
-                                <rect key="frame" x="7" y="335" width="360" height="123"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="immagine di copertina " translatesAutoresizingMaskIntoConstraints="NO" id="Cdy-Nz-hdN">
+                                <rect key="frame" x="10" y="98" width="355" height="217"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9WF-QG-6lL">
+                                <rect key="frame" x="10" y="325" width="355" height="250"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTs-gp-3Kq">
+                                <rect key="frame" x="10" y="585" width="355" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bEt-mi-kWr">
-                                        <rect key="frame" x="18" y="24" width="75" height="75"/>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJ3-xd-2T2">
+                                        <rect key="frame" x="5" y="6" width="90" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                        <state key="normal" title="Follow" image="NavigationBar_messages_Icon">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
+                                        <state key="normal" image="buttonPost"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gx-Ra-UXK">
+                                        <rect key="frame" x="90" y="6" width="90" height="89"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="buttonText"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rJx-1X-lxc">
+                                        <rect key="frame" x="176" y="6" width="90" height="89"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="buttonFriends"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vwJ-6M-1Kz">
+                                        <rect key="frame" x="261" y="6" width="90" height="89"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" image="buttonSettings"/>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dQf-Kk-F3J"/>
                         <color key="backgroundColor" red="0.054893009360000002" green="0.058821916580000001" blue="0.062896996740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="aOV-gR-0bM">
-                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="g19-eK-dQC">
+                        <barButtonItem key="leftBarButtonItem" title="Item" image="backBarItem" id="WJr-fK-W8S">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="g19-eK-dQC">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="uploadImageButtonPressed:" destination="YUV-Ld-Y7t" id="f3U-YQ-Bts"/>
+                                <action selector="cameraPressed:" destination="YUV-Ld-Y7t" id="Lfb-WU-99A"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="coverPicture" destination="j7L-nY-H8t" id="IAv-7A-dM8"/>
-                        <outlet property="followButton" destination="bEt-mi-kWr" id="Znk-Ts-37H"/>
-                        <outlet property="profileCoverImage" destination="j7L-nY-H8t" id="CaE-ox-5au"/>
-                        <outlet property="profileDash" destination="z6x-Y1-nLx" id="b89-LC-xLA"/>
+                        <outlet property="buttonsConsole" destination="gTs-gp-3Kq" id="FDL-wf-V4g"/>
+                        <outlet property="navigationBar" destination="M6e-Cn-Aut" id="8gh-GZ-nTt"/>
+                        <outlet property="profileConteiner" destination="9WF-QG-6lL" id="rkH-7e-1tk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebE-hX-laR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -698,11 +718,11 @@
             </objects>
             <point key="canvasLocation" x="4354.3999999999996" y="196.55172413793105"/>
         </scene>
-        <!--Profile-->
+        <!--Navigation Controller-->
         <scene sceneID="nqe-ko-gF8">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DVV-YX-aOr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" image="profile" id="8mb-N8-MOv"/>
+                    <tabBarItem key="tabBarItem" systemItem="contacts" id="8mb-N8-MOv"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" alpha="0.80000000000000004" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="L1S-XD-rNZ">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -765,9 +785,13 @@
         <image name="Icon ionic-ios-home-1" width="27.333333969116211" height="27.333333969116211"/>
         <image name="LogoXY" width="87.666664123535156" height="46.666667938232422"/>
         <image name="NavigationBar_messages_Icon" width="30.666666030883789" height="26.666666030883789"/>
+        <image name="backBarItem" width="13.666666984558105" height="23.666666030883789"/>
+        <image name="buttonFriends" width="90" height="89"/>
+        <image name="buttonPost" width="90" height="90"/>
+        <image name="buttonSettings" width="90" height="89"/>
+        <image name="buttonText" width="90" height="89"/>
         <image name="communities" width="41.666667938232422" height="29.333333969116211"/>
         <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
-        <image name="profile" width="33.333332061767578" height="33.333332061767578"/>
         <systemColor name="linkColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
