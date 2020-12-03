@@ -1,26 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="52460419-009a-4960-9f77-13ffdfae8f33" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/XY_APP/Assets.xcassets/J2NTP9Er4Ad3kRsms7XRoD.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/Assets.xcassets/J2NTP9Er4Ad3kRsms7XRoD.imageset/J2NTP9Er4Ad3kRsms7XRoD.jpeg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/Assets.xcassets/NavigationBar_messages_Icon.imageset/Contents.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/Assets.xcassets/NavigationBar_messages_Icon.imageset/NavigationBar_messages_Icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/Assets.xcassets/NavigationBar_messages_Icon.imageset/NavigationBar_messages_Icon@2x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/Assets.xcassets/NavigationBar_messages_Icon.imageset/NavigationBar_messages_Icon@3x.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/Controller/CameraTestViewController.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/Controller/NewsFeedTestViewController.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/View/MomentsCollectionView.swift" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/XY_APP/View/PostView.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Controller/CustomizeProfileViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/CustomizeProfileViewController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Controller/LoginViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/LoginViewController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Controller/NewsFeedViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/NewsFeedViewController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Controller/SignupViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/SignupViewController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Info.plist" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Info.plist" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Model/Post.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Model/Post.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/View/Base.lproj/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/View/Base.lproj/Main.storyboard" afterDir="false" />
-    </list>
+    <list default="true" id="52460419-009a-4960-9f77-13ffdfae8f33" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +30,7 @@
       <updated>1606995920165</updated>
       <workItem from="1606995921932" duration="64000" />
       <workItem from="1606995987488" duration="26000" />
+      <workItem from="1606996025105" duration="213000" />
     </task>
     <servers />
   </component>
