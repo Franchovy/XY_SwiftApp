@@ -13,8 +13,8 @@ struct Profile {
     var coverPhoto:UIImage?
     var profilePhoto:UIImage?
     
-    init(profile : String) {
-        self.username = profile
+    init(username : String) {
+        self.username = username
     }
     
     // Backend API call to get profile data for this user
@@ -41,9 +41,7 @@ struct Profile {
             let url = API.url + "/upload_image"
             
             // Initialise the Http Request
-            var urlRequest = URLRequest(url: URL(fileURLWithPath: url))
-            urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
-            // Encode the codableMessage properties into JSON for Http Request
+            var urlRequest = URLRequest(url: URL(string: url)!)
             
             urlRequest.addValue(API.getSessionToken(), forHTTPHeaderField: "Session")
             urlRequest.httpMethod = "POST"
@@ -55,17 +53,15 @@ struct Profile {
 
             var body = NSMutableData()
 
-            // Title
-            body.append(NSString(format: "\r\n--%@\r\n",boundary).data(using: String.Encoding.utf8.rawValue)!)
-            body.append(NSString(format:"Content-Disposition: form-data; name=\"title\"\r\n\r\n").data(using: String.Encoding.utf8.rawValue)!)
-            body.append("Hello World".data(using: String.Encoding.utf8, allowLossyConversion: true)!)
+            // Add image to body of http request
+            body.append("--\(boundary)\r\n" .data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"image\"; filename=\"image.png\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
 
-            // Image
-            body.append(NSString(format: "\r\n--%@\r\n", boundary).data(using: String.Encoding.utf8.rawValue)!)
-            body.append(NSString(format:"Content-Disposition: form-data; name=\"profile_img\"; filename=\"img.jpg\"\\r\n").data(using: String.Encoding.utf8.rawValue)!)
-            body.append(NSString(format: "Content-Type: application/octet-stream\r\n\r\n").data(using: String.Encoding.utf8.rawValue)!)
             body.append(imageData!)
-            body.append(NSString(format: "\r\n--%@\r\n", boundary).data(using: String.Encoding.utf8.rawValue)!)
+
+            body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
+            body.append("\r\n--%@\r\n".data(using: .utf8)!)
             
             urlRequest.httpBody = body.base64EncodedData()
 

@@ -570,8 +570,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="immagine di copertina " translatesAutoresizingMaskIntoConstraints="NO" id="j7L-nY-H8t">
-                                <rect key="frame" x="67" y="118" width="240" height="128"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="immagine di copertina " translatesAutoresizingMaskIntoConstraints="NO" id="j7L-nY-H8t">
+                                <rect key="frame" x="7" y="115" width="360" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M6e-Cn-Aut">
@@ -581,15 +581,37 @@
                                     <navigationItem title="Profile" id="clt-vV-Ag0"/>
                                 </items>
                             </navigationBar>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z6x-Y1-nLx">
+                                <rect key="frame" x="7" y="335" width="360" height="123"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="clip" translatesAutoresizingMaskIntoConstraints="NO" id="bEt-mi-kWr">
+                                        <rect key="frame" x="18" y="24" width="75" height="75"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <state key="normal" title="Follow" image="NavigationBar_messages_Icon">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dQf-Kk-F3J"/>
                         <color key="backgroundColor" red="0.054893009360000002" green="0.058821916580000001" blue="0.062896996740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="aOV-gR-0bM">
-                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="g19-eK-dQC"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="camera" id="g19-eK-dQC">
+                            <connections>
+                                <action selector="uploadImageButtonPressed:" destination="YUV-Ld-Y7t" id="f3U-YQ-Bts"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="coverPicture" destination="j7L-nY-H8t" id="IAv-7A-dM8"/>
+                        <outlet property="followButton" destination="bEt-mi-kWr" id="Znk-Ts-37H"/>
+                        <outlet property="profileCoverImage" destination="j7L-nY-H8t" id="CaE-ox-5au"/>
+                        <outlet property="profileDash" destination="z6x-Y1-nLx" id="b89-LC-xLA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebE-hX-laR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
