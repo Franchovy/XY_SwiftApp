@@ -47,7 +47,7 @@ struct PostModel {
     static func getAllPosts(completion: @escaping(Result<[PostModel]?, APIError>) -> Void) -> [PostModel]? {
         // Make API request to backend to signup.
         let getAllPostsRequest = APIRequest(endpoint: "get_all_posts", httpMethod: "GET")
-                
+        
         let message = GetAllPostsRequestMessage(token: API.getSessionToken())
         let response = GetPostsResponse()
         getAllPostsRequest.save(message: message,response: response, completion: { result in
