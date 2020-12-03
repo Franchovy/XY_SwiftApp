@@ -7,7 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140A034625753BF900E19FDD /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A034525753BF900E19FDD /* PostView.swift */; };
+		140A0349257546BD00E19FDD /* NewsFeedTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */; };
+		140A034C257549B900E19FDD /* MomentsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A034B257549B900E19FDD /* MomentsCollectionView.swift */; };
 		1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456020F25724DEE0093FDA7 /* InterestsViewController.swift */; };
+		1457A1B7257783C800093A94 /* CameraTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1457A1B6257783C800093A94 /* CameraTestViewController.swift */; };
 		149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D46FE2574280800A21355 /* Post.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B94D46FC2574280800A21355 /* Post.xcdatamodeld */; };
@@ -29,7 +33,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		140A034525753BF900E19FDD /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
+		140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedTestViewController.swift; sourceTree = "<group>"; };
+		140A034B257549B900E19FDD /* MomentsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsCollectionView.swift; sourceTree = "<group>"; };
 		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
+		1457A1B6257783C800093A94 /* CameraTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraTestViewController.swift; sourceTree = "<group>"; };
 		149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeProfileViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94D46FD2574280800A21355 /* Post.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Post.xcdatamodel; sourceTree = "<group>"; };
@@ -67,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				B9B92DD925644A3F005D9B86 /* Main.storyboard */,
+				140A034525753BF900E19FDD /* PostView.swift */,
+				140A034B257549B900E19FDD /* MomentsCollectionView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -79,6 +89,8 @@
 				B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */,
 				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
 				149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */,
+				140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */,
+				1457A1B6257783C800093A94 /* CameraTestViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -221,13 +233,17 @@
 				B9599A4225713A820057B7D9 /* Signup.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
+				140A034625753BF900E19FDD /* PostView.swift in Sources */,
+				140A0349257546BD00E19FDD /* NewsFeedTestViewController.swift in Sources */,
 				B9580EB42575171600D81DA7 /* XP.swift in Sources */,
 				B94FA399257112C700A44085 /* Profile.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9599A3F257134E80057B7D9 /* Login.swift in Sources */,
 				B9599A47257154EB0057B7D9 /* NewsFeedViewController.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
-				B94D46FE2574280800A21355 /* Post.xcdatamodeld in Sources */,
+				1457A1B7257783C800093A94 /* CameraTestViewController.swift in Sources */,
+				1457A1B7257783C800093A94 /* CameraTestViewController.swift in Sources */,
+				140A034C257549B900E19FDD /* MomentsCollectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -41,13 +41,18 @@ class SignupViewController: UIViewController {
     
     // Error notification reference outlets
     @IBOutlet weak var signupErrorLabel: UILabel!
-
+    
     @IBAction func signupButton(_ sender: Any)  {
         // Get data from textfields
         let usernameText = usernameTextField.text
         let emailPhoneText = emailPhoneTextField.text
         let passwordText = passwordTextField.text
         let repeatPasswordText = repeatPasswordTextField.text
+        
+        usernameTextField.endEditing(true)
+        emailPhoneTextField.endEditing(true)
+        passwordTextField.endEditing(true)
+        repeatPasswordTextField.endEditing(true)
         
         // Checks on signup data
         if (passwordText != repeatPasswordText) {
@@ -65,15 +70,15 @@ class SignupViewController: UIViewController {
                 let storyboard = UIStoryboard(name: "Main", bundle: nil)
                 let secondVC = storyboard.instantiateViewController(identifier: "InterestsPage")
                 self.show(secondVC, sender: self)
-
+                
             case .failure(let error):
                 print("Signup failure: ", error)
                 self.signupErrorLabel.isHidden = false
             }
         }
-     }
+    }
 }
- 
+
 @IBDesignable
 class GradientView: UIView {
     let gradientLayer = CAGradientLayer()
@@ -143,21 +148,20 @@ class GradientView: UIView {
             x = x > 0 ? 1 : -1
             y = x * tan(radians)
         } else {
-            // extrapolate y to unit length
+            
             y = y > 0 ? 1 : -1
             x = y / tan(radians)
         }
         return CGPoint(x: x, y: y)
     }
-
-    // transform point in unit space to gradient space
+    
+    
     private func transformToGradientSpace(_ point: CGPoint) -> CGPoint {
-        // input point is in signed unit space: (-1,-1) to (1,1)
-        // convert to gradient space: (0,0) to (1,1), with flipped Y axis
+        
         return CGPoint(x: (point.x + 1) * 0.5, y: 1.0 - (point.y + 1) * 0.5)
     }
     
-    // return the opposite point in the signed unit square
+    
     private func oppositePoint(_ point: CGPoint) -> CGPoint {
         return CGPoint(x: -point.x, y: -point.y)
     }
