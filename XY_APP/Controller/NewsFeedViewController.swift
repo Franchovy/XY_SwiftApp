@@ -10,6 +10,8 @@ import UIKit
 
 class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    
+    
     // Data model: These strings will be the data for the table view cells
     var posts: [Post] = []
     
@@ -87,14 +89,13 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     }
 }
 
-
 class MyCustomCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     }
 }
