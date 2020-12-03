@@ -14,7 +14,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var buttonsConsole: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileConteiner: UIView!
-   
+    @IBOutlet weak var coverPicture: UIImageView!
+    
     override func viewDidLoad() {
         
         profileConteiner.layer.cornerRadius = 15.0
@@ -42,6 +43,14 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         
     }
+    
+    @IBAction func submitPostButtonPressed(_ sender: Any) {
+        let imageManager = ImageManager()
+        imageManager.uploadImage(data: (coverPicture.image?.pngData())!) { (imageResponse) in
+            print("Received upload image response!!!")
+        }
+    }
+    
 
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
         present(imagePicker, animated: true, completion: nil)
