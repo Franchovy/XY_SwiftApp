@@ -57,7 +57,6 @@ struct APIRequest {
     }
     
     func save<T: Codable, ResponseType: Codable> (message:T,response:ResponseType, completion: @escaping(Result<ResponseType, APIError>) -> Void) {
-
         
         do {
             // Initialise the Http Request
@@ -70,8 +69,6 @@ struct APIRequest {
                 print("Sending request: \(message)") // decode struct
             }
             urlRequest.addValue(API.getSessionToken(), forHTTPHeaderField: "Session")
-            
-            
             
             // Open the task as urlRequest
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in

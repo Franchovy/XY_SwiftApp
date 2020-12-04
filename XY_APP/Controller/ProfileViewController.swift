@@ -38,17 +38,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
-        
-        
-        
-        
     }
     
     @IBAction func submitPostButtonPressed(_ sender: Any) {
-        let imageManager = ImageManager()
-        imageManager.uploadImage(data: (coverPicture.image?.pngData())!) { (imageResponse) in
-            print("Received upload image response!!!")
-        }
+
     }
     
 

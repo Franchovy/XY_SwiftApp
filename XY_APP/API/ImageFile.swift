@@ -16,9 +16,16 @@ struct ImageRequest : Encodable
     let fileName : String
 }
 
+struct getImageRequest : Encodable
+{
+    let imageref: String
+}
+
 struct ImageResponse : Decodable
 {
-    let path: String
+    let imageData: String
+    let message: String
+    let id: String
 }
 
 // Hey there, I hope the video helped you, and if it did do like the video and share it with your iOS group. Do let me know if you have any questions on this topic and I will be happy to help you out :) ~ Ravi
@@ -28,7 +35,7 @@ struct ImageManager
     {
         let httpUtility = HttpUtility()
 
-        let imageUploadRequest = ImageRequest(attachment: data.base64EncodedString(), fileName: "multipartFormUploadExample")
+        let imageUploadRequest = ImageRequest(attachment: data.base64EncodedString(), fileName: "file")
 
         httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: API.url + "/upload_image")!, request: imageUploadRequest, resultType: ImageResponse.self) {
             (response) in
@@ -66,5 +73,19 @@ struct ImageManager
         //            debugPrint(error)
         //        }
 
+    }
+    
+    func downloadImage(imageID:String, completion: @escaping(_ result: ImageResponse?) -> Void) {
+        let httpUtility = HttpUtility()
+        
+        var urlRequest = URLRequest(url: URL(string: API.url + "/get_image")!)
+        urlRequest.addValue(imageID, forHTTPHeaderField: "imageID")
+        
+        httpUtility.getApiData(requestUrl: urlRequest, resultType: ImageResponse.self, completionHandler: { result in
+            print("Received photo from request:", result)
+            DispatchQueue.main.async {
+                completion(result)
+            }
+        })
     }
 }
