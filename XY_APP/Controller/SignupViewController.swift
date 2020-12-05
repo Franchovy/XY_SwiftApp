@@ -26,8 +26,9 @@ class SignupViewController: UIViewController {
         
         
         super.viewDidLoad()
-        self.hideKeyboardWhenTappedAround()
         
+
+        self.hideKeyboardWhenTappedAround()
         
         signupButton.layer.cornerRadius = 8
         signupButton.layer.borderWidth = 1.0
