@@ -382,7 +382,7 @@
             <objects>
                 <viewController storyboardIdentifier="Camera" title="CameraVC" modalPresentationStyle="fullScreen" id="jYo-wL-a2g" customClass="CustomizeProfileViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fwa-ZY-4ns">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T3N-0a-xQD">
@@ -576,27 +576,20 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="YUV-Ld-Y7t" customClass="ProfileViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fbB-bI-pl2">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="M6e-Cn-Aut">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <items>
-                                    <navigationItem title="Profile" id="clt-vV-Ag0"/>
-                                </items>
-                            </navigationBar>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="immagine di copertina " translatesAutoresizingMaskIntoConstraints="NO" id="Cdy-Nz-hdN">
-                                <rect key="frame" x="10" y="98" width="355" height="217"/>
+                                <rect key="frame" x="10" y="10" width="355" height="217"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9WF-QG-6lL">
-                                <rect key="frame" x="10" y="325" width="355" height="250"/>
+                                <rect key="frame" x="10" y="237" width="355" height="250"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gTs-gp-3Kq">
-                                <rect key="frame" x="10" y="585" width="355" height="100"/>
+                                <rect key="frame" x="10" y="497" width="355" height="100"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aJ3-xd-2T2">
@@ -646,7 +639,6 @@
                     <connections>
                         <outlet property="buttonsConsole" destination="gTs-gp-3Kq" id="FDL-wf-V4g"/>
                         <outlet property="coverPicture" destination="Cdy-Nz-hdN" id="Nx1-sV-QUc"/>
-                        <outlet property="navigationBar" destination="M6e-Cn-Aut" id="8gh-GZ-nTt"/>
                         <outlet property="profileConteiner" destination="9WF-QG-6lL" id="rkH-7e-1tk"/>
                     </connections>
                 </viewController>
@@ -740,10 +732,10 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DVV-YX-aOr" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" systemItem="contacts" id="8mb-N8-MOv"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" alpha="0.80000000000000004" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="L1S-XD-rNZ">
+                    <navigationBar key="navigationBar" alpha="0.80000000000000004" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="L1S-XD-rNZ">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.054893009360000002" green="0.058821916580000001" blue="0.062896996740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.054901960780000002" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -765,6 +757,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Pqc-YM-CdF">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.054999999701976776" green="0.059000000357627869" blue="0.063000001013278961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
