@@ -20,10 +20,7 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var signupButton: UIButton!
     
     override func viewDidLoad() {
-        
-        
         super.viewDidLoad()
-        
 
         self.hideKeyboardWhenTappedAround()
         

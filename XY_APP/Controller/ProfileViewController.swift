@@ -10,15 +10,17 @@ import UIKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    #if !targetEnvironment(simulator)
+    
     let imagePicker = UIImagePickerController()
-    #endif
+
     
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var buttonsConsole: UIView!
-    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileConteiner: UIView!
     @IBOutlet weak var coverPicture: UIImageView!
+    
+    
+    
     
     override func viewDidLoad() {
         
@@ -45,6 +47,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         #if !targetEnvironment(simulator)
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = true
         #endif
         
         
@@ -54,37 +57,52 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.navigationItem.titleView = imageView
     }
     
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let profileImageChoosen = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
+            profileImage.image = profileImageChoosen
+            
+            self.imagePicker.dismiss(animated: true, completion: nil)
+            
+        }
+        
   
+        
+    }
+    
+    
+    
     
     @IBAction func editProfileImagePresed(_ sender: AnyObject) {
         let picker = UIImagePickerController()
-            picker.delegate = self
-            let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
-                action in
-                picker.sourceType = .camera
-                self.present(picker, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
-                action in
-                picker.sourceType = .photoLibrary
-                self.present(picker, animated: true, completion: nil)
-            }))
-            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-        }
+        picker.delegate = self
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
+            action in
+            picker.sourceType = .camera
+            self.present(picker, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
+            action in
+            picker.sourceType = .photoLibrary
+            self.present(picker, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
         
-   
+    }
+    
+    
+    
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
         #if !targetEnvironment(simulator)
         present(imagePicker, animated: true, completion: nil)
         #endif
     }
     
-    }
-
     
-
+}
 
 
 
