@@ -8,24 +8,24 @@
 import UIKit
 
 
-class CustomizeProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CustomizeProfileViewController: UIViewController {
     
-    let imagePicker = UIImagePickerController()
-    
-    @IBOutlet weak var photoView: UIView!
     @IBOutlet weak var containerOne: UIView!
     
     override func viewDidLoad() {
         
+        let logo = UIImage(named: "XYnavbarlogo")
+        let imageView = UIImageView(image:logo)
+        self.navigationItem.titleView = imageView
+        
         
         containerOne.layer.cornerRadius = 15.0
-        
-        imagePicker.delegate = self    //
-        imagePicker.sourceType = .camera
+        containerOne.layer.shadowColor = UIColor.black.cgColor
+        containerOne.layer.shadowOffset = CGSize(width:1, height:1)
+        containerOne.layer.shadowRadius = 2
+        containerOne.layer.shadowOpacity = 1.0
+
        
     }
 
-    @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
-        present(imagePicker, animated: true, completion: nil)
-    }
 }

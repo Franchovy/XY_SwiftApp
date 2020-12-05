@@ -27,6 +27,10 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let logo = UIImage(named: "XYnavbarlogo")
+        let imageView = UIImageView(image:logo)
+        self.navigationItem.titleView = imageView
+        
         // Get posts from backend
         getPosts()
                         
