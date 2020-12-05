@@ -23,7 +23,7 @@ struct getImageRequest : Encodable
 
 struct ImageResponse : Decodable
 {
-    let imageData: String
+    let imageData: String?
     let message: String
     let id: String
 }
@@ -84,9 +84,9 @@ struct ImageManager
         
         httpUtility.getApiData(requestUrl: urlRequest, resultType: ImageResponse.self, completionHandler: { result in
             print("Received photo from request:", result)
-            
+            //TODO - Check to result to make sure request has imageData. 
             if let result = result {
-                let imageData = result.imageData
+                let imageData = result.imageData!
                 
                 if let base64Decoded = Data(base64Encoded: imageData, options: Data.Base64DecodingOptions(rawValue: 0)) {
                     // Convert back to a string

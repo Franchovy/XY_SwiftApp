@@ -45,7 +45,7 @@ struct PostModel {
     }
     
     // Function to fetch from API to get all recent posts.
-    static func getAllPosts(completion: @escaping(Result<[PostModel]?, APIError>) -> Void) -> [PostModel]? {
+    static func getAllPosts(completion: @escaping(Result<[PostModel]?, APIError>) -> Void) -> Void {
         // Make API request to backend to signup.
         let getAllPostsRequest = APIRequest(endpoint: "get_all_posts", httpMethod: "GET")
         
@@ -77,8 +77,6 @@ struct PostModel {
                 }
          }
         })
-    
-        return [PostModel(username: "Elon Musk", content: "Finally, I have joined XY!"), PostModel(username: "XY_AI", content: "You are connected to the backend.")]
     }
 }
 

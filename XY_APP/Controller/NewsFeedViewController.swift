@@ -76,6 +76,8 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
                 self.tableView.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
+                self.posts.append(PostModel(username: "XY_AI", content: "There was a problem getting posts from the backend!"))
+                self.tableView.reloadData()
             }
         })
     }
