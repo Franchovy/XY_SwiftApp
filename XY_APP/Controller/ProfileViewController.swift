@@ -9,7 +9,9 @@ import UIKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
+    #if !targetEnvironment(simulator)
     let imagePicker = UIImagePickerController()
+    #endif
     
     @IBOutlet weak var buttonsConsole: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
@@ -31,8 +33,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         super.viewDidLoad()
         
+        #if !targetEnvironment(simulator)
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
+        #endif
         
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
@@ -44,8 +48,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
 
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
+        //Camera should only be used not in the simulator
+        #if !targetEnvironment(simulator)
         present(imagePicker, animated: true, completion: nil)
-        
+        #endif
         
     }
 }
