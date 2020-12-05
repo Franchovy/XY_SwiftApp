@@ -16,7 +16,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var buttonsConsole: UIView!
     @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var profileConteiner: UIView!
-   
+    @IBOutlet weak var coverPicture: UIImageView!
+    
     override func viewDidLoad() {
         
         profileConteiner.layer.cornerRadius = 15.0
@@ -41,11 +42,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
-        
-        
-        
-        
     }
+    
+    @IBAction func submitPostButtonPressed(_ sender: Any) {
+
+    }
+    
 
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
         //Camera should only be used not in the simulator
