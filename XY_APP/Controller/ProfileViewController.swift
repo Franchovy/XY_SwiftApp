@@ -9,18 +9,13 @@ import Foundation
 import UIKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
-    
-    let imagePicker = UIImagePickerController()
 
+    let imagePicker = UIImagePickerController()
     
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var buttonsConsole: UIView!
     @IBOutlet weak var profileConteiner: UIView!
     @IBOutlet weak var coverPicture: UIImageView!
-    
-    
-    
     
     override func viewDidLoad() {
         
@@ -44,12 +39,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         super.viewDidLoad()
         
-        #if !targetEnvironment(simulator)
         imagePicker.delegate = self
-        imagePicker.sourceType = .camera
+        //imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
-        #endif
-        
         
         // nav bar logo
         let logo = UIImage(named: "XYnavbarlogo")
@@ -60,19 +52,11 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let profileImageChoosen = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            
             profileImage.image = profileImageChoosen
-            
-            self.imagePicker.dismiss(animated: true, completion: nil)
-            
+            print("Image chosen!")
+            picker.dismiss(animated: true, completion: nil)
         }
-        
-  
-        
     }
-    
-    
-    
     
     @IBAction func editProfileImagePresed(_ sender: AnyObject) {
         let picker = UIImagePickerController()
@@ -90,15 +74,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
-        
     }
     
-    
-    
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
-        #if !targetEnvironment(simulator)
         present(imagePicker, animated: true, completion: nil)
-        #endif
     }
     
     
