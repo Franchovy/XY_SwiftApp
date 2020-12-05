@@ -25,70 +25,33 @@ struct Profile {
         // call completionhandler
     }
     
-    struct UploadImageRequestMessage:Codable {
-        var image:Data?
-        
-        init(image:Data?) {
-            self.image = image
-        }
+    struct EditProfileRequestMessage: Codable {
+        var profilePhotoId: String
+        var aboutMe: String
     }
     
-    // Upload image for profile or cover picture
-    func uploadImageOne(image: UIImage, completion: @escaping(Result<ResponseMessage, APIError>) -> Void) {
-        var imageData = image.pngData()
-
-        if imageData != nil{
-            let url = API.url + "/upload_image"
-            
-            // Initialise the Http Request
-            var urlRequest = URLRequest(url: URL(string: url)!)
-            
-            urlRequest.addValue(API.getSessionToken(), forHTTPHeaderField: "Session")
-            urlRequest.httpMethod = "POST"
-
-            var boundary = NSString(format: "---------------------------14737809831466499882746641449")
-            var contentType = NSString(format: "multipart/form-data; boundary=%@",boundary)
-            //  pr as Stringintln("Content Type \(contentType)")
-            urlRequest.addValue(contentType as String, forHTTPHeaderField: "Content-Type")
-
-            var body = NSMutableData()
-
-            // Add image to body of http request
-            body.append("--\(boundary)\r\n" .data(using: .utf8)!)
-            body.append("Content-Disposition: form-data; name=\"image\"; filename=\"image.png\"\r\n".data(using: .utf8)!)
-            body.append("Content-Type: image/png\r\n\r\n".data(using: .utf8)!)
-
-            body.append(imageData!)
-
-            body.append("Content-Type: application/octet-stream\r\n\r\n".data(using: .utf8)!)
-            body.append("\r\n--%@\r\n".data(using: .utf8)!)
-            
-            urlRequest.httpBody = body.base64EncodedData()
-
-            
-            // Open the task as urlRequest
-            let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in
-                // Save response or handle Error
-                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
-                    print("Error: response problem with API call to upload_photo: \(response)")
-                    completion(.failure(.responseProblem))
-                    return
+    static func sendEditProfileRequest(completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
+        // Make API request to backend to edit profile.
+        let editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
+        let editProfileRequestMessage = EditProfileRequestMessage(profilePhotoId: "57847d61-8212-4242-842c-898f85b18bb3", aboutMe: "I am on XY!")
+        let response = ResponseMessage()
+        // Check LoginRequestMessage is valid
+        editProfileRequest.save(message: editProfileRequestMessage, response: response, completion: { result in
+            switch result {
+            case .success(let message):
+                if let message = message.message {
+                    print("POST request response: \"" + message + "\"")
                 }
-                // Handle result
-                do {
-                    // Decode the response
-                    let messageData = try JSONDecoder().decode(ResponseMessage.self, from: jsonData) // Todo: Change Message struct for response
-                    completion(.success(messageData))
-                } catch {
-                    // Error decoding the message
-                    print("Error decoding the response.")
-                    print(error)
-                    completion(.failure(.decodingProblem))
+                DispatchQueue.main.async {
+                    completion(.success(message))
                 }
-            }
-            dataTask.resume() // Execute the httpRequest task
-        }
-
-
+                
+            case .failure(let error):
+                print("An error occured: \(error)")
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+         }
+        })
     }
 }
