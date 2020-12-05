@@ -17,10 +17,7 @@ struct SessionTokenResponse: Decodable {
 class SignupViewController: UIViewController {
     
     @IBOutlet weak var gradientView: UIView!
-    
     @IBOutlet weak var signupButton: UIButton!
-    
-    
     
     override func viewDidLoad() {
         
