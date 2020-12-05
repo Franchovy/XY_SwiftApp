@@ -54,7 +54,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         if let profileImageChoosen = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profileImage.image = profileImageChoosen
             print("Image chosen!")
-            picker.dismiss(animated: true, completion: nil)
+            imagePicker.dismiss(animated: true, completion: nil)
         }
     }
     
