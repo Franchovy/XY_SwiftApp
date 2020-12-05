@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="DVV-YX-aOr">
     <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
@@ -158,7 +158,6 @@
                     <navigationItem key="navigationItem" id="RRw-UE-9Eg"/>
                     <connections>
                         <outlet property="emailPhoneTextField" destination="SEL-7g-Kqn" id="MFB-f4-NVQ"/>
-                        <outlet property="gradientView" destination="hMe-m3-Ruz" id="e5Q-wE-fjE"/>
                         <outlet property="passwordTextField" destination="SzZ-mm-Gvz" id="o88-Fg-SLV"/>
                         <outlet property="repeatPasswordTextField" destination="yEd-Fv-XAD" id="7Rg-BI-CTk"/>
                         <outlet property="signupButton" destination="iPc-AD-7GF" id="LvY-tU-6Xx"/>
@@ -377,16 +376,16 @@
             </objects>
             <point key="canvasLocation" x="797.60000000000002" y="-922.16748768472905"/>
         </scene>
-        <!--CameraVC-->
+        <!--CustomizeProfileViewController-->
         <scene sceneID="mLQ-jv-blQ">
             <objects>
-                <viewController storyboardIdentifier="Camera" title="CameraVC" modalPresentationStyle="fullScreen" id="jYo-wL-a2g" customClass="CustomizeProfileViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Camera" title="CameraVC" modalPresentationStyle="fullScreen" id="jYo-wL-a2g" userLabel="CustomizeProfileViewController" customClass="CustomizeProfileViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Fwa-ZY-4ns">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T3N-0a-xQD">
-                                <rect key="frame" x="12" y="121" width="355" height="130"/>
+                                <rect key="frame" x="12" y="20" width="355" height="130"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile Image" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Rb-em-oTp">
@@ -400,6 +399,9 @@
                                         <rect key="frame" x="133" y="33" width="90" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="profileImageUpdateButton"/>
+                                        <connections>
+                                            <action selector="editProfileButton:" destination="jYo-wL-a2g" eventType="touchUpInside" id="SnW-w0-4Ca"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.1490020454" green="0.15294399859999999" blue="0.15700510140000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -596,9 +598,6 @@
                                         <rect key="frame" x="5" y="6" width="90" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <state key="normal" image="buttonPost"/>
-                                        <connections>
-                                            <action selector="submitPostButtonPressed:" destination="YUV-Ld-Y7t" eventType="touchUpInside" id="NXy-Fj-Mk6"/>
-                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8gx-Ra-UXK">
                                         <rect key="frame" x="90" y="6" width="90" height="89"/>
@@ -621,6 +620,18 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mQh-sD-ajc">
+                                <rect key="frame" x="147" y="147" width="80" height="80"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IKE-oG-qT7">
+                                <rect key="frame" x="199" y="208" width="12" height="11"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="cameraEditButton"/>
+                                <connections>
+                                    <action selector="editProfileImagePresed:" destination="YUV-Ld-Y7t" eventType="touchUpInside" id="mjl-vt-qp8"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dQf-Kk-F3J"/>
                         <color key="backgroundColor" red="0.054893009360000002" green="0.058821916580000001" blue="0.062896996740000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -632,7 +643,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="g19-eK-dQC">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="cameraPressed:" destination="YUV-Ld-Y7t" id="Lfb-WU-99A"/>
+                                <action selector="cameraPressed:" destination="YUV-Ld-Y7t" id="lqv-ge-ONJ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -640,6 +651,7 @@
                         <outlet property="buttonsConsole" destination="gTs-gp-3Kq" id="FDL-wf-V4g"/>
                         <outlet property="coverPicture" destination="Cdy-Nz-hdN" id="Nx1-sV-QUc"/>
                         <outlet property="profileConteiner" destination="9WF-QG-6lL" id="rkH-7e-1tk"/>
+                        <outlet property="profileImage" destination="mQh-sD-ajc" id="ECN-zw-mhF"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebE-hX-laR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -790,6 +802,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="r0x-sS-rGY"/>
         <segue reference="yoE-X7-1bb"/>
     </inferredMetricsTieBreakers>
     <resources>
@@ -801,6 +814,7 @@
         <image name="buttonPost" width="90" height="90"/>
         <image name="buttonSettings" width="90" height="89"/>
         <image name="buttonText" width="90" height="89"/>
+        <image name="cameraEditButton" width="12.666666984558105" height="11.333333015441895"/>
         <image name="communities" width="41.666667938232422" height="29.333333969116211"/>
         <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
         <image name="profileImageUpdateButton" width="90" height="90"/>
