@@ -35,6 +35,11 @@ class LoginViewController: UIViewController {
         let usernameEmailPhoneText = usernameEmailPhoneTextField.text
         let passwordText = passwordTextField.text
         
+        // DEBUG - FAKE LOGIN
+        if (usernameEmailPhoneText == "" && passwordText == "") {
+            navigateToNextScreen()
+        }
+        
         // Checks on login data
         var login = Login() // Create Login Model
         login.validateLoginForm(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
@@ -45,9 +50,7 @@ class LoginViewController: UIViewController {
             case .success(let message):
                 print("Login Success: ", message)
                 // Segue to home screen
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let secondVC = storyboard.instantiateViewController(identifier: "TabBarViewController")
-                self.show(secondVC, sender: self)
+                self.navigateToNextScreen()
 
             case .failure(let error):
                 print("Login failure: ", error)
@@ -55,6 +58,12 @@ class LoginViewController: UIViewController {
             }
         }
      }
+    
+    func navigateToNextScreen() {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let secondVC = storyboard.instantiateViewController(identifier: "TabBarViewController")
+        self.show(secondVC, sender: self)
+    }
 }
 
 @IBDesignable
