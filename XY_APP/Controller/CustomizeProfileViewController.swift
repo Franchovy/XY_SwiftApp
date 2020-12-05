@@ -14,6 +14,10 @@ class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDe
     let imagePicker = UIImagePickerController()
     #endif
     
+    #if !targetEnvironment(simulator)
+    let imagePicker = UIImagePickerController()
+    #endif
+    
     @IBOutlet weak var containerOne: UIView!
     
     override func viewDidLoad() {
@@ -52,6 +56,7 @@ class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDe
             }))
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
             self.present(alert, animated: true, completion: nil)
+
         
         //Camera should only be used not in the simulator
         #if !targetEnvironment(simulator)
