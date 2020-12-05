@@ -105,28 +105,18 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let imageManager = ImageManager()
-        //let uploadPicture = UIImage(named: "LogoXY")
-        //if let imageData = uploadPicture?.pngData() {
-        //    imageManager.uploadImage(data: imageData) { (imageResponse) in
-        //        print("Received upload image response!!!")
-        //    }
-        //}
+        let uploadPicture = UIImage(named: "LogoXY")
+        
+        imageManager.uploadImage(image: uploadPicture!) { (imageResponse) in
+            print("Received upload image response!!!")
+        }
         
         // get image test
         let imageID = "57847d61-8212-4242-842c-898f85b18bb3"
-        imageManager.downloadImage(imageID: imageID, completion: {result in
-            if let result = result {
-                print("Result from request: ", result)
-                let imageData = result.imageData
-                
-                if let base64Decoded = Data(base64Encoded: imageData, options: Data.Base64DecodingOptions(rawValue: 0)) {
-                        // Convert back to a string
-                        print("Decoded: \(base64Decoded)")
-                        
-                        let img = UIImageView(image: UIImage(data: base64Decoded))
-                        tableView.addSubview(img)
-                    }
-                
+        imageManager.downloadImage(imageID: imageID, completion: {resultImage in
+            if let resultImage = resultImage {
+                let img = UIImageView(image: resultImage)
+                tableView.addSubview(img)
             }
         })
         

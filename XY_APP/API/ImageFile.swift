@@ -31,11 +31,12 @@ struct ImageResponse : Decodable
 // Hey there, I hope the video helped you, and if it did do like the video and share it with your iOS group. Do let me know if you have any questions on this topic and I will be happy to help you out :) ~ Ravi
 struct ImageManager
 {
-    func uploadImage(data: Data, completionHandler: @escaping(_ result: ImageResponse) -> Void)
+    func uploadImage(image: UIImage, completionHandler: @escaping(_ result: ImageResponse) -> Void)
     {
         let httpUtility = HttpUtility()
-
-        let imageUploadRequest = ImageRequest(attachment: data.base64EncodedString(), fileName: "file")
+        
+        let data = image.pngData()
+        let imageUploadRequest = ImageRequest(attachment: data!.base64EncodedString(), fileName: "file")
 
         httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: API.url + "/upload_image")!, request: imageUploadRequest, resultType: ImageResponse.self) {
             (response) in
@@ -75,7 +76,7 @@ struct ImageManager
 
     }
     
-    func downloadImage(imageID:String, completion: @escaping(_ result: ImageResponse?) -> Void) {
+    func downloadImage(imageID:String, completion: @escaping(_ result: UIImage?) -> Void) {
         let httpUtility = HttpUtility()
         
         var urlRequest = URLRequest(url: URL(string: API.url + "/get_image")!)
@@ -83,8 +84,18 @@ struct ImageManager
         
         httpUtility.getApiData(requestUrl: urlRequest, resultType: ImageResponse.self, completionHandler: { result in
             print("Received photo from request:", result)
-            DispatchQueue.main.async {
-                completion(result)
+            
+            if let result = result {
+                let imageData = result.imageData
+                
+                if let base64Decoded = Data(base64Encoded: imageData, options: Data.Base64DecodingOptions(rawValue: 0)) {
+                    // Convert back to a string
+                    print("Decoded: \(base64Decoded)")
+                    let img = UIImage(data: base64Decoded)
+                    DispatchQueue.main.async {
+                        completion(img)
+                    }
+                }
             }
         })
     }
