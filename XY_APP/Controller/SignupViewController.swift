@@ -23,7 +23,11 @@ class SignupViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
+        self.hideKeyboardWhenTappedAround()
+        
         
         signupButton.layer.cornerRadius = 8
         signupButton.layer.borderWidth = 1.0
@@ -164,5 +168,18 @@ class GradientView: UIView {
     
     private func oppositePoint(_ point: CGPoint) -> CGPoint {
         return CGPoint(x: -point.x, y: -point.y)
+    }
+}
+
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

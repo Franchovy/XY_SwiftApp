@@ -25,6 +25,8 @@ class LoginViewController: UIViewController {
         
         
         super.viewDidLoad()
+        
+        self.hideKeyboardWhenTappedAround() 
         // Do any additional setup after loading the view.
     }
 
