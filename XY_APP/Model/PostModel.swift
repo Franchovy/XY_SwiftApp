@@ -12,6 +12,7 @@ import UIKit
 struct PostModel {
     var username:String
     var content:String
+    var images:[UIImage]?
     
     init(username:String, content:String) {
         self.username = username
@@ -63,7 +64,6 @@ struct PostModel {
                         print(post)
                         let postModel = PostModel(username: post.username, content: post.content)
                         postmodels.append(postModel)
-                        
                     }
                 }
                 DispatchQueue.main.async {
