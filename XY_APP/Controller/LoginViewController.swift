@@ -65,10 +65,20 @@ class LoginViewController: UIViewController {
      }
     
     func navigateToNextScreen() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let secondVC = storyboard.instantiateViewController(identifier: "TabBarViewController")
-        self.show(secondVC, sender: self)
+        if #available(iOS 13.0, *) {
+            // IOS 13 or above
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let secondVC = storyboard.instantiateViewController(identifier: "MainViewController")
+            self.show(secondVC, sender: self)
+        } else {
+            // IOS 12
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
+            //self.navigationController?.pushViewController(vc, animated: true)
+            self.show(vc, sender: self)
+        }
     }
+
 }
 
 @IBDesignable

@@ -10,12 +10,22 @@ import UIKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    let imagePicker = UIImagePickerController()
+    var imagePicker: UIImagePickerController
     
     @IBOutlet weak var profileImage: UIImageView!
     @IBOutlet weak var buttonsConsole: UIView!
     @IBOutlet weak var profileConteiner: UIView!
     @IBOutlet weak var coverPicture: UIImageView!
+    
+    required init(coder:NSCoder) {
+        imagePicker = UIImagePickerController()
+
+        super.init(coder: coder)!
+        
+        imagePicker.delegate = self
+        //imagePicker.sourceType = .camera
+        imagePicker.allowsEditing = true
+    }
     
     override func viewDidLoad() {
         
@@ -57,10 +67,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         super.viewDidLoad()
         
-        imagePicker.delegate = self
-        //imagePicker.sourceType = .camera
-        imagePicker.allowsEditing = true
-        
         // nav bar logo
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
@@ -86,58 +92,62 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     switch result {
                     case .success(let message):
                         print("Successfully edited profile: ", message)
+                        self.imagePicker.dismiss(animated: true, completion: nil)
+
                     case .failure(let error):
                         print("Error editing profile: ", error)
+                        self.imagePicker.dismiss(animated: true, completion: nil)
+
                     }
                 })
             })
             
-            imagePicker.dismiss(animated: true, completion: nil)
         }
     }
     
     @IBAction func editProfileImagePresed(_ sender: AnyObject) {
-        let picker = UIImagePickerController()
-        picker.delegate = self
+        print("EditProfileImagePressed")
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
             action in
-            picker.sourceType = .camera
-            self.present(picker, animated: true, completion: nil)
+            self.imagePicker.sourceType = .camera
+            self.present(self.imagePicker, animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
             action in
-            picker.sourceType = .photoLibrary
-            self.present(picker, animated: true, completion: nil)
+            self.imagePicker.sourceType = .photoLibrary
+            self.present(self.imagePicker, animated: true, completion: nil)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: {
-            // Set new profile image
-            let newProfileImage = UIImage(named:"profile")!
-            // Upload the photo - save photo ID
-            let imageManager = ImageManager()
-            imageManager.uploadImage(image: newProfileImage, completionHandler: { result in
-                print("Uploaded profile image with response: ", result.message)
-                let imageId = result.id
-                // Set profile to use this photo ID
-                Profile.sendEditProfileRequest(imageId: imageId, completion: {result in
-                    switch result {
-                    case .success(let message):
-                        print("Successfully edited profile: ", message)
-                    case .failure(let error):
-                        print("Error editing profile: ", error)
-                    }
-                })
-            })
-
-        })
+        self.present(alert, animated: true, completion: nil)
     }
     
     @IBAction func cameraPressed(_ sender: UIBarButtonItem) {
+        print("imagePicker present!")
         present(imagePicker, animated: true, completion: nil)
     }
     
-    
+    func setProfileImageImagePickerCompletion() {
+        // Set new profile image
+        let newProfileImage = UIImage(named:"profile")!
+        // Upload the photo - save photo ID
+        let imageManager = ImageManager()
+        imageManager.uploadImage(image: newProfileImage, completionHandler: { result in
+            print("Uploaded profile image with response: ", result.message)
+            let imageId = result.id
+            // Set profile to use this photo ID
+            Profile.sendEditProfileRequest(imageId: imageId, completion: {result in
+                switch result {
+                case .success(let message):
+                    print("Successfully edited profile: ", message)
+                    self.imagePicker.dismiss(animated: true, completion: nil)
+                case .failure(let error):
+                    print("Error editing profile: ", error)
+                    self.imagePicker.dismiss(animated: true, completion: nil)
+                }
+            })
+        })
+    }
 }
 
 
