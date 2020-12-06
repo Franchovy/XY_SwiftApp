@@ -41,8 +41,9 @@ struct ImageManager
         httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: API.url + "/upload_image")!, request: imageUploadRequest, resultType: ImageResponse.self) {
             (response) in
 
-            _ = completionHandler(response)
-
+            DispatchQueue.main.async {
+                _ = completionHandler(response)
+            }
         }
 
         // Upload image with base64 format

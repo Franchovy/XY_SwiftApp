@@ -10,10 +10,7 @@ import UIKit
 
 class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    #if !targetEnvironment(simulator)
     let imagePicker = UIImagePickerController()
-    #endif
-    
     
     @IBOutlet weak var containerOne: UIView!
     
@@ -30,10 +27,8 @@ class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDe
         containerOne.layer.shadowRadius = 2
         containerOne.layer.shadowOpacity = 1.0
         
-        #if !targetEnvironment(simulator)
         imagePicker.delegate = self
-        imagePicker.sourceType = .camera
-        #endif
+
     }
     
     @IBAction func editProfileButton(_ sender: UIButton) {
@@ -56,8 +51,9 @@ class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDe
         
         
         //Camera should only be used not in the simulator
-        #if !targetEnvironment(simulator)
         present(imagePicker, animated: true, completion: nil)
-        #endif
+
     }
+    
+    
 }

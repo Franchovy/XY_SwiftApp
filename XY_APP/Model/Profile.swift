@@ -13,6 +13,8 @@ struct Profile {
     var coverPhotoId:String?
     var profilePhotoId:String?
     var aboutMe:String?
+    var fullName: String?
+    var location: String?
     
     init() {
         
@@ -27,17 +29,19 @@ struct Profile {
     }
     
     struct EditProfileRequestMessage: Codable {
-        var profilePhotoId: String
-        var aboutMe: String
+        var profilePhotoId: String?
+        var coverPhotoId: String?
+        var fullName: String?
+        var location: String?
+        var aboutMe: String?
     }
     
-    static func sendEditProfileRequest(imageId: String, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
+    static func sendEditProfileRequest(requestMessage: EditProfileRequestMessage, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
         // Make API request to backend to edit profile.
         var editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
-        let editProfileRequestMessage = EditProfileRequestMessage(profilePhotoId: imageId, aboutMe: "Hello, XYBrother. I am on XY!")
         let response = ResponseMessage()
         // Check LoginRequestMessage is valid
-        editProfileRequest.save(message: editProfileRequestMessage, response: response, completion: { result in
+        editProfileRequest.save(message: requestMessage, response: response, completion: { result in
             switch result {
             case .success(let message):
                 if let message = message.message {
@@ -63,6 +67,10 @@ struct Profile {
     struct GetProfilePicIdResponseMessage: Codable {
         var message:String?
         var profilePhotoId:String?
+        var coverPhotoId: String?
+        var fullName: String?
+        var aboutMe: String?
+        var location: String?
     }
     
     static func getProfile(username: String, completion: @escaping(Result<Profile, Error>) -> Void) {
@@ -79,10 +87,18 @@ struct Profile {
                 if (responseMessage.profilePhotoId != nil) {
                     var profile = Profile()
                     profile.profilePhotoId = responseMessage.profilePhotoId
-                    completion(.success(profile))
+                    profile.coverPhotoId = responseMessage.coverPhotoId
+                    profile.aboutMe = responseMessage.aboutMe
+                    profile.fullName = responseMessage.fullName
+                    profile.location = responseMessage.location
+                    DispatchQueue.main.async {
+                        completion(.success(profile))
+                    }
                 }
             case .failure(let error):
-                completion(.failure(error))
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
             }
         })
     }

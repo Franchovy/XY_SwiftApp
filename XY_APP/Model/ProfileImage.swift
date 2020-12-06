@@ -32,7 +32,8 @@ class ProfileImage {
                 print("Image uploaded with id ", result.id)
                 let imageId = result.id
                 // Set profile to use this photo ID
-                Profile.sendEditProfileRequest(imageId: imageId, completion: {result in
+                let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: imageId, coverPhotoId: nil, fullName: nil, location: nil, aboutMe: nil)
+                Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
                     switch result {
                     case .success(let message):
                         print("Successfully edited profile: ", message)
