@@ -51,6 +51,9 @@ class LoginViewController: UIViewController {
             switch result {
             case .success(let message):
                 print("Login Success: ", message)
+                // Save username to currentdata
+                Current.setUsername(usernameEmailPhoneText!)
+                
                 // Segue to home screen
                 self.navigateToNextScreen()
 

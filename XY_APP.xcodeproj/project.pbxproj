@@ -24,6 +24,7 @@
 		B9599A47257154EB0057B7D9 /* NewsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */; };
 		B95B63ED25794BEC0004E293 /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B63EC25794BEC0004E293 /* ImageManager.swift */; };
 		B95B63F025795A640004E293 /* HttpUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B63EF25795A640004E293 /* HttpUtility.swift */; };
+		B95F1012257CEA0C00E3C994 /* Current.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95F1011257CEA0C00E3C994 /* Current.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
 		B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */; };
 		B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DD925644A3F005D9B86 /* Main.storyboard */; };
@@ -54,6 +55,7 @@
 		B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 		B95B63EC25794BEC0004E293 /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
 		B95B63EF25795A640004E293 /* HttpUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtility.swift; sourceTree = "<group>"; };
+		B95F1011257CEA0C00E3C994 /* Current.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Current.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B92DD325644A3F005D9B86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -164,6 +166,7 @@
 				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
 				B9B92DE425644A41005D9B86 /* Info.plist */,
 				B9B92DDC25644A3F005D9B86 /* XY_APP.xcdatamodeld */,
+				B95F1011257CEA0C00E3C994 /* Current.swift */,
 			);
 			path = XY_APP;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
+				B95F1012257CEA0C00E3C994 /* Current.swift in Sources */,
 				B9B92DDE25644A3F005D9B86 /* XY_APP.xcdatamodeld in Sources */,
 				149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,

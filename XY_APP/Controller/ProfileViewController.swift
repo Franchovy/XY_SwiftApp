@@ -38,7 +38,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         buttonsConsole.layer.shadowOpacity = 1.0
         
         // Load profile image
-        Profile.getProfile(username: "maxime", completion: {result in
+        Profile.getProfile(username: Current.sharedCurrentData.username, completion: {result in
             switch result {
             case .success(let profile):
                 if let imageId = profile.profilePhotoId {
