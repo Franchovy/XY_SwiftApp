@@ -9,50 +9,26 @@ import Foundation
 import UIKit
 
 class ProfileImage {
+    var user: Profile
+    var imageId:String
+    var image: UIImage?
     
-    var image: UIImage
-    
-    init(image:UIImage?) {
-        if let image = image {
-            self.image = image
-        } else {
-            self.image = UIImage(named:"profile")!
-        }
+    init(user:Profile, imageId:String) {
+        self.imageId = imageId
+        self.user = user
     }
     
-    func uploadImage(newProfileImage: UIImage) {
-        // Set new profile image
-        let newProfileImage = newProfileImage
-        // Upload the photo - save photo ID
-        let imageManager = ImageManager()
-        // Upload image
-        imageManager.uploadImage(image: newProfileImage, completionHandler: { result in
-            print("Uploaded profile image with response: ", result.message)
-            if result.id != "" {
-                print("Image uploaded with id ", result.id)
-                let imageId = result.id
-                // Set profile to use this photo ID
-                let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: imageId, coverPhotoId: nil, fullName: nil, location: nil, aboutMe: nil)
-                Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
-                    switch result {
-                    case .success(let message):
-                        print("Successfully edited profile: ", message)
-                    case .failure(let error):
-                        print("Error editing profile: ", error)
-                    }
-                })
-            }
-        })
+    func getNavigationToProfile() {
+        // returns UIViewController to navigate to the profile of the owner user.
     }
     
-    static func getImage(imageId:String, completion: @escaping(UIImage?) -> Void) {
+    // Loads the image from the backend.
+    func load() {
         let imageManager = ImageManager()
         // get image test
         imageManager.downloadImage(imageID: imageId, completion: {resultImage in
             if let resultImage = resultImage {
-                completion(resultImage)
-            } else {
-                completion(nil)
+                self.image = resultImage
             }
         })
     }

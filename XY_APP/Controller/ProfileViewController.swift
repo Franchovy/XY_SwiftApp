@@ -70,14 +70,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
             switch result {
             case .success(let profile):
                 if let imageId = profile.profilePhotoId {
-                    ProfileImage.getImage(imageId: imageId, completion: { image in
+                    let imageManager = ImageManager()
+                    imageManager.downloadImage(imageID: imageId, completion: { image in
                         if let image = image {
                             self.profileImage.image = image
                         }
                     })
                 }
                 if let imageId = profile.coverPhotoId {
-                    ProfileImage.getImage(imageId: imageId, completion: { image in
+                    let imageManager = ImageManager()
+                    imageManager.downloadImage(imageID: imageId, completion: { image in
                         if let image = image {
                             self.coverPicture.image = image
                         }
