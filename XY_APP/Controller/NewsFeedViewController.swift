@@ -93,17 +93,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         // create a new cell if needed or reuse an old one
         let cell:MyCustomCell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! MyCustomCell
         
-        // set the text from the data model
-        cell.nameLabel.text = self.posts[indexPath.row].username
-        cell.contentLabel.text = self.posts[indexPath.row].content
-        cell.contentLabel.numberOfLines = 0
-        
-        // add border and color
-        cell.backgroundColor = UIColor.white
-        cell.layer.borderColor = UIColor.black.cgColor
-        cell.layer.borderWidth = 1
-        cell.layer.cornerRadius = 8
-        cell.clipsToBounds = true
+        cell.setPost(post: self.posts[indexPath.row])
         
         return cell
     }
@@ -122,17 +112,6 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear
         return headerView
-    }
-}
-
-class MyCustomCell: UITableViewCell {
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-        
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     }
 }
 

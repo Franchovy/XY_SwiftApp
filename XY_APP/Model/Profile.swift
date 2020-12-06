@@ -12,20 +12,23 @@ struct Profile {
     var username:String?
     var coverPhotoId:String?
     var profilePhotoId:String?
+    var coverPhoto:UIImage?
+    var profilePhoto:UIImage?
     var aboutMe:String?
     var fullName: String?
     var location: String?
     
-    init() {
-        
-    }
+    var imageToEdit:String?
     
-    // Backend API call to get profile data for this user
-    func getProfile(completion: (Result<Bool, Error>)) {
-        // create request
-        // save request
-        // set this profile attributes, coverPhoto & profilePhoto
-        // call completionhandler
+    mutating func setImageToEdit(_ imageToEdit:String) {
+        switch imageToEdit {
+        case "profilePicture":
+            self.imageToEdit = "profilePicture"
+        case "coverPicture":
+            self.imageToEdit = "coverPicture"
+        default:
+            fatalError()
+        }
     }
     
     struct EditProfileRequestMessage: Codable {
@@ -73,8 +76,8 @@ struct Profile {
         var location: String?
     }
     
+    // Make backend request to get info on <username>'s profile.
     static func getProfile(username: String, completion: @escaping(Result<Profile, Error>) -> Void) {
-        // Make backend request to get info on <username>'s profile.
         var getProfileRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
         let response = GetProfilePicIdResponseMessage()
         
@@ -100,6 +103,54 @@ struct Profile {
                     completion(.failure(error))
                 }
             }
+        })
+    }
+    
+    public mutating func imagePickerHandler(_ imagePicked: UIImage, completion: @escaping(Result<(),Error>) -> Void) {
+        // Set new profile image
+        switch imageToEdit {
+        case "profilePicture":
+            coverPhoto = imagePicked
+        case "coverPicture":
+            profilePhoto = imagePicked
+        default:
+            break
+        }
+        
+        let imageToEdit = self.imageToEdit
+    
+        // Upload the photo - save photo ID
+        let imageManager = ImageManager()
+        imageManager.uploadImage(image: imagePicked, completionHandler: { result in
+            print("Uploaded profile image with response: ", result.message)
+            
+            let imageId = result.id
+            let profilePicture:String?
+            let coverPicture:String?
+            
+            switch imageToEdit {
+            case "profilePicture":
+                coverPicture = nil
+                profilePicture = imageId
+            case "coverPicture":
+                coverPicture = imageId
+                profilePicture = nil
+            default:
+                coverPicture = nil
+                profilePicture = nil
+            }
+            
+            // Set profile to use this photo ID
+            let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: profilePicture, coverPhotoId: coverPicture, fullName: "Maxime Franchot", location: "Torino", aboutMe: "I'm XY's CTO.")
+            Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
+                switch result {
+                case .success(_):
+                    completion(.success(()))
+
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            })
         })
     }
 }

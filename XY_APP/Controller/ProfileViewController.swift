@@ -25,7 +25,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
     
-    var imageToEdit:String = ""
+    // Profile Model for this profile, contains info and methods needed to load from and upload to backend.
+    var profile: Profile?
     
     required init(coder:NSCoder) {
         imagePicker = UIImagePickerController()
@@ -35,6 +36,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         imagePicker.delegate = self
         //imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
+    }
+    
+    func setProfile(username:String) {
+        
     }
     
     override func viewDidLoad() {
@@ -106,54 +111,15 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Set profile image in app
-            switch imageToEdit {
-            case "profilePicture":
-                profileImage.image = newImage
-            case "coverPicture":
-                coverPicture.image = newImage
-            default:
-                break
-            }
-            
-            // Set new profile image
-        
-            // Upload the photo - save photo ID
-            let imageManager = ImageManager()
-            imageManager.uploadImage(image: newImage, completionHandler: { result in
-                print("Uploaded profile image with response: ", result.message)
-                
-                let imageId = result.id
-                let profilePicture:String?
-                let coverPicture:String?
-                
-                switch self.imageToEdit {
-                case "profilePicture":
-                    coverPicture = nil
-                    profilePicture = imageId
-                case "coverPicture":
-                    coverPicture = imageId
-                    profilePicture = nil
-                default:
-                    coverPicture = nil
-                    profilePicture = nil
+            self.profile?.imagePickerHandler(newImage, completion: {result in
+                switch result {
+                case .success():
+                    self.imagePicker.dismiss(animated: true, completion: nil)
+                case .failure(let error):
+                    print("Error getting profile: ", error)
+                    self.imagePicker.dismiss(animated: true, completion: nil)
                 }
-                
-                // Set profile to use this photo ID
-                let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: profilePicture, coverPhotoId: coverPicture, fullName: "muskymusk", location: "Mars", aboutMe: "lol what even is this")
-                Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
-                    switch result {
-                    case .success(let message):
-                        print("Successfully edited profile: ", message)
-                        self.imagePicker.dismiss(animated: true, completion: nil)
-
-                    case .failure(let error):
-                        print("Error editing profile: ", error)
-                        self.imagePicker.dismiss(animated: true, completion: nil)
-
-                    }
-                })
             })
-            
         }
     }
     
@@ -161,9 +127,9 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         print("EditProfileImagePressed")
         switch sender {
         case editProfileImageButton:
-            imageToEdit = "profilePicture"
+            profile?.setImageToEdit("profilePicture")
         case editCoverImageButton:
-            imageToEdit = "coverPicture"
+            profile?.setImageToEdit("coverPicture")
         default:
             break
         }
