@@ -59,22 +59,5 @@ class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDe
         #if !targetEnvironment(simulator)
         present(imagePicker, animated: true, completion: nil)
         #endif
-        // Set new profile image
-        let newProfileImage = UIImage(named:"profile")!
-        // Upload the photo - save photo ID
-        let imageManager = ImageManager()
-        imageManager.uploadImage(image: newProfileImage, completionHandler: { result in
-            print("Uploaded profile image with response: ", result.message)
-            let imageId = result.id
-            // Set profile to use this photo ID
-            Profile.sendEditProfileRequest(completion: {result in
-                switch result {
-                case .success(let message):
-                    print("Successfully edited profile: ", message)
-                case .failure(let error):
-                    print("Error editing profile: ", error)
-                }
-            })
-        })
     }
 }

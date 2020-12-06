@@ -30,28 +30,56 @@ struct Profile {
         var aboutMe: String
     }
     
-    static func sendEditProfileRequest(completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
+    static func sendEditProfileRequest(imageId: String, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
         // Make API request to backend to edit profile.
         let editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
-        let editProfileRequestMessage = EditProfileRequestMessage(profilePhotoId: "57847d61-8212-4242-842c-898f85b18bb3", aboutMe: "I am on XY!")
+        let editProfileRequestMessage = EditProfileRequestMessage(profilePhotoId: imageId, aboutMe: "Hello, XYBrother. I am on XY!")
         let response = ResponseMessage()
         // Check LoginRequestMessage is valid
         editProfileRequest.save(message: editProfileRequestMessage, response: response, completion: { result in
             switch result {
             case .success(let message):
                 if let message = message.message {
-                    print("POST request response: \"" + message + "\"")
+                    print("Successful change profile photo request response: \"" + message + "\"")
                 }
                 DispatchQueue.main.async {
                     completion(.success(message))
                 }
                 
             case .failure(let error):
-                print("An error occured: \(error)")
+                print("An error occured changing profile image: \(error)")
                 DispatchQueue.main.async {
                     completion(.failure(error))
                 }
          }
+        })
+    }
+    
+    struct GetProfilePicIdRequestMessage: Codable {
+        var username:String
+    }
+    
+    struct GetProfilePicIdResponseMessage: Codable {
+        var message:String?
+        var id:String?
+    }
+    
+    static func getProfilePicId(username: String, completion: @escaping(Result<GetProfilePicIdResponseMessage, Error>) -> Void) {
+        // Make backend request to get info on <username>'s profile.
+        let getProfileRequest = APIRequest(endpoint: "/get_profileImage", httpMethod: "GET")
+        let response = GetProfilePicIdResponseMessage()
+        
+        let getProfileRequestMessage = GetProfilePicIdRequestMessage(username: username)
+        
+        getProfileRequest.save(message: getProfileRequestMessage, response: response, completion: { result in
+            switch result {
+            case .success(let responseMessage):
+                if (responseMessage.id != nil) {
+                    completion(.success(responseMessage))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
         })
     }
 }

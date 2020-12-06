@@ -110,26 +110,6 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     
     // method to run when table view cell is tapped
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let imageManager = ImageManager()
-        let uploadPicture = UIImage(named: "LogoXY")
-        
-        imageManager.uploadImage(image: uploadPicture!) { (imageResponse) in
-            print("Received upload image response!!!")
-        }
-        
-        // get image test
-        let imageID = "57847d61-8212-4242-842c-898f85b18bb3"
-        imageManager.downloadImage(imageID: imageID, completion: {resultImage in
-            if let resultImage = resultImage {
-                let img = UIImageView(image: resultImage)
-                tableView.addSubview(img)
-            }
-        })
-        
-        //let image = UIImageView(image: UIImage(named: "J2NTP9Er4Ad3kRsms7XRoD"))
-        
-        //tableView.setNeedsLayout()
-
     }
     
     // Set the spacing between sections
