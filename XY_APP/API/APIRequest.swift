@@ -35,10 +35,11 @@ enum APIError:Error {
     case otherProblem
 }
 
-struct APIRequest {
+class APIRequest {
     let resourceURL: URL
     let httpMethod: String
-    
+    var urlRequest: URLRequest
+
     
     init(endpoint: String, httpMethod: String) {
         let resourceString = API.url + "/" + endpoint
@@ -54,13 +55,17 @@ struct APIRequest {
         }
         
         self.resourceURL = resourceURL
+        urlRequest = URLRequest(url: resourceURL)
+    }
+    
+    func setHeader(headerFieldName:String, headerValue:String) {
+        urlRequest.setValue(headerValue, forHTTPHeaderField: headerFieldName)
     }
     
     func save<T: Codable, ResponseType: Codable> (message:T,response:ResponseType, completion: @escaping(Result<ResponseType, APIError>) -> Void) {
         
         do {
             // Initialise the Http Request
-            var urlRequest = URLRequest(url: resourceURL)
             urlRequest.httpMethod = self.httpMethod
             urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
             // Encode the codableMessage properties into JSON for Http Request
@@ -74,14 +79,14 @@ struct APIRequest {
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in
                 // Save response or handle Error
                 guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
-                    print("Error: response problem with API call to \(resourceURL): \(response)")
+                    print("Error: response problem with API call to \(self.resourceURL): \(response)")
                     completion(.failure(.responseProblem))
                     return
                 }
                 // Handle result
                 do {
                     // Decode the response
-                    let messageData = try JSONDecoder().decode(ResponseType.self, from: jsonData) // Todo: Change Message struct for response
+                    let messageData = try JSONDecoder().decode(ResponseType.self, from: jsonData)
                     completion(.success(messageData))
                 } catch {
                     // Error decoding the message

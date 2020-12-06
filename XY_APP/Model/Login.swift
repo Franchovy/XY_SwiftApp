@@ -38,7 +38,7 @@ struct Login {
     
     func requestLogin(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) {
         // Make API request to backend to login.
-        let loginRequest = APIRequest(endpoint: "login", httpMethod: "POST")
+        var loginRequest = APIRequest(endpoint: "login", httpMethod: "POST")
         let response = ResponseMessage()
         // Check LoginRequestMessage is valid
         if (loginRequestMessage != nil) {

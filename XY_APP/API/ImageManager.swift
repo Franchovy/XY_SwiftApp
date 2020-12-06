@@ -83,7 +83,7 @@ struct ImageManager
         urlRequest.addValue(imageID, forHTTPHeaderField: "imageID")
         
         httpUtility.getApiData(requestUrl: urlRequest, resultType: ImageResponse.self, completionHandler: { result in
-            print("Received photo from request:", result)
+            print("Received photo from request:", result?.message)
             //TODO - Check to result to make sure request has imageData. 
             if let result = result {
                 let imageData = result.imageData!

@@ -9,12 +9,13 @@ import Foundation
 import UIKit
 
 struct Profile {
-    var username:String
-    var coverPhoto:UIImage?
-    var profilePhoto:UIImage?
+    var username:String?
+    var coverPhotoId:String?
+    var profilePhotoId:String?
+    var aboutMe:String?
     
-    init(username : String) {
-        self.username = username
+    init() {
+        
     }
     
     // Backend API call to get profile data for this user
@@ -32,7 +33,7 @@ struct Profile {
     
     static func sendEditProfileRequest(imageId: String, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
         // Make API request to backend to edit profile.
-        let editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
+        var editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
         let editProfileRequestMessage = EditProfileRequestMessage(profilePhotoId: imageId, aboutMe: "Hello, XYBrother. I am on XY!")
         let response = ResponseMessage()
         // Check LoginRequestMessage is valid
@@ -61,21 +62,24 @@ struct Profile {
     
     struct GetProfilePicIdResponseMessage: Codable {
         var message:String?
-        var id:String?
+        var profilePhotoId:String?
     }
     
-    static func getProfilePicId(username: String, completion: @escaping(Result<GetProfilePicIdResponseMessage, Error>) -> Void) {
+    static func getProfile(username: String, completion: @escaping(Result<Profile, Error>) -> Void) {
         // Make backend request to get info on <username>'s profile.
-        let getProfileRequest = APIRequest(endpoint: "/get_profileImage", httpMethod: "GET")
+        var getProfileRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
         let response = GetProfilePicIdResponseMessage()
         
-        let getProfileRequestMessage = GetProfilePicIdRequestMessage(username: username)
+        let getProfileRequestMessage = GetRequestEmptyMessage()
+        getProfileRequest.setHeader(headerFieldName: "username", headerValue: username)
         
         getProfileRequest.save(message: getProfileRequestMessage, response: response, completion: { result in
             switch result {
             case .success(let responseMessage):
-                if (responseMessage.id != nil) {
-                    completion(.success(responseMessage))
+                if (responseMessage.profilePhotoId != nil) {
+                    var profile = Profile()
+                    profile.profilePhotoId = responseMessage.profilePhotoId
+                    completion(.success(profile))
                 }
             case .failure(let error):
                 completion(.failure(error))
