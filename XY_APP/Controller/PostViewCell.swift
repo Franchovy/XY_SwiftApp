@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class MyCustomCell: UITableViewCell {
+class PostViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!

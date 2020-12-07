@@ -23,7 +23,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var createPostTextField: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,21 +45,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.estimatedRowHeight = 44.0
         tableView.rowHeight = UITableView.automaticDimension
     }
-    
-    @IBAction func submitPostButtonPressed(_ sender: Any) {
-        if let text = self.createPostTextField.text {
-            let newPost = PostModel(username: "user", content: text)
-            newPost.submitPost(completion: {result in
-                switch result {
-                case .success:
-                    // Refresh posts feed
-                    self.getPosts()
-                case .failure:
-                    print("Error submitting post")
-                }
-            })
-        }
-    }
+
     
     func getPosts() {
         // Clear current posts in feed
@@ -91,7 +77,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         // create a new cell if needed or reuse an old one
-        let cell:MyCustomCell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! MyCustomCell
+        let cell:PostViewCell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! PostViewCell
         
         cell.loadFromPost(post: self.posts[indexPath.row])
         

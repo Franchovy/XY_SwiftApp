@@ -15,6 +15,7 @@
 		14BDE34A2579488800B7E269 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDE3492579488800B7E269 /* ProfileViewController.swift */; };
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
 		B926B9EA257D87AF00BCA049 /* PostViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926B9E9257D87AF00BCA049 /* PostViewCell.swift */; };
+		B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94FA399257112C700A44085 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94FA398257112C700A44085 /* Profile.swift */; };
 		B950D6F7256D25460065E756 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950D6F6256D25460065E756 /* Messages.swift */; };
@@ -47,6 +48,7 @@
 		14BDE3492579488800B7E269 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B926B9E9257D87AF00BCA049 /* PostViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewCell.swift; sourceTree = "<group>"; };
+		B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94D46FD2574280800A21355 /* Post.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Post.xcdatamodel; sourceTree = "<group>"; };
 		B94FA398257112C700A44085 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */,
 				14BDE3492579488800B7E269 /* ProfileViewController.swift */,
 				B926B9E9257D87AF00BCA049 /* PostViewCell.swift */,
+				B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -252,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */,
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
 				B95F1012257CEA0C00E3C994 /* Current.swift in Sources */,
 				B9B92DDE25644A3F005D9B86 /* XY_APP.xcdatamodeld in Sources */,
