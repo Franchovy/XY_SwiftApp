@@ -133,8 +133,6 @@ class Profile {
         default:
             break
         }
-        
-        let imageToEdit = self.imageToEdit
     
         // Upload the photo - save photo ID
         let imageManager = ImageManager()
@@ -145,7 +143,7 @@ class Profile {
             let profilePicture:String?
             let coverPicture:String?
             
-            switch imageToEdit {
+            switch self.imageToEdit {
             case "profilePicture":
                 coverPicture = nil
                 profilePicture = imageId
