@@ -18,9 +18,14 @@ class SignupViewController: UIViewController {
     
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var signupButton: UIButton!
+    @IBOutlet weak var xynamePlaceholder: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
+
+    
 
         self.hideKeyboardWhenTappedAround()
         

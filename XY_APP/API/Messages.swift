@@ -14,16 +14,7 @@ enum CodableMessageError: Error {
 }
 
 // Default message class for sending and receiving http data
-final class Message: Codable {
-    var id:Int?
-    var message:String
-    var data:String?
-    var token:String?
-    
-    init(message: String) {
-        self.message = message
-    }
-}
+
 
 final class ResponseMessage: Codable {
     var response: String?

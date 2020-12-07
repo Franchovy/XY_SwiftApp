@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var xyNameLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var moodView: UIView!
     
     // Profile Model for this profile, contains info and methods needed to load from and upload to backend.
     var profile: Profile?
@@ -62,6 +63,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         buttonsConsole.layer.shadowOffset = CGSize(width:1, height:1)
         buttonsConsole.layer.shadowRadius = 2
         buttonsConsole.layer.shadowOpacity = 1.0
+        
+        
+        moodView.layer.cornerRadius = 15.0
+        moodView.layer.shadowColor = UIColor.black.cgColor
+        moodView.layer.shadowOffset = CGSize(width:1, height:1)
+        moodView.layer.shadowRadius = 2
+        moodView.layer.shadowOpacity = 1.0
         
         let username = Current.sharedCurrentData.username
         
