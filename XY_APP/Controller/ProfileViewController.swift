@@ -36,10 +36,16 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         imagePicker.delegate = self
         //imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
+        
+        // View own profile.
+        setProfile(username: Current.sharedCurrentData.username)
     }
     
     func setProfile(username:String) {
+        self.profile = Profile()
+        profile?.username = username
         
+        profile?.load(completion: {})
     }
     
     override func viewDidLoad() {
