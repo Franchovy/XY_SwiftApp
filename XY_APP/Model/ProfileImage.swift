@@ -22,13 +22,18 @@ class ProfileImage {
         // returns UIViewController to navigate to the profile of the owner user.
     }
     
+    func getProfilePreview() {
+        // returns preview card of profile to advertise.
+    }
+    
     // Loads the image from the backend.
-    func load() {
+    func load(_ completion: @escaping(UIImage) -> Void) {
         let imageManager = ImageManager()
         // get image test
         imageManager.downloadImage(imageID: imageId, completion: {resultImage in
             if let resultImage = resultImage {
                 self.image = resultImage
+                completion(resultImage)
             }
         })
     }

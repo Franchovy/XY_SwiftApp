@@ -8,13 +8,46 @@
 import Foundation
 import UIKit
 
+
 class MyCustomCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var profileImageView: UIImageView!
     
-    func setPost(post: PostModel) {
+    var profileImage:ProfileImage?
+    var user: Profile?
+    
+    func loadFromPost(post: PostModel) {
+        // Load data for this post
+        loadProfile(username: post.username, completion: {
+            self.loadPicture()
+        })
+        
+        // Load UI data
         nameLabel.text = post.username
         contentLabel.text = post.content
+    }
+    
+    func loadProfile(username:String, completion: @escaping(()) -> Void?) {
+        // Create a new profile
+        let user = Profile()
+        // Set username and get profile info
+        user.username = username
+        self.user = user
+        user.load(completion: { completion(()) })
+    }
+    
+    func loadPicture() {
+        if let profilePhotoId = user?.profilePhotoId {
+            // Get profile Image for this user
+            profileImage = ProfileImage(user: user!, imageId: profilePhotoId)
+            profileImage?.load({ image in
+                self.profileImage?.image = image
+                self.profileImageView.image = image
+            })
+        } else {
+            fatalError("Call loadProfile(username) before calling loadPicture.")
+        }
     }
     
     override func layoutSubviews() {
@@ -22,7 +55,6 @@ class MyCustomCell: UITableViewCell {
 
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1))
         contentView.backgroundColor = #colorLiteral(red: 0.05398157984, green: 0.05899176747, blue: 0.06317862123, alpha: 1)
-        
         
         // set the text from the data model
         contentLabel.numberOfLines = 0

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-struct Profile {
+class Profile {
     var username:String?
     var coverPhotoId:String?
     var profilePhotoId:String?
@@ -20,7 +20,7 @@ struct Profile {
     
     var imageToEdit:String?
     
-    mutating func setImageToEdit(_ imageToEdit:String) {
+    func setImageToEdit(_ imageToEdit:String) {
         switch imageToEdit {
         case "profilePicture":
             self.imageToEdit = "profilePicture"
@@ -76,6 +76,23 @@ struct Profile {
         var location: String?
     }
     
+    func load(completion: @escaping(()) -> Void) {
+        Profile.getProfile(username: username!, completion: {result in
+            switch result {
+            case .success(let profile):
+                self.profilePhotoId = profile.profilePhotoId
+                self.coverPhotoId = profile.coverPhotoId
+                self.aboutMe = profile.aboutMe
+                self.fullName = profile.fullName
+                self.location = profile.location
+                completion(())
+            case .failure(let error):
+                print("Error getting profile")
+                break
+            }
+        })
+    }
+    
     // Make backend request to get info on <username>'s profile.
     static func getProfile(username: String, completion: @escaping(Result<Profile, Error>) -> Void) {
         var getProfileRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
@@ -106,7 +123,7 @@ struct Profile {
         })
     }
     
-    public mutating func imagePickerHandler(_ imagePicked: UIImage, completion: @escaping(Result<(),Error>) -> Void) {
+    func imagePickerHandler(_ imagePicked: UIImage, completion: @escaping(Result<(),Error>) -> Void) {
         // Set new profile image
         switch imageToEdit {
         case "profilePicture":

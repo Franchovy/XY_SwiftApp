@@ -93,7 +93,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         // create a new cell if needed or reuse an old one
         let cell:MyCustomCell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! MyCustomCell
         
-        cell.setPost(post: self.posts[indexPath.row])
+        cell.loadFromPost(post: self.posts[indexPath.row])
         
         return cell
     }
