@@ -108,7 +108,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
                     self.descriptionLabel.text = aboutMe
                 }
                 if let fullName = profile.fullName {
-                    self.fullNameLabel.text = fullName
+                    //self.fullNameLabel.text = fullName
                 }
             case .failure(let error):
                 print("Error getting profile photo!")
