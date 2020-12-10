@@ -7,3 +7,13 @@
 //
 
 import Foundation
+
+struct Conversation {
+    let username: String
+    let message: String
+    
+    init(username: String, message: String) {
+        self.username = username
+        self.message = message
+    }
+}
