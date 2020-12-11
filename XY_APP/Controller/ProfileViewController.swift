@@ -125,6 +125,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("Does this print?")
         if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Set profile image in app
             self.profile?.imagePickerHandler(newImage, completion: {result in

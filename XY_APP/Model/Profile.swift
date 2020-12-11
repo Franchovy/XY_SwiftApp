@@ -156,7 +156,7 @@ class Profile {
             }
             
             // Set profile to use this photo ID
-            let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: profilePicture, coverPhotoId: coverPicture, fullName: "Maxime Franchot", location: "Torino", aboutMe: "I'm XY's CTO.")
+            let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: profilePicture, coverPhotoId: coverPicture)
             Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
                 switch result {
                 case .success(_):

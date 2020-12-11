@@ -709,7 +709,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="724"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="immagine di copertina " translatesAutoresizingMaskIntoConstraints="NO" id="Cdy-Nz-hdN">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image=" " translatesAutoresizingMaskIntoConstraints="NO" id="Cdy-Nz-hdN">
                                 <rect key="frame" x="10" y="10" width="355" height="217"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -1114,6 +1114,7 @@
         <segue reference="yoE-X7-1bb"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name=" " width="128" height="128"/>
         <image name="Button_Arrow_Right" width="27.666666030883789" height="27.666666030883789"/>
         <image name="Icon ionic-ios-home-1" width="27.333333969116211" height="27.333333969116211"/>
         <image name="LogoXY" width="87.666664123535156" height="46.666667938232422"/>
@@ -1127,7 +1128,6 @@
         <image name="categoryIcon" width="22" height="14.333333015441895"/>
         <image name="communities" width="41.666667938232422" height="29.333333969116211"/>
         <image name="edit" width="170.66667175292969" height="170.66667175292969"/>
-        <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
         <image name="linkIcon" width="18.333333969116211" height="19.333333969116211"/>
         <image name="placeIcon" width="14.666666984558105" height="21"/>
         <image name="profileImageUpdateButton" width="90" height="90"/>
