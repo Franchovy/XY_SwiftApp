@@ -9,8 +9,19 @@ import UIKit
 
 class ConversationsCells: UITableViewCell {
 
+    @IBOutlet weak var messageCell: UIView!
+    @IBOutlet weak var profileImageCell: UIImageView!
+    
+    @IBOutlet weak var xynameLabelMessageCell: UILabel!
+    
+    @IBOutlet weak var messageInCell: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        messageCell.layer.cornerRadius = messageCell.frame.size.height / 4
+        
         // Initialization code
     }
 
