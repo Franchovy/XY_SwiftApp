@@ -25,6 +25,9 @@ class MessagesViewController: UIViewController {
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
+        
+        conversationsTableView.layer.cornerRadius = 15.0
+        
         conversationsTableView.dataSource = self
 
         conversationsTableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
@@ -41,7 +44,7 @@ extension MessagesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = conversationsTableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath) as! ConversationsCells
         
-        cell.xynameLabelMessageCell.text = self.messages[indexPath.row].username
+        cell.messageInCell.text = self.messages[indexPath.row].username
         cell.messageInCell.text = self.messages[indexPath.row].message
         // todo get profile image and set the cell's profile image
         
