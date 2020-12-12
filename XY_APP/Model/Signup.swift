@@ -52,8 +52,7 @@ struct Signup {
                     }
                     
                     let sessionToken = message.token ?? ""
-                    print(sessionToken)
-                    API.setSessionToken(newSessionToken: sessionToken)
+                    Session.sessionToken = sessionToken
                     DispatchQueue.main.async {
                         completion(.success(message))
                     }
