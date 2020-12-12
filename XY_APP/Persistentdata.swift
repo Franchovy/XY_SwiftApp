@@ -1,0 +1,101 @@
+//
+//  Persistentdata.swift
+//  XY_APP
+//
+//  Created by Maxime Franchot on 12/12/2020.
+//
+
+import CoreData
+
+import UIKit
+import CoreData
+import Foundation
+
+
+
+class CoreDataManager {
+    static let shared = CoreDataManager()
+    private init() {}
+    private lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "XY_APP") // Load XY_APP datamodel
+        container.loadPersistentStores(completionHandler: { _, error in
+            _ = error.map { fatalError("Error: \($0)") }
+        })
+        return container
+    }()
+    
+    var mainContext: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    func backgroundContext() -> NSManagedObjectContext {
+        return persistentContainer.newBackgroundContext()
+    }
+    
+    static func loadSession() -> Bool {
+        let mainContext = CoreDataManager.shared.mainContext
+        
+        do {
+            // load code
+            let extractValues: [PersistentSession]
+            
+            let request = PersistentSession.fetchRequest2()
+            request.returnsObjectsAsFaults = false
+            do
+            {
+                extractValues = try mainContext.fetch(request)
+            }
+            catch { fatalError("Could not load Data") }
+            
+            if let session = extractValues.first {
+                print("Session data: \(session)")
+                if let username = session.username, let token = session.token {
+                    Session.username = session.username!
+                    Session.sessionToken = session.token!
+                } else {
+                    print("No Session data!")
+                }
+            } else {
+                print("Could not find session in coredata")
+            }
+            
+            return true
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+            return false
+        }
+    }
+    
+    static func saveSession() throws {
+        let mainContext = CoreDataManager.shared.mainContext
+        
+        // Remove existing sessions
+        do {
+            let sessionsExisting: [PersistentSession]
+            let fetchRequest = PersistentSession.fetchRequest2()
+            sessionsExisting = try mainContext.fetch(fetchRequest)
+            for session in sessionsExisting {
+                print("Deleting session: \(session) ...")
+                mainContext.delete(session)
+            }
+            try mainContext.save()
+            print("Deleted previous sessions.")
+        } catch {
+            print("No previous sessions to remove")
+        }
+        // Create new session inside main context
+        let persistentSession = PersistentSession(context: mainContext)
+        let username = Session.username
+        let token = Session.sessionToken
+        
+        persistentSession.username = Session.username
+        persistentSession.token = Session.sessionToken
+        
+        do
+        {
+            try mainContext.save()
+            print("Saved new notifications.")
+        }
+        catch { fatalError("Unable to save data.") }
+    }
+}

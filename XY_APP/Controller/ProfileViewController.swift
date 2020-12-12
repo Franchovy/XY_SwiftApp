@@ -37,7 +37,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         imagePicker.allowsEditing = true
         
         // View own profile.
-        setProfile(username: Current.sharedCurrentData.username)
+        setProfile(username: Session.username)
     }
     
     func setProfile(username:String) {
@@ -75,7 +75,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         moodView.layer.shadowRadius = 2
         moodView.layer.shadowOpacity = 1.0
         
-        let username = Current.sharedCurrentData.username
+        let username = Session.username
         
         // Load profile image
         Profile.getProfile(username: username, completion: {result in

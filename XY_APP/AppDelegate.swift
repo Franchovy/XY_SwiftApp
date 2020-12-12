@@ -14,13 +14,69 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        if #available(iOS 13, *) {
-            // IOS 13+
-            // do only pure app launch stuff, not interface stuff
+        
+        // Check user session 
+        // Check login
+        if Session.hasSession() {
+            print("Session active!")
         } else {
-            // IOS 12
+            print("Checking session...")
+            
+            let sessionIsLoaded = CoreDataManager.loadSession()
+            if sessionIsLoaded {
+                print("Session loaded! Skipping login screen.")
+                loadInitialScreenOnAuthCheck()
+            } else {
+                // No session detected locally.
+                // Check backend for session
+                Session.requestSession(completion: { result in
+                    switch result {
+                    case .success(let message):
+                        print("Received session info from backend. Setting local session.")
+                        if let username = message.username {
+                            Session.username = username
+                        }
+                        if let token = message.token {
+                            Session.sessionToken = token
+                        }
+                    case .failure(let error):
+                        print("No session found, or error: \(error)")
+                    }
+                    
+                    // Load initial screen after check
+                    self.loadInitialScreenOnAuthCheck()
+                })
+            }
         }
+        
+        if #available(iOS 13.0, *) {
+            // In iOS 13 setup is done in SceneDelegate
+        } else {
+
+        }
+        
         return true
+    }
+    
+    func loadInitialScreenOnAuthCheck() {
+        // Set initial view in ios version 12
+        if #available(iOS 13.0, *) {
+            
+        } else {
+            let window = UIWindow(frame: UIScreen.main.bounds)
+            self.window = window
+
+            let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            if (Session.hasSession()){
+                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
+                window.rootViewController = newViewcontroller
+            } else {
+                
+                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                window.rootViewController = newViewcontroller
+            }
+        }
     }
 
     // MARK: UISceneSession Lifecycle
@@ -49,6 +105,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
         let container = NSPersistentContainer(name: "XY_APP")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            // Persistent store loaded
+            print("Load persistent stores test")
+            
             if let error = error as NSError? {
                 // Replace this implementation with code to handle the error appropriately.
                 // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -71,6 +130,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func saveContext () {
         let context = persistentContainer.viewContext
+        
         if context.hasChanges {
             do {
                 try context.save()

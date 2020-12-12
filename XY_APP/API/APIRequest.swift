@@ -8,23 +8,63 @@
 import Foundation
 
 
-struct API {
+
+struct Session {
 
     // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
     static let url = "https://xy-socialnetwork.com"
-    //static let url = "http://0.0.0.0:5000"
+    //static let url = "http://172.20.10.4:5000"
 
+    // Username to store as the session
+    static var username: String = ""
+    
     // Session token coming from server
     static var sessionToken: String = ""
-
-    // Static function for setting the session token
-    static func setSessionToken(newSessionToken: String) {
-        API.sessionToken = newSessionToken
+    
+    static func hasSession() -> Bool {
+        return sessionToken != ""
     }
     
-    // Static function for getting the session token
-    static func getSessionToken() -> String {
-        return API.sessionToken
+    struct GetSessionRequestMessage : Codable {
+        var message:String?
+        init (_ message: String) {
+            self.message = message
+        }
+    }
+    
+    struct GetSessionResponseMessage : Codable {
+        var message:String?
+        var username:String?
+        var token:String?
+        var expires:String?
+    }
+    
+    static func requestSession(completion: @escaping(Result<GetSessionResponseMessage, Error>) -> Void) {
+        var getSessionRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
+        var getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
+        var getSessionResponseMessage = GetSessionResponseMessage()
+        
+        getSessionRequest.save(message: getSessionRequestMessage, response:getSessionResponseMessage, completion: { result in
+            switch result {
+            case .success(let message):
+                completion(.success(message))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        })
+    }
+    
+    static func savePersistent() {
+        
+        do {
+            print("Saving auth session to coredata persistent storage...")
+            // Save Session to CoreDataManager
+            try! CoreDataManager.saveSession()
+            print("Saved successfully.")
+        } catch {
+            let nserror = error as NSError
+            print("Error solving to session! \(nserror)")
+        }
     }
 }
 
@@ -43,7 +83,7 @@ class APIRequest {
 
     
     init(endpoint: String, httpMethod: String) {
-        let resourceString = API.url + "/" + endpoint
+        let resourceString = Session.url + "/" + endpoint
         guard let resourceURL = URL(string: resourceString) else {fatalError()}
         
         switch httpMethod {
@@ -74,7 +114,7 @@ class APIRequest {
                 urlRequest.httpBody = try JSONEncoder().encode(message)
                 print("Sending request: \(message)") // decode struct
             }
-            urlRequest.addValue(API.getSessionToken(), forHTTPHeaderField: "Session")
+            urlRequest.addValue(Session.sessionToken, forHTTPHeaderField: "Session")
             
             // Open the task as urlRequest
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in

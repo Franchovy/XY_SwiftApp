@@ -9,9 +9,7 @@ import UIKit
 
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
-
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -20,8 +18,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         
         let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
-        let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "LoginViewController")
-        window?.rootViewController = viewController
+        if (Session.hasSession()) {
+            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainViewController")
+            window?.rootViewController = viewController
+        } else {
+            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "LoginViewController")
+            window?.rootViewController = viewController
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -34,6 +37,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
