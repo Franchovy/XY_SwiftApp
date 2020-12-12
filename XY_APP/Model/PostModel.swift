@@ -49,7 +49,7 @@ struct PostModel {
         // Make API request to backend to signup.
         var getAllPostsRequest = APIRequest(endpoint: "get_all_posts", httpMethod: "GET")
         
-        let message = GetAllPostsRequestMessage(token: API.getSessionToken())
+        let message = GetAllPostsRequestMessage(token: Session.sessionToken)
         let response = GetPostsResponse()
         getAllPostsRequest.save(message: message,response: response, completion: { result in
             switch result {

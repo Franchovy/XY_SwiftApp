@@ -18,7 +18,19 @@ struct Login {
         init?(username: String, password: String, rememberMe: Bool) {
             self.username = username
             self.password = password
-            self.rememberMe = false
+            self.rememberMe = rememberMe
+        }
+    }
+    
+    struct LoginResponseMessage: Codable {
+        var token: String = ""
+        var message: String = ""
+        var status: Int = 0
+        
+        init?(message: String, token: String, status: Int) {
+            self.message = message
+            self.token = token
+            self.status = status
         }
     }
     
@@ -36,25 +48,27 @@ struct Login {
         loginRequestMessage = LoginRequestMessage(username: username, password: password, rememberMe: rememberMe)
     }
     
-    func requestLogin(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) {
+    func requestLogin(completion: @escaping(Result<LoginResponseMessage, APIError>) -> Void) {
         // Make API request to backend to login.
         var loginRequest = APIRequest(endpoint: "login", httpMethod: "POST")
-        let response = ResponseMessage()
+        let response = LoginResponseMessage(message: "", token: "", status: 0)
         // Check LoginRequestMessage is valid
         if (loginRequestMessage != nil) {
             loginRequest.save(message: loginRequestMessage, response: response, completion: { result in
                 switch result {
                 case .success(let message):
-                    if let message = message.message {
-                        print("POST request response: \"" + message + "\"")
+                    if let message = message {
+                        // Save current authentication session
+                        Session.username = loginRequestMessage!.username
+                        print("Session username: \(Session.username)")
+                        Session.sessionToken = message.token
+                        
+                        Session.savePersistent()
+                        
+                        DispatchQueue.main.async {
+                            completion(.success(message))
+                        }
                     }
-                    let sessionToken = message.token ?? ""
-                    print(sessionToken)
-                    API.setSessionToken(newSessionToken: sessionToken)
-                    DispatchQueue.main.async {
-                        completion(.success(message))
-                    }
-                    
                 case .failure(let error):
                     print("An error occured: \(error)")
                     DispatchQueue.main.async {
