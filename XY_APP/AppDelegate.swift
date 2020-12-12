@@ -25,6 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let sessionIsLoaded = CoreDataManager.loadSession()
             if sessionIsLoaded {
                 print("Session loaded! Skipping login screen.")
+                loadInitialScreenOnAuthCheck()
             } else {
                 // No session detected locally.
                 // Check backend for session
@@ -42,17 +43,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         print("No session found, or error: \(error)")
                     }
                     
+                    // Load initial screen after check
+                    self.loadInitialScreenOnAuthCheck()
                 })
             }
         }
         
-        if #available(iOS 13, *) {
-            // IOS 13+
-            // do only pure app launch stuff, not interface stuff
+        if #available(iOS 13.0, *) {
+            // In iOS 13 setup is done in SceneDelegate
         } else {
-            // IOS 12
+
         }
+        
         return true
+    }
+    
+    func loadInitialScreenOnAuthCheck() {
+        // Set initial view in ios version 12
+        if #available(iOS 13.0, *) {
+            
+        } else {
+            let window = UIWindow(frame: UIScreen.main.bounds)
+            self.window = window
+
+            let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            
+            if (Session.hasSession()){
+                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
+                window.rootViewController = newViewcontroller
+            } else {
+                
+                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                window.rootViewController = newViewcontroller
+            }
+        }
     }
 
     // MARK: UISceneSession Lifecycle

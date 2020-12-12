@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="53h-pf-nzi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PeY-Pf-Z7i">
     <device id="retina5_9" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -206,7 +206,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-687" y="197"/>
+            <point key="canvasLocation" x="340" y="-65"/>
         </scene>
         <!--Interests View Controller-->
         <scene sceneID="8JE-Xi-sDV">
@@ -413,7 +413,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="imS-1i-gAo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="797.60000000000002" y="-922.16748768472905"/>
+            <point key="canvasLocation" x="1610" y="-922"/>
         </scene>
         <!--CustomizeProfileViewController-->
         <scene sceneID="mLQ-jv-blQ">
@@ -650,7 +650,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGJ-fp-Qmh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="176.80000000000001" y="1146.7980295566504"/>
+            <point key="canvasLocation" x="340" y="695"/>
         </scene>
         <!--MainViewController-->
         <scene sceneID="R15-tR-vLt">
@@ -672,7 +672,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qOO-oS-Rda" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1791" y="1147"/>
+            <point key="canvasLocation" x="2302" y="1094"/>
         </scene>
         <!--Friends View Controller-->
         <scene sceneID="LPy-q6-4Iq">
@@ -1588,8 +1588,41 @@
             </objects>
             <point key="canvasLocation" x="5719.1999999999998" y="1952.9556650246307"/>
         </scene>
+        <!--InitialViewController-->
+        <scene sceneID="AE0-1Q-oNz">
+            <objects>
+                <viewController title="InitialViewController" id="PeY-Pf-Z7i" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RUU-Nn-wxP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LogoXY" translatesAutoresizingMaskIntoConstraints="NO" id="SRN-vv-hDx">
+                                <rect key="frame" x="143.66666666666666" y="382.66666666666669" width="88" height="47"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XY Company" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GgM-uu-Rwf">
+                                <rect key="frame" x="156.66666666666666" y="756" width="62" height="12"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="10"/>
+                                <color key="textColor" red="0.86379956869999996" green="0.9313176702" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="MIM-mt-YuA"/>
+                        <color key="backgroundColor" red="0.054901960780000002" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="GgM-uu-Rwf" firstAttribute="bottom" secondItem="MIM-mt-YuA" secondAttribute="bottom" constant="-10" id="4JE-Cb-gdi"/>
+                            <constraint firstItem="SRN-vv-hDx" firstAttribute="centerX" secondItem="RUU-Nn-wxP" secondAttribute="centerX" id="95v-X4-C36"/>
+                            <constraint firstItem="GgM-uu-Rwf" firstAttribute="centerX" secondItem="RUU-Nn-wxP" secondAttribute="centerX" id="anI-PJ-oY7"/>
+                            <constraint firstItem="SRN-vv-hDx" firstAttribute="centerY" secondItem="RUU-Nn-wxP" secondAttribute="centerY" id="kJz-Ru-01g"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HRM-Nh-Y3R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-764" y="1346"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="6Qw-iP-PfL"/>
         <segue reference="iGN-EZ-ann"/>
         <segue reference="yoE-X7-1bb"/>
     </inferredMetricsTieBreakers>
