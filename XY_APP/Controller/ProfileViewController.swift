@@ -16,10 +16,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var buttonsConsole: UIView!
     @IBOutlet weak var profileConteiner: UIView!
     @IBOutlet weak var coverPicture: UIImageView!
-    
     @IBOutlet weak var editCoverImageButton: UIButton!
     @IBOutlet weak var editProfileImageButton: UIButton!
-    
     @IBOutlet weak var fullNameLabel: UILabel!
     @IBOutlet weak var xyNameLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!
