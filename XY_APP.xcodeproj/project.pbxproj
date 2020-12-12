@@ -13,6 +13,7 @@
 		141FF441258270C70030FF67 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141FF440258270C70030FF67 /* MessagesViewController.swift */; };
 		141FF4452582754A0030FF67 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141FF4442582754A0030FF67 /* Constants.swift */; };
 		1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456020F25724DEE0093FDA7 /* InterestsViewController.swift */; };
+		14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */; };
 		1462BB0E257E47C30096FD23 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB0D257E47C30096FD23 /* FriendsViewController.swift */; };
 		1462BB14257E4DC00096FD23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB13257E4DC00096FD23 /* Message.swift */; };
 		149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */; };
@@ -52,6 +53,7 @@
 		141FF440258270C70030FF67 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		141FF4442582754A0030FF67 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
+		14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedProfileViewController.swift; sourceTree = "<group>"; };
 		1462BB0D257E47C30096FD23 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		1462BB13257E4DC00096FD23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeProfileViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */,
 				1462BB0D257E47C30096FD23 /* FriendsViewController.swift */,
 				141FF440258270C70030FF67 /* MessagesViewController.swift */,
+				14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				B9599A3F257134E80057B7D9 /* Login.swift in Sources */,
 				B9599A47257154EB0057B7D9 /* NewsFeedViewController.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
+				14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */,
 				B95B63ED25794BEC0004E293 /* ImageManager.swift in Sources */,
 				B95B63F025795A640004E293 /* HttpUtility.swift in Sources */,
 				B9E3729D257C3CC5008E4403 /* ProfileImage.swift in Sources */,
