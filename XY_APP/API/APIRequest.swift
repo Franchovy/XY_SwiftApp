@@ -13,7 +13,7 @@ struct Session {
 
     // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
     //static let url = "https://xy-socialnetwork.com"
-    static let url = "http://0.0.0.0:5000"
+    static let url = "http://172.20.10.4:5000"
 
     // Username to store as the session
     static var username: String = ""
