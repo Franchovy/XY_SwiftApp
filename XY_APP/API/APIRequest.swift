@@ -17,12 +17,36 @@ struct Session {
 
     // Username to store as the session
     static var username: String = ""
-    
     // Session token coming from server
     static var sessionToken: String = ""
+    // Expiry time automatically logs out
+    static var expiryTime: Date?
+    
+    static func setExpiry(expiryTimeInMinutes: Int) {
+        expiryTime = Date(timeIntervalSinceNow:(Double(expiryTimeInMinutes) * 60.0))
+    }
     
     static func hasSession() -> Bool {
-        return sessionToken != ""
+        if let expiryTime = expiryTime {
+            if Date(timeIntervalSinceNow: 0) < expiryTime {
+                // No expiry
+                if sessionToken != "" { return true }
+            } else {
+                // Session has expired, log out
+                print("Session expired, logging out.")
+                
+                Session.expire()
+                CoreDataManager.removeSession()
+            }
+        }
+        return false
+    }
+
+    static func expire() {
+        // Erase data
+        username = ""
+        sessionToken = ""
+        expiryTime = nil
     }
     
     struct GetSessionRequestMessage : Codable {
