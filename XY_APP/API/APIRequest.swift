@@ -7,66 +7,9 @@
 
 import Foundation
 
-
-
-struct Session {
-
-    // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
-    static let url = "https://xy-socialnetwork.com"
-    //static let url = "http://172.20.10.4:5000"
-
-    // Username to store as the session
-    static var username: String = ""
-    
-    // Session token coming from server
-    static var sessionToken: String = ""
-    
-    static func hasSession() -> Bool {
-        return sessionToken != ""
-    }
-    
-    struct GetSessionRequestMessage : Codable {
-        var message:String?
-        init (_ message: String) {
-            self.message = message
-        }
-    }
-    
-    struct GetSessionResponseMessage : Codable {
-        var message:String?
-        var username:String?
-        var token:String?
-        var expires:String?
-    }
-    
-    static func requestSession(completion: @escaping(Result<GetSessionResponseMessage, Error>) -> Void) {
-        var getSessionRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
-        var getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
-        var getSessionResponseMessage = GetSessionResponseMessage()
-        
-        getSessionRequest.save(message: getSessionRequestMessage, response:getSessionResponseMessage, completion: { result in
-            switch result {
-            case .success(let message):
-                completion(.success(message))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        })
-    }
-    
-    static func savePersistent() {
-        
-        do {
-            print("Saving auth session to coredata persistent storage...")
-            // Save Session to CoreDataManager
-            try! CoreDataManager.saveSession()
-            print("Saved successfully.")
-        } catch {
-            let nserror = error as NSError
-            print("Error solving to session! \(nserror)")
-        }
-    }
-}
+// GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
+//static let url = "https://xy-socialnetwork.com"
+let API_URL = "http://127.0.0.1:5000"
 
 
 enum APIError:Error {
@@ -83,7 +26,7 @@ class APIRequest {
 
     
     init(endpoint: String, httpMethod: String) {
-        let resourceString = Session.url + "/" + endpoint
+        let resourceString = API_URL + "/" + endpoint
         guard let resourceURL = URL(string: resourceString) else {fatalError()}
         
         switch httpMethod {

@@ -25,12 +25,14 @@ struct Login {
     struct LoginResponseMessage: Codable {
         var token: String = ""
         var message: String = ""
+        var expiry: Int = 0
         var status: Int = 0
         
-        init?(message: String, token: String, status: Int) {
+        init?(message: String, token: String, status: Int, expiry: Int) {
             self.message = message
             self.token = token
             self.status = status
+            self.expiry = expiry
         }
     }
     
@@ -51,17 +53,21 @@ struct Login {
     func requestLogin(completion: @escaping(Result<LoginResponseMessage, APIError>) -> Void) {
         // Make API request to backend to login.
         var loginRequest = APIRequest(endpoint: "login", httpMethod: "POST")
-        let response = LoginResponseMessage(message: "", token: "", status: 0)
+        let response = LoginResponseMessage(message: "", token: "", status: 0, expiry: 0)
         // Check LoginRequestMessage is valid
         if (loginRequestMessage != nil) {
             loginRequest.save(message: loginRequestMessage, response: response, completion: { result in
                 switch result {
                 case .success(let message):
                     if let message = message {
+                        //debug
+                        print(message)
+                        
                         // Save current authentication session
                         Session.username = loginRequestMessage!.username
                         print("Session username: \(Session.username)")
                         Session.sessionToken = message.token
+                        Session.setExpiry(expiryTimeInMinutes: message.expiry)
                         
                         Session.savePersistent()
                         

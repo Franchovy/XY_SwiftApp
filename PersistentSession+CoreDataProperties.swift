@@ -2,7 +2,7 @@
 //  PersistentSession+CoreDataProperties.swift
 //  XY_APP
 //
-//  Created by Maxime Franchot on 12/12/2020.
+//  Created by Maxime Franchot on 13/12/2020.
 //
 //
 
@@ -18,5 +18,6 @@ extension PersistentSession {
 
     @NSManaged public var token: String?
     @NSManaged public var username: String?
+    @NSManaged public var expiry: Date?
 
 }
