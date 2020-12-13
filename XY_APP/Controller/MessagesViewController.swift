@@ -30,7 +30,7 @@ class MessagesViewController: UIViewController {
         
         conversationsTableView.dataSource = self
 
-        conversationsTableView.register(UINib(nibName: K.cellNibName, bundle: nil), forCellReuseIdentifier: K.cellIdentifier)
+        conversationsTableView.register(UINib(nibName: K.conversationCellNibName, bundle: nil), forCellReuseIdentifier: K.conversationCellIdentifier)
     }
     
 }
@@ -42,7 +42,7 @@ extension MessagesViewController: UITableViewDataSource {
     
     // This function generates the cells for the tableview using the data that we provide inside Conversation struct
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = conversationsTableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath) as! ConversationsCells
+        let cell = conversationsTableView.dequeueReusableCell(withIdentifier: K.conversationCellIdentifier, for: indexPath) as! ConversationsCells
         
         cell.messageInCell.text = self.messages[indexPath.row].username
         cell.messageInCell.text = self.messages[indexPath.row].message

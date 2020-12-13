@@ -9,7 +9,9 @@ import Foundation
 
 struct K {
 
-    static let cellIdentifier = "ReusableCell"
-    static let cellNibName = "ConversationsCells"
+    static let conversationCellIdentifier = "ConversationCell"
+    static let conversationCellNibName = "ConversationsCells"
+    static let postCellIdentifier = "postViewCell"
+    static let postCellNibName = "PostViewCell"
 }
 
