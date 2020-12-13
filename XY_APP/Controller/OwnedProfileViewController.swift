@@ -30,7 +30,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     
     required init(coder:NSCoder) {
         imagePicker = UIImagePickerController()
-
+        
         super.init(coder: coder)!
         
         imagePicker.delegate = self
@@ -169,29 +169,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     @IBAction func friendsButton(_ sender: UIButton) {
     }
     @IBAction func settingsButton(_ sender: UIButton) {
-        Auth.logout(completion: { result in
-            switch result {
-            case .success:
-                // Segue to login
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc:UIViewController
-                
-                if #available(iOS 13.0, *) {
-                    vc = storyboard.instantiateViewController(identifier: "LoginViewController")
-                } else {
-                    // Fallback on earlier versions
-                    vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                }
-
-                // Hide Top and Bottom navigation bars!
-                self.hidesBottomBarWhenPushed = true
-                self.navigationController?.navigationBar.isHidden = true
-                // Show next viewcontroller
-                self.show(vc, sender: self)
-            case .failure:
-                print("Error logging out from backend!")
-            }
-        })
     }
     
     @IBAction func editCoverImageButton(_ sender: UIButton) {
@@ -223,6 +200,32 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         self.present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func logoutButton(_ sender: UIBarButtonItem) {
+        Auth.logout(completion: { result in
+            switch result {
+            case .success:
+                // Segue to login
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:UIViewController
+                
+                if #available(iOS 13.0, *) {
+                    vc = storyboard.instantiateViewController(identifier: "LoginViewController")
+                } else {
+                    // Fallback on earlier versions
+                    vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                }
+
+                // Hide Top and Bottom navigation bars!
+                self.hidesBottomBarWhenPushed = true
+                self.navigationController?.navigationBar.isHidden = true
+                // Show next viewcontroller
+                self.show(vc, sender: self)
+            case .failure:
+                print("Error logging out from backend!")
+            }
+        })
     }
+}
+
 
 

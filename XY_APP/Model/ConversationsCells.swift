@@ -8,10 +8,13 @@
 import UIKit
 
 class ConversationsCells: UITableViewCell {
-    @IBOutlet weak var bubbleCell: UIView!
+  
+    @IBOutlet weak var conversationView: UIView!
+    @IBOutlet weak var nameConversation: UILabel!
+    @IBOutlet weak var messageConversation: UILabel!
+    @IBOutlet weak var timeConversation: UILabel!
+    @IBOutlet weak var profileImageConversation: UIImageView!
     
-    @IBOutlet weak var messageInCell: UILabel!
-    @IBOutlet weak var profilePhotoInMessage: UIImageView!
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -20,12 +23,13 @@ class ConversationsCells: UITableViewCell {
         contentView.layer.cornerRadius = 7
         self.backgroundColor = UIColor.init(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
     }
+    
     override func awakeFromNib() {
-        
         
         super.awakeFromNib()
         
-        bubbleCell.layer.cornerRadius = bubbleCell.frame.size.height / 4
+        conversationView.layer.cornerRadius = conversationView.frame.size.height / 12
+        
         
         
         
@@ -37,5 +41,7 @@ class ConversationsCells: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    
     
 }
