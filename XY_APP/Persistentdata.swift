@@ -49,10 +49,10 @@ class CoreDataManager {
             
             if let session = extractValues.first {
                 print("Session data: \(session)")
-                if let username = session.username, let token = session.token {
-                    Session.username = session.username!
-                    Session.sessionToken = session.token!
-                    Session.expiryTime = session.expiry ?? Date()
+                if let username = session.username, let token = session.token, let expiry = session.expiry {
+                    Session.username = username
+                    Session.sessionToken = token
+                    Session.expiryTime = expiry
                 } else {
                     print("No Session data!")
                 }

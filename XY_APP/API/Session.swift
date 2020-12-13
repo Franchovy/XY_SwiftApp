@@ -57,9 +57,9 @@ struct Session {
     }
     
     static func requestSession(completion: @escaping(Result<GetSessionResponseMessage, Error>) -> Void) {
-        var getSessionRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
-        var getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
-        var getSessionResponseMessage = GetSessionResponseMessage()
+        let getSessionRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
+        let getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
+        let getSessionResponseMessage = GetSessionResponseMessage()
         
         getSessionRequest.save(message: getSessionRequestMessage, response:getSessionResponseMessage, completion: { result in
             switch result {
@@ -76,7 +76,7 @@ struct Session {
         do {
             print("Saving auth session to coredata persistent storage...")
             // Save Session to CoreDataManager
-            try! CoreDataManager.saveSession()
+            try CoreDataManager.saveSession()
             print("Saved successfully.")
         } catch {
             let nserror = error as NSError

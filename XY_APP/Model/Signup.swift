@@ -30,7 +30,7 @@ struct Signup {
     
     mutating func validateSignupForm(username:String, password:String, email:String, phoneNumber:String) {
         
-        if username == nil || password == nil || email == nil || phoneNumber == nil {
+        if username == "" || password == "" || email == "" {
             fatalError("One or more fields of signup were empty!")
         }
         
@@ -38,9 +38,9 @@ struct Signup {
         signupRequestMessage = SignupRequestMessage(username: username, password: password,  email: email, phoneNumber: phoneNumber)
     }
     
-    func requestSignup(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) -> Bool { //todo remove return value
+    func requestSignup(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) { //todo remove return value
         // Make API request to backend to signup.
-        var signupRequest = APIRequest(endpoint: "register", httpMethod: "POST")
+        let signupRequest = APIRequest(endpoint: "register", httpMethod: "POST")
         let response = ResponseMessage()
         // Check LoginRequestMessage is valid
         if (signupRequestMessage != nil) {
@@ -64,6 +64,5 @@ struct Signup {
              }
             })
         }
-        return false
     }
 }

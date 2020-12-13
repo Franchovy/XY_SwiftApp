@@ -41,7 +41,7 @@ class Profile {
     
     static func sendEditProfileRequest(requestMessage: EditProfileRequestMessage, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
         // Make API request to backend to edit profile.
-        var editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
+        let editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
         let response = ResponseMessage()
         // Check LoginRequestMessage is valid
         editProfileRequest.save(message: requestMessage, response: response, completion: { result in
@@ -95,7 +95,7 @@ class Profile {
     
     // Make backend request to get info on <username>'s profile.
     static func getProfile(username: String, completion: @escaping(Result<Profile, Error>) -> Void) {
-        var getProfileRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
+        let getProfileRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
         let response = GetProfilePicIdResponseMessage()
         
         let getProfileRequestMessage = GetRequestEmptyMessage()

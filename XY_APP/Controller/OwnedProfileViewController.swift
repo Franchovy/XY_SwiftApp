@@ -104,9 +104,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                 if let aboutMe = profile.aboutMe {
                     self.captionLabel.text = aboutMe
                 }
-                if let fullName = profile.fullName {
-                    //self.fullNameLabel.text = fullName
-                }
             case .failure(let error):
                 print("Error getting profile photo!")
             }
