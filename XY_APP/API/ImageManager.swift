@@ -10,7 +10,7 @@ import UIKit
 
 
 
-struct ImageRequest : Encodable
+struct UploadImageRequest : Encodable
 {
     let attachment : String
     let fileName : String
@@ -28,7 +28,7 @@ struct ImageResponse : Decodable
     let id: String
 }
 
-// Hey there, I hope the video helped you, and if it did do like the video and share it with your iOS group. Do let me know if you have any questions on this topic and I will be happy to help you out :) ~ Ravi
+
 struct ImageManager
 {
     func uploadImage(image: UIImage, completionHandler: @escaping(_ result: ImageResponse) -> Void)
@@ -36,7 +36,7 @@ struct ImageManager
         let httpUtility = HttpUtility()
         
         let data = image.pngData()
-        let imageUploadRequest = ImageRequest(attachment: data!.base64EncodedString(), fileName: "file")
+        let imageUploadRequest = UploadImageRequest(attachment: data!.base64EncodedString(), fileName: "file")
 
         httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: API_URL + "/upload_image")!, request: imageUploadRequest, resultType: ImageResponse.self) {
             (response) in
@@ -45,36 +45,6 @@ struct ImageManager
                 _ = completionHandler(response)
             }
         }
-
-        // Upload image with base64 format
-        // let imageUploadRequest = ImageRequest(attachment: data.base64EncodedString(), fileName: "base64Example")
-        //        do {
-        //             let postBody = try JSONEncoder().encode(request)
-        //
-        //            httpUtility.postApiData(requestUrl: URL(string: Endpoints.uploadImage)!, requestBody: postBody, resultType: ImageResponse.self) { (response) in
-        //
-        //                _ = completionHandler(response)
-        //            }
-        //
-        //        } catch let error {
-        //            debugPrint(error)
-        //        }
-//----------------------------------------------------------------------------------
-        
-        // Upload image with byte array format
-        // let imageUploadRequest = ImageRequest(attachment: data, fileName: "base64Example")
-        //        do {
-        //             let postBody = try JSONEncoder().encode(request)
-        //
-        //            httpUtility.postApiData(requestUrl: URL(string: Endpoints.uploadImageWithByteArray)!, requestBody: postBody, resultType: ImageResponse.self) { (response) in
-        //
-        //                _ = completionHandler(response)
-        //            }
-        //
-        //        } catch let error {
-        //            debugPrint(error)
-        //        }
-
     }
     
     func downloadImage(imageID:String, completion: @escaping(_ result: UIImage?) -> Void) {
