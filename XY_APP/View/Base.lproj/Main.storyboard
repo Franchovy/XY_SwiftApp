@@ -1161,6 +1161,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ZxB-C9-BzP">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="Fw1-a2-dAl">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="logoutButton:" destination="21o-Ao-ibZ" id="KTk-qd-Ixp"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="hs8-Nk-1Uy">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -1418,8 +1424,9 @@
         <scene sceneID="IgG-0n-2yR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kU8-KU-Lbx" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" selectedImage="categoryIcon" id="Ob9-Ux-6Z6">
-                        <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <tabBarItem key="tabBarItem" title="Profile" selectedImage="profile_icon" id="Ob9-Ux-6Z6">
+                        <color key="badgeColor" name="XYpink"/>
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oK5-Yw-nGI">
@@ -1494,9 +1501,13 @@
         <image name="placeIcon" width="14.666666984558105" height="21"/>
         <image name="profile" width="33.333332061767578" height="33.333332061767578"/>
         <image name="profileImageUpdateButton" width="90" height="90"/>
+        <image name="profile_icon" width="36" height="36"/>
         <image name="verifiedIcon" width="19" height="23"/>
         <namedColor name="XYblack">
             <color red="0.054999999701976776" green="0.059000000357627869" blue="0.063000001013278961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="XYpink">
+            <color red="0.96700000762939453" green="0.17800000309944153" blue="0.48199999332427979" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

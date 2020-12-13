@@ -204,6 +204,16 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         self.present(alert, animated: true, completion: nil)
     }
     
+    @IBAction func logoutButton(_ sender: UIBarButtonItem) {
+            do {
+                try Auth.auth().signOut()
+                navigationController?.popToRootViewController(animated: true)
+            } catch let signOutError as NSError {
+                print ("Error signing out: %@", signOutError)
+            }
+            
+        }
     }
+
 
 
