@@ -52,7 +52,7 @@ class CoreDataManager {
                 if let username = session.username, let token = session.token {
                     Session.username = session.username!
                     Session.sessionToken = session.token!
-                    Session.expiryTime = session.expiry!
+                    Session.expiryTime = session.expiry ?? Date()
                 } else {
                     print("No Session data!")
                 }

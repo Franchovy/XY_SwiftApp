@@ -48,7 +48,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         profile?.load(completion: {})
     }
     
-    
     override func viewDidLoad() {
         
         profileImage.layer.borderWidth = 1
@@ -173,23 +172,29 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     @IBAction func friendsButton(_ sender: UIButton) {
     }
     @IBAction func settingsButton(_ sender: UIButton) {
-        // LOG OUT
-        // Send logout to backend -> on response:
-            // Call coredata erase session
-        
-        CoreDataManager.removeSession()
-        
-        // Segue to login
-        let vc = Segue.segueTo(Scenes.LoginScreen)
-        // TODO EXIT NAVIGATION BARS
-        let parentController = self.navigationController
-        let parentParentController = parentController!.presentingViewController
+        Auth.logout(completion: { result in
+            switch result {
+            case .success:
+                // Segue to login
+                let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc:UIViewController
+                
+                if #available(iOS 13.0, *) {
+                    vc = storyboard.instantiateViewController(identifier: "LoginViewController")
+                } else {
+                    // Fallback on earlier versions
+                    vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                }
 
-        // Hide Top and Bottom navigation bars!
-        self.hidesBottomBarWhenPushed = true
-        self.navigationController?.navigationBar.isHidden = true
-        // Show next viewcontroller
-        self.show(vc, sender: self)
+                // Hide Top and Bottom navigation bars!
+                self.hidesBottomBarWhenPushed = true
+                self.navigationController?.navigationBar.isHidden = true
+                // Show next viewcontroller
+                self.show(vc, sender: self)
+            case .failure:
+                print("Error logging out from backend!")
+            }
+        })
     }
     
     @IBAction func editCoverImageButton(_ sender: UIButton) {

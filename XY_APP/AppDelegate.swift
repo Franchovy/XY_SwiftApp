@@ -61,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func loadInitialScreenOnAuthCheck() {
         // Set initial view in ios version 12
         if #available(iOS 13.0, *) {
-            
+            // Initial view in iOS 13 is handled by SceneDelegate
         } else {
             let window = UIWindow(frame: UIScreen.main.bounds)
             self.window = window
