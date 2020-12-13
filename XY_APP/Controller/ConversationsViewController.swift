@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class MessagesViewController: UIViewController {
+class ConversationsViewController: UIViewController {
     
     @IBOutlet weak var conversationsTableView: UITableView!
     
@@ -35,7 +35,7 @@ class MessagesViewController: UIViewController {
     
 }
  
-extension MessagesViewController: UITableViewDataSource {
+extension ConversationsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.messages.count
     }
@@ -44,8 +44,14 @@ extension MessagesViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = conversationsTableView.dequeueReusableCell(withIdentifier: K.cellIdentifier, for: indexPath) as! ConversationsCells
         
-        cell.messageInCell.text = self.messages[indexPath.row].username
-        cell.messageInCell.text = self.messages[indexPath.row].message
+        cell.messageConversation.text = self.messages[indexPath.row].username
+        cell.messageConversation.text = self.messages[indexPath.row].message
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOffset = CGSize(width:1, height:1)
+        cell.layer.shadowRadius = 1
+        cell.layer.shadowOpacity = 1.0
+        
+        
         // todo get profile image and set the cell's profile image
         
         return cell

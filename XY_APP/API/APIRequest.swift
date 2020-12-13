@@ -8,8 +8,8 @@
 import Foundation
 
 // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
-//static let url = "https://xy-socialnetwork.com"
-let API_URL = "http://127.0.0.1:5000"
+let API_URL = "https://xy-socialnetwork.com"
+// let API_URL = "http://127.0.0.1:5000"
 
 
 enum APIError:Error {

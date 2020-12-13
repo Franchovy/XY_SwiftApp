@@ -8,16 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		140A034625753BF900E19FDD /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A034525753BF900E19FDD /* PostView.swift */; };
-		140A0349257546BD00E19FDD /* NewsFeedTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */; };
 		140A034C257549B900E19FDD /* MomentsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A034B257549B900E19FDD /* MomentsCollectionView.swift */; };
-		141FF441258270C70030FF67 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141FF440258270C70030FF67 /* MessagesViewController.swift */; };
+		141FF441258270C70030FF67 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141FF440258270C70030FF67 /* ConversationsViewController.swift */; };
 		141FF4452582754A0030FF67 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141FF4442582754A0030FF67 /* Constants.swift */; };
 		1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456020F25724DEE0093FDA7 /* InterestsViewController.swift */; };
 		14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */; };
 		1462BB0E257E47C30096FD23 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB0D257E47C30096FD23 /* FriendsViewController.swift */; };
 		1462BB14257E4DC00096FD23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB13257E4DC00096FD23 /* Message.swift */; };
 		149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */; };
-		14BDE34A2579488800B7E269 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDE3492579488800B7E269 /* ProfileViewController.swift */; };
 		14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */; };
 		14CDAE91257ECC7B0037A99F /* ConversationsCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */; };
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
@@ -52,16 +50,14 @@
 /* Begin PBXFileReference section */
 		1402ACDE257909F0007C518E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		140A034525753BF900E19FDD /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
-		140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedTestViewController.swift; sourceTree = "<group>"; };
 		140A034B257549B900E19FDD /* MomentsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsCollectionView.swift; sourceTree = "<group>"; };
-		141FF440258270C70030FF67 /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
+		141FF440258270C70030FF67 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
 		141FF4442582754A0030FF67 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
 		14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedProfileViewController.swift; sourceTree = "<group>"; };
 		1462BB0D257E47C30096FD23 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		1462BB13257E4DC00096FD23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeProfileViewController.swift; sourceTree = "<group>"; };
-		14BDE3492579488800B7E269 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCells.swift; sourceTree = "<group>"; };
 		14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsCells.xib; sourceTree = "<group>"; };
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
@@ -126,12 +122,10 @@
 				B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */,
 				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
 				149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */,
-				140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */,
-				14BDE3492579488800B7E269 /* ProfileViewController.swift */,
 				B926B9E9257D87AF00BCA049 /* PostViewCell.swift */,
 				B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */,
 				1462BB0D257E47C30096FD23 /* FriendsViewController.swift */,
-				141FF440258270C70030FF67 /* MessagesViewController.swift */,
+				141FF440258270C70030FF67 /* ConversationsViewController.swift */,
 				14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */,
 			);
 			path = Controller;
@@ -314,10 +308,9 @@
 				1462BB14257E4DC00096FD23 /* Message.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				140A034625753BF900E19FDD /* PostView.swift in Sources */,
-				140A0349257546BD00E19FDD /* NewsFeedTestViewController.swift in Sources */,
 				B9580EB42575171600D81DA7 /* XP.swift in Sources */,
 				B94FA399257112C700A44085 /* Profile.swift in Sources */,
-				141FF441258270C70030FF67 /* MessagesViewController.swift in Sources */,
+				141FF441258270C70030FF67 /* ConversationsViewController.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */,
 				B9599A3F257134E80057B7D9 /* Login.swift in Sources */,
@@ -329,7 +322,6 @@
 				B95B63ED25794BEC0004E293 /* ImageManager.swift in Sources */,
 				B95B63F025795A640004E293 /* HttpUtility.swift in Sources */,
 				B9E3729D257C3CC5008E4403 /* ProfileImage.swift in Sources */,
-				14BDE34A2579488800B7E269 /* ProfileViewController.swift in Sources */,
 				B97AB5AB25859219006D2EE4 /* Segue.swift in Sources */,
 				140A034C257549B900E19FDD /* MomentsCollectionView.swift in Sources */,
 			);

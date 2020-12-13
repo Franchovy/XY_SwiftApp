@@ -30,7 +30,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     
     required init(coder:NSCoder) {
         imagePicker = UIImagePickerController()
-
+        
         super.init(coder: coder)!
         
         imagePicker.delegate = self
@@ -173,23 +173,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     @IBAction func friendsButton(_ sender: UIButton) {
     }
     @IBAction func settingsButton(_ sender: UIButton) {
-        // LOG OUT
-        // Send logout to backend -> on response:
-            // Call coredata erase session
-        
-        CoreDataManager.removeSession()
-        
-        // Segue to login
-        let vc = Segue.segueTo(Scenes.LoginScreen)
-        // TODO EXIT NAVIGATION BARS
-        let parentController = self.navigationController
-        let parentParentController = parentController!.presentingViewController
-
-        // Hide Top and Bottom navigation bars!
-        self.hidesBottomBarWhenPushed = true
-        self.navigationController?.navigationBar.isHidden = true
-        // Show next viewcontroller
-        self.show(vc, sender: self)
     }
     
     @IBAction func editCoverImageButton(_ sender: UIButton) {
@@ -222,15 +205,21 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     }
     
     @IBAction func logoutButton(_ sender: UIBarButtonItem) {
-            do {
-                try Auth.auth().signOut()
-                navigationController?.popToRootViewController(animated: true)
-            } catch let signOutError as NSError {
-                print ("Error signing out: %@", signOutError)
-            }
-            
-        }
+        CoreDataManager.removeSession()
+        
+        // Segue to login
+        let vc = Segue.segueTo(Scenes.LoginScreen)
+        // TODO EXIT NAVIGATION BARS
+        let parentController = self.navigationController
+        let parentParentController = parentController!.presentingViewController
+        
+        // Hide Top and Bottom navigation bars!
+        self.hidesBottomBarWhenPushed = true
+        self.navigationController?.navigationBar.isHidden = true
+        // Show next viewcontroller
+        self.show(vc, sender: self)
     }
+}
 
 
 
