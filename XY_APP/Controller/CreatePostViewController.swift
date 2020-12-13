@@ -18,7 +18,7 @@ class CreatePostViewController : UIViewController {
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         if let text = self.writePostTextField.text {
-            let newPost = PostModel(username: "user", content: text)
+            let newPost = PostModel(username: "user", content: text, imageRefs: ["J2NTP9Er4Ad3kRsms7XRoD"])
             newPost.submitPost(completion: {result in
                 switch result {
                 case .success:

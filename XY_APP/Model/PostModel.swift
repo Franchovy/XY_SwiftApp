@@ -13,10 +13,12 @@ struct PostModel {
     var username:String
     var content:String
     var images:[UIImage]?
+    var imageRefs:[String]?
     
-    init(username:String, content:String) {
+    init(username:String, content:String, imageRefs: [String]?) {
         self.username = username
         self.content = content
+        self.imageRefs = imageRefs
     }
     
     // Get XP gained from the post since last time this was used.
@@ -40,7 +42,6 @@ struct PostModel {
                     completion(.failure(error))
                 }
             }
-            
         })
     }
     
@@ -62,7 +63,7 @@ struct PostModel {
                     for post in posts {
                         print("New post:")
                         print(post)
-                        let postModel = PostModel(username: post.username, content: post.content)
+                        let postModel = PostModel(username: post.username, content: post.content, imageRefs: ["J2NTP9Er4Ad3kRsms7XRoD"])
                         postmodels.append(postModel)
                     }
                 }

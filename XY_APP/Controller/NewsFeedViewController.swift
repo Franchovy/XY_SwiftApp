@@ -62,7 +62,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
                 self.tableView.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
-                self.posts.append(PostModel(username: "XY_AI", content: "There was a problem getting posts from the backend!"))
+                self.posts.append(PostModel(username: "XY_AI", content: "There was a problem getting posts from the backend!", imageRefs: ["J2NTP9Er4Ad3kRsms7XRoD"]))
                 self.tableView.reloadData()
             }
         })
@@ -98,15 +98,5 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear
         return headerView
-    }
-}
-
-class ButtonCell: UITableViewCell {
-    @IBOutlet weak var createPostButton: UIButton!
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
     }
 }
