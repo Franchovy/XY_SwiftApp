@@ -66,6 +66,8 @@ class PostViewCell: UITableViewCell {
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 1, left: 1, bottom: 1, right: 1))
         contentView.backgroundColor = #colorLiteral(red: 0.05398157984, green: 0.05899176747, blue: 0.06317862123, alpha: 1)
         
+        
+        
         // set the text from the data model
         contentLabel.numberOfLines = 0
         contentLabel.textColor = UIColor.white

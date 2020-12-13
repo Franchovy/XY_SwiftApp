@@ -100,4 +100,5 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         headerView.backgroundColor = UIColor.clear
         return headerView
     }
+    
 }

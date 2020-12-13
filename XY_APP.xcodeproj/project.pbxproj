@@ -46,6 +46,7 @@
 		B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */; };
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
 		B9E3729D257C3CC5008E4403 /* ProfileImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E3729C257C3CC5008E4403 /* ProfileImage.swift */; };
+		B9F654522586838C00FB7CB8 /* PostViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F654512586838C00FB7CB8 /* PostViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,7 +65,6 @@
 		14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCells.swift; sourceTree = "<group>"; };
 		14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsCells.xib; sourceTree = "<group>"; };
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
-		B926B9E9257D87AF00BCA049 /* PostViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewCell.swift; sourceTree = "<group>"; };
 		B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		B94917C72584D75800930C2F /* Persistentdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistentdata.swift; sourceTree = "<group>"; };
 		B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -93,6 +93,7 @@
 		B9B92DE425644A41005D9B86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		B9E3729C257C3CC5008E4403 /* ProfileImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImage.swift; sourceTree = "<group>"; };
+		B9F654512586838C00FB7CB8 /* PostViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +126,6 @@
 				B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */,
 				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
 				149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */,
-				B926B9E9257D87AF00BCA049 /* PostViewCell.swift */,
 				B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */,
 				1462BB0D257E47C30096FD23 /* FriendsViewController.swift */,
 				141FF440258270C70030FF67 /* ConversationsViewController.swift */,
@@ -157,6 +157,7 @@
 				B9A6F7B325866924008DF9EF /* PostViewCell.xib */,
 				140826B725867EC400DC055D /* PostCells.swift */,
 				140826B825867EC400DC055D /* PostCells.xib */,
+				B9F654512586838C00FB7CB8 /* PostViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -301,6 +302,7 @@
 				B9AB79DE2585FFA400BD2C93 /* Session.swift in Sources */,
 				B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */,
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
+				B9F654522586838C00FB7CB8 /* PostViewCell.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* FriendsViewController.swift in Sources */,
 				14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */,
 				141FF4452582754A0030FF67 /* Constants.swift in Sources */,
