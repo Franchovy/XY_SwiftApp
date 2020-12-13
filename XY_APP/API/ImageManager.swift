@@ -38,7 +38,7 @@ struct ImageManager
         let data = image.pngData()
         let imageUploadRequest = ImageRequest(attachment: data!.base64EncodedString(), fileName: "file")
 
-        httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: Session.url + "/upload_image")!, request: imageUploadRequest, resultType: ImageResponse.self) {
+        httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: API_URL + "/upload_image")!, request: imageUploadRequest, resultType: ImageResponse.self) {
             (response) in
 
             DispatchQueue.main.async {
@@ -80,7 +80,7 @@ struct ImageManager
     func downloadImage(imageID:String, completion: @escaping(_ result: UIImage?) -> Void) {
         let httpUtility = HttpUtility()
         
-        var urlRequest = URLRequest(url: URL(string: Session.url + "/get_image")!)
+        var urlRequest = URLRequest(url: URL(string: API_URL + "/get_image")!)
         urlRequest.addValue(imageID, forHTTPHeaderField: "imageID")
         
         httpUtility.getApiData(requestUrl: urlRequest, resultType: ImageResponse.self, completionHandler: { result in
