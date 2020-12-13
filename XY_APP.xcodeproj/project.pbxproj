@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		140826B925867EC400DC055D /* PostCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140826B725867EC400DC055D /* PostCells.swift */; };
+		140826BA25867EC400DC055D /* PostCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 140826B825867EC400DC055D /* PostCells.xib */; };
 		140A034625753BF900E19FDD /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A034525753BF900E19FDD /* PostView.swift */; };
 		140A034C257549B900E19FDD /* MomentsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140A034B257549B900E19FDD /* MomentsCollectionView.swift */; };
 		141FF441258270C70030FF67 /* ConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 141FF440258270C70030FF67 /* ConversationsViewController.swift */; };
@@ -49,6 +51,8 @@
 
 /* Begin PBXFileReference section */
 		1402ACDE257909F0007C518E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		140826B725867EC400DC055D /* PostCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCells.swift; sourceTree = "<group>"; };
+		140826B825867EC400DC055D /* PostCells.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PostCells.xib; sourceTree = "<group>"; };
 		140A034525753BF900E19FDD /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		140A034B257549B900E19FDD /* MomentsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsCollectionView.swift; sourceTree = "<group>"; };
 		141FF440258270C70030FF67 /* ConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +156,8 @@
 				1462BB13257E4DC00096FD23 /* Message.swift */,
 				14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */,
 				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
+				140826B725867EC400DC055D /* PostCells.swift */,
+				140826B825867EC400DC055D /* PostCells.xib */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -279,6 +285,7 @@
 				14CDAE91257ECC7B0037A99F /* ConversationsCells.xib in Resources */,
 				B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */,
 				B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */,
+				140826BA25867EC400DC055D /* PostCells.xib in Resources */,
 				B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */,
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
 			);
@@ -306,6 +313,7 @@
 				B9599A4225713A820057B7D9 /* Signup.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				1462BB14257E4DC00096FD23 /* Message.swift in Sources */,
+				140826B925867EC400DC055D /* PostCells.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				140A034625753BF900E19FDD /* PostView.swift in Sources */,
 				B9580EB42575171600D81DA7 /* XP.swift in Sources */,
