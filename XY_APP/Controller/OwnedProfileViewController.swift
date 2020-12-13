@@ -173,6 +173,23 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     @IBAction func friendsButton(_ sender: UIButton) {
     }
     @IBAction func settingsButton(_ sender: UIButton) {
+        // LOG OUT
+        // Send logout to backend -> on response:
+            // Call coredata erase session
+        
+        CoreDataManager.removeSession()
+        
+        // Segue to login
+        let vc = Segue.segueTo(Scenes.LoginScreen)
+        // TODO EXIT NAVIGATION BARS
+        let parentController = self.navigationController
+        let parentParentController = parentController!.presentingViewController
+
+        // Hide Top and Bottom navigation bars!
+        self.hidesBottomBarWhenPushed = true
+        self.navigationController?.navigationBar.isHidden = true
+        // Show next viewcontroller
+        self.show(vc, sender: self)
     }
     
     @IBAction func editCoverImageButton(_ sender: UIButton) {

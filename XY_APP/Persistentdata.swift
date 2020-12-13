@@ -70,19 +70,8 @@ class CoreDataManager {
         let mainContext = CoreDataManager.shared.mainContext
         
         // Remove existing sessions
-        do {
-            let sessionsExisting: [PersistentSession]
-            let fetchRequest = PersistentSession.fetchRequest2()
-            sessionsExisting = try mainContext.fetch(fetchRequest)
-            for session in sessionsExisting {
-                print("Deleting session: \(session) ...")
-                mainContext.delete(session)
-            }
-            try mainContext.save()
-            print("Deleted previous sessions.")
-        } catch {
-            print("No previous sessions to remove")
-        }
+        try? deleteSessionsFromContext()
+        
         // Create new session inside main context
         let persistentSession = PersistentSession(context: mainContext)
         let username = Session.username
@@ -94,8 +83,31 @@ class CoreDataManager {
         do
         {
             try mainContext.save()
-            print("Saved new notifications.")
+            print("Saved new session into persistent context.")
         }
         catch { fatalError("Unable to save data.") }
+    }
+    
+    static func removeSession() {
+        try? deleteSessionsFromContext()
+    }
+    
+    fileprivate static func deleteSessionsFromContext() throws {
+        let mainContext = CoreDataManager.shared.mainContext
+        
+        // Remove existing sessions
+        do {
+            let sessionsExisting: [PersistentSession]
+            let fetchRequest = PersistentSession.fetchRequest2()
+            sessionsExisting = try mainContext.fetch(fetchRequest)
+            for session in sessionsExisting {
+                print("Deleting session: \(session) ...")
+                mainContext.delete(session)
+            }
+            try mainContext.save()
+            print("Deleted previous session(s).")
+        } catch {
+            print("No previous session(s) to remove")
+        }
     }
 }

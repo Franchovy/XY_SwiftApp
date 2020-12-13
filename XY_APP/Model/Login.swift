@@ -58,6 +58,9 @@ struct Login {
                 switch result {
                 case .success(let message):
                     if let message = message {
+                        //debug
+                        print(message)
+                        
                         // Save current authentication session
                         Session.username = loginRequestMessage!.username
                         print("Session username: \(Session.username)")
