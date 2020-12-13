@@ -21,7 +21,6 @@
 		14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */; };
 		14CDAE91257ECC7B0037A99F /* ConversationsCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */; };
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
-		B926B9EA257D87AF00BCA049 /* PostViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926B9E9257D87AF00BCA049 /* PostViewCell.swift */; };
 		B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */; };
 		B94917C82584D75800930C2F /* Persistentdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917C72584D75800930C2F /* Persistentdata.swift */; };
 		B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */; };
@@ -153,7 +152,6 @@
 				B94D46F0257253BA00A21355 /* PostModel.swift */,
 				B94D46FC2574280800A21355 /* Post.xcdatamodeld */,
 				1462BB13257E4DC00096FD23 /* Message.swift */,
-				B926B9E9257D87AF00BCA049 /* PostViewCell.swift */,
 				14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */,
 				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
 				B9A6F7B325866924008DF9EF /* PostViewCell.xib */,
@@ -310,7 +308,6 @@
 				149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
-				B926B9EA257D87AF00BCA049 /* PostViewCell.swift in Sources */,
 				B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */,
 				B9599A4225713A820057B7D9 /* Signup.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
