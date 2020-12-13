@@ -128,7 +128,6 @@
 				149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */,
 				140A0348257546BD00E19FDD /* NewsFeedTestViewController.swift */,
 				14BDE3492579488800B7E269 /* ProfileViewController.swift */,
-				B926B9E9257D87AF00BCA049 /* PostViewCell.swift */,
 				B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */,
 				1462BB0D257E47C30096FD23 /* FriendsViewController.swift */,
 				141FF440258270C70030FF67 /* MessagesViewController.swift */,
@@ -156,6 +155,7 @@
 				B94D46FC2574280800A21355 /* Post.xcdatamodeld */,
 				B9580EB32575171600D81DA7 /* XP.swift */,
 				1462BB13257E4DC00096FD23 /* Message.swift */,
+				B926B9E9257D87AF00BCA049 /* PostViewCell.swift */,
 				14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */,
 				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
 			);
