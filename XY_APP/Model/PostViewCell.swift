@@ -13,6 +13,7 @@ class PostViewCell: UITableViewCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var profileImageView: UIImageView!
+    @IBOutlet weak var contentVStack: UIStackView!
     
     var profileImage:ProfileImage?
     var user: Profile?
@@ -26,6 +27,15 @@ class PostViewCell: UITableViewCell {
         // Load UI data
         nameLabel.text = post.username
         contentLabel.text = post.content
+        
+        post.loadPhotos(completion: {images in
+            // Load images if there are any ready
+            if images.count > 0 {
+                for image in images {
+                    self.contentVStack.addSubview(UIImageView(image: image))
+                }
+            }
+        })
     }
     
     func loadProfile(username:String, completion: @escaping(()) -> Void?) {

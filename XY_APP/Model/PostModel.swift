@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-struct PostModel {
+class PostModel {
     var username:String
     var content:String
     var images:[UIImage]?
@@ -19,11 +19,7 @@ struct PostModel {
         self.username = username
         self.content = content
         self.imageRefs = imageRefs
-    }
-    
-    // Get XP gained from the post since last time this was used.
-    func getXP() -> Int {
-        return 0
+        self.images = [UIImage]()
     }
     
     //
@@ -78,6 +74,24 @@ struct PostModel {
                 }
          }
         })
+    }
+    
+    func loadPhotos(completion: @escaping([UIImage]) -> Void) {
+        
+        if let imageRefs = imageRefs, imageRefs.count > 0 {
+            // Load pictures into 'images' from backend using 'imageRefs' array
+            for imgRef in imageRefs {
+                let img = UIImage(named:imgRef)!
+                
+                let resizingFactor = 200 / img.size.height
+                let newImage = UIImage(cgImage: img.cgImage!, scale: img.scale / resizingFactor, orientation: .up)
+                
+                images!.append(newImage) // debug: load ref from xcassets
+            }
+            
+            completion(images!)
+        }
+        
     }
 }
 
