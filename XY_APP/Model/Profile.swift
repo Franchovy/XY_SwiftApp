@@ -135,8 +135,8 @@ class Profile {
         }
     
         // Upload the photo - save photo ID
-        let imageManager = ImageManager()
-        imageManager.uploadImage(image: imagePicked, completionHandler: { result in
+        
+        ImageManager.uploadImage(image: imagePicked, completionHandler: { result in
             print("Uploaded profile image with response: ", result.message)
             
             let imageId = result.id

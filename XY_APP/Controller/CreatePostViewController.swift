@@ -18,19 +18,14 @@ class CreatePostViewController : UIViewController {
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         if let text = self.writePostTextField.text {
-            let newPost = PostModel(username: "user", content: text, imageRefs: ["J2NTP9Er4Ad3kRsms7XRoD"])
-            newPost.submitPost(completion: {result in
+            let newPost = PostModel(username: "user", content: text, imageRefs: [])
+            newPost.submitPost(images: [UIImage(named: "J2NTP9Er4Ad3kRsms7XRoD")!], completion: {result in
                 switch result {
                 case .success:
                     // Segue to News feed and refresh
                     // Segue to login
                     let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let vc:NewsFeedViewController
-                    
-                    
-                    // Fallback on earlier versions
-                    vc = storyboard.instantiateViewController(withIdentifier: "NewsFeedViewController") as! NewsFeedViewController
-                    
+                    let vc = storyboard.instantiateViewController(withIdentifier: "NewsFeedViewController") as! NewsFeedViewController
                     
                     // Show next viewcontroller
                     self.show(vc, sender: self)

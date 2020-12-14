@@ -28,9 +28,7 @@ class ProfileImage {
     
     // Loads the image from the backend.
     func load(_ completion: @escaping(UIImage) -> Void) {
-        let imageManager = ImageManager()
-        // get image test
-        imageManager.downloadImage(imageID: imageId, completion: {resultImage in
+        ImageManager.downloadImage(imageID: imageId, completion: {resultImage in
             if let resultImage = resultImage {
                 self.image = resultImage
                 completion(resultImage)

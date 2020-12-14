@@ -31,7 +31,7 @@ struct ImageResponse : Decodable
 
 struct ImageManager
 {
-    func uploadImage(image: UIImage, completionHandler: @escaping(_ result: ImageResponse) -> Void)
+    static func uploadImage(image: UIImage, completionHandler: @escaping(_ result: ImageResponse) -> Void)
     {
         let httpUtility = HttpUtility()
         
@@ -47,7 +47,7 @@ struct ImageManager
         }
     }
     
-    func downloadImage(imageID:String, completion: @escaping(_ result: UIImage?) -> Void) {
+    static func downloadImage(imageID:String, completion: @escaping(_ result: UIImage?) -> Void) {
         let httpUtility = HttpUtility()
         
         var urlRequest = URLRequest(url: URL(string: API_URL + "/get_image")!)

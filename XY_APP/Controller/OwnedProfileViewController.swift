@@ -81,16 +81,16 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
             switch result {
             case .success(let profile):
                 if let imageId = profile.profilePhotoId {
-                    let imageManager = ImageManager()
-                    imageManager.downloadImage(imageID: imageId, completion: { image in
+                    
+                    ImageManager.downloadImage(imageID: imageId, completion: { image in
                         if let image = image {
                             self.profileImage.image = image
                         }
                     })
                 }
                 if let imageId = profile.coverPhotoId {
-                    let imageManager = ImageManager()
-                    imageManager.downloadImage(imageID: imageId, completion: { image in
+                    
+                    ImageManager.downloadImage(imageID: imageId, completion: { image in
                         if let image = image {
                             self.coverPicture.image = image
                         }
@@ -144,8 +144,8 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         // Set new profile image
         let newProfileImage = UIImage(named:"profile")!
         // Upload the photo - save photo ID
-        let imageManager = ImageManager()
-        imageManager.uploadImage(image: newProfileImage, completionHandler: { result in
+        
+        ImageManager.uploadImage(image: newProfileImage, completionHandler: { result in
             print("Uploaded profile image with response: ", result.message)
             let imageId = result.id
             // Set profile to use this photo ID
