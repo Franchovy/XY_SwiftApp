@@ -11,7 +11,9 @@ struct K {
 
     static let conversationCellIdentifier = "ConversationCell"
     static let conversationCellNibName = "ConversationsCells"
-    static let postCellIdentifier = "postViewCell"
-    static let postCellNibName = "PostViewCell"
+    static let postCellIdentifier = "postCell"
+    static let postCellNibName = "PostCell"
+    static let imagePostCellIdentifier = "imagePostCell"
+    static let imagePostCellNibName = "ImagePostCell"
 }
 

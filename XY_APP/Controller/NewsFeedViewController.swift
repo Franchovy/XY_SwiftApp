@@ -40,7 +40,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
         // This view controller itself will provide the delegate methods and row data for the table view.
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: K.postCellNibName, bundle: nil), forCellReuseIdentifier: K.postCellIdentifier)
+        tableView.register(UINib(nibName: K.imagePostCellNibName, bundle: nil), forCellReuseIdentifier: K.imagePostCellIdentifier)
         
         // Along with auto layout, these are the keys for enabling variable cell height
         tableView.estimatedRowHeight = 44.0
@@ -63,7 +63,7 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
                 self.tableView.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
-                self.posts.append(PostModel(username: "XY_AI", content: "There was a problem getting posts from the backend!", imageRefs: ["J2NTP9Er4Ad3kRsms7XRoD"]))
+                self.posts.append(PostModel(username: "XY_AI", content: "There was a problem getting posts from the backend!", imageRefs: []))
                 self.tableView.reloadData()
             }
         })
@@ -76,9 +76,9 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
     
     // create a cell for each table view row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        // create a new cell if needed or reuse an old one
-        let cell:PostViewCell = self.tableView.dequeueReusableCell(withIdentifier: K.postCellIdentifier) as! PostViewCell
+        // Cell object to load
+        let cell:ImagePostCell
+        cell = self.tableView.dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
         
         cell.loadFromPost(post: self.posts[indexPath.row])
         
