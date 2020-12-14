@@ -9,7 +9,7 @@ import Foundation
 
 // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
 //let API_URL = "https://xy-socialnetwork.com"
-let API_URL = "http://192.168.1.3:5000"
+let API_URL = "http://172.20.10.4:5000"
 
 
 enum APIError:Error {
@@ -74,7 +74,7 @@ class APIRequest {
                     completion(.success(messageData))
                 } catch {
                     // Error decoding the message
-                    print("Error decoding the response.")
+                    print("Error decoding the following response: \(httpResponse)")
                     print(error)
                     completion(.failure(.decodingProblem))
                 }

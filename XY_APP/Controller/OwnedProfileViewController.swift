@@ -222,6 +222,9 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                 self.show(vc, sender: self)
             case .failure:
                 print("Error logging out from backend!")
+                
+                // Force local logout.
+                Auth.forceLogout()
             }
         })
     }

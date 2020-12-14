@@ -22,13 +22,22 @@ class CreatePostViewController : UIViewController {
             newPost.submitPost(completion: {result in
                 switch result {
                 case .success:
-                    // Refresh posts feed
-                    print("Created post: ", text)
+                    // Segue to News feed and refresh
+                    // Segue to login
+                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                    let vc:NewsFeedViewController
+                    
+                    
+                    // Fallback on earlier versions
+                    vc = storyboard.instantiateViewController(withIdentifier: "NewsFeedViewController") as! NewsFeedViewController
+                    
+                    
+                    // Show next viewcontroller
+                    self.show(vc, sender: self)
                 case .failure:
                     print("Error submitting post")
                 }
             })
         }
     }
-    
 }

@@ -1142,7 +1142,7 @@
                         <barButtonItem key="leftBarButtonItem" title="Item" id="Fw1-a2-dAl">
                             <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="logoutButton:" destination="21o-Ao-ibZ" id="KTk-qd-Ixp"/>
+                                <action selector="logoutButton:" destination="21o-Ao-ibZ" id="Gf5-Wi-KcS"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="camera" id="hs8-Nk-1Uy">

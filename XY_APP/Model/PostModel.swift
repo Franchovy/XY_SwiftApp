@@ -22,11 +22,17 @@ class PostModel {
         self.images = [UIImage]()
     }
     
+    struct CreatePostResponseMessage : Codable {
+        let message: String?
+        let id: String?
+        let status: Int?
+    }
+    
     //
-    func submitPost(completion: @escaping(Result<ResponseMessage, APIError>) -> Void) {
+    func submitPost(completion: @escaping(Result<CreatePostResponseMessage, APIError>) -> Void) {
         let submitPostRequest = APIRequest(endpoint: "create_post", httpMethod: "POST")
         let message = CreatePostMessage(content: self.content)
-        let response = ResponseMessage()
+        let response = CreatePostResponseMessage(message: nil, id: nil, status: nil)
         submitPostRequest.save(message: message, response: response, completion: { result in
             switch result {
             case .success(let message):

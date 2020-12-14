@@ -9,30 +9,28 @@ import Foundation
 import UIKit
 
 class ConversationsViewController: UIViewController {
-    
+
     @IBOutlet weak var conversationsTableView: UITableView!
-    
+
     let messages = [
-        Conversation(username: "Maxime", message: "Yo Simone! Wake up!!"),
-        Conversation(username: "Luca", message: "Where did you put my drugs")
+        Conversation(username: "Maxime", message: "Oh shit man, the deadline is coming soon"),
+        Conversation(username: "Elon", message: "Yo, I'm bringing weed too."),
+        Conversation(username: "Luca", message: "How is it possible to have a threesome?")
     ]
-   
+
     override func viewDidLoad() {
-       
         super.viewDidLoad()
-        
+
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
         
         conversationsTableView.layer.cornerRadius = 15.0
-        
-        conversationsTableView.dataSource = self
 
+        conversationsTableView.dataSource = self
         conversationsTableView.register(UINib(nibName: K.conversationCellNibName, bundle: nil), forCellReuseIdentifier: K.conversationCellIdentifier)
     }
-    
 }
  
 extension ConversationsViewController: UITableViewDataSource {

@@ -16,11 +16,6 @@ class Auth {
     struct LogoutResponseMessage : Codable {
         var status: Int?
         var message: String?
-        
-        init(status: Int?, message: String?) {
-            self.status = status
-            self.message = message
-        }
     }
     
     static func logout(completion: @escaping(Result<LogoutResponseMessage, Error>) -> Void) {
@@ -33,7 +28,7 @@ class Auth {
             switch result {
             case .success(let message):
                 // Remove local store
-                CoreDataManager.removeSession()
+                CoreDataManager.removeSession() 
                 // Call completion
                 DispatchQueue.main.async {
                     completion(.success(message))
@@ -43,5 +38,9 @@ class Auth {
                 completion(.failure(error))
             }
         })
+    }
+    
+    static func forceLogout() {
+        CoreDataManager.removeSession() 
     }
 }
