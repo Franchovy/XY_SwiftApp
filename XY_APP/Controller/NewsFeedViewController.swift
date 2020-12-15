@@ -22,6 +22,8 @@ class NewsFeedViewController: UIViewController {
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
+        tableView.parentViewController = self
+        
         // Get posts from backend
         getPosts()
                         

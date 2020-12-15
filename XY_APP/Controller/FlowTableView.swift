@@ -11,6 +11,7 @@ import UIKit
 class FlowTableView : UITableView, UITableViewDelegate {
     
     var postLoader = PostLoader()
+    var parentViewController: UIViewController?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -67,6 +68,15 @@ extension FlowTableView : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // method to run when table view cell is tapped
+        let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
+        let profileViewer = ProfileViewer()
+        
+        if let parentViewController = parentViewController {
+            profileViewer.parentViewController = parentViewController
+            profileViewer.segueToProfile(username: (cell.profile?.username)!)
+        } else {
+            fatalError("parentViewController needs to be set for navigating to profile!")
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate  {
     
     var imagePicker: UIImagePickerController
     
@@ -40,6 +40,8 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         // View own profile.
         setProfile(username: Session.username)
     }
+    
+    
     
     func setProfile(username:String) {
         self.profile = Profile()
@@ -115,6 +117,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
+        
         
     }
     
