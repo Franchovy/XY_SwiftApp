@@ -87,7 +87,7 @@ class ImagePostCell: UITableViewCell {
         // Set username and get profile info
         user.username = username
         self.profile = user
-        user.load(completion: { completion(()) })
+        user.loadFrom(username: username, completion: { completion(()) })
     }
     
     func loadPicture() {

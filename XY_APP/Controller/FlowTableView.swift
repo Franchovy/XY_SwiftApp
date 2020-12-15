@@ -40,7 +40,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
                 self.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
-                self.postLoader.posts.append(PostModel(id: "0", username: "XY_AI", content: "There was a problem getting posts from the backend!", imageRefs: []))
+                self.postLoader.posts.append(PostModel(id: "0", username: "XY_AI", timestampUTC: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
                 self.reloadData()
             }
         })

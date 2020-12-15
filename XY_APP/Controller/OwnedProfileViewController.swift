@@ -45,9 +45,8 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     
     func setProfile(username:String) {
         self.profile = Profile()
-        profile?.username = username
         
-        profile?.load(completion: {})
+        profile?.loadFrom(username: username, completion: {})
     }
     
     override func viewDidLoad() {

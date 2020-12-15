@@ -33,6 +33,9 @@ class PostLoader {
     }
     
     func load(cell: ImagePostCell, indexRow: Int) {
+        // if cell.profile is not loaded
+        //   load profile
+        
         // if content is already loaded
         //   load content to cell
         // else
@@ -43,7 +46,7 @@ class PostLoader {
         postCellData[cell.postId!] = PostCellContentData(profile: cell.profile!, timestamp: Date(), content: ["This is a test post"], images: [UIImage(named:"charlizePost")!])
     }
     
-    func loadFromId(indentifier: String) {
+    func loadFromId(id: String) {
         
         //cell.loadFromData(profile: profile, timestamp: timestamp, content: content, images: images)
     }

@@ -12,13 +12,15 @@ import UIKit
 class PostModel {
     var id:String
     var username:String
+    var utctimestamp: Date
     var content:String
     var images:[UIImage]?
     var imageRefs:[String]?
     
-    required init(id:String, username:String, content:String, imageRefs:[String]?) {
+    required init(id:String, username:String, timestampUTC: Date, content:String, imageRefs:[String]?) {
         self.id = id
         self.username = username
+        self.utctimestamp = timestampUTC
         self.content = content
         self.imageRefs = imageRefs
     }
@@ -99,6 +101,7 @@ class PostModel {
     struct PostData: Codable {
         var id: String
         var username: String
+        var timestamp: String
         var content: String
         var images: String?
     }
@@ -124,7 +127,10 @@ class PostModel {
                             imageRefs = [images]
                         }
                         
-                        let postModel = PostModel(id: post.id, username: post.username, content: post.content, imageRefs: imageRefs)
+                        let dateString:String = String(post.timestamp.dropFirst().dropLast())
+                        print("Timestamp is: \(dateString)")
+                        
+                        let postModel = PostModel(id: post.id, username: post.username, timestampUTC: dateFormatFromString(dateString)!, content: post.content, imageRefs: imageRefs)
                         postmodels.append(postModel)
                     }
                 }
@@ -139,6 +145,16 @@ class PostModel {
                 }
          }
         })
+    }
+    
+    static func dateFormatFromString(_ dateString: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
+        dateFormatter.timeZone = TimeZone.current
+         
+        let date = dateFormatter.date(from: dateString)
+        return date
     }
     
     func loadPhotos(completion: @escaping([UIImage]) -> Void) {

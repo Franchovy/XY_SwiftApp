@@ -76,8 +76,9 @@ class Profile {
         var location: String?
     }
     
-    func load(completion: @escaping(()) -> Void) {
-        Profile.getProfile(username: username!, completion: {result in
+    // Get profile details for this user
+    func loadFrom(username: String, completion: @escaping(()) -> Void) {
+        Profile.getProfile(username: username, completion: {result in
             switch result {
             case .success(let profile):
                 self.profilePhotoId = profile.profilePhotoId
@@ -85,6 +86,7 @@ class Profile {
                 self.aboutMe = profile.aboutMe
                 self.fullName = profile.fullName
                 self.location = profile.location
+                self.username = username
                 completion(())
             case .failure(let error):
                 print("Error getting profile")
