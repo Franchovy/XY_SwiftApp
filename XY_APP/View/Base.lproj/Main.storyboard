@@ -1405,10 +1405,10 @@
             </objects>
             <point key="canvasLocation" x="-764" y="1346"/>
         </scene>
-        <!--OwnedProfileViewController-->
+        <!--OtherProfileViewController-->
         <scene sceneID="H7k-Ag-rn0">
             <objects>
-                <viewController storyboardIdentifier="OwnedProfileViewController" title="OwnedProfileViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6A6-8X-Hi2" customClass="OwnedProfileViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="OtherProfileViewController" title="OtherProfileViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="6A6-8X-Hi2" customClass="OtherProfileViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BNo-Cg-6qm">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

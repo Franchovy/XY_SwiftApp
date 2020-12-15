@@ -12,7 +12,7 @@ class ProfileViewer {
     
     func segueToProfile(username:String) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let profileVC = storyboard.instantiateViewController(withIdentifier: "OwnedProfileViewController") as! OwnedProfileViewController
+        let profileVC = storyboard.instantiateViewController(withIdentifier: "OtherProfileViewController") as! OtherProfileViewController
         
         profileVC.setProfile(username: username)
         

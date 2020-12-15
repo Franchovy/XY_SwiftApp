@@ -49,6 +49,7 @@
 		B9F00B692587B31B00EB87CB /* PictureLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B682587B31B00EB87CB /* PictureLoader.swift */; };
 		B9F00B712588B26600EB87CB /* PostLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B702588B26600EB87CB /* PostLoader.swift */; };
 		B9F00B7D2588F67700EB87CB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B7C2588F67700EB87CB /* ProfileView.swift */; };
+		B9F00B8025893FE400EB87CB /* OtherProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B7F25893FE400EB87CB /* OtherProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +98,7 @@
 		B9F00B682587B31B00EB87CB /* PictureLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PictureLoader.swift; sourceTree = "<group>"; };
 		B9F00B702588B26600EB87CB /* PostLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostLoader.swift; sourceTree = "<group>"; };
 		B9F00B7C2588F67700EB87CB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		B9F00B7F25893FE400EB87CB /* OtherProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 				1462BB0D257E47C30096FD23 /* FriendsViewController.swift */,
 				141FF440258270C70030FF67 /* ConversationsViewController.swift */,
 				14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */,
+				B9F00B7F25893FE400EB87CB /* OtherProfileViewController.swift */,
 				B9F00B7C2588F67700EB87CB /* ProfileView.swift */,
 			);
 			path = Controller;
@@ -329,6 +332,7 @@
 				B94917C82584D75800930C2F /* Persistentdata.swift in Sources */,
 				B9599A47257154EB0057B7D9 /* NewsFeedViewController.swift in Sources */,
 				B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */,
+				B9F00B8025893FE400EB87CB /* OtherProfileViewController.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 				B9F00B7D2588F67700EB87CB /* ProfileView.swift in Sources */,
 				14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */,
