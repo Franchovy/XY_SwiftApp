@@ -12,15 +12,15 @@ import UIKit
 class PostModel {
     var id:String
     var username:String
-    var utctimestamp: Date
+    var timestamp: Date
     var content:String
     var images:[UIImage]?
     var imageRefs:[String]?
     
-    required init(id:String, username:String, timestampUTC: Date, content:String, imageRefs:[String]?) {
+    required init(id:String, username:String, timestamp: Date, content:String, imageRefs:[String]?) {
         self.id = id
         self.username = username
-        self.utctimestamp = timestampUTC
+        self.timestamp = timestamp
         self.content = content
         self.imageRefs = imageRefs
     }
@@ -130,7 +130,7 @@ class PostModel {
                         let dateString:String = String(post.timestamp.dropFirst().dropLast())
                         print("Timestamp is: \(dateString)")
                         
-                        let postModel = PostModel(id: post.id, username: post.username, timestampUTC: dateFormatFromString(dateString)!, content: post.content, imageRefs: imageRefs)
+                        let postModel = PostModel(id: post.id, username: post.username, timestamp: dateFormatFromString(dateString)!, content: post.content, imageRefs: imageRefs)
                         postmodels.append(postModel)
                     }
                 }
@@ -151,10 +151,14 @@ class PostModel {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS"
-        dateFormatter.timeZone = TimeZone.current
-         
-        let date = dateFormatter.date(from: dateString)
-        return date
+        dateFormatter.timeZone = TimeZone(identifier: "UTC")
+        // Create date in original UTC
+        var date = dateFormatter.date(from: dateString)
+        print("Original UTC timestamp: \(date)")
+        // Convert to local timezone
+        date?.addTimeInterval(TimeInterval(TimeZone.current.secondsFromGMT()))
+        print("Updated Timezone timestamp: \(date)")
+        return date!
     }
     
     func loadPhotos(completion: @escaping([UIImage]) -> Void) {

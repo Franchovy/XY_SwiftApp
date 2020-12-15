@@ -71,6 +71,8 @@ class ImagePostCell: UITableViewCell {
         // Load UI data
         nameLabel.text = post.username
         contentLabel.text = post.content
+        timestampLabel.text = getTimestampDisplay(date: post.timestamp)
+        
         // Load images
         post.loadPhotos(completion: {images in
             // Load images if there are any ready
@@ -79,6 +81,10 @@ class ImagePostCell: UITableViewCell {
                 self.contentImageView.image = images.first
             }
         })
+    }
+    
+    func getTimestampDisplay(date: Date) -> String {
+        return date.description
     }
     
     func loadProfile(username:String, completion: @escaping(()) -> Void?) {
