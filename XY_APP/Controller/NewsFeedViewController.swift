@@ -8,19 +8,10 @@
 import UIKit
 
 
-class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    
-    
-    // Data model: These strings will be the data for the table view cells
-    var posts: [PostModel] = []
-    
-    // cell reuse id (cells that scroll out of view can be reused)
-    let cellReuseIdentifier = "cell"
-    let cellSpacingHeight: CGFloat = 5
+class NewsFeedViewController: UIViewController {
     
     // don't forget to hook this up from the storyboard
-    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var tableView: FlowTableView!
     @IBOutlet weak var submitButton: UIButton!
     @IBOutlet weak var createPostTextField: UITextField!
 
@@ -36,69 +27,12 @@ class NewsFeedViewController: UIViewController, UITableViewDelegate, UITableView
                         
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
-
-        // This view controller itself will provide the delegate methods and row data for the table view.
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: K.imagePostCellNibName, bundle: nil), forCellReuseIdentifier: K.imagePostCellIdentifier)
-        
-        // Along with auto layout, these are the keys for enabling variable cell height
-        tableView.estimatedRowHeight = 44.0
-        tableView.rowHeight = UITableView.automaticDimension
     }
 
-    
     func getPosts() {
-        // Clear current posts in feed
-        posts.removeAll()
-        tableView.reloadData()
-        
-        // Get posts from backend
-        PostModel.getAllPosts(completion: { result in
-            switch result {
-            case .success(let newposts):
-                if let newposts = newposts {
-                    self.posts.append(contentsOf: newposts)
-                }
-                self.tableView.reloadData()
-            case .failure(let error):
-                print("Failed to get posts! \(error)")
-                self.posts.append(PostModel(username: "XY_AI", content: "There was a problem getting posts from the backend!", imageRefs: []))
-                self.tableView.reloadData()
-            }
-        })
-    }
-    
-    // number of rows in table view
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.posts.count
-    }
-    
-    // create a cell for each table view row
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // Cell object to load
-        let cell:ImagePostCell
-        cell = self.tableView.dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
-        
-        cell.loadFromPost(post: self.posts[indexPath.row])
-        
-        return cell
-    }
-    
-    // method to run when table view cell is tapped
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    }
-    
-    // Set the spacing between sections
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return cellSpacingHeight
-    }
-    
-    // Make the background color show through
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
-        return headerView
+        // load posts from backend
+        // load posts to flowtableview
+        tableView.getPosts()
     }
     
 }
