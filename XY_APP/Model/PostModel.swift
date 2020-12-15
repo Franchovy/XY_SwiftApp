@@ -10,16 +10,17 @@ import UIKit
 
 
 class PostModel {
+    var id:String
     var username:String
     var content:String
     var images:[UIImage]?
     var imageRefs:[String]?
     
-    init(username:String, content:String, imageRefs: [String]?) {
+    required init(id:String, username:String, content:String, imageRefs:[String]?) {
+        self.id = id
         self.username = username
         self.content = content
         self.imageRefs = imageRefs
-        self.images = [UIImage]()
     }
     
     struct CreatePostMessage: Codable {
@@ -96,13 +97,10 @@ class PostModel {
     }
     
     struct PostData: Codable {
+        var id: String
         var username: String
         var content: String
         var images: String?
-        
-        enum CodingKeys: String, CodingKey {
-           case username, content, images
-        }
     }
     
     // Function to fetch from API to get all recent posts.
@@ -126,7 +124,7 @@ class PostModel {
                             imageRefs = [images]
                         }
                         
-                        let postModel = PostModel(username: post.username, content: post.content, imageRefs: imageRefs)
+                        let postModel = PostModel(id: post.id, username: post.username, content: post.content, imageRefs: imageRefs)
                         postmodels.append(postModel)
                     }
                 }
@@ -152,7 +150,7 @@ class PostModel {
                     if let img = image {
                         let resizingFactor = 200 / img.size.height
                         let newImage = UIImage(cgImage: img.cgImage!, scale: img.scale / resizingFactor, orientation: .up)
-                        
+                        if self.images == nil {self.images = [UIImage]()}
                         self.images!.append(newImage)
                     }
                     // Run completion handler once images are downloaded

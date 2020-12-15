@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="52460419-009a-4960-9f77-13ffdfae8f33" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/XY_APP/Controller/FlowTableView.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/XY_APP/Utilities/PictureLoader.swift" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/XY_APP/Utilities/PostLoader.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP.xcodeproj/xcshareddata/xcschemes/XY_APP.xcscheme" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP/API/APIRequest.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/API/APIRequest.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP/Controller/CreatePostViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/CreatePostViewController.swift" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/XY_APP/Controller/NewsFeedViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/NewsFeedViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP/Model/ImagePostCell.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Model/ImagePostCell.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP/Model/PostModel.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Model/PostModel.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP/View/Base.lproj/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/View/Base.lproj/Main.storyboard" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,5 +85,8 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
