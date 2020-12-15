@@ -74,10 +74,10 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         buttonConsole.layer.shadowRadius = 1
         buttonConsole.layer.shadowOpacity = 1.0
         
-        let username = Session.username
+        let username = profile?.username
         
         // Load profile image
-        Profile.getProfile(username: username, completion: {result in
+        Profile.getProfile(username: username ?? Session.username, completion: {result in
             switch result {
             case .success(let profile):
                 if let imageId = profile.profilePhotoId {
@@ -123,9 +123,17 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         print("Does this print?")
         if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Set profile image in app
-            self.profile?.imagePickerHandler(newImage, completion: {result in
+            self.profile?.imagePickerHandler(newImage, completion: { result in
                 switch result {
                 case .success():
+                    switch self.profile?.imageToEdit {
+                    case self.profile?.coverPhotoId:
+                        self.coverPicture.image = newImage
+                    case self.profile?.profilePhotoId:
+                        self.profileImage.image = newImage
+                    default:
+                        fatalError("Error, no picture being edited. Fix this")
+                    }
                     self.imagePicker.dismiss(animated: true, completion: nil)
                 case .failure(let error):
                     print("Error getting profile: ", error)

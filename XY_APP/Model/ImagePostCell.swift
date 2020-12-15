@@ -10,6 +10,13 @@ import UIKit
 
 class ImagePostCell: UITableViewCell {
     
+    @IBOutlet weak var nameLabelLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var postCardView: UIView!
+    @IBOutlet weak var cameraIcon: UIImageView!
+    @IBOutlet weak var profileImageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var profileImageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var profileImageLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var profileImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentImageViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -36,14 +43,29 @@ class ImagePostCell: UITableViewCell {
         postId = post.id
         
         // Refresh image
-        //self.contentImageView.image = nil
-        
         if let images = post.imageRefs, images.count > 0 {
+            // Set post sizing and constraints for image post
             self.contentImageView.frame.size.height = 359
             self.contentImageViewHeightConstraint.constant = 359
+            profileImageView.layer.cornerRadius = 5
+            profileImageWidthConstraint.constant = 40
+            profileImageHeightConstraint.constant = 40
+            profileImageLeftConstraint.constant = 19
+            profileImageTopConstraint.constant = 19
+            nameLabelLeftConstraint.constant = 6
+            cameraIcon.isHidden = false
+            
         } else {
+            // Set post sizing and constraints for text only post
             contentImageView.frame.size.height = 0
             contentImageViewHeightConstraint.constant = 0
+            profileImageView.layer.cornerRadius = 5
+            profileImageWidthConstraint.constant = 25
+            profileImageHeightConstraint.constant = 25
+            profileImageLeftConstraint.constant = 10
+            profileImageTopConstraint.constant = 10
+            nameLabelLeftConstraint.constant = 29
+            cameraIcon.isHidden = true
         }
         
         // Load UI data
@@ -85,7 +107,7 @@ class ImagePostCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
         
-        
+        postCardView.layer.cornerRadius = 15
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
