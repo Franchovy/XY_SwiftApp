@@ -129,9 +129,9 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                 switch result {
                 case .success():
                     switch self.profile?.imageToEdit {
-                    case self.profile?.coverPhotoId:
+                    case "coverPicture":
                         self.coverPicture.image = newImage
-                    case self.profile?.profilePhotoId:
+                    case "profilePicture":
                         self.profileImage.image = newImage
                     default:
                         fatalError("Error, no picture being edited. Fix this")
