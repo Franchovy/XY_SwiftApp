@@ -27,11 +27,11 @@ class FlowTableView : UITableView, UITableViewDelegate {
     func getPosts() {
         // Clear current posts in feed
         //CellLoader.posts.removeAll()
-        postLoader.refreshIds()
+        
         reloadData()
         
         // Get posts from backend
-        PostModel.getAllPosts(completion: { result in
+        Post.getAllPosts(completion: { result in
             switch result {
             case .success(let newposts):
                 if let newposts = newposts {
@@ -40,7 +40,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
                 self.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
-                self.postLoader.posts.append(PostModel(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
+                self.postLoader.posts.append(Post(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
                 self.reloadData()
             }
         })
@@ -60,9 +60,8 @@ extension FlowTableView : UITableViewDataSource {
         cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
         
         // Load cell from async loader using indexpath for id.
-        postLoader.load(cell: cell, indexRow: indexPath.row)
+        postLoader.loadDataIntoCell(cell: cell, indexRow: indexPath.row)
 
-        
         return cell
     }
     
@@ -73,7 +72,7 @@ extension FlowTableView : UITableViewDataSource {
         
         if let parentViewController = parentViewController {
             profileViewer.parentViewController = parentViewController
-            profileViewer.segueToProfile(username: (cell.profile?.username)!)
+            profileViewer.segueToProfile(username: (cell.profile?.profileData?.username)!)
         } else {
             fatalError("parentViewController needs to be set for navigating to profile!")
         }

@@ -18,8 +18,8 @@ class CreatePostViewController : UIViewController {
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         if let text = self.writePostTextField.text {
-            let newPost = PostModel(id: "", username: "user", timestamp: Date(), content: text, imageRefs: [])
-            newPost.submitPost(images: nil, completion: {result in
+            let newPost = Post(id: "", username: "user", timestamp: Date(), content: text, imageRefs: [])
+            newPost.submitPost(images: [UIImage(named:"charlizePost")!], completion: {result in
                 switch result {
                 case .success:
                     // Segue to News feed and refresh
