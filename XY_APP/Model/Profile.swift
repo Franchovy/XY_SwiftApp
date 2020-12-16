@@ -143,7 +143,7 @@ class Profile {
             case .success(let responseMessage):
                 if (responseMessage.profilePhotoId != nil) {
                     closure(.success(
-                        ProfileData(username: username, coverPhotoId: responseMessage.profilePhotoId, profilePhotoId: responseMessage.coverPhotoId, aboutMe: responseMessage.aboutMe, fullName: responseMessage.fullName, location: responseMessage.location)
+                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, aboutMe: responseMessage.aboutMe, fullName: responseMessage.fullName, location: responseMessage.location)
                     ))
                 }
             case .failure(let error):

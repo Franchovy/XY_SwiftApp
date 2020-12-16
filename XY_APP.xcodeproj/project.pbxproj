@@ -117,6 +117,10 @@
 		14175C792570F5D600C88051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */,
+				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
+				140826B725867EC400DC055D /* ImagePostCell.swift */,
+				140826B825867EC400DC055D /* ImagePostCell.xib */,
 				B9F00B642587B0FD00EB87CB /* FlowTableView.swift */,
 				B9B92DD925644A3F005D9B86 /* Main.storyboard */,
 				B926B9DE257D6ADA00BCA049 /* Profile.storyboard */,
@@ -160,10 +164,6 @@
 				B9599A4125713A820057B7D9 /* Signup.swift */,
 				B94D46F0257253BA00A21355 /* PostModel.swift */,
 				1462BB13257E4DC00096FD23 /* Message.swift */,
-				14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */,
-				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
-				140826B725867EC400DC055D /* ImagePostCell.swift */,
-				140826B825867EC400DC055D /* ImagePostCell.xib */,
 			);
 			path = Model;
 			sourceTree = "<group>";

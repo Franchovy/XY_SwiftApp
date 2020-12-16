@@ -40,6 +40,7 @@ class ImageCache {
                 case .success(let response):
                     // Insert fetched image into dictionary
                     self.cellImageDictionary[id] = response.image
+                    closure(.success(response.image))
                 case .failure(let error):
                     closure(.failure(error))
                 }
