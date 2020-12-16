@@ -8,11 +8,13 @@
 import UIKit
 
 
-class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class CustomizeProfileViewController: UIViewController{
+    @IBOutlet weak var progileImageView: UIView!
+    @IBOutlet weak var detailsContainerView: UIView!
+    @IBOutlet weak var captionContainerView: UIView!
     
     let imagePicker = UIImagePickerController()
     
-    @IBOutlet weak var containerOne: UIView!
     
     override func viewDidLoad() {
         
@@ -20,40 +22,10 @@ class CustomizeProfileViewController: UIViewController,UIImagePickerControllerDe
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
-        
-        containerOne.layer.cornerRadius = 15.0
-        containerOne.layer.shadowColor = UIColor.black.cgColor
-        containerOne.layer.shadowOffset = CGSize(width:1, height:1)
-        containerOne.layer.shadowRadius = 2
-        containerOne.layer.shadowOpacity = 1.0
-        
-        imagePicker.delegate = self
+        progileImageView.layer.cornerRadius = 15.0
+        detailsContainerView.layer.cornerRadius = 15.0
+        captionContainerView.layer.cornerRadius = 15.0
 
     }
-    
-    @IBAction func editProfileButton(_ sender: UIButton) {
-        // Choose or take a photo
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
-            action in
-            picker.sourceType = .camera
-            self.present(picker, animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
-            action in
-            picker.sourceType = .photoLibrary
-            self.present(picker, animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-        
-        
-        //Camera should only be used not in the simulator
-        present(imagePicker, animated: true, completion: nil)
-
-    }
-    
-    
+ 
 }
