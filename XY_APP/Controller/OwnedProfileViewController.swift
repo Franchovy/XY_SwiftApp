@@ -44,9 +44,21 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     
     
     func setProfile(username:String) {
-        self.profile = Profile()
+        // Fallback if username is not right
+        if username != Session.username {
+            fatalError("Request to get someone else's profile using OwnedProfileViewController!")
+        }
         
-        profile?.loadFrom(username: username, completion: {})
+        self.profile = Profile()
+        profile?.getProfile(username: username, closure: { result in
+            switch result {
+            case .success(let profileData):
+                break
+            case .failure(let error):
+                print("Error loading profile: \(error)")
+            }
+            
+        })
     }
     
     override func viewDidLoad() {
@@ -75,74 +87,98 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         buttonConsole.layer.shadowRadius = 1
         buttonConsole.layer.shadowOpacity = 1.0
         
-        let username = profile?.username
+        if profile == nil {
+            fatalError("Profile was not loaded! Please use loadProfile(username) before loading the ViewController")
+        }
+        
+        let username = profile?.profileData?.username
         
         // Load profile image
-        Profile.getProfile(username: username ?? Session.username, completion: {result in
+        profile?.getProfile(username: username ?? Session.username, closure: {result in
             switch result {
-            case .success(let profile):
-                if let imageId = profile.profilePhotoId {
-                    
-                    ImageManager.downloadImage(imageID: imageId, completion: { image in
-                        if let image = image {
-                            self.profileImage.image = image
-                        }
-                    })
-                }
-                if let imageId = profile.coverPhotoId {
-                    
-                    ImageManager.downloadImage(imageID: imageId, completion: { image in
-                        if let image = image {
-                            self.coverPicture.image = image
-                        }
-                    })
-                }
-                //
+            case .success(let profileData):
+                //Load data into profileView
+                
+                // get image -> closure { switch : set profileimage or coverimage }
                 self.xynameLabel.text = username
-                if let location = profile.location {
+                
+                if let location = profileData.location {
                     self.locationLabel.text = location
                 }
-                if let aboutMe = profile.aboutMe {
+                if let aboutMe = profileData.aboutMe {
                     self.captionLabel.text = aboutMe
                 }
             case .failure(let error):
-                print("Error getting profile photo!")
+                print("Error getting profile photo: \(error)")
             }
         })
-        
         
         super.viewDidLoad()
         
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
-        
-        
     }
     
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        print("Does this print?")
         if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Set profile image in app
-            self.profile?.imagePickerHandler(newImage, completion: { result in
+            imagePickerHandler(imageToSave: newImage, closure: { result in
                 switch result {
-                case .success():
-                    switch self.profile?.imageToEdit {
-                    case "coverPicture":
-                        self.coverPicture.image = newImage
-                    case "profilePicture":
-                        self.profileImage.image = newImage
-                    default:
-                        fatalError("Error, no picture being edited. Fix this")
+                case .success(let imageId):
+                    switch self.profile?.imagePickedType {
+                    case .profilePicture:
+                        DispatchQueue.main.async {
+                            self.profileImage.image = newImage
+                        }
+                    case .coverPicture:
+                        DispatchQueue.main.async {
+                            self.coverPicture.image = newImage
+                        }
+                    case .mood:
+                        fatalError("Hey, that feature isn't out yet!!")
+                    case .post:
+                        fatalError("Hey, that feature isn't out yet!!")
+                    case .none:
+                        fatalError("You need to set imagePickedType before calling the imagePickerHandler.")
                     }
                     self.imagePicker.dismiss(animated: true, completion: nil)
                 case .failure(let error):
-                    print("Error getting profile: ", error)
                     self.imagePicker.dismiss(animated: true, completion: nil)
                 }
             })
         }
+    }
+    
+    enum ImagePickerError:Error {
+        case imageCacheProblem
+        case editProfileProblem
+        case connectionProblem
+    }
+    
+    func imagePickerHandler (imageToSave:UIImage, closure: @escaping(Result<String, ImagePickerError>) -> Void) {
+        // Upload the photo - save photo ID
+        
+        ImageCache.insertAndUpload(image: imageToSave, closure: { result in
+            switch result {
+            case .success(let imageId):
+                // Send edit profile request
+                let profilePictureId: String? = self.profile?.imagePickedType == .profilePicture ? imageId : nil
+                let coverPictureId: String? = self.profile?.imagePickedType == .coverPicture ? imageId : nil
+                let editProfileRequest = Profile.EditProfileData(profilePhotoId: profilePictureId, coverPhotoId: coverPictureId)
+                
+                self.profile?.editProfile(data: editProfileRequest, closure: {})
+                
+                closure(.success(imageId))
+            case .failure(let error):
+                if error == .connectionProblem {
+                    closure(.failure(.connectionProblem))
+                } else if error == .otherProblem {
+                    closure(.failure(.imageCacheProblem))
+                }
+            }
+        })
     }
     
     @IBAction func cameraNavigationBar(_ sender: UIBarButtonItem) {
@@ -150,29 +186,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         present(imagePicker, animated: true, completion: nil)
     }
     
-    func setProfileImageImagePickerCompletion() {
-        // Set new profile image
-        let newProfileImage = UIImage(named:"profile")!
-        // Upload the photo - save photo ID
-        
-        ImageManager.uploadImage(image: newProfileImage, completionHandler: { result in
-            print("Uploaded profile image with response: ", result.message)
-            let imageId = result.id
-            // Set profile to use this photo ID
-            let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: imageId, coverPhotoId: nil, fullName: nil, location: nil, aboutMe: nil)
-            Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
-                switch result {
-                case .success(let message):
-                    print("Successfully edited profile: ", message)
-                    self.imagePicker.dismiss(animated: true, completion: nil)
-                case .failure(let error):
-                    print("Error editing profile: ", error)
-                    self.imagePicker.dismiss(animated: true, completion: nil)
-                }
-            })
-        })
-        
-    }
+
     @IBAction func postButton(_ sender: UIButton) {
     }
     
@@ -188,9 +202,9 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         print("EditProfileImagePressed")
         switch sender {
         case editProfilePictureButton:
-            profile?.setImageToEdit("profilePicture")
+            profile?.imagePickedType = .profilePicture
         case editCoverImageButton:
-            profile?.setImageToEdit("coverPicture")
+            profile?.imagePickedType = .coverPicture
         default:
             break
         }

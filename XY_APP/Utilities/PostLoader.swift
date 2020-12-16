@@ -13,26 +13,22 @@ import UIKit
 
 class PostLoader {
     // Contains the posts in order of indexpath
-    var posts: [PostModel] = []
+    var posts: [Post] = []
 
     // id - PostCell data dictionary
-    var postCellData = [String: PostCellContentData]()
+    var postCellData = [String: PostCellData]()
     
-    struct PostData {
-        let id: String
-        let username: String
-        let content: [String]?
-        let imageRefs: [String]?
-    }
     
-    struct PostCellContentData {
+    // MARK - DATA MODELS
+    
+    struct PostCellData {
         let profile: Profile
         let timestamp: Date
         let content: [String]?
         let images:[UIImage]?
     }
     
-    func load(cell: ImagePostCell, indexRow: Int) {
+    func loadDataIntoCell(cell: ImagePostCell, indexRow: Int) {
         // if cell.profile is not loaded
         //   load profile
         
@@ -43,15 +39,6 @@ class PostLoader {
         
         cell.loadFromPost(post: posts[indexRow])
         
-        postCellData[cell.postId!] = PostCellContentData(profile: cell.profile!, timestamp: Date(), content: ["This is a test post"], images: [UIImage(named:"charlizePost")!])
-    }
-    
-    func loadFromId(id: String) {
-        
-        //cell.loadFromData(profile: profile, timestamp: timestamp, content: content, images: images)
-    }
-    
-    func refreshIds() {
-        // Fetch posts, check if any id needs to be added/loaded (or removed)
+        postCellData[cell.postId!] = PostCellData(profile: cell.profile!, timestamp: Date(), content: ["This is a test post"], images: [UIImage(named:"charlizePost")!])
     }
 }

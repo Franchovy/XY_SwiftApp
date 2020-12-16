@@ -20,13 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="52460419-009a-4960-9f77-13ffdfae8f33" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Controller/OwnedProfileViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/OwnedProfileViewController.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Model/ImagePostCell.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Model/ImagePostCell.swift" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Model/ImagePostCell.xib" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Model/ImagePostCell.xib" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Model/PostCell.swift" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/XY_APP/Model/PostCell.xib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP/Controller/CreatePostViewController.swift" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/Controller/CreatePostViewController.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/XY_APP/View/Base.lproj/Main.storyboard" beforeDir="false" afterPath="$PROJECT_DIR$/XY_APP/View/Base.lproj/Main.storyboard" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,5 +87,23 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state width="1750" height="318" key="GridCell.Tab.0.bottom" timestamp="1608065959836">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="318" key="GridCell.Tab.0.bottom/0.0.1792.1120@0.0.1792.1120" timestamp="1608065959836" />
+    <state width="1750" height="318" key="GridCell.Tab.0.center" timestamp="1608065959835">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="318" key="GridCell.Tab.0.center/0.0.1792.1120@0.0.1792.1120" timestamp="1608065959835" />
+    <state width="1750" height="318" key="GridCell.Tab.0.left" timestamp="1608065959834">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="318" key="GridCell.Tab.0.left/0.0.1792.1120@0.0.1792.1120" timestamp="1608065959834" />
+    <state width="1750" height="318" key="GridCell.Tab.0.right" timestamp="1608065959835">
+      <screen x="0" y="0" width="1792" height="1120" />
+    </state>
+    <state width="1750" height="318" key="GridCell.Tab.0.right/0.0.1792.1120@0.0.1792.1120" timestamp="1608065959835" />
   </component>
 </project>

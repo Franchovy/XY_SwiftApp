@@ -24,20 +24,42 @@ class ImagePostCell: UITableViewCell {
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
+    // MARK: - UNREUSABLE PROPERTIES --- PLEASE CHANGE
+    
     var postId: String?
-    var profileImage:ProfileImage?
+    var profileImage:Profile.ProfileImage?
     var profile: Profile?
     
-    // Load into view from data
-    func loadFromData(profile: Profile, timestamp: Date, content: [String]?, images: [UIImage]?) {
-        
-    }
+    // MARK: - PUBLIC METHODS
     
     // Load into view from post - calls to profile and images from backend
-    func loadFromPost(post: PostModel) {
+    func loadFromPost(post: Post) {
         // Load data for this post
-        loadProfile(username: post.username, completion: {
-            self.loadPicture()
+        loadProfile(username: post.username, closure: { result in
+            switch result {
+            case .success(let profileData):
+                if let profilePhotoId = profileData.profilePhotoId {
+                    // Get profile Image for this user
+                    self.profileImage = Profile.ProfileImage(user: self.profile!, imageId: profilePhotoId)
+                    
+                    ImageCache.getOrFetch(id: profilePhotoId, closure: { result in
+                        switch result {
+                        case .success(let image):
+                            self.profileImage?.image = image
+                            
+                            DispatchQueue.main.async {
+                                self.profileImageView.image = image
+                            }
+                        case .failure(let error):
+                            print("Could not load profile image due to \(error)")
+                        }
+                    })
+                } else {
+                    fatalError("Call loadProfile(username) before calling loadPicture.")
+                }
+            case .failure(let error):
+                print("Error loading profile for post: \(error)")
+            }
         })
         
         postId = post.id
@@ -87,27 +109,17 @@ class ImagePostCell: UITableViewCell {
         return date.description
     }
     
-    func loadProfile(username:String, completion: @escaping(()) -> Void?) {
+    
+    func loadProfile(username:String, closure: @escaping(Result<Profile.ProfileData, Profile.LoadProfileError>) -> Void) {
         // Create a new profile
         let user = Profile()
         // Set username and get profile info
-        user.username = username
+        user.profileData?.username = username
         self.profile = user
-        user.loadFrom(username: username, completion: { completion(()) })
+        
+        user.getProfile(username: username, closure: closure)
     }
     
-    func loadPicture() {
-        if let profilePhotoId = profile?.profilePhotoId {
-            // Get profile Image for this user
-            profileImage = ProfileImage(user: profile!, imageId: profilePhotoId)
-            profileImage?.load({ image in
-                self.profileImage?.image = image
-                self.profileImageView.image = image
-            })
-        } else {
-            fatalError("Call loadProfile(username) before calling loadPicture.")
-        }
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
