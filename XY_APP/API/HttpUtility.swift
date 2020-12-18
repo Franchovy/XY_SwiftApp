@@ -56,9 +56,8 @@ struct HttpUtility
         }.resume()
     }
 
-    // Use the Multipart API to refractor this code, you may use the image api boundary format for your reference and if you are stuck then feel free to contact, I will be happy to help you.
-    
-    func postApiDataWithMultipartForm<T:Decodable>(requestUrl: URL, request: UploadImageRequest, resultType: T.Type, completionHandler:@escaping(_ result: T)-> Void)
+    // TODO - BREAK THIS INTO SMALLER BITS INSIDE API REQUEST, MAKE VALID WITH CUSTOM REQUEST TYPE/ANY ENCODABLE
+    func postApiDataWithMultipartForm<T:Decodable>(requestUrl: URL, request: ImageCache.UploadImageRequest, resultType: T.Type, completionHandler:@escaping(_ result: T)-> Void)
     {
         var urlRequest = URLRequest(url: requestUrl)
         let lineBreak = "\r\n"

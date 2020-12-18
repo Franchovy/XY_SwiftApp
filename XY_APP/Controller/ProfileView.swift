@@ -14,7 +14,7 @@ class ProfileViewer {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: "OtherProfileViewController") as! OtherProfileViewController
         
-        profileVC.setProfile(username: username)
+        profileVC.loadProfileForUser(username: username)
         
         if let parentViewController = parentViewController {
             parentViewController.show(profileVC, sender: parentViewController)

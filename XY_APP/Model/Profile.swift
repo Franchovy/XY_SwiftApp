@@ -8,30 +8,28 @@
 import Foundation
 import UIKit
 
+
+
 class Profile {
-    var username:String?
-    var coverPhotoId:String?
-    var profilePhotoId:String?
-    var coverPhoto:UIImage?
-    var profilePhoto:UIImage?
-    var aboutMe:String?
-    var fullName: String?
-    var location: String?
     
-    var imageToEdit:String?
+    // MARK: - DATA MODELS
     
-    func setImageToEdit(_ imageToEdit:String) {
-        switch imageToEdit {
-        case "profilePicture":
-            self.imageToEdit = "profilePicture"
-        case "coverPicture":
-            self.imageToEdit = "coverPicture"
-        default:
-            fatalError()
-        }
+    struct ProfileImage {
+        var user: Profile
+        var imageId:String
+        var image: UIImage?
     }
     
-    struct EditProfileRequestMessage: Codable {
+    struct ProfileData {
+        var username:String?
+        var coverPhotoId:String?
+        var profilePhotoId:String?
+        var aboutMe:String?
+        var fullName: String?
+        var location: String?
+    }
+    
+    struct EditProfileData {
         var profilePhotoId: String?
         var coverPhotoId: String?
         var fullName: String?
@@ -39,7 +37,63 @@ class Profile {
         var aboutMe: String?
     }
     
-    static func sendEditProfileRequest(requestMessage: EditProfileRequestMessage, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
+    // MARK: - PROPERTIES
+    
+    var profileData:ProfileData?
+    
+    var coverPhoto:UIImage?
+    var profilePhoto:UIImage?
+    
+    var imagePickedType:ImageToPickType = .profilePicture
+
+    // MARK: - ENUMS
+    
+    enum ImageToPickType {
+        case coverPicture
+        case profilePicture
+        case mood
+        case post
+    }
+    
+    enum LoadProfileError: Error {
+        case connectionProblem
+        case otherProblem
+    }
+    
+    // MARK: - PUBLIC METHODS
+    
+    // Get profile details for this user
+    func getProfile(username: String, closure: @escaping(Result<ProfileData, LoadProfileError>) -> Void) {
+        Profile.getProfile(username: username, closure: closure)
+    }
+    
+    func editProfile(data:EditProfileData, closure: @escaping() -> Void) {
+        let request = EditProfileRequestMessage(profilePhotoId: data.profilePhotoId, coverPhotoId: data.coverPhotoId, fullName: data.fullName, location: data.location, aboutMe: data.profilePhotoId)
+        
+        Profile.sendEditProfileRequest(requestMessage: request, completion: { result in
+            // TODO - Anything to do here?
+            closure()
+        })
+    }
+    
+    
+    
+    
+    // MARK: - API
+    
+    
+    fileprivate struct EditProfileRequestMessage: Codable {
+        var profilePhotoId: String?
+        var coverPhotoId: String?
+        var fullName: String?
+        var location: String?
+        var aboutMe: String?
+        // TODO - EXTEND:
+        //NEW PASSWORD
+        //OLD PASSWORD (for server authentication)
+    }
+    
+    fileprivate static func sendEditProfileRequest(requestMessage: EditProfileRequestMessage, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
         // Make API request to backend to edit profile.
         let editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
         let response = ResponseMessage()
@@ -63,11 +117,11 @@ class Profile {
         })
     }
     
-    struct GetProfilePicIdRequestMessage: Codable {
+    fileprivate struct GetProfilePicIdRequestMessage: Codable {
         var username:String
     }
     
-    struct GetProfilePicIdResponseMessage: Codable {
+    fileprivate struct GetProfilePicIdResponseMessage: Codable {
         var message:String?
         var profilePhotoId:String?
         var coverPhotoId: String?
@@ -76,27 +130,8 @@ class Profile {
         var location: String?
     }
     
-    // Get profile details for this user
-    func loadFrom(username: String, completion: @escaping(()) -> Void) {
-        Profile.getProfile(username: username, completion: {result in
-            switch result {
-            case .success(let profile):
-                self.profilePhotoId = profile.profilePhotoId
-                self.coverPhotoId = profile.coverPhotoId
-                self.aboutMe = profile.aboutMe
-                self.fullName = profile.fullName
-                self.location = profile.location
-                self.username = username
-                completion(())
-            case .failure(let error):
-                print("Error getting profile")
-                break
-            }
-        })
-    }
-    
     // Make backend request to get info on <username>'s profile.
-    static func getProfile(username: String, completion: @escaping(Result<Profile, Error>) -> Void) {
+    fileprivate static func getProfile(username: String, closure: @escaping(Result<ProfileData, LoadProfileError>) -> Void) {
         let getProfileRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
         let response = GetProfilePicIdResponseMessage()
         
@@ -107,67 +142,17 @@ class Profile {
             switch result {
             case .success(let responseMessage):
                 if (responseMessage.profilePhotoId != nil) {
-                    var profile = Profile()
-                    profile.profilePhotoId = responseMessage.profilePhotoId
-                    profile.coverPhotoId = responseMessage.coverPhotoId
-                    profile.aboutMe = responseMessage.aboutMe
-                    profile.fullName = responseMessage.fullName
-                    profile.location = responseMessage.location
-                    DispatchQueue.main.async {
-                        completion(.success(profile))
-                    }
+                    closure(.success(
+                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, aboutMe: responseMessage.aboutMe, fullName: responseMessage.fullName, location: responseMessage.location)
+                    ))
                 }
             case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
+                if error == .responseProblem {
+                    closure(.failure(.connectionProblem))
+                } else {
+                    closure(.failure(.otherProblem))
                 }
             }
-        })
-    }
-    
-    func imagePickerHandler(_ imagePicked: UIImage, completion: @escaping(Result<(),Error>) -> Void) {
-        // Set new profile image
-        switch imageToEdit {
-        case "profilePicture":
-            coverPhoto = imagePicked
-        case "coverPicture":
-            profilePhoto = imagePicked
-        default:
-            break
-        }
-    
-        // Upload the photo - save photo ID
-        
-        ImageManager.uploadImage(image: imagePicked, completionHandler: { result in
-            print("Uploaded profile image with response: ", result.message)
-            
-            let imageId = result.id
-            let profilePicture:String?
-            let coverPicture:String?
-            
-            switch self.imageToEdit {
-            case "profilePicture":
-                coverPicture = nil
-                profilePicture = imageId
-            case "coverPicture":
-                coverPicture = imageId
-                profilePicture = nil
-            default:
-                coverPicture = nil
-                profilePicture = nil
-            }
-            
-            // Set profile to use this photo ID
-            let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: profilePicture, coverPhotoId: coverPicture)
-            Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
-                switch result {
-                case .success(_):
-                    completion(.success(()))
-
-                case .failure(let error):
-                    completion(.failure(error))
-                }
-            })
         })
     }
 }

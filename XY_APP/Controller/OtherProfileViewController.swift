@@ -38,44 +38,36 @@ class OtherProfileViewController :  UIViewController, UIImagePickerControllerDel
         
     }
     
-    
-    
-    func setProfile(username:String) {
+    func loadProfileForUser(username:String) {
         self.profile = Profile()
         
-        profile?.loadFrom(username: username, completion: {
-            // Load profile image
-            Profile.getProfile(username: username ?? Session.username, completion: {result in
-                switch result {
-                case .success(let profile):
-                    if let imageId = profile.profilePhotoId {
-                        
-                        ImageManager.downloadImage(imageID: imageId, completion: { image in
+        profile?.getProfile(username: username, closure: { result in
+            switch result {
+            case .success(let profileData):
+                // Load properties into profile view
+                DispatchQueue.main.async {
+                    self.xynameLabel.text = profileData.username
+                    self.locationLabel.text = profileData.location
+                    self.captionLabel.text = profileData.aboutMe
+                    
+                    if let profileImageId = profileData.profilePhotoId {
+                        ImageCache.createOrQueueImageRequest(id: profileImageId, completion: { image in
                             if let image = image {
                                 self.profileImage.image = image
                             }
                         })
                     }
-                    if let imageId = profile.coverPhotoId {
-                        
-                        ImageManager.downloadImage(imageID: imageId, completion: { image in
+                    if let coverImageId = profileData.coverPhotoId {
+                        ImageCache.createOrQueueImageRequest(id: coverImageId, completion: { image in
                             if let image = image {
                                 self.coverPicture.image = image
                             }
                         })
                     }
-                    //
-                    self.xynameLabel.text = username
-                    if let location = profile.location {
-                        self.locationLabel.text = location
-                    }
-                    if let aboutMe = profile.aboutMe {
-                        self.captionLabel.text = aboutMe
-                    }
-                case .failure(let error):
-                    print("Error getting profile photo!")
                 }
-            })
+            case .failure(let error):
+                print("Error getting profile: \(error)")
+            }
         })
     }
     
@@ -111,33 +103,6 @@ class OtherProfileViewController :  UIViewController, UIImagePickerControllerDel
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
-        
-        
-    }
-    
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        print("Does this print?")
-        if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // Set profile image in app
-            self.profile?.imagePickerHandler(newImage, completion: { result in
-                switch result {
-                case .success():
-                    switch self.profile?.imageToEdit {
-                    case self.profile?.coverPhotoId:
-                        self.coverPicture.image = newImage
-                    case self.profile?.profilePhotoId:
-                        self.profileImage.image = newImage
-                    default:
-                        fatalError("Error, no picture being edited. Fix this")
-                    }
-                    self.imagePicker.dismiss(animated: true, completion: nil)
-                case .failure(let error):
-                    print("Error getting profile: ", error)
-                    self.imagePicker.dismiss(animated: true, completion: nil)
-                }
-            })
-        }
     }
     
     @IBAction func cameraNavigationBar(_ sender: UIBarButtonItem) {
@@ -145,93 +110,16 @@ class OtherProfileViewController :  UIViewController, UIImagePickerControllerDel
         present(imagePicker, animated: true, completion: nil)
     }
     
-    func setProfileImageImagePickerCompletion() {
-        // Set new profile image
-        let newProfileImage = UIImage(named:"profile")!
-        // Upload the photo - save photo ID
-        
-        ImageManager.uploadImage(image: newProfileImage, completionHandler: { result in
-            print("Uploaded profile image with response: ", result.message)
-            let imageId = result.id
-            // Set profile to use this photo ID
-            let editProfileRequest = Profile.EditProfileRequestMessage(profilePhotoId: imageId, coverPhotoId: nil, fullName: nil, location: nil, aboutMe: nil)
-            Profile.sendEditProfileRequest(requestMessage: editProfileRequest, completion: {result in
-                switch result {
-                case .success(let message):
-                    print("Successfully edited profile: ", message)
-                    self.imagePicker.dismiss(animated: true, completion: nil)
-                case .failure(let error):
-                    print("Error editing profile: ", error)
-                    self.imagePicker.dismiss(animated: true, completion: nil)
-                }
-            })
-        })
-        
-    }
     @IBAction func postButton(_ sender: UIButton) {
     }
     
     @IBAction func friendsButton(_ sender: UIButton) {
     }
+    
     @IBAction func settingsButton(_ sender: UIButton) {
     }
     
     @IBAction func editCoverImageButton(_ sender: UIButton) {
-    }
-    
-    @IBAction func editProfilePictureButton(_ sender: UIButton) {
-        print("EditProfileImagePressed")
-        switch sender {
-        case editProfilePictureButton:
-            profile?.setImageToEdit("profilePicture")
-        case editCoverImageButton:
-            profile?.setImageToEdit("coverPicture")
-        default:
-            break
-        }
-        
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
-            action in
-            self.imagePicker.sourceType = .camera
-            self.present(self.imagePicker, animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
-            action in
-            self.imagePicker.sourceType = .photoLibrary
-            self.present(self.imagePicker, animated: true, completion: nil)
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        self.present(alert, animated: true, completion: nil)
-    }
-    
-    @IBAction func logoutButton(_ sender: UIBarButtonItem) {
-        Auth.logout(completion: { result in
-            switch result {
-            case .success:
-                // Segue to login
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc:UIViewController
-                
-                if #available(iOS 13.0, *) {
-                    vc = storyboard.instantiateViewController(identifier: "LoginViewController")
-                } else {
-                    // Fallback on earlier versions
-                    vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                }
-
-                // Hide Top and Bottom navigation bars!
-                self.hidesBottomBarWhenPushed = true
-                self.navigationController?.navigationBar.isHidden = true
-                // Show next viewcontroller
-                self.show(vc, sender: self)
-            case .failure:
-                print("Error logging out from backend!")
-                
-                // Force local logout.
-                Auth.forceLogout()
-            }
-        })
     }
 }
 

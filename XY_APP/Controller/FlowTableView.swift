@@ -10,15 +10,16 @@ import UIKit
 
 class FlowTableView : UITableView, UITableViewDelegate {
     
-    var postLoader = PostLoader()
+    var posts: [Post] = []
     var parentViewController: UIViewController?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        // postLoader -> Async calls to load posts
         delegate = self
         dataSource = self
+
+        // Register celltype PostViewCell
         register(UINib(nibName: K.imagePostCellNibName, bundle: nil), forCellReuseIdentifier: K.imagePostCellIdentifier)
         
         rowHeight = UITableView.automaticDimension
@@ -26,21 +27,19 @@ class FlowTableView : UITableView, UITableViewDelegate {
     
     func getPosts() {
         // Clear current posts in feed
-        //CellLoader.posts.removeAll()
-        postLoader.refreshIds()
         reloadData()
         
         // Get posts from backend
-        PostModel.getAllPosts(completion: { result in
+        Post.getAllPosts(completion: { result in
             switch result {
             case .success(let newposts):
                 if let newposts = newposts {
-                    self.postLoader.posts.append(contentsOf: newposts)
+                    self.posts.append(contentsOf: newposts)
                 }
                 self.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
-                self.postLoader.posts.append(PostModel(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
+                self.posts.append(Post(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
                 self.reloadData()
             }
         })
@@ -50,7 +49,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
 extension FlowTableView : UITableViewDataSource {
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.postLoader.posts.count
+        return self.posts.count
     }
     
     // create a cell for each table view row
@@ -60,20 +59,22 @@ extension FlowTableView : UITableViewDataSource {
         cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
         
         // Load cell from async loader using indexpath for id.
-        postLoader.load(cell: cell, indexRow: indexPath.row)
+        cell.loadFromPost(post: posts[indexPath.row])
 
-        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // method to run when table view cell is tapped
         let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
+        
         let profileViewer = ProfileViewer()
         
         if let parentViewController = parentViewController {
             profileViewer.parentViewController = parentViewController
-            profileViewer.segueToProfile(username: (cell.profile?.username)!)
+            
+            let post = posts[indexPath.row]
+            profileViewer.segueToProfile(username: post.username)
         } else {
             fatalError("parentViewController needs to be set for navigating to profile!")
         }
