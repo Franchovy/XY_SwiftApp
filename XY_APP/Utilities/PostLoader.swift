@@ -29,16 +29,6 @@ class PostLoader {
     }
     
     func loadDataIntoCell(cell: ImagePostCell, indexRow: Int) {
-        // if cell.profile is not loaded
-        //   load profile
-        
-        // if content is already loaded
-        //   load content to cell
-        // else
-        //   load content to cell from backend
-        
         cell.loadFromPost(post: posts[indexRow])
-        
-        postCellData[cell.postId!] = PostCellData(profile: cell.profile!, timestamp: Date(), content: ["This is a test post"], images: [UIImage(named:"charlizePost")!])
     }
 }
