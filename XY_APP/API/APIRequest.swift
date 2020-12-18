@@ -8,8 +8,8 @@
 import Foundation
 
 // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
-let API_URL = "https://xy-socialnetwork.com"
-//let API_URL = "http://127.0.0.1:5000"
+//let API_URL = "https://xy-socialnetwork.com"
+let API_URL = "http://127.0.0.1:5000"
 
 
 enum APIError:Error {
@@ -57,7 +57,7 @@ class APIRequest {
                 urlRequest.httpBody = try JSONEncoder().encode(message)
                 print("Sending request: \(message)") // decode struct
             }
-            urlRequest.addValue(Session.sessionToken, forHTTPHeaderField: "Session")
+            urlRequest.addValue(Session.shared.sessionToken, forHTTPHeaderField: "Session")
             
             // Open the task as urlRequest
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in

@@ -570,7 +570,7 @@
             <objects>
                 <viewController storyboardIdentifier="LoginViewController" title="LoginViewController" modalPresentationStyle="fullScreen" id="53h-pf-nzi" customClass="LoginViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jU4-ZD-PdW" userLabel="Sign in">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="⚠️ Login failed!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EO4-hY-5aW">
@@ -587,6 +587,9 @@
                                 <state key="normal" title="Still with Zucky Zucky? Sign up!">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="lke-KZ-6R1"/>
+                                </connections>
                             </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X2X-si-PzB" customClass="loginGradientView" customModule="XY_APP" customModuleProvider="target">
                                 <rect key="frame" x="45" y="195" width="300" height="250"/>
@@ -654,6 +657,7 @@
                         <viewLayoutGuide key="safeArea" id="NXQ-13-ahB"/>
                         <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
+                    <navigationItem key="navigationItem" id="1Pd-Ij-m91"/>
                     <connections>
                         <outlet property="loginButton" destination="xVq-HJ-VqW" id="PGJ-VX-9nw"/>
                         <outlet property="loginFailLabel" destination="EO4-hY-5aW" id="yrL-jC-vFT"/>
@@ -1671,8 +1675,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="lke-KZ-6R1"/>
         <segue reference="MuI-Xx-Z7I"/>
-        <segue reference="YAG-06-9wi"/>
+        <segue reference="r0x-sS-rGY"/>
         <segue reference="BHa-vB-MRM"/>
     </inferredMetricsTieBreakers>
     <resources>
