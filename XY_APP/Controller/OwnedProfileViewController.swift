@@ -99,15 +99,17 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
             case .success(let profileData):
                 //Load data into profileView
                 
-                // get image -> closure { switch : set profileimage or coverimage }
-                self.xynameLabel.text = username
+                DispatchQueue.main.async {
+                    self.xynameLabel.text = username
+                    
+                    if let location = profileData.location {
+                        self.locationLabel.text = location
+                    }
+                    if let aboutMe = profileData.aboutMe {
+                        self.captionLabel.text = aboutMe
+                    }
+                }
                 
-                if let location = profileData.location {
-                    self.locationLabel.text = location
-                }
-                if let aboutMe = profileData.aboutMe {
-                    self.captionLabel.text = aboutMe
-                }
             case .failure(let error):
                 print("Error getting profile photo: \(error)")
             }

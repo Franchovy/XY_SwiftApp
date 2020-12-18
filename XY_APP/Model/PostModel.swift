@@ -46,32 +46,6 @@ class Post {
     
     func loadPhotos(completion: @escaping([UIImage]) -> Void) {
         
-        if let imageRefs = imageRefs, imageRefs.count > 0 {
-            // Load pictures into 'images' from backend using 'imageRefs' array
-            for imgRef in imageRefs {
-                
-                ImageCache.getOrFetch(id: imgRef) { result in
-                    switch result {
-                    case .success(let image):
-                        
-                        // Image formatting to fit properly
-                        let resizingFactor = 200 / image.size.height
-                        let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale / resizingFactor, orientation: .up)
-                        if self.images == nil {self.images = [UIImage]()}
-                        
-                        // Add image to loaded post images
-                        self.images!.append(newImage)
-                        
-                        // Run completion handler once all images are downloaded
-                        if self.images!.count == imageRefs.count {
-                            completion(self.images!)
-                        }
-                    case .failure(let error):
-                        print("Error loading image: \(error)")
-                    }
-                }
-            }
-        }
     }
     
     func submitPost(images: [UIImage]?, completion: @escaping(Result<PostData, CreatePostError>) -> Void) {

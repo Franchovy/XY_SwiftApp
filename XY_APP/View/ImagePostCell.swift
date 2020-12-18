@@ -42,6 +42,17 @@ class ImagePostCell: UITableViewCell {
                     // Get profile Image for this user
                     self.profileImage = Profile.ProfileImage(user: self.profile!, imageId: profilePhotoId)
                     
+                    
+//                    ImageCache.createOrQueueImageRequest(id: profilePhotoId, completion: { image in
+//                        if let image = image {
+//                            self.profileImage?.image = image
+//
+//                            DispatchQueue.main.async {
+//                                self.profileImageView.image = image
+//                            }
+//                        }
+//                    })
+                    
                     ImageCache.getOrFetch(id: profilePhotoId, closure: { result in
                         switch result {
                         case .success(let image):
@@ -96,13 +107,29 @@ class ImagePostCell: UITableViewCell {
         timestampLabel.text = getTimestampDisplay(date: post.timestamp)
         
         // Load images
-        post.loadPhotos(completion: {images in
-            // Load images if there are any ready
-            if images.count > 0 {
-                // Load a single image
-                self.contentImageView.image = images.first
-            }
-        })
+        
+        
+        if let imgId = post.imageRefs?.first {
+            ImageCache.createOrQueueImageRequest(id: imgId, completion: { image in
+                
+                if let image = image {
+                    // Image formatting to fit properly
+                    let resizingFactor = 200 / image.size.height
+                    let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale / resizingFactor, orientation: .up)
+                    
+                    
+                    if post.images == nil {post.images = [UIImage]()}
+                    
+                    // Add image to loaded post images
+                    post.images!.append(newImage)
+                    
+                    // Run completion handler once all images are downloaded
+                    if post.images!.count == post.imageRefs!.count {
+                        self.contentImageView.image = post.images?.first
+                    }
+                }
+            })
+        }
     }
     
     func getTimestampDisplay(date: Date) -> String {

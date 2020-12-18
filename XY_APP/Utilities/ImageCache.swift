@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 // Async class used by FlowTableView to store, and fetch images using async calls
 class ImageCache {
     
@@ -25,11 +26,85 @@ class ImageCache {
     
     // MARK: - DATA
     
-    fileprivate static var cellImageDictionary = [String: UIImage]()
+    static var cellImageDictionary: [String: UIImage] = [:]
+    
+    public static let publicCache = ImageCache()
+    var placeholderImage = UIImage(named: "maxime profile image")!
+    private let cachedImages = NSCache<NSString, UIImage>()
+    private var loadingResponses = [String: [(UIImage?) -> Swift.Void]]()
     
     // MARK: - PUBLIC METHODS
     
+    public final func image(id: String) -> UIImage? {
+        return cachedImages.object(forKey: NSString(string: id))
+    }
+    
+    // Normal fetch operation, except if a fetch is already happening for this image, the completion will be appended and all will execute on finish.
+    static func createOrQueueImageRequest(id:String, completion: @escaping(UIImage?) -> Void) {
+        
+        // Check for a cached image in cache
+        if let cachedImage = publicCache.image(id: id) {
+            
+            print("Recycling!! Plus 10000 xp for you.")
+            DispatchQueue.main.async {
+                completion(cachedImage)
+            }
+            return
+        }
+        
+        // Check for cached image in dictionary
+        if let cachedImage = publicCache.image(id: id) {
+            print("Recycling!! Plus 10000 xp for you.")
+            
+            DispatchQueue.main.async {
+                completion(cachedImage)
+            }
+            return
+        }
+        
+        // In case there are more than one requestor for the image, we append their completion block.
+        if publicCache.loadingResponses[id] != nil {
+            print("Somebody has already requested this. It's on the way!")
+            publicCache.loadingResponses[id]?.append(completion)
+            return
+        } else {
+            publicCache.loadingResponses[id] = [completion]
+        }
+        
+        // Go fetch the image.
+        downloadImage(imageID: id, completion: { result in
+            switch result {
+            case .success(let (image, id)):
+                
+                guard let blocks = publicCache.loadingResponses[id] else {
+                    DispatchQueue.main.async {
+                        fatalError("Please add error handling for multiple requests here")
+                        completion(nil)
+                    }
+                    return
+                }
+                // Cache the image.
+                //publicCache.cachedImages.setObject(image, forKey: id, cost: responseData.count)
+                print("Returning image for you...")
+                cellImageDictionary[id] = image
+                
+                // Iterate over each requestor for the image and pass it back.
+                for block in blocks {
+                    DispatchQueue.main.async {
+                        print(".. and for you...")
+                        block(image)
+                    }
+                    return
+                }
+            case .failure(let error):
+                print("Error downloading image: \(error)")
+            }
+        })
+    }
+    
+    
     static func getOrFetch(id:String, closure: @escaping(Result<UIImage,ImageCacheError>) -> Void) {
+        
         if cellImageDictionary[id] != nil {
             closure(.success(cellImageDictionary[id]!))
             // TODO - ADD FAILURE CASE FOR FETCHING DATA FROM COREDATA
@@ -78,25 +153,25 @@ class ImageCache {
         let attachment : String
         let fileName : String
     }
-
+    
     fileprivate struct ImageUploadResponse : Decodable
     {
         let message: String
         let id: String
     }
-
+    
     fileprivate struct GetImageRequest : Encodable
     {
         let imageref: String
     }
-
+    
     fileprivate struct GetImageResponse : Decodable
     {
         let imageData: String?
         let message: String
         let id: String
     }
-
+    
     // MARK: - API CALLS
     
     static fileprivate func uploadImage(image: UIImage, closure: @escaping(Result<String, ImageInsertToCacheError>) -> Void)
@@ -105,7 +180,7 @@ class ImageCache {
         
         let data = image.pngData()
         let imageUploadRequest = UploadImageRequest(attachment: data!.base64EncodedString(), fileName: "file")
-
+        
         httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: API_URL + "/upload_image")!, request: imageUploadRequest, resultType: ImageUploadResponse.self) { result in
             if result != nil {
                 if result.id != "" {
@@ -121,7 +196,7 @@ class ImageCache {
             }
         }
     }
-        
+    
     static fileprivate func downloadImage(imageID:String, completion: @escaping(Result<(image:UIImage,id:String),ImageCacheError>) -> Void) {
         let httpUtility = HttpUtility()
         
@@ -148,5 +223,5 @@ class ImageCache {
             }
         })
     }
-
+    
 }

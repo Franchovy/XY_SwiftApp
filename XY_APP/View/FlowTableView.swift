@@ -10,7 +10,7 @@ import UIKit
 
 class FlowTableView : UITableView, UITableViewDelegate {
     
-    var postLoader = PostLoader()
+    var posts: [Post] = []
     var parentViewController: UIViewController?
     
     required init?(coder: NSCoder) {
@@ -26,7 +26,6 @@ class FlowTableView : UITableView, UITableViewDelegate {
     
     func getPosts() {
         // Clear current posts in feed
-        //CellLoader.posts.removeAll()
         
         reloadData()
         
@@ -35,12 +34,12 @@ class FlowTableView : UITableView, UITableViewDelegate {
             switch result {
             case .success(let newposts):
                 if let newposts = newposts {
-                    self.postLoader.posts.append(contentsOf: newposts)
+                    self.posts.append(contentsOf: newposts)
                 }
                 self.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
-                self.postLoader.posts.append(Post(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
+                self.posts.append(Post(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
                 self.reloadData()
             }
         })
@@ -50,7 +49,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
 extension FlowTableView : UITableViewDataSource {
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.postLoader.posts.count
+        return self.posts.count
     }
     
     // create a cell for each table view row
@@ -60,7 +59,7 @@ extension FlowTableView : UITableViewDataSource {
         cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
         
         // Load cell from async loader using indexpath for id.
-        postLoader.loadDataIntoCell(cell: cell, indexRow: indexPath.row)
+        cell.loadFromPost(post: posts[indexPath.row])
 
         return cell
     }
@@ -74,7 +73,7 @@ extension FlowTableView : UITableViewDataSource {
         if let parentViewController = parentViewController {
             profileViewer.parentViewController = parentViewController
             
-            let post = postLoader.posts[indexPath.row]
+            let post = posts[indexPath.row]
             profileViewer.segueToProfile(username: post.username)
         } else {
             fatalError("parentViewController needs to be set for navigating to profile!")

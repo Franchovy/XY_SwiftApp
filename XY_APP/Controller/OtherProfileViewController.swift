@@ -45,30 +45,25 @@ class OtherProfileViewController :  UIViewController, UIImagePickerControllerDel
             switch result {
             case .success(let profileData):
                 // Load properties into profile view
-                self.xynameLabel.text = profileData.username
-                self.locationLabel.text = profileData.location
-                self.captionLabel.text = profileData.aboutMe
-                
-                if let profileImageId = profileData.profilePhotoId {
-                    ImageCache.getOrFetch(id: profileImageId, closure: { result in
-                        switch result {
-                        case .success(let image):
-                            self.profileImage.image = image
-                        case .failure(let error):
-                            print("Failed to get profile picture due to error: \(error)")
-                        }
-                        
-                    })
-                }
-                if let coverImageId = profileData.coverPhotoId {
-                    ImageCache.getOrFetch(id: coverImageId, closure: { result in
-                        switch result {
-                        case .success(let image):
-                            self.coverPicture.image = image
-                        case .failure(let error):
-                            print("Failed to get cover picture due to error: \(error)")
-                        }
-                    })
+                DispatchQueue.main.async {
+                    self.xynameLabel.text = profileData.username
+                    self.locationLabel.text = profileData.location
+                    self.captionLabel.text = profileData.aboutMe
+                    
+                    if let profileImageId = profileData.profilePhotoId {
+                        ImageCache.createOrQueueImageRequest(id: profileImageId, completion: { image in
+                            if let image = image {
+                                self.profileImage.image = image
+                            }
+                        })
+                    }
+                    if let coverImageId = profileData.coverPhotoId {
+                        ImageCache.createOrQueueImageRequest(id: coverImageId, completion: { image in
+                            if let image = image {
+                                self.coverPicture.image = image
+                            }
+                        })
+                    }
                 }
             case .failure(let error):
                 print("Error getting profile: \(error)")
