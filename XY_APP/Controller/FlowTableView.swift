@@ -16,9 +16,10 @@ class FlowTableView : UITableView, UITableViewDelegate {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         
-        // postLoader -> Async calls to load posts
         delegate = self
         dataSource = self
+
+        // Register celltype PostViewCell
         register(UINib(nibName: K.imagePostCellNibName, bundle: nil), forCellReuseIdentifier: K.imagePostCellIdentifier)
         
         rowHeight = UITableView.automaticDimension
@@ -26,7 +27,6 @@ class FlowTableView : UITableView, UITableViewDelegate {
     
     func getPosts() {
         // Clear current posts in feed
-        
         reloadData()
         
         // Get posts from backend

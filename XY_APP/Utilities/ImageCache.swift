@@ -44,8 +44,6 @@ class ImageCache {
         
         // Check for a cached image in cache
         if let cachedImage = cellImageDictionary[id] {
-            
-            print("Recycling!! Plus 10000 xp for you.")
             DispatchQueue.main.async {
                 completion(cachedImage)
             }
@@ -54,8 +52,6 @@ class ImageCache {
         
         // Check for cached image in dictionary
         if let cachedImage = publicCache.image(id: id) {
-            print("Recycling!! Plus 10000 xp for you.")
-            
             DispatchQueue.main.async {
                 completion(cachedImage)
             }
@@ -64,7 +60,6 @@ class ImageCache {
         
         // In case there are more than one requestor for the image, we append their completion block.
         if publicCache.loadingResponses[id] != nil {
-            print("Somebody has already requested this. It's on the way!")
             publicCache.loadingResponses[id]?.append(completion)
             return
         } else {
@@ -84,17 +79,14 @@ class ImageCache {
                     return
                 }
                 // Cache the image.
-                //publicCache.cachedImages.setObject(image, forKey: id, cost: responseData.count)
-                print("Returning image for you...")
+                //publicCache.cachedImages.setObject(image, forKey: id, cost: responseData.count) // TODO: Change cache from dictionary to CachedImages
                 cellImageDictionary[id] = image
                 
                 // Iterate over each requestor for the image and pass it back.
                 for block in blocks {
                     DispatchQueue.main.async {
-                        print(".. and for you...")
                         block(image)
                     }
-                    //return
                 }
             case .failure(let error):
                 print("Error downloading image: \(error)")
