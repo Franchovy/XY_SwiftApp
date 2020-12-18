@@ -68,6 +68,7 @@ extension FlowTableView : UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // method to run when table view cell is tapped
         let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
+        
         let profileViewer = ProfileViewer()
         
         if let parentViewController = parentViewController {

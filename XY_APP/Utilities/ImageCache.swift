@@ -11,7 +11,7 @@ import UIKit
 // Async class used by FlowTableView to store, and fetch images using async calls
 class ImageCache {
     
-    // MARK - ENUMS
+    // MARK: - ENUMS
     
     enum ImageCacheError:Error {
         case noSuchImage
@@ -23,11 +23,11 @@ class ImageCache {
         case otherProblem
     }
     
-    // MARK - DATA
+    // MARK: - DATA
     
     fileprivate static var cellImageDictionary = [String: UIImage]()
     
-    // MARK - PUBLIC METHODS
+    // MARK: - PUBLIC METHODS
     
     static func getOrFetch(id:String, closure: @escaping(Result<UIImage,ImageCacheError>) -> Void) {
         if cellImageDictionary[id] != nil {
@@ -38,6 +38,7 @@ class ImageCache {
             downloadImage(imageID: id, completion: { result in
                 switch result {
                 case .success(let response):
+                    print("Request: \(id)")
                     // Insert fetched image into dictionary
                     self.cellImageDictionary[id] = response.image
                     closure(.success(response.image))
@@ -69,7 +70,7 @@ class ImageCache {
         return cellImageDictionary[id]
     }
     
-    // MARK - API MODELS
+    // MARK: - API MODELS
     
     // make fileprivate once HttpUtility has been updated
     struct UploadImageRequest : Encodable
@@ -96,7 +97,7 @@ class ImageCache {
         let id: String
     }
 
-    // MARK - API CALLS
+    // MARK: - API CALLS
     
     static fileprivate func uploadImage(image: UIImage, closure: @escaping(Result<String, ImageInsertToCacheError>) -> Void)
     {

@@ -21,7 +21,7 @@ struct Session {
     
     static func hasSession() -> Bool {
         if let expiryTime = expiryTime {
-            if Date(timeIntervalSinceNow: 0) < expiryTime {
+            if Date() < expiryTime {
                 // No expiry
                 if sessionToken != "" { return true }
             } else {
