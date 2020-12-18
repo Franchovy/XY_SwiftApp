@@ -43,7 +43,7 @@ class ImageCache {
     static func createOrQueueImageRequest(id:String, completion: @escaping(UIImage?) -> Void) {
         
         // Check for a cached image in cache
-        if let cachedImage = publicCache.image(id: id) {
+        if let cachedImage = cellImageDictionary[id] {
             
             print("Recycling!! Plus 10000 xp for you.")
             DispatchQueue.main.async {
@@ -94,7 +94,7 @@ class ImageCache {
                         print(".. and for you...")
                         block(image)
                     }
-                    return
+                    //return
                 }
             case .failure(let error):
                 print("Error downloading image: \(error)")
@@ -211,9 +211,8 @@ class ImageCache {
                     // Convert back to a string
                     let img = UIImage(data: base64Decoded)!
                     // Completion Handler
-                    DispatchQueue.main.async {
-                        completion(.success((image:img, id:id)))
-                    }
+                    completion(.success((image:img, id:id)))
+
                 }
             } else if let message = result?.message {
                 print("Response Error getting image from backend: \(message)")

@@ -43,28 +43,26 @@ class ImagePostCell: UITableViewCell {
                     self.profileImage = Profile.ProfileImage(user: self.profile!, imageId: profilePhotoId)
                     
                     
-//                    ImageCache.createOrQueueImageRequest(id: profilePhotoId, completion: { image in
-//                        if let image = image {
+                    ImageCache.createOrQueueImageRequest(id: profilePhotoId, completion: { image in
+                        if let image = image {
+                            self.profileImage?.image = image
+
+                            self.profileImageView.image = image
+                        }
+                    })
+                    
+//                    ImageCache.getOrFetch(id: profilePhotoId, closure: { result in
+//                        switch result {
+//                        case .success(let image):
 //                            self.profileImage?.image = image
 //
 //                            DispatchQueue.main.async {
 //                                self.profileImageView.image = image
 //                            }
+//                        case .failure(let error):
+//                            print("Could not load profile image due to \(error)")
 //                        }
 //                    })
-                    
-                    ImageCache.getOrFetch(id: profilePhotoId, closure: { result in
-                        switch result {
-                        case .success(let image):
-                            self.profileImage?.image = image
-                            
-                            DispatchQueue.main.async {
-                                self.profileImageView.image = image
-                            }
-                        case .failure(let error):
-                            print("Could not load profile image due to \(error)")
-                        }
-                    })
                 } else {
                     fatalError("Call loadProfile(username) before calling loadPicture.")
                 }
