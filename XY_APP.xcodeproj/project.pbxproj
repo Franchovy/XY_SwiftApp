@@ -24,6 +24,7 @@
 		14CDAE91257ECC7B0037A99F /* ConversationsCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */; };
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
 		B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */; };
+		B945385C258E18070000BB8A /* XPLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B945385B258E18070000BB8A /* XPLevel.swift */; };
 		B94917C82584D75800930C2F /* Persistentdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917C72584D75800930C2F /* Persistentdata.swift */; };
 		B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */; };
 		B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */; };
@@ -70,6 +71,7 @@
 		14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsCells.xib; sourceTree = "<group>"; };
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
+		B945385B258E18070000BB8A /* XPLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPLevel.swift; sourceTree = "<group>"; };
 		B94917C72584D75800930C2F /* Persistentdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistentdata.swift; sourceTree = "<group>"; };
 		B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 				14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */,
 				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
 				14D39B8B258D763700DA4334 /* Moments */,
+				B945385B258E18070000BB8A /* XPLevel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 				B9F00B7D2588F67700EB87CB /* ProfileView.swift in Sources */,
 				14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */,
 				B9F00B652587B0FD00EB87CB /* FlowTableView.swift in Sources */,
+				B945385C258E18070000BB8A /* XPLevel.swift in Sources */,
 				B95B63F025795A640004E293 /* HttpUtility.swift in Sources */,
 				140A034C257549B900E19FDD /* MomentsCollectionView.swift in Sources */,
 				B9AB79E32586145D00BD2C93 /* Auth.swift in Sources */,
