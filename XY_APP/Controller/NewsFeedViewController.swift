@@ -17,6 +17,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet weak var writePostTextField: UITextField!
     
     var imagePicker = UIImagePickerController()
+    var imageIds: [String]?
     
     var createPostImages: [UIImage]?
     
@@ -49,12 +50,18 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // Set profile image in app
-            if createPostImages != nil {
-                createPostImages?.append(newImage)
-            } else {
-                createPostImages = [newImage]
+            // Upload image
+            ImageCache.insertAndUpload(image: newImage, closure: { result in
+                switch result {
+                case .success(let imageId):
+                    if var imageIds = self.imageIds {
+                        imageIds.append(imageId)
+                    }
+                    
+                case .failure(let error):
+                    print("Error uploading image")
             }
+            })
         }
     }
    
@@ -82,16 +89,16 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         if let text = self.writePostTextField.text {
-            let newPost = Post(id: "", username: "user", timestamp: Date(), content: text, imageRefs: [])
-            newPost.submitPost(images: createPostImages, completion: {result in
+            PostsAPI.shared.submitCreatePostRequest(content: text?, imageIds: imageIds, closure: { result in
                 switch result {
-                case .success:
+                case .success(let postData):
+                    // Create post and put in news feed
+                    
                     // Refresh feed
                     self.getPosts()
                     self.tableView.reloadData()
-                    break
-                case .failure:
-                    print("Error submitting post")
+                case .failure(let error):
+                    print("Error submitting post: \(error)")
                 }
             })
         }

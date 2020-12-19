@@ -40,6 +40,7 @@
 		B96B4549258A5E9D003083DB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B4548258A5E9D003083DB /* API.swift */; };
 		B96B4552258A8524003083DB /* DateStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B4551258A8524003083DB /* DateStringFormatter.swift */; };
 		B99DEE4A258E683F00ADF201 /* FriendshipLevels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DEE49258E683F00ADF201 /* FriendshipLevels.swift */; };
+		B99DEE63258E8CF000ADF201 /* PostsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DEE62258E8CF000ADF201 /* PostsAPI.swift */; };
 		B9AB79DE2585FFA400BD2C93 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AB79DD2585FFA400BD2C93 /* Session.swift */; };
 		B9AB79E32586145D00BD2C93 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AB79E22586145D00BD2C93 /* Auth.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
@@ -90,6 +91,7 @@
 		B96B4548258A5E9D003083DB /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		B96B4551258A8524003083DB /* DateStringFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateStringFormatter.swift; sourceTree = "<group>"; };
 		B99DEE49258E683F00ADF201 /* FriendshipLevels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendshipLevels.swift; sourceTree = "<group>"; };
+		B99DEE62258E8CF000ADF201 /* PostsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAPI.swift; sourceTree = "<group>"; };
 		B9AB79DD2585FFA400BD2C93 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		B9AB79E22586145D00BD2C93 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,6 +188,7 @@
 		B950D6F5256D25370065E756 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				B99DEE61258E8CE000ADF201 /* PostsAndFlows */,
 				B950D6F6256D25460065E756 /* Messages.swift */,
 				B950D6FA256D25B10065E756 /* APIRequest.swift */,
 				B95B63EF25795A640004E293 /* HttpUtility.swift */,
@@ -212,6 +215,14 @@
 				B99DEE49258E683F00ADF201 /* FriendshipLevels.swift */,
 			);
 			path = XPLevels;
+			sourceTree = "<group>";
+		};
+		B99DEE61258E8CE000ADF201 /* PostsAndFlows */ = {
+			isa = PBXGroup;
+			children = (
+				B99DEE62258E8CF000ADF201 /* PostsAPI.swift */,
+			);
+			path = PostsAndFlows;
 			sourceTree = "<group>";
 		};
 		B9B92DC725644A3F005D9B86 = {
@@ -364,6 +375,7 @@
 				B9F00B8025893FE400EB87CB /* OtherProfileViewController.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 				B9F00B7D2588F67700EB87CB /* ProfileView.swift in Sources */,
+				B99DEE63258E8CF000ADF201 /* PostsAPI.swift in Sources */,
 				14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */,
 				B9F00B652587B0FD00EB87CB /* FlowTableView.swift in Sources */,
 				B945385C258E18070000BB8A /* XPLevel.swift in Sources */,
