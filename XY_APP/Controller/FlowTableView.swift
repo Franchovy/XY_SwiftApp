@@ -99,7 +99,7 @@ extension FlowTableView : UITableViewDataSource {
             if let parentViewController = parentViewController {
                 profileViewer.parentViewController = parentViewController
                 
-                let post = posts[indexPath.row]
+                let post = posts[indexPath.row - 1]
                 profileViewer.segueToProfile(username: post.username)
             } else {
                 fatalError("parentViewController needs to be set for navigating to profile!")
