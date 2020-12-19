@@ -38,14 +38,14 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         imagePicker.allowsEditing = true
         
         // View own profile.
-        setProfile(username: Session.username)
+        setProfile(username: Session.shared.username)
     }
     
     
     
     func setProfile(username:String) {
         // Fallback if username is not right
-        if username != Session.username {
+        if username != Session.shared.username {
             fatalError("Request to get someone else's profile using OwnedProfileViewController!")
         }
         
@@ -94,7 +94,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         let username = profile?.profileData?.username
         
         // Load profile image
-        profile?.getProfile(username: username ?? Session.username, closure: {result in
+        profile?.getProfile(username: username ?? Session.shared.username, closure: {result in
             switch result {
             case .success(let profileData):
                 //Load data into profileView
@@ -227,13 +227,16 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     }
     
     @IBAction func logoutButton(_ sender: UIBarButtonItem) {
-        Auth.logout(completion: { result in
-            switch result {
-            case .success:
-                // Segue to login
-                let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc:UIViewController
-                
+        Auth.shared.logout(completion: { error in
+            if error != nil {
+                // Error handling
+                return
+            }
+            // Segue to login
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            DispatchQueue.main.async {
+                var vc:UIViewController
+
                 if #available(iOS 13.0, *) {
                     vc = storyboard.instantiateViewController(identifier: "LoginViewController")
                 } else {
@@ -246,11 +249,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                 self.navigationController?.navigationBar.isHidden = true
                 // Show next viewcontroller
                 self.show(vc, sender: self)
-            case .failure:
-                print("Error logging out from backend!")
-                
-                // Force local logout.
-                Auth.forceLogout()
             }
         })
     }

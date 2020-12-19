@@ -43,22 +43,19 @@ class LoginViewController: UIViewController {
         }
         
         // Checks on login data
-        var login = Login() // Create Login Model
-        login.validateLoginForm(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true)
-        
-        // Send login request
-        login.requestLogin { result in
+        Auth.shared.requestLogin(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true, completion: { result in
             switch result {
             case .success(let message):
                 print("Login Success: ", message)
                 // Segue to home screen
-                self.navigateToNextScreen()
-
+                DispatchQueue.main.async {
+                    self.navigateToNextScreen()
+                }
             case .failure(let error):
                 print("Login failure: ", error)
                 self.loginFailLabel.isHidden = false
             }
-        }
+        })
      }
     
     func navigateToNextScreen() {

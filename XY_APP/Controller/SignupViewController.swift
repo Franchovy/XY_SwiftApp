@@ -62,30 +62,30 @@ class SignupViewController: UIViewController {
         if (passwordText != repeatPasswordText) {
             return
         }
-        var signup = Signup()
-        signup.validateSignupForm(username: usernameText!, password: passwordText!, email: emailPhoneText!, phoneNumber: "")
         
-        // Send signup request
-        signup.requestSignup { result in
+        Auth.shared.register(username: usernameText!, password: passwordText!, email: emailPhoneText!, phoneNumber: "", completion: { result in
             switch result {
             case .success(let message):
                 print("Signup Success: ", message)
                 // Segue to home screen
-                if #available(iOS 13.0, *) {
-                    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                    let secondVC = storyboard.instantiateViewController(identifier: "InterestsPage")
-                    self.show(secondVC, sender: self)
-                } else {
-                   let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                   let vc = storyboard.instantiateViewController(withIdentifier: "storyboard.instantiateViewController") as! InterestsViewController
-                   self.navigationController?.pushViewController(vc, animated: true)
+                DispatchQueue.main.async {
+                    if #available(iOS 13.0, *) {
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let secondVC = storyboard.instantiateViewController(identifier: "InterestsPage")
+                        self.show(secondVC, sender: self)
+                    } else {
+                       let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                       let vc = storyboard.instantiateViewController(withIdentifier: "storyboard.instantiateViewController") as! InterestsViewController
+                       self.navigationController?.pushViewController(vc, animated: true)
+                    }
                 }
-                
             case .failure(let error):
                 print("Signup failure: ", error)
-                self.signupErrorLabel.isHidden = false
+                DispatchQueue.main.async {
+                    self.signupErrorLabel.isHidden = false
+                }
             }
-        }
+        })
     }
 }
 

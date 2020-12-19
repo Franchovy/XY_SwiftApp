@@ -7,19 +7,23 @@
 
 import Foundation
 
-struct Session {
-    // Username to store as the session
-    static var username: String = ""
-    // Session token coming from server
-    static var sessionToken: String = ""
-    // Expiry time automatically logs out
-    static var expiryTime: Date?
+class Session {
     
-    static func setExpiry(expiryTimeInMinutes: Int) {
+    // Authentication Session 
+    static var shared = Session()
+    
+    // Username to store as the session
+    var username: String = ""
+    // Session token coming from server
+    var sessionToken: String = ""
+    // Expiry time automatically logs out
+    var expiryTime: Date?
+    
+    func setExpiry(expiryTimeInMinutes: Int) {
         expiryTime = Date(timeIntervalSinceNow:(Double(expiryTimeInMinutes) * 60.0))
     }
     
-    static func hasSession() -> Bool {
+    func hasSession() -> Bool {
         if let expiryTime = expiryTime {
             if Date() < expiryTime {
                 // No expiry
@@ -28,14 +32,14 @@ struct Session {
                 // Session has expired, log out
                 print("Session expired, logging out.")
                 
-                Session.expire()
+                Session.shared.expire()
                 CoreDataManager.removeSession()
             }
         }
         return false
     }
 
-    static func expire() {
+    func expire() {
         // Erase data
         username = ""
         sessionToken = ""
@@ -56,7 +60,7 @@ struct Session {
         var expires:String?
     }
     
-    static func requestSession(completion: @escaping(Result<GetSessionResponseMessage, Error>) -> Void) {
+    func requestSession(completion: @escaping(Result<GetSessionResponseMessage, Error>) -> Void) {
         let getSessionRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
         let getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
         let getSessionResponseMessage = GetSessionResponseMessage()
@@ -71,7 +75,7 @@ struct Session {
         })
     }
     
-    static func savePersistent() {
+    func savePersistent() {
         
         do {
             print("Saving auth session to coredata persistent storage...")

@@ -50,9 +50,9 @@ class CoreDataManager {
             if let session = extractValues.first {
                 print("Session data: \(session)")
                 if let username = session.username, let token = session.token {
-                    Session.username = session.username!
-                    Session.sessionToken = session.token!
-                    Session.expiryTime = session.expiry ?? Date()
+                    Session.shared.username = session.username!
+                    Session.shared.sessionToken = session.token!
+                    Session.shared.expiryTime = session.expiry ?? Date()
                 } else {
                     print("No Session data!")
                 }
@@ -76,9 +76,9 @@ class CoreDataManager {
         // Create new session inside main context
         let persistentSession = PersistentSession(context: mainContext)
         
-        persistentSession.username = Session.username
-        persistentSession.token = Session.sessionToken
-        persistentSession.expiry = Session.expiryTime
+        persistentSession.username = Session.shared.username
+        persistentSession.token = Session.shared.sessionToken
+        persistentSession.expiry = Session.shared.expiryTime
         
         do
         {

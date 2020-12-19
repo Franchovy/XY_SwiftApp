@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let _ = (scene as? UIWindowScene) else { return }
         
         let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
-        if (Session.hasSession()) {
+        if (Session.shared.hasSession()) {
             let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainViewController")
             window?.rootViewController = viewController
         } else {

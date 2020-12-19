@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Check user session 
         // Check login
-        if Session.hasSession() {
+        if Session.shared.hasSession() {
             print("Session active!")
         } else {
             print("Checking session...")
@@ -29,15 +29,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             } else {
                 // No session detected locally.
                 // Check backend for session
-                Session.requestSession(completion: { result in
+                Session.shared.requestSession(completion: { result in
                     switch result {
                     case .success(let message):
                         print("Received session info from backend. Setting local session.")
                         if let username = message.username {
-                            Session.username = username
+                            Session.shared.username = username
                         }
                         if let token = message.token {
-                            Session.sessionToken = token
+                            Session.shared.sessionToken = token
                         }
                     case .failure(let error):
                         print("No session found, or error: \(error)")
@@ -68,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
             
-            if (Session.hasSession()){
+            if (Session.shared.hasSession()){
                 let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
                 window.rootViewController = newViewcontroller
             } else {

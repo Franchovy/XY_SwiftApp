@@ -57,7 +57,7 @@ class APIRequest {
                 urlRequest.httpBody = try JSONEncoder().encode(message)
                 print("Sending request: \(message)") // decode struct
             }
-            urlRequest.addValue(Session.sessionToken, forHTTPHeaderField: "Session")
+            urlRequest.addValue(Session.shared.sessionToken, forHTTPHeaderField: "Session")
             
             // Open the task as urlRequest
             let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in

@@ -110,7 +110,7 @@ class Post {
             switch result {
             case .success(let message):
                 // Create PostData Model here
-                let newPost = PostData(id: message.id!, username: Session.username, timestamp: Date().description, content: content!, images: imageIds)
+                let newPost = PostData(id: message.id!, username: Session.shared.username, timestamp: Date().description, content: content!, images: imageIds)
                 
                 closure(.success(newPost))
             case .failure(let error):
