@@ -9,7 +9,7 @@ import Foundation
 
 // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
 //let API_URL = "https://xy-socialnetwork.com"
-let API_URL = "http://192.168.1.10:5000"
+let API_URL = "http://192.168.8.111:5000"
 
 
 enum APIError:Error {

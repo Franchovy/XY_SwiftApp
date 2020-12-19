@@ -25,6 +25,8 @@
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
 		B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */; };
 		B945385C258E18070000BB8A /* XPLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B945385B258E18070000BB8A /* XPLevel.swift */; };
+		B9453860258E2E190000BB8A /* WritePostViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B945385E258E2E190000BB8A /* WritePostViewTableViewCell.swift */; };
+		B9453861258E2E190000BB8A /* WritePostViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B945385F258E2E190000BB8A /* WritePostViewTableViewCell.xib */; };
 		B94917C82584D75800930C2F /* Persistentdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917C72584D75800930C2F /* Persistentdata.swift */; };
 		B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */; };
 		B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */; };
@@ -72,6 +74,8 @@
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		B945385B258E18070000BB8A /* XPLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPLevel.swift; sourceTree = "<group>"; };
+		B945385E258E2E190000BB8A /* WritePostViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePostViewTableViewCell.swift; sourceTree = "<group>"; };
+		B945385F258E2E190000BB8A /* WritePostViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritePostViewTableViewCell.xib; sourceTree = "<group>"; };
 		B94917C72584D75800930C2F /* Persistentdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistentdata.swift; sourceTree = "<group>"; };
 		B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -171,6 +175,8 @@
 				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
 				14D39B8B258D763700DA4334 /* Moments */,
 				B945385B258E18070000BB8A /* XPLevel.swift */,
+				B945385E258E2E190000BB8A /* WritePostViewTableViewCell.swift */,
+				B945385F258E2E190000BB8A /* WritePostViewTableViewCell.xib */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -303,6 +309,7 @@
 				140826BA25867EC400DC055D /* ImagePostCell.xib in Resources */,
 				B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */,
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
+				B9453861258E2E190000BB8A /* WritePostViewTableViewCell.xib in Resources */,
 				14B22648258D1484006966FC /* MomentsCollection.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,6 +343,7 @@
 				B94FA399257112C700A44085 /* Profile.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsViewController.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
+				B9453860258E2E190000BB8A /* WritePostViewTableViewCell.swift in Sources */,
 				B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */,
 				B94917C82584D75800930C2F /* Persistentdata.swift in Sources */,
 				B96B4552258A8524003083DB /* DateStringFormatter.swift in Sources */,
