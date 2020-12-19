@@ -11,8 +11,11 @@ import UIKit
 class NewsFeedViewController: UIViewController {
     
     // don't forget to hook this up from the storyboard
+    @IBOutlet weak var centralContainer: UIView!
     @IBOutlet weak var tableView: FlowTableView!
-
+    
+    @IBOutlet weak var writePostTextField: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +30,8 @@ class NewsFeedViewController: UIViewController {
                         
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
+
+        
     }
 
     func getPosts() {
@@ -34,5 +39,23 @@ class NewsFeedViewController: UIViewController {
         // load posts to flowtableview
         tableView.getPosts()
     }
-    
-}
+   
+    @IBAction func submitButtonPressed(_ sender: Any) {
+        if let text = self.writePostTextField.text {
+            let newPost = Post(id: "", username: "user", timestamp: Date(), content: text, imageRefs: [])
+            newPost.submitPost(images: [UIImage(named:"charlizePost")!], completion: {result in
+                switch result {
+                case .success:
+                    // Segue to News feed and refresh
+                    // Show next viewcontroller
+                    
+                    self.navigationController?.popViewController(animated: true)
+                case .failure:
+                    print("Error submitting post")
+                }
+            })
+        }
+    }
+    }
+
+

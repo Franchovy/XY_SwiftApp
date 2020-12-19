@@ -18,6 +18,8 @@
 		1462BB0E257E47C30096FD23 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB0D257E47C30096FD23 /* FriendsViewController.swift */; };
 		1462BB14257E4DC00096FD23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB13257E4DC00096FD23 /* Message.swift */; };
 		149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */; };
+		14B22647258D1484006966FC /* MomentsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B22645258D1484006966FC /* MomentsCollection.swift */; };
+		14B22648258D1484006966FC /* MomentsCollection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B22646258D1484006966FC /* MomentsCollection.xib */; };
 		14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */; };
 		14CDAE91257ECC7B0037A99F /* ConversationsCells.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */; };
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
@@ -64,6 +66,8 @@
 		1462BB0D257E47C30096FD23 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
 		1462BB13257E4DC00096FD23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		149868682573EF0900D0B981 /* CustomizeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeProfileViewController.swift; sourceTree = "<group>"; };
+		14B22645258D1484006966FC /* MomentsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsCollection.swift; sourceTree = "<group>"; };
+		14B22646258D1484006966FC /* MomentsCollection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentsCollection.xib; sourceTree = "<group>"; };
 		14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCells.swift; sourceTree = "<group>"; };
 		14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationsCells.xib; sourceTree = "<group>"; };
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
@@ -148,6 +152,15 @@
 			name = "Recovered References";
 			sourceTree = "<group>";
 		};
+		14D39B8B258D763700DA4334 /* Moments */ = {
+			isa = PBXGroup;
+			children = (
+				14B22645258D1484006966FC /* MomentsCollection.swift */,
+				14B22646258D1484006966FC /* MomentsCollection.xib */,
+			);
+			path = Moments;
+			sourceTree = "<group>";
+		};
 		B94FA39225710C9D00A44085 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -160,6 +173,7 @@
 				140826B825867EC400DC055D /* ImagePostCell.xib */,
 				14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */,
 				14CDAE8F257ECC7B0037A99F /* ConversationsCells.xib */,
+				14D39B8B258D763700DA4334 /* Moments */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -292,6 +306,7 @@
 				140826BA25867EC400DC055D /* ImagePostCell.xib in Resources */,
 				B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */,
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
+				14B22648258D1484006966FC /* MomentsCollection.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -314,6 +329,7 @@
 				149868692573EF0900D0B981 /* CustomizeProfileViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
+				14B22647258D1484006966FC /* MomentsCollection.swift in Sources */,
 				B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */,
 				B9599A4225713A820057B7D9 /* Signup.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,

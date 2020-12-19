@@ -16,20 +16,5 @@ class CreatePostViewController : UIViewController {
         
     }
     
-    @IBAction func submitButtonPressed(_ sender: Any) {
-        if let text = self.writePostTextField.text {
-            let newPost = Post(id: "", username: "user", timestamp: Date(), content: text, imageRefs: [])
-            newPost.submitPost(images: [UIImage(named:"charlizePost")!], completion: {result in
-                switch result {
-                case .success:
-                    // Segue to News feed and refresh
-                    // Show next viewcontroller
-                    
-                    self.navigationController?.popViewController(animated: true)
-                case .failure:
-                    print("Error submitting post")
-                }
-            })
-        }
-    }
+  
 }
