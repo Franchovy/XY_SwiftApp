@@ -89,7 +89,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBAction func submitButtonPressed(_ sender: Any) {
         if let text = self.writePostTextField.text {
-            PostsAPI.shared.submitCreatePostRequest(content: text?, imageIds: imageIds, closure: { result in
+            PostsAPI.shared.submitCreatePostRequest(content: text, imageIds: imageIds, closure: { result in
                 switch result {
                 case .success(let postData):
                     // Create post and put in news feed

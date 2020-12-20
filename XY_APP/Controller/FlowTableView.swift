@@ -16,7 +16,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
         case writePost
     }
     
-    var posts: [Post] = []
+    var posts: [PostData] = []
     var cells: [UITableViewCell] = []
     
     var parentViewController: UIViewController?
@@ -40,7 +40,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
         reloadData()
         
         // Get posts from backend
-        Post.getAllPosts(completion: { result in
+        PostsAPI.shared.getAllPosts(completion: { result in
             switch result {
             case .success(let newposts):
                 if let newposts = newposts {
@@ -49,7 +49,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
                 self.reloadData()
             case .failure(let error):
                 print("Failed to get posts! \(error)")
-                self.posts.append(Post(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", imageRefs: []))
+                self.posts.append(PostData(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", images: []))
                 self.reloadData()
             }
         })
