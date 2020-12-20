@@ -106,8 +106,6 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         }
     }
 }
-    
-}
 
 @IBDesignable
 class GradientCircularProgressBar: UIView {
