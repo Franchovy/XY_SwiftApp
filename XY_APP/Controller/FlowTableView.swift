@@ -56,9 +56,9 @@ extension FlowTableView : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Get next cell from indexPath
         let cell:ImagePostCell
-        cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
+        cell = tableView.dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
         
-        // Load cell from async loader using indexpath for id.
+         //Load cell from async loader using indexpath for id.
         cell.loadFromPost(post: posts[indexPath.row])
 
         return cell

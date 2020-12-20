@@ -10,7 +10,10 @@ import UIKit
 
 
 struct Conversations {
+    
+    let profileImage : String
     let name : String
     let message : String
     let time : String
+    
 }
