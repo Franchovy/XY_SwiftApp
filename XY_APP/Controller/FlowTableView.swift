@@ -118,4 +118,74 @@ extension FlowTableView : UITableViewDataSource {
         headerView.backgroundColor = UIColor.clear // Make the background color show through
         return headerView
     }
+    
+    @objc fileprivate func swipeRightAnimation(cell: UITableViewCell) {
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            
+            cell.transform = cell.transform.translatedBy(x: 500, y: 0)
+        })
+    }
+    
+    @objc fileprivate func swipeLeftAnimation(cell: UITableViewCell) {
+        UIView.animate(withDuration: 1.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
+            
+            cell.transform = cell.transform.translatedBy(x: -500, y: 0)
+        })
+    }
+    
+    @objc internal func tableView(_ tableView: UITableView,
+                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let closeAction = UIContextualAction(style: .normal, title:  "Close", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+            print("OK, marked as Closed")
+            let cell = tableView.cellForRow(at: indexPath)
+            self.swipeRightAnimation(cell: cell!)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // Remove cell from flow and reload
+                if self.posts.count > 0 {
+                    self.posts.remove(at: indexPath.row - 1)
+                    tableView.reloadData()
+                }
+            }
+            
+            success(true)
+        })
+        closeAction.image = UIImage(named: "xp")
+        closeAction.backgroundColor = .clear
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.selectionStyle = .none
+        
+        let actionsConfig = UISwipeActionsConfiguration(actions: [closeAction])
+        actionsConfig.performsFirstActionWithFullSwipe = true
+        
+        return actionsConfig
+    }
+     
+    func tableView(_ tableView: UITableView,
+                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
+    {
+        let modifyAction = UIContextualAction(style: .normal, title:  "Update", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+
+            let cell = tableView.cellForRow(at: indexPath)
+            self.swipeLeftAnimation(cell: cell!)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                // Remove cell from flow and reload
+                self.posts.remove(at: indexPath.row - 1)
+                tableView.reloadData()
+            }
+            
+            success(true)
+        })
+        
+        modifyAction.image = UIImage(named: "hide")
+        modifyAction.backgroundColor = .none
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.selectionStyle = .none
+     
+        return UISwipeActionsConfiguration(actions: [modifyAction])
+    }
 }
