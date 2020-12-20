@@ -9,20 +9,23 @@ import UIKit
 
 class WritePostViewTableViewCell: UITableViewCell {
 
+    // Properties
+    
     @IBOutlet weak var textField: UITextField!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    // Completion handlers to set when using this
+    
+    var onImageButtonPressed: (() -> Void)?
+    var onSubmitButtonPressed: (() -> Void)?
+    
+    // IBActions
+    
+    @IBAction func addImageButtonPressed(_ sender: Any) {
+        onImageButtonPressed?()
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
+    
     @IBAction func submitButtonPressed(_ sender: Any) {
-        
+        onSubmitButtonPressed?()
     }
     
 }

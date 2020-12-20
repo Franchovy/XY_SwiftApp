@@ -54,6 +54,17 @@ class FlowTableView : UITableView, UITableViewDelegate {
             }
         })
     }
+    
+    func addImageButtonPressed() {
+        // Call imagepicker
+        print("Image picker!")
+        
+    }
+    
+    func submitButtonPressed() {
+        // Submit post
+        print("Submit!")
+    }
 }
 
 extension FlowTableView : UITableViewDataSource {
@@ -70,6 +81,9 @@ extension FlowTableView : UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = dequeueReusableCell(withIdentifier: "CreatePostCell") as! WritePostViewTableViewCell
             print("Added WritePostViewTableViewCell!")
+            
+            cell.onImageButtonPressed = addImageButtonPressed
+            cell.onSubmitButtonPressed = submitButtonPressed
             
             cell.selectionStyle = .none
             
