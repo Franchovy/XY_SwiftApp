@@ -126,9 +126,16 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let newImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             // Set profile image in app
-            imagePickerHandler(imageToSave: newImage, closure: { result in
+            ImageCache.insertAndUpload(image: newImage, closure: { result in
                 switch result {
                 case .success(let imageId):
+                    // Send edit profile request
+                    let profilePictureId: String? = self.profile?.imagePickedType == .profilePicture ? imageId : nil
+                    let coverPictureId: String? = self.profile?.imagePickedType == .coverPicture ? imageId : nil
+                    let editProfileRequest = Profile.EditProfileData(profilePhotoId: profilePictureId, coverPhotoId: coverPictureId)
+                    
+                    self.profile?.editProfile(data: editProfileRequest, closure: {})
+                    
                     switch self.profile?.imagePickedType {
                     case .profilePicture:
                         DispatchQueue.main.async {
@@ -147,6 +154,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                     }
                     self.imagePicker.dismiss(animated: true, completion: nil)
                 case .failure(let error):
+                    print("Error: \(error)")
                     self.imagePicker.dismiss(animated: true, completion: nil)
                 }
             })
@@ -159,29 +167,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         case connectionProblem
     }
     
-    func imagePickerHandler (imageToSave:UIImage, closure: @escaping(Result<String, ImagePickerError>) -> Void) {
-        // Upload the photo - save photo ID
-        
-        ImageCache.insertAndUpload(image: imageToSave, closure: { result in
-            switch result {
-            case .success(let imageId):
-                // Send edit profile request
-                let profilePictureId: String? = self.profile?.imagePickedType == .profilePicture ? imageId : nil
-                let coverPictureId: String? = self.profile?.imagePickedType == .coverPicture ? imageId : nil
-                let editProfileRequest = Profile.EditProfileData(profilePhotoId: profilePictureId, coverPhotoId: coverPictureId)
-                
-                self.profile?.editProfile(data: editProfileRequest, closure: {})
-                
-                closure(.success(imageId))
-            case .failure(let error):
-                if error == .connectionProblem {
-                    closure(.failure(.connectionProblem))
-                } else if error == .otherProblem {
-                    closure(.failure(.imageCacheProblem))
-                }
-            }
-        })
-    }
     
     @IBAction func cameraNavigationBar(_ sender: UIBarButtonItem) {
         print("imagePicker present!")

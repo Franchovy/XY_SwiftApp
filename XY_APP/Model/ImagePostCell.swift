@@ -27,8 +27,9 @@ class ImagePostCell: UITableViewCell {
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
-    // MARK: - UNREUSABLE PROPERTIES --- PLEASE CHANGE
+    // MARK: - PROPERTIES
     
+    var images: [UIImage]?
     var postId: String?
     var profileImage:Profile.ProfileImage?
     var profile: Profile?
@@ -36,7 +37,7 @@ class ImagePostCell: UITableViewCell {
     // MARK: - PUBLIC METHODS
     
     // Load into view from post - calls to profile and images from backend
-    func loadFromPost(post: Post) {
+    func loadFromPost(post: PostData) {
         // Load data for this post
         loadProfile(username: post.username, closure: { result in
             switch result {
@@ -77,7 +78,7 @@ class ImagePostCell: UITableViewCell {
         postId = post.id
         
         // Refresh image
-        if let images = post.imageRefs, images.count > 0 {
+        if let images = post.images, images.count > 0 {
             // Set post sizing and constraints for image post
             self.contentImageView.frame.size.height = 359
             self.contentImageViewHeightConstraint.constant = 359
@@ -110,7 +111,7 @@ class ImagePostCell: UITableViewCell {
         // Load images
         
         
-        if let imgId = post.imageRefs?.first {
+        if let imgId = post.images?.first {
             ImageCache.createOrQueueImageRequest(id: imgId, completion: { image in
                 
                 if let image = image {
@@ -118,16 +119,17 @@ class ImagePostCell: UITableViewCell {
                     let resizingFactor = 200 / image.size.height
                     let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale / resizingFactor, orientation: .up)
                     
-                    
-                    if post.images == nil {post.images = [UIImage]()}
-                    
                     // Add image to loaded post images
-                    post.images!.append(newImage)
-                    
-                    // Run completion handler once all images are downloaded
-                    if post.images!.count == post.imageRefs!.count {
-                        self.contentImageView.image = post.images?.first
+                    if var images = self.images {
+                        images.append(newImage)
+                    } else {
+                        self.images = [newImage]
                     }
+                    
+                    // Set contentImageView to this image
+                    self.contentImageView.image = image
+                } else {
+                    print("Error loading image!")
                 }
             })
         }

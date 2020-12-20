@@ -69,6 +69,7 @@ class APIRequest {
                 }
                 // Handle result
                 do {
+                    print("Response: \(jsonData)")
                     // Decode the response
                     let messageData = try JSONDecoder().decode(ResponseType.self, from: jsonData)
                     completion(.success(messageData))
