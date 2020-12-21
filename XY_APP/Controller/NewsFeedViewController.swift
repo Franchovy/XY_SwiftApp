@@ -60,6 +60,8 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
                 case .success(let imageId):
                     if var imageIds = self.imageIds {
                         imageIds.append(imageId)
+                    } else {
+                        self.imageIds = [imageId]
                     }
                 case .failure(let error):
                     print("Error uploading image")
@@ -87,21 +89,23 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         self.present(alert, animated: true, completion: nil)
     }
     
-    func submitButtonPressed() {
-        if let text = self.writePostTextField.text {
-            PostsAPI.shared.submitCreatePostRequest(content: text, imageIds: imageIds, closure: { result in
-                switch result {
-                case .success(let postData):
-                    // Create post and put in news feed
-                    
-                    // Refresh feed
-                    self.getPosts()
+    func submitButtonPressed(_ createPostText: String) {
+        print("Submitting post with content: \(createPostText) and imageIds: \(imageIds)")
+        
+        PostsAPI.shared.submitCreatePostRequest(content: createPostText, imageIds: imageIds, closure: { result in
+            switch result {
+            case .success(let postData):
+                // Create post and put in news feed
+                
+                // Refresh feed
+                self.getPosts()
+                DispatchQueue.main.async {
                     self.tableView.reloadData()
-                case .failure(let error):
-                    print("Error submitting post: \(error)")
                 }
-            })
-        }
+            case .failure(let error):
+                print("Error submitting post: \(error)")
+            }
+        })
     }
 }
 

@@ -16,7 +16,7 @@ class WritePostViewTableViewCell: UITableViewCell {
     // Completion handlers to set when using this
     
     var onImageButtonPressed: (() -> Void)?
-    var onSubmitButtonPressed: (() -> Void)?
+    var onSubmitButtonPressed: ((_ postContent:String) -> Void)?
     
     // IBActions
     
@@ -25,7 +25,9 @@ class WritePostViewTableViewCell: UITableViewCell {
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
-        onSubmitButtonPressed?()
+        if let text = textField.text {
+            onSubmitButtonPressed?(text)
+        }
     }
     
 }

@@ -16,7 +16,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
     
     var parentViewController: UIViewController?
     
-    var submitPostCompletion: (() -> Void)?
+    var submitPostCompletion: ((_ postContent:String) -> Void)?
     var addImageCompletion: (() -> Void)?
     
     required init?(coder: NSCoder) {
@@ -34,7 +34,9 @@ class FlowTableView : UITableView, UITableViewDelegate {
     
     func getPosts() {
         // Clear current posts in feed
-        reloadData()
+        DispatchQueue.main.async {
+            self.reloadData()
+        }
         
         // Get posts from backend
         PostsAPI.shared.getAllPosts(completion: { result in
@@ -57,9 +59,9 @@ class FlowTableView : UITableView, UITableViewDelegate {
         addImageCompletion?()
     }
     
-    func submitButtonPressed() {
+    func submitButtonPressed(postContent:String) {
         // Submit post
-        submitPostCompletion?()
+        submitPostCompletion?(postContent)
     }
 }
 

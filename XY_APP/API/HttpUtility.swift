@@ -85,15 +85,19 @@ struct HttpUtility
         URLSession.shared.dataTask(with: urlRequest) { (data, httpUrlResponse, error) in
             if(error == nil && data != nil && data?.count != 0)
             {
-            // let dataStr = String(decoding: requestData, as: UTF8.self) //to view the data you receive from the API
                 do {
                     if let data = data {
                         print("Upload image Response: ", data)
                     }
+
+                    
                     let response = try JSONDecoder().decode(T.self, from: data!)
                     _=completionHandler(response)
                 }
                 catch let decodingError {
+                    let dataStr = String(decoding: data ?? Data(), as: UTF8.self) //to view the data you receive from the API
+                    print(dataStr)
+
                     debugPrint(decodingError)
                 }
             }
