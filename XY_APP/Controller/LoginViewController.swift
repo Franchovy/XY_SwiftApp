@@ -53,7 +53,10 @@ class LoginViewController: UIViewController {
                 }
             case .failure(let error):
                 print("Login failure: ", error)
+                
+                DispatchQueue.main.async {
                 self.loginFailLabel.isHidden = false
+                }
             }
         })
      }

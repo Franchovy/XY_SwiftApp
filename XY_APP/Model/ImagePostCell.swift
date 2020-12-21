@@ -250,6 +250,7 @@ class GradientCircularProgressBarPost: UIView {
         gradientLayer.frame = rect
         gradientLayer.colors = [color.cgColor, gradientColor.cgColor, color.cgColor]
     }
+    
     @IBAction func buttonPressed(_ sender: Any) {
         createAnimation()
     }
