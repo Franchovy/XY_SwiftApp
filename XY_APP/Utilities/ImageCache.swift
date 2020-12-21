@@ -176,9 +176,7 @@ class ImageCache {
         httpUtility.postApiDataWithMultipartForm(requestUrl: URL(string: API_URL + "/upload_image")!, request: imageUploadRequest, resultType: ImageUploadResponse.self) { result in
             if result != nil {
                 if result.id != "" {
-                    DispatchQueue.main.async {
-                        closure(.success(result.id))
-                    }
+                    closure(.success(result.id))
                 } else if result.message != "" {
                     print("Error uploading image: \(result.message)")
                     closure(.failure(.otherProblem))

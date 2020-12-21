@@ -10,17 +10,14 @@ import UIKit
 
 
 class FlowTableView : UITableView, UITableViewDelegate {
-    
-    enum CellTypes {
-        case post
-        case writePost
-    }
-    
+
+    //var cells: [Item]
     var posts: [PostData] = []
-    var cells: [UITableViewCell] = []
     
     var parentViewController: UIViewController?
-
+    
+    var submitPostCompletion: (() -> Void)?
+    var addImageCompletion: (() -> Void)?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -57,13 +54,12 @@ class FlowTableView : UITableView, UITableViewDelegate {
     
     func addImageButtonPressed() {
         // Call imagepicker
-        print("Image picker!")
-        
+        addImageCompletion?()
     }
     
     func submitButtonPressed() {
         // Submit post
-        print("Submit!")
+        submitPostCompletion?()
     }
 }
 

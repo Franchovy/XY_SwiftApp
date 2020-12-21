@@ -35,6 +35,8 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         //imagePicker.sourceType = .camera
         imagePicker.allowsEditing = true
         
+        tableView.addImageCompletion = photoButtonPressed
+        tableView.submitPostCompletion = submitButtonPressed
         
         // Get posts from backend
         getPosts()
@@ -59,15 +61,17 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
                     if var imageIds = self.imageIds {
                         imageIds.append(imageId)
                     }
-                    
                 case .failure(let error):
                     print("Error uploading image")
             }
+                DispatchQueue.main.async {
+                    picker.dismiss(animated: true, completion: nil)
+                }
             })
         }
     }
    
-    @IBAction func photoButtonPressed(_ sender: Any) {
+    func photoButtonPressed() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
             action in
@@ -83,13 +87,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         self.present(alert, animated: true, completion: nil)
     }
     
-    @IBAction func writeButtonPressed(_ sender: Any) {
-        // Add submitPost cell to tableview
-        
-        tableView.reloadData()
-    }
-    
-    @IBAction func submitButtonPressed(_ sender: Any) {
+    func submitButtonPressed() {
         if let text = self.writePostTextField.text {
             PostsAPI.shared.submitCreatePostRequest(content: text, imageIds: imageIds, closure: { result in
                 switch result {
