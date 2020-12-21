@@ -46,7 +46,7 @@ class APIRequest {
         urlRequest.setValue(headerValue, forHTTPHeaderField: headerFieldName)
     }
     
-    func save<T: Codable, ResponseType: Codable> (message:T,response:ResponseType, completion: @escaping(Result<ResponseType, APIError>) -> Void) {
+    func save<T: Codable, ResponseType: Decodable> (message:T,response:ResponseType, completion: @escaping(Result<ResponseType, APIError>) -> Void) {
         
         do {
             // Initialise the Http Request

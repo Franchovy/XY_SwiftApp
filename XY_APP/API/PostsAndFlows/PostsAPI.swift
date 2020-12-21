@@ -54,7 +54,7 @@ class PostsAPI {
         
     }
     
-    fileprivate struct GetPostsResponse: Codable {
+    fileprivate struct GetPostsResponse: Decodable {
         
         var response: [PostData]?
         var status: Int?
