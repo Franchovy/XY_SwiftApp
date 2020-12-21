@@ -80,6 +80,7 @@ class ImagePostCell: UITableViewCell {
         // Refresh image
         if let images = post.images, images.count > 0 {
             // Set post sizing and constraints for image post
+            contentImageView.layer.cornerRadius = 15
             self.contentImageView.frame.size.height = 359
             self.contentImageViewHeightConstraint.constant = 359
             profileImageView.layer.cornerRadius = 5
@@ -97,7 +98,7 @@ class ImagePostCell: UITableViewCell {
             profileImageView.layer.cornerRadius = 5
             profileImageWidthConstraint.constant = 25
             profileImageHeightConstraint.constant = 25
-            profileImageLeftConstraint.constant = 10
+            profileImageLeftConstraint.constant = 15
             profileImageTopConstraint.constant = 10
             nameLabelLeftConstraint.constant = 29
             cameraIcon.isHidden = true
