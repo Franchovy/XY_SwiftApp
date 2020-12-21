@@ -47,9 +47,6 @@ class PostsAPI {
         let status: Int?
     }
     
-    
-    
-    
     fileprivate struct GetAllPostsRequestMessage: Codable {
         
     }
@@ -93,9 +90,7 @@ class PostsAPI {
         getAllPostsRequest.save(message: message,response: response, completion: { result in
             switch result {
             case .success(let message):
-                print("POST request response: \"\(message.status)\"")
                 var postmodels = [PostData]()
-                print("Get all posts response: \(message.response)")
                 // Decode posts json into postModels for app use
                 if let posts = message.response {
                     for post in posts {

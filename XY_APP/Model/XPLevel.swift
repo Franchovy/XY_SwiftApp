@@ -29,10 +29,10 @@ struct XPLevel {
     
     var colors: [UIColor] = []
     
-    init() {
+    init(type: XPLevelType) {
         xp = 0
         level = 0
-        type = .user
+        self.type = type
         levels = []
         colors = []
     }

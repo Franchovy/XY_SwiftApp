@@ -415,7 +415,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nL6-E6-Qe5">
-                                <rect key="frame" x="137.66666666666666" y="54" width="100" height="100"/>
+                                <rect key="frame" x="157" y="54" width="100" height="100"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IHG-Gw-noN">
                                         <rect key="frame" x="13" y="13" width="75" height="75"/>
@@ -439,7 +439,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jeg-2k-VkG">
-                                <rect key="frame" x="9.6666666666666572" y="218" width="356" height="111"/>
+                                <rect key="frame" x="29" y="218" width="356" height="111"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="27" translatesAutoresizingMaskIntoConstraints="NO" id="1kW-fl-PSB">
                                         <rect key="frame" x="8.6666666666666572" y="6" width="339" height="99"/>
@@ -476,7 +476,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iQY-ab-5PJ">
-                                <rect key="frame" x="29" y="393" width="317" height="100"/>
+                                <rect key="frame" x="29" y="393" width="356" height="100"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Write a caption" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fsa-3M-xLs">
                                         <rect key="frame" x="61.666666666666686" y="33" width="233" height="34"/>
@@ -507,7 +507,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m3e-nN-GEn">
-                                <rect key="frame" x="29" y="557" width="317" height="217"/>
+                                <rect key="frame" x="29" y="557" width="356" height="217"/>
                                 <color key="backgroundColor" red="0.14901960780000001" green="0.1529411765" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="356" id="TrQ-V2-TSB"/>
