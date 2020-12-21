@@ -146,7 +146,7 @@ extension FlowTableView : UITableViewDataSource {
     @objc internal func tableView(_ tableView: UITableView,
                     leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
-        let closeAction = UIContextualAction(style: .normal, title:  "Close", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let closeAction = UIContextualAction(style: .normal, title:  "+ XP", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
             print("OK, marked as Closed")
             let cell = tableView.cellForRow(at: indexPath)
             self.swipeRightAnimation(cell: cell!)
@@ -176,7 +176,7 @@ extension FlowTableView : UITableViewDataSource {
     func tableView(_ tableView: UITableView,
                     trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
-        let modifyAction = UIContextualAction(style: .normal, title:  "Update", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
+        let modifyAction = UIContextualAction(style: .normal, title:  "Remove from flow", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
 
             let cell = tableView.cellForRow(at: indexPath)
             self.swipeLeftAnimation(cell: cell!)
