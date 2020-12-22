@@ -265,6 +265,7 @@ extension FlowTableView : UITableViewDataSource {
                 }
                 // Update progress on progress bar
                 let progressBar = xpCell.XP as! GradientCircularProgressBarPost // todo remove this line
+                progressBar.color = post.xpLevel.getColor()
                 progressBar.progress = CGFloat(PostManager.shared.getXP(postId: post.id).xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
             }
         }

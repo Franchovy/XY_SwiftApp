@@ -87,9 +87,8 @@ struct XPLevel {
         }
     }
     
-    mutating func levelUp() {
-        level += 1
-        xp = 0
+    func getColor() -> UIColor {
+        return colors[level]
     }
 }
 
