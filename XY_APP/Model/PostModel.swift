@@ -19,12 +19,29 @@ class PostManager {
         }
     }
     
+    // Takes a post, and a new xpLevel to apply, setting the new xp level for this post in the storage.
     func updateXP(postId: String, xpLevel: XPLevel) {
         guard var postToUpdate = posts[postId] else { return }
         
         postToUpdate.xpLevel = xpLevel
         
+        // Check to see if level has been passed
+        if Levels.shared.getNextLevel(xpLevel: xpLevel) < xpLevel.xp {
+            postToUpdate.xpLevel.levelUp()
+        }
+        
         posts[postId] = postToUpdate
+    }
+    
+    func addXP(postId: String, xp: Float) -> PostData? {
+        // Updates the model to have more xp
+        guard let post = posts[postId] else {return nil}
+        var newXpLevel = post.xpLevel
+        newXpLevel.addXP(xp: xp)
+        // Update xp in storage
+        updateXP(postId: postId, xpLevel: newXpLevel)
+        // Return updated
+        return posts[postId]
     }
     
     func getPostWithId(id: String) -> PostData? {

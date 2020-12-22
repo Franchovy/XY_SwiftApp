@@ -21,8 +21,8 @@ class Algorithm {
         guard let feedback = post.feedback  else { return XPLevel(type: .post) }
         let viewTime = feedback.viewTime
         let swipeRights = feedback.swipeRight
-        var xpLevel = XPLevel(type: .post)
-        xpLevel.addXP(xp: post.xpLevel.xp)
+        var xpLevel = post.xpLevel
+        
         xpLevel.addXP(xp: viewTime + Float(swipeRights * 15))
         return xpLevel
     }
@@ -34,7 +34,7 @@ class Levels {
     
     // Returns the total amount of XP needed for the next level.
     func getNextLevel(xpLevel: XPLevel) -> Float {
-        return getLevels(type: xpLevel.type)[xpLevel.level + 1]
+        return getLevels(type: xpLevel.type)[xpLevel.level]
     }
     
     func getLevels(type: XPLevelType) -> [Float] {
@@ -72,6 +72,11 @@ struct XPLevel {
     
     mutating func addXP(xp: Float) {
         self.xp += xp
+    }
+    
+    mutating func levelUp() {
+        level += 1
+        xp = 0
     }
 }
 

@@ -13,6 +13,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
 
     //var cells: [Item]
     var posts: [PostData] = []
+    var postsToSubmitFeedbackIds: [String] = []
     
     var parentViewController: UIViewController?
     
@@ -34,6 +35,9 @@ class FlowTableView : UITableView, UITableViewDelegate {
         // Set viewcount timer
         let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: timerHandler)
         timer.fire()
+        
+        let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: self.feedbackTimer)
+        feedbackTimer.fire()
     }
     
     func getPosts() {
@@ -189,17 +193,19 @@ extension FlowTableView : UITableViewDataSource {
                         for var p in self.posts {
                             if p.id == postUpdate.id {
                                 // Update data
-                                p.xpLevel.addXP(xp: Float(postUpdate.xp))
+                                PostManager.shared.addXP(postId: p.id, xp: Float(postUpdate.xp))
+                                
                                 print("Update data for post: \(postUpdate.id)")
                                 // Update xp bar
                                 DispatchQueue.main.async {
-                                    var post = self.posts.filter{ $0.id == p.id }.first!
                                     let cellToUpdate = tableView.visibleCells.filter{
                                         guard let cell = $0 as? ImagePostCell else {return false}
                                         return cell.postId == postUpdate.id }.first as! ImagePostCell
                                     
-                                    var progessBar = cellToUpdate.XP as! GradientCircularProgressBarPost
-                                    progessBar.progress += 0.1
+                                    let post = PostManager.shared.getPostWithId(id: cellToUpdate.postId!)!
+                                    
+                                    let progressBar = cellToUpdate.XP as! GradientCircularProgressBarPost
+                                    progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
                                 }
                             }
                         }
@@ -233,6 +239,9 @@ extension FlowTableView : UITableViewDataSource {
                     post.feedback!.swipeLeft += 1
                 } else {
                     post.feedback = Feedback(swipeRight: 0, swipeLeft: 1, viewTime: 0)
+                    if !self.postsToSubmitFeedbackIds.contains(post.id) {
+                        self.postsToSubmitFeedbackIds.append(post.id)
+                    }
                 }
             }
             
@@ -254,22 +263,61 @@ extension FlowTableView : UITableViewDataSource {
         return UISwipeActionsConfiguration(actions: [modifyAction])
     }
     
+    func reloadVisibleProgressBars() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            for cell in self.visibleCells {
+                if let cell = cell as? ImagePostCell {
+                    guard var post = PostManager.shared.getPostWithId(id: cell.postId!) else {return}
+                    
+                    let progressBar = cell.XP as! GradientCircularProgressBarPost
+                    progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
+                }
+            }
+        }
+    }
+    
     func timerHandler(timer: Timer) {
         for cell in visibleCells {
             if let xpCell = cell as? ImagePostCell {
                 guard var post = PostManager.shared.getPostWithId(id: xpCell.postId!) else {return}
                 
                 // Add viewtime
-                post.feedback?.viewTime += 1
+                post.feedback?.viewTime += 15
                 // Calculate XP gain
                 post.xpLevel = Algorithm.shared.addXPfromPostFeedback(post: post)
                 // Update XP gain
                 PostManager.shared.updateXP(postId: post.id, xpLevel: post.xpLevel)
+                // Register to submit feedback to backend
+                if !self.postsToSubmitFeedbackIds.contains(post.id) {
+                    self.postsToSubmitFeedbackIds.append(post.id)
+                }
                 // Update progress on progress bar
                 let progressBar = xpCell.XP as! GradientCircularProgressBarPost // todo remove this line
                 progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
             }
-            
         }
+    }
+    
+    func feedbackTimer(timer: Timer) {
+        if postsToSubmitFeedbackIds.count == 0 { return }
+        
+        var feedbackData: [String: Feedback] = [:]
+        for postId in postsToSubmitFeedbackIds {
+            let post = PostManager.shared.getPostWithId(id: postId)
+            
+            feedbackData[postId] = post?.feedback!
+        }
+        
+        FeedbackAPI.shared.submitFeedbackForMultiple(data: feedbackData, completion: { result in
+            switch result {
+            case .success(let updatedXPDataArray):
+                for updateXPData in updatedXPDataArray {
+                    PostManager.shared.addXP(postId: updateXPData.id, xp: Float(updateXPData.xp))
+                }
+                self.reloadVisibleProgressBars()
+            case .failure(let error):
+                print("Error submitting feedback for posts: \(error)")
+            }
+        })
     }
 }
