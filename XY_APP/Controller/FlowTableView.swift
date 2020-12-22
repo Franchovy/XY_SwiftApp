@@ -182,36 +182,9 @@ extension FlowTableView : UITableViewDataSource {
             var post = self.posts[indexPath.row - 1]
             post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 0, swipeRights: 1, swipeLefts: 0)
             
-            // Send Feedback to backend and update cells
-            FeedbackAPI.shared.submitFeedback(postId: post.id, feedback: post.feedback!, completion: { result in
-                switch result {
-                case .success(let postUpdateXPData):
-                    for postUpdate in postUpdateXPData {
-                        for p in self.posts {
-                            if p.id == postUpdate.id {
-                                // Update data
-                                PostManager.shared.addXP(postId: p.id, xp: Float(postUpdate.xp))
-                                
-                                print("Update data for post: \(postUpdate.id)")
-                                // Update xp bar
-                                DispatchQueue.main.async {
-                                    let cellToUpdate = tableView.visibleCells.filter{
-                                        guard let cell = $0 as? ImagePostCell else {return false}
-                                        return cell.postId == postUpdate.id }.first as! ImagePostCell
-                                    
-                                    let post = PostManager.shared.getPostWithId(id: cellToUpdate.postId!)!
-                                    
-                                    let progressBar = cellToUpdate.XP as! GradientCircularProgressBarPost
-                                    progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
-                                }
-                            }
-                        }
-                    }
-                case .failure(let error):
-                    print("Error submitting feedback: \(error)")
-                }
-                
-            })
+            if !self.postsToSubmitFeedbackIds.contains(post.id) {
+                self.postsToSubmitFeedbackIds.append(post.id)
+            }
         }
         
         let actionsConfig = UISwipeActionsConfiguration(actions: [closeAction])
@@ -283,16 +256,16 @@ extension FlowTableView : UITableViewDataSource {
                 post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 1, swipeRights: 0, swipeLefts: 0)
                 
                 // Calculate XP gain
-                post.xpLevel = Algorithm.shared.addXPfromPostFeedback(post: post)
+                //post.xpLevel = Algorithm.shared.addXPfromPostFeedback(post: post)
                 // Update XP gain
-                PostManager.shared.updateXP(postId: post.id, xpLevel: post.xpLevel)
+                //PostManager.shared.updateXP(postId: post.id, xpLevel: post.xpLevel)
                 // Register to submit feedback to backend
                 if !self.postsToSubmitFeedbackIds.contains(post.id) {
                     self.postsToSubmitFeedbackIds.append(post.id)
                 }
                 // Update progress on progress bar
                 let progressBar = xpCell.XP as! GradientCircularProgressBarPost // todo remove this line
-                progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
+                progressBar.progress = CGFloat(PostManager.shared.getXP(postId: post.id).xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
             }
         }
     }
@@ -310,9 +283,8 @@ extension FlowTableView : UITableViewDataSource {
         FeedbackAPI.shared.submitFeedbackForMultiple(data: feedbackData, completion: { result in
             switch result {
             case .success(let updatedXPDataArray):
-                for updateXPData in updatedXPDataArray {
-                    PostManager.shared.addXP(postId: updateXPData.id, xp: Float(updateXPData.xp))
-                }
+                PostManager.shared.addXPUpdateData(updatedXPDataArray: updatedXPDataArray)
+
                 self.reloadVisibleProgressBars()
             case .failure(let error):
                 print("Error submitting feedback for posts: \(error)")

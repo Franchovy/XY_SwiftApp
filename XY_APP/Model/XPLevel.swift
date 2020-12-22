@@ -66,12 +66,25 @@ struct XPLevel {
         xp = 0
         level = 0
         self.type = type
-        levels = []
-        colors = []
+        
+        switch type {
+        case .post:
+            levels = [100, 1000, 10000, 100000]
+            colors = [.lightGray, .green, .yellow, .orange]
+        default:
+            levels = []
+            colors = []
+        }
     }
     
     mutating func addXP(xp: Float) {
         self.xp += xp
+        
+        // Level up
+        if Int(self.xp) > levels[level] {
+            self.xp -= Float(levels[level])
+            level += 1
+        }
     }
     
     mutating func levelUp() {
