@@ -39,7 +39,6 @@ class FeedbackAPI {
         urlRequest.httpBody = jsonData
         
         let dataTask = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
-            
             // submit message to backend
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
                 completion(.failure(.responseProblem))

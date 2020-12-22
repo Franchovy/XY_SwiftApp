@@ -36,7 +36,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
         let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: timerHandler)
         timer.fire()
         
-        let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 15, repeats: true, block: self.feedbackTimer)
+        let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: self.feedbackTimer)
         feedbackTimer.fire()
     }
     

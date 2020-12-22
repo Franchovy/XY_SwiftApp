@@ -35,11 +35,11 @@ class PostManager {
     }
     
     func getXP(postId: String) -> XPLevel {
-        guard var postToUpdate = posts[postId] else { return XPLevel(type: .post) }
+        guard var post = posts[postId] else { return XPLevel(type: .post) }
         // Get XP using XP and from post feedback
-        var xpLevel = XPLevel(type: .post)
+        var xpLevel = post.xpLevel
         
-        xpLevel.addXP(xp: postToUpdate.feedback!.viewTime + Float(postToUpdate.feedback!.swipeRight * 15))
+        xpLevel.addXP(xp: post.feedback!.viewTime + Float(post.feedback!.swipeRight * 15))
         
         return xpLevel
     }
@@ -48,8 +48,16 @@ class PostManager {
     func addXPUpdateData(updatedXPDataArray: [FeedbackAPI.PostXPUpdateData]) {
         for updateXPData in updatedXPDataArray {
             guard var postToUpdate = posts[updateXPData.id] else { continue }
+            
+            // XP should be the same before and after XP Update Data operation
+            let val = PostManager.shared.getXP(postId: postToUpdate.id)
+            
             postToUpdate.xpLevel.addXP(xp: Float(updateXPData.xp))
+            postToUpdate.feedback = Feedback()
             posts[updateXPData.id] = postToUpdate
+            
+            let val2 = PostManager.shared.getXP(postId: postToUpdate.id)
+            if val.level != val2.level && val.xp != val2.xp { fatalError() }
         }
     }
     
