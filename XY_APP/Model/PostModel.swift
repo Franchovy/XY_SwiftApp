@@ -19,6 +19,21 @@ class PostManager {
         }
     }
     
+    func updateFeedback(postId: String, viewTime: Int, swipeRights: Int, swipeLefts: Int) -> Feedback {
+        guard var postToUpdate = posts[postId] else { return Feedback() }
+        
+        if postToUpdate.feedback != nil {
+            postToUpdate.feedback?.swipeRight += swipeRights
+            postToUpdate.feedback?.swipeLeft += swipeLefts
+            postToUpdate.feedback?.viewTime += Float(viewTime)
+        } else {
+            postToUpdate.feedback = Feedback(swipeRight: swipeRights, swipeLeft: swipeLefts, viewTime: Float(viewTime))
+        }
+        
+        posts[postId] = postToUpdate
+        return postToUpdate.feedback!
+    }
+    
     // Takes a post, and a new xpLevel to apply, setting the new xp level for this post in the storage.
     func updateXP(postId: String, xpLevel: XPLevel) {
         guard var postToUpdate = posts[postId] else { return }

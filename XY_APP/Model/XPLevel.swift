@@ -40,7 +40,7 @@ class Levels {
     func getLevels(type: XPLevelType) -> [Float] {
         switch type {
         case .post:
-            return [100, 500, 1500, 5000]
+            return [100, 1000, 10000, 100000, 1000000]
         default:
             fatalError("Please define the levels in this class.")
         }

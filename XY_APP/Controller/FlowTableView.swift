@@ -180,17 +180,14 @@ extension FlowTableView : UITableViewDataSource {
         // Add swipe left
         if self.posts.count > indexPath.row {
             var post = self.posts[indexPath.row - 1]
-            if post.feedback != nil {
-                post.feedback!.swipeRight += 1
-            } else {
-                post.feedback = Feedback(swipeRight: 1, swipeLeft: 0, viewTime: 0)
-            }
+            post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 0, swipeRights: 1, swipeLefts: 0)
+            
             // Send Feedback to backend and update cells
             FeedbackAPI.shared.submitFeedback(postId: post.id, feedback: post.feedback!, completion: { result in
                 switch result {
                 case .success(let postUpdateXPData):
                     for postUpdate in postUpdateXPData {
-                        for var p in self.posts {
+                        for p in self.posts {
                             if p.id == postUpdate.id {
                                 // Update data
                                 PostManager.shared.addXP(postId: p.id, xp: Float(postUpdate.xp))
@@ -238,7 +235,8 @@ extension FlowTableView : UITableViewDataSource {
                 if post.feedback != nil {
                     post.feedback!.swipeLeft += 1
                 } else {
-                    post.feedback = Feedback(swipeRight: 0, swipeLeft: 1, viewTime: 0)
+                    post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 0, swipeRights: 0, swipeLefts: 1)
+                    
                     if !self.postsToSubmitFeedbackIds.contains(post.id) {
                         self.postsToSubmitFeedbackIds.append(post.id)
                     }
@@ -282,7 +280,8 @@ extension FlowTableView : UITableViewDataSource {
                 guard var post = PostManager.shared.getPostWithId(id: xpCell.postId!) else {return}
                 
                 // Add viewtime
-                post.feedback?.viewTime += 15
+                post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 1, swipeRights: 0, swipeLefts: 0)
+                
                 // Calculate XP gain
                 post.xpLevel = Algorithm.shared.addXPfromPostFeedback(post: post)
                 // Update XP gain
