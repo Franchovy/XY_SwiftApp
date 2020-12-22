@@ -30,6 +30,10 @@ class FlowTableView : UITableView, UITableViewDelegate {
         register(UINib(nibName: "WritePostViewTableViewCell", bundle: nil), forCellReuseIdentifier: "CreatePostCell")
         
         rowHeight = UITableView.automaticDimension
+        
+        // Set viewcount timer
+        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: timerHandler)
+        timer.fire()
     }
     
     func getPosts() {
@@ -143,19 +147,21 @@ extension FlowTableView : UITableViewDataSource {
         })
     }
     
+    
+    // SWIPE RIGHT
     @objc internal func tableView(_ tableView: UITableView,
                     leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
         let closeAction = UIContextualAction(style: .normal, title:  "+ XP", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            print("OK, marked as Closed")
+            
             let cell = tableView.cellForRow(at: indexPath)
             self.swipeRightAnimation(cell: cell!)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // Remove cell from flow and reload
                 if self.posts.count > 0 {
-                    self.posts.remove(at: indexPath.row - 1)
-                    tableView.reloadData()
+                    //self.posts.remove(at: indexPath.row - 1)
+                    //tableView.reloadData()
                 }
             }
             
@@ -167,12 +173,51 @@ extension FlowTableView : UITableViewDataSource {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
         
+        // Add swipe left
+        if self.posts.count > indexPath.row {
+            var post = self.posts[indexPath.row - 1]
+            if post.feedback != nil {
+                post.feedback!.swipeRight += 1
+            } else {
+                post.feedback = Feedback(swipeRight: 1, swipeLeft: 0, viewTime: 0)
+            }
+            // Send Feedback to backend and update cells
+            FeedbackAPI.shared.submitFeedback(postId: post.id, feedback: post.feedback!, completion: { result in
+                switch result {
+                case .success(let postUpdateXPData):
+                    for postUpdate in postUpdateXPData {
+                        for var p in self.posts {
+                            if p.id == postUpdate.id {
+                                // Update data
+                                p.xpLevel.addXP(xp: Float(postUpdate.xp))
+                                print("Update data for post: \(postUpdate.id)")
+                                // Update xp bar
+                                DispatchQueue.main.async {
+                                    var post = self.posts.filter{ $0.id == p.id }.first!
+                                    let cellToUpdate = tableView.visibleCells.filter{
+                                        guard let cell = $0 as? ImagePostCell else {return false}
+                                        return cell.postId == postUpdate.id }.first as! ImagePostCell
+                                    
+                                    var progessBar = cellToUpdate.XP as! GradientCircularProgressBarPost
+                                    progessBar.progress += 0.1
+                                }
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print("Error submitting feedback: \(error)")
+                }
+                
+            })
+        }
+        
         let actionsConfig = UISwipeActionsConfiguration(actions: [closeAction])
         actionsConfig.performsFirstActionWithFullSwipe = true
         
         return actionsConfig
     }
      
+    // SWIPE LEFT
     func tableView(_ tableView: UITableView,
                     trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
@@ -180,6 +225,16 @@ extension FlowTableView : UITableViewDataSource {
 
             let cell = tableView.cellForRow(at: indexPath)
             self.swipeLeftAnimation(cell: cell!)
+            
+            // Add swipe left
+            if self.posts.count > indexPath.row {
+                var post = self.posts[indexPath.row]
+                if post.feedback != nil {
+                    post.feedback!.swipeLeft += 1
+                } else {
+                    post.feedback = Feedback(swipeRight: 0, swipeLeft: 1, viewTime: 0)
+                }
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // Remove cell from flow and reload
@@ -197,5 +252,24 @@ extension FlowTableView : UITableViewDataSource {
         cell?.selectionStyle = .none
      
         return UISwipeActionsConfiguration(actions: [modifyAction])
+    }
+    
+    func timerHandler(timer: Timer) {
+        for cell in visibleCells {
+            if let xpCell = cell as? ImagePostCell {
+                guard var post = PostManager.shared.getPostWithId(id: xpCell.postId!) else {return}
+                
+                // Add viewtime
+                post.feedback?.viewTime += 1
+                // Calculate XP gain
+                post.xpLevel = Algorithm.shared.addXPfromPostFeedback(post: post)
+                // Update XP gain
+                PostManager.shared.updateXP(postId: post.id, xpLevel: post.xpLevel)
+                // Update progress on progress bar
+                let progressBar = xpCell.XP as! GradientCircularProgressBarPost // todo remove this line
+                progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
+            }
+            
+        }
     }
 }

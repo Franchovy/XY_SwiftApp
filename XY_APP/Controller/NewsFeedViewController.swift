@@ -119,7 +119,7 @@ class GradientCircularProgressBar: UIView {
     }
     @IBInspectable var ringWidth: CGFloat = 5
 
-    var progress: CGFloat = 0.5 {
+    var progress: CGFloat = 0.2 {
         didSet { setNeedsDisplay() }
     }
 

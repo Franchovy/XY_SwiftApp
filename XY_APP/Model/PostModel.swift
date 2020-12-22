@@ -8,6 +8,31 @@
 import Foundation
 import UIKit
 
+class PostManager {
+    static var shared = PostManager()
+    
+    var posts: [String: PostData] = [:]
+    
+    func addPosts(_ posts: [PostData]) {
+        for post in posts {
+            self.posts[post.id] = post
+        }
+    }
+    
+    func updateXP(postId: String, xpLevel: XPLevel) {
+        guard var postToUpdate = posts[postId] else { return }
+        
+        postToUpdate.xpLevel = xpLevel
+        
+        posts[postId] = postToUpdate
+    }
+    
+    func getPostWithId(id: String) -> PostData? {
+        // If cached, get it directly.
+        return posts[id]
+    }
+}
+
 struct PostData {
     var id: String
     var username: String
@@ -16,7 +41,7 @@ struct PostData {
     var images: [String]?
     
     var xpLevel : XPLevel
-    var feedback: FeedbackData?
+    var feedback: Feedback?
     
     // Create new post:
     init(id: String, username: String, timestamp: Date, content: String, images: [String]?) {
@@ -26,7 +51,7 @@ struct PostData {
         self.content = content
         self.images = images
         self.xpLevel = XPLevel(type: .post)
-        feedback = FeedbackData()
+        feedback = Feedback()
     }
 }
 
@@ -46,7 +71,7 @@ extension PostData : Decodable {
                 images = try container.decode([String].self, forKey: .images)
             }
             xpLevel = try container.decode(XPLevel.self, forKey: .xpLevel)
-            feedback = FeedbackData()
+            feedback = Feedback()
         } else {
             id = try container.decode(String.self, forKey: .id)
             username = try container.decode(String.self, forKey: .username)
@@ -56,7 +81,7 @@ extension PostData : Decodable {
                 images = try container.decode([String].self, forKey: .images)
             }
             xpLevel = XPLevel(type: .post)
-            feedback = FeedbackData()
+            feedback = Feedback()
         }
     }
 }

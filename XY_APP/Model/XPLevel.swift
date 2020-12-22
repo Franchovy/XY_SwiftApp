@@ -13,6 +13,39 @@ enum XPLevelType : String, Codable {
     case friendship
 }
 
+class Algorithm {
+    static var shared = Algorithm()
+    
+    func addXPfromPostFeedback(post: PostData) -> XPLevel {
+        // Uses a copy of the backend algorithm to calculate how much XP to give to a post based on feedback.
+        guard let feedback = post.feedback  else { return XPLevel(type: .post) }
+        let viewTime = feedback.viewTime
+        let swipeRights = feedback.swipeRight
+        var xpLevel = XPLevel(type: .post)
+        xpLevel.addXP(xp: post.xpLevel.xp)
+        xpLevel.addXP(xp: viewTime + Float(swipeRights * 15))
+        return xpLevel
+    }
+}
+
+// Class defining different level types and progressions.
+class Levels {
+    static var shared = Levels()
+    
+    // Returns the total amount of XP needed for the next level.
+    func getNextLevel(xpLevel: XPLevel) -> Float {
+        return getLevels(type: xpLevel.type)[xpLevel.level + 1]
+    }
+    
+    func getLevels(type: XPLevelType) -> [Float] {
+        switch type {
+        case .post:
+            return [100, 500, 1500, 5000]
+        default:
+            fatalError("Please define the levels in this class.")
+        }
+    }
+}
 
 struct XPLevel {
     
@@ -35,6 +68,10 @@ struct XPLevel {
         self.type = type
         levels = []
         colors = []
+    }
+    
+    mutating func addXP(xp: Float) {
+        self.xp += xp
     }
 }
 

@@ -104,6 +104,9 @@ class PostsAPI {
                     }
                 }
                 DispatchQueue.main.async {
+                    // Add posts to PostManager
+                    PostManager.shared.addPosts(postmodels)
+                    // Return posts
                     completion(.success(postmodels))
                 }
                 

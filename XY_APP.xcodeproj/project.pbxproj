@@ -50,7 +50,8 @@
 		B96B4549258A5E9D003083DB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B4548258A5E9D003083DB /* API.swift */; };
 		B96B4552258A8524003083DB /* DateStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B4551258A8524003083DB /* DateStringFormatter.swift */; };
 		B99DEE63258E8CF000ADF201 /* PostsAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DEE62258E8CF000ADF201 /* PostsAPI.swift */; };
-		B99DEEF72590FA2B00ADF201 /* FeedbackData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DEEF62590FA2B00ADF201 /* FeedbackData.swift */; };
+		B99DEEF72590FA2B00ADF201 /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DEEF62590FA2B00ADF201 /* Feedback.swift */; };
+		B99DEF032591460700ADF201 /* FeedbackAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99DEF022591460700ADF201 /* FeedbackAPI.swift */; };
 		B9AB79DE2585FFA400BD2C93 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AB79DD2585FFA400BD2C93 /* Session.swift */; };
 		B9AB79E32586145D00BD2C93 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AB79E22586145D00BD2C93 /* Auth.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
@@ -111,7 +112,8 @@
 		B96B4548258A5E9D003083DB /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		B96B4551258A8524003083DB /* DateStringFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateStringFormatter.swift; sourceTree = "<group>"; };
 		B99DEE62258E8CF000ADF201 /* PostsAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsAPI.swift; sourceTree = "<group>"; };
-		B99DEEF62590FA2B00ADF201 /* FeedbackData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackData.swift; sourceTree = "<group>"; };
+		B99DEEF62590FA2B00ADF201 /* Feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
+		B99DEF022591460700ADF201 /* FeedbackAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackAPI.swift; sourceTree = "<group>"; };
 		B9AB79DD2585FFA400BD2C93 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		B9AB79E22586145D00BD2C93 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -216,7 +218,7 @@
 		B94FA39225710C9D00A44085 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				B99DEEF62590FA2B00ADF201 /* FeedbackData.swift */,
+				B99DEEF62590FA2B00ADF201 /* Feedback.swift */,
 				B945385B258E18070000BB8A /* XPLevel.swift */,
 				B94FA398257112C700A44085 /* Profile.swift */,
 				B94D46F0257253BA00A21355 /* PostModel.swift */,
@@ -259,6 +261,7 @@
 			isa = PBXGroup;
 			children = (
 				B99DEE62258E8CF000ADF201 /* PostsAPI.swift */,
+				B99DEF022591460700ADF201 /* FeedbackAPI.swift */,
 			);
 			path = PostsAndFlows;
 			sourceTree = "<group>";
@@ -419,12 +422,13 @@
 				B94FA399257112C700A44085 /* Profile.swift in Sources */,
 				14322E08258F686800BED3C6 /* ConversationChat.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsViewController.swift in Sources */,
-				B99DEEF72590FA2B00ADF201 /* FeedbackData.swift in Sources */,
+				B99DEEF72590FA2B00ADF201 /* Feedback.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9453860258E2E190000BB8A /* WritePostViewTableViewCell.swift in Sources */,
 				B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */,
 				B94917C82584D75800930C2F /* Persistentdata.swift in Sources */,
 				B96B4552258A8524003083DB /* DateStringFormatter.swift in Sources */,
+				B99DEF032591460700ADF201 /* FeedbackAPI.swift in Sources */,
 				B9599A47257154EB0057B7D9 /* NewsFeedViewController.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
 				B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */,
