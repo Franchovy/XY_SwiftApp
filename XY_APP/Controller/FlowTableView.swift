@@ -177,7 +177,6 @@ extension FlowTableView : UITableViewDataSource {
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
         
-        // Add swipe left
         if self.posts.count > indexPath.row {
             var post = self.posts[indexPath.row - 1]
             post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 0, swipeRights: 1, swipeLefts: 0)
@@ -185,6 +184,8 @@ extension FlowTableView : UITableViewDataSource {
             if !self.postsToSubmitFeedbackIds.contains(post.id) {
                 self.postsToSubmitFeedbackIds.append(post.id)
             }
+            
+            self.updateFeedbackData()
         }
         
         let actionsConfig = UISwipeActionsConfiguration(actions: [closeAction])
@@ -202,7 +203,6 @@ extension FlowTableView : UITableViewDataSource {
             let cell = tableView.cellForRow(at: indexPath)
             self.swipeLeftAnimation(cell: cell!)
             
-            // Add swipe left
             if self.posts.count > indexPath.row {
                 var post = self.posts[indexPath.row]
                 if post.feedback != nil {
@@ -213,6 +213,8 @@ extension FlowTableView : UITableViewDataSource {
                     if !self.postsToSubmitFeedbackIds.contains(post.id) {
                         self.postsToSubmitFeedbackIds.append(post.id)
                     }
+                    
+                    self.updateFeedbackData()
                 }
             }
             
@@ -272,6 +274,10 @@ extension FlowTableView : UITableViewDataSource {
     }
     
     func feedbackTimer(timer: Timer) {
+        updateFeedbackData()
+    }
+    
+    func updateFeedbackData() {
         if postsToSubmitFeedbackIds.count == 0 { return }
         
         var feedbackData: [String: Feedback] = [:]

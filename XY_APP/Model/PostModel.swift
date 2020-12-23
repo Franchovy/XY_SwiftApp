@@ -57,7 +57,7 @@ class PostManager {
             posts[updateXPData.id] = postToUpdate
             
             let val2 = PostManager.shared.getXP(postId: postToUpdate.id)
-            if val.level != val2.level && val.xp != val2.xp { fatalError() }
+            //if val.level != val2.level && val.xp != val2.xp { fatalError() }
         }
     }
     

@@ -78,10 +78,12 @@ struct XPLevel {
     }
     
     mutating func addXP(xp: Float) {
+        print("Adding XP: \(xp)")
         self.xp += xp
         
         // Level up
         if Int(self.xp) > levels[level] {
+            print("Level up!")
             self.xp -= Float(levels[level])
             level += 1
         }
@@ -96,6 +98,13 @@ struct XPLevel {
 extension XPLevel: Decodable {
     enum CodingKeys: CodingKey {
       case xp, level, type
+    }
+    
+    init(type: XPLevelType, xp: Int, level: Int) {
+        self.init(type: type)
+        
+        self.xp = Float(xp)
+        self.level = level
     }
     
     init(from decoder: Decoder) throws {

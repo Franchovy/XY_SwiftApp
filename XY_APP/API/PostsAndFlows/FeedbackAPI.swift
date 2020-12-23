@@ -18,6 +18,7 @@ class FeedbackAPI {
     struct PostXPUpdateData : Decodable {
         var id: String
         var xp: Int
+        var level: Int
     }
     
     struct SubmitFeedbackResponse : Decodable {
