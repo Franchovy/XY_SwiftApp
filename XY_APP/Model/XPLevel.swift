@@ -69,8 +69,8 @@ struct XPLevel {
         
         switch type {
         case .post:
-            levels = [100, 1000, 10000, 100000]
-            colors = [.lightGray, .green, .yellow, .orange]
+            levels = [100, 1000, 10000, 100000, 1000000]
+            colors = [.lightGray, .green, .yellow, .orange, .white]
         default:
             levels = []
             colors = []
