@@ -152,7 +152,9 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                     case .none:
                         fatalError("You need to set imagePickedType before calling the imagePickerHandler.")
                     }
-                    self.imagePicker.dismiss(animated: true, completion: nil)
+                    DispatchQueue.main.async {
+                        self.imagePicker.dismiss(animated: true, completion: nil)
+                    }
                 case .failure(let error):
                     print("Error: \(error)")
                     self.imagePicker.dismiss(animated: true, completion: nil)

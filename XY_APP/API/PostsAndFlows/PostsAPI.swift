@@ -47,16 +47,23 @@ class PostsAPI {
         let status: Int?
     }
     
-    
-    
-    
     fileprivate struct GetAllPostsRequestMessage: Codable {
         
     }
     
-    fileprivate struct GetPostsResponse: Codable {
+    fileprivate struct PostAPIData: Decodable {
+        let id: String
+        let username: String
+        let timestamp: Date
+        let content: String
+        let images: [String]?
+        let xp: Int
+        let level: Int
+    }
+    
+    fileprivate struct GetPostsResponse: Decodable {
         
-        var response: [PostData]?
+        var response: [PostAPIData]?
         var status: Int?
         var message:String?
     }
@@ -93,22 +100,26 @@ class PostsAPI {
         getAllPostsRequest.save(message: message,response: response, completion: { result in
             switch result {
             case .success(let message):
-                print("POST request response: \"\(message.status)\"")
                 var postmodels = [PostData]()
-                print("Get all posts response: \(message.response)")
                 // Decode posts json into postModels for app use
                 if let posts = message.response {
-                    for post in posts {
+                    for postdata in posts {
                         var imageRefs: [String]? = nil
                         
-                        let dateString:String = post.timestamp.description
+                        let dateString:String = postdata.timestamp.description
                         print("Datestring: \(dateString)")
 
-                        let postModel = PostData(id: post.id, username: post.username, timestamp: post.timestamp, content: post.content, images: post.images)
-                        postmodels.append(postModel)
+                        var post = PostData(id: postdata.id, username: postdata.username, timestamp: postdata.timestamp, content: postdata.content, images: postdata.images)
+                        
+                        post.xpLevel = XPLevel(type: .post, xp: postdata.xp, level: postdata.level)
+                        
+                        postmodels.append(post)
                     }
                 }
                 DispatchQueue.main.async {
+                    // Add posts to PostManager
+                    PostManager.shared.addPosts(postmodels)
+                    // Return posts
                     completion(.success(postmodels))
                 }
                 

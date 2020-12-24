@@ -13,6 +13,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
 
     //var cells: [Item]
     var posts: [PostData] = []
+    var postsToSubmitFeedbackIds: [String] = []
     
     var parentViewController: UIViewController?
     
@@ -30,6 +31,13 @@ class FlowTableView : UITableView, UITableViewDelegate {
         register(UINib(nibName: "WritePostViewTableViewCell", bundle: nil), forCellReuseIdentifier: "CreatePostCell")
         
         rowHeight = UITableView.automaticDimension
+        
+        // Set viewcount timer
+        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: timerHandler)
+        timer.fire()
+        
+        let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: self.feedbackTimer)
+        feedbackTimer.fire()
     }
     
     func getPosts() {
@@ -143,19 +151,21 @@ extension FlowTableView : UITableViewDataSource {
         })
     }
     
+    
+    // SWIPE RIGHT
     @objc internal func tableView(_ tableView: UITableView,
                     leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {
         let closeAction = UIContextualAction(style: .normal, title:  "+ XP", handler: { (ac:UIContextualAction, view:UIView, success:(Bool) -> Void) in
-            print("OK, marked as Closed")
+            
             let cell = tableView.cellForRow(at: indexPath)
             self.swipeRightAnimation(cell: cell!)
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // Remove cell from flow and reload
                 if self.posts.count > 0 {
-                    self.posts.remove(at: indexPath.row - 1)
-                    tableView.reloadData()
+                    //self.posts.remove(at: indexPath.row - 1)
+                    //tableView.reloadData()
                 }
             }
             
@@ -166,6 +176,17 @@ extension FlowTableView : UITableViewDataSource {
         
         let cell = tableView.cellForRow(at: indexPath)
         cell?.selectionStyle = .none
+        
+        if self.posts.count > indexPath.row {
+            var post = self.posts[indexPath.row - 1]
+            post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 0, swipeRights: 1, swipeLefts: 0)
+            
+            if !self.postsToSubmitFeedbackIds.contains(post.id) {
+                self.postsToSubmitFeedbackIds.append(post.id)
+            }
+            
+            self.updateFeedbackData()
+        }
         
         let actionsConfig = UISwipeActionsConfiguration(actions: [closeAction])
         actionsConfig.performsFirstActionWithFullSwipe = true
@@ -181,6 +202,21 @@ extension FlowTableView : UITableViewDataSource {
 
             let cell = tableView.cellForRow(at: indexPath)
             self.swipeLeftAnimation(cell: cell!)
+            
+            if self.posts.count > indexPath.row {
+                var post = self.posts[indexPath.row]
+                if post.feedback != nil {
+                    post.feedback!.swipeLeft += 1
+                } else {
+                    post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 0, swipeRights: 0, swipeLefts: 1)
+                    
+                    if !self.postsToSubmitFeedbackIds.contains(post.id) {
+                        self.postsToSubmitFeedbackIds.append(post.id)
+                    }
+                    
+                    self.updateFeedbackData()
+                }
+            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 // Remove cell from flow and reload
@@ -198,5 +234,68 @@ extension FlowTableView : UITableViewDataSource {
         cell?.selectionStyle = .none
      
         return UISwipeActionsConfiguration(actions: [modifyAction])
+    }
+    
+    func reloadVisibleProgressBars() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            for cell in self.visibleCells {
+                if let cell = cell as? ImagePostCell {
+                    guard var post = PostManager.shared.getPostWithId(id: cell.postId!) else {return}
+                    
+                    let progressBar = cell.XP as! GradientCircularProgressBarPost
+                    progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
+                }
+            }
+        }
+    }
+    
+    func timerHandler(timer: Timer) {
+        for cell in visibleCells {
+            if let xpCell = cell as? ImagePostCell {
+                guard var post = PostManager.shared.getPostWithId(id: xpCell.postId!) else {return}
+                
+                // Add viewtime
+                post.feedback = PostManager.shared.updateFeedback(postId: post.id, viewTime: 1, swipeRights: 0, swipeLefts: 0)
+                
+                // Calculate XP gain
+                //post.xpLevel = Algorithm.shared.addXPfromPostFeedback(post: post)
+                // Update XP gain
+                //PostManager.shared.updateXP(postId: post.id, xpLevel: post.xpLevel)
+                // Register to submit feedback to backend
+                if !self.postsToSubmitFeedbackIds.contains(post.id) {
+                    self.postsToSubmitFeedbackIds.append(post.id)
+                }
+                // Update progress on progress bar
+                let progressBar = xpCell.XP as! GradientCircularProgressBarPost // todo remove this line
+                progressBar.color = post.xpLevel.getColor()
+                progressBar.progress = CGFloat(PostManager.shared.getXP(postId: post.id).xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
+            }
+        }
+    }
+    
+    func feedbackTimer(timer: Timer) {
+        updateFeedbackData()
+    }
+    
+    func updateFeedbackData() {
+        if postsToSubmitFeedbackIds.count == 0 { return }
+        
+        var feedbackData: [String: Feedback] = [:]
+        for postId in postsToSubmitFeedbackIds {
+            let post = PostManager.shared.getPostWithId(id: postId)
+            
+            feedbackData[postId] = post?.feedback!
+        }
+        
+        FeedbackAPI.shared.submitFeedbackForMultiple(data: feedbackData, completion: { result in
+            switch result {
+            case .success(let updatedXPDataArray):
+                PostManager.shared.addXPUpdateData(updatedXPDataArray: updatedXPDataArray)
+
+                self.reloadVisibleProgressBars()
+            case .failure(let error):
+                print("Error submitting feedback for posts: \(error)")
+            }
+        })
     }
 }

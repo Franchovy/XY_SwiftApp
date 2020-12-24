@@ -14,12 +14,9 @@ class FriendsViewController: UIViewController {
     @IBOutlet weak var friendshipContainer: UIView!
     @IBOutlet weak var chartsContainer: UIView!
     @IBOutlet weak var FL_Acquintance: UIButton!
-    @IBOutlet weak var challangesView: UIView!
+    @IBOutlet weak var challengesView: UIView!
     
     override func viewDidLoad() {
-       
-        
-     
         
         friendshipContainer.layer.cornerRadius = 15.0
         friendshipContainer.layer.shadowColor = UIColor.black.cgColor
@@ -29,11 +26,10 @@ class FriendsViewController: UIViewController {
         
         chartsContainer.layer.cornerRadius = 15.0
         
-        
-        challangesView.layer.shadowColor = UIColor.black.cgColor
-        challangesView.layer.shadowOffset = CGSize(width:1, height:1)
-        challangesView.layer.shadowRadius = 1
-        challangesView.layer.shadowOpacity = 1.0
+        challengesView.layer.shadowColor = UIColor.black.cgColor
+        challengesView.layer.shadowOffset = CGSize(width:1, height:1)
+        challengesView.layer.shadowRadius = 1
+        challengesView.layer.shadowOpacity = 1.0
         
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)

@@ -185,8 +185,11 @@ class GradientCircularProgressBarPost: UIView {
     
     @IBInspectable var ringWidth: CGFloat = 5
 
-    var progress: CGFloat = 1 {
-        didSet { setNeedsDisplay() }
+    var progress: CGFloat = 0.1 {
+        didSet {
+            setNeedsDisplay()
+            createAnimation()
+        }
     }
 
     private var progressLayer = CAShapeLayer()
@@ -225,17 +228,10 @@ class GradientCircularProgressBarPost: UIView {
         let startPointAnimation = CAKeyframeAnimation(keyPath: "startPoint")
         startPointAnimation.values = [CGPoint.zero, CGPoint(x: 1, y: 0), CGPoint(x: 1, y: 1)]
 
-        startPointAnimation.repeatCount = Float.infinity
-        startPointAnimation.duration = 1
-
-        let endPointAnimation = CAKeyframeAnimation(keyPath: "endPoint")
-        endPointAnimation.values = [CGPoint(x: 1, y: 1), CGPoint(x: 0, y: 1), CGPoint.zero]
-
-        endPointAnimation.repeatCount = Float.infinity
-        endPointAnimation.duration = 1
+        startPointAnimation.repeatCount = 1
+        startPointAnimation.duration = 0.7
 
         gradientLayer.add(startPointAnimation, forKey: "startPointAnimation")
-        gradientLayer.add(endPointAnimation, forKey: "endPointAnimation")
     }
 
     override func draw(_ rect: CGRect) {
@@ -250,9 +246,5 @@ class GradientCircularProgressBarPost: UIView {
 
         gradientLayer.frame = rect
         gradientLayer.colors = [color.cgColor, gradientColor.cgColor, color.cgColor]
-    }
-    
-    @IBAction func buttonPressed(_ sender: Any) {
-        createAnimation()
     }
 }

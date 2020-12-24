@@ -9,7 +9,7 @@ import Foundation
 
 // GLOBAL API VAR - SET THIS TO CONNECT TO BACKEND
 let API_URL = "https://xy-socialnetwork.com"
-//let API_URL = "http://192.168.8.111:5000"
+//let API_URL = "http://192.168.1.16:5000"
 
 
 enum APIError:Error {
@@ -46,7 +46,7 @@ class APIRequest {
         urlRequest.setValue(headerValue, forHTTPHeaderField: headerFieldName)
     }
     
-    func save<T: Codable, ResponseType: Codable> (message:T,response:ResponseType, completion: @escaping(Result<ResponseType, APIError>) -> Void) {
+    func save<T: Codable, ResponseType: Decodable> (message:T,response:ResponseType, completion: @escaping(Result<ResponseType, APIError>) -> Void) {
         
         do {
             // Initialise the Http Request
@@ -69,7 +69,6 @@ class APIRequest {
                 }
                 // Handle result
                 do {
-                    print("Response: \(jsonData)")
                     // Decode the response
                     let messageData = try JSONDecoder().decode(ResponseType.self, from: jsonData)
                     completion(.success(messageData))
