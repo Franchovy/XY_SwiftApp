@@ -172,7 +172,8 @@ extension FlowTableView : UITableViewDataSource {
         
         return actionsConfig
     }
-     
+    
+    // SWIPE LEFT
     func tableView(_ tableView: UITableView,
                     trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration?
     {

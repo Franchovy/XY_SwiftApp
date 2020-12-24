@@ -66,10 +66,10 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
                 case .failure(let error):
                     print("Error uploading image")
             }
-                DispatchQueue.main.async {
-                    picker.dismiss(animated: true, completion: nil)
-                }
             })
+            DispatchQueue.main.async {
+                picker.dismiss(animated: true, completion: nil)
+            }
         }
     }
    
