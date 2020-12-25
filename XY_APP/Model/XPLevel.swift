@@ -78,12 +78,10 @@ struct XPLevel {
     }
     
     mutating func addXP(xp: Float) {
-        print("Adding XP: \(xp)")
         self.xp += xp
         
         // Level up
         if Int(self.xp) > levels[level] {
-            print("Level up!")
             self.xp -= Float(levels[level])
             level += 1
         }

@@ -107,7 +107,6 @@ class PostsAPI {
                         var imageRefs: [String]? = nil
                         
                         let dateString:String = postdata.timestamp.description
-                        print("Datestring: \(dateString)")
 
                         var post = PostData(id: postdata.id, username: postdata.username, timestamp: postdata.timestamp, content: postdata.content, images: postdata.images)
                         

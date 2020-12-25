@@ -17,14 +17,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
-        if (Session.shared.hasSession()) {
-            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainViewController")
-            window?.rootViewController = viewController
-        } else {
-            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "LoginViewController")
-            window?.rootViewController = viewController
-        }
+        // Load session (if any) from Coredata persistent storage
+        CoreDataManager.loadSession()
+        
+        // Request to backend to see if session is still active
+        Session.shared.requestSession(completion: { result in
+            switch result {
+            case .success(let responseMessage):
+                print("Response: \(responseMessage)")
+                if responseMessage.sessionActive ?? false {
+                    // Session active
+                    
+                } else {
+                    // Session inactive
+                    Session.shared.expire()
+                }
+            case .failure(let error):
+                print("Login response: \(error)")
+                Session.shared.expire()
+            }
+
+            DispatchQueue.main.async {
+                let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
+                if (Session.shared.hasSession()) {
+                    let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainViewController")
+                    self.window?.rootViewController = viewController
+                } else {
+                    let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "LoginViewController")
+                    self.window?.rootViewController = viewController
+                }
+            }
+        })
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

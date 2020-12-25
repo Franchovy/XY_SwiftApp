@@ -58,10 +58,11 @@ class Session {
         var username:String?
         var token:String?
         var expires:String?
+        var sessionActive: Bool?
     }
     
     func requestSession(completion: @escaping(Result<GetSessionResponseMessage, Error>) -> Void) {
-        let getSessionRequest = APIRequest(endpoint: "get_profile", httpMethod: "GET")
+        let getSessionRequest = APIRequest(endpoint: "open_session", httpMethod: "GET")
         let getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
         let getSessionResponseMessage = GetSessionResponseMessage()
         
