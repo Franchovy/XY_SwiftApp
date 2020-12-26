@@ -38,7 +38,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         imagePicker.allowsEditing = true
         
         // View own profile.
-        setProfile(username: Session.shared.username)
     }
     
     
@@ -50,10 +49,55 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         }
         
         self.profile = Profile()
+        
+        xynameLabel.text = username
+        
         profile?.getProfile(username: username, closure: { result in
             switch result {
             case .success(let profileData):
-                break
+                // Load profile text properties
+                
+                if let locationText = profileData.location {
+                    DispatchQueue.main.async {
+                        self.locationLabel.text = locationText
+                    }
+                }
+                if let aboutMeText = profileData.aboutMe {
+                    DispatchQueue.main.async {
+                        self.captionLabel.text = aboutMeText
+                    }
+                }
+                
+                
+                // Load Profile Image
+                if let profilePhotoId = profileData.profilePhotoId {
+                    ImageCache.getOrFetch(id: profilePhotoId, closure: { result in
+                        switch result {
+                        case .success(let image):
+                            DispatchQueue.main.async {
+                                self.profileImage.image = image
+                            }
+                        case .failure(let error):
+                            print("Error getting profile image: \(error)")
+                        }
+                    })
+                }
+
+                // Load Cover Image
+                if let coverPhotoId = profileData.coverPhotoId {
+                    ImageCache.getOrFetch(id: coverPhotoId, closure: { result in
+                        switch result {
+                        case .success(let image):
+                            DispatchQueue.main.async {
+                                self.coverPicture.image = image
+                            }
+                        case .failure(let error):
+                            print("Error getting cover picture: \(error)")
+                        }
+                    })
+                }
+                
+                //profileImage.image = ImageCache.shared. profileData.profilePhotoId
             case .failure(let error):
                 print("Error loading profile: \(error)")
             }
@@ -87,33 +131,11 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         buttonConsole.layer.shadowRadius = 1
         buttonConsole.layer.shadowOpacity = 1.0
         
-        if profile == nil {
-            fatalError("Profile was not loaded! Please use loadProfile(username) before loading the ViewController")
-        }
         
         let username = profile?.profileData?.username
         
-        // Load profile image
-        profile?.getProfile(username: username ?? Session.shared.username, closure: {result in
-            switch result {
-            case .success(let profileData):
-                //Load data into profileView
-                
-                DispatchQueue.main.async {
-                    self.xynameLabel.text = username
-                    
-                    if let location = profileData.location {
-                        self.locationLabel.text = location
-                    }
-                    if let aboutMe = profileData.aboutMe {
-                        self.captionLabel.text = aboutMe
-                    }
-                }
-                
-            case .failure(let error):
-                print("Error getting profile photo: \(error)")
-            }
-        })
+        setProfile(username: Session.shared.username)
+
         
         super.viewDidLoad()
         

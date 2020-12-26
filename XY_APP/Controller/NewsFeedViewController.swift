@@ -95,12 +95,13 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         PostsAPI.shared.submitCreatePostRequest(content: createPostText, imageIds: imageIds, closure: { result in
             switch result {
             case .success(let postData):
-                // Create post and put in news feed
-                
-                // Refresh feed
-                self.getPosts()
+                print("Just created post: \(postData)")
+                // Add new post to flow
+                self.tableView.posts.insert(postData, at: 1)
+                print("TODO: Check image in cache, load on flow on submit")
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    
                 }
             case .failure(let error):
                 print("Error submitting post: \(error)")
