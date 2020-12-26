@@ -15,6 +15,7 @@ class CustomizeProfileViewController: UIViewController{
     
     let imagePicker = UIImagePickerController()
     
+    var profileData: Profile.ProfileData?
     
     override func viewDidLoad() {
         
@@ -22,10 +23,19 @@ class CustomizeProfileViewController: UIViewController{
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
+        Profile.shared.getProfile(username: Session.shared.username, closure: { result in
+            switch result {
+            case .success(let profile):
+                self.profileData = profile
+            case .failure(let error):
+                print("Error getting profile data: \(error)")
+            }
+        })
+        
         progileImageView.layer.cornerRadius = 15.0
         detailsContainerView.layer.cornerRadius = 15.0
         captionContainerView.layer.cornerRadius = 15.0
-
     }
- 
+    
+    
 }

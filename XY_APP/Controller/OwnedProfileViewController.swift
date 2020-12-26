@@ -204,6 +204,18 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     @IBAction func friendsButton(_ sender: UIButton) {
     }
     @IBAction func settingsButton(_ sender: UIButton) {
+        var vc:UIViewController
+
+        let storyboard = UIStoryboard(name: "CustomizeProfile", bundle: nil)
+        
+        vc = storyboard.instantiateViewController(withIdentifier: "CustomizeProfileViewController") as! CustomizeProfileViewController
+
+        // Hide Top and Bottom navigation bars!
+        self.hidesBottomBarWhenPushed = true
+        //self.navigationController?.navigationBar.isHidden = true
+        // Show next viewcontroller
+        self.present(vc, animated: true, completion: nil)
+        
     }
     
     @IBAction func editCoverImageButton(_ sender: UIButton) {

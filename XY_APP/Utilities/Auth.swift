@@ -91,6 +91,7 @@ class Auth {
                         Session.shared.setExpiry(expiryTimeInMinutes: message.expiry!)
                         // Save persistent
                         Session.shared.savePersistent() // TODO error handling
+
                         completion(.success(()))
                     }
                 case .failure(let error):

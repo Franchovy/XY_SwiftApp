@@ -39,6 +39,9 @@ class Profile {
     
     // MARK: - PROPERTIES
     
+    static var ownedProfile:ProfileData?
+    static var shared: Profile = Profile()
+    
     var profileData:ProfileData?
     
     var coverPhoto:UIImage?
@@ -77,10 +80,7 @@ class Profile {
     }
     
     
-    
-    
     // MARK: - API
-    
     
     fileprivate struct EditProfileRequestMessage: Codable {
         var profilePhotoId: String?
