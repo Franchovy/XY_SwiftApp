@@ -9,9 +9,26 @@ import UIKit
 
 
 class CustomizeProfileViewController: UIViewController{
-    @IBOutlet weak var progileImageView: UIView!
-    @IBOutlet weak var detailsContainerView: UIView!
-    @IBOutlet weak var captionContainerView: UIView!
+    
+    // MARK: - PROPERTIES
+    
+    // Outlets for data
+    
+    @IBOutlet weak var selectProfilePicture: UIView!
+    @IBOutlet weak var selectCoverPicture: UIButton!
+    @IBOutlet weak var editXYName: UITextField!
+    
+    @IBOutlet weak var editProfileCaption: UITextField!
+    
+    @IBOutlet weak var editFullName: UITextField!
+    @IBOutlet weak var editRole: UITextField!
+    
+    @IBOutlet weak var currentPasswordField: UITextField!
+    @IBOutlet weak var newPasswordField: UITextField!
+    @IBOutlet weak var repeatNewPasswordField: UITextField!
+    
+    
+    // Functionality properties
     
     let imagePicker = UIImagePickerController()
     
@@ -32,10 +49,29 @@ class CustomizeProfileViewController: UIViewController{
             }
         })
         
-        progileImageView.layer.cornerRadius = 15.0
-        detailsContainerView.layer.cornerRadius = 15.0
-        captionContainerView.layer.cornerRadius = 15.0
+    }
+    
+    // MARK: - IBActions
+    
+    
+    @IBAction func birthdayButtonPressed(_ sender: Any) {
+        
+    }
+    @IBAction func locationButtonPressed(_ sender: Any) {
+        
+    }
+    @IBAction func websiteButtonPressed(_ sender: Any) {
+        
     }
     
     
+    
+}
+
+class EditProfileCard : UIView {
+    
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
+        layer.cornerRadius = 15.0
+    }
 }
