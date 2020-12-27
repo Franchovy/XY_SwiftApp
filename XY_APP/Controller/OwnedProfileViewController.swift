@@ -131,7 +131,6 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
         buttonConsole.layer.shadowRadius = 1
         buttonConsole.layer.shadowOpacity = 1.0
         
-        
         let username = profile?.profileData?.username
         
         setProfile(username: Session.shared.username)
@@ -199,6 +198,18 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     
 
     @IBAction func postButton(_ sender: UIButton) {
+        var vc:UIViewController
+
+        let storyboard = UIStoryboard(name: "JarvisMenu", bundle: nil)
+        
+        vc = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+
+        // Hide Top and Bottom navigation bars!
+        self.hidesBottomBarWhenPushed = true
+        //self.navigationController?.navigationBar.isHidden = true
+        
+        // Show next viewcontroller
+        self.present(vc, animated: true, completion: nil)
     }
     
     @IBAction func friendsButton(_ sender: UIButton) {

@@ -33,7 +33,6 @@
 		14C96787258E455B00E072EA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C96786258E455B00E072EA /* Constants.swift */; };
 		14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */; };
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
-		B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */; };
 		B93D1BDE2597DB7A009ADBFC /* CustomizeProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B93D1BDD2597DB7A009ADBFC /* CustomizeProfile.storyboard */; };
 		B93D1BEE2597E9C6009ADBFC /* XY_APPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D1BED2597E9C6009ADBFC /* XY_APPTests.swift */; };
 		B93D1BF92597E9F9009ADBFC /* CustomizeProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D1BE42597E8CD009ADBFC /* CustomizeProfileTests.swift */; };
@@ -43,6 +42,8 @@
 		B94917C82584D75800930C2F /* Persistentdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917C72584D75800930C2F /* Persistentdata.swift */; };
 		B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */; };
 		B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */; };
+		B949A8352598C6A9008A74D8 /* JarvisMenu.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B949A8342598C6A9008A74D8 /* JarvisMenu.storyboard */; };
+		B949A8392598C6D7008A74D8 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B949A8382598C6D7008A74D8 /* MenuViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94FA399257112C700A44085 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94FA398257112C700A44085 /* Profile.swift */; };
 		B950D6F7256D25460065E756 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950D6F6256D25460065E756 /* Messages.swift */; };
@@ -108,7 +109,6 @@
 		14C96786258E455B00E072EA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCells.swift; sourceTree = "<group>"; };
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
-		B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		B93D1BDD2597DB7A009ADBFC /* CustomizeProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomizeProfile.storyboard; sourceTree = "<group>"; };
 		B93D1BE42597E8CD009ADBFC /* CustomizeProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomizeProfileTests.swift; sourceTree = "<group>"; };
 		B93D1BEB2597E9C6009ADBFC /* XY_APPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XY_APPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +120,8 @@
 		B94917C72584D75800930C2F /* Persistentdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistentdata.swift; sourceTree = "<group>"; };
 		B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B949A8342598C6A9008A74D8 /* JarvisMenu.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = JarvisMenu.storyboard; sourceTree = "<group>"; };
+		B949A8382598C6D7008A74D8 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94FA398257112C700A44085 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		B950D6F6256D25460065E756 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
@@ -190,7 +192,6 @@
 				B9599A3B25711D810057B7D9 /* LoginViewController.swift */,
 				B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */,
 				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
-				B926B9F0257DBE5700BCA049 /* CreatePostViewController.swift */,
 				1462BB0D257E47C30096FD23 /* FriendsViewController.swift */,
 				141FF440258270C70030FF67 /* ConversationsViewController.swift */,
 				14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */,
@@ -256,6 +257,15 @@
 				B93D1BEF2597E9C6009ADBFC /* Info.plist */,
 			);
 			path = XY_APPTests;
+			sourceTree = "<group>";
+		};
+		B949A82B2598C4BD008A74D8 /* JarvisMenu */ = {
+			isa = PBXGroup;
+			children = (
+				B949A8342598C6A9008A74D8 /* JarvisMenu.storyboard */,
+				B949A8382598C6D7008A74D8 /* MenuViewController.swift */,
+			);
+			path = JarvisMenu;
 			sourceTree = "<group>";
 		};
 		B94FA39225710C9D00A44085 /* Model */ = {
@@ -340,6 +350,7 @@
 		B9B92DD225644A3F005D9B86 /* XY_APP */ = {
 			isa = PBXGroup;
 			children = (
+				B949A82B2598C4BD008A74D8 /* JarvisMenu */,
 				B93D1BDC2597DB5D009ADBFC /* CustomizeProfile */,
 				B99DEEDF25909FF300ADF201 /* Flow */,
 				B97AB5A525859202006D2EE4 /* Utilities */,
@@ -460,6 +471,7 @@
 				B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */,
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
 				B9453861258E2E190000BB8A /* WritePostViewTableViewCell.xib in Resources */,
+				B949A8352598C6A9008A74D8 /* JarvisMenu.storyboard in Resources */,
 				148218C8258FFAA900676556 /* chatWithUser.xib in Resources */,
 				14B22648258D1484006966FC /* MomentsCollection.xib in Resources */,
 			);
@@ -483,12 +495,12 @@
 			files = (
 				148218C7258FFAA900676556 /* chatWithUser.swift in Sources */,
 				B9AB79DE2585FFA400BD2C93 /* Session.swift in Sources */,
-				B926B9F1257DBE5700BCA049 /* CreatePostViewController.swift in Sources */,
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
 				14A72D0D258F8CE10015D9CA /* WaitingButtonModel.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* FriendsViewController.swift in Sources */,
 				14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */,
 				B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */,
+				B949A8392598C6D7008A74D8 /* MenuViewController.swift in Sources */,
 				14A72D08258F8C770015D9CA /* WaitingButton.swift in Sources */,
 				141318D225909A6900B396D9 /* ChatPersonInfo.swift in Sources */,
 				B96B4549258A5E9D003083DB /* API.swift in Sources */,
