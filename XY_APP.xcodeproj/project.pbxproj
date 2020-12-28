@@ -65,6 +65,7 @@
 		B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DDF25644A41005D9B86 /* Assets.xcassets */; };
 		B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */; };
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
+		B9CFA8542599ED9A00DE25D3 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFA8532599ED9A00DE25D3 /* ProfileTests.swift */; };
 		B9F00B652587B0FD00EB87CB /* FlowTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B642587B0FD00EB87CB /* FlowTableView.swift */; };
 		B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B682587B31B00EB87CB /* ImageCache.swift */; };
 		B9F00B7D2588F67700EB87CB /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B7C2588F67700EB87CB /* ProfileView.swift */; };
@@ -145,6 +146,7 @@
 		B9B92DE225644A41005D9B86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9B92DE425644A41005D9B86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		B9CFA8532599ED9A00DE25D3 /* ProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
 		B9F00B642587B0FD00EB87CB /* FlowTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowTableView.swift; sourceTree = "<group>"; };
 		B9F00B682587B31B00EB87CB /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		B9F00B7C2588F67700EB87CB /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				B93D1BE42597E8CD009ADBFC /* CustomizeProfileTests.swift */,
 				B93D1BED2597E9C6009ADBFC /* XY_APPTests.swift */,
 				B93D1BEF2597E9C6009ADBFC /* Info.plist */,
+				B9CFA8532599ED9A00DE25D3 /* ProfileTests.swift */,
 			);
 			path = XY_APPTests;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9CFA8542599ED9A00DE25D3 /* ProfileTests.swift in Sources */,
 				B93D1BF92597E9F9009ADBFC /* CustomizeProfileTests.swift in Sources */,
 				B93D1BEE2597E9C6009ADBFC /* XY_APPTests.swift in Sources */,
 			);

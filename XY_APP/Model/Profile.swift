@@ -31,10 +31,6 @@ class Profile {
         var birthdate: Date?
     }
     
-    struct PasswordData {
-        var password: String?
-    }
-    
     // MARK: - PROPERTIES
     
     static var ownedProfile:ProfileData?
@@ -112,6 +108,32 @@ class Profile {
         })
     }
     
+    
+    struct ChangePasswordRequestData: Codable {
+        var oldPassword: String?
+        var newPassword: String?
+    }
+    
+    struct ChangePasswordResponse: Codable {
+        var message: String?
+    }
+    
+    func changePassword(oldPassword: String, newPassword: String) {
+        let request = APIRequest(endpoint: "reset_password", httpMethod: "POST")
+        let message = ChangePasswordRequestData(oldPassword: oldPassword, newPassword: newPassword)
+        let response = ChangePasswordResponse()
+        
+        request.save(message: message, response: response, completion: { result in
+            switch result {
+            case .success(let message):
+                print("Successfully changed password: \(message)")
+            case .failure(let error):
+                print("Error changing password: \(error)")
+            }
+        })
+    }
+    
+    
     fileprivate struct GetProfilePicIdRequestMessage: Codable {
         var username:String
     }
@@ -121,8 +143,10 @@ class Profile {
         var profilePhotoId:String?
         var coverPhotoId: String?
         var fullName: String?
-        var aboutMe: String?
+        var caption: String?
         var location: String?
+        var birthdate: Date?
+        var role: String?
     }
     
     // Make backend request to get info on <username>'s profile.
@@ -138,7 +162,7 @@ class Profile {
             case .success(let responseMessage):
                 if (responseMessage.profilePhotoId != nil) {
                     closure(.success( //TODO UPDATE API FOR --- ABOUT_ME ----
-                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, caption: responseMessage.aboutMe, fullName: responseMessage.fullName, location: responseMessage.location)
+                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, caption: responseMessage.caption, fullName: responseMessage.fullName, location: responseMessage.location)
                     ))
                 }
             case .failure(let error):
