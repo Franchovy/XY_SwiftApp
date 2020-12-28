@@ -30,6 +30,7 @@ class CustomizeProfileViewController: UIViewController{
     
     // Functionality properties
     
+    @IBOutlet weak var datePickerView: UIView!
     let imagePicker = UIImagePickerController()
     
     var profileData: Profile.ProfileData?
@@ -55,6 +56,8 @@ class CustomizeProfileViewController: UIViewController{
     
     
     @IBAction func birthdayButtonPressed(_ sender: Any) {
+        datePickerView.isHidden = false
+        
         
     }
     @IBAction func locationButtonPressed(_ sender: Any) {
