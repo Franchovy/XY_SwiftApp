@@ -48,7 +48,7 @@ class OtherProfileViewController :  UIViewController, UIImagePickerControllerDel
                 DispatchQueue.main.async {
                     self.xynameLabel.text = profileData.username
                     self.locationLabel.text = profileData.location
-                    self.captionLabel.text = profileData.aboutMe
+                    self.captionLabel.text = profileData.caption
                     
                     if let profileImageId = profileData.profilePhotoId {
                         ImageCache.createOrQueueImageRequest(id: profileImageId, completion: { image in

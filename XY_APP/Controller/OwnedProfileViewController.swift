@@ -62,7 +62,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                         self.locationLabel.text = locationText
                     }
                 }
-                if let aboutMeText = profileData.aboutMe {
+                if let aboutMeText = profileData.caption {
                     DispatchQueue.main.async {
                         self.captionLabel.text = aboutMeText
                     }
@@ -153,7 +153,7 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                     // Send edit profile request
                     let profilePictureId: String? = self.profile?.imagePickedType == .profilePicture ? imageId : nil
                     let coverPictureId: String? = self.profile?.imagePickedType == .coverPicture ? imageId : nil
-                    let editProfileRequest = Profile.EditProfileData(profilePhotoId: profilePictureId, coverPhotoId: coverPictureId)
+                    let editProfileRequest = Profile.ProfileData(coverPhotoId: coverPictureId, profilePhotoId: profilePictureId)
                     
                     self.profile?.editProfile(data: editProfileRequest, closure: {})
                     

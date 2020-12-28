@@ -20,21 +20,19 @@ class Profile {
         var image: UIImage?
     }
     
-    struct ProfileData {
+    struct ProfileData : Codable {
         var username:String?
         var coverPhotoId:String?
         var profilePhotoId:String?
-        var aboutMe:String?
+        var caption:String?
         var fullName: String?
         var location: String?
+        var role: String?
+        var birthdate: Date?
     }
     
-    struct EditProfileData {
-        var profilePhotoId: String?
-        var coverPhotoId: String?
-        var fullName: String?
-        var location: String?
-        var aboutMe: String?
+    struct PasswordData {
+        var password: String?
     }
     
     // MARK: - PROPERTIES
@@ -70,15 +68,13 @@ class Profile {
         Profile.getProfile(username: username, closure: closure)
     }
     
-    func editProfile(data:EditProfileData, closure: @escaping() -> Void) {
-        let request = EditProfileRequestMessage(profilePhotoId: data.profilePhotoId, coverPhotoId: data.coverPhotoId, fullName: data.fullName, location: data.location, aboutMe: data.profilePhotoId)
+    func editProfile(data:ProfileData, closure: @escaping() -> Void) {
         
-        Profile.sendEditProfileRequest(requestMessage: request, completion: { result in
+        Profile.sendEditProfileRequest(data: data, completion: { result in
             // TODO - Anything to do here?
             closure()
         })
     }
-    
     
     // MARK: - API
     
@@ -87,18 +83,17 @@ class Profile {
         var coverPhotoId: String?
         var fullName: String?
         var location: String?
-        var aboutMe: String?
-        // TODO - EXTEND:
-        //NEW PASSWORD
-        //OLD PASSWORD (for server authentication)
+        var caption: String?
+        var role: String?
+        var birthdate: Date?
     }
     
-    fileprivate static func sendEditProfileRequest(requestMessage: EditProfileRequestMessage, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
+    fileprivate static func sendEditProfileRequest(data: ProfileData, completion: @escaping(Result<ResponseMessage, Error>) -> Void) {
         // Make API request to backend to edit profile.
         let editProfileRequest = APIRequest(endpoint: "edit_profile", httpMethod: "POST")
         let response = ResponseMessage()
         // Check LoginRequestMessage is valid
-        editProfileRequest.save(message: requestMessage, response: response, completion: { result in
+        editProfileRequest.save(message: data, response: response, completion: { result in
             switch result {
             case .success(let message):
                 if let message = message.message {
@@ -142,8 +137,8 @@ class Profile {
             switch result {
             case .success(let responseMessage):
                 if (responseMessage.profilePhotoId != nil) {
-                    closure(.success(
-                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, aboutMe: responseMessage.aboutMe, fullName: responseMessage.fullName, location: responseMessage.location)
+                    closure(.success( //TODO UPDATE API FOR --- ABOUT_ME ----
+                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, caption: responseMessage.aboutMe, fullName: responseMessage.fullName, location: responseMessage.location)
                     ))
                 }
             case .failure(let error):

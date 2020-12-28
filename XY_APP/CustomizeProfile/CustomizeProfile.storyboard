@@ -89,7 +89,7 @@
                                                 </constraints>
                                                 <state key="normal" image="BirthdayButton"/>
                                                 <connections>
-                                                    <action selector="birthdayButtonPressed:" destination="lNq-sU-43k" eventType="touchDragInside" id="3E7-PF-iTz"/>
+                                                    <action selector="birthdayButtonPressed:" destination="lNq-sU-43k" eventType="touchUpInside" id="YCD-es-OII"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kHH-at-3Bj">

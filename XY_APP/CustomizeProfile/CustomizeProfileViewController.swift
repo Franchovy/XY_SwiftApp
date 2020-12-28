@@ -72,9 +72,10 @@ class CustomizeProfileViewController: UIViewController {
     // MARK: - DATE PICKER METHODS
     @IBAction func datePickConfirmPressed(_ sender: Any) {
         let newDate = datePicker.date
-        profileData.birthdate = newDate
-        Profile.shared.editProfile(data: profileData, closure: {
-            datePickerView.isHidden = true
+        profileData?.birthdate = newDate
+        Profile.shared.editProfile(data: profileData!, closure: {
+            print("Changed profile data!")
+            self.datePickerView.isHidden = true
         })
     }
     @IBAction func datePickCancelPressed(_ sender: Any) {
