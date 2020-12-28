@@ -62,12 +62,21 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                         self.locationLabel.text = locationText
                     }
                 }
-                if let aboutMeText = profileData.caption {
+                if let caption = profileData.caption {
                     DispatchQueue.main.async {
-                        self.captionLabel.text = aboutMeText
+                        self.captionLabel.text = caption
                     }
                 }
-                
+                if let website = profileData.website {
+                    DispatchQueue.main.async {
+                        self.websiteLabel.text = website
+                    }
+                }
+                if let role = profileData.role {
+                    DispatchQueue.main.async {
+                        self.categoryLabel.text = role
+                    }
+                }
                 
                 // Load Profile Image
                 if let profilePhotoId = profileData.profilePhotoId {

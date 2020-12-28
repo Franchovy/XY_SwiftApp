@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 
 
+// TODO
+// Remove duplication: ProfileData <- EditProfileRequest <- GetProfileResponse
+
 
 class Profile {
     
@@ -27,6 +30,7 @@ class Profile {
         var caption:String?
         var fullName: String?
         var location: String?
+        var website: String?
         var role: String?
         var birthdate: Date?
     }
@@ -80,6 +84,7 @@ class Profile {
         var fullName: String?
         var location: String?
         var caption: String?
+        var website: String?
         var role: String?
         var birthdate: Date?
     }
@@ -145,6 +150,7 @@ class Profile {
         var fullName: String?
         var caption: String?
         var location: String?
+        var website: String?
         var birthdate: Date?
         var role: String?
     }
@@ -162,7 +168,7 @@ class Profile {
             case .success(let responseMessage):
                 if (responseMessage.profilePhotoId != nil) {
                     closure(.success( //TODO UPDATE API FOR --- ABOUT_ME ----
-                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, caption: responseMessage.caption, fullName: responseMessage.fullName, location: responseMessage.location)
+                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, caption: responseMessage.caption, fullName: responseMessage.fullName, location: responseMessage.location, website: responseMessage.website, role: responseMessage.role)
                     ))
                 }
             case .failure(let error):
