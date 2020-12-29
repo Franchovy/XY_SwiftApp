@@ -8,12 +8,12 @@
 import UIKit
 
 class ExploreCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var MomentsPreview: UIImageView!
+    @IBOutlet weak var momentsPreview: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        MomentsPreview.layer.cornerRadius = 10
+        momentsPreview.layer.cornerRadius = 10
     }
 
 }
