@@ -7,6 +7,7 @@
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1122,51 +1123,6 @@
             </objects>
             <point key="canvasLocation" x="5508" y="196.55172413793105"/>
         </scene>
-        <!--Create Post View Controller-->
-        <scene sceneID="ZvM-z0-fhw">
-            <objects>
-                <viewController id="Ngc-WS-VrR" customClass="CreatePostViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="KyB-ce-7te">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" id="ztZ-56-pq7" userLabel="Write Post View">
-                                <rect key="frame" x="0.0" y="227" width="375" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a06-qU-Ags">
-                                        <rect key="frame" x="304" y="49" width="49" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Submit">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="submitButtonPressed:" destination="Ngc-WS-VrR" eventType="primaryActionTriggered" id="pdu-Hk-S7P"/>
-                                        </connections>
-                                    </button>
-                                    <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VH5-hf-FBb">
-                                        <rect key="frame" x="8" y="8" width="269" height="34"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="textColor" systemColor="systemGray6Color"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
-                                    </textField>
-                                </subviews>
-                                <color key="backgroundColor" name="XYblack"/>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="Kzi-h7-5fB"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="qTC-Ay-Ts6"/>
-                    <connections>
-                        <outlet property="writePostTextField" destination="VH5-hf-FBb" id="2AU-Pk-7zY"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pi3-7v-OAL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="6223.1999999999998" y="205.41871921182266"/>
-        </scene>
         <!--Home-->
         <scene sceneID="xrs-0t-JGO">
             <objects>
@@ -1209,11 +1165,11 @@
             </objects>
             <point key="canvasLocation" x="3412" y="1075.8620689655172"/>
         </scene>
-        <!--Profile-->
+        <!--Navigation Controller-->
         <scene sceneID="IgG-0n-2yR">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kU8-KU-Lbx" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Profile" selectedImage="profile_icon" id="Ob9-Ux-6Z6">
+                    <tabBarItem key="tabBarItem" systemItem="contacts" id="Ob9-Ux-6Z6">
                         <color key="badgeColor" name="XYpink"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
@@ -1509,12 +1465,59 @@
                     <view key="view" contentMode="scaleToFill" id="jxL-2r-Rac">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="729"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bi6-n5-qvb">
+                                <rect key="frame" x="0.0" y="88" width="375" height="641"/>
+                                <color key="backgroundColor" name="XYblack"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableviewcellid" id="uE2-8A-NlG">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="uE2-8A-NlG" id="n19-vw-knt">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yMG-cG-CUw">
+                                                    <rect key="frame" x="16" y="-42" width="240" height="128"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                                    <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="l6x-yz-gVE">
+                                                        <size key="itemSize" width="128" height="128"/>
+                                                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    </collectionViewFlowLayout>
+                                                    <cells>
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionviewcellid" id="epT-3J-9rO">
+                                                            <rect key="frame" x="56" y="0.0" width="128" height="128"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="dsV-gy-eps">
+                                                                <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                                                <autoresizingMask key="autoresizingMask"/>
+                                                            </collectionViewCellContentView>
+                                                        </collectionViewCell>
+                                                    </cells>
+                                                </collectionView>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" name="XYblack"/>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="759-pL-hKI"/>
                         <color key="backgroundColor" name="XYblack"/>
+                        <constraints>
+                            <constraint firstItem="bi6-n5-qvb" firstAttribute="top" secondItem="759-pL-hKI" secondAttribute="top" id="RaZ-sm-rlx"/>
+                            <constraint firstItem="bi6-n5-qvb" firstAttribute="bottom" secondItem="759-pL-hKI" secondAttribute="bottom" id="bQA-gC-3fB"/>
+                            <constraint firstItem="bi6-n5-qvb" firstAttribute="leading" secondItem="759-pL-hKI" secondAttribute="leading" id="xrZ-An-E89"/>
+                            <constraint firstItem="bi6-n5-qvb" firstAttribute="trailing" secondItem="759-pL-hKI" secondAttribute="trailing" id="zWX-X7-XQ9"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ciY-tV-e8F"/>
                     <connections>
                         <outlet property="ExploreSearchBar" destination="kiL-Jv-1MF" id="Nrr-Lf-1BZ"/>
+                        <outlet property="ExploreTableView" destination="bi6-n5-qvb" id="jHi-CO-rKE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xaz-9H-UE2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1570,7 +1573,6 @@
         <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
         <image name="linkIcon" width="18.333333969116211" height="19.333333969116211"/>
         <image name="placeIcon" width="14.666666984558105" height="21"/>
-        <image name="profile_icon" width="36" height="36"/>
         <image name="verifiedIcon" width="19" height="23"/>
         <namedColor name="XYblack">
             <color red="0.054999999701976776" green="0.059000000357627869" blue="0.063000001013278961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1583,9 +1585,6 @@
         </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGray6Color">
-            <color red="0.94901960784313721" green="0.94901960784313721" blue="0.96862745098039216" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
