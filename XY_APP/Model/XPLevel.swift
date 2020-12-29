@@ -41,6 +41,8 @@ class Levels {
         switch type {
         case .post:
             return [100, 1000, 10000, 100000, 1000000]
+        case .user:
+            return [5000, 15000, 50000, 150000, 500000]
         default:
             fatalError("Please define the levels in this class.")
         }
@@ -71,6 +73,9 @@ struct XPLevel {
         case .post:
             levels = [100, 1000, 10000, 100000, 1000000, 10000000]
             colors = [.lightGray, .green, .yellow, .orange, .blue, .cyan]
+        case .user:
+            levels = [5000, 15000, 50000, 150000, 500000]
+            colors = [.blue, .green, .cyan, .yellow, .orange, .red, .magenta]
         default:
             levels = []
             colors = []
