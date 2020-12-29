@@ -56,10 +56,13 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QBp-w0-GdZ" customClass="GradientCircularProgressBarPost" customModule="XY_APP" customModuleProvider="target">
-                                <rect key="frame" x="309" y="44" width="40" height="40"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QBp-w0-GdZ" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
+                                <rect key="frame" x="289.5" y="32.5" width="40" height="39"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="4Ud-Yp-sX1"/>
+                                    <constraint firstAttribute="width" constant="39" id="V0D-Vc-jwQ"/>
+                                </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="gradientColor">
                                         <color key="value" name="XYpink"/>
@@ -71,7 +74,7 @@
                                         <color key="value" systemColor="systemBlueColor"/>
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="ringWidth">
-                                        <real key="value" value="5"/>
+                                        <integer key="value" value="5"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
@@ -83,11 +86,13 @@
                             <constraint firstAttribute="bottom" secondItem="WoM-nW-VyZ" secondAttribute="bottom" constant="10" id="7u2-Hq-DJ7"/>
                             <constraint firstItem="dUd-Sk-chk" firstAttribute="leading" secondItem="JJE-Sv-NMJ" secondAttribute="trailing" constant="29" id="CNe-rJ-Xkz"/>
                             <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="EWX-D8-wqz"/>
+                            <constraint firstItem="QBp-w0-GdZ" firstAttribute="top" secondItem="LSG-yi-Cze" secondAttribute="bottom" constant="15" id="F6x-ji-zzJ"/>
                             <constraint firstItem="LSG-yi-Cze" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="5" id="GGH-XZ-ewx"/>
                             <constraint firstItem="JJE-Sv-NMJ" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="10" id="L5H-gP-tbC"/>
                             <constraint firstAttribute="trailing" secondItem="LSG-yi-Cze" secondAttribute="trailing" constant="10" id="Mhj-A4-MdB"/>
                             <constraint firstItem="JJE-Sv-NMJ" firstAttribute="leading" secondItem="29w-VH-8UM" secondAttribute="leading" constant="10" id="PfM-PM-nIZ"/>
                             <constraint firstItem="WoM-nW-VyZ" firstAttribute="leading" secondItem="29w-VH-8UM" secondAttribute="leading" constant="8" id="T5P-g8-63a"/>
+                            <constraint firstAttribute="trailing" secondItem="QBp-w0-GdZ" secondAttribute="trailing" constant="10" id="aTp-aj-zIa"/>
                             <constraint firstItem="dUd-Sk-chk" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="8" id="gnO-d0-gji"/>
                         </constraints>
                     </view>

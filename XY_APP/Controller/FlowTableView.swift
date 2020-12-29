@@ -238,11 +238,15 @@ extension FlowTableView : UITableViewDataSource {
     
     func reloadVisibleProgressBars() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            // Reload User progress bar
+            
+            
+            // Reload post progress bars
             for cell in self.visibleCells {
                 if let cell = cell as? ImagePostCell {
                     guard var post = PostManager.shared.getPostWithId(id: cell.postId!) else {return}
                     
-                    let progressBar = cell.XP as! GradientCircularProgressBarPost
+                    let progressBar = cell.XP as! CircleView
                     progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
                 }
             }
@@ -266,7 +270,7 @@ extension FlowTableView : UITableViewDataSource {
                     self.postsToSubmitFeedbackIds.append(post.id)
                 }
                 // Update progress on progress bar
-                let progressBar = xpCell.XP as! GradientCircularProgressBarPost // todo remove this line
+                let progressBar = xpCell.XP as! CircleView // todo remove this line
                 progressBar.color = post.xpLevel.getColor()
                 progressBar.progress = CGFloat(PostManager.shared.getXP(postId: post.id).xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
             }

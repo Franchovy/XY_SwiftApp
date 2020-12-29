@@ -1097,7 +1097,7 @@
                     <navigationItem key="navigationItem" id="gpL-9g-Nwa">
                         <rightBarButtonItems>
                             <barButtonItem style="plain" id="XKA-rj-Z33">
-                                <view key="customView" contentMode="scaleToFill" id="Cd4-p8-xgx" customClass="GradientCircularProgressBar" customModule="XY_APP" customModuleProvider="target">
+                                <view key="customView" contentMode="scaleToFill" id="Cd4-p8-xgx" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
                                     <rect key="frame" x="329" y="7" width="30" height="30"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>

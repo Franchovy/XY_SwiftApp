@@ -11,7 +11,7 @@ import UIKit
 class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
     
-    @IBOutlet weak var ringBar: UIView!
+    @IBOutlet weak var ringBar: CircleView!
     
     @IBOutlet weak var tableView: FlowTableView!
     
@@ -44,6 +44,9 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
         
+        // Set timer to reload user xp periodically
+        let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: self.timerHandler)
+        feedbackTimer.fire()
     }
     
     func getPosts() {
@@ -108,90 +111,24 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
             }
         })
     }
-}
-
-@IBDesignable
-class GradientCircularProgressBar: UIView {
-    @IBInspectable var color: UIColor = .gray {
-        didSet { setNeedsDisplay() }
+    
+    func timerHandler(timer: Timer) {
+        reloadUserXPProgressBar()
     }
-    @IBInspectable var gradientColor: UIColor = .white {
-        didSet { setNeedsDisplay() }
-    }
-    @IBInspectable var ringWidth: CGFloat = 5
-
-    var progress: CGFloat = 0.2 {
-        didSet { setNeedsDisplay() }
-    }
-
-    private var progressLayer = CAShapeLayer()
-    private var backgroundMask = CAShapeLayer()
-    private let gradientLayer = CAGradientLayer()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayers()
-        createAnimation()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupLayers()
-        createAnimation()
-    }
-
-    private func setupLayers() {
-        backgroundMask.lineWidth = ringWidth
-        backgroundMask.fillColor = nil
-        backgroundMask.strokeColor = UIColor.black.cgColor
-        layer.mask = backgroundMask
-
-        progressLayer.lineWidth = ringWidth
-        progressLayer.fillColor = nil
-
-        layer.addSublayer(gradientLayer)
-        layer.transform = CATransform3DMakeRotation(CGFloat(90 * Double.pi / 180), 0, 0, -1)
-
-        gradientLayer.mask = progressLayer
-        gradientLayer.locations = [0.35, 0.5, 0.65]
-    }
-
-    private func createAnimation() {
-        let startPointAnimation = CAKeyframeAnimation(keyPath: "startPoint")
-        startPointAnimation.values = [CGPoint.zero, CGPoint(x: 1, y: 0), CGPoint(x: 1, y: 1)]
-
-        startPointAnimation.repeatCount = 1
-        startPointAnimation.duration = 1
-
-        let endPointAnimation = CAKeyframeAnimation(keyPath: "endPoint")
-        endPointAnimation.values = [CGPoint(x: 1, y: 1), CGPoint(x: 0, y: 1), CGPoint.zero]
-
-        endPointAnimation.repeatCount = 1
-        endPointAnimation.duration = 1
-
-        gradientLayer.add(startPointAnimation, forKey: "startPointAnimation")
-        gradientLayer.add(endPointAnimation, forKey: "endPointAnimation")
-    }
-
-    override func draw(_ rect: CGRect) {
-        let circlePath = UIBezierPath(ovalIn: rect.insetBy(dx: ringWidth / 2, dy: ringWidth / 2))
-        backgroundMask.path = circlePath.cgPath
-
-        progressLayer.path = circlePath.cgPath
-        progressLayer.lineCap = .round
-        progressLayer.strokeStart = 0
-        progressLayer.strokeEnd = progress
-        progressLayer.strokeColor = UIColor.black.cgColor
-
-        gradientLayer.frame = rect
-        gradientLayer.colors = [color.cgColor, gradientColor.cgColor, color.cgColor]
-    }
-    @IBAction func buttonPressed(_ sender: Any) {
-        createAnimation()
+    
+    // Timer reloading user xp data
+    func reloadUserXPProgressBar() {
+        Profile.shared.getProfile(username: Session.shared.username, closure: { result in
+            switch result {
+            case .success(let profileData):
+                
+                DispatchQueue.main.async {
+                    self.ringBar.progress += 0.02
+                }
+                print("User has level:")
+            case .failure(let error):
+                print("Error fetching user profile data! \(error)")
+            }
+        })
     }
 }
-
-
-
-
-
