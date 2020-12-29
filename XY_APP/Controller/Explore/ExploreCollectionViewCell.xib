@@ -26,7 +26,7 @@
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="100" height="125"/>
             <connections>
-                <outlet property="MomentsPreview" destination="oWX-GY-B47" id="L0g-dy-Pca"/>
+                <outlet property="momentsPreview" destination="oWX-GY-B47" id="L0g-dy-Pca"/>
             </connections>
             <point key="canvasLocation" x="-10.144927536231885" y="54.575892857142854"/>
         </collectionViewCell>
