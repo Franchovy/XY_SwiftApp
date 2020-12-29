@@ -121,11 +121,10 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         Profile.shared.getProfile(username: Session.shared.username, closure: { result in
             switch result {
             case .success(let profileData):
-                
                 DispatchQueue.main.async {
-                    self.ringBar.progress += 0.02
+                    self.ringBar.progress = CGFloat(profileData.xpLevel!.xp / Levels.shared.getNextLevel(xpLevel: profileData.xpLevel!))
                 }
-                print("User has level:")
+                print("User has level: \(profileData.xpLevel?.level) xp: \(profileData.xpLevel?.xp)")
             case .failure(let error):
                 print("Error fetching user profile data! \(error)")
             }

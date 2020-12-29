@@ -33,7 +33,63 @@ class Profile {
         var website: String?
         var role: String?
         var birthdate: Date?
+        
+        var xpLevel: XPLevel?
+        
+        enum CodingKeys: CodingKey {
+          case username, coverPhotoId, profilePhotoId, caption, fullName, location, website, role, birthdate, xpLevel
+        }
+        
+        init(coverPhotoId:String?, profilePhotoId:String?) {
+            self.coverPhotoId = coverPhotoId
+            self.profilePhotoId = profilePhotoId
+        }
+        
+        init(username: String?, coverPhotoId: String?, profilePhotoId: String?, caption: String?, fullName: String?, location: String?, website: String?, role: String?, birthdate: Date?, xpLevel: XPLevel?) {
+            self.username = username
+            self.coverPhotoId = coverPhotoId
+            self.profilePhotoId = profilePhotoId
+            self.caption = caption
+            self.fullName = fullName
+            self.location = location
+            self.website = website
+            self.role = role
+            self.birthdate = birthdate
+            self.xpLevel = xpLevel
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            
+            username = try container.decode(String.self, forKey: .username)
+            coverPhotoId = try container.decode(String.self, forKey: .coverPhotoId)
+            profilePhotoId = try container.decode(String.self, forKey: .profilePhotoId)
+            caption = try container.decode(String.self, forKey: .caption)
+            fullName = try container.decode(String.self, forKey: .fullName)
+            location = try container.decode(String.self, forKey: .location)
+            website = try container.decode(String.self, forKey: .website)
+            role = try container.decode(String.self, forKey: .role)
+            birthdate = try container.decode(Date.self, forKey: .birthdate)
+            
+            xpLevel = container.contains(.xpLevel) ? try container.decode(XPLevel.self, forKey: .xpLevel) : XPLevel(type: .user)
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(username, forKey: .username)
+            try container.encode(coverPhotoId, forKey: .coverPhotoId)
+            try container.encode(profilePhotoId, forKey: .profilePhotoId)
+            try container.encode(caption, forKey: .caption)
+            try container.encode(fullName, forKey: .fullName)
+            try container.encode(location, forKey: .location)
+            try container.encode(website, forKey: .website)
+            try container.encode(role, forKey: .role)
+            try container.encode(birthdate, forKey: .birthdate)
+            
+            
+        }
     }
+
     
     // MARK: - PROPERTIES
     
@@ -153,6 +209,8 @@ class Profile {
         var website: String?
         var birthdate: Date?
         var role: String?
+        var xp: Int?
+        var level: Int?
     }
     
     // Make backend request to get info on <username>'s profile.
@@ -167,8 +225,8 @@ class Profile {
             switch result {
             case .success(let responseMessage):
                 if (responseMessage.profilePhotoId != nil) {
-                    closure(.success( //TODO UPDATE API FOR --- ABOUT_ME ----
-                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, caption: responseMessage.caption, fullName: responseMessage.fullName, location: responseMessage.location, website: responseMessage.website, role: responseMessage.role)
+                    closure(.success(
+                        ProfileData(username: username, coverPhotoId: responseMessage.coverPhotoId, profilePhotoId: responseMessage.profilePhotoId, caption: responseMessage.caption, fullName: responseMessage.fullName, location: responseMessage.location, website: responseMessage.website, role: responseMessage.role, birthdate: responseMessage.birthdate, xpLevel: XPLevel(type: .user, xp: responseMessage.xp!, level: responseMessage.level!))
                     ))
                 }
             case .failure(let error):
