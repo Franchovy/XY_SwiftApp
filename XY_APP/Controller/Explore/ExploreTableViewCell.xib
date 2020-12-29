@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableviewcellid" rowHeight="175" id="KGk-i7-Jjw" customClass="ExploreTableViewCell" customModule="XY_APP" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="175"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="175"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3P-uQ-45f">
+                        <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                        <color key="backgroundColor" systemColor="systemBlueColor"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="WZS-Ui-e3E"/>
+                            <constraint firstAttribute="height" constant="25" id="yci-DV-a3v"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Moments Collection_1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTe-Bl-iii">
+                        <rect key="frame" x="35" y="1" width="213" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="213" id="LXR-1v-REg"/>
+                            <constraint firstAttribute="height" constant="24" id="wTW-S3-oMe"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="kmD-Qx-n6Q">
+                        <rect key="frame" x="0.0" y="25" width="375" height="150"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zNj-6d-PpE">
+                            <size key="itemSize" width="128" height="128"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                    </collectionView>
+                </subviews>
+                <color key="backgroundColor" name="XYblack"/>
+                <constraints>
+                    <constraint firstItem="v3P-uQ-45f" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="EQt-lP-1Ji"/>
+                    <constraint firstAttribute="bottom" secondItem="v3P-uQ-45f" secondAttribute="bottom" constant="150" id="LES-xb-Yby"/>
+                    <constraint firstAttribute="bottom" secondItem="oTe-Bl-iii" secondAttribute="bottom" constant="150" id="Q5O-DH-xPH"/>
+                    <constraint firstItem="oTe-Bl-iii" firstAttribute="leading" secondItem="v3P-uQ-45f" secondAttribute="trailing" constant="10" id="XiE-DX-NFk"/>
+                    <constraint firstItem="oTe-Bl-iii" firstAttribute="leading" secondItem="v3P-uQ-45f" secondAttribute="trailing" constant="10" id="cR0-OX-Ogo"/>
+                    <constraint firstItem="oTe-Bl-iii" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="rpZ-G7-fq4"/>
+                    <constraint firstItem="v3P-uQ-45f" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="tpb-UT-O8y"/>
+                    <constraint firstAttribute="trailing" secondItem="oTe-Bl-iii" secondAttribute="trailing" constant="127" id="wHc-rO-rHp"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="ChallengesCollectionView" destination="kmD-Qx-n6Q" id="WGt-wE-WH0"/>
+                <outlet property="Circle" destination="v3P-uQ-45f" id="aWn-6d-TOS"/>
+                <outlet property="Label" destination="oTe-Bl-iii" id="R6h-gE-EI3"/>
+            </connections>
+            <point key="canvasLocation" x="177.536231884058" y="124.21875"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <namedColor name="XYblack">
+            <color red="0.054999999701976776" green="0.059000000357627869" blue="0.063000001013278961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
