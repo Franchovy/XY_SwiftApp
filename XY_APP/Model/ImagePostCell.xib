@@ -56,7 +56,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QBp-w0-GdZ" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QBp-w0-GdZ" customClass="ProgressBarCircle" customModule="XY_APP" customModuleProvider="target">
                                 <rect key="frame" x="289.5" y="32.5" width="40" height="39"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>

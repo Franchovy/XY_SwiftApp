@@ -14,9 +14,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet weak var ringBar: CircleView!
     
     @IBOutlet weak var tableView: FlowTableView!
-    
-    @IBOutlet weak var writePostTextField: UITextField!
-    
+        
     var imagePicker = UIImagePickerController()
     var imageIds: [String]?
     
@@ -24,6 +22,10 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        ringBar.levelLabel.text = "4"
+        ringBar.levelLabel.textColor = .white
+        ringBar.backgroundColor = .clear
         
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
@@ -37,7 +39,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         
         tableView.addImageCompletion = photoButtonPressed
         tableView.submitPostCompletion = submitButtonPressed
-        
+                
         // Get posts from backend
         getPosts()
         
@@ -122,7 +124,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
             switch result {
             case .success(let profileData):
                 DispatchQueue.main.async {
-                    self.ringBar.progress = CGFloat(profileData.xpLevel!.xp / Levels.shared.getNextLevel(xpLevel: profileData.xpLevel!))
+                    self.ringBar.progressBarCircle.progress = CGFloat(profileData.xpLevel!.xp / Levels.shared.getNextLevel(xpLevel: profileData.xpLevel!))
                 }
                 print("User has level: \(profileData.xpLevel?.level) xp: \(profileData.xpLevel?.xp)")
             case .failure(let error):
