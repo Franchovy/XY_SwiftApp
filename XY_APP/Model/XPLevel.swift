@@ -71,11 +71,16 @@ struct XPLevel {
         
         switch type {
         case .post:
-            levels = [100, 1000, 10000, 100000, 1000000, 10000000]
-            colors = [.lightGray, .green, .yellow, .orange, .blue, .cyan]
+
+            levels = [100, 1000, 25000, 50000, 100000, 250000, 500000 ]
+            colors = [.lightGray, .green, .yellow, .orange, .blue, .cyan, .green]
+        
         case .user:
             levels = [5000, 25000, 125000, 625000, 3125000, 15625000]
             colors = [.blue, .green, .cyan, .yellow, .orange, .red, .magenta]
+
+            
+
         default:
             levels = []
             colors = []

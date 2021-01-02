@@ -14,7 +14,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     @IBOutlet weak var ringBar: CircleView!
     
     @IBOutlet weak var tableView: FlowTableView!
-        
+
     var imagePicker = UIImagePickerController()
     var imageIds: [String]?
     
@@ -22,11 +22,13 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         
         ringBar.levelLabel.text = "4"
         ringBar.levelLabel.textColor = .white
         ringBar.backgroundColor = .clear
-        
+        ringBar.tintColor = .blue
+
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
