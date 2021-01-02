@@ -1,0 +1,24 @@
+
+ABOUT XY_PROFILES API
+=====================
+
+SUMMARY
+=======
+
+XY_Profiles uses the XY Server to authenticate, and in response loads a Profile Model for all future interaction and authentication with all backend servers.
+
+MODELS
+======
+
+MY_PROFILE [
+    username: String [48]         # stored in keychain
+    current_session_token: String   # this is created when the app is opened and connected to backend.
+]
+
+PERSISTENT STORAGE
+==================
+
+KEYCHAIN
+--------
+
+auth_token # for authentication without login

@@ -1,0 +1,58 @@
+
+ABOUT XY_APP
+============
+
+
+STRUCTURE
+=========
+
+XY_APP is made up of:
+- XY_APP Core, which is AppDelegate and SceneDelegate for now, and which handles the launch of the app,
+- APIs which are folders named something like XYContent, XYProfiles, XYMoments, XYLive, etc.
+
+The APIs are self-contained, with all information about Models, Reusable Views (xib & swift), ViewControllers, Backend API. The Backend API has all the communication defined inside the folder, using models defined inside /XYApi/Model.
+APIs can use other APIs. For example, the XYContent uses XYProfiles. In the future, people can define what APIs they use inside their own API.
+
+
+API FOLDER STRUCTURE
+====================
+
+| XY<Api>
+ |-----Backend
+    |-xy_<api>_backend_models
+    |-xy_<api>_backend_functions
+ |-----Model
+    |-xy_<api>_model_<modelName>
+ |-----View
+    |-xy_<api>_view_identifiers     # contains all identifiers for storyboards & xibs in this API.
+    |-xy_<api>_view_<viewName>
+    |-xy_<api>_view_<storyboardName>
+ |-----Controller
+    |-xy_<api>_controller_<viewControllerName>
+    |-xy_<api>_controller_<viewController2Name>
+    
+
+NAMING CONVENTION
+=================
+
+As naming convention for classes and files, we're keeping everything organised like a folder structure. It's different from normal swift because fuck you XCode. Plus, when you type any word inside this, all the search suggestions will be useful and much more helpful.
+
+xy_<api>_<folder>_<name of this file>.
+
+
+STRUCTURE - BREAKDOWN
+=====================
+
+Here's a breakdown of how the different parts of the app structure are used:
+
+Backend
+-------
+
+backend models: only structs representing messages request, response and error types to backend.
+backend functions: called using request messages, answers with response or error.
+
+Storage
+-------
+
+Any files inside storage can be set to "needsSaving" (this is coredata stuff) and when the AppDelegate.saveContext function runs, it will save any persistent data necessary.
+Still not sure if storage should be made as functions, which is probably easier to test and maintain, or objects, which seems more logical.

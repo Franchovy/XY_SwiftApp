@@ -57,9 +57,20 @@
 		B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B950D6FA256D25B10065E756 /* APIRequest.swift */; };
 		B9530020259F36CE00DE926A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953001F259F36CE00DE926A /* CircleView.swift */; };
 		B9530026259F476000DE926A /* CircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9530025259F476000DE926A /* CircleView.xib */; };
-		B953002B259F7A1F00DE926A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B953002A259F7A1F00DE926A /* LaunchScreen.storyboard */; };
-		B9530039259F7BFD00DE926A /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9530038259F7BFD00DE926A /* LaunchScreenViewController.swift */; };
-		B953003D259F7CB000DE926A /* LaunchScreenTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953003C259F7CB000DE926A /* LaunchScreenTests.swift */; };
+		B953002B259F7A1F00DE926A /* xy_profiles_view_launch.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B953002A259F7A1F00DE926A /* xy_profiles_view_launch.storyboard */; };
+		B9530039259F7BFD00DE926A /* xy_profiles_controller_launch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9530038259F7BFD00DE926A /* xy_profiles_controller_launch.swift */; };
+		B957646F25A0832D0030FA11 /* xy_profiles_view_login.xib in Resources */ = {isa = PBXBuildFile; fileRef = B957646E25A0832D0030FA11 /* xy_profiles_view_login.xib */; };
+		B957647325A083660030FA11 /* xy_profiles_view_login.swift in Sources */ = {isa = PBXBuildFile; fileRef = B957647225A083660030FA11 /* xy_profiles_view_login.swift */; };
+		B957648625A086A20030FA11 /* XYProfiles.about in Resources */ = {isa = PBXBuildFile; fileRef = B957648525A086A20030FA11 /* XYProfiles.about */; };
+		B957648A25A0877E0030FA11 /* xy_profiles_backend_models.swift in Sources */ = {isa = PBXBuildFile; fileRef = B957648925A0877E0030FA11 /* xy_profiles_backend_models.swift */; };
+		B957649225A087DB0030FA11 /* XY_APP.about in Resources */ = {isa = PBXBuildFile; fileRef = B957649125A087DB0030FA11 /* XY_APP.about */; };
+		B95764A225A08C670030FA11 /* XYContent.about in Resources */ = {isa = PBXBuildFile; fileRef = B95764A125A08C670030FA11 /* XYContent.about */; };
+		B95764A825A08D750030FA11 /* xy_profiles_backend_functions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95764A725A08D750030FA11 /* xy_profiles_backend_functions.swift */; };
+		B95764AE25A091660030FA11 /* xy_profiles_model_myProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95764AD25A091660030FA11 /* xy_profiles_model_myProfile.swift */; };
+		B95764B425A091CF0030FA11 /* xy_profiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95764B325A091CF0030FA11 /* xy_profiles.swift */; };
+		B95764BA25A0927C0030FA11 /* xy_profiles_view_signup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B95764B925A0927C0030FA11 /* xy_profiles_view_signup.xib */; };
+		B95764BE25A0933E0030FA11 /* xy_profiles_view_signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95764BD25A0933E0030FA11 /* xy_profiles_view_signup.swift */; };
+		B95764C725A09F8A0030FA11 /* xycore_views.todo in Resources */ = {isa = PBXBuildFile; fileRef = B95764C625A09F8A0030FA11 /* xycore_views.todo */; };
 		B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9599A3B25711D810057B7D9 /* LoginViewController.swift */; };
 		B9599A47257154EB0057B7D9 /* NewsFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */; };
 		B95B63F025795A640004E293 /* HttpUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B63EF25795A640004E293 /* HttpUtility.swift */; };
@@ -149,9 +160,20 @@
 		B950D6FA256D25B10065E756 /* APIRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequest.swift; sourceTree = "<group>"; };
 		B953001F259F36CE00DE926A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		B9530025259F476000DE926A /* CircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleView.xib; sourceTree = "<group>"; };
-		B953002A259F7A1F00DE926A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		B9530038259F7BFD00DE926A /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
-		B953003C259F7CB000DE926A /* LaunchScreenTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenTests.swift; sourceTree = "<group>"; };
+		B953002A259F7A1F00DE926A /* xy_profiles_view_launch.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = xy_profiles_view_launch.storyboard; sourceTree = "<group>"; };
+		B9530038259F7BFD00DE926A /* xy_profiles_controller_launch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xy_profiles_controller_launch.swift; sourceTree = "<group>"; };
+		B957646E25A0832D0030FA11 /* xy_profiles_view_login.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = xy_profiles_view_login.xib; sourceTree = "<group>"; };
+		B957647225A083660030FA11 /* xy_profiles_view_login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xy_profiles_view_login.swift; sourceTree = "<group>"; };
+		B957648525A086A20030FA11 /* XYProfiles.about */ = {isa = PBXFileReference; lastKnownFileType = text; path = XYProfiles.about; sourceTree = "<group>"; };
+		B957648925A0877E0030FA11 /* xy_profiles_backend_models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xy_profiles_backend_models.swift; sourceTree = "<group>"; };
+		B957649125A087DB0030FA11 /* XY_APP.about */ = {isa = PBXFileReference; lastKnownFileType = text; path = XY_APP.about; sourceTree = "<group>"; };
+		B95764A125A08C670030FA11 /* XYContent.about */ = {isa = PBXFileReference; lastKnownFileType = text; path = XYContent.about; sourceTree = "<group>"; };
+		B95764A725A08D750030FA11 /* xy_profiles_backend_functions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xy_profiles_backend_functions.swift; sourceTree = "<group>"; };
+		B95764AD25A091660030FA11 /* xy_profiles_model_myProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xy_profiles_model_myProfile.swift; sourceTree = "<group>"; };
+		B95764B325A091CF0030FA11 /* xy_profiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xy_profiles.swift; sourceTree = "<group>"; };
+		B95764B925A0927C0030FA11 /* xy_profiles_view_signup.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = xy_profiles_view_signup.xib; sourceTree = "<group>"; };
+		B95764BD25A0933E0030FA11 /* xy_profiles_view_signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = xy_profiles_view_signup.swift; sourceTree = "<group>"; };
+		B95764C625A09F8A0030FA11 /* xycore_views.todo */ = {isa = PBXFileReference; lastKnownFileType = text; path = xycore_views.todo; sourceTree = "<group>"; };
 		B9599A3B25711D810057B7D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsFeedViewController.swift; sourceTree = "<group>"; };
 		B95B63EF25795A640004E293 /* HttpUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpUtility.swift; sourceTree = "<group>"; };
@@ -362,14 +384,126 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		B9530029259F7A0B00DE926A /* Launch Screen */ = {
+		B957646325A082B10030FA11 /* XYProfiles */ = {
 			isa = PBXGroup;
 			children = (
-				B953002A259F7A1F00DE926A /* LaunchScreen.storyboard */,
-				B9530038259F7BFD00DE926A /* LaunchScreenViewController.swift */,
-				B953003C259F7CB000DE926A /* LaunchScreenTests.swift */,
+				B957648525A086A20030FA11 /* XYProfiles.about */,
+				B95764B325A091CF0030FA11 /* xy_profiles.swift */,
+				B957647925A084A10030FA11 /* Backend */,
+				B957647825A084920030FA11 /* Controller */,
+				B957647725A0848E0030FA11 /* Model */,
+				B957647625A084880030FA11 /* View */,
+				B95764C125A093730030FA11 /* Storage */,
 			);
-			path = "Launch Screen";
+			path = XYProfiles;
+			sourceTree = "<group>";
+		};
+		B957646425A082B80030FA11 /* XYContent */ = {
+			isa = PBXGroup;
+			children = (
+				B95764A125A08C670030FA11 /* XYContent.about */,
+				B957648125A0851F0030FA11 /* Backend */,
+				B957648025A085110030FA11 /* Model */,
+				B957647F25A085070030FA11 /* Controller */,
+				B957647E25A085020030FA11 /* View */,
+			);
+			path = XYContent;
+			sourceTree = "<group>";
+		};
+		B957646D25A082F80030FA11 /* Deprecated */ = {
+			isa = PBXGroup;
+			children = (
+				B949A82B2598C4BD008A74D8 /* JarvisMenu */,
+			);
+			path = Deprecated;
+			sourceTree = "<group>";
+		};
+		B957647625A084880030FA11 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B957647225A083660030FA11 /* xy_profiles_view_login.swift */,
+				B957646E25A0832D0030FA11 /* xy_profiles_view_login.xib */,
+				B95764B925A0927C0030FA11 /* xy_profiles_view_signup.xib */,
+				B95764BD25A0933E0030FA11 /* xy_profiles_view_signup.swift */,
+				B953002A259F7A1F00DE926A /* xy_profiles_view_launch.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B957647725A0848E0030FA11 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B95764AD25A091660030FA11 /* xy_profiles_model_myProfile.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B957647825A084920030FA11 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B9530038259F7BFD00DE926A /* xy_profiles_controller_launch.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B957647925A084A10030FA11 /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+				B957648925A0877E0030FA11 /* xy_profiles_backend_models.swift */,
+				B95764A725A08D750030FA11 /* xy_profiles_backend_functions.swift */,
+			);
+			path = Backend;
+			sourceTree = "<group>";
+		};
+		B957647E25A085020030FA11 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B957647F25A085070030FA11 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		B957648025A085110030FA11 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B957648125A0851F0030FA11 /* Backend */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Backend;
+			sourceTree = "<group>";
+		};
+		B95764C125A093730030FA11 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		B95764C425A09F690030FA11 /* XYCore */ = {
+			isa = PBXGroup;
+			children = (
+				B95764C525A09F700030FA11 /* View */,
+			);
+			path = XYCore;
+			sourceTree = "<group>";
+		};
+		B95764C525A09F700030FA11 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B95764C625A09F8A0030FA11 /* xycore_views.todo */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		B97AB5A525859202006D2EE4 /* Utilities */ = {
@@ -423,15 +557,18 @@
 		B9B92DD225644A3F005D9B86 /* XY_APP */ = {
 			isa = PBXGroup;
 			children = (
-				B9530029259F7A0B00DE926A /* Launch Screen */,
-				B949A82B2598C4BD008A74D8 /* JarvisMenu */,
+				B95764C425A09F690030FA11 /* XYCore */,
+				B957649125A087DB0030FA11 /* XY_APP.about */,
+				B9B92DD325644A3F005D9B86 /* AppDelegate.swift */,
+				B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */,
+				B957646325A082B10030FA11 /* XYProfiles */,
+				B957646425A082B80030FA11 /* XYContent */,
+				B957646D25A082F80030FA11 /* Deprecated */,
 				B93D1BDC2597DB5D009ADBFC /* CustomizeProfile */,
 				B99DEEDF25909FF300ADF201 /* Flow */,
 				B97AB5A525859202006D2EE4 /* Utilities */,
 				B94FA39225710C9D00A44085 /* Model */,
 				B950D6F5256D25370065E756 /* API */,
-				B9B92DD325644A3F005D9B86 /* AppDelegate.swift */,
-				B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */,
 				14175C7C2570F62D00C88051 /* Controller */,
 				14175C792570F5D600C88051 /* View */,
 				B9B92DDF25644A41005D9B86 /* Assets.xcassets */,
@@ -537,21 +674,27 @@
 			files = (
 				14322E09258F686800BED3C6 /* ConversationChat.xib in Resources */,
 				B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */,
+				B957646F25A0832D0030FA11 /* xy_profiles_view_login.xib in Resources */,
 				B93D1BDE2597DB7A009ADBFC /* CustomizeProfile.storyboard in Resources */,
 				14A72D09258F8C770015D9CA /* WaitingButton.xib in Resources */,
 				B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */,
 				140826BA25867EC400DC055D /* ImagePostCell.xib in Resources */,
+				B95764C725A09F8A0030FA11 /* xycore_views.todo in Resources */,
 				141318D325909A6900B396D9 /* ChatPersonInfo.xib in Resources */,
-				B953002B259F7A1F00DE926A /* LaunchScreen.storyboard in Resources */,
+				B953002B259F7A1F00DE926A /* xy_profiles_view_launch.storyboard in Resources */,
 				149AD6DB259B993B00E81ABC /* ExploreCollectionViewCell.xib in Resources */,
+				B957649225A087DB0030FA11 /* XY_APP.about in Resources */,
 				B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */,
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
+				B957648625A086A20030FA11 /* XYProfiles.about in Resources */,
 				149AD6D5259B94FE00E81ABC /* ExploreTableViewCell.xib in Resources */,
 				B9453861258E2E190000BB8A /* WritePostViewTableViewCell.xib in Resources */,
 				B9530026259F476000DE926A /* CircleView.xib in Resources */,
 				B949A8352598C6A9008A74D8 /* JarvisMenu.storyboard in Resources */,
 				148218C8258FFAA900676556 /* chatWithUser.xib in Resources */,
+				B95764A225A08C670030FA11 /* XYContent.about in Resources */,
 				14B22648258D1484006966FC /* MomentsCollection.xib in Resources */,
+				B95764BA25A0927C0030FA11 /* xy_profiles_view_signup.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,7 +705,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B953003D259F7CB000DE926A /* LaunchScreenTests.swift in Sources */,
 				B9CFA8542599ED9A00DE25D3 /* ProfileTests.swift in Sources */,
 				B93D1BF92597E9F9009ADBFC /* CustomizeProfileTests.swift in Sources */,
 				B93D1BEE2597E9C6009ADBFC /* XY_APPTests.swift in Sources */,
@@ -590,8 +732,10 @@
 				141318C22590881700B396D9 /* Chat.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
+				B95764A825A08D750030FA11 /* xy_profiles_backend_functions.swift in Sources */,
 				14B22647258D1484006966FC /* MomentsCollection.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
+				B95764B425A091CF0030FA11 /* xy_profiles.swift in Sources */,
 				B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */,
 				148218C3258FF52700676556 /* ChatVC.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
@@ -603,12 +747,15 @@
 				140A034625753BF900E19FDD /* PostView.swift in Sources */,
 				B9BC11DC259BAFED004B7327 /* ProgressBarCircle.swift in Sources */,
 				B94FA399257112C700A44085 /* Profile.swift in Sources */,
+				B95764AE25A091660030FA11 /* xy_profiles_model_myProfile.swift in Sources */,
 				14322E08258F686800BED3C6 /* ConversationChat.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsViewController.swift in Sources */,
 				B99DEEF72590FA2B00ADF201 /* Feedback.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
+				B95764BE25A0933E0030FA11 /* xy_profiles_view_signup.swift in Sources */,
 				B9453860258E2E190000BB8A /* WritePostViewTableViewCell.swift in Sources */,
 				B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */,
+				B957648A25A0877E0030FA11 /* xy_profiles_backend_models.swift in Sources */,
 				B94917C82584D75800930C2F /* Persistentdata.swift in Sources */,
 				B96B4552258A8524003083DB /* DateStringFormatter.swift in Sources */,
 				B99DEF032591460700ADF201 /* FeedbackAPI.swift in Sources */,
@@ -626,7 +773,8 @@
 				B945385C258E18070000BB8A /* XPLevel.swift in Sources */,
 				B95B63F025795A640004E293 /* HttpUtility.swift in Sources */,
 				140A034C257549B900E19FDD /* MomentsCollectionView.swift in Sources */,
-				B9530039259F7BFD00DE926A /* LaunchScreenViewController.swift in Sources */,
+				B957647325A083660030FA11 /* xy_profiles_view_login.swift in Sources */,
+				B9530039259F7BFD00DE926A /* xy_profiles_controller_launch.swift in Sources */,
 				B9AB79E32586145D00BD2C93 /* Auth.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

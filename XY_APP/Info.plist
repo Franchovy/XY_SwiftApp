@@ -46,7 +46,7 @@
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
-					<string>Main</string>
+					<string>xy_profiles_view_launch</string>
 				</dict>
 			</array>
 		</dict>
