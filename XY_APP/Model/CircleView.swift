@@ -32,6 +32,14 @@ class CircleView: UIView {
         progressBarCircle.frame = self.bounds
         progressBarCircle.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
+        progressBarCircle.layer.shadowRadius = 5
+        progressBarCircle.layer.shadowOffset = .zero
+        progressBarCircle.layer.shadowOpacity = 0.3
+        progressBarCircle.layer.shadowColor = UIColor.blue.cgColor
+        progressBarCircle.layer.shadowPath = UIBezierPath(rect: progressBarCircle.bounds).cgPath
+        progressBarCircle.layer.masksToBounds = false
+        
+        
         
         levelLabel.frame = self.bounds
         levelLabel.sizeToFit()

@@ -51,6 +51,9 @@ extension ExploreTableViewCell : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionviewcellid", for: indexPath) as! ExploreCollectionViewCell
         cell.momentsPreview.image = momentsRow[indexPath.row].previewImage
+        
+        
+    
         return cell
     }
     

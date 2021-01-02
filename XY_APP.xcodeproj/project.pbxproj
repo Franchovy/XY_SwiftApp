@@ -28,7 +28,7 @@
 		14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14607A6D25A0618D009B3B50 /* CreatePostCell.swift */; };
 		14607A7025A0618D009B3B50 /* CreatePostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14607A6E25A0618D009B3B50 /* CreatePostCell.xib */; };
 		14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */; };
-		1462BB0E257E47C30096FD23 /* FriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB0D257E47C30096FD23 /* FriendsViewController.swift */; };
+		1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB0D257E47C30096FD23 /* XYworldVC.swift */; };
 		1462BB14257E4DC00096FD23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB13257E4DC00096FD23 /* Message.swift */; };
 		148218C3258FF52700676556 /* ChatVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148218C2258FF52700676556 /* ChatVC.swift */; };
 		148218C7258FFAA900676556 /* chatWithUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 148218C5258FFAA900676556 /* chatWithUser.swift */; };
@@ -127,7 +127,7 @@
 		14607A6D25A0618D009B3B50 /* CreatePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostCell.swift; sourceTree = "<group>"; };
 		14607A6E25A0618D009B3B50 /* CreatePostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePostCell.xib; sourceTree = "<group>"; };
 		14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedProfileViewController.swift; sourceTree = "<group>"; };
-		1462BB0D257E47C30096FD23 /* FriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsViewController.swift; sourceTree = "<group>"; };
+		1462BB0D257E47C30096FD23 /* XYworldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYworldVC.swift; sourceTree = "<group>"; };
 		1462BB13257E4DC00096FD23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		148218C2258FF52700676556 /* ChatVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatVC.swift; sourceTree = "<group>"; };
 		148218C5258FFAA900676556 /* chatWithUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatWithUser.swift; sourceTree = "<group>"; };
@@ -268,7 +268,7 @@
 		149AD6A2259B52E300E81ABC /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				1462BB0D257E47C30096FD23 /* FriendsViewController.swift */,
+				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */,
 			);
 			path = TabBar;
@@ -607,7 +607,7 @@
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
 				14A72D0D258F8CE10015D9CA /* WaitingButtonModel.swift in Sources */,
 				14169C99259B9EE5003C047F /* ExploreViewCollectionModel.swift in Sources */,
-				1462BB0E257E47C30096FD23 /* FriendsViewController.swift in Sources */,
+				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */,
 				B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */,
 				B949A8392598C6D7008A74D8 /* MenuViewController.swift in Sources */,

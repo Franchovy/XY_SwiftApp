@@ -63,8 +63,8 @@ extension ExploreViewController : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableviewcellid", for: indexPath)
-        cell.textLabel?.text = ""
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableviewcellid", for: indexPath) as! ExploreTableViewCell
+        cell.Label.text = challenges[indexPath.row].challengesLabel
         return cell
     }
     

@@ -17,9 +17,9 @@ class ProgressBarCircle: UIView {
         didSet { setNeedsDisplay() }
     }
     
-    @IBInspectable var ringWidth: CGFloat = 5
+    @IBInspectable var ringWidth: CGFloat = 3
 
-    var progress: CGFloat = 0.1 {
+    var progress: CGFloat = 0.5 {
         didSet {
             setNeedsDisplay()
             createAnimation()
@@ -47,7 +47,6 @@ class ProgressBarCircle: UIView {
         backgroundMask.fillColor = nil
         backgroundMask.strokeColor = UIColor.black.cgColor
         layer.mask = backgroundMask
-
         progressLayer.lineWidth = ringWidth
         progressLayer.fillColor = nil
 
@@ -87,5 +86,6 @@ class ProgressBarCircle: UIView {
 
         gradientLayer.frame = rect
         gradientLayer.colors = [color.cgColor, gradientColor.cgColor, color.cgColor]
+
     }
 }

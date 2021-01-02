@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Rettangolo signin.png",
+      "filename" : "flow_icon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Rettangolo signin@2x.png",
+      "filename" : "flow_icon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Rettangolo signin@3x.png",
+      "filename" : "flow_icon@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

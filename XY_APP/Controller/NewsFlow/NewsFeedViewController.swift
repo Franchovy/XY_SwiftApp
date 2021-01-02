@@ -15,6 +15,9 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBOutlet weak var tableView: FlowTableView!
 
+ 
+   
+    
     var imagePicker = UIImagePickerController()
     var imageIds: [String]?
     
@@ -24,11 +27,19 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         super.viewDidLoad()
 
         
+        ringBar.layer.shadowRadius = 10
+        ringBar.layer.shadowOffset = .zero
+        ringBar.layer.shadowOpacity = 0.5
+        ringBar.layer.shadowColor = UIColor.blue.cgColor
+        ringBar.layer.shadowPath = UIBezierPath(rect: ringBar.bounds).cgPath
+        ringBar.layer.masksToBounds = false
         ringBar.levelLabel.text = "4"
         ringBar.levelLabel.textColor = .white
         ringBar.backgroundColor = .clear
         ringBar.tintColor = .blue
 
+        
+        
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
@@ -133,5 +144,10 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
                 print("Error fetching user profile data! \(error)")
             }
         })
+    }
+   
+    @IBAction func xpButtonPressed(_ sender: UIBarButtonItem) {
+        
+        performSegue(withIdentifier: "segueToNotifications", sender: nil)
     }
 }
