@@ -24,18 +24,6 @@ class ProfileTests: XCTestCase {
     func testEditProfileAPI() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-        let profileData = Profile.ProfileData(caption: "caption", role: "my job")
-        Profile.shared.editProfile(data: profileData, closure: {
-            Profile.shared.getProfile(username: Session.shared.username, closure: { result in
-                switch result {
-                case .success(let responseProfileData):
-                    XCTAssert(profileData.caption == responseProfileData.caption)
-                    XCTAssert(profileData.role == responseProfileData.role)
-                case .failure(let error):
-                    fatalError("\(error)")
-                }
-            })
-        })
     }
     
     func testChangePassword() throws {

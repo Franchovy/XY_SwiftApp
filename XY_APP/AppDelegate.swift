@@ -15,68 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        // Check user session
-        // Check login
-        if Session.shared.hasSession() {
-            print("Session active!")
-        } else {
-            print("Checking session...")
-            
-            let sessionIsLoaded = CoreDataManager.loadSession()
-            if sessionIsLoaded {
-                print("Session loaded! Skipping login screen.")
-                loadInitialScreenOnAuthCheck()
-            } else {
-                // No session detected locally.
-                // Check backend for session
-                Session.shared.requestSession(completion: { result in
-                    switch result {
-                    case .success(let message):
-                        print("Received session info from backend. Setting local session.")
-                        if let username = message.username {
-                            Session.shared.username = username
-                        }
-                        if let token = message.token {
-                            Session.shared.sessionToken = token
-                        }
-                    case .failure(let error):
-                        print("No session found, or error: \(error)")
-                    }
-                    
-                    // Load initial screen after check
-                    self.loadInitialScreenOnAuthCheck()
-                })
-            }
-        }
-        
-        if #available(iOS 13.0, *) {
-            // In iOS 13 setup is done in SceneDelegate
-        } else {
-
-        }
+        // Check connection to server
         
         return true
-    }
-    
-    func loadInitialScreenOnAuthCheck() {
-        // Set initial view in ios version 12
-        if #available(iOS 13.0, *) {
-            // Initial view in iOS 13 is handled by SceneDelegate
-        } else {
-            let window = UIWindow(frame: UIScreen.main.bounds)
-            self.window = window
-
-            let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            if (Session.shared.hasSession()){
-                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
-                window.rootViewController = newViewcontroller
-            } else {
-                
-                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                window.rootViewController = newViewcontroller
-            }
-        }
     }
 
     // MARK: UISceneSession Lifecycle

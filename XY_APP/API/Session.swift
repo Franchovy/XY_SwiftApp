@@ -55,25 +55,60 @@ class Session {
     
     struct GetSessionResponseMessage : Codable {
         var message:String?
-        var username:String?
-        var token:String?
-        var expires:String?
         var sessionActive: Bool?
     }
     
-    func requestSession(completion: @escaping(Result<GetSessionResponseMessage, Error>) -> Void) {
-        let getSessionRequest = APIRequest(endpoint: "open_session", httpMethod: "GET")
-        let getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
-        let getSessionResponseMessage = GetSessionResponseMessage()
+    enum SessionResponse {
+        case sessionExpired
+        case sessionValid
+    }
+    
+    enum SessionResponseError: Error {
+        case sessionInvalid
+        case connectionProblem
+    }
+    
+    func requestSession(completion: @escaping(Result<SessionResponse, SessionResponseError>) -> Void) {
+        var urlRequest = URLRequest(url: URL(string: API_URL + "/open_session")!)
+        urlRequest.httpMethod = "GET"
         
-        getSessionRequest.save(message: getSessionRequestMessage, response:getSessionResponseMessage, completion: { result in
-            switch result {
-            case .success(let message):
-                completion(.success(message))
-            case .failure(let error):
-                completion(.failure(error))
+        if hasSession() {
+            urlRequest.addValue(sessionToken, forHTTPHeaderField: "Session")
+        }
+        
+        let getSessionRequestMessage = GetSessionRequestMessage("Get profile for this guy!")
+        
+        // Initialise the Http Request
+        urlRequest.addValue("application/JSON", forHTTPHeaderField: "Content-Type")
+        // Encode the codableMessage properties into JSON for Http Request
+        urlRequest.httpBody = try! JSONEncoder().encode(getSessionRequestMessage)
+                
+        // Open the task as urlRequest
+        let dataTask = URLSession.shared.dataTask(with: urlRequest) {data, response, _ in
+            // Save response or handle Error
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200, let jsonData = data else {
+                completion(.failure(.sessionInvalid))
+                return
             }
-        })
+            // Handle result
+            do {
+                // Decode the response
+                let messageData = try JSONDecoder().decode(GetSessionResponseMessage.self, from: jsonData)
+                
+                // Set session data
+                if messageData.sessionActive! {
+                    completion(.success(.sessionValid))
+                } else {
+                    completion(.success(.sessionExpired))
+                }
+            } catch {
+                // Error decoding the message
+                print("Error decoding the following response: \(httpResponse)")
+                print(error)
+                completion(.failure(.connectionProblem))
+            }
+        }
+        dataTask.resume() // Execute the httpRequest task
     }
     
     func savePersistent() {

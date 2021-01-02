@@ -17,14 +17,45 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
-        if (Session.shared.hasSession()) {
-            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainViewController")
-            window?.rootViewController = viewController
-        } else {
-            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "LoginViewController")
-            window?.rootViewController = viewController
-        }
+        API.shared.checkConnection(closure: { connectionStatus in
+            switch connectionStatus {
+            case .noConnection:
+                // Load launchscreen with connection failure
+                let launchScreenStoryboard:UIStoryboard = UIStoryboard(name: "LaunchScreen", bundle: nil)
+                DispatchQueue.main.async {
+                    let newViewcontroller = launchScreenStoryboard.instantiateViewController(withIdentifier: "LaunchScreen") as! LaunchScreenViewController
+                    API.shared.hasConnection = false
+                    self.window!.rootViewController = newViewcontroller
+                }
+            case .hasConnection:
+                // Load session details
+                CoreDataManager.loadSession()
+                
+                // Check if session is active & valid
+                Session.shared.requestSession(completion: { result in
+                    switch result {
+                    case .success(let message):
+
+                        // Segue to main
+                        let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        
+                        DispatchQueue.main.async {
+                            let newViewcontroller = mainstoryboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
+                            self.window!.rootViewController = newViewcontroller
+                        }
+                    case .failure(let error):
+                        // No session found, segue to login
+                        let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        DispatchQueue.main.async {
+                            let newViewcontroller = mainstoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
+                            self.window!.rootViewController = newViewcontroller
+                        }
+                    }
+                })
+            }
+        })
+        
+        
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
