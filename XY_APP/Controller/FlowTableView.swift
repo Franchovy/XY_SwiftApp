@@ -27,7 +27,11 @@ class FlowTableView : UITableView, UITableViewDelegate {
         dataSource = self
 
         // Register celltype PostViewCell
+    
+        register(UINib(nibName: "FlowMomentsTableViewCell", bundle: nil), forCellReuseIdentifier: "MomentsCell")
+        
         register(UINib(nibName: K.imagePostCellNibName, bundle: nil), forCellReuseIdentifier: K.imagePostCellIdentifier)
+        
         register(UINib(nibName: "WritePostViewTableViewCell", bundle: nil), forCellReuseIdentifier: "CreatePostCell")
         
         rowHeight = UITableView.automaticDimension
@@ -76,7 +80,7 @@ class FlowTableView : UITableView, UITableViewDelegate {
 extension FlowTableView : UITableViewDataSource {
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.posts.count + 1
+        return self.posts.count + 2
     }
     
     // create a cell for each table view row
@@ -96,9 +100,18 @@ extension FlowTableView : UITableViewDataSource {
             return cell
         }
         
+        if indexPath.row == 1 {
+            let cell = dequeueReusableCell(withIdentifier: "MomentsCell") as! FlowMomentsTableViewCell
+            
+            return cell
+        }
+        
         // Load cell from async loader using indexpath for id.
         if let cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as? ImagePostCell {
-            cell.loadFromPost(post: posts[indexPath.row - 1])
+            cell.loadFromPost(post: posts[indexPath.row - 2])
+            cell.XP.backgroundColor = .clear
+            cell.XP.levelLabel.textColor = .white
+            cell.XP.levelLabel.text = "1"
             return cell
 
         } else if let cell = dequeueReusableCell(withIdentifier: "CreatePostCell") as? WritePostViewTableViewCell {
@@ -108,16 +121,15 @@ extension FlowTableView : UITableViewDataSource {
         }
         fatalError()
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // method to run when table view cell is tapped
-        if let cell = tableView.cellForRow(at: indexPath) as? ImagePostCell {
+        if (tableView.cellForRow(at: indexPath) as? ImagePostCell) != nil {
             let profileViewer = ProfileViewer()
             
             if let parentViewController = parentViewController {
                 profileViewer.parentViewController = parentViewController
                 
-                let post = posts[indexPath.row - 1]
+                let post = posts[indexPath.row - 2]
                 profileViewer.segueToProfile(username: post.username)
             } else {
                 fatalError("parentViewController needs to be set for navigating to profile!")
@@ -246,7 +258,7 @@ extension FlowTableView : UITableViewDataSource {
                 if let cell = cell as? ImagePostCell {
                     guard var post = PostManager.shared.getPostWithId(id: cell.postId!) else {return}
                     
-                    let progressBar = cell.XP as! ProgressBarCircle
+                    let progressBar = cell.XP.progressBarCircle!
                     progressBar.progress = CGFloat(post.xpLevel.xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
                 }
             }
@@ -270,7 +282,7 @@ extension FlowTableView : UITableViewDataSource {
                     self.postsToSubmitFeedbackIds.append(post.id)
                 }
                 // Update progress on progress bar
-                let progressBar = xpCell.XP as! ProgressBarCircle // todo remove this line
+                let progressBar = xpCell.XP.progressBarCircle!
                 progressBar.color = post.xpLevel.getColor()
                 progressBar.progress = CGFloat(PostManager.shared.getXP(postId: post.id).xp / Levels.shared.getNextLevel(xpLevel: post.xpLevel))
             }
@@ -303,3 +315,5 @@ extension FlowTableView : UITableViewDataSource {
         })
     }
 }
+
+

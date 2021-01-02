@@ -13,7 +13,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        momentsPreview.layer.cornerRadius = 10
+        momentsPreview.layer.cornerRadius = 5
     }
 
 }

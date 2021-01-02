@@ -37,6 +37,7 @@ class ExploreViewController: UIViewController, UISearchBarDelegate {
         
        
         ExploreSearchBar.delegate = self
+        
         navigationItem.titleView = ExploreSearchBar
         ExploreSearchBar.placeholder = "Search"
         

@@ -11,10 +11,11 @@ class ExploreTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     var momentsRow: [ExploreViewCollectionModel] = [
         
+        ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_1")!),
         ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_2")!),
-        ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_2")!),
-        ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_2")!),
-        ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_2")!)
+        ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_3")!),
+        ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_4")!),
+        ExploreViewCollectionModel(previewImage: UIImage(named: "Moment_5")!)
         
     ]
     
@@ -30,7 +31,7 @@ class ExploreTableViewCell: UITableViewCell, UICollectionViewDelegate {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize = CGSize(width: 90, height: 125)
+        flowLayout.itemSize = CGSize(width: 90, height: 138)
         flowLayout.minimumLineSpacing = 10.0
         flowLayout.minimumInteritemSpacing = 10.0
         self.ChallengesCollectionView.collectionViewLayout = flowLayout
