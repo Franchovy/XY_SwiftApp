@@ -12,6 +12,10 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     
     var imagePicker: UIImagePickerController
     
+    
+    @IBOutlet weak var profileTableView: UITableView!
+    
+    
     @IBOutlet weak var editCoverImageButton: UIButton!
     @IBOutlet weak var editProfilePictureButton: UIButton!
     @IBOutlet weak var coverPicture: UIImageView!

@@ -9,12 +9,16 @@ import UIKit
 
 class ExploreCollectionViewCell: UICollectionViewCell {
    
+    @IBOutlet weak var momentsProgressBar: UIProgressView!
     @IBOutlet weak var momentsPreview: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         momentsPreview.layer.cornerRadius = 5
+        
+        
+        
     }
 
 }

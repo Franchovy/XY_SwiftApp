@@ -27,6 +27,7 @@
 		1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456020F25724DEE0093FDA7 /* InterestsViewController.swift */; };
 		14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14607A6D25A0618D009B3B50 /* CreatePostCell.swift */; };
 		14607A7025A0618D009B3B50 /* CreatePostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14607A6E25A0618D009B3B50 /* CreatePostCell.xib */; };
+		14607A7C25A0DDE5009B3B50 /* UpperProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14607A7B25A0DDE5009B3B50 /* UpperProfileModel.swift */; };
 		14618A312584D7E70067C3AF /* OwnedProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */; };
 		1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB0D257E47C30096FD23 /* XYworldVC.swift */; };
 		1462BB14257E4DC00096FD23 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1462BB13257E4DC00096FD23 /* Message.swift */; };
@@ -50,6 +51,9 @@
 		14B22647258D1484006966FC /* MomentsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B22645258D1484006966FC /* MomentsCollection.swift */; };
 		14B22648258D1484006966FC /* MomentsCollection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B22646258D1484006966FC /* MomentsCollection.xib */; };
 		14C96787258E455B00E072EA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C96786258E455B00E072EA /* Constants.swift */; };
+		14C99E2E25A0EE7E00FFE003 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C99E2D25A0EE7E00FFE003 /* ProfileVC.swift */; };
+		14C99E3525A0F31300FFE003 /* ProfileUpperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */; };
+		14C99E3625A0F31300FFE003 /* ProfileUpperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14C99E3425A0F31300FFE003 /* ProfileUpperCell.xib */; };
 		14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */; };
 		B926B9DF257D6ADA00BCA049 /* Profile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B926B9DE257D6ADA00BCA049 /* Profile.storyboard */; };
 		B93D1BDE2597DB7A009ADBFC /* CustomizeProfile.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B93D1BDD2597DB7A009ADBFC /* CustomizeProfile.storyboard */; };
@@ -126,6 +130,7 @@
 		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
 		14607A6D25A0618D009B3B50 /* CreatePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostCell.swift; sourceTree = "<group>"; };
 		14607A6E25A0618D009B3B50 /* CreatePostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CreatePostCell.xib; sourceTree = "<group>"; };
+		14607A7B25A0DDE5009B3B50 /* UpperProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpperProfileModel.swift; sourceTree = "<group>"; };
 		14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OwnedProfileViewController.swift; sourceTree = "<group>"; };
 		1462BB0D257E47C30096FD23 /* XYworldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYworldVC.swift; sourceTree = "<group>"; };
 		1462BB13257E4DC00096FD23 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -149,6 +154,9 @@
 		14B22645258D1484006966FC /* MomentsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsCollection.swift; sourceTree = "<group>"; };
 		14B22646258D1484006966FC /* MomentsCollection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentsCollection.xib; sourceTree = "<group>"; };
 		14C96786258E455B00E072EA /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		14C99E2D25A0EE7E00FFE003 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
+		14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpperCell.swift; sourceTree = "<group>"; };
+		14C99E3425A0F31300FFE003 /* ProfileUpperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileUpperCell.xib; sourceTree = "<group>"; };
 		14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsCells.swift; sourceTree = "<group>"; };
 		B926B9DE257D6ADA00BCA049 /* Profile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Profile.storyboard; sourceTree = "<group>"; };
 		B93D1BDD2597DB7A009ADBFC /* CustomizeProfile.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CustomizeProfile.storyboard; sourceTree = "<group>"; };
@@ -243,6 +251,9 @@
 				B9F00B7C2588F67700EB87CB /* ProfileView.swift */,
 				B9F00B642587B0FD00EB87CB /* FlowTableView.swift */,
 				148218C2258FF52700676556 /* ChatVC.swift */,
+				14C99E2D25A0EE7E00FFE003 /* ProfileVC.swift */,
+				14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */,
+				14C99E3425A0F31300FFE003 /* ProfileUpperCell.xib */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -270,6 +281,7 @@
 			children = (
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				14618A302584D7E70067C3AF /* OwnedProfileViewController.swift */,
+				14607A7B25A0DDE5009B3B50 /* UpperProfileModel.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -569,6 +581,7 @@
 				14A72D09258F8C770015D9CA /* WaitingButton.xib in Resources */,
 				B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */,
 				14251384259F936500DC08BB /* NotificationCell.xib in Resources */,
+				14C99E3625A0F31300FFE003 /* ProfileUpperCell.xib in Resources */,
 				140826BA25867EC400DC055D /* ImagePostCell.xib in Resources */,
 				141318D325909A6900B396D9 /* ChatPersonInfo.xib in Resources */,
 				149AD6DB259B993B00E81ABC /* ExploreCollectionViewCell.xib in Resources */,
@@ -610,6 +623,7 @@
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */,
 				B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */,
+				14607A7C25A0DDE5009B3B50 /* UpperProfileModel.swift in Sources */,
 				B949A8392598C6D7008A74D8 /* MenuViewController.swift in Sources */,
 				14A72D08258F8C770015D9CA /* WaitingButton.swift in Sources */,
 				141318D225909A6900B396D9 /* ChatPersonInfo.swift in Sources */,
@@ -621,6 +635,7 @@
 				14A3607C259CB6E9002829D7 /* MomentsCollectionViewCell.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				14B22647258D1484006966FC /* MomentsCollection.swift in Sources */,
+				14C99E2E25A0EE7E00FFE003 /* ProfileVC.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
 				B950D6FB256D25B10065E756 /* APIRequest.swift in Sources */,
 				148218C3258FF52700676556 /* ChatVC.swift in Sources */,
@@ -646,6 +661,7 @@
 				B94917C82584D75800930C2F /* Persistentdata.swift in Sources */,
 				B96B4552258A8524003083DB /* DateStringFormatter.swift in Sources */,
 				B99DEF032591460700ADF201 /* FeedbackAPI.swift in Sources */,
+				14C99E3525A0F31300FFE003 /* ProfileUpperCell.swift in Sources */,
 				14169C95259B9E57003C047F /* ExploreViewCellModel.swift in Sources */,
 				B9599A47257154EB0057B7D9 /* NewsFeedViewController.swift in Sources */,
 				14A36073259CB51C002829D7 /* FlowMomentsTableViewCell.swift in Sources */,
