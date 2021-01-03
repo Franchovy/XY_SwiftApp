@@ -13,6 +13,7 @@ class ProfileUpperCell: UITableViewCell {
     //MARK: - Delegate functions
     
     var logout: (() -> Void)?
+    var chatSegue: (() -> Void)?
     
     //MARK: - IBOutlets
     
@@ -42,6 +43,10 @@ class ProfileUpperCell: UITableViewCell {
     
     @IBAction func settingsButtonPressed(_ sender: Any) {
         logout?()
+    }
+    
+    @IBAction func chatButtonPressed(_ sender: Any) {
+        chatSegue?()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

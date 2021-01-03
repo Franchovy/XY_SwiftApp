@@ -40,6 +40,12 @@ class ProfileVC : UIViewController {
             }
         }
     }
+    
+    func segueToChat() {
+        // Segue to chat viewcontroller
+        print("Segue to chat!")
+        //performSegue(identifier: "segueToChat", sender: self)
+    }
 }
 
 extension ProfileVC : UITableViewDataSource {
@@ -58,6 +64,7 @@ extension ProfileVC : UITableViewDataSource {
         cell.profLev.text = Profile[indexPath.row].Level
         
         cell.logout = logoutSegue
+        cell.chatSegue = segueToChat
         
         return cell
     }
