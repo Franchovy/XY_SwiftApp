@@ -148,6 +148,9 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
    
     @IBAction func xpButtonPressed(_ sender: UIBarButtonItem) {
         
-        performSegue(withIdentifier: "segueToNotifications", sender: nil)
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(withIdentifier: "NotificationsVC") as! NotificationsVC
+        //self.navigationController?.pushViewController(vc, animated: true)
+        self.show(vc, sender: self)
     }
 }
