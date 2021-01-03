@@ -19,27 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         return true
     }
-    
-    func loadInitialScreenOnAuthCheck() {
-        // Set initial view in ios version 12
-        if #available(iOS 13.0, *) {
-            // Initial view in iOS 13 is handled by SceneDelegate
-        } else {
-            let window = UIWindow(frame: UIScreen.main.bounds)
-            self.window = window
-
-            let mainstoryboard:UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            
-            if (Session.shared.hasSession()){
-                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
-                window.rootViewController = newViewcontroller
-            } else {
-                
-                let newViewcontroller:UIViewController = mainstoryboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                window.rootViewController = newViewcontroller
-            }
-        }
-    }
 
     // MARK: UISceneSession Lifecycle
     @available(iOS 13.0, *)

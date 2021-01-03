@@ -31,6 +31,15 @@ class ProfileVC : UIViewController {
         UpProfTableView.register(UINib(nibName: "ProfileUpperCell", bundle: nil), forCellReuseIdentifier: "ProfileUpperReusable")
         
     }
+    
+    func logoutSegue() {
+        // Log out
+        if let vc1 = self.tabBarController {
+            if let vc2 = vc1.navigationController {
+                vc2.popToRootViewController(animated: true)
+            }
+        }
+    }
 }
 
 extension ProfileVC : UITableViewDataSource {
@@ -41,12 +50,14 @@ extension ProfileVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
        
+        // case: ProfileUpper
         cell.ProfImg.image = Profile[indexPath.row].ProfileImage
         cell.ProfNick.text = Profile[indexPath.row].Nickname
         cell.profFollowers.text = Profile[indexPath.row].Followers
         cell.profFollowing.text = Profile[indexPath.row].Following
         cell.profLev.text = Profile[indexPath.row].Level
         
+        cell.logout = logoutSegue
         
         return cell
     }
@@ -57,6 +68,7 @@ extension ProfileVC : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
+
     }
     
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate  {
     
@@ -272,22 +273,16 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
     }
     
     @IBAction func logoutButton(_ sender: UIBarButtonItem) {
-        Auth.shared.logout(completion: { error in
-            if error != nil {
-                // Error handling
-                return
-            }
+        
+        do {
+            try Auth.auth().signOut()
+            
             // Segue to login
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             DispatchQueue.main.async {
                 var vc:UIViewController
 
-                if #available(iOS 13.0, *) {
-                    vc = storyboard.instantiateViewController(identifier: "LoginViewController")
-                } else {
-                    // Fallback on earlier versions
-                    vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
-                }
+                vc = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
 
                 // Hide Top and Bottom navigation bars!
                 self.hidesBottomBarWhenPushed = true
@@ -295,7 +290,10 @@ class OwnedProfileViewController :  UIViewController, UIImagePickerControllerDel
                 // Show next viewcontroller
                 self.show(vc, sender: self)
             }
-        })
+            
+        } catch let error {
+            
+        }
     }
 }
 

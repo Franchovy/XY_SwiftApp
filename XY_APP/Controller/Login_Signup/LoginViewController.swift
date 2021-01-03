@@ -25,12 +25,8 @@ class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = 8
         loginGradientView.layer.cornerRadius = 20
         
-        
         super.viewDidLoad()
-        
     }
-    
-    
     
     @IBAction func loginPressed(_ sender: UIButton) {
         if let email = usernameEmailPhoneTextField.text, let password = passwordTextField.text {

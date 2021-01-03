@@ -17,14 +17,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let _ = (scene as? UIWindowScene) else { return }
         
-        let mainStoryBoard = UIStoryboard(name: "Main", bundle: nil)
-        if (Session.shared.hasSession()) {
-            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "MainViewController")
-            window?.rootViewController = viewController
-        } else {
-            let viewController = mainStoryBoard.instantiateViewController(withIdentifier: "LoginViewController")
-            window?.rootViewController = viewController
-        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

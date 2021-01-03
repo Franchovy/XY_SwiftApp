@@ -9,23 +9,21 @@ import UIKit
 
 class ProfileUpperCell: UITableViewCell {
     
+    //MARK: - Delegate functions
+    
+    var logout: (() -> Void)?
+    
+    //MARK: - IBOutlets
     
     @IBOutlet weak var ProfImg: UIImageView!
-    
     @IBOutlet weak var ProfNick: UILabel!
-    
     @IBOutlet weak var profFollowers: UILabel!
-    
     @IBOutlet weak var profFollowing: UILabel!
-    
     @IBOutlet weak var profLev: UILabel!
-    
     @IBOutlet weak var postCapt: UILabel!
-    
     @IBOutlet weak var profViewContainer: UIView!
     
     @IBOutlet weak var followersView: UIView!
-    
     @IBOutlet weak var followingView: UIView!
     
     @IBOutlet weak var levelView: UIView!
@@ -39,8 +37,10 @@ class ProfileUpperCell: UITableViewCell {
         
         levelView.layer.cornerRadius = 10.0
         
-        
-        
+    }
+    
+    @IBAction func settingsButtonPressed(_ sender: Any) {
+        logout?()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
