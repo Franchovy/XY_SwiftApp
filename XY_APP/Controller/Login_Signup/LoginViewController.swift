@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Firebase
+
 
 class LoginViewController: UIViewController {
     
@@ -14,7 +16,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginFailLabel: UILabel!
     @IBOutlet weak var loginGradientView: UIView!
-
+    
     
     override func viewDidLoad() {
         loginButton.layer.cornerRadius = 8
@@ -26,54 +28,25 @@ class LoginViewController: UIViewController {
         
         super.viewDidLoad()
         
-        self.hideKeyboardWhenTappedAround() 
-        // Do any additional setup after loading the view.
     }
-
-
     
-    @IBAction func loginButton(_ sender: Any)  {
-        // Get data from textfields
-        let usernameEmailPhoneText = usernameEmailPhoneTextField.text
-        let passwordText = passwordTextField.text
+    
+    
+    @IBAction func loginPressed(_ sender: UIButton) {
         
-        // DEBUG - FAKE LOGIN
-        if (usernameEmailPhoneText == "" && passwordText == "") {
-            navigateToNextScreen()
-        }
-        
-        // Checks on login data
-        Auth.shared.requestLogin(username: usernameEmailPhoneText!, password: passwordText!, rememberMe: true, completion: { result in
-            switch result {
-            case .success(let message):
-                print("Login Success: ", message)
-                // Segue to home screen
-                DispatchQueue.main.async {
-                    self.navigateToNextScreen()
+        if let email = usernameEmailPhoneTextField.text, let password = passwordTextField.text{
+            
+            Firebase.Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+                if let e = error {
+                    print(e)
+                } else {
+                    self.performSegue(withIdentifier: "LoginToProfile", sender: self)
                 }
-            case .failure(let error):
-                print("Login failure: ", error)
+               
                 
-                DispatchQueue.main.async {
-                self.loginFailLabel.isHidden = false
-                }
             }
-        })
-     }
-    
-    func navigateToNextScreen() {
-        if #available(iOS 13.0, *) {
-            // IOS 13 or above
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let secondVC = storyboard.instantiateViewController(identifier: "MainViewController")
-            self.show(secondVC, sender: self)
-        } else {
-            // IOS 12
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewController(withIdentifier: "MainViewController") as! UITabBarController
-            //self.navigationController?.pushViewController(vc, animated: true)
-            self.show(vc, sender: self)
         }
+
     }
 
 }
@@ -153,7 +126,7 @@ class loginGradientView: UIView {
         }
         return CGPoint(x: x, y: y)
     }
-
+    
     // transform point in unit space to gradient space
     private func transformToGradientSpace(_ point: CGPoint) -> CGPoint {
         // input point is in signed unit space: (-1,-1) to (1,1)

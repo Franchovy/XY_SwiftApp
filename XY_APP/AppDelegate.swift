@@ -16,48 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         FirebaseApp.configure()
-        
-        
-        // Check user session
-        // Check login
-        if Session.shared.hasSession() {
-            print("Session active!")
-        } else {
-            print("Checking session...")
-            
-            let sessionIsLoaded = CoreDataManager.loadSession()
-            if sessionIsLoaded {
-                print("Session loaded! Skipping login screen.")
-                loadInitialScreenOnAuthCheck()
-            } else {
-                // No session detected locally.
-                // Check backend for session
-                Session.shared.requestSession(completion: { result in
-                    switch result {
-                    case .success(let message):
-                        print("Received session info from backend. Setting local session.")
-                        if let username = message.username {
-                            Session.shared.username = username
-                        }
-                        if let token = message.token {
-                            Session.shared.sessionToken = token
-                        }
-                    case .failure(let error):
-                        print("No session found, or error: \(error)")
-                    }
-                    
-                    // Load initial screen after check
-                    self.loadInitialScreenOnAuthCheck()
-                })
-            }
-        }
-        
-        if #available(iOS 13.0, *) {
-            // In iOS 13 setup is done in SceneDelegate
-        } else {
 
-        }
-        
         return true
     }
     

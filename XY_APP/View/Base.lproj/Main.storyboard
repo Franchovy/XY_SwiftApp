@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="53h-pf-nzi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -145,7 +145,7 @@
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="signupButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="PgM-4F-BEo"/>
+                                    <action selector="signupButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Feo-sb-QTQ"/>
                                 </connections>
                             </button>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="⚠️ Signup failed!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Tfj-4k-ze7">
@@ -199,10 +199,9 @@
                         <outlet property="emailPhoneTextField" destination="SEL-7g-Kqn" id="MFB-f4-NVQ"/>
                         <outlet property="gradientView" destination="hMe-m3-Ruz" id="3YV-U2-Psg"/>
                         <outlet property="passwordTextField" destination="SzZ-mm-Gvz" id="o88-Fg-SLV"/>
-                        <outlet property="repeatPasswordTextField" destination="yEd-Fv-XAD" id="7Rg-BI-CTk"/>
-                        <outlet property="signupButton" destination="iPc-AD-7GF" id="LvY-tU-6Xx"/>
+                        <outlet property="signupButton" destination="iPc-AD-7GF" id="7mH-6S-L1K"/>
                         <outlet property="signupErrorLabel" destination="Tfj-4k-ze7" id="0Vn-eB-Fpp"/>
-                        <outlet property="usernameTextField" destination="RQS-Kp-Ep8" id="Dg1-F1-tl2"/>
+                        <segue destination="8cd-5C-p1J" kind="show" identifier="fromSignupToFlow" id="kPV-hd-ncg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -459,7 +458,7 @@
                                             <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                         <connections>
-                                            <action selector="loginButton:" destination="53h-pf-nzi" eventType="primaryActionTriggered" id="5DE-jn-nKb"/>
+                                            <action selector="loginPressed:" destination="53h-pf-nzi" eventType="touchUpInside" id="JVD-NO-tjG"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" contentMode="scaleToFill" semanticContentAttribute="playback" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="XYName" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rVd-kj-ivA">
@@ -500,6 +499,7 @@
                         <outlet property="loginGradientView" destination="X2X-si-PzB" id="5va-Oy-coN"/>
                         <outlet property="passwordTextField" destination="xGp-jJ-w5P" id="CKS-9V-cIv"/>
                         <outlet property="usernameEmailPhoneTextField" destination="rVd-kj-ivA" id="mtv-0Q-Tte"/>
+                        <segue destination="kU8-KU-Lbx" kind="show" identifier="LoginToProfile" id="ZeL-Ok-9Zv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aGJ-fp-Qmh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -535,7 +535,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="4DB-Pv-q7K" customClass="XYworldVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="FSV-im-esr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" name="XYblack"/>
                         <prototypes>
@@ -577,14 +577,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xnF-su-Wgr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2474" y="1854"/>
+            <point key="canvasLocation" x="1609" y="1854"/>
         </scene>
         <!--Conversations View Controller-->
         <scene sceneID="2k8-95-VDl">
             <objects>
                 <viewController id="9YL-CQ-vuJ" customClass="ConversationsViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0TU-1i-tYd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="03j-UH-NCQ">
@@ -621,7 +621,7 @@
             <objects>
                 <viewController id="udl-1m-xsX" userLabel="WaitingMessagesVC" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Idf-Xe-LEg">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="iLz-Rz-wul"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -637,7 +637,7 @@
             <objects>
                 <viewController id="XuT-s8-y3A" userLabel="ChatVC" customClass="ChatVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NVQ-C8-yFF">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="TOH-LU-fHu">
@@ -822,14 +822,14 @@
                     </items>
                 </toolbar>
             </objects>
-            <point key="canvasLocation" x="-3130" y="1854"/>
+            <point key="canvasLocation" x="-3170" y="1854"/>
         </scene>
         <!--Create PostVC-->
         <scene sceneID="pES-Ob-AmG">
             <objects>
                 <viewController id="LfZ-EL-Agi" customClass="CreatePostVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="naz-3l-E8P">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="b1T-I2-o1c">
@@ -894,14 +894,14 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l9a-NA-I7L" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3130" y="2730"/>
+            <point key="canvasLocation" x="-3170" y="2728"/>
         </scene>
         <!--ProfileVC-->
         <scene sceneID="CkF-0a-S3S">
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="TND-fV-FmO" customClass="ProfileVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xLY-Ut-WMP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="K10-Gt-ZOD">
@@ -936,14 +936,15 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Glo-y0-em5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4412" y="1854"/>
+            <point key="canvasLocation" x="2929" y="1854"/>
         </scene>
         <!--Flow-->
         <scene sceneID="xrs-0t-JGO">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8cd-5C-p1J" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="8cd-5C-p1J" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Flow" image="flow_icon" id="Ld8-oS-vbW"/>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="Npp-Gi-jM7"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="Pqc-YM-CdF">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -956,7 +957,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KpS-NR-x5v" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3130" y="983"/>
+            <point key="canvasLocation" x="-3170" y="983"/>
         </scene>
         <!--XYworld-->
         <scene sceneID="gxa-Eh-QMQ">
@@ -976,17 +977,18 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9rn-iI-0Ps" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2474.4000000000001" y="982.75862068965523"/>
+            <point key="canvasLocation" x="1609" y="983"/>
         </scene>
         <!--Profile-->
         <scene sceneID="IgG-0n-2yR">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="kU8-KU-Lbx" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="kU8-KU-Lbx" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="profile_item" id="Ob9-Ux-6Z6">
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
+                    <navigationItem key="navigationItem" id="6nv-ni-tgo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="oK5-Yw-nGI">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -999,7 +1001,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nrN-b1-R7J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4412" y="982.75862068965523"/>
+            <point key="canvasLocation" x="2929" y="983"/>
         </scene>
         <!--InitialViewController-->
         <scene sceneID="AE0-1Q-oNz">
@@ -1276,7 +1278,7 @@
             <objects>
                 <viewController id="xJb-Q0-JV3" customClass="ExploreViewController" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jxL-2r-Rac">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bi6-n5-qvb">
@@ -1383,6 +1385,10 @@
             <point key="canvasLocation" x="124" y="982.75862068965523"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="okx-oX-95W"/>
+        <segue reference="kPV-hd-ncg"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <image name="Button_Arrow_Right" width="27.666666030883789" height="27.666666030883789"/>
         <image name="Game_icon" width="25" height="25"/>
