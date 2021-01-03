@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 
 
@@ -23,12 +24,7 @@ class SignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-
-    
-
         self.hideKeyboardWhenTappedAround()
-        
         signupButton.layer.cornerRadius = 8
         signupButton.layer.borderWidth = 1.0
         signupButton.layer.borderColor = UIColor.white.cgColor
@@ -47,6 +43,14 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var signupErrorLabel: UILabel!
     
     @IBAction func signupButton(_ sender: Any)  {
+        
+        if let email = emailPhoneTextField.text, let password = passwordTextField.text {
+            
+            Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                
+            }
+            
+        }
         // Get data from textfields
         let usernameText = usernameTextField.text
         let emailPhoneText = emailPhoneTextField.text
@@ -74,9 +78,9 @@ class SignupViewController: UIViewController {
                         let secondVC = storyboard.instantiateViewController(identifier: "InterestsPage")
                         self.show(secondVC, sender: self)
                     } else {
-                       let storyboard = UIStoryboard(name: "Main", bundle: nil)
-                       let vc = storyboard.instantiateViewController(withIdentifier: "storyboard.instantiateViewController") as! InterestsViewController
-                       self.navigationController?.pushViewController(vc, animated: true)
+                        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                        let vc = storyboard.instantiateViewController(withIdentifier: "storyboard.instantiateViewController") as! InterestsViewController
+                        self.navigationController?.pushViewController(vc, animated: true)
                     }
                 }
             case .failure(let error):

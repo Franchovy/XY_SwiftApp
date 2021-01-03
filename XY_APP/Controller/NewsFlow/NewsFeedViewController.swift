@@ -39,7 +39,6 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         ringBar.tintColor = .blue
 
         
-        
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
