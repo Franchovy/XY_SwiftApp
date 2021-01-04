@@ -15,9 +15,6 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
     
     @IBOutlet weak var tableView: FlowTableView!
 
- 
-   
-    
     var imagePicker = UIImagePickerController()
     var imageIds: [String]?
     
@@ -57,10 +54,6 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
-        
-        // Set timer to reload user xp periodically
-        let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: self.timerHandler)
-        feedbackTimer.fire()
     }
     
     func getPosts() {
@@ -125,25 +118,6 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
             }
         })
     }
-    
-    func timerHandler(timer: Timer) {
-        reloadUserXPProgressBar()
-    }
-    
-    // Timer reloading user xp data
-    func reloadUserXPProgressBar() {
-        Profile.shared.getProfile(username: Session.shared.username, closure: { result in
-            switch result {
-            case .success(let profileData):
-                DispatchQueue.main.async {
-                    self.ringBar.progressBarCircle.progress = CGFloat(profileData.xpLevel!.xp / Levels.shared.getNextLevel(xpLevel: profileData.xpLevel!))
-                }
-                print("User has level: \(profileData.xpLevel?.level) xp: \(profileData.xpLevel?.xp)")
-            case .failure(let error):
-                print("Error fetching user profile data! \(error)")
-            }
-        })
-    }
    
     @IBAction func xpButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -153,3 +127,4 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         self.show(vc, sender: self)
     }
 }
+

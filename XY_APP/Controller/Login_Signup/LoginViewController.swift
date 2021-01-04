@@ -11,12 +11,17 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
-    @IBOutlet weak var loginButton: UIButton!
+    //MARK: - IBOutlets
+    
     @IBOutlet weak var usernameEmailPhoneTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var loginFailLabel: UILabel!
-    @IBOutlet weak var loginGradientView: UIView!
     
+    @IBOutlet weak var loginButton: UIButton!
+    
+    @IBOutlet weak var loadingIcon: UIActivityIndicatorView!
+    @IBOutlet weak var errorLabel: UILabel!
+    
+    @IBOutlet weak var loginGradientView: UIView!
     
     override func viewDidLoad() {
         loginButton.layer.cornerRadius = 8
@@ -25,21 +30,40 @@ class LoginViewController: UIViewController {
         loginButton.layer.cornerRadius = 8
         loginGradientView.layer.cornerRadius = 20
         
+        loadingIcon.isHidden = true
+        
         super.viewDidLoad()
     }
     
     @IBAction func loginPressed(_ sender: UIButton) {
         if let email = usernameEmailPhoneTextField.text, let password = passwordTextField.text {
-            //TODO:
+            
+            loadingIcon.isHidden = false
+            loadingIcon.startAnimating()
             
             Firebase.Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-                if let e = error {
-                    print(e)
-                } else {
-                    self.performSegue(withIdentifier: "LoginToProfile", sender: self)
+                self.loadingIcon.isHidden = true
+                self.loadingIcon.stopAnimating()
+                
+                if let error = error {
+                    if let errCode = AuthErrorCode(rawValue: error._code) {
+                        // HANDLE ERRORS
+                        if errCode == .userNotFound || errCode == .wrongPassword {
+                            self.displayError(errorText: "Login incorrect!")
+                        }
+                    }
+                    return
                 }
+                
+                
+                self.performSegue(withIdentifier: "LoginToProfile", sender: self)
             }
         }
+    }
+    
+    fileprivate func displayError(errorText: String) {
+        errorLabel.isHidden = false
+        errorLabel.text = "⚠️ " + errorText
     }
 }
 

@@ -87,6 +87,9 @@
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
 		B9BC11DC259BAFED004B7327 /* ProgressBarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */; };
 		B9CFA8542599ED9A00DE25D3 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFA8532599ED9A00DE25D3 /* ProfileTests.swift */; };
+		B9D1AB1C25A39359009B428E /* FlowTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB1B25A39359009B428E /* FlowTableView.swift */; };
+		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
+		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
 		B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B682587B31B00EB87CB /* ImageCache.swift */; };
 		D4AF45A21E90EB85C8814087 /* Pods_XY_APP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7475997B9B6670EC9737322B /* Pods_XY_APP.framework */; };
 /* End PBXBuildFile section */
@@ -192,6 +195,9 @@
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarCircle.swift; sourceTree = "<group>"; };
 		B9CFA8532599ED9A00DE25D3 /* ProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
+		B9D1AB1B25A39359009B428E /* FlowTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowTableView.swift; path = ../../../../Desktop/FlowTableView.swift; sourceTree = "<group>"; };
+		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
+		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		B9F00B682587B31B00EB87CB /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -226,6 +232,7 @@
 		14175C7C2570F62D00C88051 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				B9D1AB1B25A39359009B428E /* FlowTableView.swift */,
 				B9D1AB0425A39061009B428E /* Profile */,
 				149AD69F259B52AF00E81ABC /* Login_Signup */,
 				14A36077259CB691002829D7 /* NewsFlow */,
@@ -444,6 +451,7 @@
 		B9B92DD225644A3F005D9B86 /* XY_APP */ = {
 			isa = PBXGroup;
 			children = (
+				B9D1AB1F25A39436009B428E /* Firebase */,
 				B97AB5A525859202006D2EE4 /* Utilities */,
 				B94FA39225710C9D00A44085 /* Model */,
 				B950D6F5256D25370065E756 /* API */,
@@ -470,6 +478,15 @@
 				14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		B9D1AB1F25A39436009B428E /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */,
+				B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */,
+			);
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -669,6 +686,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9AB79DE2585FFA400BD2C93 /* Session.swift in Sources */,
+				B9D1AB1C25A39359009B428E /* FlowTableView.swift in Sources */,
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
 				14BDAF6825A313CB00D19282 /* UserInfoChat.swift in Sources */,
 				14A72D0D258F8CE10015D9CA /* WaitingButtonModel.swift in Sources */,
@@ -707,6 +725,7 @@
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9453860258E2E190000BB8A /* WritePostViewTableViewCell.swift in Sources */,
 				B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */,
+				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,
 				14FF8A6025A3856E002FE645 /* MessageCell.swift in Sources */,
 				B94917C82584D75800930C2F /* Persistentdata.swift in Sources */,
 				B96B4552258A8524003083DB /* DateStringFormatter.swift in Sources */,
@@ -717,6 +736,7 @@
 				14A36073259CB51C002829D7 /* FlowMomentsTableViewCell.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
 				B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */,
+				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
 				149AD6D4259B94FE00E81ABC /* ExploreTableViewCell.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,

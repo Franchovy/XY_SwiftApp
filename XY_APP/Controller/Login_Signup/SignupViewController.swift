@@ -22,34 +22,66 @@ class SignupViewController: UIViewController {
         signupButton.layer.borderColor = UIColor.white.cgColor
         gradientView.layer.cornerRadius = 20
         
+        loadingIcon.isHidden = true
     }
     
     // UI Textfield reference outlets
 
     @IBOutlet weak var emailPhoneTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-  
+    @IBOutlet weak var xyNameTextField: UITextField!
+    
     
     // Error notification reference outlets
     @IBOutlet weak var signupErrorLabel: UILabel!
     
+    @IBOutlet weak var loadingIcon: UIActivityIndicatorView!
     
     @IBAction func signupButtonPressed(_ sender: UIButton) {
         
         if let email = emailPhoneTextField.text, let password = passwordTextField.text {
             
+            loadingIcon.isHidden = false
+            loadingIcon.startAnimating()
+            
+            // Create use authenticated
             Firebase.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                 if let e = error{
                     print(e)
-                } else {
-                    //Navigate to Profile
-                    
-                    self.performSegue(withIdentifier: "fromSignupToFlow", sender: self)
+                    return
                 }
-                
-                
+                if let uid = authResult?.user.uid, let xyname = self.xyNameTextField.text {
+                    // Set user data in user firestore table after signup
+                    self.createUserInFirestore(xyname: xyname, uid: uid) { (error) in
+                        if let error = error {
+                            print(error.localizedDescription)
+                            return
+                        }
+                        
+                        //Navigate to Profile
+                        
+                        self.loadingIcon.isHidden = true
+                        self.loadingIcon.stopAnimating()
+                        self.performSegue(withIdentifier: "fromSignupToFlow", sender: self)
+                    }
+                } else {
+                    fatalError()
+                }
             }
             
+        }
+    }
+    
+    func createUserInFirestore(xyname: String, uid: String, completion: @escaping((Error?)) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).addDocument(data:
+            [
+                "xyname" : xyname,
+                "uid" : uid,
+                "level": 0,
+                "xp": 0
+            ]
+        ) { error in
+            completion(error)
         }
     }
 }
