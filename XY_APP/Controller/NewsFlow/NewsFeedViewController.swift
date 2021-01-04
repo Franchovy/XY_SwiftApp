@@ -35,8 +35,7 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         tableView.parentViewController = self
         
         // Get posts from backend
-        tableView.getPosts()
-        
+
         // Remove the extra empty cell divider lines
         self.tableView.tableFooterView = UIView()
     }
