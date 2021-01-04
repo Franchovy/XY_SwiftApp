@@ -8,7 +8,6 @@
 import UIKit
 
 class MessageCell: UITableViewCell {
-
     @IBOutlet weak var messageBubble: UIView!
     @IBOutlet weak var timeLabelMessage: UILabel!
     @IBOutlet weak var textLabelMessage: UILabel!
@@ -17,7 +16,7 @@ class MessageCell: UITableViewCell {
         super.awakeFromNib()
        
         messageBubble.layer.cornerRadius = 10
-        
+        textLabelMessage.frame.size = textLabelMessage.intrinsicContentSize
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

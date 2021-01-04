@@ -68,6 +68,7 @@ extension ChatVC : UITableViewDataSource {
             
             cell.timeLabelMessage.text = messages[indexPath.row - 1].timeLabel
             cell.textLabelMessage.text = messages[indexPath.row - 1].messageText
+            cell.messageBubble.sizeToFit()
             return cell
         }
        
