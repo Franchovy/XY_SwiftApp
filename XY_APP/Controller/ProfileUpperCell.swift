@@ -14,6 +14,7 @@ class ProfileUpperCell: UITableViewCell {
     
     var logout: (() -> Void)?
     var chatSegue: (() -> Void)?
+
     
     //MARK: - IBOutlets
     
@@ -45,28 +46,18 @@ class ProfileUpperCell: UITableViewCell {
         logout?()
     }
     
+    
     @IBAction func chatButtonPressed(_ sender: Any) {
         chatSegue?()
     }
-    
+   
+ 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
         // Configure the view for the selected state
     }
-    
-    @IBAction func signoutButtonPressed(_ sender: UIButton) {
-       
-        let firebaseAuth = Firebase.Auth.auth()
-    do {
-      try firebaseAuth.signOut()
-    } catch let signOutError as NSError {
-      print ("Error signing out: %@", signOutError)
-    }
-      
-      
-    }
-    
+
 }
 
 extension ProfileUpperCell : UITableViewDelegate {
@@ -74,8 +65,8 @@ extension ProfileUpperCell : UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(indexPath.row)
     }
-
-
+    
+    
 }
 
 

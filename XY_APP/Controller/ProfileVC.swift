@@ -12,7 +12,7 @@ class ProfileVC : UIViewController {
 
     @IBOutlet weak var UpProfTableView: UITableView!
 
-    var Profile : [UpperProfile] = [
+    lazy var Profile : [UpperProfile] = [
         
         UpperProfile(Nickname: "XYfounder", ProfileImage: UIImage(named: "Raggruppa 301-image2")!, Link: "xy.com", Followers: "1.4M", Following: "4", Level: "129", ProfileCaption: "Put a funny caption here :)")
         
@@ -40,12 +40,14 @@ class ProfileVC : UIViewController {
             }
         }
     }
+
     
     func segueToChat() {
-        // Segue to chat viewcontroller
+        //Segue to chat viewcontroller
         print("Segue to chat!")
-        //performSegue(identifier: "segueToChat", sender: self)
+        performSegue(withIdentifier: "segueToChat", sender: self)
     }
+
 }
 
 extension ProfileVC : UITableViewDataSource {
