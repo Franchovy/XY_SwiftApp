@@ -18,5 +18,13 @@ class XYworldVC: UIViewController {
         
         super.viewDidLoad()
         
+        self.hidesBottomBarWhenPushed = true
+    
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
     }
 }
