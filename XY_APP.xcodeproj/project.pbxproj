@@ -39,6 +39,7 @@
 		14A3607C259CB6E9002829D7 /* MomentsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A3607A259CB6E9002829D7 /* MomentsCollectionViewCell.swift */; };
 		14A3607D259CB6E9002829D7 /* MomentsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14A3607B259CB6E9002829D7 /* MomentsCollectionViewCell.xib */; };
 		14A36081259CB88D002829D7 /* MomentsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A36080259CB88D002829D7 /* MomentsModel.swift */; };
+		14A578F425A3C27D00517F89 /* FlowTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A578F325A3C27D00517F89 /* FlowTableView.swift */; };
 		14A72D0D258F8CE10015D9CA /* WaitingButtonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A72D0C258F8CE10015D9CA /* WaitingButtonModel.swift */; };
 		14B22647258D1484006966FC /* MomentsCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B22645258D1484006966FC /* MomentsCollection.swift */; };
 		14B22648258D1484006966FC /* MomentsCollection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B22646258D1484006966FC /* MomentsCollection.xib */; };
@@ -85,7 +86,6 @@
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
 		B9BC11DC259BAFED004B7327 /* ProgressBarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */; };
 		B9CFA8542599ED9A00DE25D3 /* ProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFA8532599ED9A00DE25D3 /* ProfileTests.swift */; };
-		B9D1AB1C25A39359009B428E /* FlowTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB1B25A39359009B428E /* FlowTableView.swift */; };
 		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
 		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
 		B9D1AB3125A3A591009B428E /* FlowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowData.swift */; };
@@ -139,6 +139,7 @@
 		14A3607A259CB6E9002829D7 /* MomentsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsCollectionViewCell.swift; sourceTree = "<group>"; };
 		14A3607B259CB6E9002829D7 /* MomentsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentsCollectionViewCell.xib; sourceTree = "<group>"; };
 		14A36080259CB88D002829D7 /* MomentsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsModel.swift; sourceTree = "<group>"; };
+		14A578F325A3C27D00517F89 /* FlowTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowTableView.swift; path = ../../../../../FlowTableView.swift; sourceTree = "<group>"; };
 		14A72D0C258F8CE10015D9CA /* WaitingButtonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingButtonModel.swift; sourceTree = "<group>"; };
 		14B22645258D1484006966FC /* MomentsCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentsCollection.swift; sourceTree = "<group>"; };
 		14B22646258D1484006966FC /* MomentsCollection.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MomentsCollection.xib; sourceTree = "<group>"; };
@@ -191,7 +192,6 @@
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarCircle.swift; sourceTree = "<group>"; };
 		B9CFA8532599ED9A00DE25D3 /* ProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTests.swift; sourceTree = "<group>"; };
-		B9D1AB1B25A39359009B428E /* FlowTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowTableView.swift; path = ../../../../Desktop/FlowTableView.swift; sourceTree = "<group>"; };
 		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
 		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		B9D1AB3025A3A591009B428E /* FlowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowData.swift; sourceTree = "<group>"; };
@@ -229,7 +229,7 @@
 		14175C7C2570F62D00C88051 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				B9D1AB1B25A39359009B428E /* FlowTableView.swift */,
+				14A578F325A3C27D00517F89 /* FlowTableView.swift */,
 				B9D1AB0425A39061009B428E /* Profile */,
 				149AD69F259B52AF00E81ABC /* Login_Signup */,
 				14A36077259CB691002829D7 /* NewsFlow */,
@@ -680,7 +680,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9AB79DE2585FFA400BD2C93 /* Session.swift in Sources */,
-				B9D1AB1C25A39359009B428E /* FlowTableView.swift in Sources */,
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
 				14BDAF6825A313CB00D19282 /* UserInfoChat.swift in Sources */,
 				14A72D0D258F8CE10015D9CA /* WaitingButtonModel.swift in Sources */,
@@ -731,6 +730,7 @@
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
 				B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
+				14A578F425A3C27D00517F89 /* FlowTableView.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
 				149AD6D4259B94FE00E81ABC /* ExploreTableViewCell.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
