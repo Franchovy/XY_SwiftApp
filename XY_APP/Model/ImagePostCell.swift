@@ -8,10 +8,10 @@
 import UIKit
 
 
-class ImagePostCell: UITableViewCell {
+class ImagePostCell: UITableViewCell, FlowDataCell {
+    var type: FlowDataType = { return .post }()
     
     @IBOutlet weak var XP: CircleView!
-   
     
     @IBOutlet weak var nameLabelLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var postCardView: UIView!

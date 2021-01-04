@@ -16,14 +16,9 @@ class MomentsCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-       
         
         MomentsImage.layer.cornerRadius = 15
         MomentsProfileImage.layer.cornerRadius = 5
         MomentsAlphaView.layer.cornerRadius = 5
     }
-    
-    
-    
-
 }

@@ -58,8 +58,6 @@
 		B93D1BEE2597E9C6009ADBFC /* XY_APPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D1BED2597E9C6009ADBFC /* XY_APPTests.swift */; };
 		B93D1BF92597E9F9009ADBFC /* CustomizeProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D1BE42597E8CD009ADBFC /* CustomizeProfileTests.swift */; };
 		B945385C258E18070000BB8A /* XPLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B945385B258E18070000BB8A /* XPLevel.swift */; };
-		B9453860258E2E190000BB8A /* WritePostViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B945385E258E2E190000BB8A /* WritePostViewTableViewCell.swift */; };
-		B9453861258E2E190000BB8A /* WritePostViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B945385F258E2E190000BB8A /* WritePostViewTableViewCell.xib */; };
 		B94917C82584D75800930C2F /* Persistentdata.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917C72584D75800930C2F /* Persistentdata.swift */; };
 		B94917D625852BAF00930C2F /* PersistentSession+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */; };
 		B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */; };
@@ -90,6 +88,7 @@
 		B9D1AB1C25A39359009B428E /* FlowTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB1B25A39359009B428E /* FlowTableView.swift */; };
 		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
 		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
+		B9D1AB3125A3A591009B428E /* FlowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowData.swift */; };
 		B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B682587B31B00EB87CB /* ImageCache.swift */; };
 		D4AF45A21E90EB85C8814087 /* Pods_XY_APP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7475997B9B6670EC9737322B /* Pods_XY_APP.framework */; };
 /* End PBXBuildFile section */
@@ -108,7 +107,6 @@
 		0184EA11A236F0143134B645 /* Pods_XY_APPTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XY_APPTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		02583F1FB54FB054D2EC25D4 /* Pods-XY_APPTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APPTests.debug.xcconfig"; path = "Target Support Files/Pods-XY_APPTests/Pods-XY_APPTests.debug.xcconfig"; sourceTree = "<group>"; };
 		13812B2840F408D53204E346 /* Pods-XY_APP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APP.release.xcconfig"; path = "Target Support Files/Pods-XY_APP/Pods-XY_APP.release.xcconfig"; sourceTree = "<group>"; };
-		1402ACDE257909F0007C518E /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		140826B725867EC400DC055D /* ImagePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePostCell.swift; sourceTree = "<group>"; };
 		140826B825867EC400DC055D /* ImagePostCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImagePostCell.xib; sourceTree = "<group>"; };
 		141318C12590881700B396D9 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
@@ -164,8 +162,6 @@
 		B93D1BED2597E9C6009ADBFC /* XY_APPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XY_APPTests.swift; sourceTree = "<group>"; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B945385B258E18070000BB8A /* XPLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPLevel.swift; sourceTree = "<group>"; };
-		B945385E258E2E190000BB8A /* WritePostViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WritePostViewTableViewCell.swift; sourceTree = "<group>"; };
-		B945385F258E2E190000BB8A /* WritePostViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WritePostViewTableViewCell.xib; sourceTree = "<group>"; };
 		B94917C72584D75800930C2F /* Persistentdata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistentdata.swift; sourceTree = "<group>"; };
 		B94917D425852BAF00930C2F /* PersistentSession+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B94917D525852BAF00930C2F /* PersistentSession+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersistentSession+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -198,6 +194,7 @@
 		B9D1AB1B25A39359009B428E /* FlowTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FlowTableView.swift; path = ../../../../Desktop/FlowTableView.swift; sourceTree = "<group>"; };
 		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
 		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
+		B9D1AB3025A3A591009B428E /* FlowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowData.swift; sourceTree = "<group>"; };
 		B9F00B682587B31B00EB87CB /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -246,7 +243,6 @@
 		1498692625796C4D00EF54F5 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
-				1402ACDE257909F0007C518E /* ProfileViewController.swift */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -289,6 +285,7 @@
 			isa = PBXGroup;
 			children = (
 				B9599A46257154EB0057B7D9 /* NewsFeedViewController.swift */,
+				B9D1AB3025A3A591009B428E /* FlowData.swift */,
 				14A36080259CB88D002829D7 /* MomentsModel.swift */,
 				14A3607B259CB6E9002829D7 /* MomentsCollectionViewCell.xib */,
 				14A3607A259CB6E9002829D7 /* MomentsCollectionViewCell.swift */,
@@ -384,8 +381,6 @@
 				140826B825867EC400DC055D /* ImagePostCell.xib */,
 				14A72D0B258F8C910015D9CA /* Conversations */,
 				14D39B8B258D763700DA4334 /* Moments */,
-				B945385E258E2E190000BB8A /* WritePostViewTableViewCell.swift */,
-				B945385F258E2E190000BB8A /* WritePostViewTableViewCell.xib */,
 				141318C12590881700B396D9 /* Chat.swift */,
 				B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */,
 				B9530025259F476000DE926A /* CircleView.xib */,
@@ -595,7 +590,6 @@
 				149AD6D5259B94FE00E81ABC /* ExploreTableViewCell.xib in Resources */,
 				148935F325A26AFC00CB60C3 /* ConversationCell.xib in Resources */,
 				14A36074259CB51C002829D7 /* FlowMomentsTableViewCell.xib in Resources */,
-				B9453861258E2E190000BB8A /* WritePostViewTableViewCell.xib in Resources */,
 				B9530026259F476000DE926A /* CircleView.xib in Resources */,
 				14A3607D259CB6E9002829D7 /* MomentsCollectionViewCell.xib in Resources */,
 				1446C65825A1E0FF0045BB65 /* GoogleService-Info.plist in Resources */,
@@ -710,6 +704,7 @@
 				148935BF25A2686F00CB60C3 /* ConversationPreview.swift in Sources */,
 				14A36081259CB88D002829D7 /* MomentsModel.swift in Sources */,
 				149AD6DA259B993B00E81ABC /* ExploreCollectionViewCell.swift in Sources */,
+				B9D1AB3125A3A591009B428E /* FlowData.swift in Sources */,
 				14BDAF6325A30A4800D19282 /* ChatUserInfo.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreViewController.swift in Sources */,
 				1462BB14257E4DC00096FD23 /* Message.swift in Sources */,
@@ -723,7 +718,6 @@
 				141FF441258270C70030FF67 /* ConversationsVC.swift in Sources */,
 				B99DEEF72590FA2B00ADF201 /* Feedback.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
-				B9453860258E2E190000BB8A /* WritePostViewTableViewCell.swift in Sources */,
 				B94917D725852BAF00930C2F /* PersistentSession+CoreDataProperties.swift in Sources */,
 				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,
 				14FF8A6025A3856E002FE645 /* MessageCell.swift in Sources */,
