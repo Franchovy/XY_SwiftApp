@@ -11,12 +11,23 @@ import UIKit
 
 class FlowTableView : UITableView, UITableViewDelegate {
 
-    //var cells: [Item]
-    var posts: [PostData] = []
+    var data: [FlowDataCell] = [
+        FlowMomentsTableViewCell(),
+        ImagePostCell(),
+        ImagePostCell(),
+        ImagePostCell()
+    ]
+    
+    var posts: [PostData] = [
+        PostData(id: "", username: "Simone", timestamp: Date(), content: "Aaaaa, this is not real data", images: nil),
+        PostData(id: "", username: "Maxime", timestamp: Date(), content: "Fuck, I need to fix it", images: nil),
+        PostData(id: "", username: "Cara Delevigne", timestamp: Date(), content: "What is this place?", images: nil)
+    ]
     var postsToSubmitFeedbackIds: [String] = []
     
     var parentViewController: UIViewController?
     
+    // remove
     var submitPostCompletion: ((_ postContent:String) -> Void)?
     var addImageCompletion: (() -> Void)?
     
@@ -29,114 +40,41 @@ class FlowTableView : UITableView, UITableViewDelegate {
         // Register celltype PostViewCell
     
         register(UINib(nibName: "FlowMomentsTableViewCell", bundle: nil), forCellReuseIdentifier: "MomentsCell")
-        
         register(UINib(nibName: K.imagePostCellNibName, bundle: nil), forCellReuseIdentifier: K.imagePostCellIdentifier)
-        
-        register(UINib(nibName: "WritePostViewTableViewCell", bundle: nil), forCellReuseIdentifier: "CreatePostCell")
         
         rowHeight = UITableView.automaticDimension
         
-        // Set viewcount timer
-        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: timerHandler)
-        timer.fire()
-        
-        let feedbackTimer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true, block: self.feedbackTimer)
-        feedbackTimer.fire()
     }
     
-    func getPosts() {
-        // Clear current posts in feed
-        DispatchQueue.main.async {
-            self.reloadData()
-        }
-        
-        // Get posts from backend
-        PostsAPI.shared.getAllPosts(completion: { result in
-            switch result {
-            case .success(let newposts):
-                if let newposts = newposts {
-                    self.posts.append(contentsOf: newposts)
-                }
-                self.reloadData()
-            case .failure(let error):
-                print("Failed to get posts! \(error)")
-                self.posts.append(PostData(id: "0", username: "XY_AI", timestamp: Date(),content: "There was a problem getting posts from the backend!", images: []))
-                self.reloadData()
-            }
-        })
-    }
-    
-    func addImageButtonPressed() {
-        // Call imagepicker
-        addImageCompletion?()
-    }
-    
-    func submitButtonPressed(postContent:String) {
-        // Submit post
-        submitPostCompletion?(postContent)
-    }
 }
 
 extension FlowTableView : UITableViewDataSource {
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.posts.count + 2
+        return self.data.count
     }
     
     // create a cell for each table view row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Get next cell from indexPath
         
-        // TESTING CODE - Make the first cell into a create post cell.
-        if indexPath.row == 0 {
-            let cell = dequeueReusableCell(withIdentifier: "CreatePostCell") as! WritePostViewTableViewCell
-            print("Added WritePostViewTableViewCell!")
-            
-            cell.onImageButtonPressed = addImageButtonPressed
-            cell.onSubmitButtonPressed = submitButtonPressed
-            
-            cell.selectionStyle = .none
-            
-            return cell
-        }
-        
-        if indexPath.row == 1 {
+        switch data[indexPath.row].type {
+        case .momentsCollection:
             let cell = dequeueReusableCell(withIdentifier: "MomentsCell") as! FlowMomentsTableViewCell
             
             return cell
-        }
-        
-        // Load cell from async loader using indexpath for id.
-        if let cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as? ImagePostCell {
-            cell.loadFromPost(post: posts[indexPath.row - 2])
+        case .post:
+            let cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
+            cell.loadFromPost(post: posts[indexPath.row - 1])
             cell.XP.backgroundColor = .clear
             cell.XP.levelLabel.textColor = .white
             cell.XP.levelLabel.text = "1"
             return cell
-
-        } else if let cell = dequeueReusableCell(withIdentifier: "CreatePostCell") as? WritePostViewTableViewCell {
-            print("Added WritePostViewTableViewCell!")
-            return cell
-
         }
-        fatalError()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // method to run when table view cell is tapped
-        if (tableView.cellForRow(at: indexPath) as? ImagePostCell) != nil {
-            let profileViewer = ProfileViewer()
-            
-            if let parentViewController = parentViewController {
-                profileViewer.parentViewController = parentViewController
-                
-                let post = posts[indexPath.row - 2]
-                profileViewer.segueToProfile(username: post.username)
-            } else {
-                fatalError("parentViewController needs to be set for navigating to profile!")
-            }
-        } else if let cell = tableView.cellForRow(at: indexPath) as? WritePostViewTableViewCell {
-            print("Tapped WritePostViewTableViewCell!")
-        }
+
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
