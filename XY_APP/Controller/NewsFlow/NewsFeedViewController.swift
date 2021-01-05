@@ -6,7 +6,8 @@
 //
 
 import UIKit
-
+import Firebase
+import FirebaseStorage
 
 class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
@@ -35,6 +36,51 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
         tableView.parentViewController = self
         
         // Get posts from backend
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).getDocuments(source: .default) { documentSnapshots, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if let documentSnapshots = documentSnapshots {
+                for doc in documentSnapshots.documents {
+                    let data = doc.data()
+                    let author = data["author"] as! String
+                    
+                    let userDoc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(author)
+                    userDoc.getDocument { userdata, error in
+                        if let error = error {
+                            print(error.localizedDescription)
+                        }
+                        
+                        if let userdata = userdata {
+                            let username = userdata["xyname"] as! String
+                            
+                            print("Post data: \(data["postData"])")
+                            
+                            let postData = data["postData"] as! NSMutableDictionary
+                            
+                            let caption = postData["caption"] as! String
+                            let imageRef = postData["imageRef"] as! String
+                            let timestamp = postData["timestamp"] as! Firebase.Timestamp
+                            
+                            print("Got post: Written by \(author): content: \(caption), imageId: \(imageRef), posted at: \(timestamp)")
+                            
+                            self.tableView.posts.append(PostData(id: doc.documentID, username: username, timestamp: Date(timeIntervalSince1970: TimeInterval(timestamp.seconds)), content: caption, images: [imageRef]))
+                            
+                            ///
+                            // Get function from store
+                            let storage = Storage.storage()
+                            let pathReference = storage.reference(withPath: imageRef)
+                            
+                            DispatchQueue.main.async {
+                                self.tableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
         // Set posts inside tableview
     
         // Remove the extra empty cell divider lines
