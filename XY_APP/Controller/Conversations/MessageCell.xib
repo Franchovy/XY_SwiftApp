@@ -89,6 +89,7 @@
             <connections>
                 <outlet property="messageBubble" destination="BbO-2d-CqI" id="yi9-V2-PwU"/>
                 <outlet property="pinkMessageBubble" destination="5fn-ut-jGb" id="gY0-Vg-fi1"/>
+                <outlet property="pinkTextLabelMessage" destination="cbw-jA-rmF" id="f9M-yv-ZL5"/>
                 <outlet property="textLabelMessage" destination="2c8-mH-aOh" id="bZw-pY-gUY"/>
                 <outlet property="timeLabelMessage" destination="V4O-wC-Dmc" id="fkF-wm-Ohz"/>
                 <outlet property="widthConstraint" destination="Dbu-ho-QOe" id="V6B-wx-An9"/>

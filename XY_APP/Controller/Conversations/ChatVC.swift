@@ -22,16 +22,20 @@ class ChatVC : UIViewController {
     
     
     @IBOutlet weak var chatTableView: UITableView!
+
     
     @IBOutlet weak var chatTextPlaceholder: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: UIResponder.keyboardDidHideNotification, object: nil)
+        
         self.chatTableView.keyboardDismissMode = .interactive
         self.hideKeyboardWhenTappedAround()
-        self.tabBarController?.tabBar.isHidden = true
+        
         
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
@@ -52,12 +56,57 @@ class ChatVC : UIViewController {
         
     }
     
+    
+    override func viewDidAppear(_ animated: Bool) {
+        tabBarController?.tabBar.isHidden = true
+    }
+    
+    @IBOutlet weak var typingViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet var typingView: UIView!
+    
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        
+        if let keyboardReponder = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            
+            let height = keyboardReponder.cgRectValue.height
+            
+            
+            typingViewHeightConstraint.constant += height
+            
+            typingView.layoutIfNeeded()
+
+            
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        
+        if let keyboardReponder = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            
+            let height = keyboardReponder.cgRectValue.height
+            
+            
+            typingViewHeightConstraint.constant -= height
+            
+            typingView.layoutIfNeeded()
+
+            
+        }
+    }
+
+    @objc func keyboardDidHide(notification: NSNotification) {
+        typingViewHeightConstraint.constant = view.safeAreaInsets.bottom
+        typingView.layoutIfNeeded()
+
+    }
+
     func loadMessages() {
         
         db.collection(FirebaseKeys.CollectionPath.conversations)
             .order(by: FirebaseKeys.CollectionPath.dateField)
             .addSnapshotListener { (querySnapshot, error) in
-            
+                
             self.messages = []
             
             if error != nil {
@@ -65,7 +114,7 @@ class ChatVC : UIViewController {
             } else {
                 if let snapshotDocuments = querySnapshot?.documents {
                     for doc in snapshotDocuments {
-                     let data = doc.data()
+                        let data = doc.data()
                         if let messageSender = data[FirebaseKeys.CollectionPath.senderField] as? String, let messageBody = data[FirebaseKeys.CollectionPath.bodyField] as? String, let timeLabel = data[FirebaseKeys.CollectionPath.dateField] as? TimeInterval {
                             let newMessage = MessagesChat(sender: messageSender, body: messageBody, timeLabel: self.getStringForTimestamp(timeInterval: timeLabel))
                             self.messages.append(newMessage)
@@ -81,15 +130,15 @@ class ChatVC : UIViewController {
             }
         }
     }
-    
+
     func getStringForTimestamp(timeInterval: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: timeInterval)
         return date.description
     }
-    
+
     @IBAction func sendPressed(_ sender: UIButton) {
         
-        if let messageBody = chatTextPlaceholder.text, let messageSender = Auth.auth().currentUser?.email {
+        if let messageBody = chatTextPlaceholder.text, let messageSender = Firebase.Auth.auth().currentUser?.email {
             db.collection(FirebaseKeys.CollectionPath.conversations).addDocument(data: [FirebaseKeys.CollectionPath.senderField : messageSender, FirebaseKeys.CollectionPath.bodyField : messageBody, FirebaseKeys.CollectionPath.dateField: Date().timeIntervalSince1970
             ]) { (error) in
                 if let e = error {
@@ -126,23 +175,30 @@ extension ChatVC : UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "messageReusable", for: indexPath) as!
                 MessageCell
             cell.timeLabelMessage.text = messages[indexPath.row - 1].timeLabel
-            cell.textLabelMessage.text = message.body
+            
             // message from the current user
             
             if message.sender == Auth.auth().currentUser?.email {
                 cell.pinkMessageBubble.isHidden = true
                 cell.messageBubble.isHidden = false
+                
+                cell.textLabelMessage.text = message.body
+                cell.messageBubble.sizeToFit()
+                
             }
             // message from another sender
             
             else {
                 cell.pinkMessageBubble.isHidden = false
                 cell.messageBubble.isHidden = true
+                
+                cell.pinkTextLabelMessage.text = message.body
+                cell.pinkMessageBubble.sizeToFit()
+                
             }
             
             
             
-            cell.messageBubble.sizeToFit()
             return cell
         }
         
