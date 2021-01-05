@@ -18,5 +18,8 @@ struct FirebaseKeys {
         
         static let conversations = "conversations"
         static let messages = "messages"
+        static let senderField = "senderField"
+        static let bodyField = "bodyField"
+        static let dateField = "dateField"
     }
 }

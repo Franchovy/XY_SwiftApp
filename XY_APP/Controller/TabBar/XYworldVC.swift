@@ -18,9 +18,6 @@ class XYworldVC: UIViewController {
         
         super.viewDidLoad()
         
-        self.hidesBottomBarWhenPushed = true
-    
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

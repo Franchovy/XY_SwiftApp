@@ -10,6 +10,8 @@ import UIKit
 
 struct MessagesChat {
     
-    var messageText: String
+    
+    var sender: String
+    var body: String
     var timeLabel: String
 }
