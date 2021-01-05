@@ -56,19 +56,24 @@ extension ProfileVC : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
-       
-        // case: ProfileUpper
-        cell.ProfImg.image = Profile[indexPath.row].ProfileImage
-        cell.ProfNick.text = Profile[indexPath.row].Nickname
-        cell.profFollowers.text = Profile[indexPath.row].Followers
-        cell.profFollowing.text = Profile[indexPath.row].Following
-        cell.profLev.text = Profile[indexPath.row].Level
+        if indexPath.row == 0 {
+            // Load profileUpper Cell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
+           
+            // case: ProfileUpper
+            cell.ProfImg.image = Profile[indexPath.row].ProfileImage
+            cell.ProfNick.text = UserFirebaseData.user?.xyname
+            cell.profFollowers.text = Profile[indexPath.row].Followers
+            cell.profFollowing.text = Profile[indexPath.row].Following
+            cell.profLev.text = Profile[indexPath.row].Level
+            
+            cell.logout = logoutSegue
+            cell.chatSegue = segueToChat
+            
+            return cell
+        }
         
-        cell.logout = logoutSegue
-        cell.chatSegue = segueToChat
-        
-        return cell
+        fatalError()
     }
     
     

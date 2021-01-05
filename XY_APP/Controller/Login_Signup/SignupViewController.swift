@@ -54,9 +54,10 @@ class SignupViewController: UIViewController {
                     // Set user data in user firestore table after signup
                     let newDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
                     
+                    let timestamp = FieldValue.serverTimestamp()
                     newDocument.setData([
                             "xyname" : xyname,
-                            "timestamp": FieldValue.serverTimestamp(),
+                            "timestamp": timestamp,
                             "level": 0,
                             "xp": 0
                         ]
@@ -65,6 +66,13 @@ class SignupViewController: UIViewController {
                             print(error.localizedDescription)
                             return
                         }
+                        
+                        UserFirebaseData.user = UserData(
+                            xyname: xyname,
+                            timestamp: Date(),
+                            xp: 0,
+                            level: 0
+                        )
                         
                         //Navigate to Profile
                         
