@@ -15,3 +15,4 @@ enum FlowDataType {
 protocol FlowDataCell {
     var type: FlowDataType { get set }
 }
+

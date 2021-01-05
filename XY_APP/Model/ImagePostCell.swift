@@ -21,69 +21,45 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     @IBOutlet weak var profileImageLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var profileImageTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var contentImageViewHeightConstraint: NSLayoutConstraint!
+    
     @IBOutlet weak var contentImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
+    
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var captionAlphaView: UIView!
     
+    
+    
     // MARK: - PROPERTIES
     
+    //TODO: Link up to XYImage, XYProfileImage, XYPost classes
+    
     var images: [UIImage]?
-    var postId: String?
+    
     var profileImage:Profile.ProfileImage?
     var profile: Profile?
+    
+    var postId: String?
     
     // MARK: - PUBLIC METHODS
     
     // Load into view from post - calls to profile and images from backend
-    func loadFromPost(post: PostData) {
-        // Load data for this post
-        loadProfile(username: post.username, closure: { result in
-            switch result {
-            case .success(let profileData):
-                if let profilePhotoId = profileData.profilePhotoId {
-                    // Get profile Image for this user
-                    self.profileImage = Profile.ProfileImage(user: self.profile!, imageId: profilePhotoId)
-                    
-                    
-                    ImageCache.createOrQueueImageRequest(id: profilePhotoId, completion: { image in
+    func loadPostData(post: PostData) {
+        
+        // Get profile Image for this user
+        if let imageId = post.profileImage {
+                // Run fetch in background thread
+            DispatchQueue.global(qos: .background).async {
+                ImageCache.createOrQueueImageRequest(id: imageId) { image in
+                    DispatchQueue.main.async {
                         if let image = image {
-                            self.profileImage?.image = image
-
                             self.profileImageView.image = image
                         }
-                    })
-                    
-//                    ImageCache.getOrFetch(id: profilePhotoId, closure: { result in
-//                        switch result {
-//                        case .success(let image):
-//                            self.profileImage?.image = image
-//
-//                            DispatchQueue.main.async {
-//                                self.profileImageView.image = image
-//                            }
-//                        case .failure(let error):
-//                            print("Could not load profile image due to \(error)")
-//                        }
-//                    })
-                } else {
-                    fatalError("Call loadProfile(username) before calling loadPicture.")
+                    }
                 }
-            case .failure(let error):
-                print("Error loading profile for post: \(error)")
             }
-        })
-        
-        postId = post.id
-        
-        // Refresh image
-        if let images = post.images, images.count > 0 {
-            
-            
-        } else {
-          
         }
         
         // Load UI data
@@ -92,29 +68,20 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         timestampLabel.text = getTimestampDisplay(date: post.timestamp)
         
         // Load images
-        
-        
-        if let imgId = post.images?.first {
-            ImageCache.createOrQueueImageRequest(id: imgId, completion: { image in
-                
-                if let image = image {
-                    // Image formatting to fit properly
-                    let resizingFactor = 200 / image.size.height
-                    let newImage = UIImage(cgImage: image.cgImage!, scale: image.scale / resizingFactor, orientation: .up)
-                    
-                    // Add image to loaded post images
-                    if var images = self.images {
-                        images.append(newImage)
-                    } else {
-                        self.images = [newImage]
+        if let images = post.images {
+            for imageId in images {
+                // Run fetch in background thread
+                DispatchQueue.global(qos: .background).async {
+                    ImageCache.createOrQueueImageRequest(id: imageId) { image in
+                        if let image = image {
+                            DispatchQueue.main.async {
+                                self.contentImageView.image = image
+                            }
+                        }
                     }
-                    
-                    // Set contentImageView to this image
-                    self.contentImageView.image = image
-                } else {
-                    print("Error loading image!")
                 }
-            })
+                return
+            }
         }
     }
     

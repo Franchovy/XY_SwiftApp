@@ -89,6 +89,7 @@
 		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
 		B9D1AB3125A3A591009B428E /* FlowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowData.swift */; };
 		B9D5E51225A3C3B5001859EA /* FlowTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E51125A3C3B5001859EA /* FlowTableView.swift */; };
+		B9D5E51825A473B5001859EA /* UserFirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E51725A473B5001859EA /* UserFirebaseData.swift */; };
 		B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B682587B31B00EB87CB /* ImageCache.swift */; };
 		D4AF45A21E90EB85C8814087 /* Pods_XY_APP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7475997B9B6670EC9737322B /* Pods_XY_APP.framework */; };
 /* End PBXBuildFile section */
@@ -195,6 +196,7 @@
 		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		B9D1AB3025A3A591009B428E /* FlowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowData.swift; sourceTree = "<group>"; };
 		B9D5E51125A3C3B5001859EA /* FlowTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowTableView.swift; sourceTree = "<group>"; };
+		B9D5E51725A473B5001859EA /* UserFirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebaseData.swift; sourceTree = "<group>"; };
 		B9F00B682587B31B00EB87CB /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -480,6 +482,7 @@
 			children = (
 				B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */,
 				B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */,
+				B9D5E51725A473B5001859EA /* UserFirebaseData.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -737,6 +740,7 @@
 				B99DEE63258E8CF000ADF201 /* PostsAPI.swift in Sources */,
 				B945385C258E18070000BB8A /* XPLevel.swift in Sources */,
 				1425137C259F8C0100DC08BB /* Notification.swift in Sources */,
+				B9D5E51825A473B5001859EA /* UserFirebaseData.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessagesChat.swift in Sources */,
 				B95B63F025795A640004E293 /* HttpUtility.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
