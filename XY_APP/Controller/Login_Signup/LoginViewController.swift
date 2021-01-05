@@ -54,9 +54,36 @@ class LoginViewController: UIViewController {
                     }
                     return
                 }
+                // Successful login
+                guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
                 
+                // Load profile data
+                let document = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
+                print("Fetching profile for id: \(uid)")
                 
-                self.performSegue(withIdentifier: "LoginToProfile", sender: self)
+                document.getDocument { documentSnapshot, error in
+                    if let error = error {
+                        print(error.localizedDescription)
+                        return
+                    }
+                    
+                    if let documentSnapshot = documentSnapshot {
+                        let xyname = documentSnapshot["xyname"] as! String
+                        let timestamp = documentSnapshot["timestamp"] as! Firebase.Timestamp
+                        let xp = documentSnapshot["xp"] as! Int
+                        let level = documentSnapshot["level"] as! Int
+                        
+                        UserFirebaseData.user = UserData(
+                            xyname: xyname,
+                            timestamp: Date(timeIntervalSince1970: TimeInterval(timestamp.seconds)),
+                            xp: xp,
+                            level: level)
+                        print("User data loaded from firebase: \(UserFirebaseData.user)")
+                        
+                        // Segue to main
+                        self.performSegue(withIdentifier: "LoginToProfile", sender: self)
+                    }
+                }
             }
         }
     }

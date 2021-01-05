@@ -52,11 +52,27 @@ class SignupViewController: UIViewController {
                 }
                 if let uid = authResult?.user.uid, let xyname = self.xyNameTextField.text {
                     // Set user data in user firestore table after signup
-                    self.createUserInFirestore(xyname: xyname, uid: uid) { (error) in
+                    let newDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
+                    
+                    let timestamp = FieldValue.serverTimestamp()
+                    newDocument.setData([
+                            "xyname" : xyname,
+                            "timestamp": timestamp,
+                            "level": 0,
+                            "xp": 0
+                        ]
+                    ) { (error) in
                         if let error = error {
                             print(error.localizedDescription)
                             return
                         }
+                        
+                        UserFirebaseData.user = UserData(
+                            xyname: xyname,
+                            timestamp: Date(),
+                            xp: 0,
+                            level: 0
+                        )
                         
                         //Navigate to Profile
                         
@@ -69,19 +85,6 @@ class SignupViewController: UIViewController {
                 }
             }
             
-        }
-    }
-    
-    func createUserInFirestore(xyname: String, uid: String, completion: @escaping((Error?)) -> Void) {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).addDocument(data:
-            [
-                "xyname" : xyname,
-                "uid" : uid,
-                "level": 0,
-                "xp": 0
-            ]
-        ) { error in
-            completion(error)
         }
     }
 }

@@ -11,18 +11,8 @@ import UIKit
 
 class FlowTableView : UITableView, UITableViewDelegate {
 
-    var data: [FlowDataCell] = [
-        FlowMomentsTableViewCell(),
-        ImagePostCell(),
-        ImagePostCell(),
-        ImagePostCell()
-    ]
+    var posts: [PostData] = []
     
-    var posts: [PostData] = [
-        PostData(id: "", username: "Simone", timestamp: Date(), content: "Aaaaa, this is not real data", images: nil),
-        PostData(id: "", username: "Maxime", timestamp: Date(), content: "Fuck, I need to fix it", images: nil),
-        PostData(id: "", username: "Cara Delevigne", timestamp: Date(), content: "What is this place?", images: nil)
-    ]
     var postsToSubmitFeedbackIds: [String] = []
     
     var parentViewController: UIViewController?
@@ -44,34 +34,42 @@ class FlowTableView : UITableView, UITableViewDelegate {
         
         rowHeight = UITableView.automaticDimension
         
+        // Load data from firebase
+        //FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document("")
+        
+        // Load data manually
+        let testData = [
+            PostData(id: "", username: "Simone", timestamp: Date(), content: "Aaaaa, this is not real data", images: nil),
+            PostData(id: "", username: "Maxime", timestamp: Date(), content: "Fuck, I need to fix it", images: nil),
+            PostData(id: "", username: "Cara Delevigne", timestamp: Date(), content: "What is this place?", images: nil),
+            PostData(id: "", username: "Kiera Knightly", timestamp: Date(), content: "Wow, I can't wait to meet the CTO and CEO", images: nil)
+        ]
+        posts.append(contentsOf: testData)
     }
-    
 }
 
 extension FlowTableView : UITableViewDataSource {
     // number of rows in table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.data.count
+        return self.posts.count + 1
     }
     
     // create a cell for each table view row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Get next cell from indexPath
         
-        switch data[indexPath.row].type {
-        case .momentsCollection:
-            let cell = dequeueReusableCell(withIdentifier: "MomentsCell") as! FlowMomentsTableViewCell
-            
-            return cell
-        case .post:
+        if indexPath.row == 0 {
+            return dequeueReusableCell(withIdentifier: FlowMomentsTableViewCell.reusableIdentifier) as! FlowMomentsTableViewCell
+        } else {
             let cell = dequeueReusableCell(withIdentifier: K.imagePostCellIdentifier) as! ImagePostCell
-            cell.loadFromPost(post: posts[indexPath.row - 1])
+            cell.loadPostData(post: posts[indexPath.row - 1])
             cell.XP.backgroundColor = .clear
             cell.XP.levelLabel.textColor = .white
             cell.XP.levelLabel.text = "1"
             return cell
         }
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // method to run when table view cell is tapped
 

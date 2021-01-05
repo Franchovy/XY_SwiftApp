@@ -95,6 +95,7 @@ class PostManager {
 struct PostData {
     var id: String
     var username: String
+    var profileImage: String?
     var timestamp: Date
     var content: String
     var images: [String]?

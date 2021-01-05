@@ -14,7 +14,7 @@ struct FirebaseKeys {
         
         static let users = "users"
         
-        static let posts = "posts"
+        static let posts = "Posts"
         
         static let conversations = "conversations"
         static let messages = "messages"

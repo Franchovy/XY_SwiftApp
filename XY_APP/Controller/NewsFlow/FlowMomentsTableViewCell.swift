@@ -7,9 +7,11 @@
 
 import UIKit
 
-class FlowMomentsTableViewCell: UITableViewCell, FlowDataCell {
+struct FlowMomentsTableViewCellData: FlowDataCell {
     var type: FlowDataType = { return .momentsCollection }()
-    
+}
+
+class FlowMomentsTableViewCell: UITableViewCell {
     var moments: [MomentsModel] = [
             
             MomentsModel(moment: UIImage(named: "Moments_Elon")!, momentsProfileImage: UIImage(named: "Moments_Elon_Profile")!, momentsName: "Elon Musk"),
@@ -18,6 +20,8 @@ class FlowMomentsTableViewCell: UITableViewCell, FlowDataCell {
             MomentsModel(moment: UIImage(named: "Moments_Elon")!, momentsProfileImage: UIImage(named: "Moments_Elon_Profile")!, momentsName: "Elon Musk")
         
         ]
+    
+    static let reusableIdentifier = "MomentsCell"
 
     @IBOutlet weak var MomentsCollectionView: UICollectionView!
    
