@@ -67,12 +67,7 @@ class SignupViewController: UIViewController {
                             return
                         }
                         
-                        UserFirebaseData.user = UserData(
-                            xyname: xyname,
-                            timestamp: Date(),
-                            xp: 0,
-                            level: 0
-                        )
+                        //TODO: - Set local user/profile data
                         
                         //Navigate to Profile
                         

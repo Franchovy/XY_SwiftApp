@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class ExploreViewController: UIViewController, UISearchBarDelegate {
+class ExploreVC: UIViewController, UISearchBarDelegate {
  
    
     @IBOutlet weak var ExploreTableView: UITableView!
@@ -57,7 +57,7 @@ class ExploreViewController: UIViewController, UISearchBarDelegate {
 }
 
 
-extension ExploreViewController : UITableViewDataSource {
+extension ExploreVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return challenges.count
     }

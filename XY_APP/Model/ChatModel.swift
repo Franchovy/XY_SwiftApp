@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Chat {
+struct ChatModel {
     
     let time: String
     let body: String

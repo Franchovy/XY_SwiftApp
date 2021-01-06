@@ -73,12 +73,12 @@ class LoginViewController: UIViewController {
                         let xp = documentSnapshot["xp"] as! Int
                         let level = documentSnapshot["level"] as! Int
                         
-                        UserFirebaseData.user = UserData(
-                            xyname: xyname,
-                            timestamp: Date(timeIntervalSince1970: TimeInterval(timestamp.seconds)),
-                            xp: xp,
-                            level: level)
-                        print("User data loaded from firebase: \(UserFirebaseData.user)")
+                        //UserFirebaseData.user = UserData(
+                        //    xyname: xyname,
+                        //    timestamp: Date(timeIntervalSince1970: TimeInterval(timestamp.seconds)),
+                        //    xp: xp,
+                        //    level: level)
+                        //print("User data loaded from firebase: \(UserFirebaseData.user)")
                         
                         // Segue to main
                         self.performSegue(withIdentifier: "LoginToProfile", sender: self)

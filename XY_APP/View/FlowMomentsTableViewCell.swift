@@ -7,11 +7,9 @@
 
 import UIKit
 
-struct FlowMomentsTableViewCellData: FlowDataCell {
-    var type: FlowDataType = { return .momentsCollection }()
-}
-
-class FlowMomentsTableViewCell: UITableViewCell {
+class FlowMomentsTableViewCell: UITableViewCell, FlowDataCell {
+    var type: FlowDataType = .momentsCollection
+    
     var moments: [MomentsModel] = [
             
             MomentsModel(moment: UIImage(named: "Moments_Elon")!, momentsProfileImage: UIImage(named: "Moments_Elon_Profile")!, momentsName: "Elon Musk"),

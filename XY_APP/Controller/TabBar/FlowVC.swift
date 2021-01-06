@@ -62,7 +62,7 @@ class FlowVC : UITableViewController {
                         self.data.append(
                             PostData(
                                 id: doc.documentID,
-                                username: documentData["author"] as! String,
+                                userId: documentData["author"] as! String,
                                 timestamp: (postData["timestamp"] as! Firebase.Timestamp).dateValue(),
                                 content: postData["caption"] as! String,
                                 images: [postData["imageRef"] as! String]

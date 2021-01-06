@@ -9,7 +9,7 @@ import  Foundation
 import UIKit
 
 
-struct Conversations {
+struct ConversationModel {
     
     let profileImage : UIImage
     let name : String

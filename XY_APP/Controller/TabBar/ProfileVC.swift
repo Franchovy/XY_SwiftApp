@@ -62,7 +62,7 @@ extension ProfileVC : UITableViewDataSource {
            
             // case: ProfileUpper
             cell.ProfImg.image = Profile[indexPath.row].ProfileImage
-            cell.ProfNick.text = UserFirebaseData.user?.xyname
+            cell.ProfNick.text = Profile[indexPath.row].Nickname
             cell.profFollowers.text = Profile[indexPath.row].Followers
             cell.profFollowing.text = Profile[indexPath.row].Following
             cell.profLev.text = Profile[indexPath.row].Level
