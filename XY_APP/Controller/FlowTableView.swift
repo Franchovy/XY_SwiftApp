@@ -37,14 +37,6 @@ class FlowTableView : UITableView, UITableViewDelegate {
         // Load data from firebase
         //FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document("")
         
-        // Load data manually
-        let testData = [
-            PostData(id: "", username: "Simone", timestamp: Date(), content: "Aaaaa, this is not real data", images: nil),
-            PostData(id: "", username: "Maxime", timestamp: Date(), content: "Fuck, I need to fix it", images: nil),
-            PostData(id: "", username: "Cara Delevigne", timestamp: Date(), content: "What is this place?", images: nil),
-            PostData(id: "", username: "Kiera Knightly", timestamp: Date(), content: "Wow, I can't wait to meet the CTO and CEO", images: nil)
-        ]
-        posts.append(contentsOf: testData)
     }
 }
 

@@ -115,6 +115,27 @@ struct PostData {
     }
 }
 
+struct PostViewModel {
+    var xyname: String
+    var profileImage: UIImage?
+    var timestamp: Date
+    var content: String
+    var images: [UIImage]?
+    
+    var xpLevel : XPLevel
+    var feedback: Feedback?
+    
+    // Create new post:
+    init(id: String, xyname: String, timestamp: Date, content: String, images: [UIImage]?) {
+        self.xyname = xyname
+        self.timestamp = timestamp
+        self.content = content
+        self.images = images
+        self.xpLevel = XPLevel(type: .post)
+        feedback = Feedback()
+    }
+}
+
 extension PostData : Decodable {
     enum CodingKeys: CodingKey {
       case id, username, timestamp, content, images, xpLevel

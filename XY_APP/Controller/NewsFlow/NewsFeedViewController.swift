@@ -65,16 +65,12 @@ class NewsFeedViewController: UIViewController, UINavigationControllerDelegate, 
                             
                             print("Got post: Written by \(author): content: \(caption), imageId: \(imageRef), posted at: \(timestamp)")
                             
-                            self.tableView.posts.append(PostData(id: doc.documentID, username: username, timestamp: Date(timeIntervalSince1970: TimeInterval(timestamp.seconds)), content: caption, images: [imageRef]))
-                            
-                            ///
-                            // Get function from store
-                            let storage = Storage.storage()
-                            let pathReference = storage.reference(withPath: imageRef)
+                            self.tableView.posts.append(PostData(id: "", username: username, timestamp: Date(timeIntervalSince1970: TimeInterval(timestamp.seconds)), content: caption, images: [imageRef]))
                             
                             DispatchQueue.main.async {
                                 self.tableView.reloadData()
                             }
+                            
                         }
                     }
                 }

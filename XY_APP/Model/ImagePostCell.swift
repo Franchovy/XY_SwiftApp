@@ -6,7 +6,7 @@
 //
 
 import UIKit
-
+import FirebaseStorage
 
 class ImagePostCell: UITableViewCell, FlowDataCell {
     var type: FlowDataType = { return .post }()
@@ -50,12 +50,19 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         // Get profile Image for this user
         if let imageId = post.profileImage {
-                // Run fetch in background thread
+            // Run fetch in background thread
             DispatchQueue.global(qos: .background).async {
-                ImageCache.createOrQueueImageRequest(id: imageId) { image in
-                    DispatchQueue.main.async {
-                        if let image = image {
-                            self.profileImageView.image = image
+                let storage = Storage.storage()
+                let pathReference = storage.reference(withPath: imageId)
+                pathReference.getData(maxSize: 1 * 10024 * 10024) { data, error in
+                    if let error = error {
+                        print(error)
+                        return
+                    }
+                    if let data = data, let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            
+                            self.profileImage?.image = image
                         }
                     }
                 }
@@ -72,10 +79,17 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             for imageId in images {
                 // Run fetch in background thread
                 DispatchQueue.global(qos: .background).async {
-                    ImageCache.createOrQueueImageRequest(id: imageId) { image in
-                        if let image = image {
+                    let storage = Storage.storage()
+                    let pathReference = storage.reference(withPath: imageId)
+                    pathReference.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                        if let error = error {
+                            print(error)
+                            return
+                        }
+                        if let data = data, let image = UIImage(data: data) {
                             DispatchQueue.main.async {
-                                self.contentImageView.image = image
+                                
+                                self.contentImageView?.image = image
                             }
                         }
                     }
