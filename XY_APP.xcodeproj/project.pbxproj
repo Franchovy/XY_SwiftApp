@@ -90,6 +90,10 @@
 		B9D1AB3125A3A591009B428E /* FlowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowData.swift */; };
 		B9D5E51225A3C3B5001859EA /* FlowTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E51125A3C3B5001859EA /* FlowTableView.swift */; };
 		B9D5E51825A473B5001859EA /* UserFirebaseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E51725A473B5001859EA /* UserFirebaseData.swift */; };
+		B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E55C25A5F131001859EA /* FlowVC.swift */; };
+		B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56025A5F362001859EA /* PostViewModel.swift */; };
+		B9D5E56825A5F425001859EA /* FetchPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56725A5F425001859EA /* FetchPost.swift */; };
+		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
 		B9F00B692587B31B00EB87CB /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F00B682587B31B00EB87CB /* ImageCache.swift */; };
 		D4AF45A21E90EB85C8814087 /* Pods_XY_APP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7475997B9B6670EC9737322B /* Pods_XY_APP.framework */; };
 /* End PBXBuildFile section */
@@ -197,6 +201,10 @@
 		B9D1AB3025A3A591009B428E /* FlowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowData.swift; sourceTree = "<group>"; };
 		B9D5E51125A3C3B5001859EA /* FlowTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowTableView.swift; sourceTree = "<group>"; };
 		B9D5E51725A473B5001859EA /* UserFirebaseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirebaseData.swift; sourceTree = "<group>"; };
+		B9D5E55C25A5F131001859EA /* FlowVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowVC.swift; sourceTree = "<group>"; };
+		B9D5E56025A5F362001859EA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
+		B9D5E56725A5F425001859EA /* FetchPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPost.swift; sourceTree = "<group>"; };
+		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
 		B9F00B682587B31B00EB87CB /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -265,6 +273,7 @@
 				14C99E2D25A0EE7E00FFE003 /* ProfileVC.swift */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				B926225D25A234A100BA2FB0 /* LaunchVC.swift */,
+				B9D5E55C25A5F131001859EA /* FlowVC.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -377,8 +386,9 @@
 				B99DEEF62590FA2B00ADF201 /* Feedback.swift */,
 				B945385B258E18070000BB8A /* XPLevel.swift */,
 				B94FA398257112C700A44085 /* Profile.swift */,
-				B94D46F0257253BA00A21355 /* PostModel.swift */,
 				1462BB13257E4DC00096FD23 /* Message.swift */,
+				B94D46F0257253BA00A21355 /* PostModel.swift */,
+				B9D5E56025A5F362001859EA /* PostViewModel.swift */,
 				140826B725867EC400DC055D /* ImagePostCell.swift */,
 				140826B825867EC400DC055D /* ImagePostCell.xib */,
 				14A72D0B258F8C910015D9CA /* Conversations */,
@@ -387,6 +397,7 @@
 				B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */,
 				B9530025259F476000DE926A /* CircleView.xib */,
 				B953001F259F36CE00DE926A /* CircleView.swift */,
+				B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -448,6 +459,7 @@
 		B9B92DD225644A3F005D9B86 /* XY_APP */ = {
 			isa = PBXGroup;
 			children = (
+				B9D5E56625A5F418001859EA /* Services */,
 				B9D1AB1F25A39436009B428E /* Firebase */,
 				B97AB5A525859202006D2EE4 /* Utilities */,
 				B94FA39225710C9D00A44085 /* Model */,
@@ -485,6 +497,14 @@
 				B9D5E51725A473B5001859EA /* UserFirebaseData.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		B9D5E56625A5F418001859EA /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B9D5E56725A5F425001859EA /* FetchPost.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -682,6 +702,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B9AB79DE2585FFA400BD2C93 /* Session.swift in Sources */,
 				B950D6F7256D25460065E756 /* Messages.swift in Sources */,
 				14BDAF6825A313CB00D19282 /* UserInfoChat.swift in Sources */,
@@ -706,8 +727,10 @@
 				148935BF25A2686F00CB60C3 /* ConversationPreview.swift in Sources */,
 				14A36081259CB88D002829D7 /* MomentsModel.swift in Sources */,
 				149AD6DA259B993B00E81ABC /* ExploreCollectionViewCell.swift in Sources */,
+				B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */,
 				B9D1AB3125A3A591009B428E /* FlowData.swift in Sources */,
 				14BDAF6325A30A4800D19282 /* ChatUserInfo.swift in Sources */,
+				B9D5E56825A5F425001859EA /* FetchPost.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreViewController.swift in Sources */,
 				1462BB14257E4DC00096FD23 /* Message.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
@@ -743,6 +766,7 @@
 				B9D5E51825A473B5001859EA /* UserFirebaseData.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessagesChat.swift in Sources */,
 				B95B63F025795A640004E293 /* HttpUtility.swift in Sources */,
+				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
 				148935F225A26AFC00CB60C3 /* ConversationCell.swift in Sources */,
 			);

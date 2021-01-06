@@ -8,8 +8,21 @@
 import UIKit
 import FirebaseStorage
 
-class ImagePostCell: UITableViewCell, FlowDataCell {
+class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     var type: FlowDataType = { return .post }()
+    
+    var viewModel: PostViewModel? {
+        didSet {
+            // Set delegate so the viewModel can call to set images
+            viewModel?.delegate = self
+            // Set data already ready
+            contentLabel.text = viewModel?.content
+            timestampLabel.text = viewModel?.getTimestampString()
+        }
+    }
+    
+    static let nibName = "ImagePostCell"
+    static let identifier = "imagePostCell"
     
     @IBOutlet weak var XP: CircleView!
     
@@ -31,6 +44,17 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     @IBOutlet weak var captionAlphaView: UIView!
     
     
+    func didFetchProfileImage(image: UIImage) {
+        profileImageView.image = viewModel?.profileImage
+    }
+    
+    func didFetchPostImages(images: [UIImage]) {
+        contentImageView.image = viewModel?.images.first
+    }
+    
+    func didFetchProfileData(xyname: String) {
+        nameLabel.text = xyname
+    }
     
     // MARK: - PROPERTIES
     
@@ -70,7 +94,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
         
         // Load UI data
-        nameLabel.text = post.username
+        nameLabel.text = post.userId
         contentLabel.text = post.content
         timestampLabel.text = getTimestampDisplay(date: post.timestamp)
         

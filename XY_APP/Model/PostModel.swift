@@ -92,9 +92,11 @@ class PostManager {
     }
 }
 
-struct PostData {
+struct PostData : FlowDataModel {
+    var type: FlowDataType = .post
+    
     var id: String
-    var username: String
+    var userId: String
     var profileImage: String?
     var timestamp: Date
     var content: String
@@ -106,28 +108,7 @@ struct PostData {
     // Create new post:
     init(id: String, username: String, timestamp: Date, content: String, images: [String]?) {
         self.id = id
-        self.username = username
-        self.timestamp = timestamp
-        self.content = content
-        self.images = images
-        self.xpLevel = XPLevel(type: .post)
-        feedback = Feedback()
-    }
-}
-
-struct PostViewModel {
-    var xyname: String
-    var profileImage: UIImage?
-    var timestamp: Date
-    var content: String
-    var images: [UIImage]?
-    
-    var xpLevel : XPLevel
-    var feedback: Feedback?
-    
-    // Create new post:
-    init(id: String, xyname: String, timestamp: Date, content: String, images: [UIImage]?) {
-        self.xyname = xyname
+        self.userId = username
         self.timestamp = timestamp
         self.content = content
         self.images = images
@@ -145,7 +126,7 @@ extension PostData : Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         if container.contains(.xpLevel) {
             id = try container.decode(String.self, forKey: .id)
-            username = try container.decode(String.self, forKey: .username)
+            userId = try container.decode(String.self, forKey: .username)
             timestamp = try container.decode(Date.self, forKey: .timestamp)
             content = try container.decode(String.self, forKey: .content)
             if container.contains(.images) {
@@ -155,7 +136,7 @@ extension PostData : Decodable {
             feedback = Feedback()
         } else {
             id = try container.decode(String.self, forKey: .id)
-            username = try container.decode(String.self, forKey: .username)
+            userId = try container.decode(String.self, forKey: .username)
             timestamp = try container.decode(Date.self, forKey: .timestamp)
             content = try container.decode(String.self, forKey: .content)
             if container.contains(.images) {
