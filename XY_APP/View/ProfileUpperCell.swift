@@ -32,6 +32,15 @@ class ProfileUpperCell: UITableViewCell {
     @IBOutlet weak var levelView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
+  
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        ProfImg.isUserInteractionEnabled = false
+        ProfImg.addGestureRecognizer(tapGestureRecognizer)
+        
+        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(labelTapped(tapGestureRecognizer:)))
+        postCapt.isUserInteractionEnabled = false
+        postCapt.addGestureRecognizer(tapGestureRecognizer2)
+        
         
         ProfImg.layer.cornerRadius = 10
         profViewContainer.layer.cornerRadius = 15.0
@@ -40,6 +49,27 @@ class ProfileUpperCell: UITableViewCell {
         
         levelView.layer.cornerRadius = 10.0
         
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    
+    {
+        let tappedImage = tapGestureRecognizer.view as! UIImageView
+
+    }
+    
+    @objc func labelTapped(tapGestureRecognizer: UITapGestureRecognizer)
+    
+    {
+        let tappedLabel = tapGestureRecognizer.view as! UILabel
+        let textField = UITextField(frame: tappedLabel.frame)
+        profViewContainer.addSubview(textField)
+        textField.layer.borderWidth = 2
+        textField.layer.borderColor = UIColor.systemPink.cgColor
+        textField.textColor = .systemPink
+        textField.layer.cornerRadius = 5
+        tappedLabel.isHidden = true
+
     }
     
     @IBAction func settingsButtonPressed(_ sender: Any) {
@@ -51,7 +81,17 @@ class ProfileUpperCell: UITableViewCell {
         chatSegue?()
     }
    
- 
+    @IBAction func editButtonPressed(_ sender: UIButton) {
+       
+        ProfImg.layer.borderColor = UIColor.systemPink.cgColor
+        ProfImg.layer.borderWidth = 3
+        ProfImg.isUserInteractionEnabled = true
+        
+        postCapt.textColor = UIColor.systemPink
+        postCapt.isUserInteractionEnabled = true
+        
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         

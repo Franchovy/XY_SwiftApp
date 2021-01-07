@@ -223,6 +223,7 @@
 				140826B725867EC400DC055D /* ImagePostCell.swift */,
 				140826B825867EC400DC055D /* ImagePostCell.xib */,
 				B9B92DD925644A3F005D9B86 /* Main.storyboard */,
+				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -349,7 +350,6 @@
 				14175C792570F5D600C88051 /* View */,
 				B9B92DDF25644A41005D9B86 /* Assets.xcassets */,
 				14C96786258E455B00E072EA /* Constants.swift */,
-				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
 				B9B92DE425644A41005D9B86 /* Info.plist */,
 				1446C65725A1E0FF0045BB65 /* GoogleService-Info.plist */,
 				B9B92DDC25644A3F005D9B86 /* XY_APP.xcdatamodeld */,

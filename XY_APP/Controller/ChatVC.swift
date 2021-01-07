@@ -22,10 +22,9 @@ class ChatVC : UIViewController {
     
     
     @IBOutlet weak var chatTableView: UITableView!
-
-    
+ 
     @IBOutlet weak var chatTextPlaceholder: UITextField!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -75,7 +74,7 @@ class ChatVC : UIViewController {
             typingViewHeightConstraint.constant += height
             
             typingView.layoutIfNeeded()
-
+            
             
         }
     }
@@ -90,52 +89,54 @@ class ChatVC : UIViewController {
             typingViewHeightConstraint.constant -= height
             
             typingView.layoutIfNeeded()
-
+            
             
         }
     }
-
+    
     @objc func keyboardDidHide(notification: NSNotification) {
         typingViewHeightConstraint.constant = view.safeAreaInsets.bottom
         typingView.layoutIfNeeded()
-
+        
     }
-
+    
     func loadMessages() {
         
         db.collection(FirebaseKeys.CollectionPath.conversations)
             .order(by: FirebaseKeys.CollectionPath.dateField)
             .addSnapshotListener { (querySnapshot, error) in
                 
-            self.messages = []
-            
-            if error != nil {
-                print("problems :/")
-            } else {
-                if let snapshotDocuments = querySnapshot?.documents {
-                    for doc in snapshotDocuments {
-                        let data = doc.data()
-                        if let messageSender = data[FirebaseKeys.CollectionPath.senderField] as? String, let messageBody = data[FirebaseKeys.CollectionPath.bodyField] as? String, let timeLabel = data[FirebaseKeys.CollectionPath.dateField] as? TimeInterval {
-                            let newMessage = MessagesChat(sender: messageSender, body: messageBody, timeLabel: self.getStringForTimestamp(timeInterval: timeLabel))
-                            self.messages.append(newMessage)
-                            DispatchQueue.main.async {
-                                self.chatTableView.reloadData()
+                self.messages = []
+                
+                if error != nil {
+                    print("problems :/")
+                } else {
+                    if let snapshotDocuments = querySnapshot?.documents {
+                        for doc in snapshotDocuments {
+                            let data = doc.data()
+                            if let messageSender = data[FirebaseKeys.CollectionPath.senderField] as? String, let messageBody = data[FirebaseKeys.CollectionPath.bodyField] as? String, let timeLabel = data[FirebaseKeys.CollectionPath.dateField] as? TimeInterval {
+                                let newMessage = MessagesChat(sender: messageSender, body: messageBody, timeLabel: self.getStringForTimestamp(timeInterval: timeLabel))
+                                self.messages.append(newMessage)
+                                DispatchQueue.main.async {
+                                    self.chatTableView.reloadData()
+                                    let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
+                                    self.chatTableView.scrollToRow(at: indexPath, at: .top, animated: false)
+                                }
+                                
+                            } else {
+                                //fatalError()
                             }
-                            
-                        } else {
-                            //fatalError()
                         }
                     }
                 }
             }
-        }
     }
-
+    
     func getStringForTimestamp(timeInterval: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: timeInterval)
         return date.description
     }
-
+    
     @IBAction func sendPressed(_ sender: UIButton) {
         
         if let messageBody = chatTextPlaceholder.text, let messageSender = Firebase.Auth.auth().currentUser?.email {
@@ -145,6 +146,10 @@ class ChatVC : UIViewController {
                     print(" There was an issue like in my code lol, \(e)")
                 } else {
                     print("Succesfull yeah ")
+                    DispatchQueue.main.async {
+                        self.chatTextPlaceholder.text = ""
+                    }
+                    
                 }
             }
         }

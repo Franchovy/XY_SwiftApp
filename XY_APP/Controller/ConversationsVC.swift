@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+
 class ConversationsVC: UIViewController {
     
     
@@ -72,6 +73,10 @@ extension ConversationsVC : UITableViewDataSource {
 }
 
 extension ConversationsVC : UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
     
     
 }
