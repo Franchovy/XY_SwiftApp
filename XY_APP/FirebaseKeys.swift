@@ -13,13 +13,21 @@ struct FirebaseKeys {
         ///Defining the collection path for each of these
         
         static let users = "users"
-        
         static let posts = "Posts"
+        static let profile = "Profiles"
         
         static let conversations = "conversations"
         static let messages = "messages"
         static let senderField = "senderField"
         static let bodyField = "bodyField"
         static let dateField = "dateField"
+    }
+    
+    struct UserKeys {
+        static let xyname = "xyname"
+        static let timestamp = "timestamp"
+        static let xp = "xp"
+        static let level = "level"
+        static let profile = "profile"
     }
 }

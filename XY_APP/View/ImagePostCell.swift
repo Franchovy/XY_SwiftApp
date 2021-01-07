@@ -9,6 +9,11 @@ import UIKit
 import FirebaseStorage
 
 class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
+    
+    // MARK: - PROPERTIES
+    
+    var images: [UIImage]?
+    
     var type: FlowDataType = { return .post }()
     
     var viewModel: PostViewModel? {
@@ -23,6 +28,22 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     
     static let nibName = "ImagePostCell"
     static let identifier = "imagePostCell"
+    
+    // MARK: - PostViewModel Delegate Methods
+    
+    func didFetchProfileImage(image: UIImage) {
+        profileImageView.image = viewModel?.profileImage
+    }
+    
+    func didFetchPostImages(images: [UIImage]) {
+        contentImageView.image = viewModel?.images.first
+    }
+    
+    func didFetchProfileData(xyname: String) {
+        nameLabel.text = xyname
+    }
+    
+    // MARK: - IBOutlets
     
     @IBOutlet weak var XP: CircleView!
     
@@ -42,23 +63,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var captionAlphaView: UIView!
-    
-    
-    func didFetchProfileImage(image: UIImage) {
-        profileImageView.image = viewModel?.profileImage
-    }
-    
-    func didFetchPostImages(images: [UIImage]) {
-        contentImageView.image = viewModel?.images.first
-    }
-    
-    func didFetchProfileData(xyname: String) {
-        nameLabel.text = xyname
-    }
-    
-    // MARK: - PROPERTIES
-    
-    var images: [UIImage]?
     
     // MARK: - PUBLIC METHODS
     

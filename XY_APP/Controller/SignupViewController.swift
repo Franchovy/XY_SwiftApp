@@ -44,42 +44,18 @@ class SignupViewController: UIViewController {
             loadingIcon.isHidden = false
             loadingIcon.startAnimating()
             
-            // Create use authenticated
-            Firebase.Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                if let e = error{
-                    print(e)
-                    return
-                }
-                if let uid = authResult?.user.uid, let xyname = self.xyNameTextField.text {
-                    // Set user data in user firestore table after signup
-                    let newDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
-                    
-                    let timestamp = FieldValue.serverTimestamp()
-                    newDocument.setData([
-                            "xyname" : xyname,
-                            "timestamp": timestamp,
-                            "level": 0,
-                            "xp": 0
-                        ]
-                    ) { (error) in
-                        if let error = error {
-                            print(error.localizedDescription)
-                            return
-                        }
-                        
-                        //TODO: - Set local user/profile data
-                        
-                        //Navigate to Profile
-                        
+            if let xyname = self.xyNameTextField.text {
+                CreateXYUserService.createUser(xyname: xyname, email: email, phoneNumber: nil, password: password) { result in
+                    switch result {
+                    case .success(_):
                         self.loadingIcon.isHidden = true
                         self.loadingIcon.stopAnimating()
                         self.performSegue(withIdentifier: "fromSignupToFlow", sender: self)
+                    case .failure(let error):
+                        print("Error creating profile: \(error)")
                     }
-                } else {
-                    fatalError()
                 }
             }
-            
         }
     }
 }

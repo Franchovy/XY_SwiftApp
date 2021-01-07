@@ -73,6 +73,7 @@ class ProfileUpperCell: UITableViewCell {
     }
     
     @IBAction func settingsButtonPressed(_ sender: Any) {
+        
         logout?()
     }
     

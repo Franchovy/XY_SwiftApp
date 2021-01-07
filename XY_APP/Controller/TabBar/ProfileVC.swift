@@ -7,16 +7,14 @@
 
 import Foundation
 import UIKit
+import FirebaseStorage
+import FirebaseAuth
 
 class ProfileVC : UIViewController {
 
     @IBOutlet weak var UpProfTableView: UITableView!
 
-    lazy var Profile : [UpperProfile] = [
-        
-        UpperProfile(Nickname: "XYfounder", ProfileImage: UIImage(named: "Raggruppa 301-image2")!, Link: "xy.com", Followers: "1.4M", Following: "4", Level: "129", ProfileCaption: "Put a funny caption here :)")
-        
-    ]
+    lazy var profile: [UpperProfile] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +27,22 @@ class ProfileVC : UIViewController {
         UpProfTableView.delegate = self
         
         UpProfTableView.register(UINib(nibName: "ProfileUpperCell", bundle: nil), forCellReuseIdentifier: "ProfileUpperReusable")
+        
+        if let ownId = Auth.auth().currentUser?.uid {
+            fetchProfile(profileId: ownId)
+        }
+    }
+    
+    func fetchProfile(profileId: String) {
+        FirebaseDownload.getProfile(userId: profileId) { profileData, error in
+            if let error = error {
+                print("Error fetching profile: \(error)")
+            }
+            if let profileData = profileData {
+                self.profile.append(profileData)
+            }
+        }
+        
         
     }
     
@@ -61,11 +75,24 @@ extension ProfileVC : UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
            
             // case: ProfileUpper
-            cell.ProfImg.image = Profile[indexPath.row].ProfileImage
-            cell.ProfNick.text = Profile[indexPath.row].Nickname
-            cell.profFollowers.text = Profile[indexPath.row].Followers
-            cell.profFollowing.text = Profile[indexPath.row].Following
-            cell.profLev.text = Profile[indexPath.row].Level
+            if profile.count >= indexPath.row {
+                cell.ProfNick.text = profile[indexPath.row].xyname
+                cell.profFollowers.text = String(describing: profile[indexPath.row].followers)
+                cell.profFollowing.text = String(describing: profile[indexPath.row].following)
+                cell.profLev.text = String(describing: profile[indexPath.row].level)
+                cell.postCapt.text = profile[indexPath.row].caption
+                
+                // get profile image async
+                let storage = Storage.storage()
+                storage.reference(withPath: profile[indexPath.row].imageId).getData(maxSize: 1 * 1024 * 1024) { data, error in
+                    if let error = error {
+                        print("Error fetching profile image: \(error)")
+                    }
+                    if let data = data, let image = UIImage(data: data) {
+                        cell.ProfImg.image = image
+                    }
+                }
+            }
             
             cell.logout = logoutSegue
             cell.chatSegue = segueToChat
