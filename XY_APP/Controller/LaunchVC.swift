@@ -8,32 +8,50 @@
 import UIKit
 
 class LaunchVC: UIViewController {
+   
+    private let imageView: UIImageView = {
+        
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 88, height: 47))
+        imageView.image = UIImage(named: "LogoXY")
+        return imageView
+    
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(imageView)
 
         // Do any additional setup after loading the view.
-        
-        // Check if this is the first time
-        // -> segue to signup
-        
-        // Check for authentication status
-        // no auth -> segue to login
-        // auth -> segue to main
-        
-        
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        performSegue(withIdentifier: "segueToLogin", sender: self)
-    }
-
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        imageView.center = view.center
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+            self.animate()
+        })
     }
     
-
+    private func animate(){
+        UIView.animate(withDuration: 1, animations: {
+            let size = self.view.frame.size.width * 3
+            let diffX = size - self.view.frame.size.width
+            let diffY = self.view.frame.size.height - size
+            self.imageView.frame =  CGRect(x: -(diffX/2),
+                                           y: diffY/2,
+                                           width: size,
+                                           height: size
+            )
+        })
+        
+        UIView.animate(withDuration: 1.5, animations: {
+            self.imageView.alpha = 0
+        }, completion: {done in
+            if done {
+                self.performSegue(withIdentifier: "segueToLogin", sender: self)
+            }
+        })
+     
+    }
+   
 }

@@ -61,7 +61,8 @@ class ProfileUpperCell: UITableViewCell {
     
     {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
-        imageView?.shake()
+        tappedImage.shake()
+        
     }
     
     @objc func labelTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -77,7 +78,8 @@ class ProfileUpperCell: UITableViewCell {
         textField.layer.cornerRadius = 5
         tappedLabel.isHidden = true
         textField.shake()
- 
+        
+        
     }
     
     @objc func nickTapped(tapGestureRecognizer: UITapGestureRecognizer)
@@ -135,6 +137,12 @@ extension ProfileUpperCell : UITableViewDelegate {
     }
     
     
+}
+
+extension ProfileUpperCell : UITextFieldDelegate {
+    override func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+        
+    }
 }
 
 public extension UITextField {
