@@ -11,6 +11,8 @@ import Firebase
 
 class LoginViewController: UIViewController {
     
+   
+    
     //MARK: - IBOutlets
     
     @IBOutlet weak var usernameEmailPhoneTextField: UITextField!
@@ -24,6 +26,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var loginGradientView: UIView!
     
     override func viewDidLoad() {
+        
+        
         loginButton.layer.cornerRadius = 8
         loginButton.layer.borderWidth = 1.0
         loginButton.layer.borderColor = UIColor.white.cgColor
@@ -31,9 +35,11 @@ class LoginViewController: UIViewController {
         loginGradientView.layer.cornerRadius = 20
         
         loadingIcon.isHidden = true
-        
         super.viewDidLoad()
+        
     }
+    
+ 
     
     @IBAction func loginPressed(_ sender: UIButton) {
         if let email = usernameEmailPhoneTextField.text, let password = passwordTextField.text {
@@ -181,4 +187,5 @@ class loginGradientView: UIView {
     private func oppositePoint(_ point: CGPoint) -> CGPoint {
         return CGPoint(x: -point.x, y: -point.y)
     }
+    
 }
