@@ -44,13 +44,19 @@ class FlowVC : UITableViewController {
         fetchData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     @objc func xpButtonPressed() {
         
         performSegue(withIdentifier: "segueToNotifications", sender: self)
     }
     
     private func fetchData() {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).getDocuments() { snapshot, error in
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+                    .order(by: "\(FirebaseKeys.PostKeys.postData).\(FirebaseKeys.PostKeys.timestamp)", descending: true)
+                    .getDocuments() { snapshot, error in
             if let error = error {
                 print("Error fetching posts: \(error)")
                 return

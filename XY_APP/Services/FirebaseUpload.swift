@@ -25,11 +25,23 @@ class FirebaseUpload {
                 // Upload photo in post
                 let storage = Storage.storage()
                 
+                var uuid: String!
+                var metadata = StorageMetadata()
+                
+                var imageData = image.pngData()!
+                if imageData.count > 1 * 1024 * 1024 {
+                    imageData = image.jpegData(compressionQuality: 0.0)!
+                    uuid = UUID().uuidString + ".jpg"
+                    metadata.contentType = "image/jpeg"
+                } else {
+                    metadata.contentType = "image/png"
+                    uuid = UUID().uuidString + ".png"
+                }
+                
                 let storageRef = storage.reference()
-                let uuid = UUID().uuidString + ".png"
                 let imageRef = storageRef.child(uuid)
                 
-                let uploadTask = imageRef.putData(image.pngData()!, metadata: nil) { (metadata, error) in
+                let uploadTask = imageRef.putData(imageData, metadata: metadata) { (metadata, error) in
                     if let error = error {
                         completion(.failure(error))
                     }

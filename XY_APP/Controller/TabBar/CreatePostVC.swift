@@ -15,6 +15,12 @@ class CreatePostVC: UIViewController, UINavigationControllerDelegate, XYImagePic
         present(imagePicker, animated: true, completion: nil)
     }
     
+    func onImageUploadSucceed() {
+        // Navigate to flow
+        tabBarController!.selectedIndex = 0 // index for Flow
+        self.navigationController!.popViewController(animated: true)
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {

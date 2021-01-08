@@ -10,6 +10,7 @@ import FirebaseAuth
 
 protocol XYImagePickerDelegate {
     func presentImagePicker(imagePicker: UIImagePickerController)
+    func onImageUploadSucceed()
 }
 
 class CreatePostCell: UITableViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -48,13 +49,16 @@ class CreatePostCell: UITableViewCell, UIImagePickerControllerDelegate, UINaviga
     }
     
     @IBAction func submitButtonPressed(_ sender: Any) {
+        submitButton.isEnabled = false
+        
         if let image = imagePreview.image {
             // Upload post
             FirebaseUpload.createPost(caption: captionEditor.text ?? "", image: image) { result in
                 switch result {
                 case .success(let postData):
-                    print(postData)
+                    self.delegate?.onImageUploadSucceed()
                 case .failure(let error):
+                    self.submitButton.isEnabled = true
                     print("Error uploading post: \(error)")
                 }
             }
