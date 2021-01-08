@@ -25,16 +25,12 @@ class ProfileUpperCell: UITableViewCell {
     @IBOutlet weak var profLev: UILabel!
     @IBOutlet weak var postCapt: UILabel!
     @IBOutlet weak var profViewContainer: UIView!
+    @IBOutlet weak var captionContainer: UIView!
+    @IBOutlet weak var coverImage: UIImageView!
     
-    @IBOutlet weak var followersView: UIView!
-    @IBOutlet weak var followingView: UIView!
-    
-    @IBOutlet weak var levelView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
-  
-     
-        
+ 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         ProfImg.isUserInteractionEnabled = false
         ProfImg.addGestureRecognizer(tapGestureRecognizer)
@@ -49,11 +45,10 @@ class ProfileUpperCell: UITableViewCell {
         
         
         ProfImg.layer.cornerRadius = 10
-        profViewContainer.layer.cornerRadius = 15.0
-        followersView.layer.cornerRadius = 10.0
-        followingView.layer.cornerRadius = 10.0
-        
-        levelView.layer.cornerRadius = 10.0
+        coverImage.layer.cornerRadius = 15
+        profViewContainer.layer.cornerRadius = 15
+        captionContainer.layer.cornerRadius = 15
+      
         
     }
     
@@ -94,17 +89,21 @@ class ProfileUpperCell: UITableViewCell {
         textField.layer.cornerRadius = 5
         nickTapped.isHidden = true
         textField.shake()
-
     }
-    
-    @IBAction func settingsButtonPressed(_ sender: Any) {
+        
+        // LOGOUT
+  
+    @IBAction func logoutButtonPressed(_ sender: UIButton) {
         logout?()
     }
+
     
-    
+       // CHATS
+   
     @IBAction func chatButtonPressed(_ sender: Any) {
         chatSegue?()
     }
+   
    
     @IBAction func editButtonPressed(_ sender: UIButton) {
        
@@ -140,7 +139,7 @@ extension ProfileUpperCell : UITableViewDelegate {
 }
 
 extension ProfileUpperCell : UITextFieldDelegate {
-    override func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         
     }
 }

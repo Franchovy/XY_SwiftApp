@@ -71,7 +71,7 @@ extension ProfileVC : UITableViewDataSource {
             cell.chatSegue = segueToChat
             
             return cell
-        }
+        } 
         
         fatalError()
     }

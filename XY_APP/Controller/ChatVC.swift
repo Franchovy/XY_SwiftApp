@@ -169,6 +169,7 @@ extension ChatVC : UITableViewDataSource {
             cell.chatProfImg.image = userinfo[indexPath.row].ChatProfileImage
             cell.chatNickString.text = userinfo[indexPath.row].ChatNameInfo
             return cell
+        
         } else {
             
             print("Index Path: \(indexPath)")
@@ -191,6 +192,7 @@ extension ChatVC : UITableViewDataSource {
                 cell.messageBubble.sizeToFit()
                 
             }
+            
             // message from another sender
             
             else {
