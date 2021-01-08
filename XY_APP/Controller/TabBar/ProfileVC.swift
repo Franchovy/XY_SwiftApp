@@ -7,16 +7,14 @@
 
 import Foundation
 import UIKit
+import FirebaseStorage
+import FirebaseAuth
 
 class ProfileVC : UIViewController {
 
     @IBOutlet weak var UpProfTableView: UITableView!
 
-    lazy var Profile : [UpperProfile] = [
-        
-        UpperProfile(Nickname: "XYfounder", ProfileImage: UIImage(named: "Raggruppa 301-image2")!, Link: "xy.com", Followers: "1.4M", Following: "4", Level: "129", ProfileCaption: "Put a funny caption here :)")
-        
-    ]
+    lazy var profile: [UpperProfile] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +27,6 @@ class ProfileVC : UIViewController {
         UpProfTableView.delegate = self
         
         UpProfTableView.register(UINib(nibName: "ProfileUpperCell", bundle: nil), forCellReuseIdentifier: "ProfileUpperReusable")
-        
     }
     
     func logoutSegue() {
@@ -52,32 +49,45 @@ class ProfileVC : UIViewController {
 
 extension ProfileVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            // Load profileUpper Cell
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
-           
-            // case: ProfileUpper
-            cell.ProfImg.image = Profile[indexPath.row].ProfileImage
-            cell.ProfNick.text = Profile[indexPath.row].Nickname
-            cell.profFollowers.text = Profile[indexPath.row].Followers
-            cell.profFollowing.text = Profile[indexPath.row].Following
-            cell.profLev.text = Profile[indexPath.row].Level
-            
-            cell.logout = logoutSegue
-            cell.chatSegue = segueToChat
-            
-            return cell
-        } 
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
+        return cell
+//        if indexPath.row == 0 {
+//            // Load profileUpper Cell
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
+//
+//            // case: ProfileUpper
+//            cell.ProfImg.image = Profile[indexPath.row].ProfileImage
+//            cell.ProfNick.text = Profile[indexPath.row].Nickname
+//            cell.profFollowers.text = Profile[indexPath.row].Followers
+//            cell.profFollowing.text = Profile[indexPath.row].Following
+//            cell.profLev.text = Profile[indexPath.row].Level
+//
+//            cell.logout = logoutSegue
+//            cell.chatSegue = segueToChat
+//
+//            return cell
+//        }
+//
+//        // Load profileUpper Cell
+//        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
+//
+//        cell.viewModel = ProfileViewModel(userId: Auth.auth().currentUser!.uid)
+//
+//        // Add "Tap anywhere" escape function from keyboard focus
+//        let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
+//        view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
+//
+//        cell.logout = logoutSegue
+//        cell.chatSegue = segueToChat
         
-        fatalError()
+//        return cell
     }
-    
-    
 }
+
 extension ProfileVC : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

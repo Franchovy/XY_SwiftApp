@@ -20,20 +20,23 @@ class LaunchVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(imageView)
-
-        // Do any additional setup after loading the view.
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         imageView.center = view.center
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute: {
+
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
             self.animate()
         })
     }
     
     private func animate(){
-        UIView.animate(withDuration: 1, animations: {
+        UIView.animate(withDuration: 0.8, animations: {
             let size = self.view.frame.size.width * 3
             let diffX = size - self.view.frame.size.width
             let diffY = self.view.frame.size.height - size
@@ -44,13 +47,17 @@ class LaunchVC: UIViewController {
             )
         })
         
-        UIView.animate(withDuration: 1.5, animations: {
+        UIView.animate(withDuration: 1.0, animations: {
             self.imageView.alpha = 0
-        }, completion: {done in
+        }, completion: { done in
             if done {
-                self.performSegue(withIdentifier: "segueToLogin", sender: self)
+                let timer = Timer(timeInterval: TimeInterval(1.0), repeats: false, block: { _ in
+                    self.performSegue(withIdentifier: "segueToLogin", sender: self)
+                })
+                timer.fire()
             }
-        })
+        }
+        )
      
     }
    

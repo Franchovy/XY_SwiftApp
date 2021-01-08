@@ -9,7 +9,11 @@ import Foundation
 import UIKit
 import Vision
 
-class CreatePostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate  {
+class CreatePostVC: UIViewController, UINavigationControllerDelegate, XYImagePickerDelegate  {
+    
+    func presentImagePicker(imagePicker: UIImagePickerController) {
+        present(imagePicker, animated: true, completion: nil)
+    }
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -34,6 +38,9 @@ extension CreatePostVC : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CreatePostReusable", for: indexPath) as! CreatePostCell
+        
+        cell.delegate = self
+        
         return cell
         
     }

@@ -7,15 +7,61 @@
 
 import Foundation
 import UIKit
+import Firebase
 
-struct UpperProfile {
+struct UpperProfile : Encodable {
     
-    var Nickname: String
-    var ProfileImage: UIImage
-    var Link: String
-    var Followers: String
-    var Following: String
-    var Level: String
-    var ProfileCaption: String
+    var xyname: String
+    var imageId: String
+    var website: String
+    var followers: Int
+    var following: Int
+    var xp: Int
+    var level: Int
+    var caption: String
     
+}
+
+extension UpperProfile {
+    init(data: [String: Any?]) {
+        xyname = ""
+        caption = data[FirebaseKeys.ProfileKeys.caption] as! String
+        imageId = data[FirebaseKeys.ProfileKeys.image] as! String
+        website = data[FirebaseKeys.ProfileKeys.website] as! String
+        followers = data[FirebaseKeys.ProfileKeys.followers] as! Int
+        following = data[FirebaseKeys.ProfileKeys.following] as! Int
+        xp = data[FirebaseKeys.ProfileKeys.xp] as! Int
+        level = data[FirebaseKeys.ProfileKeys.level] as! Int
+    }
+}
+
+/// Extension for edit profile
+extension UpperProfile {
+    var editProfileData: [String: Any] {
+        return ["imageId": imageId,
+                "website": website,
+                "caption": caption
+            ]
+    }
+    var editProfileDataAsNSDict: NSDictionary {
+        return editProfileData as NSDictionary
+    }
+}
+
+/// Extension for create new profile
+extension UpperProfile {
+    var createNewProfileData: [String: Any] {
+        return ["imageId": imageId,
+                "website": website,
+                "followers": 0,
+                "following": 0,
+                "xp": 0,
+                "level": 0,
+                "caption": caption
+        ]
+    }
+    
+    var createNewProfileDataAsNSDict: NSDictionary {
+        return createNewProfileData as NSDictionary
+    }
 }
