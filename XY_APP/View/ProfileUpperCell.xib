@@ -134,6 +134,7 @@
                                     <constraint firstItem="fOD-SS-GH7" firstAttribute="leading" secondItem="lWn-Or-FpJ" secondAttribute="trailing" constant="11" id="VgD-oM-UbE"/>
                                     <constraint firstItem="fOD-SS-GH7" firstAttribute="top" secondItem="E2g-h6-Gfl" secondAttribute="top" id="cOK-Zq-BmZ"/>
                                     <constraint firstItem="C5x-4O-sVh" firstAttribute="leading" secondItem="E2g-h6-Gfl" secondAttribute="leading" id="jW4-aZ-2j2"/>
+                                    <constraint firstAttribute="height" constant="50" id="oDq-Y9-Kl7"/>
                                     <constraint firstItem="C5x-4O-sVh" firstAttribute="top" secondItem="E2g-h6-Gfl" secondAttribute="top" id="pN7-m2-K4g"/>
                                     <constraint firstAttribute="trailing" secondItem="fOD-SS-GH7" secondAttribute="trailing" id="zkH-JR-506"/>
                                 </constraints>
@@ -141,6 +142,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XYname" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RrO-X9-rIk">
                                 <rect key="frame" x="147.5" y="13" width="60" height="18"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="BQD-tM-hZk"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="200" id="wHa-gB-Fzj"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
@@ -158,6 +160,9 @@
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="verified_icon" translatesAutoresizingMaskIntoConstraints="NO" id="eHp-K4-8AN">
                                 <rect key="frame" x="123.5" y="11" width="19" height="23"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="23" id="91C-fO-SH4"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.14901960780000001" green="0.1529411765" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -165,12 +170,13 @@
                             <constraint firstItem="LlD-7j-igB" firstAttribute="top" secondItem="E2g-h6-Gfl" secondAttribute="bottom" constant="20" id="0Hc-1T-FCu"/>
                             <constraint firstItem="RrO-X9-rIk" firstAttribute="top" secondItem="cBe-dM-Pls" secondAttribute="top" constant="13" id="2FQ-Iq-uCB"/>
                             <constraint firstAttribute="bottom" secondItem="LlD-7j-igB" secondAttribute="bottom" constant="17" id="4KY-Bu-9Cv"/>
+                            <constraint firstItem="E2g-h6-Gfl" firstAttribute="top" secondItem="eHp-K4-8AN" secondAttribute="bottom" constant="11.5" id="7nQ-by-rMS"/>
                             <constraint firstItem="RrO-X9-rIk" firstAttribute="centerX" secondItem="cBe-dM-Pls" secondAttribute="centerX" id="9dX-QO-lOv"/>
                             <constraint firstItem="LlD-7j-igB" firstAttribute="centerX" secondItem="cBe-dM-Pls" secondAttribute="centerX" id="9mY-a5-RiD"/>
                             <constraint firstItem="eHp-K4-8AN" firstAttribute="top" secondItem="RrO-X9-rIk" secondAttribute="top" constant="-2" id="eag-rB-bRh"/>
                             <constraint firstAttribute="width" constant="355" id="fm0-VJ-q42"/>
                             <constraint firstItem="RrO-X9-rIk" firstAttribute="leading" secondItem="eHp-K4-8AN" secondAttribute="trailing" constant="5" id="fqs-zJ-TW9"/>
-                            <constraint firstAttribute="height" constant="150" id="i1P-Fr-jHQ"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="150" id="i1P-Fr-jHQ"/>
                             <constraint firstItem="E2g-h6-Gfl" firstAttribute="centerX" secondItem="cBe-dM-Pls" secondAttribute="centerX" id="xiB-tn-veZ"/>
                         </constraints>
                     </view>
@@ -236,6 +242,7 @@
                 <outlet property="profFollowing" destination="MHd-hJ-fPQ" id="iI5-9D-vi2"/>
                 <outlet property="profLev" destination="pxJ-p3-4gT" id="MXl-XN-gu6"/>
                 <outlet property="profViewContainer" destination="cBe-dM-Pls" id="QzE-3R-WFn"/>
+                <outlet property="verifiedBadge" destination="eHp-K4-8AN" id="kqI-Ui-Bqk"/>
             </connections>
             <point key="canvasLocation" x="161.59420289855075" y="165.06696428571428"/>
         </tableViewCell>

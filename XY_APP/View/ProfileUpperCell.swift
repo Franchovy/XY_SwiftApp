@@ -34,7 +34,17 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     
     var logout: (() -> Void)?
     var chatSegue: (() -> Void)?
-
+    
+    @objc func tappedAnywhere(tapGestureRecognizer: UITapGestureRecognizer) {
+        // End text field editing if ongoing
+        if editCaptionTextField != nil {
+            editCaptionTextField?.endEditing(true)
+            editCaptionTextField = nil
+        } else if editNicknameTextField != nil {
+            editNicknameTextField?.endEditing(true)
+            editNicknameTextField = nil
+        }
+    }
     
     //MARK: - IBOutlets
     
@@ -44,6 +54,8 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     @IBOutlet weak var profViewContainer: UIView!
     @IBOutlet weak var followersView: UIView!
     @IBOutlet weak var followingView: UIView!
+    
+    @IBOutlet weak var verifiedBadge: UIImageView!
     
     // Editable
     @IBOutlet weak var ProfImg: UIImageView!
@@ -92,11 +104,20 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         
         // Create and set textfield
         var textField = UITextField(frame: label.frame)
+        textField.text = label.text
+        
+        textField.frame.size.width = textField.intrinsicContentSize.width + 15
+        textField.center.x = profViewContainer.center.x
+        
+        verifiedBadge.isHidden = true
+        
         profViewContainer.addSubview(textField)
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = UIColor.systemPink.cgColor
-        textField.textColor = .systemPink
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.textColor = .white
         textField.layer.cornerRadius = 5
+        textField.becomeFirstResponder()
+        textField.delegate = self
         
         label.isHidden = true
         if label == postCapt {
@@ -121,17 +142,19 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     @IBAction func editButtonPressed(_ sender: UIButton) {
        
         ProfImg.layer.borderColor = UIColor.systemPink.cgColor
-        ProfImg.layer.borderWidth = 3
+        ProfImg.layer.borderWidth = 1
+        ProfImg.shake()
         ProfImg.isUserInteractionEnabled = true
         
-        postCapt.textColor = UIColor.systemPink
+        postCapt.shake()
+        postCapt.layer.borderWidth = 1
+        postCapt.layer.borderColor = UIColor.white.cgColor
         postCapt.isUserInteractionEnabled = true
         
-        ProfNick.textColor = UIColor.systemPink
+        ProfNick.shake()
+        ProfNick.layer.borderWidth = 1
+        ProfNick.layer.borderColor = UIColor.white.cgColor
         ProfNick.isUserInteractionEnabled = true
-        
-        
-        
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -150,12 +173,39 @@ extension ProfileUpperCell : UITableViewDelegate {
 }
 
 extension ProfileUpperCell : UITextFieldDelegate {
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        textField.frame.size.width = textField.intrinsicContentSize.width + 15
+        textField.center.x = profViewContainer.center.x
+        return true
+    }
+    
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        
+        textField.layer.borderColor = UIColor.blue.cgColor
+        // Hide Text field
+        let newText = textField.text
+        textField.isHidden = true
+        profViewContainer.willRemoveSubview(textField)
+        // Set Label text
+        if textField == editCaptionTextField {
+            // Update Label
+            postCapt.text = newText
+            postCapt.isHidden = false
+            postCapt.layer.borderColor = UIColor.clear.cgColor
+            // Edit profile request: caption
+            
+        } else if textField == editNicknameTextField {
+            // Update Label
+            ProfNick.text = newText
+            ProfNick.isHidden = false
+            ProfNick.layer.borderColor = UIColor.clear.cgColor
+            verifiedBadge.isHidden = false
+            // Edit profile request: nickname
+        }
     }
 }
 
-public extension UITextField {
+public extension UILabel {
 
     func shake(count : Float = 4,
                for duration : TimeInterval = 0.5,
