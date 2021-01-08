@@ -535,7 +535,7 @@
                     <connections>
                         <outlet property="errorLabel" destination="EO4-hY-5aW" id="yrL-jC-vFT"/>
                         <outlet property="loadingIcon" destination="f4Q-HK-2yI" id="vId-3v-1KC"/>
-                        <outlet property="loginButton" destination="xVq-HJ-VqW" id="PGJ-VX-9nw"/>
+                        <outlet property="loginButton" destination="xVq-HJ-VqW" id="Cjp-G5-xMz"/>
                         <outlet property="loginGradientView" destination="X2X-si-PzB" id="5va-Oy-coN"/>
                         <outlet property="passwordTextField" destination="xGp-jJ-w5P" id="CKS-9V-cIv"/>
                         <outlet property="usernameEmailPhoneTextField" destination="rVd-kj-ivA" id="mtv-0Q-Tte"/>
@@ -575,7 +575,7 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="4DB-Pv-q7K" customClass="XYworldVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="FSV-im-esr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" name="XYblack"/>
                         <prototypes>
@@ -629,11 +629,11 @@
         <scene sceneID="2k8-95-VDl">
             <objects>
                 <viewController id="9YL-CQ-vuJ" customClass="ConversationsVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="0TU-1i-tYd">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                    <view key="view" contentMode="scaleToFill" id="0TU-1i-tYd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="03j-UH-NCQ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="03j-UH-NCQ">
                                 <rect key="frame" x="14.666666666666657" y="20" width="346" height="601"/>
                                 <color key="backgroundColor" red="0.14901960780000001" green="0.1529411765" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -675,11 +675,11 @@
             <objects>
                 <viewController storyboardIdentifier="ChatVC" hidesBottomBarWhenPushed="YES" id="XuT-s8-y3A" userLabel="ChatVC" customClass="ChatVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NVQ-C8-yFF" userLabel="Content View">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="702"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6KB-eR-nIv">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="651"/>
+                                <rect key="frame" x="0.0" y="11" width="375" height="651"/>
                                 <color key="backgroundColor" name="XYblack"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="800" id="3r6-jT-lFY"/>
@@ -706,7 +706,7 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="abG-Rn-LJI">
-                                <rect key="frame" x="0.0" y="631" width="375" height="71"/>
+                                <rect key="frame" x="0.0" y="619" width="375" height="71"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="UZ4-ya-JV1">
                                         <rect key="frame" x="4" y="0.0" width="368.33333333333331" height="48"/>
@@ -919,7 +919,7 @@
             <objects>
                 <tableViewController id="omR-bk-Gre" customClass="FlowVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="gQ8-HB-7EA">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
@@ -940,7 +940,7 @@
                     <navigationItem key="navigationItem" id="3zq-A7-E5a">
                         <barButtonItem key="rightBarButtonItem" tag="1" style="plain" id="XKA-rj-Z33">
                             <view key="customView" contentMode="scaleToFill" id="Cd4-p8-xgx" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
-                                <rect key="frame" x="329" y="13" width="30" height="30"/>
+                                <rect key="frame" x="329" y="7" width="30" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <userDefinedRuntimeAttributes>
@@ -971,11 +971,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="LfZ-EL-Agi" customClass="CreatePostVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="naz-3l-E8P">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="b1T-I2-o1c">
-                                <rect key="frame" x="10" y="10" width="355" height="599"/>
+                                <rect key="frame" x="10" y="10" width="355" height="621"/>
                                 <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreatePostReusable" id="ENB-wk-pm0">
@@ -1012,11 +1012,11 @@
             <objects>
                 <viewController storyboardIdentifier="NotificationsVC" modalPresentationStyle="fullScreen" id="TKm-oE-X3e" customClass="NotificationsVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Vgy-DT-cfx">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="w5A-SH-LSA">
-                                <rect key="frame" x="10" y="10" width="355" height="599"/>
+                                <rect key="frame" x="10" y="10" width="355" height="621"/>
                                 <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
@@ -1043,11 +1043,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="TND-fV-FmO" customClass="ProfileVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xLY-Ut-WMP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="K10-Gt-ZOD">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                                 <color key="backgroundColor" name="XYblack"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileUpperReusable" id="gBa-cK-Srz">
@@ -1108,7 +1108,7 @@
                     <tabBarItem key="tabBarItem" title="XYworld" image="Game_icon" id="Cfr-tf-ZUi"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" alpha="0.90000000000000002" contentMode="scaleToFill" translucent="NO" id="FPU-sZ-2vD">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1132,7 +1132,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="6nv-ni-tgo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="oK5-Yw-nGI">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1425,11 +1425,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="xJb-Q0-JV3" customClass="ExploreVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jxL-2r-Rac">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bi6-n5-qvb">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
                                 <color key="backgroundColor" name="XYblack"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableviewcellid" id="uE2-8A-NlG">
@@ -1498,7 +1498,7 @@
                     <tabBarItem key="tabBarItem" title="Viral" image="viral_item" id="AoW-p4-9P8"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="YAv-Xg-1GP">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1518,7 +1518,7 @@
                     <tabBarItem key="tabBarItem" title="Post" image="post_item" id="WKl-gG-KN0"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="pUY-qo-uiO">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1555,7 +1555,7 @@
                     <tabBarItem key="tabBarItem" title="Flow" image="flow_icon" id="EA2-V9-J19"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="K7y-8W-hhe">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1570,8 +1570,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Nb8-bw-Gcu"/>
-        <segue reference="r0x-sS-rGY"/>
+        <segue reference="2MM-wg-D9t"/>
+        <segue reference="1zk-I2-DTg"/>
         <segue reference="FOq-U0-2Ct"/>
     </inferredMetricsTieBreakers>
     <resources>
