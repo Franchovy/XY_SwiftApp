@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import Firebase
 
 struct PostData : FlowDataModel {
     var type: FlowDataType = .post
@@ -18,4 +18,17 @@ struct PostData : FlowDataModel {
     var timestamp: Date
     var content: String
     var images: [String]?
+}
+
+extension PostData {
+    func toUpload() -> [String: Any] {
+        return [
+            FirebaseKeys.PostKeys.author : userId,
+            FirebaseKeys.PostKeys.postData : [
+                FirebaseKeys.PostKeys.caption : content,
+                FirebaseKeys.PostKeys.imageRef : images!.first,
+                FirebaseKeys.PostKeys.timestamp : FieldValue.serverTimestamp()
+            ]
+        ]
+    }
 }
