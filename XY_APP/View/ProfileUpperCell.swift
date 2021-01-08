@@ -8,7 +8,27 @@
 import UIKit
 import Firebase
 
-class ProfileUpperCell: UITableViewCell {
+class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
+
+    var viewModel: ProfileViewModel? {
+        didSet {
+            viewModel?.delegate = self
+        }
+    }
+    
+    // MARK: - ProfileViewModelDelegate functions
+    
+    func onProfileDataFetched(_ profileData: UpperProfile) {
+        ProfNick.text = profileData.xyname
+        profFollowers.text = String(describing: profileData.followers)
+        profFollowing.text = String(describing: profileData.following)
+        profLev.text = String(describing: profileData.level)
+        postCapt.text = profileData.caption
+    }
+    
+    func onProfileImageFetched(_ image: UIImage) {
+        ProfImg.image = image
+    }
     
     //MARK: - Delegate functions
     
@@ -100,17 +120,6 @@ class ProfileUpperCell: UITableViewCell {
     }
 
 }
-
-extension ProfileUpperCell : UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-    }
-    
-    
-}
-
-
 
 
 

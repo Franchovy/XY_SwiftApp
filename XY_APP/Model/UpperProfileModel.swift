@@ -22,6 +22,19 @@ struct UpperProfile : Encodable {
     
 }
 
+extension UpperProfile {
+    init(data: [String: Any?]) {
+        xyname = ""
+        caption = data[FirebaseKeys.ProfileKeys.caption] as! String
+        imageId = data[FirebaseKeys.ProfileKeys.image] as! String
+        website = data[FirebaseKeys.ProfileKeys.website] as! String
+        followers = data[FirebaseKeys.ProfileKeys.followers] as! Int
+        following = data[FirebaseKeys.ProfileKeys.following] as! Int
+        xp = data[FirebaseKeys.ProfileKeys.xp] as! Int
+        level = data[FirebaseKeys.ProfileKeys.level] as! Int
+    }
+}
+
 /// Extension for edit profile
 extension UpperProfile {
     var editProfileData: [String: Any] {

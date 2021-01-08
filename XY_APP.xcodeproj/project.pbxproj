@@ -63,6 +63,7 @@
 		B95FF50625A71FB000CFCA9E /* EditProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF50525A71FB000CFCA9E /* EditProfileTests.swift */; };
 		B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */; };
 		B95FF51625A72DA900CFCA9E /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */; };
+		B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
 		B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */; };
 		B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DD925644A3F005D9B86 /* Main.storyboard */; };
@@ -154,6 +155,7 @@
 		B95FF50525A71FB000CFCA9E /* EditProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTests.swift; sourceTree = "<group>"; };
 		B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateXYUserService.swift; sourceTree = "<group>"; };
 		B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
+		B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B92DD325644A3F005D9B86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				B95FF4BF25A6F09900CFCA9E /* Services */,
 				B9B92DD325644A3F005D9B86 /* AppDelegate.swift */,
 				B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */,
+				14C96786258E455B00E072EA /* Constants.swift */,
 				B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */,
 				B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */,
 				B94FA39225710C9D00A44085 /* Model */,
@@ -357,7 +360,6 @@
 				14175C7C2570F62D00C88051 /* Controller */,
 				14175C792570F5D600C88051 /* View */,
 				B9B92DDF25644A41005D9B86 /* Assets.xcassets */,
-				14C96786258E455B00E072EA /* Constants.swift */,
 				B9B92DE425644A41005D9B86 /* Info.plist */,
 				1446C65725A1E0FF0045BB65 /* GoogleService-Info.plist */,
 			);
@@ -368,6 +370,7 @@
 			isa = PBXGroup;
 			children = (
 				B9D5E56025A5F362001859EA /* PostViewModel.swift */,
+				B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -581,6 +584,7 @@
 				14B22647258D1484006966FC /* MomentsCollection.swift in Sources */,
 				14C99E2E25A0EE7E00FFE003 /* ProfileVC.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
+				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				148218C3258FF52700676556 /* ChatVC.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationPreview.swift in Sources */,

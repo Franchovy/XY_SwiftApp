@@ -16,13 +16,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     
     var type: FlowDataType = { return .post }()
     
-    var viewModel: PostViewModel? {
+    var viewModel: PostViewModel! {
         didSet {
             // Set delegate so the viewModel can call to set images
-            viewModel?.delegate = self
+            viewModel.delegate = self
             // Set data already ready
-            contentLabel.text = viewModel?.content
-            timestampLabel.text = viewModel?.getTimestampString()
+            contentLabel.text = viewModel.content
+            timestampLabel.text = viewModel.getTimestampString()
         }
     }
     
