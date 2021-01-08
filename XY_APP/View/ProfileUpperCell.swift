@@ -38,32 +38,34 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     
     //MARK: - IBOutlets
     
-    @IBOutlet weak var ProfImg: UIImageView!
-    @IBOutlet weak var ProfNick: UILabel!
     @IBOutlet weak var profFollowers: UILabel!
     @IBOutlet weak var profFollowing: UILabel!
     @IBOutlet weak var profLev: UILabel!
-    @IBOutlet weak var postCapt: UILabel!
     @IBOutlet weak var profViewContainer: UIView!
-    
     @IBOutlet weak var followersView: UIView!
     @IBOutlet weak var followingView: UIView!
+    
+    // Editable
+    @IBOutlet weak var ProfImg: UIImageView!
+    @IBOutlet weak var ProfNick: UILabel!
+    @IBOutlet weak var postCapt: UILabel!
+    
+    var editNicknameTextField: UITextField? = nil
+    var editCaptionTextField: UITextField? = nil
     
     @IBOutlet weak var levelView: UIView!
     override func awakeFromNib() {
         super.awakeFromNib()
   
-     
-        
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         ProfImg.isUserInteractionEnabled = false
         ProfImg.addGestureRecognizer(tapGestureRecognizer)
         
-        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(labelTapped(tapGestureRecognizer:)))
+        let tapGestureRecognizer2 = UITapGestureRecognizer(target: self, action: #selector(editLabel(tapGestureRecognizer:)))
         postCapt.isUserInteractionEnabled = false
         postCapt.addGestureRecognizer(tapGestureRecognizer2)
         
-        let tapGestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(nickTapped(tapGestureRecognizer:)))
+        let tapGestureRecognizer3 = UITapGestureRecognizer(target: self, action: #selector(editLabel(tapGestureRecognizer:)))
         ProfNick.isUserInteractionEnabled = false
         ProfNick.addGestureRecognizer(tapGestureRecognizer3)
         
@@ -85,36 +87,25 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         
     }
     
-    @objc func labelTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    
-    {
- 
-        let tappedLabel = tapGestureRecognizer.view as! UILabel
-        let textField = UITextField(frame: tappedLabel.frame)
+    @objc func editLabel(tapGestureRecognizer: UITapGestureRecognizer) {
+        var label = tapGestureRecognizer.view as! UILabel
+        
+        // Create and set textfield
+        var textField = UITextField(frame: label.frame)
         profViewContainer.addSubview(textField)
         textField.layer.borderWidth = 2
         textField.layer.borderColor = UIColor.systemPink.cgColor
         textField.textColor = .systemPink
         textField.layer.cornerRadius = 5
-        tappedLabel.isHidden = true
-        textField.shake()
         
+        label.isHidden = true
+        if label == postCapt {
+            editCaptionTextField = textField
         
-    }
-    
-    @objc func nickTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    
-    {
-        let nickTapped = tapGestureRecognizer.view as! UILabel
-        let textField = UITextField(frame: nickTapped.frame)
-        profViewContainer.addSubview(textField)
-        textField.layer.borderWidth = 2
-        textField.layer.borderColor = UIColor.systemPink.cgColor
-        textField.textColor = .systemPink
-        textField.layer.cornerRadius = 5
-        nickTapped.isHidden = true
-        textField.shake()
-
+        } else if label == ProfNick {
+            editNicknameTextField = textField
+            
+        }
     }
     
     @IBAction func settingsButtonPressed(_ sender: Any) {
