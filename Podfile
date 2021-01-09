@@ -1,6 +1,6 @@
 
 
-platform :ios, '9.0'
+platform :ios, '10.0'
 
 target 'XY_APP' do
   use_frameworks!
@@ -19,6 +19,8 @@ pod 'Firebase/Firestore'
 pod 'Firebase/Storage'
 pod 'SwipeCellKit'
 pod 'IQKeyboardManagerSwift'
+pod 'Kingfisher', '~> 6.0'
+
 
 
 end

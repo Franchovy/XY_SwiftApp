@@ -9,6 +9,14 @@ import UIKit
 import FirebaseStorage
 
 class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
+    func profileImageDownloadProgress(progress: Float) {
+        
+    }
+    
+    func postImageDownloadProgress(progress: Float) {
+        
+    }
+    
     
     // MARK: - PROPERTIES
     
