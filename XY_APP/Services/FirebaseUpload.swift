@@ -56,7 +56,9 @@ class FirebaseUpload {
         
         var imageData = image.pngData()!
         if imageData.count > 1 * 1024 * 1024 {
-            imageData = image.jpegData(compressionQuality: 0.0)!
+            while imageData.count > 1 * 1024 * 1024 {
+                imageData = image.jpegData(compressionQuality: 0.0)!
+            }
             uuid = UUID().uuidString + ".jpg"
             metadata.contentType = "image/jpeg"
         } else {
