@@ -10,47 +10,36 @@ import UIKit
 
 class XYworldVC: UIViewController {
     
+    
     @IBOutlet var xyworldTableView: UITableView!
+
+    var onlineFriends: [OnlineFriendsModel] = [
     
-    var onlineFriendsHeader: [FriendsHeader] = [
-    
-        FriendsHeader(header: "Online Friends")
+        OnlineFriendsModel(label: "Online Now")
     ]
     
     override func viewDidLoad() {
-    
-        let logo = UIImage(named: "XYnavbarlogo")
-        let imageView = UIImageView(image:logo)
-        self.navigationItem.titleView = imageView
-        xyworldTableView.dataSource = self
-        xyworldTableView.register(UINib(nibName: "OnlineFriendsTVcell", bundle: nil), forCellReuseIdentifier: "onlineFriendsReusable")
-        
-        
         super.viewDidLoad()
         
        
+        xyworldTableView.dataSource = self
+        let cellNib = UINib(nibName: "OnlineFriendsTableViewCell", bundle: nil)
+                self.xyworldTableView.register(cellNib, forCellReuseIdentifier: "tableviewcellidOnline")
+
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        tabBarController?.tabBar.isHidden = false
-    }
 }
 
 extension XYworldVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return onlineFriends.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "onlineFriendsReusable", for: indexPath) as? OnlineFriendsTVcell
-        cell?.onlineFriendsLabel.text = onlineFriendsHeader[indexPath.row].header
-        return cell!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "tableviewcellidOnline", for: indexPath) as! OnlineFriendsTableViewCell
+        cell.onlineFriendsLabel.text = onlineFriends[indexPath.row].label
+        return cell
     }
-
+    
 }
 
-
-struct FriendsHeader {
-    var header: String
-}

@@ -19,12 +19,8 @@ pod 'Firebase/Firestore'
 pod 'Firebase/Storage'
 pod 'SwipeCellKit'
 pod 'IQKeyboardManagerSwift'
-<<<<<<< HEAD
 pod 'ImagePicker'
-=======
 pod 'Kingfisher', '~> 6.0'
-
->>>>>>> SimoneUpdate7
 
 
 end

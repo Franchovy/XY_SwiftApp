@@ -579,7 +579,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" name="XYblack"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="onlineFriendsReusable" rowHeight="127" id="zBA-NB-pLA">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="tableviewcellidOnline" rowHeight="127" id="zBA-NB-pLA">
                                 <rect key="frame" x="0.0" y="28" width="375" height="127"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zBA-NB-pLA" id="SOv-el-JsB">
@@ -587,7 +587,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="TV8-bL-wYh">
-                                            <rect key="frame" x="0.0" y="-1" width="375" height="128"/>
+                                            <rect key="frame" x="44" y="-1" width="226" height="128"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GBM-MI-2OD">
@@ -597,7 +597,7 @@
                                                 <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             </collectionViewFlowLayout>
                                             <cells>
-                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="ibk-HL-ezr">
+                                                <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionviewcellidOnline" id="ibk-HL-ezr">
                                                     <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="ufu-kl-KpK">
@@ -609,30 +609,7 @@
                                         </collectionView>
                                     </subviews>
                                 </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Shop&amp;BadgesReusable" id="zHh-X2-kcl">
-                                <rect key="frame" x="0.0" y="155" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zHh-X2-kcl" id="0yQ-ib-3ei">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="PopularReusable" id="NmY-oC-Su2">
-                                <rect key="frame" x="0.0" y="199" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NmY-oC-Su2" id="Abw-sI-5NK">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TopChallengesResuable" id="hS0-Gv-Fxl">
-                                <rect key="frame" x="0.0" y="243" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="hS0-Gv-Fxl" id="UEo-YB-vG0">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
+                                <color key="backgroundColor" name="XYblack"/>
                             </tableViewCell>
                         </prototypes>
                     </tableView>
@@ -910,13 +887,14 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="3zq-A7-E5a">
-<<<<<<< HEAD
                         <rightBarButtonItems>
                             <barButtonItem tag="1" style="plain" id="XKA-rj-Z33">
-                                <view key="customView" contentMode="scaleToFill" id="Cd4-p8-xgx" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
-                                    <rect key="frame" x="329" y="7" width="30" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="customView" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cd4-p8-xgx" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
+                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" secondItem="Cd4-p8-xgx" secondAttribute="height" multiplier="1:1" id="CS0-X3-x12"/>
+                                    </constraints>
                                     <userDefinedRuntimeAttributes>
                                         <userDefinedRuntimeAttribute type="color" keyPath="gradientColor">
                                             <color key="value" name="XYpink"/>
@@ -936,28 +914,6 @@
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
-=======
-                        <barButtonItem key="rightBarButtonItem" tag="1" style="plain" id="XKA-rj-Z33">
-                            <view key="customView" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cd4-p8-xgx" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
-                                <rect key="frame" x="329" y="7" width="30" height="30"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="Cd4-p8-xgx" secondAttribute="height" multiplier="1:1" id="E5C-tm-BWv"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="gradientColor">
-                                        <color key="value" name="XYpink"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="color">
-                                        <color key="value" systemColor="systemBlueColor"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                            <connections>
-                                <action selector="xpButtonPressed:" destination="omR-bk-Gre" id="gJk-un-jxm"/>
-                            </connections>
-                        </barButtonItem>
->>>>>>> SimoneUpdate7
                     </navigationItem>
                     <connections>
                         <outlet property="barXPCircle" destination="Cd4-p8-xgx" id="CWu-oJ-dDD"/>
@@ -1060,7 +1016,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="flowReusableCell" id="ndi-WT-6r0">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="profileBottomReusable" id="ndi-WT-6r0">
                                         <rect key="frame" x="0.0" y="71.666667938232422" width="375" height="43.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ndi-WT-6r0" id="0Oz-Tc-cav">
@@ -1078,7 +1034,7 @@
                                                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     </collectionViewFlowLayout>
                                                     <cells>
-                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="flowCollectionReusableCell" id="gKx-1f-cDb">
+                                                        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="profileCollectionPostReusable" id="gKx-1f-cDb">
                                                             <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                             <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="OOP-lW-LL5">

@@ -16,9 +16,7 @@ class ExploreCollectionViewCell: UICollectionViewCell {
         super.awakeFromNib()
         
         momentsPreview.layer.cornerRadius = 5
-        
-        
-        
+ 
     }
 
 }

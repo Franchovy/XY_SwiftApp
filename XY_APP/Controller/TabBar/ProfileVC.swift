@@ -11,11 +11,15 @@ import FirebaseStorage
 import FirebaseAuth
 
 class ProfileVC : UIViewController {
-
+    
     @IBOutlet weak var UpProfTableView: UITableView!
-
+    
     lazy var profile: [UpperProfile] = []
     
+    lazy var profile2: [Profile2Model] = [
+        Profile2Model(FlowLabel: "Flow")
+    ]
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -24,9 +28,10 @@ class ProfileVC : UIViewController {
         self.navigationItem.titleView = imageView
         
         UpProfTableView.dataSource = self
-        UpProfTableView.delegate = self
         
         UpProfTableView.register(UINib(nibName: "ProfileUpperCell", bundle: nil), forCellReuseIdentifier: "ProfileUpperReusable")
+        
+        UpProfTableView.register(UINib(nibName: "ProfileFlowTableViewCell", bundle: nil), forCellReuseIdentifier: "profileBottomReusable")
     }
     
     func logoutSegue() {
@@ -37,56 +42,64 @@ class ProfileVC : UIViewController {
             }
         }
     }
-
+    
     
     func segueToChat() {
         //Segue to chat viewcontroller
         print("Segue to chat!")
         performSegue(withIdentifier: "segueToChat", sender: self)
     }
-
+    
 }
 
 extension ProfileVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 1 + profile2.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        // Load profileUpper Cell
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
-
-        cell.viewModel = ProfileViewModel(userId: Auth.auth().currentUser!.uid)
-
-        // Add "Tap anywhere" escape function from keyboard focus
-        let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
-        view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
-        
-        cell.imagePickerDelegate = self
-
-        cell.logout = logoutSegue
-        cell.chatSegue = segueToChat
-        
-        return cell
-    }
-}
-
-extension ProfileVC : UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath.row)
-
+        if indexPath.row == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
+            
+            cell.viewModel = ProfileViewModel(userId: Auth.auth().currentUser!.uid)
+            // Add "Tap anywhere" escape function from keyboard focus
+            let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
+            view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
+            
+            //cell.imagePickerDelegate = self
+            cell.logout = logoutSegue
+            cell.chatSegue = segueToChat
+            
+            return cell
+            
+        } else {
+            
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "profileBottomReusable", for: indexPath) as! ProfileFlowTableViewCell
+            cell.flowLabel.text = profile2[indexPath.row - 1].FlowLabel
+            return cell
+        }
     }
     
 }
-
-extension ProfileVC : XYImagePickerDelegate {
-    func presentImagePicker(imagePicker: UIImagePickerController) {
-        present(imagePicker, animated: true, completion: nil)
-    }
     
-    func onImageUploadSucceed() {
+    
+    //extension ProfileVC : UITableViewDelegate {
         
-    }
-}
+        //func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         //   print(indexPath.row)
+            
+      //  }
+        
+  //  }
+    
+  //  extension ProfileVC : XYImagePickerDelegate {
+   //     func presentImagePicker(imagePicker: UIImagePickerController) {
+    //        present(imagePicker, animated: true, completion: nil)
+    //    }
+    //
+    //    func onImageUploadSucceed() {
+            
+    //    }
+   // }
+//}

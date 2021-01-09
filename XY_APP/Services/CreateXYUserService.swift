@@ -31,18 +31,12 @@ class CreateXYUserService {
                     
                     let timestamp = FieldValue.serverTimestamp()
                     newUserDocument.setData([
-<<<<<<< HEAD
-                            "xyname" : xyname,
-                            "timestamp": timestamp,
-                            "level": 0,
-                            "xp": 0
-                        
-=======
+
                             FirebaseKeys.UserKeys.xyname : xyname,
                             FirebaseKeys.UserKeys.timestamp : timestamp,
                             FirebaseKeys.UserKeys.level : 0,
                             FirebaseKeys.UserKeys.xp : 0
->>>>>>> SimoneUpdate7
+
                         ]
                     ) { (error) in
                         if let error = error {

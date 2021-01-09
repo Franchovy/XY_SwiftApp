@@ -8,8 +8,8 @@
 import UIKit
 
 class CircleView: UIView {
-    @IBOutlet var contentView: UIView!
     
+    @IBOutlet var contentView: UIView!
     @IBOutlet weak var progressBarCircle: ProgressBarCircle!
     @IBOutlet weak var levelLabel: UILabel!
     
