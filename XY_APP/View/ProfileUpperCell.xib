@@ -103,10 +103,6 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cOw-BE-yBJ">
-                                        <rect key="frame" x="137" y="-89" width="90" height="125"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" red="0.14901960780000001" green="0.1529411765" blue="0.15686274510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -157,6 +153,10 @@
                             </view>
                         </subviews>
                     </stackView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cOw-BE-yBJ">
+                        <rect key="frame" x="142" y="85" width="90" height="125"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WJb-aU-nU9">
                         <rect key="frame" x="311" y="92" width="42" height="42"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -220,6 +220,8 @@
                 <outlet property="ProfNick" destination="YgU-YW-Tef" id="35O-Y8-eI7"/>
                 <outlet property="captionContainer" destination="Y1T-sQ-lnD" id="W8D-T3-bo4"/>
                 <outlet property="coverImage" destination="gqz-hU-bE7" id="PvI-oC-oVd"/>
+                <outlet property="followersView" destination="Kph-zW-ORM" id="nXh-yg-VAv"/>
+                <outlet property="followingView" destination="he3-qB-sdB" id="vL5-Kt-AzL"/>
                 <outlet property="postCapt" destination="nh0-Vw-XJN" id="EXN-GH-e68"/>
                 <outlet property="profFollowers" destination="gl8-Mt-d1i" id="qfW-Jd-nF0"/>
                 <outlet property="profFollowing" destination="gle-qI-E7b" id="riZ-4Y-kqW"/>

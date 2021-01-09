@@ -49,12 +49,11 @@ class ProfileVC : UIViewController {
 
 extension ProfileVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
-        return cell
+
 //        if indexPath.row == 0 {
 //            // Load profileUpper Cell
 //            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
@@ -72,19 +71,19 @@ extension ProfileVC : UITableViewDataSource {
 //            return cell
 //        }
 //
-//        // Load profileUpper Cell
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
-//
-//        cell.viewModel = ProfileViewModel(userId: Auth.auth().currentUser!.uid)
-//
-//        // Add "Tap anywhere" escape function from keyboard focus
-//        let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
-//        view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
-//
-//        cell.logout = logoutSegue
-//        cell.chatSegue = segueToChat
+        // Load profileUpper Cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
+
+        cell.viewModel = ProfileViewModel(userId: Auth.auth().currentUser!.uid)
+
+        // Add "Tap anywhere" escape function from keyboard focus
+        let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
+        view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
+
+        cell.logout = logoutSegue
+        cell.chatSegue = segueToChat
         
-//        return cell
+        return cell
     }
 }
 
