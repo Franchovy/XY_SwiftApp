@@ -22,45 +22,58 @@ class FirebaseUpload {
             }
             
             if let snapshot = snapshot, let profileId = snapshot.get(FirebaseKeys.UserKeys.profile) as? String {
-                // Upload photo in post
-                let storage = Storage.storage()
-                
-                var uuid: String!
-                var metadata = StorageMetadata()
-                
-                var imageData = image.pngData()!
-                if imageData.count > 1 * 1024 * 1024 {
-                    imageData = image.jpegData(compressionQuality: 0.0)!
-                    uuid = UUID().uuidString + ".jpg"
-                    metadata.contentType = "image/jpeg"
-                } else {
-                    metadata.contentType = "image/png"
-                    uuid = UUID().uuidString + ".png"
-                }
-                
-                let storageRef = storage.reference()
-                let imageRef = storageRef.child(uuid)
-                
-                let uploadTask = imageRef.putData(imageData, metadata: metadata) { (metadata, error) in
+                uploadImage(image: image) { imageRef, error in
                     if let error = error {
                         completion(.failure(error))
                     }
-                    
-                    // Upload post to firestore
-                    var postData = PostData(id: "", userId: uid, timestamp: Date(), content: caption)
-                    postData.images = [uuid]
-                    
-                    let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).addDocument(data: postData.toUpload()) { error in
-                        if let error = error {
-                            completion(.failure(error))
+                    if let imageRef = imageRef {
+                        // Upload post to firestore
+                        var postData = PostData(id: "", userId: uid, timestamp: Date(), content: caption)
+                        postData.images = [imageRef]
+                        
+                        let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).addDocument(data: postData.toUpload()) { error in
+                            if let error = error {
+                                completion(.failure(error))
+                            }
                         }
+                        
+                        postData.id = postDocument.documentID
+                        completion(.success(postData))
                     }
-                    
-                    postData.id = postDocument.documentID
-                    completion(.success(postData))
                 }
                 
                 //TODO: Add post to profile posts
+            }
+        }
+    }
+    
+    static func uploadImage(image: UIImage, completion: @escaping(String?, Error?) -> Void) {
+        // Upload photo in post
+        let storage = Storage.storage()
+        
+        var uuid: String!
+        var metadata = StorageMetadata()
+        
+        var imageData = image.pngData()!
+        if imageData.count > 1 * 1024 * 1024 {
+            imageData = image.jpegData(compressionQuality: 0.0)!
+            uuid = UUID().uuidString + ".jpg"
+            metadata.contentType = "image/jpeg"
+        } else {
+            metadata.contentType = "image/png"
+            uuid = UUID().uuidString + ".png"
+        }
+        
+        let storageRef = storage.reference()
+        let imageRef = storageRef.child(uuid)
+        
+        let uploadTask = imageRef.putData(imageData, metadata: metadata) { (metadata, error) in
+            if let error = error {
+                completion(nil, error)
+            }
+            
+            if let metadata = metadata {
+                completion(imageRef.fullPath, nil)
             }
         }
     }

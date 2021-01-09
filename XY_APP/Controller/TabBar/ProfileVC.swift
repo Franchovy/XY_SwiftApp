@@ -54,23 +54,6 @@ extension ProfileVC : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-//        if indexPath.row == 0 {
-//            // Load profileUpper Cell
-//            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
-//
-//            // case: ProfileUpper
-//            cell.ProfImg.image = Profile[indexPath.row].ProfileImage
-//            cell.ProfNick.text = Profile[indexPath.row].Nickname
-//            cell.profFollowers.text = Profile[indexPath.row].Followers
-//            cell.profFollowing.text = Profile[indexPath.row].Following
-//            cell.profLev.text = Profile[indexPath.row].Level
-//
-//            cell.logout = logoutSegue
-//            cell.chatSegue = segueToChat
-//
-//            return cell
-//        }
-//
         // Load profileUpper Cell
         let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
 
@@ -79,6 +62,8 @@ extension ProfileVC : UITableViewDataSource {
         // Add "Tap anywhere" escape function from keyboard focus
         let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
         view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
+        
+        cell.imagePickerDelegate = self
 
         cell.logout = logoutSegue
         cell.chatSegue = segueToChat
@@ -94,4 +79,14 @@ extension ProfileVC : UITableViewDelegate {
 
     }
     
+}
+
+extension ProfileVC : XYImagePickerDelegate {
+    func presentImagePicker(imagePicker: UIImagePickerController) {
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func onImageUploadSucceed() {
+        
+    }
 }

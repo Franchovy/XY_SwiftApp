@@ -7,9 +7,13 @@
 
 import UIKit
 import Firebase
+import FirebaseStorage
 
 class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
 
+    var imagePickerDelegate: XYImagePickerDelegate?
+    var imagePicker = UIImagePickerController()
+    
     var viewModel: ProfileViewModel? {
         didSet {
             viewModel?.delegate = self
@@ -77,6 +81,10 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
   
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         ProfImg.isUserInteractionEnabled = false
@@ -102,8 +110,8 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
 
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
-        tappedImage.shake()
-
+        
+        imagePickerDelegate?.presentImagePicker(imagePicker: imagePicker)
     }
 
     @objc func editLabel(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -240,6 +248,39 @@ extension ProfileUpperCell : UITextFieldDelegate {
         }
     }
 }
+
+extension ProfileUpperCell : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            // This is probably a bad way to do it, but for now the imagePreview image is where the image is stored.
+            ProfImg.image = image
+            
+            // Upload image and set profile data
+            FirebaseUpload.uploadImage(image: image) { imageRef, error in
+                if let error = error {
+                    print("Error uploading new profile image: \(error)")
+                }
+                if let imageRef = imageRef, let viewModel = self.viewModel {
+                    viewModel.profileData.imageId = imageRef
+                    
+                    FirebaseUpload.editProfileInfo(profileData: viewModel.profileData) { result in
+                        switch result {
+                        case .success():
+                            print("Successfully uploaded and changed profile image")
+                        case .failure(let error):
+                            print("Error setting imageId for profile: \(error)")
+                        }
+                    }
+                }
+            }
+        }
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+        
+    }
+}
+
+//MARK: -  "shake" extensions
 
 public extension UILabel {
 
