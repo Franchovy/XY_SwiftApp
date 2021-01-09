@@ -65,13 +65,11 @@ class PostViewModel {
         didSet {
             guard let profileImageId = profileImageId else { return }
             
-            let storage = Storage.storage()
-            let ref = storage.reference(withPath: profileImageId)
-            ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+            FirebaseDownload.getImage(imageId: profileImageId) { image, error in
                 if let error = error {
-                    print("Error fetching profile image: \(error)")
+                    print("Error fetching image: \(error)")
                 }
-                if let data = data, let image = UIImage(data: data) {
+                if let image = image {
                     self.profileImage = image
                     self.delegate?.didFetchProfileImage()
                 }

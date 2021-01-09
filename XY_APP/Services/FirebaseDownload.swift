@@ -40,6 +40,7 @@ class FirebaseDownload {
         let storage = Storage.storage()
         
         let imageRef = storage.reference(withPath: imageId)
+        
         imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
             if let error = error {
                 completion(nil, error)
