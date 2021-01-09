@@ -35,7 +35,7 @@
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QBp-w0-GdZ" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
                         <rect key="frame" x="307" y="25" width="40" height="40"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="40" id="WFI-fC-AVi"/>
                             <constraint firstAttribute="height" constant="40" id="gTL-pW-lUg"/>
@@ -151,9 +151,6 @@
         <namedColor name="XYpink">
             <color red="0.96700000762939453" green="0.17800000309944153" blue="0.48199999332427979" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
         <systemColor name="systemBlueColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
