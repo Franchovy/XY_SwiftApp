@@ -31,11 +31,11 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     
     // MARK: - PostViewModel Delegate Methods
     
-    func didFetchProfileImage(image: UIImage) {
+    func didFetchProfileImage() {
         profileImageView.image = viewModel?.profileImage
     }
     
-    func didFetchPostImages(images: [UIImage]) {
+    func didFetchPostImages() {
         contentImageView.image = viewModel?.images.first
     }
     
@@ -88,7 +88,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     
     override func prepareForReuse() {
         // Load from data for this cell
-        
+        contentImageView.image = nil
+        profileImageView.image = nil
         
     }
     

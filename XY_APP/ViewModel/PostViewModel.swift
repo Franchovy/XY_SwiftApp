@@ -10,8 +10,8 @@ import FirebaseStorage
 
 protocol PostViewModelDelegate: NSObjectProtocol {
     func didFetchProfileData(xyname: String)
-    func didFetchProfileImage(image: UIImage)
-    func didFetchPostImages(images: [UIImage])
+    func didFetchProfileImage()
+    func didFetchPostImages()
 }
 
 class PostViewModel {
@@ -31,15 +31,25 @@ class PostViewModel {
             let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(data.userId)
             userDocument.getDocument() { document, error in
                 if let error = error {
-                    print("Error fetching profile data: \(error)")
+                    print("Error fetching user data: \(error)")
                 }
                 
                 if let documentData = document?.data() {
-                    // Set XYName
-                    self.xyname = documentData["xyname"] as! String
-                    self.delegate?.didFetchProfileData(xyname: self.xyname!)
-                    // Set profileImageId
-                    self.profileImageId = documentData["profileImageId"] as? String
+                    // Get profile data
+                    let profileId = documentData[FirebaseKeys.UserKeys.profile] as! String
+                    let profileDoc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileId)
+                    profileDoc.getDocument() { document, error in
+                        if let error = error {
+                            print("Error fetching profile data: \(error)")
+                        }
+                        if let documentData = document?.data() {
+                            // Set XYName
+                            self.xyname = documentData[FirebaseKeys.ProfileKeys.nickname] as! String
+                            self.delegate?.didFetchProfileData(xyname: self.xyname!)
+                            // Set profileImageId
+                            self.profileImageId = documentData[FirebaseKeys.ProfileKeys.image] as! String
+                        }
+                    }
                 }
             }
             
@@ -62,7 +72,8 @@ class PostViewModel {
                     print("Error fetching profile image: \(error)")
                 }
                 if let data = data, let image = UIImage(data: data) {
-                    self.delegate?.didFetchProfileImage(image: image)
+                    self.profileImage = image
+                    self.delegate?.didFetchProfileImage()
                 }
             }
         }
@@ -85,7 +96,7 @@ class PostViewModel {
                         
                         // If all images have been fetched, call the delegate completion.
                         if self.images.count == self.imageIds?.count {
-                            self.delegate?.didFetchPostImages(images: self.images)
+                            self.delegate?.didFetchPostImages()
                         }
                     }
                 }
