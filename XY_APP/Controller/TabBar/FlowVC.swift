@@ -76,7 +76,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate {
     
     private func fetchData() {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-                    .order(by: "\(FirebaseKeys.PostKeys.postData).\(FirebaseKeys.PostKeys.timestamp)", descending: true)
+            .order(by: "\(FirebaseKeys.PostKeys.postData).\(FirebaseKeys.PostKeys.PostData.timestamp)", descending: true)
                     .getDocuments() { snapshot, error in
             if let error = error {
                 print("Error fetching posts: \(error)")
@@ -85,14 +85,14 @@ class FlowVC : UITableViewController, ImagePickerDelegate {
             if let documents = snapshot?.documents {
                 for doc in documents {
                     let documentData = doc.data()
-                    if let postData = documentData["postData"] as? [String: Any] {
+                    if let postData = documentData[FirebaseKeys.PostKeys.postData] as? [String: Any] {
                         self.data.append(
                             PostData(
                                 id: doc.documentID,
-                                userId: documentData["author"] as! String,
-                                timestamp: (postData["timestamp"] as! Firebase.Timestamp).dateValue(),
-                                content: postData["caption"] as! String,
-                                images: [postData["imageRef"] as! String]
+                                userId: documentData[FirebaseKeys.PostKeys.author] as! String,
+                                timestamp: (postData[FirebaseKeys.PostKeys.PostData.timestamp] as! Firebase.Timestamp).dateValue(),
+                                content: postData[FirebaseKeys.PostKeys.PostData.caption] as! String,
+                                images: [postData[FirebaseKeys.PostKeys.PostData.imageRef] as! String]
                             ))
                     }
                 }

@@ -7,10 +7,13 @@
 
 import UIKit
 import FirebaseStorage
+import Kingfisher
 
 protocol PostViewModelDelegate: NSObjectProtocol {
     func didFetchProfileData(xyname: String)
+    func profileImageDownloadProgress(progress: Float)
     func didFetchProfileImage()
+    func postImageDownloadProgress(progress: Float)
     func didFetchPostImages()
 }
 
@@ -64,14 +67,24 @@ class PostViewModel {
     var profileImageId: String? {
         didSet {
             guard let profileImageId = profileImageId else { return }
-            
-            FirebaseDownload.getImage(imageId: profileImageId) { image, error in
+
+            ImageDownloaderHelper.getFullURL(imageId: profileImageId) { imageUrl, error in
                 if let error = error {
-                    print("Error fetching image: \(error)")
+                    print("Error fetching image!")
                 }
-                if let image = image {
-                    self.profileImage = image
-                    self.delegate?.didFetchProfileImage()
+                guard let imageUrl = imageUrl else { fatalError() }
+                
+                //let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
+                //imageView.kf.indicatorType = .activity
+                //print("Fetching image with url: \(imageUrl.absoluteString)")
+                KingfisherManager.shared.retrieveImage(with: imageUrl) { result in
+                    do {
+                        let image = try result.get().image
+                        self.profileImage = image
+                        self.delegate?.didFetchProfileImage()
+                    } catch let error {
+                        print("Error fetching profile image: \(error)")
+                    }
                 }
             }
         }
@@ -84,17 +97,19 @@ class PostViewModel {
             let storage = Storage.storage()
             for imageId in imageIds {
                 
-                let ref = storage.reference(withPath: imageId)
-                ref.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                ImageDownloaderHelper.getFullURL(imageId: imageId) { imageUrl, error in
                     if let error = error {
-                        print("Error fetching image: \(error)")
+                        print("Error fetching image!")
                     }
-                    if let data = data, let image = UIImage(data: data) {
-                        self.images.append(image)
-                        
-                        // If all images have been fetched, call the delegate completion.
-                        if self.images.count == self.imageIds?.count {
+                    guard let imageUrl = imageUrl else { fatalError() }
+                    
+                    KingfisherManager.shared.retrieveImage(with: imageUrl) { result in
+                        do {
+                            let image = try result.get().image
+                            self.images = [image]
                             self.delegate?.didFetchPostImages()
+                        } catch let error {
+                            print("Error fetching profile image: \(error)")
                         }
                     }
                 }

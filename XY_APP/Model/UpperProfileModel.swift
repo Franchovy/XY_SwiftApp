@@ -38,10 +38,10 @@ extension UpperProfile {
 /// Extension for edit profile
 extension UpperProfile {
     var editProfileData: [String: Any] {
-        return ["nickname": nickname,
-                "imageId": imageId,
-                "website": website,
-                "caption": caption
+        return [FirebaseKeys.ProfileKeys.nickname: nickname,
+                FirebaseKeys.ProfileKeys.image: imageId,
+                FirebaseKeys.ProfileKeys.website: website,
+                FirebaseKeys.ProfileKeys.caption: caption
             ]
     }
     var editProfileDataAsNSDict: NSDictionary {
@@ -52,14 +52,14 @@ extension UpperProfile {
 /// Extension for create new profile
 extension UpperProfile {
     var createNewProfileData: [String: Any] {
-        return ["nickname": nickname,
-                "imageId": "defaultProfilePic.png",
-                "website": "xy.com",
-                "followers": 0,
-                "following": 0,
-                "xp": 0,
-                "level": 0,
-                "caption": caption
+        return [FirebaseKeys.ProfileKeys.nickname: nickname,
+                FirebaseKeys.ProfileKeys.image: "defaultProfilePic.png",
+                FirebaseKeys.ProfileKeys.website: "xy.com",
+                FirebaseKeys.ProfileKeys.followers: 0,
+                FirebaseKeys.ProfileKeys.following: 0,
+                FirebaseKeys.ProfileKeys.xp: 0,
+                FirebaseKeys.ProfileKeys.level: 0,
+                FirebaseKeys.ProfileKeys.caption: caption
         ]
     }
     

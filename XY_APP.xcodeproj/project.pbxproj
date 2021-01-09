@@ -60,6 +60,7 @@
 		B9530020259F36CE00DE926A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953001F259F36CE00DE926A /* CircleView.swift */; };
 		B9530026259F476000DE926A /* CircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9530025259F476000DE926A /* CircleView.xib */; };
 		B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9599A3B25711D810057B7D9 /* LoginViewController.swift */; };
+		B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */; };
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
 		B95FF50625A71FB000CFCA9E /* EditProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF50525A71FB000CFCA9E /* EditProfileTests.swift */; };
@@ -153,6 +154,7 @@
 		B953001F259F36CE00DE926A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		B9530025259F476000DE926A /* CircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleView.xib; sourceTree = "<group>"; };
 		B9599A3B25711D810057B7D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloaderHelper.swift; sourceTree = "<group>"; };
 		B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownload.swift; sourceTree = "<group>"; };
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
 		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -207,9 +209,9 @@
 				148935F025A26AFC00CB60C3 /* ConversationCell.swift */,
 				148935F125A26AFC00CB60C3 /* ConversationCell.xib */,
 				149AD6D8259B993B00E81ABC /* ExploreCollectionViewCell.swift */,
+				149AD6D9259B993B00E81ABC /* ExploreCollectionViewCell.xib */,
 				149AD6D3259B94FE00E81ABC /* ExploreTableViewCell.xib */,
 				149AD6D2259B94FE00E81ABC /* ExploreTableViewCell.swift */,
-				149AD6D9259B993B00E81ABC /* ExploreCollectionViewCell.xib */,
 				14251381259F936500DC08BB /* NotificationCell.swift */,
 				14251382259F936500DC08BB /* NotificationCell.xib */,
 				14607A6D25A0618D009B3B50 /* CreatePostCell.swift */,
@@ -327,6 +329,7 @@
 				B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */,
 				B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */,
 				B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */,
+				B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */,
 				14F7D4A025A8FDEE0099DCFE /* OnlineFriendsTVcell.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsVC.swift in Sources */,
+				B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,
 				14FF8A6025A3856E002FE645 /* MessageCell.swift in Sources */,

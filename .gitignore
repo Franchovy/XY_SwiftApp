@@ -4,6 +4,10 @@
 
 */.DS_Store
 
+## Don't include pod build files
+Podfile.lock
+Pods/
+
 ## User settings
 xcuserdata/
 

@@ -25,9 +25,9 @@ extension PostData {
         return [
             FirebaseKeys.PostKeys.author : userId,
             FirebaseKeys.PostKeys.postData : [
-                FirebaseKeys.PostKeys.caption : content,
-                FirebaseKeys.PostKeys.imageRef : images!.first,
-                FirebaseKeys.PostKeys.timestamp : FieldValue.serverTimestamp()
+                FirebaseKeys.PostKeys.PostData.caption : content,
+                FirebaseKeys.PostKeys.PostData.imageRef : images!.first,
+                FirebaseKeys.PostKeys.PostData.timestamp : FieldValue.serverTimestamp()
             ]
         ]
     }
