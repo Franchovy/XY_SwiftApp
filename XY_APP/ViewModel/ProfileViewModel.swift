@@ -17,7 +17,7 @@ class ProfileViewModel {
     weak var delegate: ProfileViewModelDelegate?
     var profileData: UpperProfile! {
         didSet {
-            nickname = profileData.xyname
+            nickname = profileData.nickname
             numFollowers = profileData.followers
             numFollowing = profileData.following
             level = profileData.level

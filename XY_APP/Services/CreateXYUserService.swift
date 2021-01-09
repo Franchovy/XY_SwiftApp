@@ -37,7 +37,7 @@ class CreateXYUserService {
                         }
                         
                         let newProfileData = UpperProfile(
-                            xyname: "",
+                            nickname: xyname,
                             imageId: "",
                             website: "",
                             followers: 0,

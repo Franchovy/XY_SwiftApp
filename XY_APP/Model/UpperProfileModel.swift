@@ -11,7 +11,7 @@ import Firebase
 
 struct UpperProfile : Encodable {
     
-    var xyname: String
+    var nickname: String
     var imageId: String
     var website: String
     var followers: Int
@@ -24,7 +24,7 @@ struct UpperProfile : Encodable {
 
 extension UpperProfile {
     init(data: [String: Any?]) {
-        xyname = ""
+        nickname = data[FirebaseKeys.ProfileKeys.nickname] as! String
         caption = data[FirebaseKeys.ProfileKeys.caption] as! String
         imageId = data[FirebaseKeys.ProfileKeys.image] as! String
         website = data[FirebaseKeys.ProfileKeys.website] as! String
@@ -38,7 +38,8 @@ extension UpperProfile {
 /// Extension for edit profile
 extension UpperProfile {
     var editProfileData: [String: Any] {
-        return ["imageId": imageId,
+        return ["nickname": nickname,
+                "imageId": imageId,
                 "website": website,
                 "caption": caption
             ]
@@ -51,8 +52,9 @@ extension UpperProfile {
 /// Extension for create new profile
 extension UpperProfile {
     var createNewProfileData: [String: Any] {
-        return ["imageId": imageId,
-                "website": website,
+        return ["nickname": nickname,
+                "imageId": "defaultProfilePic.png",
+                "website": "xy.com",
                 "followers": 0,
                 "following": 0,
                 "xp": 0,

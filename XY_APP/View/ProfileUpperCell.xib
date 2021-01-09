@@ -227,6 +227,7 @@
                 <outlet property="profFollowing" destination="gle-qI-E7b" id="riZ-4Y-kqW"/>
                 <outlet property="profLev" destination="Jm4-6s-XEd" id="ehN-FP-wrz"/>
                 <outlet property="profViewContainer" destination="KvT-6w-46S" id="pOf-e5-kJX"/>
+                <outlet property="profileWebsite" destination="apC-fM-kpH" id="vxx-yY-dbp"/>
             </connections>
             <point key="canvasLocation" x="161.59420289855075" y="169.08482142857142"/>
         </tableViewCell>

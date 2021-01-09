@@ -19,15 +19,16 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     // MARK: - ProfileViewModelDelegate functions
     
     func onProfileDataFetched(_ profileData: UpperProfile) {
-        //ProfNick.text = profileData.xyname
+        ProfNick.text = profileData.nickname
         profFollowers.text = String(describing: profileData.followers)
         profFollowing.text = String(describing: profileData.following)
         profLev.text = String(describing: profileData.level)
-        //postCapt.text = profileData.caption
+        postCapt.text = profileData.caption
+        profileWebsite.text = profileData.website
     }
     
     func onProfileImageFetched(_ image: UIImage) {
-        //ProfImg.image = image
+        ProfImg.image = image
     }
     
     //MARK: - Delegate functions
@@ -43,6 +44,9 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         } else if editNicknameTextField != nil {
             editNicknameTextField?.endEditing(true)
             editNicknameTextField = nil
+        } else if editWebsiteTextField != nil {
+            editWebsiteTextField?.endEditing(true)
+            editWebsiteTextField = nil
         }
     }
     
@@ -52,7 +56,8 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     @IBOutlet weak var profFollowing: UILabel!
     @IBOutlet weak var profLev: UILabel!
     @IBOutlet weak var profViewContainer: UIView!
-
+    @IBOutlet weak var profileWebsite: UILabel!
+    
     @IBOutlet weak var captionContainer: UIView!
     @IBOutlet weak var coverImage: UIImageView!
 
@@ -66,13 +71,13 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     
     var editNicknameTextField: UITextField? = nil
     var editCaptionTextField: UITextField? = nil
+    var editWebsiteTextField: UITextField? = nil
     
     @IBOutlet weak var levelView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
   
-    
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         ProfImg.isUserInteractionEnabled = false
         ProfImg.addGestureRecognizer(tapGestureRecognizer)
@@ -85,13 +90,14 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         ProfNick.isUserInteractionEnabled = false
         ProfNick.addGestureRecognizer(tapGestureRecognizer3)
 
+        let tapGestureRecognizer4 = UITapGestureRecognizer(target: self, action: #selector(editLabel(tapGestureRecognizer:)))
+        profileWebsite.isUserInteractionEnabled = false
+        profileWebsite.addGestureRecognizer(tapGestureRecognizer4)
 
         ProfImg.layer.cornerRadius = 10
         coverImage.layer.cornerRadius = 15
         profViewContainer.layer.cornerRadius = 15
         captionContainer.layer.cornerRadius = 15
-
-
     }
 
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -122,15 +128,14 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         label.isHidden = true
         if label == postCapt {
             editCaptionTextField = textField
-        
         } else if label == ProfNick {
             editNicknameTextField = textField
-            
+        } else if label == profileWebsite {
+            editWebsiteTextField = textField
         }
     }
         
     // LOGOUT
-  
     @IBAction func logoutButtonPressed(_ sender: UIButton) {
         logout?()
     }
@@ -138,13 +143,10 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     @IBAction func settingsButtonPressed(_ sender: Any) {
     }
 
-    
-   // CHATS
-   
+    // CHATS
     @IBAction func chatButtonPressed(_ sender: Any) {
         chatSegue?()
     }
-   
    
     @IBAction func editButtonPressed(_ sender: UIButton) {
        
@@ -162,6 +164,11 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         ProfNick.layer.borderWidth = 1
         ProfNick.layer.borderColor = UIColor.white.cgColor
         ProfNick.isUserInteractionEnabled = true
+        
+        profileWebsite.shake()
+        profileWebsite.layer.borderWidth = 1
+        profileWebsite.layer.borderColor = UIColor.white.cgColor
+        profileWebsite.isUserInteractionEnabled = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -194,32 +201,42 @@ extension ProfileUpperCell : UITextFieldDelegate {
         let newText = textField.text!
         textField.isHidden = true
         profViewContainer.willRemoveSubview(textField)
+        
+        var labelToEdit: UILabel? = nil
+        
         // Set Label text
         if textField == editCaptionTextField {
-            // Update Label
-            postCapt.text = newText
-            postCapt.isHidden = false
-            postCapt.layer.borderColor = UIColor.clear.cgColor
-            // Set data in viewmodel
+            labelToEdit = postCapt
+        } else if textField == editNicknameTextField {
+            labelToEdit = ProfNick
+        } else if textField == editWebsiteTextField {
+            labelToEdit = profileWebsite
+        }
+        
+        // Update Label
+        labelToEdit!.text = newText
+        labelToEdit!.isHidden = false
+        labelToEdit!.layer.borderColor = UIColor.clear.cgColor
+        
+        // Set data in viewmodel
+        if textField == editCaptionTextField {
             viewModel?.profileData.caption = newText
-            // Edit profile request: caption
-            if let profileData = viewModel?.profileData {
-                FirebaseUpload.editProfileInfo(profileData: profileData) { result in
-                    switch result {
-                    case .success():
-                        print("Successfully edited profile caption.")
-                    case .failure(let error):
-                        print("Error editing profile caption: \(error)")
-                    }
+        } else if textField == editNicknameTextField {
+            viewModel?.profileData.nickname = newText
+        } else if textField == editWebsiteTextField {
+            viewModel?.profileData.website = newText
+        }
+        
+        // Edit profile request: caption
+        if let profileData = viewModel?.profileData {
+            FirebaseUpload.editProfileInfo(profileData: profileData) { result in
+                switch result {
+                case .success():
+                    print("Successfully edited profile.")
+                case .failure(let error):
+                    print("Error editing profile caption: \(error)")
                 }
             }
-        
-        } else if textField == editNicknameTextField {
-            // Update Label
-            ProfNick.text = newText
-            ProfNick.isHidden = false
-            ProfNick.layer.borderColor = UIColor.clear.cgColor
-            // Edit profile request: nickname
         }
     }
 }

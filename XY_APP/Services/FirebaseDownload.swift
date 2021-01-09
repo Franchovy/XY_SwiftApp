@@ -27,15 +27,7 @@ class FirebaseDownload {
                     
                     if let profileData = snapshot?.data() as? [String: Any] {
                         
-                        let profile = UpperProfile(
-                            xyname: userData["xyname"] as! String,
-                            imageId: profileData["image"] as! String,
-                            website: profileData["website"] as! String,
-                            followers: profileData["followers"] as! Int,
-                            following: profileData["following"] as! Int,
-                            xp: profileData["xp"] as! Int,
-                            level: profileData["level"] as! Int,
-                            caption: profileData["caption"] as! String)
+                        let profile = UpperProfile(data: profileData)
                         
                         completion(profile, nil)
                     }

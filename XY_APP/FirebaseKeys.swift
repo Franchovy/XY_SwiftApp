@@ -32,10 +32,11 @@ struct FirebaseKeys {
     }
     
     struct ProfileKeys {
+        static let nickname = "nickname"
         static let caption = "caption"
         static let followers = "followers"
         static let following = "following"
-        static let image = "image"
+        static let image = "imageId"
         static let level = "level"
         static let website = "website"
         static let xp = "xp"
