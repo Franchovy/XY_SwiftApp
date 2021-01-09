@@ -50,6 +50,8 @@
 		14C99E3525A0F31300FFE003 /* ProfileUpperCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */; };
 		14C99E3625A0F31300FFE003 /* ProfileUpperCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14C99E3425A0F31300FFE003 /* ProfileUpperCell.xib */; };
 		14CDAE90257ECC7B0037A99F /* ConversationsCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */; };
+		14F7D4A025A8FDEE0099DCFE /* OnlineFriendsTVcell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14F7D49E25A8FDEE0099DCFE /* OnlineFriendsTVcell.swift */; };
+		14F7D4A125A8FDEE0099DCFE /* OnlineFriendsTVcell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14F7D49F25A8FDEE0099DCFE /* OnlineFriendsTVcell.xib */; };
 		14FF8A6025A3856E002FE645 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FF8A5E25A3856E002FE645 /* MessageCell.swift */; };
 		14FF8A6125A3856E002FE645 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14FF8A5F25A3856E002FE645 /* MessageCell.xib */; };
 		B8913452A7DE311BBB40F65E /* Pods_XY_APPTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0184EA11A236F0143134B645 /* Pods_XY_APPTests.framework */; };
@@ -137,6 +139,8 @@
 		14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileUpperCell.swift; sourceTree = "<group>"; };
 		14C99E3425A0F31300FFE003 /* ProfileUpperCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileUpperCell.xib; sourceTree = "<group>"; };
 		14CDAE8E257ECC7B0037A99F /* ConversationsCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ConversationsCells.swift; path = Conversations/ConversationsCells.swift; sourceTree = "<group>"; };
+		14F7D49E25A8FDEE0099DCFE /* OnlineFriendsTVcell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineFriendsTVcell.swift; sourceTree = "<group>"; };
+		14F7D49F25A8FDEE0099DCFE /* OnlineFriendsTVcell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OnlineFriendsTVcell.xib; sourceTree = "<group>"; };
 		14FF8A5E25A3856E002FE645 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		14FF8A5F25A3856E002FE645 /* MessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MessageCell.xib; sourceTree = "<group>"; };
 		65F8F855007A762983BC2D49 /* Pods-XY_APP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APP.debug.xcconfig"; path = "Target Support Files/Pods-XY_APP/Pods-XY_APP.debug.xcconfig"; sourceTree = "<group>"; };
@@ -225,6 +229,8 @@
 				140826B825867EC400DC055D /* ImagePostCell.xib */,
 				B9B92DD925644A3F005D9B86 /* Main.storyboard */,
 				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
+				14F7D49E25A8FDEE0099DCFE /* OnlineFriendsTVcell.swift */,
+				14F7D49F25A8FDEE0099DCFE /* OnlineFriendsTVcell.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -474,6 +480,7 @@
 				B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */,
 				B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */,
 				14251384259F936500DC08BB /* NotificationCell.xib in Resources */,
+				14F7D4A125A8FDEE0099DCFE /* OnlineFriendsTVcell.xib in Resources */,
 				14C99E3625A0F31300FFE003 /* ProfileUpperCell.xib in Resources */,
 				140826BA25867EC400DC055D /* ImagePostCell.xib in Resources */,
 				149AD6DB259B993B00E81ABC /* ExploreCollectionViewCell.xib in Resources */,
@@ -603,6 +610,7 @@
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
 				B9BC11DC259BAFED004B7327 /* ProgressBarCircle.swift in Sources */,
 				14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */,
+				14F7D4A025A8FDEE0099DCFE /* OnlineFriendsTVcell.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsVC.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,

@@ -7,8 +7,9 @@
 
 import UIKit
 import Firebase
+import ImagePicker
 
-class FlowVC : UITableViewController {
+class FlowVC : UITableViewController, ImagePickerDelegate {
     var data: [FlowDataModel] = []
     
     @IBOutlet weak var barXPCircle: CircleView!
@@ -37,10 +38,8 @@ class FlowVC : UITableViewController {
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
 
+        
         tableView.register(UINib(nibName: ImagePostCell.nibName, bundle: nil), forCellReuseIdentifier: ImagePostCell.identifier)
-        
-        
-        
         fetchData()
     }
     
@@ -52,6 +51,28 @@ class FlowVC : UITableViewController {
         
         performSegue(withIdentifier: "segueToNotifications", sender: self)
     }
+    
+    @IBAction func cameraTapped(_ sender: UIBarButtonItem) {
+       
+        let imagePickerController = ImagePickerController()
+        imagePickerController.imageLimit = 3
+        imagePickerController.delegate = self
+        present(imagePickerController, animated: true, completion: nil)
+    }
+    
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        print("wrapper")
+    }
+    
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        print("done")
+    }
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        print("cancel")
+    }
+    
+    
     
     private func fetchData() {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)

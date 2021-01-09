@@ -29,6 +29,7 @@ class CreateXYUserService {
                             "timestamp": timestamp,
                             "level": 0,
                             "xp": 0
+                        
                         ]
                     ) { (error) in
                         if let error = error {

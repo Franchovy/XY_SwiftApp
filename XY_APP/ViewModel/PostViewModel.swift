@@ -44,10 +44,10 @@ class PostViewModel {
                         }
                         if let documentData = document?.data() {
                             // Set XYName
-                            self.xyname = documentData[FirebaseKeys.ProfileKeys.nickname] as! String
+                            self.xyname = documentData[FirebaseKeys.ProfileKeys.nickname] as? String
                             self.delegate?.didFetchProfileData(xyname: self.xyname!)
                             // Set profileImageId
-                            self.profileImageId = documentData[FirebaseKeys.ProfileKeys.image] as! String
+                            self.profileImageId = documentData[FirebaseKeys.ProfileKeys.image] as? String
                         }
                     }
                 }

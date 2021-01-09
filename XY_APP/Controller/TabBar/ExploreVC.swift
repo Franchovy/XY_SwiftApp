@@ -31,13 +31,12 @@ class ExploreVC: UIViewController, UISearchBarDelegate {
         
         ExploreTableView.dataSource = self
         
+        
         let cellNib = UINib(nibName: "ExploreTableViewCell", bundle: nil)
                 self.ExploreTableView.register(cellNib, forCellReuseIdentifier: "tableviewcellid")
-        
-        
+    
        
         ExploreSearchBar.delegate = self
-        
         navigationItem.titleView = ExploreSearchBar
         ExploreSearchBar.placeholder = "Search"
         

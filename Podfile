@@ -19,6 +19,7 @@ pod 'Firebase/Firestore'
 pod 'Firebase/Storage'
 pod 'SwipeCellKit'
 pod 'IQKeyboardManagerSwift'
+pod 'ImagePicker'
 
 
 end
