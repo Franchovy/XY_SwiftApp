@@ -45,8 +45,10 @@ struct FirebaseKeys {
     struct PostKeys {
         static let author = "author"
         static let postData = "postData"
-        static let caption = "caption"
-        static let imageRef = "imageRef"
-        static let timestamp = "timestamp"
+        struct PostData {
+            static let caption = "caption"
+            static let imageRef = "imageRef"
+            static let timestamp = "timestamp"
+        }
     }
 }

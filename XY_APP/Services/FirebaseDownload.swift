@@ -10,6 +10,11 @@ import Firebase
 import FirebaseStorage
 
 class FirebaseDownload {
+    
+    static func getPosts() {
+        
+    }
+    
     static func getProfile(userId: String, completion: @escaping(UpperProfile?, Error?) -> Void) {
         let userRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
         

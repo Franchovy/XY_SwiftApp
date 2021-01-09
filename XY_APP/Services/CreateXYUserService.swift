@@ -9,13 +9,19 @@ import Foundation
 import FirebaseAuth
 import Firebase
 
+
+
 class CreateXYUserService {
+    
+    enum CreateUserError : Error {
+        case emailAlreadyInUse
+    }
     
     static func createUser(xyname: String, email: String?, phoneNumber: String?, password: String, completion: @escaping(Result<String, Error>) -> Void) {
         // Create use authenticated
         if let email = email {
             Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
-                if let error = error{
+                if let error = error {
                     completion(.failure(error))
                 }
                 
@@ -25,10 +31,10 @@ class CreateXYUserService {
                     
                     let timestamp = FieldValue.serverTimestamp()
                     newUserDocument.setData([
-                            "xyname" : xyname,
-                            "timestamp": timestamp,
-                            "level": 0,
-                            "xp": 0
+                            FirebaseKeys.UserKeys.xyname : xyname,
+                            FirebaseKeys.UserKeys.timestamp : timestamp,
+                            FirebaseKeys.UserKeys.level : 0,
+                            FirebaseKeys.UserKeys.xp : 0
                         ]
                     ) { (error) in
                         if let error = error {
@@ -63,7 +69,7 @@ class CreateXYUserService {
                         }
                     }
                 } else {
-                    fatalError()
+                    completion(.failure(CreateUserError.emailAlreadyInUse))
                 }
             }
         }
