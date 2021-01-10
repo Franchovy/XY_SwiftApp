@@ -29,6 +29,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
             // Set delegate so the viewModel can call to set images
             viewModel.delegate = self
             // Set data already ready
+            xpLevelDisplay.viewModel = XPViewModel(postId: viewModel.postId)
+            xpLevelDisplay.viewModel.subscribeToFirebase(documentId: viewModel.postId)
             contentLabel.text = viewModel.content
             timestampLabel.text = viewModel.getTimestampString()
         }
@@ -53,7 +55,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     
     // MARK: - IBOutlets
     
-    @IBOutlet weak var XP: CircleView!
+    @IBOutlet weak var xpLevelDisplay: CircleView!
     
     @IBOutlet weak var nameLabelLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var postCardView: UIView!
@@ -84,8 +86,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
         timestampLabel.alpha = 1
         nameLabel.alpha = 1
         contentLabel.alpha = 1
-        
-  
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

@@ -69,6 +69,8 @@
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B9530020259F36CE00DE926A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953001F259F36CE00DE926A /* CircleView.swift */; };
 		B9530026259F476000DE926A /* CircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9530025259F476000DE926A /* CircleView.xib */; };
+		B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482B725AAF1E00058D8B4 /* XPModel.swift */; };
+		B95482C025AAF2F70058D8B4 /* XPViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482BF25AAF2F70058D8B4 /* XPViewModel.swift */; };
 		B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9599A3B25711D810057B7D9 /* LoginViewController.swift */; };
 		B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */; };
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
@@ -83,7 +85,6 @@
 		B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DDF25644A41005D9B86 /* Assets.xcassets */; };
 		B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */; };
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
-		B9BC11DC259BAFED004B7327 /* ProgressBarCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */; };
 		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
 		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
 		B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowDataCell.swift */; };
@@ -173,6 +174,8 @@
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B953001F259F36CE00DE926A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		B9530025259F476000DE926A /* CircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleView.xib; sourceTree = "<group>"; };
+		B95482B725AAF1E00058D8B4 /* XPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModel.swift; sourceTree = "<group>"; };
+		B95482BF25AAF2F70058D8B4 /* XPViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPViewModel.swift; sourceTree = "<group>"; };
 		B9599A3B25711D810057B7D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloaderHelper.swift; sourceTree = "<group>"; };
 		B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownload.swift; sourceTree = "<group>"; };
@@ -190,7 +193,6 @@
 		B9B92DE225644A41005D9B86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9B92DE425644A41005D9B86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarCircle.swift; sourceTree = "<group>"; };
 		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
 		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		B9D1AB3025A3A591009B428E /* FlowDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataCell.swift; sourceTree = "<group>"; };
@@ -230,8 +232,8 @@
 				148935F125A26AFC00CB60C3 /* ConversationCell.xib */,
 				149AD6D8259B993B00E81ABC /* ExploreCollectionViewCell.swift */,
 				149AD6D9259B993B00E81ABC /* ExploreCollectionViewCell.xib */,
-				149AD6D3259B94FE00E81ABC /* ExploreTableViewCell.xib */,
 				149AD6D2259B94FE00E81ABC /* ExploreTableViewCell.swift */,
+				149AD6D3259B94FE00E81ABC /* ExploreTableViewCell.xib */,
 				14251381259F936500DC08BB /* NotificationCell.swift */,
 				14251382259F936500DC08BB /* NotificationCell.xib */,
 				14607A6D25A0618D009B3B50 /* CreatePostCell.swift */,
@@ -240,7 +242,6 @@
 				14A36071259CB51C002829D7 /* FlowMomentsTableViewCell.swift */,
 				14A3607B259CB6E9002829D7 /* MomentsCollectionViewCell.xib */,
 				14A3607A259CB6E9002829D7 /* MomentsCollectionViewCell.swift */,
-				B9BC11DB259BAFED004B7327 /* ProgressBarCircle.swift */,
 				B9530025259F476000DE926A /* CircleView.xib */,
 				B953001F259F36CE00DE926A /* CircleView.swift */,
 				14B2709525AA083F00CCACDE /* Profile */,
@@ -372,6 +373,7 @@
 				148935BE25A2686F00CB60C3 /* ConversationPreview.swift */,
 				14BDAF6225A30A4800D19282 /* ChatUserInfo.swift */,
 				14BDAF8325A37DD800D19282 /* MessagesChat.swift */,
+				B95482B725AAF1E00058D8B4 /* XPModel.swift */,
 				14B2705225A9EBA900CCACDE /* OnlineFriends */,
 			);
 			path = Model;
@@ -434,6 +436,7 @@
 			children = (
 				B9D5E56025A5F362001859EA /* PostViewModel.swift */,
 				B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */,
+				B95482BF25AAF2F70058D8B4 /* XPViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -657,6 +660,7 @@
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationPreview.swift in Sources */,
 				14A36081259CB88D002829D7 /* MomentsModel.swift in Sources */,
+				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
 				14B2709825AA087400CCACDE /* ProfileFlowTableViewCell.swift in Sources */,
 				14B26FD625A9E50900CCACDE /* OnlineFriendsModel.swift in Sources */,
 				149AD6DA259B993B00E81ABC /* ExploreCollectionViewCell.swift in Sources */,
@@ -674,7 +678,7 @@
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
-				B9BC11DC259BAFED004B7327 /* ProgressBarCircle.swift in Sources */,
+				B95482C025AAF2F70058D8B4 /* XPViewModel.swift in Sources */,
 				14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsVC.swift in Sources */,
 				B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */,

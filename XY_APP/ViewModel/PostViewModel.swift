@@ -25,6 +25,7 @@ class PostViewModel {
             guard let data = data else { return }
             
             // Set normal properties
+            postId = data.id
             content = data.content
             timestamp = data.timestamp
             imageIds = data.images
@@ -60,9 +61,10 @@ class PostViewModel {
         }
     }
     
-    var xyname: String?
-    var timestamp: Date?
-    var content: String?
+    var postId: String!
+    var xyname: String!
+    var timestamp: Date!
+    var content: String!
     
     var profileImageId: String? {
         didSet {

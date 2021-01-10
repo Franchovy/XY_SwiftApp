@@ -9,7 +9,11 @@ import UIKit
 
 class CircleView: UIView, XPViewModelDelegate {
 
-    var viewModel: XPViewModel!
+    var viewModel: XPViewModel! {
+        didSet {
+            viewModel.delegate = self
+        }
+    }
     
     // MARK: - XPViewModelDelegate Methods
     

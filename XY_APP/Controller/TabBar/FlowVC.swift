@@ -27,6 +27,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate {
         barXPCircle.backgroundColor = .clear
         barXPCircle.tintColor = .blue
         
+        //barXPCircle.viewModel = XPViewModel(userId: Auth.auth().currentUser.uid)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
         barXPCircle.addGestureRecognizer(tap)
@@ -76,7 +77,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate {
     
     private func fetchData() {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: "\(FirebaseKeys.PostKeys.postData).\(FirebaseKeys.PostKeys.PostData.timestamp)", descending: true)
+            .order(by: "\(FirebaseKeys.PostKeys.postData).\(FirebaseKeys.PostKeys.timestamp)", descending: true)
                     .getDocuments() { snapshot, error in
             if let error = error {
                 print("Error fetching posts: \(error)")
@@ -90,9 +91,11 @@ class FlowVC : UITableViewController, ImagePickerDelegate {
                             PostData(
                                 id: doc.documentID,
                                 userId: documentData[FirebaseKeys.PostKeys.author] as! String,
-                                timestamp: (postData[FirebaseKeys.PostKeys.PostData.timestamp] as! Firebase.Timestamp).dateValue(),
+                                timestamp: (documentData[FirebaseKeys.PostKeys.timestamp] as! Firebase.Timestamp).dateValue(),
                                 content: postData[FirebaseKeys.PostKeys.PostData.caption] as! String,
-                                images: [postData[FirebaseKeys.PostKeys.PostData.imageRef] as! String]
+                                images: [postData[FirebaseKeys.PostKeys.PostData.imageRef] as! String],
+                                level: documentData[FirebaseKeys.PostKeys.level] as! Int,
+                                xp: documentData[FirebaseKeys.PostKeys.xp] as! Int
                             ))
                     }
                 }

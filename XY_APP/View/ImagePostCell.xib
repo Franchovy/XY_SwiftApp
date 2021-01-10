@@ -134,7 +134,6 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="XP" destination="QBp-w0-GdZ" id="i2b-nE-THc"/>
                 <outlet property="captionAlphaView" destination="29w-VH-8UM" id="1gt-y3-eE3"/>
                 <outlet property="contentImageView" destination="8PX-m5-VQT" id="rmf-uH-kK1"/>
                 <outlet property="contentLabel" destination="WoM-nW-VyZ" id="yvj-gs-G0f"/>
@@ -142,6 +141,7 @@
                 <outlet property="postCardView" destination="29w-VH-8UM" id="mJ8-9s-P9x"/>
                 <outlet property="profileImageView" destination="Uq3-oI-CsF" id="vmh-zt-vHi"/>
                 <outlet property="timestampLabel" destination="LSG-yi-Cze" id="RVx-lp-d3e"/>
+                <outlet property="xpLevelDisplay" destination="QBp-w0-GdZ" id="i2b-nE-THc"/>
             </connections>
             <point key="canvasLocation" x="206.52173913043481" y="194.53125"/>
         </tableViewCell>
