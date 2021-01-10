@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSCameraUsageDescription</key>
-	<string>XY need access to your camera!</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>XY needs access to your photos!</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -30,8 +26,12 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict/>
+	<key>NSCameraUsageDescription</key>
+	<string>XY need access to your camera!</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Access with your face and cut off your Girlfriend</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>XY needs access to your photos!</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

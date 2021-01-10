@@ -77,7 +77,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate {
     
     private func fetchData() {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: "\(FirebaseKeys.PostKeys.postData).\(FirebaseKeys.PostKeys.timestamp)", descending: true)
+            .order(by: "\(FirebaseKeys.PostKeys.timestamp)", descending: true)
                     .getDocuments() { snapshot, error in
             if let error = error {
                 print("Error fetching posts: \(error)")
