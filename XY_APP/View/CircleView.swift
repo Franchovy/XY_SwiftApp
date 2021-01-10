@@ -12,17 +12,17 @@ class CircleView: UIView, XPViewModelDelegate {
     var viewModel: XPViewModel! {
         didSet {
             viewModel.delegate = self
+            // Reset data
+            progressBarCircle.progress = 0.0
+            levelLabel.text = ""
         }
     }
     
     // MARK: - XPViewModelDelegate Methods
     
-    func onProgress(progress: Float) {
+    func onProgress(level: Int, progress: Float) {
         self.progressBarCircle.progress = CGFloat(progress)
-    }
-    
-    func onLevelChanged(level: Int) {
-        levelLabel.text = String(describing: level)
+        self.levelLabel.text = String(describing: level)
     }
     
     // MARK: - IBOutlets
@@ -58,11 +58,11 @@ class CircleView: UIView, XPViewModelDelegate {
         progressBarCircle.layer.masksToBounds = false
 
         
-        
         levelLabel.frame = self.bounds
         levelLabel.sizeToFit()
         levelLabel.textAlignment = .center
         levelLabel.center = contentView.center
+        levelLabel.textColor = .white
         
     }
 }

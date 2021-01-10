@@ -31,7 +31,7 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PU9-3h-pzr">
-                    <rect key="frame" x="85" y="99" width="49" height="22"/>
+                    <rect key="frame" x="85.5" y="99" width="49" height="22"/>
                     <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -40,11 +40,11 @@
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="PU9-3h-pzr" secondAttribute="bottom" constant="15" id="H9b-Kz-Kq1"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PU9-3h-pzr" secondAttribute="trailing" constant="15" id="TOr-G9-VEb"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="PU9-3h-pzr" secondAttribute="bottom" constant="5" id="H9b-Kz-Kq1"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PU9-3h-pzr" secondAttribute="trailing" constant="5" id="TOr-G9-VEb"/>
                 <constraint firstItem="PU9-3h-pzr" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Wuq-Xl-iO1"/>
-                <constraint firstItem="PU9-3h-pzr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="b37-8n-0qJ"/>
-                <constraint firstItem="PU9-3h-pzr" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="r3T-ka-rJ0"/>
+                <constraint firstItem="PU9-3h-pzr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="b37-8n-0qJ"/>
+                <constraint firstItem="PU9-3h-pzr" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="r3T-ka-rJ0"/>
                 <constraint firstItem="PU9-3h-pzr" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="s8G-53-eqK"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>

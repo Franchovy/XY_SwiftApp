@@ -8,8 +8,7 @@
 import Foundation
 
 protocol XPViewModelDelegate: NSObjectProtocol {
-    func onProgress(progress: Float)
-    func onLevelChanged(level: Int)
+    func onProgress(level: Int, progress: Float)
 }
 
 class XPViewModel {
@@ -42,14 +41,10 @@ class XPViewModel {
                 let level = data[FirebaseKeys.PostKeys.level] as! Int
                 
                 // Send level update
-                if self.xpModel.level != level {
-                    self.xpModel.level = level
-                    self.delegate.onLevelChanged(level: level)
-                }
-                
+            
                 self.xpModel.xp = xp
                 let nextLevelXP = XPModel.LEVELS[.post]![level]
-                self.delegate.onProgress(progress: Float(xp) / Float(nextLevelXP))
+                self.delegate.onProgress(level: level, progress: Float(xp) / Float(nextLevelXP))
             }
             
         case .user:
