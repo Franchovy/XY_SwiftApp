@@ -29,7 +29,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
             // Set delegate so the viewModel can call to set images
             viewModel.delegate = self
             // Set data already ready
-            xpLevelDisplay.viewModel = XPViewModel(postId: viewModel.postId)
+            xpLevelDisplay.viewModel = XPViewModel(type: .post)
             xpLevelDisplay.viewModel.subscribeToFirebase(documentId: viewModel.postId)
             contentLabel.text = viewModel.content
             timestampLabel.text = viewModel.getTimestampString()
