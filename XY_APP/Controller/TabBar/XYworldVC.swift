@@ -8,9 +8,10 @@
 import Foundation
 import UIKit
 
-class XYworldVC: UIViewController {
+class XYworldVC: UIViewController, UISearchBarDelegate {
     
     
+    @IBOutlet var xyworldSearchBar: UISearchBar!
     @IBOutlet var xyworldTableView: UITableView!
 
     var onlineFriends: [OnlineFriendsModel] = [
@@ -20,11 +21,29 @@ class XYworldVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+   
        
         xyworldTableView.dataSource = self
         let cellNib = UINib(nibName: "OnlineFriendsTableViewCell", bundle: nil)
                 self.xyworldTableView.register(cellNib, forCellReuseIdentifier: "tableviewcellidOnline")
+        
+        xyworldSearchBar.delegate = self
+        navigationItem.titleView = xyworldSearchBar
+        xyworldSearchBar.placeholder = "Search"
+        
+        let textFieldInsideSearchBar = xyworldSearchBar.value(forKey: "searchField") as? UITextField
+
+        textFieldInsideSearchBar?.textColor = UIColor.white
+        
+        if let textFieldInsideSearchBar = self.xyworldSearchBar.value(forKey: "searchField") as? UITextField,
+              let glassIconView = textFieldInsideSearchBar.leftView as? UIImageView {
+
+                  //Magnifying glass
+                  glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
+            glassIconView.tintColor = .gray
+            
+            
+          }
 
     }
     

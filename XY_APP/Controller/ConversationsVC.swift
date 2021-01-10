@@ -33,6 +33,8 @@ class ConversationsVC: UIViewController {
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
+        conversationsTableView.delegate = self
+        
         conversationsTableView.layer.cornerRadius = 15
         conversationsTableView.dataSource = self
         conversationsTableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "conversationReusableCell")
@@ -75,7 +77,18 @@ extension ConversationsVC : UITableViewDataSource {
 extension ConversationsVC : UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Get Conversation messages data
+        //TODO
+        let cell = tableView.cellForRow(at: indexPath) as! ConversationCell
+        let userId = cell.convSenderNick
         
+        // Segue to chat
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let vc = storyboard.instantiateViewController(withIdentifier: ChatVC.identifier) as! ChatVC
+        present(vc, animated: true) {
+            print("Loading data for chat: \(userId)")
+        }
     }
     
     

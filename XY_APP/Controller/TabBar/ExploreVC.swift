@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 
-class ExploreVC: UIViewController, UISearchBarDelegate {
+class ExploreVC: UIViewController {
  
    
     @IBOutlet weak var ExploreTableView: UITableView!
-    @IBOutlet var ExploreSearchBar: UISearchBar!
+  
     
     var challenges: [ExploreViewCellModel] = [
         
@@ -34,23 +34,7 @@ class ExploreVC: UIViewController, UISearchBarDelegate {
         
         let cellNib = UINib(nibName: "ExploreTableViewCell", bundle: nil)
                 self.ExploreTableView.register(cellNib, forCellReuseIdentifier: "tableviewcellid")
-    
-       
-        ExploreSearchBar.delegate = self
-        navigationItem.titleView = ExploreSearchBar
-        ExploreSearchBar.placeholder = "Search"
-        
-        let textFieldInsideSearchBar = ExploreSearchBar.value(forKey: "searchField") as? UITextField
 
-        textFieldInsideSearchBar?.textColor = UIColor.white
-        
-        if let textFieldInsideSearchBar = self.ExploreSearchBar.value(forKey: "searchField") as? UITextField,
-              let glassIconView = textFieldInsideSearchBar.leftView as? UIImageView {
-
-                  //Magnifying glass
-                  glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
-            glassIconView.tintColor = .gray
-          }
     }
     
 }

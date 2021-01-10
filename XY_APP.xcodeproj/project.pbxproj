@@ -287,8 +287,6 @@
 				14251373259F898A00DC08BB /* CreatePostVC.swift */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				14C99E2D25A0EE7E00FFE003 /* ProfileVC.swift */,
-				14B270A625AA1DD900CCACDE /* Profile2Model.swift */,
-				14B2711A25AA233C00CCACDE /* ProfilePostModel.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -374,6 +372,8 @@
 				14BDAF6225A30A4800D19282 /* ChatUserInfo.swift */,
 				14BDAF8325A37DD800D19282 /* MessagesChat.swift */,
 				B95482B725AAF1E00058D8B4 /* XPModel.swift */,
+				14B270A625AA1DD900CCACDE /* Profile2Model.swift */,
+				14B2711A25AA233C00CCACDE /* ProfilePostModel.swift */,
 				14B2705225A9EBA900CCACDE /* OnlineFriends */,
 			);
 			path = Model;

@@ -32,6 +32,9 @@ class ProfileVC : UIViewController {
         UpProfTableView.register(UINib(nibName: "ProfileUpperCell", bundle: nil), forCellReuseIdentifier: "ProfileUpperReusable")
         
         UpProfTableView.register(UINib(nibName: "ProfileFlowTableViewCell", bundle: nil), forCellReuseIdentifier: "profileBottomReusable")
+        
+        
+        
     }
     
     func logoutSegue() {

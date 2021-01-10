@@ -11,6 +11,8 @@ import Firebase
 
 class ChatVC : UIViewController {
     
+    static let identifier = "ChatVC"
+    
     let db = FirestoreReferenceManager.root
     
     var userinfo: [ChatUserInfo] = [

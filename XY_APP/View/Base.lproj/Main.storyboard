@@ -621,10 +621,16 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="xyworldSearchBar" destination="Drw-AZ-sRq" id="7dz-h2-4zM"/>
                         <outlet property="xyworldTableView" destination="FSV-im-esr" id="7WN-uJ-ade"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xnF-su-Wgr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <searchBar contentMode="redraw" placeholder="Find people, communities, tools..." id="Drw-AZ-sRq">
+                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <textInputTraits key="textInputTraits"/>
+                </searchBar>
             </objects>
             <point key="canvasLocation" x="1608.8" y="1853.9408866995075"/>
         </scene>
@@ -1446,16 +1452,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="ciY-tV-e8F"/>
                     <connections>
-                        <outlet property="ExploreSearchBar" destination="kiL-Jv-1MF" id="Nrr-Lf-1BZ"/>
                         <outlet property="ExploreTableView" destination="bi6-n5-qvb" id="jHi-CO-rKE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xaz-9H-UE2" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <searchBar contentMode="redraw" id="kiL-Jv-1MF">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                    <textInputTraits key="textInputTraits"/>
-                </searchBar>
             </objects>
             <point key="canvasLocation" x="-1276" y="1854"/>
         </scene>
