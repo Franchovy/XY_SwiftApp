@@ -31,6 +31,14 @@ class suggestedTableViewCell: UITableViewCell, UICollectionViewDelegate {
 
         suggestedCollectionView.dataSource = self
         
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.itemSize = CGSize(width: 130, height: 200)
+        flowLayout.minimumLineSpacing = 10.0
+        flowLayout.minimumInteritemSpacing = 10.0
+        self.suggestedCollectionView.collectionViewLayout = flowLayout
+        self.suggestedCollectionView.showsHorizontalScrollIndicator = false
+        
         suggestedCollectionView.register(UINib(nibName: "suggestedCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "collectionviewsuggestedID")
         
     }
