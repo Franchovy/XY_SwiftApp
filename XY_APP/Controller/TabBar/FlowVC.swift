@@ -30,7 +30,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
         barXPCircle.addGestureRecognizer(tap)
         
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = .clear
+        tableView.backgroundColor = UIColor(white: 0.0, alpha: 0.01) // This is necessary to scroll touching outside of the cell, lol.
         
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
@@ -44,10 +44,14 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
         tableView.reloadData()
     }
     
+    // MARK: - GESTURE RECOGNIZERS
+    
     @objc func xpButtonPressed() {
         
         performSegue(withIdentifier: "segueToNotifications", sender: self)
     }
+    
+    // MARK: - IBActions
     
     @IBAction func cameraTapped(_ sender: UIBarButtonItem) {
        
@@ -68,8 +72,6 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
     func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
         print("cancel")
     }
-    
-    
     
     private func fetchData() {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
@@ -112,6 +114,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
         var cellViewModel = PostViewModel()
         cellViewModel.data =  data[indexPath.row] as! PostData
         cell.viewModel = cellViewModel
+        
         return cell
     }
     
