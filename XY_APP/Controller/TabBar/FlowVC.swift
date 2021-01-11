@@ -9,25 +9,22 @@ import UIKit
 import Firebase
 import ImagePicker
 
-class FlowVC : UITableViewController, ImagePickerDelegate {
+class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
+    
+    func onProgress(level: Int, progress: Float) {
+        barXPCircle.levelLabel.text = String(describing: level)
+        barXPCircle.progressBarCircle.progress = CGFloat(progress)
+    }
+    
     var data: [FlowDataModel] = []
     
     @IBOutlet weak var barXPCircle: CircleView!
     
     override func viewDidLoad() {
         
-        barXPCircle.layer.shadowRadius = 10
-        barXPCircle.layer.shadowOffset = .zero
-        barXPCircle.layer.shadowOpacity = 0.5
-        barXPCircle.layer.shadowColor = UIColor.blue.cgColor
-        barXPCircle.layer.shadowPath = UIBezierPath(rect: barXPCircle.bounds).cgPath
-        barXPCircle.layer.masksToBounds = false
-        barXPCircle.levelLabel.text = "4"
-        barXPCircle.levelLabel.textColor = .white
-        barXPCircle.backgroundColor = .clear
-        barXPCircle.tintColor = .blue
-        
-        //barXPCircle.viewModel = XPViewModel(userId: Auth.auth().currentUser.uid)
+        barXPCircle.viewModel = XPViewModel(type: .user)
+        barXPCircle.viewModel.delegate = self
+        barXPCircle.viewModel.subscribeToFirebase(documentId: Auth.auth().currentUser!.uid)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
         barXPCircle.addGestureRecognizer(tap)
@@ -38,7 +35,6 @@ class FlowVC : UITableViewController, ImagePickerDelegate {
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
-
         
         tableView.register(UINib(nibName: ImagePostCell.nibName, bundle: nil), forCellReuseIdentifier: ImagePostCell.identifier)
         fetchData()

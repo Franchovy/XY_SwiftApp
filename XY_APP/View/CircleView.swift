@@ -57,6 +57,15 @@ class CircleView: UIView, XPViewModelDelegate {
         progressBarCircle.layer.shadowPath = UIBezierPath(rect: progressBarCircle.bounds).cgPath
         progressBarCircle.layer.masksToBounds = false
 
+        layer.shadowRadius = 10
+        layer.shadowOffset = .zero
+        layer.shadowOpacity = 0.5
+        layer.shadowColor = UIColor.blue.cgColor
+        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+        layer.masksToBounds = false
+        tintColor = .blue
+        
+        backgroundColor = .clear
         
         levelLabel.frame = self.bounds
         levelLabel.sizeToFit()
