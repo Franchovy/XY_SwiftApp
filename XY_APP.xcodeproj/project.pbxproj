@@ -53,6 +53,10 @@
 		14B270A125AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */; };
 		14B270A725AA1DD900CCACDE /* Profile2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B270A625AA1DD900CCACDE /* Profile2Model.swift */; };
 		14B2711B25AA233C00CCACDE /* ProfilePostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B2711A25AA233C00CCACDE /* ProfilePostModel.swift */; };
+		14BA46B225AB5E1600ADDC8B /* suggestedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BA46B025AB5E1600ADDC8B /* suggestedTableViewCell.swift */; };
+		14BA46B325AB5E1600ADDC8B /* suggestedTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14BA46B125AB5E1600ADDC8B /* suggestedTableViewCell.xib */; };
+		14BA46B825AB5E3000ADDC8B /* suggestedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BA46B625AB5E3000ADDC8B /* suggestedCollectionViewCell.swift */; };
+		14BA46B925AB5E3000ADDC8B /* suggestedCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14BA46B725AB5E3000ADDC8B /* suggestedCollectionViewCell.xib */; };
 		14BDAF6325A30A4800D19282 /* ChatUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDAF6225A30A4800D19282 /* ChatUserInfo.swift */; };
 		14BDAF6825A313CB00D19282 /* UserInfoChat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDAF6625A313CB00D19282 /* UserInfoChat.swift */; };
 		14BDAF6925A313CB00D19282 /* UserInfoChat.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14BDAF6725A313CB00D19282 /* UserInfoChat.xib */; };
@@ -154,6 +158,10 @@
 		14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileFlowCollectionViewCell.xib; sourceTree = "<group>"; };
 		14B270A625AA1DD900CCACDE /* Profile2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile2Model.swift; sourceTree = "<group>"; };
 		14B2711A25AA233C00CCACDE /* ProfilePostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostModel.swift; sourceTree = "<group>"; };
+		14BA46B025AB5E1600ADDC8B /* suggestedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = suggestedTableViewCell.swift; sourceTree = "<group>"; };
+		14BA46B125AB5E1600ADDC8B /* suggestedTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = suggestedTableViewCell.xib; sourceTree = "<group>"; };
+		14BA46B625AB5E3000ADDC8B /* suggestedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = suggestedCollectionViewCell.swift; sourceTree = "<group>"; };
+		14BA46B725AB5E3000ADDC8B /* suggestedCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = suggestedCollectionViewCell.xib; sourceTree = "<group>"; };
 		14BDAF6225A30A4800D19282 /* ChatUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatUserInfo.swift; sourceTree = "<group>"; };
 		14BDAF6625A313CB00D19282 /* UserInfoChat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoChat.swift; sourceTree = "<group>"; };
 		14BDAF6725A313CB00D19282 /* UserInfoChat.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoChat.xib; sourceTree = "<group>"; };
@@ -244,6 +252,7 @@
 				14A3607A259CB6E9002829D7 /* MomentsCollectionViewCell.swift */,
 				B9530025259F476000DE926A /* CircleView.xib */,
 				B953001F259F36CE00DE926A /* CircleView.swift */,
+				14F0873225AC39D7008D44F8 /* Suggested */,
 				14B2709525AA083F00CCACDE /* Profile */,
 				14B22646258D1484006966FC /* MomentsCollection.xib */,
 				14B22645258D1484006966FC /* MomentsCollection.swift */,
@@ -322,6 +331,17 @@
 				14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		14F0873225AC39D7008D44F8 /* Suggested */ = {
+			isa = PBXGroup;
+			children = (
+				14BA46B125AB5E1600ADDC8B /* suggestedTableViewCell.xib */,
+				14BA46B025AB5E1600ADDC8B /* suggestedTableViewCell.swift */,
+				14BA46B725AB5E3000ADDC8B /* suggestedCollectionViewCell.xib */,
+				14BA46B625AB5E3000ADDC8B /* suggestedCollectionViewCell.swift */,
+			);
+			path = Suggested;
 			sourceTree = "<group>";
 		};
 		49EE4C74828CC3474A4A6FD3 /* Frameworks */ = {
@@ -537,6 +557,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				14607A7025A0618D009B3B50 /* CreatePostCell.xib in Resources */,
+				14BA46B325AB5E1600ADDC8B /* suggestedTableViewCell.xib in Resources */,
 				B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */,
 				B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */,
 				14251384259F936500DC08BB /* NotificationCell.xib in Resources */,
@@ -547,6 +568,7 @@
 				14BDAF6925A313CB00D19282 /* UserInfoChat.xib in Resources */,
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
 				149AD6D5259B94FE00E81ABC /* ExploreTableViewCell.xib in Resources */,
+				14BA46B925AB5E3000ADDC8B /* suggestedCollectionViewCell.xib in Resources */,
 				14B26FD225A9E4B900CCACDE /* OnlineFriendsTableViewCell.xib in Resources */,
 				14B270A125AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib in Resources */,
 				148935F325A26AFC00CB60C3 /* ConversationCell.xib in Resources */,
@@ -663,10 +685,12 @@
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
 				14B2709825AA087400CCACDE /* ProfileFlowTableViewCell.swift in Sources */,
 				14B26FD625A9E50900CCACDE /* OnlineFriendsModel.swift in Sources */,
+				14BA46B225AB5E1600ADDC8B /* suggestedTableViewCell.swift in Sources */,
 				149AD6DA259B993B00E81ABC /* ExploreCollectionViewCell.swift in Sources */,
 				B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */,
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				14B2711B25AA233C00CCACDE /* ProfilePostModel.swift in Sources */,
+				14BA46B825AB5E3000ADDC8B /* suggestedCollectionViewCell.swift in Sources */,
 				14BDAF6325A30A4800D19282 /* ChatUserInfo.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				14B2705125A9EBA500CCACDE /* OnlineFriendsCellsModel.swift in Sources */,

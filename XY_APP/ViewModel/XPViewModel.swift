@@ -36,7 +36,7 @@ class XPViewModel {
                 }
                 guard let snapshot = snapshot else { fatalError("Invalid document id") }
                 
-                let data = snapshot.data() as! [String: Any]
+                let data = snapshot.data()!
                 let xp = data[FirebaseKeys.PostKeys.xp] as! Int
                 let level = data[FirebaseKeys.PostKeys.level] as! Int
                 
