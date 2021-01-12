@@ -124,7 +124,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     }
     
     var isSwipedRightXPView = false
-    static let defaultPanSensitivity = 2.3
+    static let defaultPanSensitivity = 0.05
     var panSensitivity = defaultPanSensitivity
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
@@ -183,19 +183,19 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
                 cancelSwipe()
                 return
             } else {
-                if #available(iOS 13.0, *) {
-                    
-                    let PI = CGFloat(3.1415)
-                    let sensitivity = CGFloat(0.001)
-                    let angle = (translation.x * sensitivity * PI / 2) - PI / 2
-                    
-                    postCard.transform3D.m11 = -sin(angle)
-                    postCard.transform3D.m12 = cos(angle)
-                    postCard.transform3D.m31 = sin(angle)
-                    postCard.transform3D.m32 = cos(angle)
-                    postCard.transform3D.m23 = 1
-                    postCard.transform3D.m44 = 1
-                }
+//                if #available(iOS 13.0, *) {
+//
+//                    let PI = CGFloat(3.1415)
+//                    let sensitivity = CGFloat(0.001)
+//                    let angle = (translation.x * sensitivity * PI / 2) - PI / 2
+//
+//                    postCard.transform3D.m11 = -sin(angle)
+//                    postCard.transform3D.m12 = cos(angle)
+//                    postCard.transform3D.m31 = sin(angle)
+//                    postCard.transform3D.m32 = cos(angle)
+//                    postCard.transform3D.m23 = 1
+//                    postCard.transform3D.m44 = 1
+//                }
             }
         }
     }
