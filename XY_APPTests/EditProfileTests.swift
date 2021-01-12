@@ -57,7 +57,7 @@ class EditProfileTests: XCTestCase {
     func editProfile() throws {
         let expectation = self.expectation(description: "Test: Edit Profile")
         
-        let changedData = UpperProfile(
+        let changedData = ProfileModel(
             xyname: "test", imageId: "", website: "test.com", followers: 1, following: 1, xp: 1, level: 1, caption: "Test Caption")
         FirebaseUpload.editProfileInfo(profileData: changedData) { result in
             switch result {

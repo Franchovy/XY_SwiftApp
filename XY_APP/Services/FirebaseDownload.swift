@@ -15,7 +15,7 @@ class FirebaseDownload {
         
     }
     
-    static func getProfile(userId: String, completion: @escaping(UpperProfile?, Error?) -> Void) {
+    static func getProfile(userId: String, completion: @escaping(ProfileModel?, Error?) -> Void) {
         let userRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
         
         userRef.getDocument() { snapshot, error in
@@ -32,7 +32,7 @@ class FirebaseDownload {
                     
                     if let profileData = snapshot?.data() as? [String: Any] {
                         
-                        let profile = UpperProfile(data: profileData)
+                        let profile = ProfileModel(data: profileData)
                         
                         completion(profile, nil)
                     }
@@ -57,4 +57,32 @@ class FirebaseDownload {
     }
     
     // static func get flow [range of int] posts to get within algorithm
+    
+    static func getConversation(conversationId: String, completion: @escaping(ConversationModel?, Error?) -> Void ) {
+        let document = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationId)
+        
+        document.getDocument() { snapshot, error in
+            if let error = error { completion(nil, error) }
+            
+            if let snapshot = snapshot, let data = snapshot.data() {
+                completion(ConversationModel(data), nil)
+            }
+        }
+    }
+    
+    static func getMessages(conversationId: String, completion: @escaping([MessageModel]?, Error?) -> Void) {
+        let document = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationId)
+        
+        document.collection(FirebaseKeys.CollectionPath.messages).getDocuments() { messageDocuments, error in
+            if let error = error { completion(nil, error) }
+            
+            if let messageDocuments = messageDocuments {
+                var messages : [MessageModel] = []
+                for messageDoc in messageDocuments.documents {
+                    let message = MessageModel(messageDoc.data())
+                    messages.append(message)
+                }
+            }
+        }
+    }
 }

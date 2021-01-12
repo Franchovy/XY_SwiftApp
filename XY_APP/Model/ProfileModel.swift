@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Firebase
 
-struct UpperProfile : Encodable {
+struct ProfileModel : Encodable {
     
     var nickname: String
     var imageId: String
@@ -22,7 +22,7 @@ struct UpperProfile : Encodable {
     
 }
 
-extension UpperProfile {
+extension ProfileModel {
     init(data: [String: Any?]) {
         nickname = data[FirebaseKeys.ProfileKeys.nickname] as! String
         caption = data[FirebaseKeys.ProfileKeys.caption] as! String
@@ -36,7 +36,7 @@ extension UpperProfile {
 }
 
 /// Extension for edit profile
-extension UpperProfile {
+extension ProfileModel {
     var editProfileData: [String: Any] {
         return [FirebaseKeys.ProfileKeys.nickname: nickname,
                 FirebaseKeys.ProfileKeys.image: imageId,
@@ -50,7 +50,7 @@ extension UpperProfile {
 }
 
 /// Extension for create new profile
-extension UpperProfile {
+extension ProfileModel {
     var createNewProfileData: [String: Any] {
         return [FirebaseKeys.ProfileKeys.nickname: nickname,
                 FirebaseKeys.ProfileKeys.image: "defaultProfilePic.png",

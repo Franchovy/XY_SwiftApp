@@ -44,7 +44,7 @@ class CreateXYUserService {
                             return
                         }
                         
-                        let newProfileData = UpperProfile(
+                        let newProfileData = ProfileModel(
                             nickname: xyname,
                             imageId: "",
                             website: "",
@@ -77,7 +77,7 @@ class CreateXYUserService {
         }
     }
 
-    static func createProfile(profileData: UpperProfile, completion: @escaping(Result<String, Error>) -> Void) {
+    static func createProfile(profileData: ProfileModel, completion: @escaping(Result<String, Error>) -> Void) {
         let uid = Auth.auth().currentUser!.uid
         
         // Create new profile document

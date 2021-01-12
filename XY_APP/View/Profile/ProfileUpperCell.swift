@@ -22,7 +22,7 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
     
     // MARK: - ProfileViewModelDelegate functions
     
-    func onProfileDataFetched(_ profileData: UpperProfile) {
+    func onProfileDataFetched(_ profileData: ProfileModel) {
         ProfNick.text = profileData.nickname
         profFollowers.text = String(describing: profileData.followers)
         profFollowing.text = String(describing: profileData.following)

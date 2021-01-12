@@ -80,7 +80,7 @@ class FirebaseUpload {
         }
     }
     
-    static func editProfileInfo(profileData: UpperProfile, completion: @escaping(Result<Void, Error>) -> Void) {
+    static func editProfileInfo(profileData: ProfileModel, completion: @escaping(Result<Void, Error>) -> Void) {
         let uid = Auth.auth().currentUser!.uid
         let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
         userDocument.getDocument() { snapshot, error in

@@ -10,8 +10,33 @@ import UIKit
 import Firebase
 
 
-class ConversationsVC: UIViewController {
+class ConversationsVC: UIViewController, ConversationViewModelDelegate {
     
+    func onFetchedPreviewMessage(_ message: String, indexRow: Int) {
+        viewModels[indexRow].conversation.messagePreview = message
+        let cell = conversationsTableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as! ConversationCell
+        cell.convMsgPrev.text = message
+    }
+    
+    func onFetchedProfileData(_ profile: ProfileModel, indexRow: Int) {
+        viewModels[indexRow].conversation.senderName = profile.nickname
+        let cell = conversationsTableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as! ConversationCell
+        cell.convSenderNick.text = profile.nickname
+    }
+    
+    func onFetchedProfileImage(_ image: UIImage, indexRow: Int) {
+        viewModels[indexRow].conversation.senderImage = image
+        let cell = conversationsTableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as! ConversationCell
+        cell.convProfImg.image = image
+    }
+    
+    var viewModels: [ConversationViewModel] = [] {
+        didSet {
+            for viewModel in viewModels {
+                viewModel.delegate = self
+            }
+        }
+    }
     
     var conversations: [ConversationPreview] = []
     
@@ -42,33 +67,14 @@ class ConversationsVC: UIViewController {
             if let error = error { print("Error fetching conversations!") }
             
             if let snapshotDocuments = snapshotDocuments {
-                for document in snapshotDocuments.documents {
-                    let conversationData = document.data()
+                
+                for conversationDocument in snapshotDocuments.documents {
+                    let viewModel = ConversationViewModel(conversationId: conversationDocument.documentID, indexRow: self.viewModels.count)
                     
-                    let conversationMemberIds = conversationData[FirebaseKeys.ConversationKeys.members] as! [String]
-                    let otherMemberId = conversationMemberIds.drop(while: { $0.isEqual(Auth.auth().currentUser!.uid) } ).first!
-                    
-                    let otherMemberDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(otherMemberId)
-                    otherMemberDocument.getDocument() { snapshot, error in
-                        if let error = error { print("Error fetching other member id!") }
-                        
-                        if let snapshot = snapshot, let otherMemberData = snapshot.data() {
-                            
-                            let otherMemberName = otherMemberData[FirebaseKeys.UserKeys.xyname] as! String
-                            
-                            
-                            self.conversations.append(ConversationPreview(
-                                                        timestamp: (conversationData[FirebaseKeys.ConversationKeys.timestamp] as! Firebase.Timestamp).dateValue(),
-                                conversationId: document.documentID,
-                                senderId: snapshot.documentID,
-                                senderImage: UIImage(named: "profile")!,
-                                senderName: otherMemberName,
-                                messagePreview: "",
-                                mostRecentMessageTimestamp: Date()))
-                            
-                            if self.conversations.count == snapshotDocuments.count {
-                                self.conversationsTableView.reloadData()
-                            }
+                    self.viewModels.append(viewModel)
+                    viewModel.fetch() {
+                        if snapshotDocuments.count == self.viewModels.count {
+                            self.conversationsTableView.reloadData()
                         }
                     }
                 }
@@ -94,15 +100,18 @@ extension ConversationsVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     
     {
-        return conversations.count
+        return viewModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "conversationReusableCell", for: indexPath) as! ConversationCell
-        cell.convProfImg.image = conversations[indexPath.row].senderImage
-        cell.convSenderNick.text = conversations[indexPath.row].senderName
-        cell.convMsgPrev.text = conversations[indexPath.row].messagePreview
-        cell.convTimePrev.text = conversations[indexPath.row].mostRecentMessageTimestamp.description
+        
+        let conversationPreview = viewModels[indexPath.row].conversation
+        
+        cell.convProfImg.image = conversationPreview.senderImage
+        cell.convSenderNick.text = conversationPreview.senderName
+        cell.convMsgPrev.text = conversationPreview.messagePreview
+        cell.convTimePrev.text = conversationPreview.latestMessageTimestamp?.description ?? ""
         return cell
         
     }

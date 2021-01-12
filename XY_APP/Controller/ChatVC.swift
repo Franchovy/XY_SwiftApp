@@ -20,7 +20,7 @@ class ChatVC : UIViewController {
         ChatUserInfo(ChatProfileImage: UIImage(named: "eo_profimg")!, ChatNameInfo: "Elizabeth Olsen")
     ]
     
-    var messages: [ChatMessageModel] = []
+    var messages: [MessageModel] = []
     
     
     @IBOutlet weak var chatTableView: UITableView!
@@ -117,7 +117,7 @@ class ChatVC : UIViewController {
                         for doc in snapshotDocuments {
                             let data = doc.data()
                             if let messageSender = data[FirebaseKeys.CollectionPath.senderField] as? String, let messageBody = data[FirebaseKeys.CollectionPath.bodyField] as? String, let timeLabel = data[FirebaseKeys.CollectionPath.dateField] as? TimeInterval {
-                                let newMessage = ChatMessageModel(senderId: messageSender, message: messageBody, timeLabel: self.getStringForTimestamp(timeInterval: timeLabel))
+                                let newMessage = MessageModel(senderId: messageSender, message: messageBody, timeLabel: Date.init(timeIntervalSinceNow: timeLabel))
                                 self.messages.append(newMessage)
                                 DispatchQueue.main.async {
                                     self.chatTableView.reloadData()
@@ -182,7 +182,7 @@ extension ChatVC : UITableViewDataSource {
             let message = messages[indexPath.row - 1]
             let cell = tableView.dequeueReusableCell(withIdentifier: "messageReusable", for: indexPath) as!
                 MessageCell
-            cell.timeLabelMessage.text = messages[indexPath.row - 1].timeLabel
+            cell.timeLabelMessage.text = messages[indexPath.row - 1].timeLabel.description
             
             // message from the current user
             

@@ -14,7 +14,7 @@ class ProfileVC : UIViewController {
     
     @IBOutlet weak var UpProfTableView: UITableView!
     
-    lazy var profile: [UpperProfile] = []
+    lazy var profile: [ProfileModel] = []
     
     lazy var profile2: [Profile2Model] = [
         Profile2Model(FlowLabel: "Flow")
@@ -76,7 +76,6 @@ extension ProfileVC : UITableViewDataSource {
             return cell
             
         } else {
-            
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileBottomReusable", for: indexPath) as! ProfileFlowTableViewCell
             cell.flowLabel.text = profile2[indexPath.row - 1].FlowLabel
