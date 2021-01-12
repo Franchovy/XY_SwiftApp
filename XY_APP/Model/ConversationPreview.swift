@@ -9,11 +9,11 @@ import Foundation
 import UIKit
 
 struct ConversationPreview {
-    
+    var timestamp: Date
+    var conversationId: String
+    var senderId: String
     var senderImage: UIImage
     var senderName: String
     var messagePreview: String
-    var time: String
-    
-    
+    var mostRecentMessageTimestamp: Date
 }

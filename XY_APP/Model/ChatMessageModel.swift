@@ -8,10 +8,8 @@
 import Foundation
 import UIKit
 
-struct MessagesChat {
-    
-    
-    var sender: String
-    var body: String
+struct ChatMessageModel {
+    var senderId: String
+    var message: String
     var timeLabel: String
 }

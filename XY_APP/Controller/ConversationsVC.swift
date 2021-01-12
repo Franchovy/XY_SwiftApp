@@ -7,12 +7,13 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 
 class ConversationsVC: UIViewController {
     
     
-    var conversations: [ConversationPreview] = [ ]
+    var conversations: [ConversationPreview] = []
     
     @IBOutlet weak var conversationsTableView: UITableView!
     
@@ -29,6 +30,50 @@ class ConversationsVC: UIViewController {
         conversationsTableView.dataSource = self
         conversationsTableView.register(UINib(nibName: "ConversationCell", bundle: nil), forCellReuseIdentifier: "conversationReusableCell")
         
+        fetchConversations()
+        
+    }
+    
+    func fetchConversations() {
+        // Get conversations for this user
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations)
+            .whereField(FirebaseKeys.ConversationKeys.members, arrayContains: Auth.auth().currentUser!.uid)
+            .getDocuments() { snapshotDocuments, error in
+            if let error = error { print("Error fetching conversations!") }
+            
+            if let snapshotDocuments = snapshotDocuments {
+                for document in snapshotDocuments.documents {
+                    let conversationData = document.data()
+                    
+                    let conversationMemberIds = conversationData[FirebaseKeys.ConversationKeys.members] as! [String]
+                    let otherMemberId = conversationMemberIds.drop(while: { $0.isEqual(Auth.auth().currentUser!.uid) } ).first!
+                    
+                    let otherMemberDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(otherMemberId)
+                    otherMemberDocument.getDocument() { snapshot, error in
+                        if let error = error { print("Error fetching other member id!") }
+                        
+                        if let snapshot = snapshot, let otherMemberData = snapshot.data() {
+                            
+                            let otherMemberName = otherMemberData[FirebaseKeys.UserKeys.xyname] as! String
+                            
+                            
+                            self.conversations.append(ConversationPreview(
+                                                        timestamp: (conversationData[FirebaseKeys.ConversationKeys.timestamp] as! Firebase.Timestamp).dateValue(),
+                                conversationId: document.documentID,
+                                senderId: snapshot.documentID,
+                                senderImage: UIImage(named: "profile")!,
+                                senderName: otherMemberName,
+                                messagePreview: "",
+                                mostRecentMessageTimestamp: Date()))
+                            
+                            if self.conversations.count == snapshotDocuments.count {
+                                self.conversationsTableView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,7 +94,6 @@ extension ConversationsVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     
     {
-        
         return conversations.count
     }
     
@@ -58,7 +102,7 @@ extension ConversationsVC : UITableViewDataSource {
         cell.convProfImg.image = conversations[indexPath.row].senderImage
         cell.convSenderNick.text = conversations[indexPath.row].senderName
         cell.convMsgPrev.text = conversations[indexPath.row].messagePreview
-        cell.convTimePrev.text = conversations[indexPath.row].time
+        cell.convTimePrev.text = conversations[indexPath.row].mostRecentMessageTimestamp.description
         return cell
         
     }

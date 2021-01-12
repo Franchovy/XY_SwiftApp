@@ -20,7 +20,7 @@ class ChatVC : UIViewController {
         ChatUserInfo(ChatProfileImage: UIImage(named: "eo_profimg")!, ChatNameInfo: "Elizabeth Olsen")
     ]
     
-    var messages: [MessagesChat] = []
+    var messages: [ChatMessageModel] = []
     
     
     @IBOutlet weak var chatTableView: UITableView!
@@ -117,7 +117,7 @@ class ChatVC : UIViewController {
                         for doc in snapshotDocuments {
                             let data = doc.data()
                             if let messageSender = data[FirebaseKeys.CollectionPath.senderField] as? String, let messageBody = data[FirebaseKeys.CollectionPath.bodyField] as? String, let timeLabel = data[FirebaseKeys.CollectionPath.dateField] as? TimeInterval {
-                                let newMessage = MessagesChat(sender: messageSender, body: messageBody, timeLabel: self.getStringForTimestamp(timeInterval: timeLabel))
+                                let newMessage = ChatMessageModel(senderId: messageSender, message: messageBody, timeLabel: self.getStringForTimestamp(timeInterval: timeLabel))
                                 self.messages.append(newMessage)
                                 DispatchQueue.main.async {
                                     self.chatTableView.reloadData()
@@ -186,11 +186,11 @@ extension ChatVC : UITableViewDataSource {
             
             // message from the current user
             
-            if message.sender == Auth.auth().currentUser?.email {
+            if message.senderId == Auth.auth().currentUser?.email {
                 cell.pinkMessageBubble.isHidden = true
                 cell.messageBubble.isHidden = false
                 
-                cell.textLabelMessage.text = message.body
+                cell.textLabelMessage.text = message.message
                 cell.messageBubble.sizeToFit()
                 
             }
@@ -201,7 +201,7 @@ extension ChatVC : UITableViewDataSource {
                 cell.pinkMessageBubble.isHidden = false
                 cell.messageBubble.isHidden = true
                 
-                cell.pinkTextLabelMessage.text = message.body
+                cell.pinkTextLabelMessage.text = message.message
                 cell.pinkMessageBubble.sizeToFit()
                 
             }

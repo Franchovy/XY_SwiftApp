@@ -17,7 +17,7 @@ struct FirebaseKeys {
         static let profile = "Profiles"
         static let actions = "Actions"
         
-        static let conversations = "conversations"
+        static let conversations = "Conversations"
         static let messages = "messages"
         static let senderField = "senderField"
         static let bodyField = "bodyField"
@@ -66,6 +66,21 @@ struct FirebaseKeys {
         struct PostData {
             static let caption = "caption"
             static let imageRef = "imageRef"
+        }
+    }
+    
+    struct ConversationKeys {
+        static let xp = "xp"
+        static let level = "level"
+        static let messages = "messages"
+        static let members = "members"
+        static let timestamp = "timestamp"
+        static let mostRecentMessageTimestamp = "mostRecent"
+        
+        struct MessagesKeys {
+            static let timestamp = "timestamp"
+            static let sender = "sender"
+            static let message = "message"
         }
     }
 }
