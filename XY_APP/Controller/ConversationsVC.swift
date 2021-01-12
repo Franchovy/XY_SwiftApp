@@ -12,17 +12,7 @@ import UIKit
 class ConversationsVC: UIViewController {
     
     
-    var conversations: [ConversationPreview] = [
-        
-        ConversationPreview(senderImage: UIImage(named: "Not_1")!, senderName: "Elizabeth Olsen", messagePreview: "Waiting you baby", time: "1 min ago"),
-        
-        ConversationPreview(senderImage: UIImage(named: "Not_1")!, senderName: "Elizabeth Olsen", messagePreview: "Waiting you baby", time: "1 min ago"),
-        
-        ConversationPreview(senderImage: UIImage(named: "Not_1")!, senderName: "Elizabeth Olsen", messagePreview: "Waiting you baby", time: "1 min ago"),
-        
-        ConversationPreview(senderImage: UIImage(named: "Not_1")!, senderName: "Elizabeth Olsen", messagePreview: "Waiting you baby", time: "1 min ago"),
-        
-    ]
+    var conversations: [ConversationPreview] = [ ]
     
     @IBOutlet weak var conversationsTableView: UITableView!
     
