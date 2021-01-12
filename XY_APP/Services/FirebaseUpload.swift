@@ -143,7 +143,7 @@ class FirebaseUpload {
                         if xp > nextLevelXP {
                             
                             let levelUpPostData = [ FirebaseKeys.PostKeys.level : level + 1 , FirebaseKeys.PostKeys.xp : 0 ]
-                            postDocument.setData(levelUpPostData) { error in
+                            postDocument.updateData(levelUpPostData) { error in
                                 if let error = error { completion(.failure(error)) }
                                 
                                 let levelUpActionData = Action.getLevelUpAction(postId: postId, level: level + 1)

@@ -33,6 +33,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
             xpLevelDisplay.viewModel.subscribeToFirebase(documentId: viewModel.postId)
             contentLabel.text = viewModel.content
             timestampLabel.text = viewModel.getTimestampString()
+            timestampLabel.sizeToFit()
         }
     }
     
@@ -60,7 +61,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     @IBOutlet weak var xpLevelDisplay: CircleView!
     
     @IBOutlet weak var nameLabelLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var postCardView: UIView!
     @IBOutlet weak var cameraIcon: UIImageView!
     @IBOutlet weak var profileImageHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var profileImageWidthConstraint: NSLayoutConstraint!
@@ -74,7 +74,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var captionAlphaView: UIView!
+    @IBOutlet weak var captionAlphaView: GradientView!
     
     // MARK: - PUBLIC METHODS
     
@@ -84,9 +84,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
         super.awakeFromNib()
         // Initialization code
         
+        
         contentImageView.layer.cornerRadius = 15
         profileImageView.layer.cornerRadius = 5
-        postCardView.layer.cornerRadius = 15
+        captionAlphaView.layer.cornerRadius = 15
         timestampLabel.alpha = 1
         nameLabel.alpha = 1
         contentLabel.alpha = 1
@@ -105,10 +106,11 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     }
     
     override func prepareForReuse() {
-        print("Prepare cell for reuse: \(viewModel!.postId!)")
         // Load from data for this cell
         contentImageView.image = nil
         profileImageView.image = nil
+        contentLabel.text = ""
+        nameLabel.text = ""
         xpLevelDisplay.reset()
     }
     

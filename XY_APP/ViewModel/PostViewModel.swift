@@ -138,7 +138,19 @@ class PostViewModel {
     
     func getTimestampString() -> String {
         if let timestamp = timestamp {
-            return timestamp.description
+            if -timestamp.timeIntervalSinceNow < TimeInterval(60 * 60) {
+                // Less than an hour ago
+                let minutesAgo = (-timestamp.timeIntervalSinceNow / 60).rounded()
+                return "\(Int(minutesAgo)) minutes ago"
+            } else if -timestamp.timeIntervalSinceNow < TimeInterval(24 * 60 * 60) {
+                // Less than one day ago
+                let hoursAgo = (-timestamp.timeIntervalSinceNow / 60 / 60).rounded()
+                return "\(Int(hoursAgo)) hours ago"
+            } else {
+                // More than one day ago
+                let daysAgo = (-timestamp.timeIntervalSinceNow / 60 / 60 / 24).rounded()
+                return "\(Int(daysAgo)) days ago"
+            }
         } else {
             return ""
         }
