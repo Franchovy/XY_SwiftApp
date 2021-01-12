@@ -109,4 +109,38 @@ class FirebaseUpload {
     static func changeProfileImage(profileImage: UIImage) {
         
     }
+    
+    static func sendSwipeRight(postId: String, completion: @escaping(Result<Void, Error>) -> Void) {
+        
+        let transactionXP = 10
+        
+        // Update User XP: Minus some xp
+        let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(Auth.auth().currentUser!.uid)
+        
+        let updateUserData = [
+            FirebaseKeys.UserKeys.xp : FieldValue.increment(Int64(-transactionXP))
+        ]
+        
+        // Update Post data: Plus xp and plus swipe right
+        let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document(postId)
+        
+        let updatePostData = [
+            FirebaseKeys.PostKeys.swipeRight : FieldValue.increment(Int64(1)),
+            FirebaseKeys.PostKeys.xp : FieldValue.increment(Int64(transactionXP))
+        ]
+        
+        userDocument.updateData(updateUserData) { error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            postDocument.updateData(updatePostData) { error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+                
+                completion(.success(()))
+            }
+        }
+    }
 }

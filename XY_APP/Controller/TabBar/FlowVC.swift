@@ -10,6 +10,11 @@ import Firebase
 import ImagePicker
 
 class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
+    func setProgress(level: Int, progress: Float) {
+        barXPCircle.levelLabel.text = String(describing: level)
+        barXPCircle.progressBarCircle.progress = CGFloat(progress)
+        barXPCircle.setupFinished()
+    }
     
     func onProgress(level: Int, progress: Float) {
         barXPCircle.levelLabel.text = String(describing: level)

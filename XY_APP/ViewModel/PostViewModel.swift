@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseStorage
 import Kingfisher
 
@@ -124,6 +125,16 @@ class PostViewModel {
     
     // MARK: - Public Methods
     
+    func sendSwipeRight() {
+        FirebaseUpload.sendSwipeRight(postId: postId) { result in
+            switch result {
+            case .success():
+                break
+            case .failure(let error):
+                print("Error sending swipe right transaction: \(error)")
+            }
+        }
+    }
     
     func getTimestampString() -> String {
         if let timestamp = timestamp {

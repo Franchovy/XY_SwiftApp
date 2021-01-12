@@ -48,6 +48,9 @@ struct FirebaseKeys {
         static let timestamp = "timestamp"
         static let xp = "xp"
         static let level = "level"
+        static let swipeRight = "swipeRight"
+        static let swipeLeft = "swipeLeft"
+        static let lives = "lives"
 
         struct PostData {
             static let caption = "caption"

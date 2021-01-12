@@ -108,7 +108,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
         // Load from data for this cell
         contentImageView.image = nil
         profileImageView.image = nil
-        
+        xpLevelDisplay.reset()
     }
     
     //
@@ -248,7 +248,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
                 UIView.animate(withDuration: 0.5, delay: 0.5, usingSpringWithDamping: 1.0, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
                     self.postCard.transform.tx = 0
                 }, completion: { bool in
-                    
+                    // Swipe Right to firebase
+                    self.viewModel.sendSwipeRight()
                 })
             }
         })
