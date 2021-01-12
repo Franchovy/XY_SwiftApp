@@ -114,33 +114,55 @@ class FirebaseUpload {
         
         let transactionXP = 10
         
-        // Update User XP: Minus some xp
         let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(Auth.auth().currentUser!.uid)
+        let updateUserData = [ FirebaseKeys.UserKeys.xp : FieldValue.increment(Int64(-transactionXP)) ]
         
-        let updateUserData = [
-            FirebaseKeys.UserKeys.xp : FieldValue.increment(Int64(-transactionXP))
-        ]
-        
-        // Update Post data: Plus xp and plus swipe right
         let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document(postId)
-        
-        let updatePostData = [
-            FirebaseKeys.PostKeys.swipeRight : FieldValue.increment(Int64(1)),
-            FirebaseKeys.PostKeys.xp : FieldValue.increment(Int64(transactionXP))
-        ]
+        let updatePostData = [ FirebaseKeys.PostKeys.swipeRight : FieldValue.increment(Int64(1)), FirebaseKeys.PostKeys.xp : FieldValue.increment(Int64(transactionXP)) ]
         
         userDocument.updateData(updateUserData) { error in
-            if let error = error {
-                completion(.failure(error))
-            }
+            if let error = error { completion(.failure(error)) }
             
             postDocument.updateData(updatePostData) { error in
-                if let error = error {
-                    completion(.failure(error))
-                }
+                if let error = error { completion(.failure(error)) }
                 
-                completion(.success(()))
+                let swipeRightActionData = Action.getSwipeRightAction(postId: postId, xp: transactionXP)
+                FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.actions).addDocument(data: swipeRightActionData) { error in
+                    if let error = error { completion(.failure(error)) }
+                    
+                    // State check for level up
+                    postDocument.getDocument() { snapshot, error in
+                        if let error = error { completion(.failure(error)) }
+                        
+                        guard let data = snapshot?.data() else { fatalError() }
+                        
+                        let xp = data[FirebaseKeys.PostKeys.xp] as! Int
+                        let level = data[FirebaseKeys.PostKeys.level] as! Int
+                        
+                        let nextLevelXP = XPModel.LEVELS[.post]![level]
+                        if xp > nextLevelXP {
+                            
+                            let levelUpPostData = [ FirebaseKeys.PostKeys.level : level + 1 , FirebaseKeys.PostKeys.xp : 0 ]
+                            postDocument.setData(levelUpPostData) { error in
+                                if let error = error { completion(.failure(error)) }
+                                
+                                let levelUpActionData = Action.getLevelUpAction(postId: postId, level: level + 1)
+                                FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.actions).addDocument(data: levelUpActionData) { error in
+                                    if let error = error { completion (.failure(error)) }
+                                    
+                                    completion(.success(()))
+                                }
+                            }
+                        } else {
+                            completion(.success(()))
+                        }
+                    }
+                }
             }
         }
+    }
+    
+    static func levelUpPost(postId: String, completion: @escaping(Result<Void, Error>) -> Void) {
+        
     }
 }

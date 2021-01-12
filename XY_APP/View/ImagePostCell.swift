@@ -105,6 +105,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     }
     
     override func prepareForReuse() {
+        print("Prepare cell for reuse: \(viewModel!.postId!)")
         // Load from data for this cell
         contentImageView.image = nil
         profileImageView.image = nil
