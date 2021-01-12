@@ -10,6 +10,7 @@ import Firebase
 
 protocol XPViewModelDelegate: NSObjectProtocol {
     func onProgress(level: Int, progress: Float)
+    func setProgress(level: Int, progress: Float)
 }
 
 class XPViewModel {
@@ -54,7 +55,8 @@ class XPViewModel {
         
             self.xpModel.xp = xp
             let nextLevelXP = XPModel.LEVELS[self.xpModel.type]![level]
-            self.delegate.onProgress(level: level, progress: Float(xp) / Float(nextLevelXP))
+            
+            self.delegate.setProgress(level: level, progress: Float(xp) / Float(nextLevelXP))
         }
     }
     

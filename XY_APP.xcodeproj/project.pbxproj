@@ -71,6 +71,7 @@
 		B8913452A7DE311BBB40F65E /* Pods_XY_APPTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0184EA11A236F0143134B645 /* Pods_XY_APPTests.framework */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
+		B9520FF425ADCC41008E9B57 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9520FF325ADCC41008E9B57 /* Action.swift */; };
 		B9530020259F36CE00DE926A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953001F259F36CE00DE926A /* CircleView.swift */; };
 		B9530026259F476000DE926A /* CircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9530025259F476000DE926A /* CircleView.xib */; };
 		B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482B725AAF1E00058D8B4 /* XPModel.swift */; };
@@ -180,6 +181,7 @@
 		B93D1BEB2597E9C6009ADBFC /* XY_APPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XY_APPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
+		B9520FF325ADCC41008E9B57 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		B953001F259F36CE00DE926A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		B9530025259F476000DE926A /* CircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleView.xib; sourceTree = "<group>"; };
 		B95482B725AAF1E00058D8B4 /* XPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModel.swift; sourceTree = "<group>"; };
@@ -378,6 +380,7 @@
 		B94FA39225710C9D00A44085 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				B9520FF325ADCC41008E9B57 /* Action.swift */,
 				14169C94259B9E57003C047F /* ExploreViewCellModel.swift */,
 				1425137B259F8C0100DC08BB /* Notification.swift */,
 				B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */,
@@ -697,6 +700,7 @@
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
 				1462BB14257E4DC00096FD23 /* Message.swift in Sources */,
 				14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */,
+				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				14251374259F898A00DC08BB /* CreatePostVC.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,

@@ -15,12 +15,23 @@ struct FirebaseKeys {
         static let users = "users"
         static let posts = "Posts"
         static let profile = "Profiles"
+        static let actions = "Actions"
         
         static let conversations = "conversations"
         static let messages = "messages"
         static let senderField = "senderField"
         static let bodyField = "bodyField"
         static let dateField = "dateField"
+    }
+    
+    struct ActionKeys {
+        static let timestamp = "timestamp"
+        static let type = "type"
+        
+        static let item = "item"
+        static let user = "user"
+        static let xp = "xp"
+        static let level = "lvl"
     }
     
     struct UserKeys {
@@ -48,6 +59,9 @@ struct FirebaseKeys {
         static let timestamp = "timestamp"
         static let xp = "xp"
         static let level = "level"
+        static let swipeRight = "swipeRight"
+        static let swipeLeft = "swipeLeft"
+        static let lives = "lives"
 
         struct PostData {
             static let caption = "caption"

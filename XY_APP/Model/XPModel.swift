@@ -26,5 +26,6 @@ enum XPLevelType {
 extension XPModel {
     static let LEVELS : [ XPLevelType : [Int] ]
         = [ .post : [50, 200, 800],
-            .user : [100, 500, 1500]]
+            .user : [1000, 5000, 25000]]
+    
 }

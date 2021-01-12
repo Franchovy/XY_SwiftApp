@@ -12,9 +12,6 @@ class CircleView: UIView, XPViewModelDelegate {
     var viewModel: XPViewModel! {
         didSet {
             viewModel.delegate = self
-            // Reset data
-            progressBarCircle.progress = 0.0
-            levelLabel.text = ""
         }
     }
     
@@ -23,6 +20,12 @@ class CircleView: UIView, XPViewModelDelegate {
     func onProgress(level: Int, progress: Float) {
         self.progressBarCircle.progress = CGFloat(progress)
         self.levelLabel.text = String(describing: level)
+    }
+    
+    func setProgress(level: Int, progress: Float) {
+        self.progressBarCircle.progress = CGFloat(progress)
+        self.levelLabel.text = String(describing: level)
+        setupFinished()
     }
     
     // MARK: - IBOutlets
@@ -74,6 +77,15 @@ class CircleView: UIView, XPViewModelDelegate {
         levelLabel.textColor = .white
         
     }
+    
+    // MARK: - Public methods
+    func reset() {
+        progressBarCircle.reset()
+    }
+    
+    func setupFinished() {
+        progressBarCircle.setup = false
+    }
 }
 
 @IBDesignable
@@ -85,16 +97,48 @@ class ProgressBarCircle: UIView {
     @IBInspectable var gradientColor: UIColor = .white {
         didSet { setNeedsDisplay() }
     }
-    
+        
     @IBInspectable var ringWidth: CGFloat = 3
 
+    var setup = true
+    
     var progress: CGFloat = 0.0 {
+        willSet {
+            
+            if newValue == progress || setup { return }
+            
+            if newValue > progress {
+                // XP went up
+                //flashColor(animateColor: .green)
+                if !setup {
+                    self.color = .green
+                }
+            } else {
+                // XP went down
+                //flashColor(animateColor: .yellow)
+                if !setup {
+                    self.color = .yellow
+                }
+            }
+        }
         didSet {
-            setNeedsDisplay()
-            createAnimation()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+                self.color = .blue
+            }
+            if !setup {
+                createAnimation()
+            } else {
+                setNeedsDisplay()
+            }
+            
         }
     }
-
+    
+    func reset() {
+        setup = true
+        progress = 0
+    }
+    
     private var progressLayer = CAShapeLayer()
     private var backgroundMask = CAShapeLayer()
     private let gradientLayer = CAGradientLayer()
