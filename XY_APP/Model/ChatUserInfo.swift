@@ -9,6 +9,6 @@ import Foundation
 import UIKit
 
 struct ChatUserInfo {
-    var ChatProfileImage: UIImage
-    var ChatNameInfo: String
+    var ChatProfileImage: UIImage?
+    var ChatNameInfo: String?
 }

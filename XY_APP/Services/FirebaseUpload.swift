@@ -165,4 +165,16 @@ class FirebaseUpload {
     static func levelUpPost(postId: String, completion: @escaping(Result<Void, Error>) -> Void) {
         
     }
+    
+    static func sendMessage(conversationId: String, message: String, completion: @escaping(Result<Void, Error>) -> Void) {
+        let messagesCollection = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationId).collection(FirebaseKeys.CollectionPath.messages)
+        
+        let messageData = MessageModel(senderId: Auth.auth().currentUser!.uid, message: message).toNewMessageData()
+        messagesCollection.addDocument(data: messageData) { error in
+            if let error = error { completion(.failure(error)) }
+            else {
+                completion(.success(()))
+            }
+        }
+    }
 }

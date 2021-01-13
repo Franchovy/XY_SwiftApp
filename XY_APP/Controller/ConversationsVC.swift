@@ -132,8 +132,9 @@ extension ConversationsVC : UITableViewDelegate {
         
         vc.messages = viewModels[indexPath.row].messages
         vc.conversationId = viewModels[indexPath.row].id
+        
         present(vc, animated: true) {
-            
+            vc.onUserInfoFetched(image: self.viewModels[indexPath.row].conversation.senderImage!, name: self.viewModels[indexPath.row].conversation.senderName!)
         }
     }
     

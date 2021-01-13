@@ -12,13 +12,21 @@ import Firebase
 struct MessageModel {
     var senderId: String
     var message: String
-    var timeLabel: Date
+    var timeLabel: Date?
 }
 
 extension MessageModel {
     init(_ data: [String: Any]) {
         senderId = data[FirebaseKeys.ConversationKeys.MessagesKeys.sender] as! String
         message = data[FirebaseKeys.ConversationKeys.MessagesKeys.message] as! String
-        timeLabel = (data[FirebaseKeys.ConversationKeys.MessagesKeys.timestamp] as! Firebase.Timestamp).dateValue()
+        timeLabel = (data[FirebaseKeys.ConversationKeys.MessagesKeys.timestamp] as? Firebase.Timestamp)?.dateValue()
+    }
+    
+    func toNewMessageData() -> [String: Any] {
+        return [
+            FirebaseKeys.ConversationKeys.MessagesKeys.sender: senderId,
+            FirebaseKeys.ConversationKeys.MessagesKeys.message: message,
+            FirebaseKeys.ConversationKeys.MessagesKeys.timestamp: FieldValue.serverTimestamp()
+        ]
     }
 }

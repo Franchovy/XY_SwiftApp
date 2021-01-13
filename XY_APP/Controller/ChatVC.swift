@@ -15,19 +15,58 @@ class ChatVC : UIViewController {
     
     let db = FirestoreReferenceManager.root
     
-    var userinfo: [ChatUserInfo] = [
-        
-        ChatUserInfo(ChatProfileImage: UIImage(named: "eo_profimg")!, ChatNameInfo: "Elizabeth Olsen")
+    var userinfo: [ChatUserInfo] = [ ChatUserInfo(ChatProfileImage: nil, ChatNameInfo: "")
     ]
     
     var messages: [MessageModel] = []
-    var conversationId: String?
+    var conversationId: String? {
+        didSet {
+            // Subscribe To Conversation
+            if let conversationId = conversationId {
+                let conversationDoc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationId)
+                
+                messages = []
+                
+                conversationDoc.collection(FirebaseKeys.CollectionPath.messages)
+                    .order(by: FirebaseKeys.ConversationKeys.MessagesKeys.timestamp)
+                    .addSnapshotListener() { snapshot, error in
+                    if let error = error { print("Error creating snapshot listener for conversation!") }
+                    
+                    if let snapshot = snapshot {
+                        for documentChange in snapshot.documentChanges {
+                            
+                            let data = documentChange.document.data()
+                            
+                            let newMessage = MessageModel(data)
+                            if newMessage.timeLabel == nil {
+                                return
+                            } else {
+                                self.messages.append(newMessage)
+                                
+                                DispatchQueue.main.async {
+                                    self.chatTableView.reloadData()
+                                    let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
+                                    self.chatTableView.scrollToRow(at: indexPath, at: .top, animated: false)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     
+    func onUserInfoFetched(image: UIImage, name: String) {
+        userinfo[0].ChatProfileImage = image
+        userinfo[0].ChatNameInfo = name
+        chatTableView.reloadData()
+    }
     
     @IBOutlet weak var chatTableView: UITableView!
  
     @IBOutlet weak var chatTextPlaceholder: UITextField!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,10 +92,9 @@ class ChatVC : UIViewController {
         chatTableView.register(UINib(nibName: "UserInfoChat", bundle: nil), forCellReuseIdentifier: "senderDataReusable")
         
         chatTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "messageReusable")
-        
-        loadMessages()
-        
     }
+    
+    
     
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,70 +108,28 @@ class ChatVC : UIViewController {
     @objc func keyboardWillShow(notification: NSNotification) {
         
         if let keyboardReponder = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            
             let height = keyboardReponder.cgRectValue.height
             
-            
             typingViewHeightConstraint.constant += height
-            
             typingView.layoutIfNeeded()
-            
-            
         }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         
         if let keyboardReponder = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            
             let height = keyboardReponder.cgRectValue.height
             
-            
             typingViewHeightConstraint.constant -= height
-            
             typingView.layoutIfNeeded()
-            
-            
         }
     }
     
     @objc func keyboardDidHide(notification: NSNotification) {
         typingViewHeightConstraint.constant = view.safeAreaInsets.bottom
         typingView.layoutIfNeeded()
-        
     }
     
-    func loadMessages() {
-        
-        db.collection(FirebaseKeys.CollectionPath.conversations)
-            .order(by: FirebaseKeys.CollectionPath.dateField)
-            .addSnapshotListener { (querySnapshot, error) in
-                
-                self.messages = []
-                
-                if error != nil {
-                    print("problems :/")
-                } else {
-                    if let snapshotDocuments = querySnapshot?.documents {
-                        for doc in snapshotDocuments {
-                            let data = doc.data()
-                            if let messageSender = data[FirebaseKeys.CollectionPath.senderField] as? String, let messageBody = data[FirebaseKeys.CollectionPath.bodyField] as? String, let timeLabel = data[FirebaseKeys.CollectionPath.dateField] as? TimeInterval {
-                                let newMessage = MessageModel(senderId: messageSender, message: messageBody, timeLabel: Date.init(timeIntervalSinceNow: timeLabel))
-                                self.messages.append(newMessage)
-                                DispatchQueue.main.async {
-                                    self.chatTableView.reloadData()
-                                    let indexPath = IndexPath(row: self.messages.count - 1, section: 0)
-                                    self.chatTableView.scrollToRow(at: indexPath, at: .top, animated: false)
-                                }
-                                
-                            } else {
-                                //fatalError()
-                            }
-                        }
-                    }
-                }
-            }
-    }
     
     func getStringForTimestamp(timeInterval: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: timeInterval)
@@ -142,17 +138,13 @@ class ChatVC : UIViewController {
     
     @IBAction func sendPressed(_ sender: UIButton) {
         
-        if let messageBody = chatTextPlaceholder.text, let messageSender = Firebase.Auth.auth().currentUser?.email {
-            db.collection(FirebaseKeys.CollectionPath.conversations).addDocument(data: [FirebaseKeys.CollectionPath.senderField : messageSender, FirebaseKeys.CollectionPath.bodyField : messageBody, FirebaseKeys.CollectionPath.dateField: Date().timeIntervalSince1970
-            ]) { (error) in
-                if let e = error {
-                    print(" There was an issue like in my code lol, \(e)")
-                } else {
-                    print("Succesfull yeah ")
-                    DispatchQueue.main.async {
-                        self.chatTextPlaceholder.text = ""
-                    }
-                    
+        if let message = chatTextPlaceholder.text, message != "" {
+            FirebaseUpload.sendMessage(conversationId: conversationId!, message: message) {result in
+                switch result {
+                case .success():
+                    DispatchQueue.main.async { self.chatTextPlaceholder.text = "" }
+                case .failure(let error):
+                    print("Error sending message: \(error.localizedDescription)")
                 }
             }
         }
@@ -183,39 +175,26 @@ extension ChatVC : UITableViewDataSource {
             let message = messages[indexPath.row - 1]
             let cell = tableView.dequeueReusableCell(withIdentifier: "messageReusable", for: indexPath) as!
                 MessageCell
-            cell.timeLabelMessage.text = messages[indexPath.row - 1].timeLabel.description
+            cell.timeLabelMessage.text = messages[indexPath.row - 1].timeLabel?.description
             
             // message from the current user
-            
-            if message.senderId == Auth.auth().currentUser?.email {
+            if message.senderId == Auth.auth().currentUser?.uid {
                 cell.pinkMessageBubble.isHidden = true
                 cell.messageBubble.isHidden = false
                 
                 cell.textLabelMessage.text = message.message
                 cell.messageBubble.sizeToFit()
-                
-            }
-            
-            // message from another sender
-            
-            else {
+            } else {
                 cell.pinkMessageBubble.isHidden = false
                 cell.messageBubble.isHidden = true
                 
                 cell.pinkTextLabelMessage.text = message.message
                 cell.pinkMessageBubble.sizeToFit()
-                
             }
-            
-            
             
             return cell
         }
-        
     }
-    
-    
-    
 }
 
 extension UIViewController {
