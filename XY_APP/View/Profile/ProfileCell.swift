@@ -62,6 +62,9 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         profileImage.layer.shadowOffset = CGSize(width: 0, height: 4)
         profileImage.layer.shadowRadius = 8
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
+        
+        coverImage.layer.cornerRadius = 10
+        coverImage.backgroundColor = .clear
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

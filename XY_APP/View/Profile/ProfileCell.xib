@@ -17,7 +17,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="504" height="596"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BNU-rs-wAf" userLabel="BackgroundImageView">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="coverpicture_default" translatesAutoresizingMaskIntoConstraints="NO" id="BNU-rs-wAf" userLabel="BackgroundImageView">
                         <rect key="frame" x="0.0" y="0.0" width="504" height="596"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="596" id="TqL-0O-IRD"/>
@@ -139,6 +139,7 @@
     <resources>
         <image name="ProfileChatIcon" width="208" height="204"/>
         <image name="ProfileFollowIcon" width="210" height="208"/>
+        <image name="coverpicture_default" width="1680" height="2154"/>
         <image name="linkIcon" width="18.5" height="19.5"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

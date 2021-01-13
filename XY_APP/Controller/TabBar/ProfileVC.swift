@@ -26,6 +26,10 @@ class ProfileVC : UIViewController {
     
     var panGestureInAction: Bool = false
     
+    override func viewWillAppear(_ animated: Bool) {
+        modalPresentationStyle = .overFullScreen
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -133,8 +137,16 @@ extension ProfileVC : UITableViewDataSource {
 extension ProfileVC : UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
-            if panGestureRecognizer.location(in: nil).y < 200 || panGestureRecognizer.velocity(in: view?.window).y > 500 {
+            
+            print("Gesture location: \(panGestureRecognizer.location(in: UpProfTableView.visibleCells[0]).y)")
+            print("Gesture velocity: \(panGestureRecognizer.velocity(in: UpProfTableView.visibleCells[0]).y)")
+            
+            if
+                panGestureRecognizer.location(in: UpProfTableView.visibleCells[0]).y < 400 &&
+                    panGestureRecognizer.velocity(in: UpProfTableView.visibleCells[0]).y > 150 {
                 escapeModalGestureOngoing = true
+            } else {
+                escapeModalGestureOngoing = false
             }
         }
         
