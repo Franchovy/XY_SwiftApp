@@ -35,27 +35,25 @@ class ProfileVC : UIViewController {
         
         UpProfTableView.dataSource = self
         
-        UpProfTableView.register(UINib(nibName: "ProfileUpperCell", bundle: nil), forCellReuseIdentifier: "ProfileUpperReusable")
+        UpProfTableView.register(UINib(nibName: "ProfileCell", bundle: nil), forCellReuseIdentifier: ProfileCell.identifier)
         
         UpProfTableView.register(UINib(nibName: "ProfileFlowTableViewCell", bundle: nil), forCellReuseIdentifier: "profileBottomReusable")
 
         var escapeModalGesture = UIPanGestureRecognizer(target: self, action: #selector(escapeModal(panGestureRecognizer:)))
         escapeModalGesture.isEnabled = modalEscapable
+        escapeModalGesture.delegate = self
         UpProfTableView.addGestureRecognizer(escapeModalGesture)
         UpProfTableView.isUserInteractionEnabled = true
+        
         //escapeModalGesture.isEnabled = false
     }
     
+    var escapeModalGestureOngoing = false
     @objc func escapeModal(panGestureRecognizer: UIPanGestureRecognizer) {
         let touchPoint = panGestureRecognizer.location(in: view?.window)
         var initialTouchPoint = CGPoint.zero
         
-        
-        if panGestureRecognizer.velocity(in: UpProfTableView).y > 500 {
-            panGestureInAction = true
-        }
-        
-        if panGestureInAction {
+        if escapeModalGestureOngoing {
             switch panGestureRecognizer.state {
             case .began:
                 initialTouchPoint = touchPoint
@@ -80,6 +78,7 @@ class ProfileVC : UIViewController {
                 break
             }
         }
+        
     }
     
     func logoutSegue() {
@@ -107,16 +106,16 @@ extension ProfileVC : UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
             
             cell.viewModel = ProfileViewModel(userId: ownerId)
             // Add "Tap anywhere" escape function from keyboard focus
-            let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
-            view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
-            
-            //cell.imagePickerDelegate = self
-            cell.logout = logoutSegue
-            cell.chatSegue = segueToChat
+//            let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
+//            view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
+//            
+//            //cell.imagePickerDelegate = self
+//            cell.logout = logoutSegue
+//            cell.chatSegue = segueToChat
             
             return cell
             
@@ -130,6 +129,27 @@ extension ProfileVC : UITableViewDataSource {
     
 }
     
+
+extension ProfileVC : UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+            if panGestureRecognizer.location(in: nil).y < 200 || panGestureRecognizer.velocity(in: view?.window).y > 500 {
+                escapeModalGestureOngoing = true
+            }
+        }
+        
+        return escapeModalGestureOngoing
+    }
+    
+//    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+//        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
+//            return false
+//            return panGestureRecognizer.velocity(in: UpProfTableView).y > 500 || panGestureRecognizer.location(in: UpProfTableView).y < 250
+//        } else {
+//            return false
+//        }
+//    }
+}
     
     //extension ProfileVC : UITableViewDelegate {
         

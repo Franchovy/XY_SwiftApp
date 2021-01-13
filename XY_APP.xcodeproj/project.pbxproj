@@ -66,6 +66,8 @@
 		14FF8A6025A3856E002FE645 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FF8A5E25A3856E002FE645 /* MessageCell.swift */; };
 		14FF8A6125A3856E002FE645 /* MessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14FF8A5F25A3856E002FE645 /* MessageCell.xib */; };
 		B8913452A7DE311BBB40F65E /* Pods_XY_APPTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0184EA11A236F0143134B645 /* Pods_XY_APPTests.framework */; };
+		B902DEC025AF372D00F32B12 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B902DEBF25AF372D00F32B12 /* ProfileCell.xib */; };
+		B902DEC425AF375E00F32B12 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902DEC325AF375E00F32B12 /* ProfileCell.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D4ADD25AEE85000CC5147 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D4ADC25AEE85000CC5147 /* ChatViewModel.swift */; };
@@ -173,6 +175,8 @@
 		65F8F855007A762983BC2D49 /* Pods-XY_APP.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APP.debug.xcconfig"; path = "Target Support Files/Pods-XY_APP/Pods-XY_APP.debug.xcconfig"; sourceTree = "<group>"; };
 		6F94382B0FE020F753BC9A88 /* Pods-XY_APPTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APPTests.release.xcconfig"; path = "Target Support Files/Pods-XY_APPTests/Pods-XY_APPTests.release.xcconfig"; sourceTree = "<group>"; };
 		7475997B9B6670EC9737322B /* Pods_XY_APP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XY_APP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B902DEBF25AF372D00F32B12 /* ProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
+		B902DEC325AF375E00F32B12 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B93D1BEB2597E9C6009ADBFC /* XY_APPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XY_APPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -329,6 +333,8 @@
 				14B2709725AA087400CCACDE /* ProfileFlowTableViewCell.xib */,
 				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
 				14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */,
+				B902DEBF25AF372D00F32B12 /* ProfileCell.xib */,
+				B902DEC325AF375E00F32B12 /* ProfileCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -569,6 +575,7 @@
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
 				149AD6D5259B94FE00E81ABC /* ExploreTableViewCell.xib in Resources */,
 				14BA46B925AB5E3000ADDC8B /* suggestedCollectionViewCell.xib in Resources */,
+				B902DEC025AF372D00F32B12 /* ProfileCell.xib in Resources */,
 				14B26FD225A9E4B900CCACDE /* OnlineFriendsTableViewCell.xib in Resources */,
 				14B270A125AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib in Resources */,
 				148935F325A26AFC00CB60C3 /* ConversationCell.xib in Resources */,
@@ -668,6 +675,7 @@
 				B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
+				B902DEC425AF375E00F32B12 /* ProfileCell.swift in Sources */,
 				B94D4ADD25AEE85000CC5147 /* ChatViewModel.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				14A3607C259CB6E9002829D7 /* MomentsCollectionViewCell.swift in Sources */,
