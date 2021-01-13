@@ -178,7 +178,18 @@ class FirebaseUpload {
         }
     }
     
-    static func createConversation(otherMemberId: String, completion: @escaping(Result<Void, Error>) -> Void) {
+    static func createConversation(otherMemberId: String, newMessage: String, completion: @escaping(Result<Void, Error>) -> Void) {
+        
+        let newConversation = ConversationModel.newConversationData(members: [ Auth.auth().currentUser!.uid, otherMemberId ])
+        let newConversationDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).addDocument(data: newConversation)
+        
+        let newMessageData : [ String : Any ] = [
+            FirebaseKeys.ConversationKeys.MessagesKeys.message : newMessage,
+            FirebaseKeys.ConversationKeys.MessagesKeys.sender : Auth.auth().currentUser!.uid,
+            FirebaseKeys.ConversationKeys.MessagesKeys.timestamp : FieldValue.serverTimestamp()
+        ]
+        
+        newConversationDocument.collection(FirebaseKeys.CollectionPath.messages).addDocument(data: newMessageData)
         
     }
 }
