@@ -19,6 +19,8 @@ class ChatVC : UIViewController {
     ]
     
     var messages: [MessageModel] = []
+    
+    var otherMemberId: String?
     var conversationId: String? {
         didSet {
             // Subscribe To Conversation
@@ -94,9 +96,6 @@ class ChatVC : UIViewController {
         chatTableView.register(UINib(nibName: "MessageCell", bundle: nil), forCellReuseIdentifier: "messageReusable")
     }
     
-    
-    
-    
     override func viewDidAppear(_ animated: Bool) {
         tabBarController?.tabBar.isHidden = true
     }
@@ -137,14 +136,28 @@ class ChatVC : UIViewController {
     }
     
     @IBAction func sendPressed(_ sender: UIButton) {
-        
         if let message = chatTextPlaceholder.text, message != "" {
-            FirebaseUpload.sendMessage(conversationId: conversationId!, message: message) {result in
-                switch result {
-                case .success():
-                    DispatchQueue.main.async { self.chatTextPlaceholder.text = "" }
-                case .failure(let error):
-                    print("Error sending message: \(error.localizedDescription)")
+            
+            if conversationId == nil {
+                guard let otherMemberId = otherMemberId else {fatalError("Set other member id if conversation doesn't exist yet!") }
+                
+                // Create new conversation
+                FirebaseUpload.createConversation(otherMemberId: otherMemberId, newMessage: message) { result in
+                    switch result {
+                    case .success(let newConversationId):
+                        self.conversationId = newConversationId
+                    case .failure(let error):
+                        fatalError("Error creating conversation: \(error)")
+                    }
+                }
+            } else {
+                FirebaseUpload.sendMessage(conversationId: conversationId!, message: message) {result in
+                    switch result {
+                    case .success():
+                        DispatchQueue.main.async { self.chatTextPlaceholder.text = "" }
+                    case .failure(let error):
+                        print("Error sending message: \(error.localizedDescription)")
+                    }
                 }
             }
         }

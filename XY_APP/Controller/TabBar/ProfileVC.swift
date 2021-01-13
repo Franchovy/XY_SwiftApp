@@ -98,9 +98,40 @@ class ProfileVC : UIViewController {
     func segueToChat() {
         //Segue to chat viewcontroller
         print("Segue to chat!")
-        performSegue(withIdentifier: "segueToChat", sender: self)
+        
     }
     
+    func chatSegue() {
+        
+        if ownerId == Auth.auth().currentUser!.uid {
+            performSegue(withIdentifier: "segueToChat", sender: self)
+        } else {
+            // Open message VC
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let chatVC = storyboard.instantiateViewController(withIdentifier: ChatVC.identifier) as! ChatVC
+            
+            
+            FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations)
+                .whereField(FirebaseKeys.ConversationKeys.members, arrayContains: Auth.auth().currentUser!.uid)
+                .getDocuments() { snapshotDocuments, error in
+                if let error = error { print("Error fetching conversations!") }
+                    
+                if let snapshotDocuments = snapshotDocuments {
+                    if !snapshotDocuments.isEmpty {
+                        // Check this user's conversations for one with the other user
+                        for document in snapshotDocuments.documents {
+                            let conversationMembers = document.get(FirebaseKeys.ConversationKeys.members) as! [String]
+                            if conversationMembers.contains(self.ownerId) {
+                                // Set conversation id
+                                chatVC.conversationId = document.documentID
+                            }
+                        }
+                    }
+                    self.present(chatVC, animated: true, completion: {})
+                }
+            }
+        }
+    }
 }
 
 extension ProfileVC : UITableViewDataSource {
@@ -113,13 +144,13 @@ extension ProfileVC : UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
             
             cell.viewModel = ProfileViewModel(userId: ownerId)
-            // Add "Tap anywhere" escape function from keyboard focus
+//             Add "Tap anywhere" escape function from keyboard focus
 //            let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
 //            view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
-//            
-//            //cell.imagePickerDelegate = self
+            
+//            cell.imagePickerDelegate = self
 //            cell.logout = logoutSegue
-//            cell.chatSegue = segueToChat
+            cell.onChatButtonPressed = chatSegue
             
             return cell
             

@@ -53,13 +53,6 @@
                                     <constraint firstAttribute="height" constant="54" id="slg-M0-BJ5"/>
                                 </constraints>
                             </imageView>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ProfileChatIcon" translatesAutoresizingMaskIntoConstraints="NO" id="ukW-3m-igd" userLabel="ChatButton">
-                                <rect key="frame" x="70" y="105" width="54" height="54"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="54" id="fEp-sD-fbR"/>
-                                    <constraint firstAttribute="height" constant="54" id="ytN-5n-Kql"/>
-                                </constraints>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CaptionLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xEZ-tA-Iyj" userLabel="CaptionLabel">
                                 <rect key="frame" x="8" y="172" width="488" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -86,11 +79,21 @@
                                     <constraint firstAttribute="width" constant="70" id="jGO-zl-9xM"/>
                                 </constraints>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="43M-GA-jGD">
+                                <rect key="frame" x="67" y="106" width="54" height="54"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="TAg-ba-FG1"/>
+                                    <constraint firstAttribute="width" constant="54" id="pla-8d-x2d"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="ProfileChatIcon"/>
+                                <connections>
+                                    <action selector="chatButtonPressed:" destination="nqa-nx-L42" eventType="touchUpInside" id="nnR-fY-5Gl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.054901960780000002" green="0.058823529409999999" blue="0.062745098040000002" alpha="0.45826914610000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="KXN-Wq-bKC" firstAttribute="top" secondItem="mSY-KL-thz" secondAttribute="bottom" constant="5" id="0sL-eJ-c3H"/>
-                            <constraint firstItem="ukW-3m-igd" firstAttribute="leading" secondItem="KXN-Wq-bKC" secondAttribute="trailing" constant="8" symbolic="YES" id="1QO-3L-tVR"/>
                             <constraint firstItem="mSY-KL-thz" firstAttribute="top" secondItem="9lC-cK-FYM" secondAttribute="bottom" id="2tU-yH-JI2"/>
                             <constraint firstItem="mSY-KL-thz" firstAttribute="leading" secondItem="9lC-cK-FYM" secondAttribute="leading" id="Fff-OA-pdH"/>
                             <constraint firstItem="ZAH-a4-61m" firstAttribute="leading" secondItem="xEZ-tA-Iyj" secondAttribute="leading" id="IZG-aE-5Lb"/>
@@ -99,11 +102,12 @@
                             <constraint firstItem="KXN-Wq-bKC" firstAttribute="leading" secondItem="syc-kR-aUc" secondAttribute="leading" constant="8" id="R82-20-lYR"/>
                             <constraint firstAttribute="height" constant="242" id="ZCk-Bm-88e"/>
                             <constraint firstItem="Oh1-wL-tu1" firstAttribute="leading" secondItem="ZAH-a4-61m" secondAttribute="trailing" constant="5" id="a09-Bd-uTH"/>
-                            <constraint firstItem="ukW-3m-igd" firstAttribute="centerY" secondItem="KXN-Wq-bKC" secondAttribute="centerY" constant="-1" id="bQn-BW-a8H"/>
                             <constraint firstItem="DH6-kx-y1B" firstAttribute="centerY" secondItem="syc-kR-aUc" secondAttribute="top" id="eN6-LI-Wlm"/>
                             <constraint firstItem="Oh1-wL-tu1" firstAttribute="centerY" secondItem="ZAH-a4-61m" secondAttribute="centerY" id="iK6-IQ-L2C"/>
+                            <constraint firstItem="43M-GA-jGD" firstAttribute="leading" secondItem="KXN-Wq-bKC" secondAttribute="trailing" constant="5" id="j86-Gu-Fhs"/>
                             <constraint firstItem="ZAH-a4-61m" firstAttribute="top" secondItem="xEZ-tA-Iyj" secondAttribute="bottom" constant="5" id="kam-tP-qzg"/>
                             <constraint firstAttribute="trailing" secondItem="xEZ-tA-Iyj" secondAttribute="trailing" constant="8" id="kgk-Y8-ZOC"/>
+                            <constraint firstItem="43M-GA-jGD" firstAttribute="top" secondItem="mSY-KL-thz" secondAttribute="bottom" constant="5" id="pHt-sm-dvG"/>
                             <constraint firstItem="xEZ-tA-Iyj" firstAttribute="leading" secondItem="syc-kR-aUc" secondAttribute="leading" constant="8" id="qkN-Rb-PEY"/>
                             <constraint firstItem="9lC-cK-FYM" firstAttribute="leading" secondItem="syc-kR-aUc" secondAttribute="leading" constant="19" id="rI1-A1-l6D"/>
                             <constraint firstItem="DH6-kx-y1B" firstAttribute="leading" secondItem="syc-kR-aUc" secondAttribute="leading" constant="8" id="tNF-It-Uya"/>
@@ -124,7 +128,6 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="captionLabel" destination="xEZ-tA-Iyj" id="iPC-wR-7Za"/>
-                <outlet property="chatButton" destination="ukW-3m-igd" id="fnX-Wf-HeW"/>
                 <outlet property="coverImage" destination="BNU-rs-wAf" id="gg5-na-BbQ"/>
                 <outlet property="followButton" destination="KXN-Wq-bKC" id="ncf-UN-war"/>
                 <outlet property="nicknameLabel" destination="9lC-cK-FYM" id="KEv-qx-8cD"/>

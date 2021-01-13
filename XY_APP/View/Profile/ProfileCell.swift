@@ -44,7 +44,11 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     @IBOutlet weak var xpCircle: CircleView!
     
     @IBOutlet weak var followButton: UIImageView!
-    @IBOutlet weak var chatButton: UIImageView!
+//    @IBOutlet weak var chatButton: UIImageView!
+    
+    // MARK: - Delegate methods
+    
+    var onChatButtonPressed : (() -> Void)?
     
     // MARK: - Override Methods
     
@@ -55,9 +59,9 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         followButton.layer.shadowOffset = CGSize(width: 0, height: 4)
         followButton.layer.shadowRadius = 8
         
-        chatButton.layer.cornerRadius = 15
-        chatButton.layer.shadowOffset = CGSize(width: 0, height: 4)
-        chatButton.layer.shadowRadius = 8
+//        chatButton.layer.cornerRadius = 15
+//        chatButton.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        chatButton.layer.shadowRadius = 8
         
         profileImage.layer.shadowOffset = CGSize(width: 0, height: 4)
         profileImage.layer.shadowRadius = 8
@@ -74,6 +78,9 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     }
 
     // MARK: -
+    @IBAction func chatButtonPressed(_ sender: Any) {
+        onChatButtonPressed?()
+    }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as! UIImageView

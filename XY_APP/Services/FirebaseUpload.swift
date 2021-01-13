@@ -178,10 +178,11 @@ class FirebaseUpload {
         }
     }
     
-    static func createConversation(otherMemberId: String, newMessage: String, completion: @escaping(Result<Void, Error>) -> Void) {
+    /// Returns conversation id
+    static func createConversation(otherMemberId: String, newMessage: String, completion: @escaping(Result<String, Error>) -> Void) {
         
         let newConversation = ConversationModel.newConversationData(members: [ Auth.auth().currentUser!.uid, otherMemberId ])
-        let newConversationDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).addDocument(data: newConversation)
+        let newConversationDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).addDocument(data: newConversation) { error in if let error = error { completion(.failure(error)) } }
         
         let newMessageData : [ String : Any ] = [
             FirebaseKeys.ConversationKeys.MessagesKeys.message : newMessage,
@@ -189,7 +190,9 @@ class FirebaseUpload {
             FirebaseKeys.ConversationKeys.MessagesKeys.timestamp : FieldValue.serverTimestamp()
         ]
         
-        newConversationDocument.collection(FirebaseKeys.CollectionPath.messages).addDocument(data: newMessageData)
-        
+        let messageDocument = newConversationDocument.collection(FirebaseKeys.CollectionPath.messages).addDocument(data: newMessageData) { error in
+            if let error = error { completion(.failure(error)) }
+            completion(.success(newConversationDocument.documentID))
+        }
     }
 }

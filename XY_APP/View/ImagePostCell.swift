@@ -85,7 +85,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
         super.awakeFromNib()
         // Initialization code
         
-        
         contentImageView.layer.cornerRadius = 15
         profileImageView.layer.cornerRadius = 5
         captionAlphaView.layer.cornerRadius = 15

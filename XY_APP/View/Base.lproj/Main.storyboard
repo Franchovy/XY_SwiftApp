@@ -669,7 +669,7 @@
         <!--ConversationsVC-->
         <scene sceneID="2k8-95-VDl">
             <objects>
-                <viewController id="9YL-CQ-vuJ" customClass="ConversationsVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ConversationsVC" id="9YL-CQ-vuJ" customClass="ConversationsVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0TU-1i-tYd">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1132,7 +1132,6 @@
         <!--Profile-->
         <scene sceneID="IgG-0n-2yR">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="nrN-b1-R7J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="kU8-KU-Lbx" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Profile" image="profile_item" id="Ob9-Ux-6Z6">
                         <color key="badgeColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1150,6 +1149,7 @@
                         <segue destination="TND-fV-FmO" kind="relationship" relationship="rootViewController" id="Kol-dT-dat"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nrN-b1-R7J" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2929" y="983"/>
         </scene>
