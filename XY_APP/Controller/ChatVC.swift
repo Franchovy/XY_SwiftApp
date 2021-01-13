@@ -21,6 +21,7 @@ class ChatVC : UIViewController {
     ]
     
     var messages: [MessageModel] = []
+    var conversationId: String?
     
     
     @IBOutlet weak var chatTableView: UITableView!

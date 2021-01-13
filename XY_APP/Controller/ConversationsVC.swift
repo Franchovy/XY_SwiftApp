@@ -129,8 +129,11 @@ extension ConversationsVC : UITableViewDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
         let vc = storyboard.instantiateViewController(withIdentifier: ChatVC.identifier) as! ChatVC
+        
+        vc.messages = viewModels[indexPath.row].messages
+        vc.conversationId = viewModels[indexPath.row].id
         present(vc, animated: true) {
-            print("Loading data for chat: \(userId)")
+            
         }
     }
     

@@ -82,6 +82,7 @@ class FirebaseDownload {
                     let message = MessageModel(messageDoc.data())
                     messages.append(message)
                 }
+                completion(messages, nil)
             }
         }
     }
