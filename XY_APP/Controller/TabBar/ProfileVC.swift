@@ -19,7 +19,13 @@ class ProfileVC : UIViewController {
     lazy var profile2: [Profile2Model] = [
         Profile2Model(FlowLabel: "Flow")
     ]
+    
+    var ownerId: String = Auth.auth().currentUser!.uid
  
+    var modalEscapable: Bool = false
+    
+    var panGestureInAction: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,9 +38,48 @@ class ProfileVC : UIViewController {
         UpProfTableView.register(UINib(nibName: "ProfileUpperCell", bundle: nil), forCellReuseIdentifier: "ProfileUpperReusable")
         
         UpProfTableView.register(UINib(nibName: "ProfileFlowTableViewCell", bundle: nil), forCellReuseIdentifier: "profileBottomReusable")
+
+        var escapeModalGesture = UIPanGestureRecognizer(target: self, action: #selector(escapeModal(panGestureRecognizer:)))
+        escapeModalGesture.isEnabled = modalEscapable
+        UpProfTableView.addGestureRecognizer(escapeModalGesture)
+        UpProfTableView.isUserInteractionEnabled = true
+        //escapeModalGesture.isEnabled = false
+    }
+    
+    @objc func escapeModal(panGestureRecognizer: UIPanGestureRecognizer) {
+        let touchPoint = panGestureRecognizer.location(in: view?.window)
+        var initialTouchPoint = CGPoint.zero
         
         
+        if panGestureRecognizer.velocity(in: UpProfTableView).y > 500 {
+            panGestureInAction = true
+        }
         
+        if panGestureInAction {
+            switch panGestureRecognizer.state {
+            case .began:
+                initialTouchPoint = touchPoint
+            case .changed:
+                if touchPoint.y > initialTouchPoint.y {
+                    view.frame.origin.y = touchPoint.y - initialTouchPoint.y
+                }
+            case .ended, .cancelled:
+                panGestureInAction = false
+                
+                if touchPoint.y - initialTouchPoint.y > 200 {
+                    dismiss(animated: true, completion: nil)
+                } else {
+                    UIView.animate(withDuration: 0.2, animations: {
+                        self.view.frame = CGRect(x: 0,
+                                                 y: 0,
+                                                 width: self.view.frame.size.width,
+                                                 height: self.view.frame.size.height)
+                    })
+                }
+            case .failed, .possible:
+                break
+            }
+        }
     }
     
     func logoutSegue() {
@@ -64,7 +109,7 @@ extension ProfileVC : UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileUpperReusable", for: indexPath) as! ProfileUpperCell
             
-            cell.viewModel = ProfileViewModel(userId: Auth.auth().currentUser!.uid)
+            cell.viewModel = ProfileViewModel(userId: ownerId)
             // Add "Tap anywhere" escape function from keyboard focus
             let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
             view.addGestureRecognizer(tappedAnywhereGestureRecognizer)

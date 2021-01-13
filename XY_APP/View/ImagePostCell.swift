@@ -20,8 +20,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     
     // MARK: - PROPERTIES
     
-    var images: [UIImage]?
+    var parentFlow: FlowVC!
     
+    var images: [UIImage]?
     var type: FlowDataType = { return .post }()
     
     var viewModel: PostViewModel! {
@@ -97,8 +98,28 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
         
         panGesture.isEnabled = true
         addGestureRecognizer(panGesture)
+        
+        profileImageView.isUserInteractionEnabled = true
+        let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
+        tapProfileImage.delegate = self
+        profileImageView.addGestureRecognizer(tapProfileImage)
     }
 
+    @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+//        let profileVC = ProfileVC()
+//        profileVC.loadView()
+        
+        let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        
+        profileVC.ownerId = viewModel.data!.userId
+        profileVC.modalEscapable = true
+        parentFlow.present(profileVC, animated: true) {
+            
+        }
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

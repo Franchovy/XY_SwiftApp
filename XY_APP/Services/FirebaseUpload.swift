@@ -177,4 +177,8 @@ class FirebaseUpload {
             }
         }
     }
+    
+    static func createConversation(otherMemberId: String, completion: @escaping(Result<Void, Error>) -> Void) {
+        
+    }
 }

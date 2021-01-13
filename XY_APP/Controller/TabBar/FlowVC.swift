@@ -119,7 +119,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
         var cellViewModel = PostViewModel()
         cellViewModel.data =  data[indexPath.row] as! PostData
         cell.viewModel = cellViewModel
-        
+        cell.parentFlow = self
         return cell
     }
     
