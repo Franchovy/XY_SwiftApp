@@ -130,6 +130,7 @@
             <connections>
                 <outlet property="captionLabel" destination="xEZ-tA-Iyj" id="iPC-wR-7Za"/>
                 <outlet property="coverImage" destination="BNU-rs-wAf" id="gg5-na-BbQ"/>
+                <outlet property="followButton" destination="7Er-Qh-evl" id="BRG-ft-dCU"/>
                 <outlet property="nicknameLabel" destination="9lC-cK-FYM" id="KEv-qx-8cD"/>
                 <outlet property="profileImage" destination="DH6-kx-y1B" id="UU0-87-TfM"/>
                 <outlet property="websiteLabel" destination="Oh1-wL-tu1" id="4Lv-Sm-13W"/>

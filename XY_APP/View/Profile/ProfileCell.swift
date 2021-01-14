@@ -43,7 +43,7 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     
     @IBOutlet weak var xpCircle: CircleView!
     
-    @IBOutlet weak var followButton: UIImageView!
+    @IBOutlet weak var followButton: UIButton!
 //    @IBOutlet weak var chatButton: UIImageView!
     
     // MARK: - Delegate methods
