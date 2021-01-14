@@ -105,6 +105,9 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         editWebsiteTextField.layer.borderColor = UIColor.white.cgColor
         editWebsiteTextField.layer.cornerRadius = 5
         
+        editProfileImageButton.layer.opacity = 0.6
+        editCoverImageButton.layer.opacity = 0.6
+        
         coverImage.layer.cornerRadius = 10
         coverImage.backgroundColor = .clear
         

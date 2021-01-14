@@ -65,7 +65,7 @@
                                     <constraint firstAttribute="width" constant="60" id="jGO-zl-9xM"/>
                                 </constraints>
                             </imageView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-XL-Gqb" userLabel="EditProfileImageButton" customClass="EditImageButton" customModule="XY_APP" customModuleProvider="target">
+                            <button hidden="YES" opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bPf-XL-Gqb" userLabel="EditProfileImageButton" customClass="EditImageButton" customModule="XY_APP" customModuleProvider="target">
                                 <rect key="frame" x="29.5" y="-11" width="13" height="22"/>
                                 <state key="normal" image="cameraEditButton"/>
                                 <connections>
@@ -200,7 +200,7 @@
                             <constraint firstItem="XXQ-7g-cEE" firstAttribute="leading" secondItem="9lC-cK-FYM" secondAttribute="trailing" constant="8" id="z90-3O-hDZ"/>
                         </constraints>
                     </view>
-                    <button hidden="YES" opaque="NO" alpha="0.75" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ua7-H0-ENz" userLabel="EditCoverImageButton" customClass="EditImageButton" customModule="XY_APP" customModuleProvider="target">
+                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ua7-H0-ENz" userLabel="EditCoverImageButton" customClass="EditImageButton" customModule="XY_APP" customModuleProvider="target">
                         <rect key="frame" x="9.5" y="9.5" width="30" height="26"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="26" id="2FW-wc-b0a"/>
