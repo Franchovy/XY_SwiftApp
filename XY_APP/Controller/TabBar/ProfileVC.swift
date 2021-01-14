@@ -12,9 +12,12 @@ import FirebaseAuth
 
 class ProfileVC : UIViewController {
     
-    @IBOutlet weak var UpProfTableView: UITableView!
+    @IBOutlet weak var tableView: UITableView!
     
     lazy var profile: [ProfileModel] = []
+    
+    var topCell: ProfileCell!
+    var bottomCell: ProfileFlowTableViewCell!
     
     var ownerId: String = Auth.auth().currentUser!.uid
  
@@ -33,22 +36,27 @@ class ProfileVC : UIViewController {
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
-        UpProfTableView.dataSource = self
+        tableView.dataSource = self
+        tableView.delegate = self
         
-        UpProfTableView.register(UINib(nibName: "ProfileCell", bundle: nil), forCellReuseIdentifier: ProfileCell.identifier)
-        
-        UpProfTableView.register(UINib(nibName: "ProfileFlowTableViewCell", bundle: nil), forCellReuseIdentifier: "profileBottomReusable")
+        tableView.register(UINib(nibName: "ProfileCell", bundle: nil), forCellReuseIdentifier: ProfileCell.identifier)
+        tableView.register(UINib(nibName: "ProfileFlowTableViewCell", bundle: nil), forCellReuseIdentifier: "profileBottomReusable")
 
         var escapeModalGesture = UIPanGestureRecognizer(target: self, action: #selector(escapeModal(panGestureRecognizer:)))
         escapeModalGesture.isEnabled = modalEscapable
         escapeModalGesture.delegate = self
-        UpProfTableView.addGestureRecognizer(escapeModalGesture)
-        UpProfTableView.isUserInteractionEnabled = true
+        tableView.addGestureRecognizer(escapeModalGesture)
         
-        //escapeModalGesture.isEnabled = false
+//        var scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(scrolling(panGestureRecognizer:)))
+//        tableView.addGestureRecognizer(scrollGesture)
+        
+        tableView.isUserInteractionEnabled = true
+        
+        
     }
     
     var escapeModalGestureOngoing = false
+    
     @objc func escapeModal(panGestureRecognizer: UIPanGestureRecognizer) {
         let touchPoint = panGestureRecognizer.location(in: view?.window)
         var initialTouchPoint = CGPoint.zero
@@ -78,7 +86,6 @@ class ProfileVC : UIViewController {
                 break
             }
         }
-        
     }
     
     func logoutSegue() {
@@ -135,6 +142,19 @@ class ProfileVC : UIViewController {
     }
 }
 
+extension ProfileVC : UITableViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // Fade background of cover picture on scroll down
+        
+        print("Scroll location: \(tableView.contentOffset.y)")
+        
+        let scrollPositionProportionToWidth = max(0, 1 - (tableView.contentOffset.y / (topCell.coverImage.frame.height - topCell.profileCard.frame.height)))
+        print("Setting opacity: \(scrollPositionProportionToWidth)")
+        topCell.coverImage.layer.opacity = Float(scrollPositionProportionToWidth)
+        topCell.backgroundColor = .black
+    }
+}
+
 extension ProfileVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
@@ -156,6 +176,8 @@ extension ProfileVC : UITableViewDataSource {
             cell.isOwnProfile = ownerId == Auth.auth().currentUser!.uid
             cell.onChatButtonPressed = chatSegue
             
+            topCell = cell
+            
             return cell
             
         } else {
@@ -165,7 +187,6 @@ extension ProfileVC : UITableViewDataSource {
             return cell
         }
     }
-    
 }
     
 
@@ -173,19 +194,18 @@ extension ProfileVC : UIGestureRecognizerDelegate {
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
             
-            print("Gesture location: \(panGestureRecognizer.location(in: UpProfTableView.visibleCells[0]).y)")
-            print("Gesture velocity: \(panGestureRecognizer.velocity(in: UpProfTableView.visibleCells[0]).y)")
-            
-            if
-                panGestureRecognizer.location(in: UpProfTableView.visibleCells[0]).y < 400 &&
-                    panGestureRecognizer.velocity(in: UpProfTableView.visibleCells[0]).y > 150 {
+            // Detect escape gesture
+            if panGestureRecognizer.location(in: tableView.visibleCells[0]).y < 400 &&
+                    panGestureRecognizer.velocity(in: tableView.visibleCells[0]).y > 150 {
                 escapeModalGestureOngoing = true
             } else {
                 escapeModalGestureOngoing = false
             }
+            
+            return escapeModalGestureOngoing
+        } else {
+            return true
         }
-        
-        return escapeModalGestureOngoing
     }
     
 //    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {

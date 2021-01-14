@@ -42,6 +42,8 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     
     // MARK: - IBOutlets
     
+    @IBOutlet weak var profileCard: UIView!
+    
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var profileImage: UIImageView!
     
@@ -157,6 +159,8 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     
     var editMode: Bool = false {
         didSet {
+            
+            if editMode == oldValue { return }
             
             editNicknameTextField.isHidden = !editMode
             editCaptionTextField.isHidden = !editMode
