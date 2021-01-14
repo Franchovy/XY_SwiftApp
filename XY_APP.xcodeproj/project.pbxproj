@@ -91,6 +91,8 @@
 		B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DDF25644A41005D9B86 /* Assets.xcassets */; };
 		B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */; };
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
+		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
+		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
 		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
 		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
 		B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowDataCell.swift */; };
@@ -205,6 +207,8 @@
 		B9B92DE225644A41005D9B86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9B92DE425644A41005D9B86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
+		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
 		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
 		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		B9D1AB3025A3A591009B428E /* FlowDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataCell.swift; sourceTree = "<group>"; };
@@ -438,6 +442,7 @@
 		B9B92DD225644A3F005D9B86 /* XY_APP */ = {
 			isa = PBXGroup;
 			children = (
+				B9C8482525B09697002F7CD5 /* Extensions */,
 				B95FF4BF25A6F09900CFCA9E /* Services */,
 				B9B92DD325644A3F005D9B86 /* AppDelegate.swift */,
 				B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */,
@@ -453,6 +458,15 @@
 				1446C65725A1E0FF0045BB65 /* GoogleService-Info.plist */,
 			);
 			path = XY_APP;
+			sourceTree = "<group>";
+		};
+		B9C8482525B09697002F7CD5 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */,
+				B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B9D5E58025A64846001859EA /* ViewModel */ = {
@@ -687,6 +701,7 @@
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				148218C3258FF52700676556 /* ChatVC.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
+				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
 				14A36081259CB88D002829D7 /* MomentsModel.swift in Sources */,
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
@@ -709,6 +724,7 @@
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
+				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
 				B95482C025AAF2F70058D8B4 /* XPViewModel.swift in Sources */,
 				14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */,
 				B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */,

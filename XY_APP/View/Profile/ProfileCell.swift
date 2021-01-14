@@ -13,10 +13,19 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     
     var imagePickerDelegate: XYImagePickerDelegate?
     var imagePicker = UIImagePickerController()
+
+    // MARK: - Properties
     
     var viewModel: ProfileViewModel? {
         didSet {
             viewModel?.delegate = self
+        }
+    }
+    
+    var isOwnProfile: Bool! {
+        didSet {
+            settingsButton.isHidden = !isOwnProfile
+            editProfileButton.isHidden = !isOwnProfile
         }
     }
     
@@ -44,31 +53,61 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     @IBOutlet weak var xpCircle: CircleView!
     
     @IBOutlet weak var followButton: UIButton!
-//    @IBOutlet weak var chatButton: UIImageView!
+    @IBOutlet weak var chatButton: UIButton!
+    @IBOutlet weak var editProfileButton: UIButton!
+    @IBOutlet weak var settingsButton: UIButton!
+    
     
     // MARK: - Delegate methods
     
     var onChatButtonPressed : (() -> Void)?
+    var onFollowButtonPressed : (() -> Void)?
+    var onSettingsButtonPressed : (() -> Void)?
+    var onEditProfileButtonPressed : (() -> Void)?
+    var onKeyboardDismiss : (() -> Void)?
     
     // MARK: - Override Methods
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
-//        followButton.layer.cornerRadius = 15
-//        followButton.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        followButton.layer.shadowRadius = 8
         
-//        chatButton.layer.cornerRadius = 15
-//        chatButton.layer.shadowOffset = CGSize(width: 0, height: 4)
-//        chatButton.layer.shadowRadius = 8
+        // Display Properties
+        followButton.layer.cornerRadius = 15
+        followButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        followButton.layer.shadowRadius = 6
+        
+        chatButton.layer.cornerRadius = 15
+        chatButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        chatButton.layer.shadowRadius = 6
+        
+        settingsButton.layer.cornerRadius = 5
+        settingsButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        settingsButton.layer.shadowRadius = 6
+        
+        editProfileButton.layer.cornerRadius = 5
+        editProfileButton.layer.shadowOffset = CGSize(width: 0, height: 3)
+        editProfileButton.layer.shadowRadius = 6
         
         profileImage.layer.shadowOffset = CGSize(width: 0, height: 4)
-        profileImage.layer.shadowRadius = 8
+        profileImage.layer.shadowRadius = 6
         profileImage.layer.cornerRadius = profileImage.frame.width / 2
+        
+        // Display for Edit Properties
+        editNicknameTextField.layer.borderWidth = 1
+        editNicknameTextField.layer.borderColor = UIColor.white.cgColor
+        editNicknameTextField.layer.cornerRadius = 5
+        
+        editCaptionTextField.layer.borderWidth = 1
+        editCaptionTextField.layer.borderColor = UIColor.white.cgColor
+        editCaptionTextField.layer.cornerRadius = 5
+        
+        editWebsiteTextField.layer.borderWidth = 1
+        editWebsiteTextField.layer.borderColor = UIColor.white.cgColor
+        editWebsiteTextField.layer.cornerRadius = 5
         
         coverImage.layer.cornerRadius = 10
         coverImage.backgroundColor = .clear
+        
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -77,15 +116,113 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         // Configure the view for the selected state
     }
 
-    // MARK: -
-    @IBAction func chatButtonPressed(_ sender: Any) {
+    // MARK: - IBActions
+    
+    @IBAction func followButtonPressed(_ sender: UIButton) {
+        onFollowButtonPressed?()
+    }
+    
+    @IBAction func chatButtonPressed(_ sender: UIButton) {
         onChatButtonPressed?()
     }
+    
+    @IBAction func editButtonPressed(_ sender: UIButton) {
+        editMode = true
+        onEditProfileButtonPressed?()
+    }
+    
+    @IBAction func settingsButtonPressed(_ sender: UIButton) {
+        onSettingsButtonPressed?()
+    }
+    
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let tappedImage = tapGestureRecognizer.view as! UIImageView
         
         imagePickerDelegate?.presentImagePicker(imagePicker: imagePicker)
+    }
+    
+    
+    // MARK: - Edit Profile
+    
+    @IBOutlet weak var editNicknameTextField: UITextField!
+    @IBOutlet weak var editCaptionTextField: UITextField!
+    @IBOutlet weak var editWebsiteTextField: UITextField!
+    
+    @IBOutlet weak var editCoverImageButton: UIButton!
+    @IBOutlet weak var editProfileImageButton: UIButton!
+    
+    var editMode: Bool = false {
+        didSet {
+            
+            editNicknameTextField.isHidden = !editMode
+            editCaptionTextField.isHidden = !editMode
+            editWebsiteTextField.isHidden = !editMode
+            editCoverImageButton.isHidden = !editMode
+            editProfileImageButton.isHidden = !editMode
+            
+            nicknameLabel.isHidden = editMode
+            captionLabel.isHidden = editMode
+            websiteLabel.isHidden = editMode
+            
+            if editMode {
+                // Enter editmode
+                
+                editNicknameTextField.text = nicknameLabel.text
+                editCaptionTextField.text = captionLabel.text
+                editWebsiteTextField.text = websiteLabel.text
+                
+                editNicknameTextField.sizeToFit()
+                editCaptionTextField.sizeToFit()
+                editWebsiteTextField.sizeToFit()
+            } else {
+                // Exit editmode
+                
+                nicknameLabel.text = editNicknameTextField.text
+                captionLabel.text = editCaptionTextField.text
+                websiteLabel.text = editWebsiteTextField.text
+                
+                nicknameLabel.sizeToFit()
+                captionLabel.sizeToFit()
+                websiteLabel.sizeToFit()
+            }
+        }
+    }
+    
+    @objc func profilePictureTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        print("Edit profile image!")
+    }
+    
+    @IBAction func editFieldChanged(_ sender: UITextField) {
+        // Resize to fit text
+        sender.sizeToFit()
+        sender.increaseSize(nil)
+    }
+    
+    
+    @IBAction func onEditNicknameEnded(_ sender: UITextField) {
+        
+    }
+    
+    @IBAction func onEditCaptionEnded(_ sender: UITextField) {
+        
+    }
+    
+    @IBAction func onEditWebsiteEnded(_ sender: UITextField) {
+        
+    }
+    
+    @IBAction func onEditProfileImagePressed(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func onEditCoverImagePressed(_ sender: UIButton) {
+        
+    }
+    
+    @objc func tappedAnywhere(tapGestureRecognizer: UITapGestureRecognizer) {
+        editMode = false
+        onKeyboardDismiss?()
     }
     
 }
@@ -174,5 +311,12 @@ extension ProfileCell : UIImagePickerControllerDelegate, UINavigationControllerD
         
         imagePicker.dismiss(animated: true, completion: nil)
         
+    }
+}
+
+
+class EditImageButton: UIButton {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
+        return bounds.insetBy(dx: -25, dy: -25).contains(point)
     }
 }

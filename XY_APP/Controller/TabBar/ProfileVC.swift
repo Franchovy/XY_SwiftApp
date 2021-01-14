@@ -146,11 +146,14 @@ extension ProfileVC : UITableViewDataSource {
             
             cell.viewModel = ProfileViewModel(userId: ownerId)
 //             Add "Tap anywhere" escape function from keyboard focus
-//            let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
-//            view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
+            let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
+            view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
             
 //            cell.imagePickerDelegate = self
 //            cell.logout = logoutSegue
+            
+            cell.onKeyboardDismiss = { self.dismissKeyboard() }
+            cell.isOwnProfile = ownerId == Auth.auth().currentUser!.uid
             cell.onChatButtonPressed = chatSegue
             
             return cell

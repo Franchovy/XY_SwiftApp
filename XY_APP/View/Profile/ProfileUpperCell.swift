@@ -163,17 +163,17 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         ProfImg.shake()
         ProfImg.isUserInteractionEnabled = true
 
-        postCapt.shake()
+//        postCapt.shake()
         postCapt.layer.borderWidth = 1
         postCapt.layer.borderColor = UIColor.white.cgColor
         postCapt.isUserInteractionEnabled = true
 
-        ProfNick.shake()
+//        ProfNick.shake()
         ProfNick.layer.borderWidth = 1
         ProfNick.layer.borderColor = UIColor.white.cgColor
         ProfNick.isUserInteractionEnabled = true
         
-        profileWebsite.shake()
+//        profileWebsite.shake()
         profileWebsite.layer.borderWidth = 1
         profileWebsite.layer.borderColor = UIColor.white.cgColor
         profileWebsite.isUserInteractionEnabled = true
@@ -277,56 +277,5 @@ extension ProfileUpperCell : UIImagePickerControllerDelegate, UINavigationContro
         
         imagePicker.dismiss(animated: true, completion: nil)
         
-    }
-}
-
-//MARK: -  "shake" extensions
-
-public extension UILabel {
-
-    func shake(count : Float = 4,
-               for duration : TimeInterval = 0.5,
-               withTranslation translation : Float = 5)
-    {
-        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
-        animation.repeatCount = count
-        animation.duration = duration/TimeInterval(animation.repeatCount)
-        animation.autoreverses = true
-        animation.values = [translation, -translation]
-        layer.add(animation, forKey: "shake")
-    }
-}
-
-public extension UIImageView {
-
-    func shake(count : Float = 4,
-               for duration : TimeInterval = 0.5,
-               withTranslation translation : Float = 5)
-    {
-        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
-        animation.repeatCount = count
-        animation.duration = duration/TimeInterval(animation.repeatCount)
-        animation.autoreverses = true
-        animation.values = [translation, -translation]
-        layer.add(animation, forKey: "shake")
-    }
-}
-
-
-public extension UIButton {
-
-    func shake(count : Float = 4,
-               for duration : TimeInterval = 0.5,
-               withTranslation translation : Float = 5)
-    {
-        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
-        animation.repeatCount = count
-        animation.duration = duration/TimeInterval(animation.repeatCount)
-        animation.autoreverses = true
-        animation.values = [translation, -translation]
-        layer.add(animation, forKey: "shake")
     }
 }
