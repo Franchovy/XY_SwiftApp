@@ -32,6 +32,13 @@ class CreatePostCell: UITableViewCell, UIImagePickerControllerDelegate, UINaviga
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        
+        imagePreview.layer.cornerRadius = 15.0
+        imagePreview.backgroundColor = .clear
+        imagePreview.layer.borderWidth = 2.0
+        
+        
+        
         imagePicker.delegate = self
         imagePicker.sourceType = .photoLibrary
         imagePicker.allowsEditing = true

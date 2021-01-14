@@ -784,9 +784,9 @@
                                                         <textInputTraits key="textInputTraits"/>
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qs6-8w-IXN">
-                                                        <rect key="frame" x="250" y="12" width="23.000000000000455" height="23.000000000000455"/>
+                                                        <rect key="frame" x="251" y="13" width="23" height="23"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                        <state key="normal" image="send_chat_button"/>
+                                                        <state key="normal" image="send_button"/>
                                                         <connections>
                                                             <action selector="sendPressed:" destination="XuT-s8-y3A" eventType="touchUpInside" id="7C4-gq-h89"/>
                                                         </connections>
@@ -928,7 +928,7 @@
                         <rightBarButtonItems>
                             <barButtonItem tag="1" style="plain" id="XKA-rj-Z33">
                                 <view key="customView" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cd4-p8-xgx" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
-                                    <rect key="frame" x="329" y="7" width="30" height="30"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="30" id="A4x-gs-PtM"/>
@@ -1812,7 +1812,7 @@
         <image name="placeIcon" width="14.666666984558105" height="21"/>
         <image name="post_item" width="25" height="25"/>
         <image name="profile_item" width="25" height="25"/>
-        <image name="send_chat_button" width="23" height="23"/>
+        <image name="send_button" width="22.666666030883789" height="22.666666030883789"/>
         <image name="verifiedIcon" width="19" height="23"/>
         <image name="viral_item" width="25" height="30"/>
         <namedColor name="XYblack">
