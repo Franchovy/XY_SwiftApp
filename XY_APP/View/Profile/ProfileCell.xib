@@ -24,7 +24,7 @@
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="syc-kR-aUc" userLabel="ProfileCard">
-                        <rect key="frame" x="0.0" y="354" width="374" height="242"/>
+                        <rect key="frame" x="0.0" y="395" width="374" height="201"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Miley Cyrus" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9lC-cK-FYM" userLabel="Nickname">
                                 <rect key="frame" x="11" y="33" width="156.5" height="33"/>
@@ -92,7 +92,7 @@
                                 <state key="normal" title="Button" image="ProfileFollowIcon"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" red="0.054901960780000002" green="0.058823529409999999" blue="0.062745098040000002" alpha="0.45826914610000002" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="0.6703345070422535" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="mSY-KL-thz" firstAttribute="top" secondItem="9lC-cK-FYM" secondAttribute="bottom" id="2tU-yH-JI2"/>
                             <constraint firstItem="7Er-Qh-evl" firstAttribute="top" secondItem="mSY-KL-thz" secondAttribute="bottom" constant="5" id="99b-2Z-WqO"/>
@@ -100,7 +100,7 @@
                             <constraint firstItem="ZAH-a4-61m" firstAttribute="leading" secondItem="xEZ-tA-Iyj" secondAttribute="leading" id="IZG-aE-5Lb"/>
                             <constraint firstItem="9lC-cK-FYM" firstAttribute="top" secondItem="syc-kR-aUc" secondAttribute="top" constant="33" id="KhC-mU-QND"/>
                             <constraint firstItem="xEZ-tA-Iyj" firstAttribute="top" secondItem="43M-GA-jGD" secondAttribute="bottom" constant="11" id="PaN-I6-oul"/>
-                            <constraint firstAttribute="height" constant="242" id="ZCk-Bm-88e"/>
+                            <constraint firstAttribute="height" constant="201" id="ZCk-Bm-88e"/>
                             <constraint firstItem="Oh1-wL-tu1" firstAttribute="leading" secondItem="ZAH-a4-61m" secondAttribute="trailing" constant="5" id="a09-Bd-uTH"/>
                             <constraint firstItem="DH6-kx-y1B" firstAttribute="centerY" secondItem="syc-kR-aUc" secondAttribute="top" id="eN6-LI-Wlm"/>
                             <constraint firstItem="Oh1-wL-tu1" firstAttribute="centerY" secondItem="ZAH-a4-61m" secondAttribute="centerY" id="iK6-IQ-L2C"/>
