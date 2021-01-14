@@ -14,6 +14,7 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+        postPicPreview.layer.cornerRadius = 15
     }
 
 }

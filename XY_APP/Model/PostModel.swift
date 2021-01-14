@@ -24,6 +24,18 @@ struct PostData : FlowDataModel {
 }
 
 extension PostData {
+    init(_ data: [String: Any], id: String) {
+        self.id = id
+        userId = data[FirebaseKeys.PostKeys.author] as! String
+        timestamp = (data[FirebaseKeys.PostKeys.timestamp] as! Firebase.Timestamp).dateValue()
+        level = data[FirebaseKeys.PostKeys.level] as! Int
+        xp = data[FirebaseKeys.PostKeys.xp] as! Int
+        
+        let postData = data[FirebaseKeys.PostKeys.postData] as! [String: Any]
+        content = postData[FirebaseKeys.PostKeys.PostData.caption] as! String
+        images = [ postData[FirebaseKeys.PostKeys.PostData.imageRef] as! String ]
+    }
+    
     func toUpload() -> [String: Any] {
         return [
             FirebaseKeys.PostKeys.author : userId,

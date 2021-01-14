@@ -79,29 +79,12 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
     }
     
     private func fetchData() {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: "\(FirebaseKeys.PostKeys.timestamp)", descending: true)
-                    .getDocuments() { snapshot, error in
-            if let error = error {
-                print("Error fetching posts: \(error)")
-                return
-            }
-            if let documents = snapshot?.documents {
-                for doc in documents {
-                    let documentData = doc.data()
-                    if let postData = documentData[FirebaseKeys.PostKeys.postData] as? [String: Any] {
-                        self.data.append(
-                            PostData(
-                                id: doc.documentID,
-                                userId: documentData[FirebaseKeys.PostKeys.author] as! String,
-                                timestamp: (documentData[FirebaseKeys.PostKeys.timestamp] as! Firebase.Timestamp).dateValue(),
-                                content: postData[FirebaseKeys.PostKeys.PostData.caption] as! String,
-                                images: [postData[FirebaseKeys.PostKeys.PostData.imageRef] as! String],
-                                level: documentData[FirebaseKeys.PostKeys.level] as! Int,
-                                xp: documentData[FirebaseKeys.PostKeys.xp] as! Int
-                            ))
-                    }
-                }
+        
+        FirebaseDownload.getFlow() { posts, error in
+            if let error = error { print("Error fetching posts: \(error)") }
+            
+            if let posts = posts {
+                self.data.append(contentsOf: posts)
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()

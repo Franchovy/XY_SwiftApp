@@ -16,10 +16,6 @@ class ProfileVC : UIViewController {
     
     lazy var profile: [ProfileModel] = []
     
-    lazy var profile2: [Profile2Model] = [
-        Profile2Model(FlowLabel: "Flow")
-    ]
-    
     var ownerId: String = Auth.auth().currentUser!.uid
  
     var modalEscapable: Bool = false
@@ -127,6 +123,11 @@ class ProfileVC : UIViewController {
                             }
                         }
                     }
+                    
+                    if chatVC.conversationId == nil {
+                        chatVC.otherMemberId = self.ownerId
+                    }
+                    
                     self.present(chatVC, animated: true, completion: {})
                 }
             }
@@ -136,7 +137,7 @@ class ProfileVC : UIViewController {
 
 extension ProfileVC : UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1 + profile2.count
+        return 2
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -157,7 +158,7 @@ extension ProfileVC : UITableViewDataSource {
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileBottomReusable", for: indexPath) as! ProfileFlowTableViewCell
-            cell.flowLabel.text = profile2[indexPath.row - 1].FlowLabel
+            cell.ownerId = ownerId
             return cell
         }
     }

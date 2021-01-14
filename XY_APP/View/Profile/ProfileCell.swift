@@ -55,9 +55,9 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        followButton.layer.cornerRadius = 15
-        followButton.layer.shadowOffset = CGSize(width: 0, height: 4)
-        followButton.layer.shadowRadius = 8
+//        followButton.layer.cornerRadius = 15
+//        followButton.layer.shadowOffset = CGSize(width: 0, height: 4)
+//        followButton.layer.shadowRadius = 8
         
 //        chatButton.layer.cornerRadius = 15
 //        chatButton.layer.shadowOffset = CGSize(width: 0, height: 4)

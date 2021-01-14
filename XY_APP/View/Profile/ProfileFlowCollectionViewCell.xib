@@ -17,13 +17,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="118" height="118"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="post_3" translatesAutoresizingMaskIntoConstraints="NO" id="XdT-z4-Got">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="post_3" translatesAutoresizingMaskIntoConstraints="NO" id="XdT-z4-Got">
                         <rect key="frame" x="0.0" y="0.0" width="118" height="118"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>
             </view>
-            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <viewLayoutGuide key="safeArea" id="RMl-jj-9Vm"/>
             <size key="customSize" width="118" height="118"/>
             <connections>
                 <outlet property="postPicPreview" destination="XdT-z4-Got" id="iAK-tw-auN"/>

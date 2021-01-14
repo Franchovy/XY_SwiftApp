@@ -107,9 +107,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         
-//        let profileVC = ProfileVC()
-//        profileVC.loadView()
-        
         let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         
         profileVC.ownerId = viewModel.data!.userId

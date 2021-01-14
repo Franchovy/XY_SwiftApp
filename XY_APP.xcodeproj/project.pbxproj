@@ -327,12 +327,12 @@
 		14B2709525AA083F00CCACDE /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */,
 				14C99E3425A0F31300FFE003 /* ProfileUpperCell.xib */,
-				14B2709625AA087400CCACDE /* ProfileFlowTableViewCell.swift */,
+				14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */,
 				14B2709725AA087400CCACDE /* ProfileFlowTableViewCell.xib */,
-				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
+				14B2709625AA087400CCACDE /* ProfileFlowTableViewCell.swift */,
 				14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */,
+				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
 				B902DEBF25AF372D00F32B12 /* ProfileCell.xib */,
 				B902DEC325AF375E00F32B12 /* ProfileCell.swift */,
 			);

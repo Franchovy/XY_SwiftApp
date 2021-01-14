@@ -11,8 +11,43 @@ import FirebaseStorage
 
 class FirebaseDownload {
     
-    static func getPosts() {
-        
+    static func getFlow(completion: @escaping([PostData]?, Error?) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
+                    .getDocuments() { snapshot, error in
+            if let error = error {
+                completion(nil, error)
+            }
+            if let documents = snapshot?.documents {
+                var posts: [PostData] = []
+                for doc in documents {
+                    var newPost = PostData(doc.data(), id: doc.documentID)
+
+                    posts.append(newPost)
+                }
+                completion(posts, nil)
+            }
+        }
+    }
+    
+    static func getFlowForProfile(userId: String, completion: @escaping([PostData]?, Error?) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .whereField(FirebaseKeys.PostKeys.author, isEqualTo: userId)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
+                    .getDocuments() { snapshot, error in
+            if let error = error {
+                completion(nil, error)
+            }
+            if let documents = snapshot?.documents {
+                var posts: [PostData] = []
+                for doc in documents {
+                    var newPost = PostData(doc.data(), id: doc.documentID)
+
+                    posts.append(newPost)
+                }
+                completion(posts, nil)
+            }
+        }
     }
     
     static func getProfile(userId: String, completion: @escaping(ProfileModel?, Error?) -> Void) {
