@@ -28,6 +28,14 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
         profileCollectionView.dataSource = self
         profileCollectionView.register(UINib(nibName: "ProfileFlowCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "profileCollectionPostReusable")
         
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        let size = CGSize(width: (profileCollectionView.frame.width / 3) - 5, height: (profileCollectionView.frame.width / 3) - 5)
+        
+        flowLayout.itemSize = size
+        flowLayout.minimumLineSpacing = 5
+        flowLayout.minimumInteritemSpacing = 5
+        self.profileCollectionView.collectionViewLayout = flowLayout
         self.profileCollectionView.showsHorizontalScrollIndicator = false
     }
 
