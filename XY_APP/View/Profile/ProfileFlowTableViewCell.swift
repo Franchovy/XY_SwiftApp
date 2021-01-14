@@ -29,13 +29,17 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
         profileCollectionView.register(UINib(nibName: "ProfileFlowCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "profileCollectionPostReusable")
         
         let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.sectionInsetReference = .fromContentInset
         flowLayout.scrollDirection = .vertical
-        let size = CGSize(width: (profileCollectionView.frame.width / 3) - 5, height: (profileCollectionView.frame.width / 3) - 5)
-        
+        let length = (profileCollectionView.frame.width / 3) - 5
+        let size = CGSize(width: length, height: length)
+        flowLayout.estimatedItemSize = size
         flowLayout.itemSize = size
-        flowLayout.minimumLineSpacing = 5
-        flowLayout.minimumInteritemSpacing = 5
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        
+
         self.profileCollectionView.collectionViewLayout = flowLayout
+        
         self.profileCollectionView.showsHorizontalScrollIndicator = false
     }
 
@@ -91,21 +95,21 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
 
 }
 
-extension ProfileFlowTableViewCell: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.0
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        return CGSize(width: self.profileCollectionView.bounds.width, height: self.profileCollectionView.bounds.height)
-    }
-    
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 0.0
-    }
-}
+//extension ProfileFlowTableViewCell: UICollectionViewDelegateFlowLayout {
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0.0
+//    }
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+//
+//        return CGSize(width: self.profileCollectionView.bounds.width, height: self.profileCollectionView.bounds.height)
+//    }
+//
+//
+//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+//        return 0.0
+//    }
+//}
 
 extension ProfileFlowTableViewCell : UICollectionViewDataSource {
     
