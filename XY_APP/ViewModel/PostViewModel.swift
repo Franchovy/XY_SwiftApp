@@ -129,9 +129,22 @@ class PostViewModel {
         FirebaseUpload.sendSwipeRight(postId: postId) { result in
             switch result {
             case .success():
+                // XP automatically reloads
                 break
             case .failure(let error):
                 print("Error sending swipe right transaction: \(error)")
+            }
+        }
+    }
+    
+    func sendSwipeLeft() {
+        FirebaseUpload.sendSwipeLeft(postId: postId) { result in
+            switch result {
+            case .success():
+                // Flow automatically reloads
+                break
+            case .failure(let error):
+                print("Error sending swipe left transaction: \(error)")
             }
         }
     }

@@ -184,6 +184,15 @@ class FirebaseUpload {
                     } else if xp < 0 {
                         // Level down
                         
+                        if level == 0 {
+                            // Delete post
+                            let doc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document(documentRef.documentID)
+                            doc.delete() { error in
+                                if let error = error { completion(error) }
+                                else { completion(nil) }
+                            }
+                        }
+                        
                     } else {
                         completion(nil)
                     }

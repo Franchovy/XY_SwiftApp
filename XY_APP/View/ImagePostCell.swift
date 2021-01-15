@@ -264,6 +264,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
                     
                     flowVC.data.remove(at: indexPath.row)
                     flowVC.tableView.deleteRows(at: [indexPath], with: direction == .right ? .right : .left)
+                    
+                    self.viewModel.sendSwipeLeft()
                 })
             } else {
                 UIView.animate(withDuration: 0.5, delay: 0.5, usingSpringWithDamping: 1.0, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
