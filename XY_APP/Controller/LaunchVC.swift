@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class LaunchVC: UIViewController {
    
@@ -29,9 +30,18 @@ class LaunchVC: UIViewController {
 
     }
     
+    var segueToPerformOnAnimationFinished = "segueToLogin"
+    
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
             self.animate()
+            
+            // Check for login
+            guard let user = Auth.auth().currentUser else {
+                return
+            }
+            
+            self.segueToPerformOnAnimationFinished = "segueToMain"
         })
     }
     
@@ -52,7 +62,7 @@ class LaunchVC: UIViewController {
         }, completion: { done in
             if done {
                 let timer = Timer(timeInterval: TimeInterval(1.0), repeats: false, block: { _ in
-                    self.performSegue(withIdentifier: "segueToLogin", sender: self)
+                    self.performSegue(withIdentifier: self.segueToPerformOnAnimationFinished, sender: self)
                 })
                 timer.fire()
             }
