@@ -24,12 +24,12 @@ struct Action {
         ]
     }
     
-    static func getLevelUpAction(postId: String, level: Int) -> [String: Any] {
+    static func getLevelUpAction(docId: String, level: Int) -> [String: Any] {
         let type = ActionType.levelUp
         return [
             FirebaseKeys.ActionKeys.type : String(describing: type),
             FirebaseKeys.ActionKeys.timestamp : FieldValue.serverTimestamp(),
-            FirebaseKeys.ActionKeys.item : postId,
+            FirebaseKeys.ActionKeys.item : docId,
             FirebaseKeys.ActionKeys.level : level
         ]
     }

@@ -31,7 +31,7 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInsetReference = .fromContentInset
         flowLayout.scrollDirection = .vertical
-        let length = (profileCollectionView.frame.width / 3) - 5
+        let length = (profileCollectionView.frame.width / 3)
         let size = CGSize(width: length, height: length)
         flowLayout.estimatedItemSize = size
         flowLayout.itemSize = size
