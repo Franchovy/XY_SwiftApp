@@ -84,6 +84,9 @@
 		B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */; };
 		B95FF51625A72DA900CFCA9E /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */; };
 		B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */; };
+		B9AE604125B1F7E70093502B /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AE604025B1F7E70093502B /* SettingsVC.swift */; };
+		B9AE604525B1F7F80093502B /* EditEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AE604425B1F7F80093502B /* EditEmailVC.swift */; };
+		B9AE604925B1F8040093502B /* EditPasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AE604825B1F8040093502B /* EditPasswordVC.swift */; };
 		B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
 		B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */; };
@@ -200,6 +203,9 @@
 		B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateXYUserService.swift; sourceTree = "<group>"; };
 		B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		B9AE604025B1F7E70093502B /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		B9AE604425B1F7F80093502B /* EditEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailVC.swift; sourceTree = "<group>"; };
+		B9AE604825B1F8040093502B /* EditPasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPasswordVC.swift; sourceTree = "<group>"; };
 		B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewModel.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY_APP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY_APP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B92DD325644A3F005D9B86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -281,6 +287,7 @@
 			isa = PBXGroup;
 			children = (
 				B926225D25A234A100BA2FB0 /* LaunchVC.swift */,
+				B9AE603B25B1F7CA0093502B /* Settings */,
 				141FF440258270C70030FF67 /* ConversationsVC.swift */,
 				148218C2258FF52700676556 /* ChatVC.swift */,
 				B9D1AB3025A3A591009B428E /* FlowDataCell.swift */,
@@ -422,6 +429,16 @@
 				B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B9AE603B25B1F7CA0093502B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B9AE604025B1F7E70093502B /* SettingsVC.swift */,
+				B9AE604425B1F7F80093502B /* EditEmailVC.swift */,
+				B9AE604825B1F8040093502B /* EditPasswordVC.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		B9B92DC725644A3F005D9B86 = {
@@ -706,6 +723,7 @@
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				148218C3258FF52700676556 /* ChatVC.swift in Sources */,
+				B9AE604125B1F7E70093502B /* SettingsVC.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
@@ -727,6 +745,7 @@
 				14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */,
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
+				B9AE604525B1F7F80093502B /* EditEmailVC.swift in Sources */,
 				14251374259F898A00DC08BB /* CreatePostVC.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
@@ -734,6 +753,7 @@
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
 				B95482C025AAF2F70058D8B4 /* XPViewModel.swift in Sources */,
 				B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */,
+				B9AE604925B1F8040093502B /* EditPasswordVC.swift in Sources */,
 				14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */,
 				B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsVC.swift in Sources */,

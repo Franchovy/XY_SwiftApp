@@ -46,6 +46,7 @@ class ProfileViewModel {
     }
     
     var nickname: String!
+    var xyname: String!
     var numFollowers: Int!
     var numFollowing: Int!
     var level: Int!
@@ -53,13 +54,14 @@ class ProfileViewModel {
     
     init(userId: String) {
         // Fetch profile data
-        FirebaseDownload.getProfile(userId: userId) { profileData, error in
+        FirebaseDownload.getProfile(userId: userId) {xyname, profileData, error in
             if let error = error {
                 print("Error fetching profile: \(error)")
             }
-            if let profileData = profileData {
+            if let xyname = xyname, let profileData = profileData {
                 // Set profile data
                 self.profileData = profileData
+                self.xyname = xyname
                 self.delegate?.onProfileDataFetched(profileData)
             }
         }
@@ -67,5 +69,18 @@ class ProfileViewModel {
     
     init(profileData: ProfileModel) {
         self.profileData = profileData
+    }
+    
+    func sendEditUpdate() {
+        // Sends update to firebase for current values
+        
+        FirebaseUpload.editProfileInfo(profileData: profileData) { result in
+            switch result {
+            case .success():
+                print("Successfully edited profile.")
+            case .failure(let error):
+                print("Error editing profile caption: \(error)")
+            }
+        }
     }
 }

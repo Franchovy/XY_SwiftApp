@@ -49,7 +49,7 @@ class ConversationViewModel {
                 // Isolate other member user id
                 let otherMemberId = conversation.members.drop(while: { $0.isEqual(Auth.auth().currentUser!.uid) } ).first!
                 
-                FirebaseDownload.getProfile(userId: otherMemberId) { profile, error in
+                FirebaseDownload.getProfile(userId: otherMemberId) {_, profile, error in
                     if let error = error { print("Error fetching profile for conversation: \(error)") }
                     
                     if let profile = profile {

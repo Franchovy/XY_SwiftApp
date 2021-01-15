@@ -9,6 +9,8 @@ import UIKit
 import FirebaseAuth
 
 class LaunchVC: UIViewController {
+    
+    static let identifier = "LaunchVC"
    
     private let imageView: UIImageView = {
         

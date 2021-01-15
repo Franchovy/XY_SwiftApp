@@ -42,7 +42,7 @@ class EditProfileTests: XCTestCase {
     func getProfile() throws {
         let expectation = self.expectation(description: "Test: Get Profile")
         
-        FirebaseDownload.getProfile(userId: Auth.auth().currentUser!.uid) { profileData, error in
+        FirebaseDownload.getProfile(userId: Auth.auth().currentUser!.uid) {_, profileData, error in
             if let error = error {
                 fatalError(error.localizedDescription)
             }

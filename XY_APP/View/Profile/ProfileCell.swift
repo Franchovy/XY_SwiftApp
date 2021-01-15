@@ -40,6 +40,7 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     }
     
     func onProfileDataFetched(_ profileData: ProfileModel) {
+        xynameLabel.text = "@\(viewModel!.xyname!)"
         nicknameLabel.text = profileData.nickname
         xpCircle.levelLabel.text = String(describing: profileData.level)
         captionLabel.text = profileData.caption
@@ -223,15 +224,33 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     
     
     @IBAction func onEditNicknameEnded(_ sender: UITextField) {
-        
+        if let newNickname = sender.text, newNickname != "" {
+            viewModel?.profileData.nickname = newNickname
+            
+            // Edit profile request: caption
+            viewModel?.sendEditUpdate()
+            
+        }
     }
     
     @IBAction func onEditCaptionEnded(_ sender: UITextField) {
-        
+        if let newCaption = sender.text, newCaption != "" {
+            viewModel?.profileData.caption = newCaption
+            
+            // Edit profile request: caption
+            viewModel?.sendEditUpdate()
+            
+        }
     }
     
     @IBAction func onEditWebsiteEnded(_ sender: UITextField) {
-        
+        if let newWebsite = sender.text, newWebsite != "" {
+            viewModel?.profileData.website = newWebsite
+            
+            // Edit profile request: website
+            viewModel?.sendEditUpdate()
+            
+        }
     }
     
     @IBAction func onEditProfileImagePressed(_ sender: UIButton) {

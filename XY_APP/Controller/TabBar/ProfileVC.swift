@@ -14,8 +14,6 @@ class ProfileVC : UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    lazy var profile: [ProfileModel] = []
-    
     var topCell: ProfileCell!
     var bottomCell: ProfileFlowTableViewCell!
     
@@ -140,6 +138,10 @@ class ProfileVC : UIViewController {
             }
         }
     }
+    
+    func settingsSegue() {
+        performSegue(withIdentifier: "segueToSettings", sender: self)
+    }
 }
 
 extension ProfileVC : UITableViewDelegate {
@@ -171,6 +173,8 @@ extension ProfileVC : UITableViewDataSource {
             cell.onKeyboardDismiss = { self.dismissKeyboard() }
             cell.isOwnProfile = ownerId == Auth.auth().currentUser!.uid
             cell.onChatButtonPressed = chatSegue
+            cell.onSettingsButtonPressed = settingsSegue
+            
             
             topCell = cell
             

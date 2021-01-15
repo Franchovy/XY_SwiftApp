@@ -1102,7 +1102,7 @@
                     <navigationItem key="navigationItem" id="lln-38-LGZ">
                         <barButtonItem key="rightBarButtonItem" title="Settings" id="JPa-oK-xP3">
                             <connections>
-                                <segue destination="IGQ-5a-jyd" kind="show" id="JTV-bG-7eX"/>
+                                <segue destination="IGQ-5a-jyd" kind="show" identifier="segueToSettings" id="JTV-bG-7eX"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1118,7 +1118,7 @@
         <!--SettingsVC-->
         <scene sceneID="GKT-zy-vtD">
             <objects>
-                <viewController id="IGQ-5a-jyd" customClass="SettingsVC" sceneMemberID="viewController">
+                <viewController id="IGQ-5a-jyd" customClass="SettingsVC" customModule="XY_APP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JjB-dr-3ne">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1129,8 +1129,9 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </label>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="Udf-7K-Jna">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="7" id="Udf-7K-Jna">
                                 <rect key="frame" x="12" y="65" width="351" height="155"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxY="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNK-HV-eBS">
                                         <rect key="frame" x="0.0" y="0.0" width="351" height="47"/>
@@ -1161,6 +1162,9 @@
                                             <constraint firstAttribute="height" constant="47" id="w6C-LO-C8m"/>
                                         </constraints>
                                         <state key="normal" image="logout_Button-1"/>
+                                        <connections>
+                                            <action selector="logoutButtonPressed:" destination="IGQ-5a-jyd" eventType="touchUpInside" id="45v-6w-KUl"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -1168,10 +1172,8 @@
                         <viewLayoutGuide key="safeArea" id="FtL-ZU-aQl"/>
                         <color key="backgroundColor" name="XYblack"/>
                         <constraints>
-                            <constraint firstItem="FtL-ZU-aQl" firstAttribute="bottom" secondItem="Udf-7K-Jna" secondAttribute="bottom" constant="421" id="5bh-AZ-Vqc"/>
-                            <constraint firstItem="FtL-ZU-aQl" firstAttribute="trailing" secondItem="Udf-7K-Jna" secondAttribute="trailing" constant="12" id="9D8-He-8Pm"/>
+                            <constraint firstItem="Udf-7K-Jna" firstAttribute="centerX" secondItem="JjB-dr-3ne" secondAttribute="centerX" id="Aep-bN-PLl"/>
                             <constraint firstItem="To0-8y-e5s" firstAttribute="leading" secondItem="FtL-ZU-aQl" secondAttribute="leading" constant="10" id="RYN-iv-Vxt"/>
-                            <constraint firstItem="Udf-7K-Jna" firstAttribute="leading" secondItem="FtL-ZU-aQl" secondAttribute="leading" constant="12" id="bKd-Kg-n7f"/>
                             <constraint firstItem="To0-8y-e5s" firstAttribute="top" secondItem="FtL-ZU-aQl" secondAttribute="top" constant="10" id="ew1-yy-DG8"/>
                             <constraint firstItem="Udf-7K-Jna" firstAttribute="top" secondItem="To0-8y-e5s" secondAttribute="bottom" constant="19" id="pw8-DM-did"/>
                         </constraints>
@@ -1185,7 +1187,7 @@
         <!--Edit EmailVC-->
         <scene sceneID="3GE-bA-w3z">
             <objects>
-                <viewController id="Bvg-KP-FCb" customClass="EditEmailVC" sceneMemberID="viewController">
+                <viewController id="Bvg-KP-FCb" customClass="EditEmailVC" customModule="XY_APP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ari-HV-dyW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1255,7 +1257,7 @@
         <!--Edit PasswordVC-->
         <scene sceneID="0Fa-nk-GaC">
             <objects>
-                <viewController id="asW-bA-FQZ" customClass="EditPasswordVC" sceneMemberID="viewController">
+                <viewController id="asW-bA-FQZ" customClass="EditPasswordVC" customModule="XY_APP" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5LG-sL-VoP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1367,7 +1369,7 @@
         <!--InitialViewController-->
         <scene sceneID="AE0-1Q-oNz">
             <objects>
-                <viewController title="InitialViewController" id="PeY-Pf-Z7i" customClass="LaunchVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LaunchVC" title="InitialViewController" id="PeY-Pf-Z7i" customClass="LaunchVC" customModule="XY_APP" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="RUU-Nn-wxP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
