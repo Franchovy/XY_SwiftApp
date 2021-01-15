@@ -124,6 +124,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     
     override func prepareForReuse() {
         // Load from data for this cell
+        self.postCard.transform.tx = 0
         contentImageView.image = nil
         profileImageView.image = nil
         contentLabel.text = ""
