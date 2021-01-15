@@ -52,7 +52,7 @@ class PostViewModel {
                             self.xyname = documentData[FirebaseKeys.ProfileKeys.nickname] as? String
                             self.delegate?.didFetchProfileData(xyname: self.xyname!)
                             // Set profileImageId
-                            self.profileImageId = documentData[FirebaseKeys.ProfileKeys.image] as? String
+                            self.profileImageId = documentData[FirebaseKeys.ProfileKeys.profileImage] as? String
                         }
                     }
                 }
@@ -80,7 +80,11 @@ class PostViewModel {
                 //let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
                 //imageView.kf.indicatorType = .activity
                 //print("Fetching image with url: \(imageUrl.absoluteString)")
-                KingfisherManager.shared.retrieveImage(with: imageUrl) { result in
+                KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
+                    // Update download progress
+                }, downloadTaskUpdated: { task in
+                    // Download task update
+                }, completionHandler: { result in
                     do {
                         let image = try result.get().image
                         self.profileImage = image
@@ -88,7 +92,7 @@ class PostViewModel {
                     } catch let error {
                         print("Error fetching profile image: \(error)")
                     }
-                }
+                })
             }
         }
     }
@@ -106,7 +110,14 @@ class PostViewModel {
                     }
                     guard let imageUrl = imageUrl else { fatalError() }
                     
-                    KingfisherManager.shared.retrieveImage(with: imageUrl) { result in
+//                    if KingfisherManager.shared.cache.isCached(forKey: imageUrl) {
+                    
+//                    }
+                    KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
+                        // Update download progress
+                    }, downloadTaskUpdated: { task in
+                        // Download task update
+                    }, completionHandler: { result in
                         do {
                             let image = try result.get().image
                             self.images = [image]
@@ -114,7 +125,8 @@ class PostViewModel {
                         } catch let error {
                             print("Error fetching profile image: \(error)")
                         }
-                    }
+                    })
+                    
                 }
             }
         }

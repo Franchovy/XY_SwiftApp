@@ -7,14 +7,24 @@
 
 import UIKit
 
+
 class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
+    
+    // MARK: - Enums
+    
+    enum ImageToPick {
+        case profileImage
+        case coverImage
+    }
+
+    var imageToPick: ImageToPick!
+    
+    // MARK: - Properties
 
     static let identifier = "ProfileCell"
     
     var imagePickerDelegate: XYImagePickerDelegate?
     var imagePicker = UIImagePickerController()
-
-    // MARK: - Properties
     
     var viewModel: ProfileViewModel? {
         didSet {
@@ -38,6 +48,10 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     
     func onProfileImageFetched(_ image: UIImage) {
         profileImage.image = image
+    }
+    
+    func onCoverImageFetched(_ image: UIImage) {
+        coverImage.image = image
     }
     
     // MARK: - IBOutlets
@@ -113,6 +127,7 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         coverImage.layer.cornerRadius = 10
         coverImage.backgroundColor = .clear
         
+        imagePicker.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -220,11 +235,13 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     }
     
     @IBAction func onEditProfileImagePressed(_ sender: UIButton) {
-        
+        imageToPick = .profileImage
+        imagePickerDelegate?.presentImagePicker(imagePicker: imagePicker)
     }
     
     @IBAction func onEditCoverImagePressed(_ sender: UIButton) {
-        
+        imageToPick = .coverImage
+        imagePickerDelegate?.presentImagePicker(imagePicker: imagePicker)
     }
     
     @objc func tappedAnywhere(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -293,8 +310,13 @@ extension ProfileCell : UITextFieldDelegate {
 extension ProfileCell : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            // This is probably a bad way to do it, but for now the imagePreview image is where the image is stored.
-            profileImage.image = image
+            
+            switch imageToPick! {
+            case .coverImage:
+                coverImage.image = image
+            case .profileImage:
+                profileImage.image = image
+            }
             
             // Upload image and set profile data
             FirebaseUpload.uploadImage(image: image) { imageRef, error in
@@ -302,7 +324,12 @@ extension ProfileCell : UIImagePickerControllerDelegate, UINavigationControllerD
                     print("Error uploading new profile image: \(error)")
                 }
                 if let imageRef = imageRef, let viewModel = self.viewModel {
-                    viewModel.profileData.imageId = imageRef
+                    switch self.imageToPick! {
+                    case .coverImage:
+                        viewModel.profileData.coverImageId = imageRef
+                    case .profileImage:
+                        viewModel.profileData.profileImageId = imageRef
+                    }
                     
                     FirebaseUpload.editProfileInfo(profileData: viewModel.profileData) { result in
                         switch result {

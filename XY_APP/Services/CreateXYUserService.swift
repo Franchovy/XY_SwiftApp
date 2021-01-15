@@ -44,15 +44,7 @@ class CreateXYUserService {
                             return
                         }
                         
-                        let newProfileData = ProfileModel(
-                            nickname: xyname,
-                            imageId: "",
-                            website: "",
-                            followers: 0,
-                            following: 0,
-                            xp: 0,
-                            level: 0,
-                            caption: "New profile!")
+                        let newProfileData = ProfileModel.createNewProfileData(nickname: xyname)
                         
                         createProfile(profileData: newProfileData) { result in
                             switch result {
@@ -77,11 +69,11 @@ class CreateXYUserService {
         }
     }
 
-    static func createProfile(profileData: ProfileModel, completion: @escaping(Result<String, Error>) -> Void) {
+    static func createProfile(profileData: [String: Any], completion: @escaping(Result<String, Error>) -> Void) {
         let uid = Auth.auth().currentUser!.uid
         
         // Create new profile document
-        let newProfile = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).addDocument(data: profileData.createNewProfileData) { error in
+        let newProfile = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).addDocument(data: profileData) { error in
             if let error = error {
                 completion(.failure(error))
             }

@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import ImagePicker
 
-class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {    
+class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
     func setProgress(level: Int, progress: Float) {
         barXPCircle.levelLabel.text = String(describing: level)
         barXPCircle.progressBarCircle.progress = CGFloat(progress)
@@ -102,10 +102,8 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
                                         return postData.id == newPost.id
                                     } else { return true }
                                 }) {
-                                    print("Already contains this post")
                                     continue
                                 } else {
-                                    print("Inserting post")
                                     let lastVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.last ?? IndexPath(row: 0, section: 0)
                                     
                                     self.data.insert(newPost, at: lastVisibleRowIndex.row)

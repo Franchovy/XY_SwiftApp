@@ -162,12 +162,11 @@ extension ProfileVC : UITableViewDataSource {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
             
             cell.viewModel = ProfileViewModel(userId: ownerId)
-//             Add "Tap anywhere" escape function from keyboard focus
+            // Add "Tap anywhere" escape function from keyboard focus
             let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
             view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
             
-//            cell.imagePickerDelegate = self
-//            cell.logout = logoutSegue
+            cell.imagePickerDelegate = self
             
             cell.onKeyboardDismiss = { self.dismissKeyboard() }
             cell.isOwnProfile = ownerId == Auth.auth().currentUser!.uid
@@ -176,7 +175,6 @@ extension ProfileVC : UITableViewDataSource {
             topCell = cell
             
             return cell
-            
         } else {
             
             let cell = tableView.dequeueReusableCell(withIdentifier: "profileBottomReusable", for: indexPath) as! ProfileFlowTableViewCell
@@ -224,13 +222,13 @@ extension ProfileVC : UIGestureRecognizerDelegate {
         
   //  }
     
-  //  extension ProfileVC : XYImagePickerDelegate {
-   //     func presentImagePicker(imagePicker: UIImagePickerController) {
-    //        present(imagePicker, animated: true, completion: nil)
-    //    }
-    //
-    //    func onImageUploadSucceed() {
-            
-    //    }
-   // }
-//}
+extension ProfileVC : XYImagePickerDelegate {
+    func presentImagePicker(imagePicker: UIImagePickerController) {
+        present(imagePicker, animated: true, completion: nil)
+    }
+
+    func onImageUploadSucceed() {
+        
+    }
+}
+

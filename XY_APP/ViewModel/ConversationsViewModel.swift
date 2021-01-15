@@ -56,7 +56,7 @@ class ConversationViewModel {
                         self.delegate.onFetchedProfileData(profile, indexRow: self.indexRow)
                         
                         // Fetch profile image
-                        FirebaseDownload.getImage(imageId: profile.imageId) { image, error in
+                        FirebaseDownload.getImage(imageId: profile.profileImageId) { image, error in
                             if let error = error { print("Error fetching profile image for user: \(error)") }
                             
                             if let image = image {

@@ -99,6 +99,8 @@
 		B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E55C25A5F131001859EA /* FlowVC.swift */; };
 		B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56025A5F362001859EA /* PostViewModel.swift */; };
 		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
+		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
+		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		D4AF45A21E90EB85C8814087 /* Pods_XY_APP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7475997B9B6670EC9737322B /* Pods_XY_APP.framework */; };
 /* End PBXBuildFile section */
 
@@ -215,6 +217,8 @@
 		B9D5E55C25A5F131001859EA /* FlowVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowVC.swift; sourceTree = "<group>"; };
 		B9D5E56025A5F362001859EA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
+		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
+		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,6 +418,8 @@
 				B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */,
 				B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */,
 				B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */,
+				B9E73B5725B1E1A800042134 /* FlowHandler.swift */,
+				B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -717,6 +723,7 @@
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				14B2705125A9EBA500CCACDE /* OnlineFriendsCellsModel.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
+				B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */,
 				14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */,
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
@@ -726,6 +733,7 @@
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
 				B95482C025AAF2F70058D8B4 /* XPViewModel.swift in Sources */,
+				B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */,
 				14607A6F25A0618D009B3B50 /* CreatePostCell.swift in Sources */,
 				B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */,
 				141FF441258270C70030FF67 /* ConversationsVC.swift in Sources */,

@@ -11,6 +11,7 @@ import FirebaseStorage
 protocol ProfileViewModelDelegate: NSObjectProtocol {
     func onProfileDataFetched(_ profileData: ProfileModel)
     func onProfileImageFetched(_ image: UIImage)
+    func onCoverImageFetched(_ image: UIImage)
 }
 
 class ProfileViewModel {
@@ -24,12 +25,21 @@ class ProfileViewModel {
             caption = profileData.caption
             
             // Fetch profile image from id
-            FirebaseDownload.getImage(imageId: profileData.imageId) { image, error in
+            FirebaseDownload.getImage(imageId: profileData.profileImageId) { image, error in
                 if let error = error {
-                    print("Error fetching image for profile!")
+                    print("Error fetching profile image for profile!")
                 }
                 if let image = image {
                     self.delegate?.onProfileImageFetched(image)
+                }
+            }
+            
+            FirebaseDownload.getImage(imageId: profileData.coverImageId) { image, error in
+                if let error = error {
+                    print("Error fetching cover image for profile!")
+                }
+                if let image = image {
+                    self.delegate?.onCoverImageFetched(image)
                 }
             }
         }

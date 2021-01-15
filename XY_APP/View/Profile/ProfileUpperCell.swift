@@ -35,6 +35,10 @@ class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
         ProfImg.image = image
     }
     
+    func onCoverImageFetched(_ image: UIImage) {
+        coverImage.image = image
+    }
+    
     //MARK: - Delegate functions
     
     var logout: (() -> Void)?
@@ -261,7 +265,7 @@ extension ProfileUpperCell : UIImagePickerControllerDelegate, UINavigationContro
                     print("Error uploading new profile image: \(error)")
                 }
                 if let imageRef = imageRef, let viewModel = self.viewModel {
-                    viewModel.profileData.imageId = imageRef
+                    viewModel.profileData.profileImageId = imageRef
                     
                     FirebaseUpload.editProfileInfo(profileData: viewModel.profileData) { result in
                         switch result {
