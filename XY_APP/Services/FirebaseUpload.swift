@@ -155,7 +155,7 @@ class FirebaseUpload {
                     guard let data = snapshot.data(), let level = data["level"] as? Int, let xp = data["xp"] as? Int else { fatalError("Document does not have level and/or xp keys! Please check the document reference is correct") }
                     
                     let nextLevelXP = XPModel.LEVELS[xpLevelType]![level]
-                    if xp > nextLevelXP {
+                    if xp >= nextLevelXP {
                         // Level up
                         
                         // Level up post
