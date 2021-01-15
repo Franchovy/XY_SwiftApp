@@ -9,7 +9,7 @@ import UIKit
 import Firebase
 import ImagePicker
 
-class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
+class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {    
     func setProgress(level: Int, progress: Float) {
         barXPCircle.levelLabel.text = String(describing: level)
         barXPCircle.progressBarCircle.progress = CGFloat(progress)
@@ -42,7 +42,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
         self.navigationItem.titleView = imageView
         
         tableView.register(UINib(nibName: ImagePostCell.nibName, bundle: nil), forCellReuseIdentifier: ImagePostCell.identifier)
-        fetchData()
+        prefetchData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,7 +78,7 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
         print("cancel")
     }
     
-    private func fetchData() {
+    private func prefetchData() {
         
         FirebaseDownload.getFlow() { posts, error in
             if let error = error { print("Error fetching posts: \(error)") }
@@ -88,7 +88,9 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
-                    
+                }
+                
+                DispatchQueue.global(qos: .background).async {
                     FirebaseDownload.getFlowUpdates() { posts, error in
                         if let error = error { print("Error fetching posts: \(error)") }
                         print("Flow update")

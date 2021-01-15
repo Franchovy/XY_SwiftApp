@@ -145,11 +145,8 @@ class ProfileVC : UIViewController {
 extension ProfileVC : UITableViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         // Fade background of cover picture on scroll down
-        
-        print("Scroll location: \(tableView.contentOffset.y)")
-        
+                
         let scrollPositionProportionToWidth = max(0, 1 - (tableView.contentOffset.y / (topCell.coverImage.frame.height - topCell.profileCard.frame.height)))
-        print("Setting opacity: \(scrollPositionProportionToWidth)")
         topCell.coverImage.layer.opacity = Float(scrollPositionProportionToWidth)
         topCell.backgroundColor = .black
     }

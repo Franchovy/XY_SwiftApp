@@ -31,7 +31,7 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInsetReference = .fromContentInset
         flowLayout.scrollDirection = .vertical
-        let length = (profileCollectionView.frame.width / 3)
+        let length = (profileCollectionView.frame.width / 3) - 5.1
         let size = CGSize(width: length, height: length)
         flowLayout.estimatedItemSize = size
         flowLayout.itemSize = size
@@ -94,22 +94,6 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }
 
 }
-
-//extension ProfileFlowTableViewCell: UICollectionViewDelegateFlowLayout {
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0.0
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//
-//        return CGSize(width: self.profileCollectionView.bounds.width, height: self.profileCollectionView.bounds.height)
-//    }
-//
-//
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-//        return 0.0
-//    }
-//}
 
 extension ProfileFlowTableViewCell : UICollectionViewDataSource {
     

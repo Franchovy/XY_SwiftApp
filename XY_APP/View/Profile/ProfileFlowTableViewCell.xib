@@ -14,16 +14,16 @@
         <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="profileBottomReusable" rowHeight="717" id="KGk-i7-Jjw" customClass="ProfileFlowTableViewCell" customModule="XY_APP" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="370" height="717"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" ambiguous="YES" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="370" height="717"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="jYw-0V-YXV">
-                        <rect key="frame" x="7" y="20" width="355" height="695"/>
+                        <rect key="frame" x="2" y="20" width="370" height="695"/>
                         <color key="backgroundColor" name="XYblack"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="695" id="HAG-Za-b5r"/>
-                            <constraint firstAttribute="width" constant="355" id="O8y-D1-5OQ"/>
+                            <constraint firstAttribute="width" constant="370" id="O8y-D1-5OQ"/>
                         </constraints>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="o2a-c7-h3g">
                             <size key="itemSize" width="128" height="128"/>
@@ -36,10 +36,10 @@
                 <viewLayoutGuide key="safeArea" id="bB8-Gd-ugD"/>
                 <color key="backgroundColor" name="XYblack"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="jYw-0V-YXV" secondAttribute="trailing" constant="7" id="DAZ-2p-3KC"/>
-                    <constraint firstItem="jYw-0V-YXV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="7" id="Jjo-GX-xbq"/>
+                    <constraint firstAttribute="trailing" secondItem="jYw-0V-YXV" secondAttribute="trailing" constant="-2" id="DAZ-2p-3KC"/>
                     <constraint firstAttribute="bottom" secondItem="jYw-0V-YXV" secondAttribute="bottom" constant="2" id="Mmt-vg-bu9"/>
                     <constraint firstItem="jYw-0V-YXV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="20" id="gHv-b1-FQX"/>
+                    <constraint firstItem="jYw-0V-YXV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="2" id="oQy-rF-3nn"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
@@ -51,7 +51,7 @@
     </objects>
     <resources>
         <namedColor name="XYblack">
-            <color red="0.054999999701976776" green="0.059000000357627869" blue="0.063000001013278961" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
