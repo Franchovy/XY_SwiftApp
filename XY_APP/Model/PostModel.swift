@@ -27,7 +27,7 @@ extension PostData {
     init(_ data: [String: Any], id: String) {
         self.id = id
         userId = data[FirebaseKeys.PostKeys.author] as! String
-        timestamp = (data[FirebaseKeys.PostKeys.timestamp] as! Firebase.Timestamp).dateValue()
+        timestamp = (data[FirebaseKeys.PostKeys.timestamp] as? Firebase.Timestamp)?.dateValue() ?? Date()
         level = data[FirebaseKeys.PostKeys.level] as! Int
         xp = data[FirebaseKeys.PostKeys.xp] as! Int
         

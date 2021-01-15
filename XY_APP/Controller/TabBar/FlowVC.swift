@@ -88,6 +88,31 @@ class FlowVC : UITableViewController, ImagePickerDelegate, XPViewModelDelegate {
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    
+                    FirebaseDownload.getFlowUpdates() { posts, error in
+                        if let error = error { print("Error fetching posts: \(error)") }
+                        print("Flow update")
+                        if let posts = posts {
+                            for newPost in posts {
+                                
+                                if self.data.contains(where: { flowDataModel in
+                                    if let postData = flowDataModel as? PostData {
+                                        return postData.id == newPost.id
+                                    } else { return true }
+                                }) {
+                                    print("Already contains this post")
+                                    continue
+                                } else {
+                                    print("Inserting post")
+                                    let lastVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.last ?? IndexPath(row: 0, section: 0)
+                                    
+                                    self.data.insert(newPost, at: lastVisibleRowIndex.row)
+                                    
+                                    self.tableView.insertRows(at: [lastVisibleRowIndex], with: .bottom)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

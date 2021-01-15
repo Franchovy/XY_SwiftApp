@@ -21,12 +21,34 @@ class FirebaseDownload {
             if let documents = snapshot?.documents {
                 var posts: [PostData] = []
                 for doc in documents {
+                    
                     var newPost = PostData(doc.data(), id: doc.documentID)
 
                     posts.append(newPost)
                 }
                 completion(posts, nil)
             }
+        }
+    }
+    
+    static func getFlowUpdates(completion: @escaping([PostData]?, Error?) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).addSnapshotListener() { snapshotDocuments, error in
+            if let error = error { completion(nil, error) }
+            
+            guard let snapshotDocuments = snapshotDocuments else { return }
+            
+            var postDataArray: [PostData] = []
+            for postDocument in snapshotDocuments.documents {
+                let source = postDocument.metadata.isFromCache ? "Local" : "Server"
+                if source == "Local" { return }
+                
+                
+                let postDocumentData = postDocument.data()
+                let postData = PostData(postDocumentData, id: postDocument.documentID)
+                postDataArray.append(postData)
+            }
+            completion(postDataArray, nil)
+            
         }
     }
     
