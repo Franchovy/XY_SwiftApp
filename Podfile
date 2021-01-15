@@ -11,8 +11,6 @@ target 'XY_APP' do
     inherit! :search_paths
     # Pods for testing
   end
-# add the Firebase pod for Google Analytics
-
 pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
@@ -21,6 +19,7 @@ pod 'SwipeCellKit'
 pod 'IQKeyboardManagerSwift'
 pod 'ImagePicker'
 pod 'Kingfisher', '~> 6.0'
+pod 'Hero'
 
 
 end
