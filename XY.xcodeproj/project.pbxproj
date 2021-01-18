@@ -77,6 +77,7 @@
 		B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482B725AAF1E00058D8B4 /* XPModel.swift */; };
 		B95482C025AAF2F70058D8B4 /* XPViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482BF25AAF2F70058D8B4 /* XPViewModel.swift */; };
 		B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9599A3B25711D810057B7D9 /* LoginViewController.swift */; };
+		B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */; };
 		B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */; };
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
@@ -195,6 +196,7 @@
 		B95482B725AAF1E00058D8B4 /* XPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModel.swift; sourceTree = "<group>"; };
 		B95482BF25AAF2F70058D8B4 /* XPViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPViewModel.swift; sourceTree = "<group>"; };
 		B9599A3B25711D810057B7D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloaderHelper.swift; sourceTree = "<group>"; };
 		B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownload.swift; sourceTree = "<group>"; };
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 			children = (
 				B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */,
 				B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */,
+				B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -725,6 +728,7 @@
 				148218C3258FF52700676556 /* ChatVC.swift in Sources */,
 				B9AE604125B1F7E70093502B /* SettingsVC.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
+				B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
 				14A36081259CB88D002829D7 /* MomentsModel.swift in Sources */,
