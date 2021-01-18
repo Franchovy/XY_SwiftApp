@@ -25,7 +25,7 @@ class SettingsVC: UIViewController {
         
         let rootVC = navigationController?.popToRootViewController(animated: true)?.last
         let tabBarVC = rootVC?.tabBarController
-        let rootVC2 = tabBarVC?.navigationController?.popToRootViewController(animated: true)?.last
+        tabBarVC?.navigationController?.popToRootViewController(animated: true)
     }
     /*
     // MARK: - Navigation

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B9B92DCF25644A3F005D9B86"
-               BuildableName = "XY_APP.app"
-               BlueprintName = "XY_APP"
-               ReferencedContainer = "container:XY_APP.xcodeproj">
+               BuildableName = "XY.app"
+               BlueprintName = "XY"
+               ReferencedContainer = "container:XY.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B93D1BEA2597E9C6009ADBFC"
-               BuildableName = "XY_APPTests.xctest"
-               BlueprintName = "XY_APPTests"
-               ReferencedContainer = "container:XY_APP.xcodeproj">
+               BuildableName = "XYTests.xctest"
+               BlueprintName = "XYTests"
+               ReferencedContainer = "container:XY.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B9B92DCF25644A3F005D9B86"
-            BuildableName = "XY_APP.app"
-            BlueprintName = "XY_APP"
-            ReferencedContainer = "container:XY_APP.xcodeproj">
+            BuildableName = "XY.app"
+            BlueprintName = "XY"
+            ReferencedContainer = "container:XY.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B9B92DCF25644A3F005D9B86"
-            BuildableName = "XY_APP.app"
-            BlueprintName = "XY_APP"
-            ReferencedContainer = "container:XY_APP.xcodeproj">
+            BuildableName = "XY.app"
+            BlueprintName = "XY"
+            ReferencedContainer = "container:XY.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
