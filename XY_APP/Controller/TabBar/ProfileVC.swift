@@ -152,6 +152,26 @@ extension ProfileVC : UITableViewDelegate {
         topCell.coverImage.layer.opacity = Float(scrollPositionProportionToWidth)
         topCell.backgroundColor = .black
     }
+    
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        let scrollViewYPosition = scrollView.contentOffset.y
+        let profileCardTop =
+            topCell.coverImage.height
+            - topCell.profileCard.height
+            - topCell.profileImage.height / 2
+            - 10
+        let scrollYAxisVelocity = scrollView.panGestureRecognizer.velocity(in: view).y
+        
+        if scrollViewYPosition < profileCardTop {
+            if scrollYAxisVelocity > 0 {
+                // Page to top
+                scrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: true)
+            } else {
+                // Page to profileCard
+                scrollView.setContentOffset(CGPoint(x: 0, y: profileCardTop), animated: true)
+            }
+        }
+    }
 }
 
 extension ProfileVC : UITableViewDataSource {
