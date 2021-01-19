@@ -11,6 +11,42 @@ import FirebaseStorage
 
 class FirebaseDownload {
     
+    static func getNotifications(since date: Date?, completion: @escaping([Notification]?, Error?) -> Void) {
+        
+        print("Checking for notifications for user: \(Auth.auth().currentUser!.uid)")
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications)
+            .whereField(FirebaseKeys.NotificationKeys.user, isEqualTo: Auth.auth().currentUser!.uid)
+            .getDocuments(completion: { documentSnapshots, error in
+            if let error = error { completion(nil, error) }
+                
+            if let notificationDocument = documentSnapshots?.documents.first {
+                
+                let notificationsCollection = FirestoreReferenceManager.root
+                    .collection(FirebaseKeys.CollectionPath.notifications)
+                    .document(notificationDocument.documentID)
+                    .collection(FirebaseKeys.NotificationKeys.notificationsCollection)
+                
+                notificationsCollection.getDocuments() { notificationsSnapshot, error in
+                    if let error = error { completion(nil, error) }
+                    
+                    if let notificationsSnapshot = notificationsSnapshot {
+                        var notificationModels = [Notification]()
+                        
+                        for doc in notificationsSnapshot.documents {
+                            let notificationData = doc.data()
+                            print("Notification data: \(notificationData)")
+                            
+                            
+                            notificationModels.append(Notification(notificationData))
+                        }
+                        // Return notification models from notifications document snapshot
+                        completion(notificationModels, nil)
+                    }
+                }
+            }
+        })
+    }
+    
     static func getFlow(completion: @escaping([PostData]?, Error?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
             .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)

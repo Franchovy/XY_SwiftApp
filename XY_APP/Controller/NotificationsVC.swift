@@ -12,16 +12,9 @@ class NotificationsVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var notifications: [Notification] = [
+    var notifications: [NotificationViewModel] = [
         
-        Notification(NotificationProfileImage: UIImage(named: "Not_1")!, NotificationPostPreview: UIImage(named: "not_2")!, NotificationName: "Elizabeth Olsen", NotificationLabel: "Swiped Right your post!"),
-        
-        Notification(NotificationProfileImage: UIImage(named: "Not_1")!, NotificationPostPreview: UIImage(named: "not_2")!, NotificationName: "Elizabeth Olsen", NotificationLabel: "Swiped Right your post!"),
-        
-        Notification(NotificationProfileImage: UIImage(named: "Not_1")!, NotificationPostPreview: UIImage(named: "not_2")!, NotificationName: "Elizabeth Olsen", NotificationLabel: "Swiped Right your post!"),
-        
-        Notification(NotificationProfileImage: UIImage(named: "Not_1")!, NotificationPostPreview: UIImage(named: "not_2")!, NotificationName: "Elizabeth Olsen", NotificationLabel: "Swiped Right your post!")
-        
+        NotificationViewModel(displayImage: UIImage(named: "Not_1")!, previewImage: UIImage(named: "not_2")!, title: "Elizabeth Olsen", text: "Swiped Right your post!", onSelect: nil)
         
     ]
     
@@ -40,7 +33,40 @@ class NotificationsVC: UIViewController {
         
         tableView.register(UINib(nibName: "NotificationCell", bundle: nil), forCellReuseIdentifier: "NotificationReusable")
         
-        
+        FirebaseDownload.getNotifications(since: Date(), completion: { [weak self] notifications, error in
+            // Create viewmodels from notifications
+            guard let notifications = notifications, error == nil else {
+                print("Error fetching notifications: \(error)")
+                return
+            }
+            
+            for model in notifications {
+                // Fetch data for notification
+                // profile, profile pic, post, post pic
+                
+                let notificationVM = NotificationViewModel(
+                    displayImage: nil,
+                    previewImage: nil,
+                    title: model.type.title,
+                    text: {
+                        switch model.type {
+                        case .swipeRight:
+                            return "Swiped right on your post!"
+                        case .swipeLeft:
+                            return "Swiped left on your post!"
+                        case .levelUp:
+                            return "Leveled up!"
+                        }
+                    }(),
+                    onSelect: {} )
+                
+                self?.notifications.append(notificationVM)
+                    
+                DispatchQueue.main.async {
+                    self?.tableView.reloadData()
+                }
+            }
+        })
     }
 }
 
@@ -51,12 +77,10 @@ extension NotificationsVC : UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let model = notifications[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "NotificationReusable", for: indexPath) as! NotificationCell
         
-        cell.NotificationProfImg.image = notifications[indexPath.row].NotificationProfileImage
-        cell.NotPostPrev.image = notifications[indexPath.row].NotificationPostPreview
-        cell.NotNick.text = notifications[indexPath.row].NotificationName
-        cell.NotLabel.text = notifications[indexPath.row].NotificationLabel
+        cell.configure(with: model)
         
         return cell
         

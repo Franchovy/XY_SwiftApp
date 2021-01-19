@@ -25,10 +25,14 @@ class NotificationCell: UITableViewCell {
         NotContainer.layer.cornerRadius = 15
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    func configure(with model: NotificationViewModel) {
+        NotificationProfImg.image = model.displayImage
+        NotPostPrev.image = model.previewImage
+        NotNick.text = model.title
+        NotLabel.text = model.text
     }
     
+    override func prepareForReuse() {
+        
+    }
 }

@@ -16,6 +16,7 @@ struct FirebaseKeys {
         static let posts = "Posts"
         static let profile = "Profiles"
         static let actions = "Actions"
+        static let notifications = "Notifications"
         
         static let conversations = "Conversations"
         static let messages = "messages"
@@ -32,6 +33,16 @@ struct FirebaseKeys {
         static let user = "user"
         static let xp = "xp"
         static let level = "lvl"
+    }
+    
+    struct NotificationKeys {
+        static let user = "user"
+        static let notificationsCollection = "notifications"
+        struct notifications {
+            static let objectId = "objectId"
+            static let senderId = "senderId"
+            static let type = "type"
+        }
     }
     
     struct UserKeys {
