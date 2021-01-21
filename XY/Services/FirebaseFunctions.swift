@@ -37,7 +37,19 @@ final class FirebaseFunctionsManager {
           }
           if let responseData = result?.data as? [String: Any] {
             print("Successful! Response data: \(responseData)")
+            self.checkPostLevelUp(postId: postId)
           }
+        }
+    }
+    
+    public func checkPostLevelUp(postId: String) {
+        functions.httpsCallable("checkPostLevelUp").call(["postId": postId]) { (result, error) in
+            if let error = error {
+                print("Error in checkLevelUp function call: \(error)")
+            }
+            if let result = result {
+                print("checkLevelUp appears successful with result: \(result)")
+            }
         }
     }
 }
