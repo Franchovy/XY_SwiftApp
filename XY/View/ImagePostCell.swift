@@ -9,6 +9,13 @@ import UIKit
 import FirebaseStorage
 import AVFoundation
 
+protocol ImagePostCellDelegate {
+    func imagePostCellDelegate(didTapProfilePictureFor cell: ImagePostCell)
+    func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell)
+    //TODO: swipe right, swipe left from flow.
+}
+
+
 class ImagePostCell: UITableViewCell, FlowDataCell {
     var type: FlowDataType = .post
 
@@ -19,7 +26,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     static var type: FlowDataType = .post
     
     // deprecate
-    var parentFlow: FlowVC!
+    var delegate: ImagePostCellDelegate?
     
     var images: [UIImage]?
     
@@ -112,15 +119,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
 
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        
-        let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
-        
-        profileVC.ownerId = viewModel.data!.userId
-        profileVC.modalEscapable = true
-        parentFlow.present(profileVC, animated: true) {
-            
-        }
+        delegate?.imagePostCellDelegate(didTapProfilePictureFor: self)
     }
     
     override func prepareForReuse() {

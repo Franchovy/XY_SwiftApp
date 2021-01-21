@@ -77,9 +77,6 @@ class PostViewModel {
                 }
                 guard let imageUrl = imageUrl else { fatalError() }
                 
-                //let processor = DownsamplingImageProcessor(size: imageView.bounds.size) |> RoundCornerImageProcessor(cornerRadius: 20)
-                //imageView.kf.indicatorType = .activity
-                //print("Fetching image with url: \(imageUrl.absoluteString)")
                 KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
                     // Update download progress
                 }, downloadTaskUpdated: { task in
@@ -110,9 +107,6 @@ class PostViewModel {
                     }
                     guard let imageUrl = imageUrl else { fatalError() }
                     
-//                    if KingfisherManager.shared.cache.isCached(forKey: imageUrl) {
-                    
-//                    }
                     KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
                         // Update download progress
                     }, downloadTaskUpdated: { task in
@@ -139,15 +133,7 @@ class PostViewModel {
     
     func sendSwipeRight() {
         FirebaseFunctionsManager.shared.swipeRight(postId: postId)
-        /*FirebaseUpload.sendSwipeRight(postId: postId) { result in
-            switch result {
-            case .success():
-                // XP automatically reloads
-                break
-            case .failure(let error):
-                print("Error sending swipe right transaction: \(error)")
-            }
-        }*/
+
     }
     
     func sendSwipeLeft() {

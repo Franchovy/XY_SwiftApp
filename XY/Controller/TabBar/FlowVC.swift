@@ -9,6 +9,8 @@ import UIKit
 import Firebase
 import ImagePicker
 
+
+
 class FlowVC : UITableViewController {
     
     var data: [FlowDataModel] = []
@@ -61,17 +63,6 @@ class FlowVC : UITableViewController {
     
     private func prefetchData() {
         
-//        FirebaseDownload.getFlow() { posts, error in
-//            if let error = error { print("Error fetching posts: \(error)") }
-//
-//            if let posts = posts {
-//                self.data.append(contentsOf: posts)
-//
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
-//            }
-//        }
         var initializingFlow = true
         FirebaseDownload.getFlowUpdates() { newPosts, error in
             if let error = error { print("Error fetching posts: \(error)") }
@@ -108,7 +99,6 @@ class FlowVC : UITableViewController {
                 }
             }
         }
-        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -120,7 +110,7 @@ class FlowVC : UITableViewController {
         var cellViewModel = PostViewModel()
         cellViewModel.data =  data[indexPath.row] as! PostModel
         cell.viewModel = cellViewModel
-        cell.parentFlow = self
+        cell.delegate = self
         return cell
     }
     
@@ -132,5 +122,22 @@ class FlowVC : UITableViewController {
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear // Make the background color show through
         return headerView
+    }
+}
+
+extension FlowVC : ImagePostCellDelegate {
+    func imagePostCellDelegate(didTapProfilePictureFor cell: ImagePostCell) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+        
+        profileVC.ownerId = cell.viewModel.data!.userId
+        profileVC.modalEscapable = true
+        present(profileVC, animated: true) {
+            
+        }
+    }
+    
+    func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {
+        
     }
 }
