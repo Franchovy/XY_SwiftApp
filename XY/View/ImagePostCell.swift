@@ -9,37 +9,44 @@ import UIKit
 import FirebaseStorage
 import AVFoundation
 
-class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
-    func profileImageDownloadProgress(progress: Float) {
-        
-    }
-    
-    func postImageDownloadProgress(progress: Float) {
-        
-    }
-    
+class ImagePostCell: UITableViewCell, FlowDataCell {
+    var type: FlowDataType = .post
+
     // MARK: - PROPERTIES
     
+    static let nibName = "ImagePostCell"
+    static let identifier = "imagePostCell"
+    static var type: FlowDataType = .post
+    
+    // deprecate
     var parentFlow: FlowVC!
     
     var images: [UIImage]?
-    var type: FlowDataType = { return .post }()
     
     var viewModel: PostViewModel! {
         didSet {
             // Set delegate so the viewModel can call to set images
             viewModel.delegate = self
             // Set data already ready
-            xpLevelDisplay.viewModel = XPViewModel(type: .post)
-            xpLevelDisplay.viewModel.subscribeToFirebase(documentId: viewModel.postId)
+            PostSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId) { [weak self] (xpModel) in
+                
+                guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
+                    return
+                }
+                
+                strongSelf.xpLevelDisplay.onProgress(
+                    level: xpModel.level,
+                    progress: Float(xpModel.xp) / Float(nextLevelXP)
+                )
+            }
+            
+            xpLevelDisplay.setProgress(level: 1, progress: 0.5)
+            
             contentLabel.text = viewModel.content
             timestampLabel.text = viewModel.getTimestampString()
             timestampLabel.sizeToFit()
         }
     }
-    
-    static let nibName = "ImagePostCell"
-    static let identifier = "imagePostCell"
     
     // MARK: - PostViewModel Delegate Methods
     
@@ -123,6 +130,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
         profileImageView.image = nil
         contentLabel.text = ""
         nameLabel.text = ""
+        
+        PostSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
         xpLevelDisplay.reset()
     }
     
@@ -273,3 +282,14 @@ class ImagePostCell: UITableViewCell, FlowDataCell, PostViewModelDelegate {
     }
 }
 
+extension ImagePostCell : PostViewModelDelegate {
+    func profileImageDownloadProgress(progress: Float) {
+        
+    }
+    
+    func postImageDownloadProgress(progress: Float) {
+        
+    }
+    
+    
+}

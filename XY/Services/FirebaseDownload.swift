@@ -50,21 +50,25 @@ class FirebaseDownload {
     }
     
     static func getFlowUpdates(completion: @escaping([PostModel]?, Error?) -> Void) {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).addSnapshotListener() { snapshotDocuments, error in
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
+            .addSnapshotListener() { snapshotDocuments, error in
             if let error = error { completion(nil, error) }
             
             guard let snapshotDocuments = snapshotDocuments else { return }
             
             var postDataArray: [PostModel] = []
-            for postDocument in snapshotDocuments.documents {
-                let source = postDocument.metadata.isFromCache ? "Local" : "Server"
-                if source == "Local" { return }
-                
-                
-                let postDocumentData = postDocument.data()
-                let postData = PostModel(from: postDocumentData, id: postDocument.documentID)
-                postDataArray.append(postData)
+            
+            for documentChanges in snapshotDocuments.documentChanges {
+                if documentChanges.type == .added {
+                    // Append post
+                    let postDocumentData = documentChanges.document.data()
+                    let postData = PostModel(from: postDocumentData, id: documentChanges.document.documentID)
+                    postDataArray.append(postData)
+                }
             }
+                
+            
             completion(postDataArray, nil)
             
         }

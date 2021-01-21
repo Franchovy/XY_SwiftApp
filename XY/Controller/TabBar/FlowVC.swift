@@ -17,9 +17,8 @@ class FlowVC : UITableViewController {
     
     override func viewDidLoad() {
         
-        barXPCircle.viewModel = XPViewModel(type: .user)
-        barXPCircle.viewModel.delegate = self
-        barXPCircle.viewModel.subscribeToFirebase(documentId: Auth.auth().currentUser!.uid)
+        barXPCircle.setProgress(level: 1, progress: 0.2)
+        barXPCircle.setupFinished()
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
         barXPCircle.addGestureRecognizer(tap)
@@ -62,42 +61,54 @@ class FlowVC : UITableViewController {
     
     private func prefetchData() {
         
-        FirebaseDownload.getFlow() { posts, error in
+//        FirebaseDownload.getFlow() { posts, error in
+//            if let error = error { print("Error fetching posts: \(error)") }
+//
+//            if let posts = posts {
+//                self.data.append(contentsOf: posts)
+//
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//                }
+//            }
+//        }
+        var initializingFlow = true
+        FirebaseDownload.getFlowUpdates() { newPosts, error in
             if let error = error { print("Error fetching posts: \(error)") }
-            
-            if let posts = posts {
-                self.data.append(contentsOf: posts)
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-                DispatchQueue.global(qos: .background).async {
-                    FirebaseDownload.getFlowUpdates() { posts, error in
-                        if let error = error { print("Error fetching posts: \(error)") }
-                        print("Flow update")
-                        if let posts = posts {
-                            for newPost in posts {
-                                
-                                if self.data.contains(where: { flowDataModel in
-                                    if let postData = flowDataModel as? PostModel {
-                                        return postData.id == newPost.id
-                                    } else { return true }
-                                }) {
-                                    continue
-                                } else {
-                                    let lastVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.last ?? IndexPath(row: 0, section: 0)
-                                    
-                                    self.data.insert(newPost, at: lastVisibleRowIndex.row)
-                                    
-                                    self.tableView.insertRows(at: [lastVisibleRowIndex], with: .bottom)
-                                }
+            print("Flow update")
+            if let posts = newPosts {
+                for newPost in posts {
+                    
+                    if self.data.contains(where: { flowDataModel in
+                        if let postData = flowDataModel as? PostModel {
+                            return postData.id == newPost.id
+                        } else { return true }
+                    }) {
+                        continue
+                    } else {
+                        
+                        if initializingFlow {
+                            self.data.append(newPost)
+                        } else {
+                            // Insert into visible row
+                            let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
+                            self.data.insert(newPost, at: firstVisibleRowIndex.row)
+                            // Automatically updates tableview
+                            DispatchQueue.main.async {
+                                self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
                             }
                         }
                     }
                 }
+                if initializingFlow {
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                        initializingFlow = false
+                    }
+                }
             }
         }
+        
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -121,18 +132,5 @@ class FlowVC : UITableViewController {
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear // Make the background color show through
         return headerView
-    }
-}
-
-extension FlowVC : XPViewModelDelegate {
-    func setProgress(level: Int, progress: Float) {
-        barXPCircle.levelLabel.text = String(describing: level)
-        barXPCircle.progressBarCircle.progress = CGFloat(progress)
-        barXPCircle.setupFinished()
-    }
-    
-    func onProgress(level: Int, progress: Float) {
-        barXPCircle.levelLabel.text = String(describing: level)
-        barXPCircle.progressBarCircle.progress = CGFloat(progress)
     }
 }

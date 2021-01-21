@@ -7,15 +7,7 @@
 
 import UIKit
 
-class CircleView: UIView, XPViewModelDelegate {
-
-    var viewModel: XPViewModel! {
-        didSet {
-            viewModel.delegate = self
-        }
-    }
-    
-    // MARK: - XPViewModelDelegate Methods
+class CircleView: UIView {
     
     func onProgress(level: Int, progress: Float) {
         self.progressBarCircle.progress = CGFloat(progress)
