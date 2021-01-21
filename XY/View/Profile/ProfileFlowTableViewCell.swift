@@ -28,10 +28,6 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
         profileCollectionView.dataSource = self
         profileCollectionView.register(UINib(nibName: "ProfileFlowCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "profileCollectionPostReusable")
         
-        self.profileCollectionView.showsHorizontalScrollIndicator = false
-    }
-    
-    override func layoutSubviews() {
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.sectionInsetReference = .fromContentInset
         flowLayout.scrollDirection = .vertical
@@ -43,8 +39,9 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
         
         self.profileCollectionView.collectionViewLayout = flowLayout
         
+        self.profileCollectionView.showsHorizontalScrollIndicator = false
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 

@@ -93,6 +93,10 @@ extension NotificationsVC : UITableViewDataSource {
             
             tableView.beginUpdates()
             notifications.remove(at: indexPath.row)
+            
+            // Remove notification from backend
+            
+            
             tableView.deleteRows(at:[indexPath]  , with: .fade)
             tableView.endUpdates()
         }
@@ -107,12 +111,20 @@ extension NotificationsVC : NotificationViewModelDelegate {
     }
     
     func didFetchDisplayImage(index: Int, image: UIImage) {
-        let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! NotificationCell
+        guard let cell = tableView.cellForRow(
+                at: IndexPath(row: index, section: 0)
+        ) as? NotificationCell else {
+            return
+        }
         cell.NotificationProfImg.image = image
     }
     
     func didFetchPreviewImage(index: Int, image: UIImage) {
-        let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! NotificationCell
+        guard let cell = tableView.cellForRow(
+                at: IndexPath(row: index, section: 0)
+        ) as? NotificationCell else {
+            return
+        }
         cell.NotPostPrev.image = image
     }
     

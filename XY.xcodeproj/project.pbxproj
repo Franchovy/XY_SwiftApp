@@ -69,7 +69,7 @@
 		24588F4C5DC3B75A80D2A8E4 /* Pods_XYTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */; };
 		B902DEC025AF372D00F32B12 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B902DEBF25AF372D00F32B12 /* ProfileCell.xib */; };
 		B902DEC425AF375E00F32B12 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902DEC325AF375E00F32B12 /* ProfileCell.swift */; };
-		B9101DE325B9A198001126CC /* PostSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* PostSubscriptionManager.swift */; };
+		B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D4ADD25AEE85000CC5147 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D4ADC25AEE85000CC5147 /* ChatViewModel.swift */; };
@@ -188,7 +188,7 @@
 		7E73620E1B0026B3D4968CEB /* Pods-XY.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY.release.xcconfig"; path = "Target Support Files/Pods-XY/Pods-XY.release.xcconfig"; sourceTree = "<group>"; };
 		B902DEBF25AF372D00F32B12 /* ProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		B902DEC325AF375E00F32B12 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
-		B9101DE225B9A198001126CC /* PostSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostSubscriptionManager.swift; sourceTree = "<group>"; };
+		B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSubscriptionManager.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93D1BEB2597E9C6009ADBFC /* XYTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XYTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -442,7 +442,7 @@
 				B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */,
 				B9E73B5725B1E1A800042134 /* FlowHandler.swift */,
 				B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */,
-				B9101DE225B9A198001126CC /* PostSubscriptionManager.swift */,
+				B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -780,7 +780,7 @@
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,
 				14FF8A6025A3856E002FE645 /* MessageCell.swift in Sources */,
-				B9101DE325B9A198001126CC /* PostSubscriptionManager.swift in Sources */,
+				B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */,
 				14C99E3525A0F31300FFE003 /* ProfileUpperCell.swift in Sources */,
 				14169C95259B9E57003C047F /* ExploreViewCellModel.swift in Sources */,
 				14A36073259CB51C002829D7 /* FlowMomentsTableViewCell.swift in Sources */,

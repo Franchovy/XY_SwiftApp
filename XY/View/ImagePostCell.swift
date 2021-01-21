@@ -35,7 +35,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             // Set delegate so the viewModel can call to set images
             viewModel.delegate = self
             // Set data already ready
-            PostSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId) { [weak self] (xpModel) in
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
                 
                 guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
                     return
@@ -130,7 +130,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         contentLabel.text = ""
         nameLabel.text = ""
         
-        PostSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
+        FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
         xpLevelDisplay.reset()
     }
     
