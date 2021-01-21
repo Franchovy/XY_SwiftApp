@@ -80,7 +80,7 @@ class FlowVC : UITableViewController {
                             for newPost in posts {
                                 
                                 if self.data.contains(where: { flowDataModel in
-                                    if let postData = flowDataModel as? PostData {
+                                    if let postData = flowDataModel as? PostModel {
                                         return postData.id == newPost.id
                                     } else { return true }
                                 }) {
@@ -107,7 +107,7 @@ class FlowVC : UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
         var cellViewModel = PostViewModel()
-        cellViewModel.data =  data[indexPath.row] as! PostData
+        cellViewModel.data =  data[indexPath.row] as! PostModel
         cell.viewModel = cellViewModel
         cell.parentFlow = self
         return cell

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import Firebase
 
-struct PostData : FlowDataModel {
+struct PostModel : FlowDataModel {
     var type: FlowDataType = .post
     
     var id: String
@@ -23,8 +23,8 @@ struct PostData : FlowDataModel {
     var xp: Int
 }
 
-extension PostData {
-    init(_ data: [String: Any], id: String) {
+extension PostModel {
+    init(from data: [String: Any], id: String) {
         self.id = id
         userId = data[FirebaseKeys.PostKeys.author] as! String
         timestamp = (data[FirebaseKeys.PostKeys.timestamp] as? Firebase.Timestamp)?.dateValue() ?? Date()

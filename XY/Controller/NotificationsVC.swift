@@ -7,16 +7,13 @@
 
 import Foundation
 import UIKit
+import FirebaseAuth
 
 class NotificationsVC: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     
-    var notifications: [NotificationViewModel] = [
-        
-        NotificationViewModel(displayImage: UIImage(named: "Not_1")!, previewImage: UIImage(named: "not_2")!, title: "Elizabeth Olsen", text: "Swiped Right your post!", onSelect: nil)
-        
-    ]
+    var notifications = [NotificationViewModel]()
     
     
     override func viewDidLoad() {
@@ -33,41 +30,42 @@ class NotificationsVC: UIViewController {
         
         tableView.register(UINib(nibName: "NotificationCell", bundle: nil), forCellReuseIdentifier: "NotificationReusable")
         
-        FirebaseDownload.getNotifications(since: Date(), completion: { [weak self] notifications, error in
-            // Create viewmodels from notifications
-            guard let notifications = notifications, error == nil else {
-                print("Error fetching notifications: \(error)")
+        // Create subscription to notifications
+        subscribeToNotifications()
+    }
+    
+    private func subscribeToNotifications() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection)
+        
+        notificationsDocument.addSnapshotListener { [weak self] (querySnapshot, error) in
+            guard let querySnapshot = querySnapshot, error == nil else {
+                print(error)
                 return
             }
             
-            for model in notifications {
-                // Fetch data for notification
-                // profile, profile pic, post, post pic
+            self?.notifications = []
+            
+            for notificationDocument in querySnapshot.documents {
+                let data = notificationDocument.data()
+                print("Fetched notification: \(data)")
                 
-                let notificationVM = NotificationViewModel(
-                    displayImage: nil,
-                    previewImage: nil,
-                    title: model.type.title,
-                    text: {
-                        switch model.type {
-                        case .swipeRight:
-                            return "Swiped right on your post!"
-                        case .swipeLeft:
-                            return "Swiped left on your post!"
-                        case .levelUp:
-                            return "Leveled up!"
-                        }
-                    }(),
-                    onSelect: {} )
+                let notificationModel = Notification(data)
+                var notificationViewModel = NotificationViewModel(from: notificationModel)
+                notificationViewModel.delegate = self
                 
-                self?.notifications.append(notificationVM)
-                    
-                DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                if self?.notifications != nil {
+                    notificationViewModel.fetch(index: (self?.notifications.count)!)
+                    self?.notifications.append(notificationViewModel)
                 }
             }
-        })
+            DispatchQueue.main.async {
+                self?.tableView.reloadData()
+            }
+        }
     }
+    
 }
 
 
@@ -98,8 +96,29 @@ extension NotificationsVC : UITableViewDataSource {
             tableView.deleteRows(at:[indexPath]  , with: .fade)
             tableView.endUpdates()
         }
-        
     }
     
 }
 
+extension NotificationsVC : NotificationViewModelDelegate {
+    func didFetchPostForHandler(index: Int, post: PostModel) {
+        // Open post vc
+        
+    }
+    
+    func didFetchDisplayImage(index: Int, image: UIImage) {
+        let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! NotificationCell
+        cell.NotificationProfImg.image = image
+    }
+    
+    func didFetchPreviewImage(index: Int, image: UIImage) {
+        let cell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as! NotificationCell
+        cell.NotPostPrev.image = image
+    }
+    
+    func didFetchText(index: Int, text: String) {
+        
+    }
+    
+    
+}

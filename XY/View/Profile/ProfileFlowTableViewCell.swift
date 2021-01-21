@@ -10,7 +10,7 @@ import UIKit
 class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     var postPrevCollection: [ProfilePostModel?] = []
-    var posts: [PostData] = []
+    var posts: [PostModel] = []
     
     var ownerId: String? {
         didSet {

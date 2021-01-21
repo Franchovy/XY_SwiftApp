@@ -11,43 +11,25 @@ import FirebaseStorage
 
 class FirebaseDownload {
     
-    static func getNotifications(since date: Date?, completion: @escaping([Notification]?, Error?) -> Void) {
+    static func getPost(for id: String, completion: @escaping(PostModel?, Error?) -> Void) {
+        let document = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document(id)
         
-        print("Checking for notifications for user: \(Auth.auth().currentUser!.uid)")
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications)
-            .whereField(FirebaseKeys.NotificationKeys.user, isEqualTo: Auth.auth().currentUser!.uid)
-            .getDocuments(completion: { documentSnapshots, error in
-            if let error = error { completion(nil, error) }
-                
-            if let notificationDocument = documentSnapshots?.documents.first {
-                
-                let notificationsCollection = FirestoreReferenceManager.root
-                    .collection(FirebaseKeys.CollectionPath.notifications)
-                    .document(notificationDocument.documentID)
-                    .collection(FirebaseKeys.NotificationKeys.notificationsCollection)
-                
-                notificationsCollection.getDocuments() { notificationsSnapshot, error in
-                    if let error = error { completion(nil, error) }
-                    
-                    if let notificationsSnapshot = notificationsSnapshot {
-                        var notificationModels = [Notification]()
-                        
-                        for doc in notificationsSnapshot.documents {
-                            let notificationData = doc.data()
-                            print("Notification data: \(notificationData)")
-                            
-                            
-                            notificationModels.append(Notification(notificationData))
-                        }
-                        // Return notification models from notifications document snapshot
-                        completion(notificationModels, nil)
-                    }
-                }
+        document.getDocument { (snapshot, error) in
+            guard let snapshot = snapshot, error == nil else {
+                completion(nil, error)
+                return
             }
-        })
+            
+            if let postData = snapshot.data() as? [String: Any] {
+                let postModel = PostModel(from: postData, id: document.documentID)
+                completion(postModel, nil)
+            } else {
+                completion(nil, nil)
+            }
+        }
     }
-    
-    static func getFlow(completion: @escaping([PostData]?, Error?) -> Void) {
+
+    static func getFlow(completion: @escaping([PostModel]?, Error?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
             .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
                     .getDocuments() { snapshot, error in
@@ -55,10 +37,10 @@ class FirebaseDownload {
                 completion(nil, error)
             }
             if let documents = snapshot?.documents {
-                var posts: [PostData] = []
+                var posts: [PostModel] = []
                 for doc in documents {
                     
-                    var newPost = PostData(doc.data(), id: doc.documentID)
+                    var newPost = PostModel(from: doc.data(), id: doc.documentID)
 
                     posts.append(newPost)
                 }
@@ -67,20 +49,20 @@ class FirebaseDownload {
         }
     }
     
-    static func getFlowUpdates(completion: @escaping([PostData]?, Error?) -> Void) {
+    static func getFlowUpdates(completion: @escaping([PostModel]?, Error?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).addSnapshotListener() { snapshotDocuments, error in
             if let error = error { completion(nil, error) }
             
             guard let snapshotDocuments = snapshotDocuments else { return }
             
-            var postDataArray: [PostData] = []
+            var postDataArray: [PostModel] = []
             for postDocument in snapshotDocuments.documents {
                 let source = postDocument.metadata.isFromCache ? "Local" : "Server"
                 if source == "Local" { return }
                 
                 
                 let postDocumentData = postDocument.data()
-                let postData = PostData(postDocumentData, id: postDocument.documentID)
+                let postData = PostModel(from: postDocumentData, id: postDocument.documentID)
                 postDataArray.append(postData)
             }
             completion(postDataArray, nil)
@@ -88,7 +70,7 @@ class FirebaseDownload {
         }
     }
     
-    static func getFlowForProfile(userId: String, completion: @escaping([PostData]?, Error?) -> Void) {
+    static func getFlowForProfile(userId: String, completion: @escaping([PostModel]?, Error?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
             .whereField(FirebaseKeys.PostKeys.author, isEqualTo: userId)
             .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
@@ -97,9 +79,9 @@ class FirebaseDownload {
                 completion(nil, error)
             }
             if let documents = snapshot?.documents {
-                var posts: [PostData] = []
+                var posts: [PostModel] = []
                 for doc in documents {
-                    var newPost = PostData(doc.data(), id: doc.documentID)
+                    var newPost = PostModel(from: doc.data(), id: doc.documentID)
 
                     posts.append(newPost)
                 }

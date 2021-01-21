@@ -13,7 +13,7 @@ import FirebaseAuth
 
 class FirebaseUpload {
     
-    static func createPost(caption: String, image: UIImage, completion: @escaping(Result<PostData, Error>) -> Void) {
+    static func createPost(caption: String, image: UIImage, completion: @escaping(Result<PostModel, Error>) -> Void) {
         let uid = Auth.auth().currentUser!.uid
         let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
         userDocument.getDocument() { snapshot, error in
@@ -28,7 +28,7 @@ class FirebaseUpload {
                     }
                     if let imageRef = imageRef {
                         // Upload post to firestore
-                        var postData = PostData(id: "", userId: uid, timestamp: Date(), content: caption, level: 0, xp: 0)
+                        var postData = PostModel(id: "", userId: uid, timestamp: Date(), content: caption, level: 0, xp: 0)
                         postData.images = [imageRef]
                         
                         let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).addDocument(data: postData.toUpload()) { error in

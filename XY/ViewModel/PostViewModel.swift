@@ -21,7 +21,7 @@ protocol PostViewModelDelegate: NSObjectProtocol {
 class PostViewModel {
     weak var delegate: PostViewModelDelegate?
     
-    var data: PostData? {
+    var data: PostModel? {
         didSet {
             guard let data = data else { return }
             
