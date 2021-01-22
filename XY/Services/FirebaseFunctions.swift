@@ -13,7 +13,7 @@ final class FirebaseFunctionsManager {
     static let shared = FirebaseFunctionsManager()
     
     private init() {
-        //functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
+        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
     }
     
     lazy var functions = Functions.functions()
@@ -44,6 +44,19 @@ final class FirebaseFunctionsManager {
     
     public func checkPostLevelUp(postId: String) {
         functions.httpsCallable("checkPostLevelUp").call(["postId": postId]) { (result, error) in
+            if let error = error {
+                print("Error in checkLevelUp function call: \(error)")
+            }
+            if let result = result {
+                print("checkLevelUp appears successful with result: \(result)")
+            }
+        }
+    }
+    
+    public func checkUserLevelUp() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        functions.httpsCallable("checkUserLevelUp").call(["userId": userId]) { (result, error) in
             if let error = error {
                 print("Error in checkLevelUp function call: \(error)")
             }

@@ -18,16 +18,6 @@ class FlowVC : UITableViewController {
     @IBOutlet weak var barXPCircle: CircleView!
     
     override func viewDidLoad() {
-        if let uid = Auth.auth().currentUser?.uid {
-            FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
-                guard let nextLevelXP = XPModel.LEVELS[.user]?[xpModel.level] else { return }
-                self?.barXPCircle.setProgress(
-                    level: xpModel.level,
-                    progress: Float(xpModel.xp) / Float(nextLevelXP)
-                )
-            }
-        }
-        
         
         barXPCircle.setProgress(level: 1, progress: 0.0)
         barXPCircle.setupFinished()
@@ -47,7 +37,16 @@ class FlowVC : UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        tableView.reloadData()
+        
+        if let uid = Auth.auth().currentUser?.uid {
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
+                guard let nextLevelXP = XPModel.LEVELS[.user]?[xpModel.level] else { return }
+                self?.barXPCircle.setProgress(
+                    level: xpModel.level,
+                    progress: Float(xpModel.xp) / Float(nextLevelXP)
+                )
+            }
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -59,7 +58,9 @@ class FlowVC : UITableViewController {
     // MARK: - GESTURE RECOGNIZERS
     
     @objc func xpButtonPressed() {
-        
+        // Level up check
+        FirebaseFunctionsManager.shared.checkUserLevelUp()
+        //
         performSegue(withIdentifier: "segueToNotifications", sender: self)
     }
     
@@ -148,9 +149,7 @@ extension FlowVC : ImagePostCellDelegate {
         
         profileVC.ownerId = cell.viewModel.data!.userId
         profileVC.modalEscapable = true
-        present(profileVC, animated: true) {
-            
-        }
+        present(profileVC, animated: true) { }
     }
     
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {
