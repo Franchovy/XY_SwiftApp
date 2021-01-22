@@ -69,6 +69,7 @@
 		24588F4C5DC3B75A80D2A8E4 /* Pods_XYTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */; };
 		B902DEC025AF372D00F32B12 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B902DEBF25AF372D00F32B12 /* ProfileCell.xib */; };
 		B902DEC425AF375E00F32B12 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902DEC325AF375E00F32B12 /* ProfileCell.swift */; };
+		B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C163725BB0ADA003811B2 /* TabBarViewController.swift */; };
 		B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */; };
@@ -189,6 +190,7 @@
 		7E73620E1B0026B3D4968CEB /* Pods-XY.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY.release.xcconfig"; path = "Target Support Files/Pods-XY/Pods-XY.release.xcconfig"; sourceTree = "<group>"; };
 		B902DEBF25AF372D00F32B12 /* ProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		B902DEC325AF375E00F32B12 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
+		B90C163725BB0ADA003811B2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSubscriptionManager.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -328,6 +330,7 @@
 				14251373259F898A00DC08BB /* CreatePostVC.swift */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				14C99E2D25A0EE7E00FFE003 /* ProfileVC.swift */,
+				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 				14A3607C259CB6E9002829D7 /* MomentsCollectionViewCell.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				14B26FD125A9E4B900CCACDE /* OnlineFriendsTableViewCell.swift in Sources */,
+				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				14B22647258D1484006966FC /* MomentsCollection.swift in Sources */,
 				14C99E2E25A0EE7E00FFE003 /* ProfileVC.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,

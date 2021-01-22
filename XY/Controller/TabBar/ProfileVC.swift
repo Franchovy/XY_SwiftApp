@@ -17,14 +17,41 @@ class ProfileVC : UIViewController {
     var topCell: ProfileCell!
     var bottomCell: ProfileFlowTableViewCell!
     
+    var topViewModel: ProfileViewModel?
+    // bottomCell ViewModel:
+    
     var ownerId: String = Auth.auth().currentUser!.uid
+    var profileId: String?
  
     var modalEscapable: Bool = false
-    
     var panGestureInAction: Bool = false
+    var escapeModalGestureOngoing = false
+    
+    // MARK: - Init
+    
+    init(profileId: String) {
+        super.init(nibName: nil, bundle: nil)
+        
+        self.profileId = profileId
+        
+        fetchProfileData()
+
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        fetchProfileData()
+
+    }
+    
+    
+    // MARK: - Lifecycle
     
     override func viewWillAppear(_ animated: Bool) {
         modalPresentationStyle = .overFullScreen
+        
+        
     }
     
     override func viewDidLoad() {
@@ -50,10 +77,30 @@ class ProfileVC : UIViewController {
         
         tableView.isUserInteractionEnabled = true
         
-        
     }
     
-    var escapeModalGestureOngoing = false
+    private func fetchProfileData() {
+        if let profileId = profileId {
+            topViewModel = ProfileViewModel(profileId: profileId)
+        } else {
+            // Fetch profileId for userId
+            FirebaseDownload.getProfileId(userId: ownerId) { [weak self] (profileId, error) in
+                guard let strongSelf = self, let profileId = profileId, error == nil else {
+                    print(error ?? "An Error occurred while fetching profile ID for user: \(self?.ownerId)")
+                    return
+                }
+                
+                let topViewModel = ProfileViewModel(profileId: profileId)
+                strongSelf.topViewModel = topViewModel
+                // If viewmodel for cell is not set, then set it.
+                guard let profileCell = strongSelf.topCell else {
+                    return
+                }
+                profileCell.configure(for: topViewModel)
+            }
+        }
+        
+    }
     
     @objc func escapeModal(panGestureRecognizer: UIPanGestureRecognizer) {
         let touchPoint = panGestureRecognizer.location(in: view?.window)
@@ -183,7 +230,6 @@ extension ProfileVC : UITableViewDataSource {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
             
-            cell.viewModel = ProfileViewModel(userId: ownerId)
             // Add "Tap anywhere" escape function from keyboard focus
             let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: cell, action: #selector(cell.tappedAnywhere(tapGestureRecognizer:)))
             view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
@@ -195,6 +241,9 @@ extension ProfileVC : UITableViewDataSource {
             cell.onChatButtonPressed = chatSegue
             cell.onSettingsButtonPressed = settingsSegue
             
+            if let topViewModel = topViewModel {
+                cell.configure(for: topViewModel)
+            }
             
             topCell = cell
             

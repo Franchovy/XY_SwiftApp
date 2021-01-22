@@ -42,6 +42,9 @@ class PostViewModel {
                 if let documentData = document?.data() {
                     // Get profile data
                     let profileId = documentData[FirebaseKeys.UserKeys.profile] as! String
+                    // Save profile Id for navigating to profile
+                    self.profileId = profileId
+                    
                     let profileDoc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileId)
                     profileDoc.getDocument() { document, error in
                         if let error = error {
@@ -57,8 +60,6 @@ class PostViewModel {
                     }
                 }
             }
-            
-            
         }
     }
     
@@ -66,6 +67,7 @@ class PostViewModel {
     var xyname: String!
     var timestamp: Date!
     var content: String!
+    var profileId: String!
     
     var profileImageId: String? {
         didSet {

@@ -49,18 +49,26 @@ class ConversationViewModel {
                 // Isolate other member user id
                 let otherMemberId = conversation.members.drop(while: { $0.isEqual(Auth.auth().currentUser!.uid) } ).first!
                 
-                FirebaseDownload.getProfile(userId: otherMemberId) {_, profile, error in
+                FirebaseDownload.getProfileId(userId: otherMemberId) {profileId, error in
                     if let error = error { print("Error fetching profile for conversation: \(error)") }
                     
-                    if let profile = profile {
-                        self.delegate.onFetchedProfileData(profile, indexRow: self.indexRow)
+                    if let profileId = profileId {
                         
-                        // Fetch profile image
-                        FirebaseDownload.getImage(imageId: profile.profileImageId) { image, error in
-                            if let error = error { print("Error fetching profile image for user: \(error)") }
+                        FirebaseDownload.getProfile(profileId: profileId) { (profileData, error) in
+                            guard let profileData = profileData, error == nil else {
+                                print(error ?? "Error fetching profile data for id: \(profileId)")
+                                return
+                            }
                             
-                            if let image = image {
-                                self.delegate.onFetchedProfileImage(image, indexRow: self.indexRow)
+                            self.delegate.onFetchedProfileData(profileData, indexRow: self.indexRow)
+                        
+                            // Fetch profile image
+                            FirebaseDownload.getImage(imageId: profileData.profileImageId) { image, error in
+                                if let error = error { print("Error fetching profile image for user: \(error)") }
+                                
+                                if let image = image {
+                                    self.delegate.onFetchedProfileImage(image, indexRow: self.indexRow)
+                                }
                             }
                         }
                     }

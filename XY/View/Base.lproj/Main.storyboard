@@ -549,7 +549,7 @@
         <!--MainViewController-->
         <scene sceneID="R15-tR-vLt">
             <objects>
-                <tabBarController storyboardIdentifier="MainViewController" title="MainViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1VQ-l3-tSx" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="MainViewController" title="MainViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1VQ-l3-tSx" customClass="TabBarViewController" customModule="XY" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="qUC-gw-TLr"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" itemPositioning="centered" itemWidth="0.0" id="fTB-k2-9gm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>

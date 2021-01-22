@@ -94,30 +94,35 @@ class FirebaseDownload {
         }
     }
     
-    static func getProfile(userId: String, completion: @escaping(String?, ProfileModel?, Error?) -> Void) {
+    static func getProfileId(userId: String, completion: @escaping(String?, Error?) -> Void) {
         let userRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
         
         userRef.getDocument() { snapshot, error in
-            if let error = error {
-                completion(nil, nil, error)
+            guard let snapshot = snapshot, error == nil else {
+                completion(nil, error)
+                return
             }
             
-            if let userData = snapshot?.data() as? [String: Any],
-               let profileId = userData[FirebaseKeys.UserKeys.profile] as? String,
-               let xyname = userData[FirebaseKeys.UserKeys.xyname] as? String {
-                let profileRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileId)
-                profileRef.getDocument() { snapshot, error in
-                    if let error = error {
-                        completion(nil, nil, error)
-                    }
-                    
-                    if let profileData = snapshot?.data() as? [String: Any] {
-                        
-                        let profile = ProfileModel(data: profileData)
-                        
-                        completion(xyname, profile, nil)
-                    }
-                }
+            if let userData = snapshot.data() as? [String: Any] {
+                let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
+                completion(profileId, nil)
+            }
+        }
+    }
+    
+    static func getProfile(profileId: String, completion: @escaping(ProfileModel?, Error?) -> Void) {
+
+        let profileRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileId)
+        profileRef.getDocument() { snapshot, error in
+            if let error = error {
+                completion(nil, error)
+            }
+            
+            if let profileData = snapshot?.data() as? [String: Any] {
+                
+                let profile = ProfileModel(data: profileData)
+                
+                completion(profile, nil)
             }
         }
     }

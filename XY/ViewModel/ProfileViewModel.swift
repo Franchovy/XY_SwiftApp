@@ -23,6 +23,7 @@ class ProfileViewModel {
             numFollowing = profileData.following
             level = profileData.level
             caption = profileData.caption
+            website = profileData.website
             
             // Fetch profile image from id
             FirebaseDownload.getImage(imageId: profileData.profileImageId) { image, error in
@@ -30,6 +31,7 @@ class ProfileViewModel {
                     print("Error fetching profile image for profile!")
                 }
                 if let image = image {
+                    self.profileImage = image
                     self.delegate?.onProfileImageFetched(image)
                 }
             }
@@ -39,6 +41,7 @@ class ProfileViewModel {
                     print("Error fetching cover image for profile!")
                 }
                 if let image = image {
+                    self.coverImage = image
                     self.delegate?.onCoverImageFetched(image)
                 }
             }
@@ -49,19 +52,22 @@ class ProfileViewModel {
     var xyname: String!
     var numFollowers: Int!
     var numFollowing: Int!
+    var website: String!
     var level: Int!
     var caption: String!
+    var profileImage: UIImage?
+    var coverImage: UIImage?
     
-    init(userId: String) {
+    init(profileId: String) {
         // Fetch profile data
-        FirebaseDownload.getProfile(userId: userId) {xyname, profileData, error in
+        
+        FirebaseDownload.getProfile(profileId: profileId) {profileData, error in
             if let error = error {
                 print("Error fetching profile: \(error)")
             }
-            if let xyname = xyname, let profileData = profileData {
+            if let profileData = profileData {
                 // Set profile data
                 self.profileData = profileData
-                self.xyname = xyname
                 self.delegate?.onProfileDataFetched(profileData)
             }
         }
@@ -83,4 +89,6 @@ class ProfileViewModel {
             }
         }
     }
+    
+    
 }

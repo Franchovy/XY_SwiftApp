@@ -61,21 +61,28 @@ class NotificationViewModel {
             }
             
             // Fetch swipe user profile
-            FirebaseDownload.getProfile(userId: model.senderId) { (_, profileData, error) in
-                guard let profileData = profileData, error == nil else {
-                    print(error ?? "Error fetching profile for user: \(self.model.senderId)")
+            FirebaseDownload.getProfileId(userId: model.senderId) { (profileId, error) in
+                guard let profileId = profileId, error == nil else {
+                    print(error ?? "Error fetching profileId for user: \(self.model.senderId)")
                     return
                 }
-                // Fetch swipe user profile image
-                FirebaseDownload.getImage(imageId: profileData.profileImageId) { (profileImage, error) in
-                    guard let profileImage = profileImage, error == nil else {
-                        print(error ?? "Error fetching profileImage for user: \(self.model.senderId)")
+                
+                FirebaseDownload.getProfile(profileId: profileId) { (profileData, error) in
+                    guard let profileData = profileData, error == nil else {
+                        print(error ?? "Error fetching profile for user: \(self.model.senderId)")
                         return
                     }
-                    
-                    DispatchQueue.main.async {
-                        self.displayImage = profileImage
-                        self.delegate?.didFetchDisplayImage(index: index, image: profileImage)
+                    // Fetch swipe user profile image
+                    FirebaseDownload.getImage(imageId: profileData.profileImageId) { (profileImage, error) in
+                        guard let profileImage = profileImage, error == nil else {
+                            print(error ?? "Error fetching profileImage for user: \(self.model.senderId)")
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.displayImage = profileImage
+                            self.delegate?.didFetchDisplayImage(index: index, image: profileImage)
+                        }
                     }
                 }
             }

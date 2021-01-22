@@ -26,11 +26,7 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     var imagePickerDelegate: XYImagePickerDelegate?
     var imagePicker = UIImagePickerController()
     
-    var viewModel: ProfileViewModel? {
-        didSet {
-            viewModel?.delegate = self
-        }
-    }
+    var viewModel: ProfileViewModel?
     
     var isOwnProfile: Bool! {
         didSet {
@@ -131,11 +127,29 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         imagePicker.delegate = self
     }
 
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    public func configure(for viewModel: ProfileViewModel) {
+        if let xyname = viewModel.xyname {
+            xynameLabel.text = "@\(xyname)"
+        } else {
+            xynameLabel.text = ""
+        }
+        
+        if let level = viewModel.level {
+            let levelLabel = String(describing: level)
+            xpCircle.levelLabel.text = levelLabel
+        }
+        
+        nicknameLabel.text = viewModel.nickname
+        captionLabel.text = viewModel.caption
+        websiteLabel.text = viewModel.website
+        
+        profileImage.image = viewModel.profileImage
+        coverImage.image = viewModel.coverImage
+        
+        viewModel.delegate = self
+        self.viewModel = viewModel
     }
+    
 
     // MARK: - IBActions
     
@@ -162,6 +176,7 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         
         imagePickerDelegate?.presentImagePicker(imagePicker: imagePicker)
     }
+    
     
     
     // MARK: - Edit Profile
