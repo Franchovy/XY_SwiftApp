@@ -17,7 +17,11 @@ class ProfileVC : UIViewController {
     var topCell: ProfileCell!
     var bottomCell: ProfileFlowTableViewCell!
     
-    var topViewModel: ProfileViewModel?
+    var topViewModel: ProfileViewModel? {
+        didSet {
+            topViewModel?.delegate = self
+        }
+    }
     // bottomCell ViewModel:
     
     var ownerId: String = Auth.auth().currentUser!.uid
@@ -29,20 +33,10 @@ class ProfileVC : UIViewController {
     
     // MARK: - Init
     
-    init(profileId: String) {
-        super.init(nibName: nil, bundle: nil)
-        
-        self.profileId = profileId
-        
-        fetchProfileData()
 
-    }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-        fetchProfileData()
-
     }
     
     
@@ -74,6 +68,8 @@ class ProfileVC : UIViewController {
         
 //        var scrollGesture = UIPanGestureRecognizer(target: self, action: #selector(scrolling(panGestureRecognizer:)))
 //        tableView.addGestureRecognizer(scrollGesture)
+        
+        fetchProfileData()
         
         tableView.isUserInteractionEnabled = true
         
@@ -305,3 +301,25 @@ extension ProfileVC : XYImagePickerDelegate {
     }
 }
 
+extension ProfileVC: ProfileViewModelDelegate {
+    func onProfileDataFetched(_ profileData: ProfileModel) {
+        guard let topViewModel = topViewModel, topCell != nil else {
+            return
+        }
+        topCell.configure(for: topViewModel)
+    }
+    
+    func onProfileImageFetched(_ image: UIImage) {
+        guard topCell != nil else {
+            return
+        }
+        topCell.profileImage.image = image
+    }
+    
+    func onCoverImageFetched(_ image: UIImage) {
+        guard topCell != nil else {
+            return
+        }
+        topCell.coverImage.image = image
+    }
+}

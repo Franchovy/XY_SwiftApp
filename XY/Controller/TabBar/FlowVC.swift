@@ -147,7 +147,10 @@ extension FlowVC : ImagePostCellDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         
+        profileVC.profileId = cell.viewModel.profileId
         profileVC.ownerId = cell.viewModel.data!.userId
+        
+        
         profileVC.modalEscapable = true
         present(profileVC, animated: true) { }
     }

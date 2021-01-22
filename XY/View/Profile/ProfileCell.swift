@@ -8,7 +8,7 @@
 import UIKit
 
 
-class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
+class ProfileCell: UITableViewCell {
     
     // MARK: - Enums
     
@@ -33,22 +33,6 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
             settingsButton.isHidden = !isOwnProfile
             editProfileButton.isHidden = !isOwnProfile
         }
-    }
-    
-    func onProfileDataFetched(_ profileData: ProfileModel) {
-        xynameLabel.text = "@\(viewModel!.xyname!)"
-        nicknameLabel.text = profileData.nickname
-        xpCircle.levelLabel.text = String(describing: profileData.level)
-        captionLabel.text = profileData.caption
-        websiteLabel.text = profileData.website
-    }
-    
-    func onProfileImageFetched(_ image: UIImage) {
-        profileImage.image = image
-    }
-    
-    func onCoverImageFetched(_ image: UIImage) {
-        coverImage.image = image
     }
     
     // MARK: - IBOutlets
@@ -79,7 +63,7 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
     var onEditProfileButtonPressed : (() -> Void)?
     var onKeyboardDismiss : (() -> Void)?
     
-    // MARK: - Override Methods
+    // MARK: - Lifecycle
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -146,8 +130,18 @@ class ProfileCell: UITableViewCell, ProfileViewModelDelegate {
         profileImage.image = viewModel.profileImage
         coverImage.image = viewModel.coverImage
         
-        viewModel.delegate = self
         self.viewModel = viewModel
+    }
+    
+    override func prepareForReuse() {
+        xynameLabel.text = nil
+        xpCircle.levelLabel.text = nil
+        nicknameLabel.text = nil
+        captionLabel.text = nil
+        websiteLabel.text = nil
+        profileImage.image = nil
+        coverImage.image = nil
+        self.viewModel = nil
     }
     
 
