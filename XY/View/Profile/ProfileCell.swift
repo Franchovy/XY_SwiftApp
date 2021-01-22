@@ -28,6 +28,7 @@ class ProfileCell: UITableViewCell {
     
     var viewModel: ProfileViewModel?
     
+    
     var isOwnProfile: Bool! {
         didSet {
             settingsButton.isHidden = !isOwnProfile
@@ -118,11 +119,6 @@ class ProfileCell: UITableViewCell {
             xynameLabel.text = ""
         }
         
-        if let level = viewModel.level {
-            let levelLabel = String(describing: level)
-            xpCircle.levelLabel.text = levelLabel
-        }
-        
         nicknameLabel.text = viewModel.nickname
         captionLabel.text = viewModel.caption
         websiteLabel.text = viewModel.website
@@ -131,6 +127,14 @@ class ProfileCell: UITableViewCell {
         coverImage.image = viewModel.coverImage
         
         self.viewModel = viewModel
+        
+        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.userId, ofType: .user) { [weak self] (xpModel) in
+            guard let strongSelf = self, let nextLevelXp = XPModel.LEVELS[.user]?[xpModel.level] else {
+                return
+            }
+            
+            strongSelf.xpCircle.setProgress(level: xpModel.level, progress: Float(xpModel.xp) / Float(nextLevelXp))
+        }
     }
     
     override func prepareForReuse() {
@@ -141,6 +145,11 @@ class ProfileCell: UITableViewCell {
         websiteLabel.text = nil
         profileImage.image = nil
         coverImage.image = nil
+        
+        if let userId = viewModel?.userId {
+            FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: userId)
+        }
+        
         self.viewModel = nil
     }
     

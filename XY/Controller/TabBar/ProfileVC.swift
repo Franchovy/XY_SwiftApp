@@ -77,7 +77,7 @@ class ProfileVC : UIViewController {
     
     private func fetchProfileData() {
         if let profileId = profileId {
-            topViewModel = ProfileViewModel(profileId: profileId)
+            topViewModel = ProfileViewModel(profileId: profileId, userId: ownerId)
         } else {
             // Fetch profileId for userId
             FirebaseDownload.getProfileId(userId: ownerId) { [weak self] (profileId, error) in
@@ -86,7 +86,7 @@ class ProfileVC : UIViewController {
                     return
                 }
                 
-                let topViewModel = ProfileViewModel(profileId: profileId)
+                let topViewModel = ProfileViewModel(profileId: profileId, userId: strongSelf.ownerId)
                 strongSelf.topViewModel = topViewModel
                 // If viewmodel for cell is not set, then set it.
                 guard let profileCell = strongSelf.topCell else {

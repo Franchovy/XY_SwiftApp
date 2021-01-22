@@ -58,8 +58,13 @@ class ProfileViewModel {
     var profileImage: UIImage?
     var coverImage: UIImage?
     
-    init(profileId: String) {
+    var userId: String
+    var profileId: String
+    
+    init(profileId: String, userId: String) {
         // Fetch profile data
+        self.profileId = profileId
+        self.userId = userId
         
         FirebaseDownload.getProfile(profileId: profileId) {profileData, error in
             if let error = error {
@@ -71,10 +76,6 @@ class ProfileViewModel {
                 self.delegate?.onProfileDataFetched(profileData)
             }
         }
-    }
-    
-    init(profileData: ProfileModel) {
-        self.profileData = profileData
     }
     
     func sendEditUpdate() {
