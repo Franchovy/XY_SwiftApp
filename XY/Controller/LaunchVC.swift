@@ -35,16 +35,18 @@ class LaunchVC: UIViewController {
     var segueToPerformOnAnimationFinished = "segueToLogin"
     
     override func viewDidAppear(_ animated: Bool) {
-        DispatchQueue.main.asyncAfter(deadline: .now(), execute: {
-            self.animate()
-            
-            // Check for login
-            guard let user = Auth.auth().currentUser else {
-                return
-            }
-            
+
+        // Check for login
+        if let user = Auth.auth().currentUser {
             self.segueToPerformOnAnimationFinished = "segueToMain"
-        })
+        } else {
+            segueToPerformOnAnimationFinished = "segueToLogin"
+        }
+        
+        DispatchQueue.main.async {
+            self.animate()
+        }
+
     }
     
     private func animate(){

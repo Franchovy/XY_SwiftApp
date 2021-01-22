@@ -1156,7 +1156,7 @@
                                         </constraints>
                                         <state key="normal" image="logout_Button-1"/>
                                         <connections>
-                                            <action selector="logoutButtonPressed:" destination="IGQ-5a-jyd" eventType="touchDragInside" id="NDf-1k-MCn"/>
+                                            <action selector="logoutButtonPressed:" destination="IGQ-5a-jyd" eventType="touchUpInside" id="wQG-Co-edw"/>
                                         </connections>
                                     </button>
                                 </subviews>
