@@ -15,6 +15,7 @@ class ExploreVC: UIViewController {
     @IBOutlet weak var ExploreTableView: UITableView!
   
     
+    
     var challenges: [ExploreViewCellModel] = [
         
         ExploreViewCellModel(circle: "0", challengesLabel: "Challenge_1"),
@@ -27,14 +28,19 @@ class ExploreVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         ExploreTableView.dataSource = self
-        
         
         let cellNib = UINib(nibName: "ExploreTableViewCell", bundle: nil)
                 self.ExploreTableView.register(cellNib, forCellReuseIdentifier: "tableviewcellid")
 
+        let cameraButton = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(openCamera))
+        navigationItem.rightBarButtonItem = cameraButton
+    }
+    
+    @objc func openCamera() {
+        let cameraVC = CameraViewController()
+        cameraVC.modalPresentationStyle = .fullScreen
+        present(cameraVC, animated: true, completion: {})
     }
     
 }

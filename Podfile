@@ -21,6 +21,6 @@ pod 'IQKeyboardManagerSwift'
 pod 'ImagePicker'
 pod 'Kingfisher', '~> 6.0'
 pod 'Hero'
-
+pod 'SwiftyCam'
 
 end

@@ -27,9 +27,11 @@
 	<key>NSAppTransportSecurity</key>
 	<dict/>
 	<key>NSCameraUsageDescription</key>
-	<string>Please allow camera access to use this feature</string>
+	<string>Please allow XY to use the camera</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Please allow XY to use the microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow microphone access to use this feature</string>
+	<string>Please allow XY to have camera roll access</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

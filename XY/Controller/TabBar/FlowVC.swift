@@ -50,6 +50,12 @@ class FlowVC : UITableViewController {
         tableView.reloadData()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        if let uid = Auth.auth().currentUser?.uid {
+            FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: uid)
+        }
+    }
+    
     // MARK: - GESTURE RECOGNIZERS
     
     @objc func xpButtonPressed() {

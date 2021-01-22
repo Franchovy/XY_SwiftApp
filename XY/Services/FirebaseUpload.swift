@@ -237,4 +237,8 @@ class FirebaseUpload {
             completion(.success(newConversationDocument.documentID))
         }
     }
+    
+    static func uploadVideo(with url: URL, completion: @escaping(Result<String,Error>) -> Void) {
+        
+    }
 }
