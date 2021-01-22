@@ -13,7 +13,7 @@ final class FirebaseFunctionsManager {
     static let shared = FirebaseFunctionsManager()
     
     private init() {
-        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
+        //functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
     }
     
     lazy var functions = Functions.functions()
@@ -25,7 +25,6 @@ final class FirebaseFunctionsManager {
             "swipeUserId": Auth.auth().currentUser!.uid
         ]
         
-        print("Sending swipe right with data: \(swipeRightData)")
         functions.httpsCallable("swipeRightPost").call(swipeRightData) { (result, error) in
           if let error = error as NSError? {
             if error.domain == FunctionsErrorDomain {
@@ -34,21 +33,17 @@ final class FirebaseFunctionsManager {
               let details = error.userInfo[FunctionsErrorDetailsKey]
             }
             print("Error in swipe Right response: \(error)")
-          }
-          if let responseData = result?.data as? [String: Any] {
-            print("Successful! Response data: \(responseData)")
+          } else if result != nil {
+            // On success
             self.checkPostLevelUp(postId: postId)
           }
         }
     }
     
     public func checkPostLevelUp(postId: String) {
-        functions.httpsCallable("checkPostLevelUp").call(["postId": postId]) { (result, error) in
+        functions.httpsCallable("checkPostLevelUp").call(["postId": postId]) { (_, error) in
             if let error = error {
                 print("Error in checkLevelUp function call: \(error)")
-            }
-            if let result = result {
-                print("checkLevelUp appears successful with result: \(result)")
             }
         }
     }
@@ -56,12 +51,9 @@ final class FirebaseFunctionsManager {
     public func checkUserLevelUp() {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        functions.httpsCallable("checkUserLevelUp").call(["userId": userId]) { (result, error) in
+        functions.httpsCallable("checkUserLevelUp").call(["userId": userId]) { (_, error) in
             if let error = error {
                 print("Error in checkLevelUp function call: \(error)")
-            }
-            if let result = result {
-                print("checkLevelUp appears successful with result: \(result)")
             }
         }
     }

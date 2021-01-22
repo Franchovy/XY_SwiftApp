@@ -17,13 +17,40 @@ protocol ImagePostCellDelegate {
 
 
 class ImagePostCell: UITableViewCell, FlowDataCell {
-    var type: FlowDataType = .post
-
+    
+    // MARK: - IBOutlets
+    
+    @IBOutlet weak var postCard: UIView!
+    
+    @IBOutlet weak var xpLevelDisplay: CircleView!
+    
+    @IBOutlet weak var nameLabelLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var cameraIcon: UIImageView!
+    @IBOutlet weak var profileImageHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var profileImageWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var profileImageLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var profileImageTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var contentImageViewHeightConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var contentImageView: UIImageView!
+    @IBOutlet weak var profileImageView: UIImageView!
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var contentLabel: UILabel!
+    @IBOutlet weak var timestampLabel: UILabel!
+    @IBOutlet weak var captionAlphaView: GradientView!
+    
+    
+    var isSwipedRightXPView = false
+    static let defaultPanSensitivity = 0.05
+    var panSensitivity = defaultPanSensitivity
+    
     // MARK: - PROPERTIES
     
     static let nibName = "ImagePostCell"
     static let identifier = "imagePostCell"
     static var type: FlowDataType = .post
+    var type: FlowDataType = .post
     
     // deprecate
     var delegate: ImagePostCellDelegate?
@@ -69,28 +96,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         nameLabel.text = xyname
     }
     
-    // MARK: - IBOutlets
-    
-    @IBOutlet weak var postCard: UIView!
-    
-    @IBOutlet weak var xpLevelDisplay: CircleView!
-    
-    @IBOutlet weak var nameLabelLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var cameraIcon: UIImageView!
-    @IBOutlet weak var profileImageHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var profileImageWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var profileImageLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var profileImageTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var contentImageViewHeightConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var contentImageView: UIImageView!
-    @IBOutlet weak var profileImageView: UIImageView!
-    
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var captionAlphaView: GradientView!
-    
     // MARK: - PUBLIC METHODS
     
     var panGesture:UIPanGestureRecognizer!
@@ -108,7 +113,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(panGestureRecognizer:)))
         panGesture.delegate = self
-        
         panGesture.isEnabled = true
         addGestureRecognizer(panGesture)
         
@@ -117,14 +121,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         tapProfileImage.delegate = self
         profileImageView.addGestureRecognizer(tapProfileImage)
     }
-
-    @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        delegate?.imagePostCellDelegate(didTapProfilePictureFor: self)
-    }
     
     override func prepareForReuse() {
         // Load from data for this cell
-        self.postCard.transform.tx = 0
+        postCard.transform.tx = 0
         contentImageView.image = nil
         profileImageView.image = nil
         contentLabel.text = ""
@@ -133,10 +133,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
         xpLevelDisplay.reset()
     }
-    
-    //
-    
+
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        
         if let gesture = gestureRecognizer as? UIPanGestureRecognizer {
             let velocity = gesture.velocity(in: nil)
             return abs(velocity.x) > abs(velocity.y)
@@ -145,9 +144,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
     }
     
-    var isSwipedRightXPView = false
-    static let defaultPanSensitivity = 0.05
-    var panSensitivity = defaultPanSensitivity
+    @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        delegate?.imagePostCellDelegate(didTapProfilePictureFor: self)
+    }
+    
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
         let translation = panGestureRecognizer.translation(in: nil)
@@ -163,7 +163,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 if isSwipedRightXPView {
                     // Confirm Swipe Right
                     isSwipedRightXPView = false
-                    print("Confirm swipe right")
                     confirmSwipe(direction: .right)
                 }
                 
@@ -171,15 +170,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                     && translation.x > 50 {
                     // Confirm swipe right
                     confirmSwipe(direction: .right)
-                    print("Direct swipe right")
                 } else if translation.x < 30 {
                     // Cancel gesture
                     cancelSwipe()
-                    print("Cancel swipe")
                 } else {
                     // XP Circle
                     swipeRightXPView()
-                    print("Swipe Right XP View")
                 }
             } else {
                 // Direction: Left
@@ -204,20 +200,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 isSwipedRightXPView = false
                 cancelSwipe()
                 return
-            } else {
-//                if #available(iOS 13.0, *) {
-//
-//                    let PI = CGFloat(3.1415)
-//                    let sensitivity = CGFloat(0.001)
-//                    let angle = (translation.x * sensitivity * PI / 2) - PI / 2
-//
-//                    postCard.transform3D.m11 = -sin(angle)
-//                    postCard.transform3D.m12 = cos(angle)
-//                    postCard.transform3D.m31 = sin(angle)
-//                    postCard.transform3D.m32 = cos(angle)
-//                    postCard.transform3D.m23 = 1
-//                    postCard.transform3D.m44 = 1
-//                }
             }
         }
     }
@@ -234,6 +216,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     func swipeRightXPView() {
         UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 5, options: .curveEaseIn, animations: {
             self.postCard.transform.tx = 150
+            
             
         }, completion: { bool in
             self.isSwipedRightXPView = true
@@ -252,30 +235,36 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 5.0, initialSpringVelocity: 20, options: .curveEaseIn, animations: {
             self.postCard.transform.tx = 500 * CGFloat(directionMultiplier)
             
-        }, completion: { bool in
-            if direction == .left {
-                UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 1.0, initialSpringVelocity: 10, options: .curveEaseOut, animations: {
-                    self.postCard.transform.tx = 500 * CGFloat(directionMultiplier)
-                }, completion: { bool in
-                    guard let flowVC = self.viewContainingController() as? FlowVC else {fatalError()}
-                    
-                    flowVC.barXPCircle.progressBarCircle.color = .blue
-                    
-                    // Collapse this view
-                    let indexPath = flowVC.tableView.indexPath(for: self)!
-                    
-                    flowVC.data.remove(at: indexPath.row)
-                    flowVC.tableView.deleteRows(at: [indexPath], with: direction == .right ? .right : .left)
-                    
-                    self.viewModel.sendSwipeLeft()
-                })
-            } else {
-                UIView.animate(withDuration: 0.5, delay: 0.5, usingSpringWithDamping: 1.0, initialSpringVelocity: 5, options: .curveEaseOut, animations: {
-                    self.postCard.transform.tx = 0
-                }, completion: { bool in
-                    // Swipe Right to firebase
-                    self.viewModel.sendSwipeRight()
-                })
+        }, completion: { done in
+            if done {
+                
+                if direction == .left {
+                    UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 1.0, initialSpringVelocity: 10, options: .curveEaseOut, animations: {
+                        self.postCard.transform.tx = 500 * CGFloat(directionMultiplier)
+                    }, completion: { bool in
+                        guard let flowVC = self.viewContainingController() as? FlowVC else { fatalError() }
+                        
+                        flowVC.barXPCircle.progressBarCircle.color = .blue
+                        
+                        // Collapse this view
+                        let indexPath = flowVC.tableView.indexPath(for: self)!
+                        
+                        flowVC.data.remove(at: indexPath.row)
+                        flowVC.tableView.deleteRows(at: [indexPath], with: direction == .right ? .right : .left)
+                        
+                        self.viewModel.sendSwipeLeft()
+                    })
+                } else {
+                    UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 15, options: .beginFromCurrentState, animations: {
+                        self.postCard.transform.tx = 0
+                        
+                    }, completion: { done in
+                        if done {
+                            // Swipe Right to firebase
+                            self.viewModel.sendSwipeRight()
+                        }
+                    })
+                }
             }
         })
     }

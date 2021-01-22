@@ -71,6 +71,11 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
         }
     }
     
+    override func prepareForReuse() {
+        postPrevCollection = []
+        posts = []
+    }
+    
     func postImageFetched(index: Int, image: UIImage) {
         if postPrevCollection.count == index {
             postPrevCollection.append(ProfilePostModel(imagePostPrev: image))
