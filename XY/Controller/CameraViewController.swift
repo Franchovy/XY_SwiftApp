@@ -9,8 +9,14 @@ import UIKit
 import AVFoundation
 import SwiftyCam
 
+protocol CameraViewControllerDelegate {
+    func cameraViewDidTapCloseButton()
+}
+
 class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
 
+    var delegate: CameraViewControllerDelegate?
+    
     private let nextButton: UIButton = {
         let button = UIButton()
         button.layer.masksToBounds = true
@@ -101,7 +107,16 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         recordButton.delegate = self
         cameraDelegate = self
+        
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
+        doubleTapGesture.numberOfTapsRequired = 2
+        view.addGestureRecognizer(doubleTapGesture)
     }
+    
+    override func viewWillLayoutSubviews() {
+        tabBarController?.setTabBarVisible(visible: false, duration: 0.1, animated: true)
+    }
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -174,8 +189,16 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         recordButton.layer.addSublayer(gradient)
     }
+    
+    public func setCloseButtonVisible(_ isVisible: Bool) {
+        closeCameraVCButton.isHidden = !isVisible
+    }
 
     // MARK: - Objc functions
+    
+    @objc private func didDoubleTap() {
+        switchCamera()
+    }
     
     @objc private func didTapRecordButton() {
         takePhoto()
@@ -183,6 +206,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     @objc private func didTapClose() {
         dismiss(animated: true, completion: nil)
+        
+        delegate?.cameraViewDidTapCloseButton()
     }
     
     @objc private func didTapCameraRoll() {

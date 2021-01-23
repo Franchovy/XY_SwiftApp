@@ -42,16 +42,12 @@ class ExploreVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
-        
         DispatchQueue.main.async {
             self.momentView?.player?.play()
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
-        
         DispatchQueue.main.async {
             self.momentView?.player?.pause()
         }
@@ -89,6 +85,8 @@ class ExploreVC: UIViewController {
         
         DispatchQueue.main.async {
             momentView.view.frame = self.view.bounds
+            momentView.view.layer.cornerRadius = 15
+            
             self.view.addSubview(momentView.view)
             
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.onMomentTapped))
