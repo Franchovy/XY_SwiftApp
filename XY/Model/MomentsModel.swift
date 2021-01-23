@@ -14,4 +14,5 @@ struct MomentsModel {
     var moment: UIImage
     var momentsProfileImage : UIImage
     var momentsName: String
+    
 }

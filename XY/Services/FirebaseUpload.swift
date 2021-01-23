@@ -239,6 +239,47 @@ class FirebaseUpload {
     }
     
     static func uploadVideo(with url: URL, completion: @escaping(Result<String,Error>) -> Void) {
+        // Upload photo in post
+        let storage = Storage.storage()
         
+        var uuid: String!
+        var metadata = StorageMetadata()
+        
+        uuid = UUID().uuidString + ".mov"
+        metadata.contentType = "video/quicktime"
+        
+        let storageRef = storage.reference()
+        let videoRef = storageRef.child(uuid)
+        
+        videoRef.putFile(from: url, metadata: metadata)  { (metadata, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+
+            if let metadata = metadata {
+                completion(.success(videoRef.fullPath))
+            }
+        }
+    }
+    
+    static func createMoment(caption: String, videoPath: String, completion: @escaping(Result<String, Error>) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let momentData: [String: Any] = [
+            FirebaseKeys.MomentsKeys.videoRef: videoPath,
+            FirebaseKeys.MomentsKeys.author: userId,
+            FirebaseKeys.MomentsKeys.timestamp: FieldValue.serverTimestamp()
+        ]
+        
+        let momentDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.moments).document()
+            
+        momentDocument.setData(momentData) { (error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            completion(.success(momentDocument.documentID))
+        }
     }
 }

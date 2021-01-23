@@ -17,8 +17,9 @@ struct FirebaseKeys {
         static let profile = "Profiles"
         static let actions = "Actions"
         static let notifications = "Notifications"
-        
+        static let moments = "Moments"
         static let conversations = "Conversations"
+        
         static let messages = "messages"
         static let senderField = "senderField"
         static let bodyField = "bodyField"
@@ -94,5 +95,12 @@ struct FirebaseKeys {
             static let sender = "sender"
             static let message = "message"
         }
+    }
+    
+    struct MomentsKeys {
+        static let author = "author"
+        static let timestamp = "timestamp"
+        static let videoRef = "videoRef"
+        
     }
 }

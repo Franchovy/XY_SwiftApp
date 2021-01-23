@@ -86,7 +86,6 @@ class FlowVC : UITableViewController {
             print("Flow update")
             if let posts = newPosts {
                 for newPost in posts {
-                    
                     if self.data.contains(where: { flowDataModel in
                         if let postData = flowDataModel as? PostModel {
                             return postData.id == newPost.id
@@ -100,9 +99,9 @@ class FlowVC : UITableViewController {
                         } else {
                             // Insert into visible row
                             let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
-                            self.data.insert(newPost, at: firstVisibleRowIndex.row)
                             // Automatically updates tableview
                             DispatchQueue.main.async {
+                                self.data.insert(newPost, at: firstVisibleRowIndex.row)
                                 self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
                             }
                         }

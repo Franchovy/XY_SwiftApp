@@ -67,7 +67,6 @@ class FirebaseDownload {
                     postDataArray.append(postData)
                 }
             }
-                
             
             completion(postDataArray, nil)
             
@@ -85,13 +84,41 @@ class FirebaseDownload {
             if let documents = snapshot?.documents {
                 var posts: [PostModel] = []
                 for doc in documents {
-                    var newPost = PostModel(from: doc.data(), id: doc.documentID)
+                    let newPost = PostModel(from: doc.data(), id: doc.documentID)
 
                     posts.append(newPost)
                 }
                 completion(posts, nil)
             }
         }
+    }
+    
+    static func getMoments(completion: @escaping(Result<[MomentModel], Error>) -> Void) {
+        // returns moments
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.moments).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            if let querySnapshot = querySnapshot {
+                for doc in querySnapshot.documents {
+                    
+                    var moments = [MomentModel]()
+                    moments.append(
+                        MomentModel(
+                            from: doc.data(),
+                            id: doc.documentID
+                        )
+                    )
+                    
+                    completion(.success(moments))
+                }
+            }
+        }
+    }
+    
+    static func getMoment(videoRef: String, completion: @escaping(Result<URL, Error>) -> Void) {
+        
     }
     
     static func getProfileId(userId: String, completion: @escaping(String?, Error?) -> Void) {

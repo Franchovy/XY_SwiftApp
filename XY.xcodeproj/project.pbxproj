@@ -70,6 +70,8 @@
 		B902DEC025AF372D00F32B12 /* ProfileCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B902DEBF25AF372D00F32B12 /* ProfileCell.xib */; };
 		B902DEC425AF375E00F32B12 /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902DEC325AF375E00F32B12 /* ProfileCell.swift */; };
 		B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C163725BB0ADA003811B2 /* TabBarViewController.swift */; };
+		B90C164025BC6404003811B2 /* MomentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C163F25BC6404003811B2 /* MomentViewController.swift */; };
+		B90C164425BC6474003811B2 /* MomentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C164325BC6474003811B2 /* MomentModel.swift */; };
 		B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */; };
@@ -191,6 +193,8 @@
 		B902DEBF25AF372D00F32B12 /* ProfileCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileCell.xib; sourceTree = "<group>"; };
 		B902DEC325AF375E00F32B12 /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		B90C163725BB0ADA003811B2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		B90C163F25BC6404003811B2 /* MomentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentViewController.swift; sourceTree = "<group>"; };
+		B90C164325BC6474003811B2 /* MomentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentModel.swift; sourceTree = "<group>"; };
 		B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSubscriptionManager.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -311,6 +315,7 @@
 				B9B92DF125644F9B005D9B86 /* SignupViewController.swift */,
 				149AD6A2259B52E300E81ABC /* TabBar */,
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
+				B90C163F25BC6404003811B2 /* MomentViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -424,7 +429,7 @@
 				B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */,
 				B94D46F0257253BA00A21355 /* PostModel.swift */,
 				14607A7B25A0DDE5009B3B50 /* ProfileModel.swift */,
-				14A36080259CB88D002829D7 /* MomentsModel.swift */,
+				B90C164325BC6474003811B2 /* MomentModel.swift */,
 				14169C98259B9EE5003C047F /* ExploreViewCollectionModel.swift */,
 				14BDAF8325A37DD800D19282 /* MessageModel.swift */,
 				148935BE25A2686F00CB60C3 /* ConversationModel.swift */,
@@ -433,6 +438,7 @@
 				B9DFBA6225B7495D0084E79D /* Notification.swift */,
 				14B270A625AA1DD900CCACDE /* Profile2Model.swift */,
 				14B2711A25AA233C00CCACDE /* ProfilePostModel.swift */,
+				14A36080259CB88D002829D7 /* MomentsModel.swift */,
 				14B2705225A9EBA900CCACDE /* OnlineFriends */,
 			);
 			path = Model;
@@ -746,6 +752,7 @@
 				14B22647258D1484006966FC /* MomentsCollection.swift in Sources */,
 				14C99E2E25A0EE7E00FFE003 /* ProfileVC.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
+				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				148218C3258FF52700676556 /* ChatVC.swift in Sources */,
 				B9AE604125B1F7E70093502B /* SettingsVC.swift in Sources */,
@@ -765,6 +772,7 @@
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				14B2711B25AA233C00CCACDE /* ProfilePostModel.swift in Sources */,
 				14BA46B825AB5E3000ADDC8B /* suggestedCollectionViewCell.swift in Sources */,
+				B90C164025BC6404003811B2 /* MomentViewController.swift in Sources */,
 				14BDAF6325A30A4800D19282 /* ChatUserInfo.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				14B2705125A9EBA500CCACDE /* OnlineFriendsCellsModel.swift in Sources */,
@@ -1021,7 +1029,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.XY-APP.XY";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1045,7 +1053,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.XY-APP.XY";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

@@ -104,10 +104,10 @@ class PostViewModel {
             for imageId in imageIds {
                 
                 ImageDownloaderHelper.getFullURL(imageId: imageId) { imageUrl, error in
-                    if let error = error {
-                        print("Error fetching image!")
+                    guard let imageUrl = imageUrl, error == nil else {
+                        print(error ?? "Error fetching image")
+                        return
                     }
-                    guard let imageUrl = imageUrl else { fatalError() }
                     
                     KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
                         // Update download progress

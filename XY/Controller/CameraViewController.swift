@@ -38,7 +38,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     private let recordButton: SwiftyCamButton = {
         let button = SwiftyCamButton()
         button.layer.masksToBounds = true
-        button.backgroundColor = UIColor(0x404040)
+        button.backgroundColor = UIColor(0xb9b9b9)
         
         return button
     }()
@@ -46,7 +46,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     private let openCameraRollButton: UIButton = {
         let button = UIButton()
         button.layer.masksToBounds = true
-        button.backgroundColor = .red
+        button.setBackgroundImage(UIImage(systemName: "photo.on.rectangle.angled"), for: .normal)
+        button.tintColor = .white
         return button
     }()
     
@@ -78,6 +79,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        videoGravity = .resizeAspectFill
+        
         super.viewDidLoad()
 
         view.addSubview(previewLayerView)
@@ -102,7 +105,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+                
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
             x: (view.width - recordButtonSize)/2,
@@ -127,6 +130,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             width: 30,
             height: 30
         )
+        
         
         previewLayerView.frame = view.bounds
         
@@ -162,7 +166,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         ]
         
         let shape = CAShapeLayer()
-        shape.lineWidth = 5
+        shape.lineWidth = 7
         shape.path = UIBezierPath(roundedRect: recordButton.bounds, cornerRadius: recordButton.layer.cornerRadius).cgPath
         shape.strokeColor = UIColor.black.cgColor
         shape.fillColor = UIColor.clear.cgColor
@@ -184,10 +188,35 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     @objc private func didTapCameraRoll() {
         
     }
-    
+            
     @objc private func didTapNextButton() {
         // Upload video
-        print("Upload video!")
+        
+        guard let url = recordedVideoUrl else {
+            return
+        }
+        
+        FirebaseUpload.uploadVideo(with: url) { [weak self] (result) in
+            switch result {
+            case .success(let uploadedPath):
+                print("Uploaded video with path: \(uploadedPath)")
+                
+                FirebaseUpload.createMoment(caption: "This is our first moment", videoPath: uploadedPath) { result in
+                    switch result {
+                    case .success(let momentId):
+                        print("Uploaded moment document with id: \(momentId)")
+                    case .failure(let error):
+                        print("Error uploading moment document: \(error)")
+                    }
+                }
+                
+                // Close vc, open moment
+                self?.didTapClosePreview()
+                
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     @objc private func didTapClosePreview() {
@@ -248,5 +277,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         previewLayer.player?.play()
         previewMode = true
+        
+        recordedVideoUrl = url
     }
 }
