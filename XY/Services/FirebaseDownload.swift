@@ -101,24 +101,35 @@ class FirebaseDownload {
             }
             
             if let querySnapshot = querySnapshot {
+                var moments = [MomentModel]()
+                
                 for doc in querySnapshot.documents {
                     
-                    var moments = [MomentModel]()
                     moments.append(
                         MomentModel(
                             from: doc.data(),
                             id: doc.documentID
                         )
                     )
-                    
-                    completion(.success(moments))
                 }
+                completion(.success(moments))
             }
         }
     }
     
     static func getMoment(videoRef: String, completion: @escaping(Result<URL, Error>) -> Void) {
+        let storage = Storage.storage()
         
+        let videoDownloadRef = storage.reference().child(videoRef)
+        
+        videoDownloadRef.downloadURL { (url, error) in
+            if let error = error {
+              completion(.failure(error))
+            }
+            if let url = url {
+              completion(.success(url))
+            }
+        }
     }
     
     static func getProfileId(userId: String, completion: @escaping(String?, Error?) -> Void) {

@@ -34,6 +34,8 @@ class MomentViewController: UIViewController {
         label.textAlignment = .left
         label.textColor = .white
         label.numberOfLines = 0
+        label.alpha  = 0.7
+        label.font = UIFont(name: "HelveticaNeue", size: 15)
         label.text = "Check out this video! #lol #xy"
         label.font = .systemFont(ofSize: 24)
         return label
@@ -82,6 +84,7 @@ class MomentViewController: UIViewController {
         view.addSubview(profileButton)
         
         profileButton.addTarget(self, action: #selector(didTapProfileButton), for: .touchUpInside)
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -109,8 +112,9 @@ class MomentViewController: UIViewController {
             height: size
         )
         profileButton.layer.cornerRadius = size / 2
-        
+
     }
+
     
     private func configureVideo() {
         FirebaseDownload.getMoment(videoRef: model.videoRef) { [weak self] result in
@@ -120,30 +124,7 @@ class MomentViewController: UIViewController {
             strongSelf.spinner.removeFromSuperview()
             switch result {
             case .failure(let error):
-                DispatchQueue.main.async {
-                    guard let path = Bundle.main.path(forResource: "video", ofType: ".mp4") else {
-                        return
-                    }
-                    let url = URL(fileURLWithPath: path)
-                    let playerLayer = AVPlayerLayer(player: strongSelf.player)
-                    playerLayer.frame = strongSelf.view.bounds
-                    playerLayer.videoGravity = .resizeAspectFill
-                    strongSelf.videoView.layer.addSublayer(playerLayer)
-                    strongSelf.player?.volume = 0.0
-                    strongSelf.player?.play()
-                    
-                    guard let player = strongSelf.player else {
-                        return
-                    }
-                    
-                    strongSelf.playerDidFinishObserver = NotificationCenter.default.addObserver(
-                        forName: .AVPlayerItemDidPlayToEndTime,
-                        object: player.currentItem,
-                        queue: .main) { _ in
-                        player.seek(to: .zero)
-                        player.play()
-                    }
-                }
+                print("Error fetching video: \(error)")
             case .success(let url):
                 DispatchQueue.main.async {
                     strongSelf.player = AVPlayer(url: url)
@@ -151,7 +132,7 @@ class MomentViewController: UIViewController {
                     playerLayer.frame = strongSelf.view.bounds
                     playerLayer.videoGravity = .resizeAspectFill
                     strongSelf.videoView.layer.addSublayer(playerLayer)
-                    strongSelf.player?.volume = 0.0
+                    strongSelf.player?.volume = 1.0
                     strongSelf.player?.play()
                     
                     guard let player = strongSelf.player else {
