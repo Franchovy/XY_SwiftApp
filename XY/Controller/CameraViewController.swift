@@ -56,7 +56,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         button.tintColor = .white
         return button
     }()
-    
+        
     private var playerDidFinishObserver: NSObjectProtocol?
     private var previewLayerView = UIView()
     private var previewLayer: AVPlayerLayer?
@@ -81,16 +81,18 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     override func viewDidLoad() {
         videoGravity = .resizeAspectFill
+        pinchToZoom = true
+        maximumVideoDuration = 10.0
         
         super.viewDidLoad()
-        
+    
         view.addSubview(previewLayerView)
         view.addSubview(recordButton)
         view.addSubview(openCameraRollButton)
         view.addSubview(closeCameraVCButton)
         view.addSubview(nextButton)
         view.addSubview(closePreviewButton)
-        view.addSubview(blurMenu.view)
+
         
         blurMenu.delegate = self
         
@@ -107,6 +109,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         doubleTapGesture.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTapGesture)
+        
+     
     }
     
     override func viewWillLayoutSubviews() {
@@ -114,6 +118,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         blurMenu.view.frame = view.bounds
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        view.addSubview(blurMenu.view)
+        
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -142,7 +150,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             width: 30,
             height: 30
         )
-        
         
         previewLayerView.frame = view.bounds
         
@@ -186,6 +193,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         recordButton.layer.addSublayer(gradient)
     }
+
     
     public func setCloseButtonVisible(_ isVisible: Bool) {
         closeCameraVCButton.isHidden = !isVisible
@@ -316,9 +324,15 @@ extension CameraViewController : BlurMenuViewControllerDelegate {
     func blurMenuViewControllerDelegate(blurMenu: BlurMenuViewController, onButtonSelected: ButtonType) {
         switch onButtonSelected {
         case .moment:
-            break
+            session.sessionPreset = .high
+            session.startRunning()
         case .post:
-            break
+            
+            session.startRunning()
         }
+        
+        
+        blurMenu.dismissAnimated()
+        self.blurMenu.view.removeFromSuperview()
     }
 }

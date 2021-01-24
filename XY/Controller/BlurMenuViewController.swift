@@ -60,7 +60,7 @@ class BlurMenuViewController: UIViewController {
         view.addSubview(momentButton)
         
         postButton.addTarget(self, action: #selector(postButtonTapped), for: .touchUpInside)
-        postButton.addTarget(self, action: #selector(momentButtonTapped), for: .touchUpInside)
+        momentButton.addTarget(self, action: #selector(momentButtonTapped), for: .touchUpInside)
         
         // Setup blur animator
         blurAnimator = UIViewPropertyAnimator(duration: 1, curve: .linear) { [blurChooseMenuView] in
@@ -86,18 +86,13 @@ class BlurMenuViewController: UIViewController {
     
     @objc private func postButtonTapped() {
         delegate?.blurMenuViewControllerDelegate(blurMenu: self, onButtonSelected: .post)
-        dismissAnimated()
     }
     
     @objc private func momentButtonTapped() {
         delegate?.blurMenuViewControllerDelegate(blurMenu: self, onButtonSelected: .moment)
-        dismissAnimated()
     }
     
-    func dismissAnimated() {
+    public func dismissAnimated() {
         exitBlurAnimator?.startAnimation()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.view.removeFromSuperview()
-        }
     }
 }
