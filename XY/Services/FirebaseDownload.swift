@@ -95,7 +95,9 @@ class FirebaseDownload {
     
     static func getMoments(completion: @escaping(Result<[MomentModel], Error>) -> Void) {
         // returns moments
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.moments).getDocuments { (querySnapshot, error) in
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.moments)
+            .order(by: FirebaseKeys.MomentsKeys.timestamp, descending: true)
+            .getDocuments { (querySnapshot, error) in
             if let error = error {
                 completion(.failure(error))
             }

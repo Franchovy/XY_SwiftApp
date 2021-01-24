@@ -258,7 +258,15 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         // Take Photo
-        print("Photo!")
+        
+        FirebaseUpload.createPost(caption: "Here's a post", image: photo) { (result) in
+            switch result {
+            case .failure(let error):
+                break
+            case .success(let postModel):
+                break
+            }
+        }
         
     }
     

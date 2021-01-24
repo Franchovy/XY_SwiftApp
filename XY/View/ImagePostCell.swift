@@ -120,10 +120,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
         tapProfileImage.delegate = self
         profileImageView.addGestureRecognizer(tapProfileImage)
+    
     }
     
     override func prepareForReuse() {
         // Load from data for this cell
+        postCard.layer.shadowOpacity = 0.0
         postCard.transform.tx = 0
         contentImageView.image = nil
         profileImageView.image = nil
@@ -135,7 +137,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
 
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-        
         if let gesture = gestureRecognizer as? UIPanGestureRecognizer {
             let velocity = gesture.velocity(in: nil)
             return abs(velocity.x) > abs(velocity.y)
@@ -151,6 +152,14 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
         let translation = panGestureRecognizer.translation(in: nil)
+        
+        if postCard.transform.tx > 0 {
+            postCard.layer.shadowColor = UIColor.green.cgColor
+        } else {
+            postCard.layer.shadowColor = UIColor.red.cgColor
+        }
+        
+        postCard.layer.shadowOpacity = abs(Float(postCard.transform.tx / 150))
         
         postCard.transform.tx = postCard.transform.tx + translation.x * CGFloat(panSensitivity)
         
@@ -207,7 +216,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     func cancelSwipe() {
         UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseIn, animations: {
             self.postCard.transform.tx = 0
-            
+            self.postCard.layer.shadowOpacity = 0.0
         }, completion: { bool in
             
         })
@@ -257,7 +266,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 } else {
                     UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 15, options: .beginFromCurrentState, animations: {
                         self.postCard.transform.tx = 0
-                        
+                        self.postCard.layer.shadowOpacity = 0.0
                     }, completion: { done in
                         if done {
                             // Swipe Right to firebase
