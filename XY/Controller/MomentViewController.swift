@@ -41,6 +41,12 @@ class MomentViewController: UIViewController {
         return label
     }()
     
+    enum PlayState {
+        case play
+        case pause
+    }
+    var playState:PlayState = .pause
+    
     var player: AVPlayer?
     
     private var playerDidFinishObserver: NSObjectProtocol?
@@ -75,8 +81,6 @@ class MomentViewController: UIViewController {
         
         view.addSubview(videoView)
         videoView.addSubview(spinner)
-        
-        configureVideo()
 
         setUpDoubleTapToLike()
         
@@ -116,7 +120,13 @@ class MomentViewController: UIViewController {
     }
 
     
-    private func configureVideo() {
+    public func play() {
+        playState = .play
+        
+        self.player?.play()
+    }
+    
+    public func configureVideo() {
         FirebaseDownload.getMoment(videoRef: model.videoRef) { [weak self] result in
             
             guard let strongSelf = self else { return }
@@ -133,7 +143,11 @@ class MomentViewController: UIViewController {
                     playerLayer.videoGravity = .resizeAspectFill
                     strongSelf.videoView.layer.addSublayer(playerLayer)
                     strongSelf.player?.volume = 1.0
-                    strongSelf.player?.play()
+                    
+                    if strongSelf.playState == .play {
+                        strongSelf.player?.play()
+                    }
+                    
                     
                     guard let player = strongSelf.player else {
                         return

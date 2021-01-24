@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "createPost_newIcon.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "createPost_newIcon@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "createPost_newIcon@3x.png",
+      "filename" : "icon camera@3x copia.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

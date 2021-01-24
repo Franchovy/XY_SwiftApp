@@ -14,6 +14,7 @@ class ExploreVC: UIViewController {
     var moments = [MomentModel]()
     
     private var momentView: MomentViewController?
+    private var nextMomentView: MomentViewController?
     private var currentMomentIndex = 0
     
     @IBOutlet weak var ExploreTableView: UITableView!
@@ -66,6 +67,8 @@ class ExploreVC: UIViewController {
                 self.moments = momentModels
                 
                 // Load first moment
+                self.nextMomentView = MomentViewController(model: self.moments[self.currentMomentIndex])
+                
                 self.createMomentView(index: 0)
             case .failure(let error):
                 print(error)
@@ -80,8 +83,16 @@ class ExploreVC: UIViewController {
             momentView.view.removeFromSuperview()
             momentView.removeFromParent()
         }
+        momentView = nil
+            
+        if nextMomentView == nil {
+            nextMomentView = MomentViewController(model: self.moments[index])
+            nextMomentView?.configureVideo()
+            currentMomentIndex += 1
+        }
         
-        let momentView = MomentViewController(model: self.moments[index])
+        let momentView = nextMomentView!
+        momentView.play()
         
         DispatchQueue.main.async {
             momentView.view.frame = self.view.bounds
@@ -94,7 +105,13 @@ class ExploreVC: UIViewController {
             
             self.momentView = momentView
         }
+        
+        // Load next moment
+        let nextMomentView = MomentViewController(model: self.moments[index])
+        nextMomentView.configureVideo()
+        self.nextMomentView = nextMomentView
     }
+    
     
     @objc func onMomentTapped() {
         currentMomentIndex = (currentMomentIndex + 1) % moments.count

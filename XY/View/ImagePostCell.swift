@@ -120,7 +120,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
         tapProfileImage.delegate = self
         profileImageView.addGestureRecognizer(tapProfileImage)
-    
     }
     
     override func prepareForReuse() {
@@ -148,7 +147,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         delegate?.imagePostCellDelegate(didTapProfilePictureFor: self)
     }
-    
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
         let translation = panGestureRecognizer.translation(in: nil)

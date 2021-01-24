@@ -551,12 +551,13 @@
             <objects>
                 <tabBarController storyboardIdentifier="MainViewController" title="MainViewController" modalPresentationStyle="fullScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="1VQ-l3-tSx" customClass="TabBarViewController" customModule="XY" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="qUC-gw-TLr"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" barStyle="black" translucent="NO" itemPositioning="centered" itemWidth="0.0" id="fTB-k2-9gm">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" itemPositioning="centered" itemWidth="0.0" id="fTB-k2-9gm">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <color key="barTintColor" name="XYblack"/>
-                        <color key="selectedImageTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="tintColor" name="White"/>
+                        <color key="barTintColor" name="Black"/>
+                        <color key="selectedImageTintColor" name="tintColor"/>
                     </tabBar>
                     <connections>
                         <segue destination="0hs-V2-HbR" kind="relationship" relationship="viewControllers" id="cyb-oR-wMb"/>
@@ -1811,11 +1812,20 @@
         <image name="send_button" width="22.666666030883789" height="22.666666030883789"/>
         <image name="verifiedIcon" width="19" height="23"/>
         <image name="viral_item" width="25" height="30"/>
+        <namedColor name="Black">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="White">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="XYblack">
             <color red="0.94900000095367432" green="0.94900000095367432" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="XYpink">
             <color red="1" green="0.0" blue="0.38400000333786011" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+        </namedColor>
+        <namedColor name="tintColor">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
