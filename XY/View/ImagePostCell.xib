@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="369"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iiy-dP-Dkc" userLabel="PostCard">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Iiy-dP-Dkc" userLabel="PostCard">
                         <rect key="frame" x="20" y="11" width="335" height="347"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8PX-m5-VQT">
@@ -32,63 +32,40 @@
                                     <constraint firstAttribute="height" constant="40" id="j3f-cB-fan"/>
                                 </constraints>
                             </imageView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="29w-VH-8UM" customClass="GradientView" customModule="XY" customModuleProvider="target">
-                                <rect key="frame" x="8" y="281" width="319" height="58"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="29w-VH-8UM">
+                                <rect key="frame" x="0.0" y="271" width="335" height="76"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="9" translatesAutoresizingMaskIntoConstraints="NO" id="8aA-XA-E0I">
-                                        <rect key="frame" x="5" y="5" width="309" height="48"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" spacing="76" translatesAutoresizingMaskIntoConstraints="NO" id="N52-td-hc6">
-                                                <rect key="frame" x="0.0" y="0.0" width="309" height="18"/>
-                                                <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XYname:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dUd-Sk-chk">
-                                                        <rect key="frame" x="0.0" y="0.0" width="200" height="18"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="200" id="JMQ-XM-c1Z"/>
-                                                            <constraint firstAttribute="height" constant="18" id="u5C-eO-1ND"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 min ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-yi-Cze">
-                                                        <rect key="frame" x="276" y="0.0" width="28" height="18"/>
-                                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="10"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="trailing" secondItem="LSG-yi-Cze" secondAttribute="trailing" constant="5" id="5TW-xC-hax"/>
-                                                    <constraint firstItem="dUd-Sk-chk" firstAttribute="leading" secondItem="N52-td-hc6" secondAttribute="leading" id="R7I-Zh-m1A"/>
-                                                    <constraint firstItem="dUd-Sk-chk" firstAttribute="top" secondItem="N52-td-hc6" secondAttribute="top" id="rJy-hl-Pxb"/>
-                                                    <constraint firstItem="LSG-yi-Cze" firstAttribute="top" secondItem="N52-td-hc6" secondAttribute="top" id="xn0-hi-wX2"/>
-                                                </constraints>
-                                            </stackView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post's caption goes here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoM-nW-VyZ">
-                                                <rect key="frame" x="0.0" y="30.5" width="309" height="17.5"/>
-                                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 min ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-yi-Cze">
+                                        <rect key="frame" x="280" y="10" width="47" height="12"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="10"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post's caption goes here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoM-nW-VyZ">
+                                        <rect key="frame" x="7" y="33" width="167" height="17.5"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XYname:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dUd-Sk-chk">
+                                        <rect key="frame" x="8" y="7" width="200" height="18"/>
                                         <constraints>
-                                            <constraint firstItem="WoM-nW-VyZ" firstAttribute="top" secondItem="N52-td-hc6" secondAttribute="bottom" id="5y1-BQ-fJP"/>
-                                            <constraint firstAttribute="trailing" secondItem="N52-td-hc6" secondAttribute="trailing" id="FpC-jN-PKk"/>
-                                            <constraint firstAttribute="trailing" secondItem="WoM-nW-VyZ" secondAttribute="trailing" id="ZY4-xu-AJl"/>
-                                            <constraint firstAttribute="bottom" secondItem="WoM-nW-VyZ" secondAttribute="bottom" id="e5M-WF-L3b"/>
-                                            <constraint firstItem="N52-td-hc6" firstAttribute="leading" secondItem="8aA-XA-E0I" secondAttribute="leading" id="uzS-yH-JuX"/>
-                                            <constraint firstItem="WoM-nW-VyZ" firstAttribute="leading" secondItem="8aA-XA-E0I" secondAttribute="leading" id="vnx-29-pde"/>
-                                            <constraint firstItem="N52-td-hc6" firstAttribute="top" secondItem="8aA-XA-E0I" secondAttribute="top" id="wlH-hf-kxa"/>
+                                            <constraint firstAttribute="width" constant="200" id="JMQ-XM-c1Z"/>
+                                            <constraint firstAttribute="height" constant="18" id="u5C-eO-1ND"/>
                                         </constraints>
-                                    </stackView>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="8aA-XA-E0I" secondAttribute="bottom" constant="5" id="DPh-71-00m"/>
-                                    <constraint firstAttribute="height" constant="58" id="Rbv-GK-63d"/>
-                                    <constraint firstItem="8aA-XA-E0I" firstAttribute="leading" secondItem="29w-VH-8UM" secondAttribute="leading" constant="5" id="qKC-EA-OUO"/>
-                                    <constraint firstItem="8aA-XA-E0I" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="5" id="yGg-Bb-ktP"/>
-                                    <constraint firstAttribute="trailing" secondItem="8aA-XA-E0I" secondAttribute="trailing" constant="5" id="zZ7-gt-u4X"/>
+                                    <constraint firstItem="dUd-Sk-chk" firstAttribute="leading" secondItem="29w-VH-8UM" secondAttribute="leading" constant="8" id="BOX-bo-Quq"/>
+                                    <constraint firstAttribute="trailing" secondItem="LSG-yi-Cze" secondAttribute="trailing" constant="8" id="Mmz-as-Aor"/>
+                                    <constraint firstAttribute="bottom" secondItem="WoM-nW-VyZ" secondAttribute="bottom" constant="25.5" id="oWo-B9-sx5"/>
+                                    <constraint firstItem="WoM-nW-VyZ" firstAttribute="leading" secondItem="29w-VH-8UM" secondAttribute="leading" constant="7" id="otH-h9-Tj7"/>
+                                    <constraint firstAttribute="height" constant="76" id="sSX-q1-SCw"/>
+                                    <constraint firstItem="LSG-yi-Cze" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="10" id="tJH-DZ-Akz"/>
+                                    <constraint firstItem="dUd-Sk-chk" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="7" id="vkO-WO-Lp1"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="angle">
@@ -127,19 +104,18 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="29w-VH-8UM" secondAttribute="bottom" constant="8" id="5MN-7G-2dK"/>
                             <constraint firstAttribute="trailing" secondItem="QBp-w0-GdZ" secondAttribute="trailing" constant="8" id="95x-1v-GIQ"/>
-                            <constraint firstAttribute="trailing" secondItem="29w-VH-8UM" secondAttribute="trailing" constant="8" id="BDf-He-2oa"/>
                             <constraint firstAttribute="height" constant="347" id="CF3-gv-zql"/>
                             <constraint firstItem="Uq3-oI-CsF" firstAttribute="leading" secondItem="Iiy-dP-Dkc" secondAttribute="leading" constant="8" id="Ce1-ox-Rro"/>
                             <constraint firstItem="8PX-m5-VQT" firstAttribute="top" secondItem="Iiy-dP-Dkc" secondAttribute="top" id="DEf-qb-gLk"/>
+                            <constraint firstAttribute="bottom" secondItem="29w-VH-8UM" secondAttribute="bottom" id="JNZ-ZK-VLd"/>
                             <constraint firstItem="Uq3-oI-CsF" firstAttribute="top" secondItem="Iiy-dP-Dkc" secondAttribute="top" constant="8" id="Kxi-1L-fbN"/>
                             <constraint firstItem="8PX-m5-VQT" firstAttribute="leading" secondItem="Iiy-dP-Dkc" secondAttribute="leading" id="PHl-S3-Uxs"/>
+                            <constraint firstAttribute="trailing" secondItem="29w-VH-8UM" secondAttribute="trailing" id="RBu-CD-Y9T"/>
                             <constraint firstAttribute="bottom" secondItem="8PX-m5-VQT" secondAttribute="bottom" id="Unm-RR-JFw"/>
+                            <constraint firstItem="29w-VH-8UM" firstAttribute="leading" secondItem="Iiy-dP-Dkc" secondAttribute="leading" id="fYq-UH-tpT"/>
                             <constraint firstItem="QBp-w0-GdZ" firstAttribute="top" secondItem="Iiy-dP-Dkc" secondAttribute="top" constant="8" id="gS0-yZ-JNe"/>
-                            <constraint firstItem="29w-VH-8UM" firstAttribute="leading" secondItem="Iiy-dP-Dkc" secondAttribute="leading" constant="8" id="toP-WD-3tQ"/>
                             <constraint firstAttribute="trailing" secondItem="8PX-m5-VQT" secondAttribute="trailing" id="uxK-jF-h46"/>
-                            <constraint firstAttribute="width" constant="335" id="xQd-dS-DtJ"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -154,7 +130,7 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="captionAlphaView" destination="29w-VH-8UM" id="1gt-y3-eE3"/>
+                <outlet property="captionAlphaView" destination="29w-VH-8UM" id="py2-K3-GjK"/>
                 <outlet property="contentImageView" destination="8PX-m5-VQT" id="rmf-uH-kK1"/>
                 <outlet property="contentLabel" destination="WoM-nW-VyZ" id="yvj-gs-G0f"/>
                 <outlet property="nameLabel" destination="dUd-Sk-chk" id="P73-p8-xnl"/>

@@ -1762,7 +1762,7 @@
         <scene sceneID="Bey-3E-1Bl">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0hs-V2-HbR" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Flow" image="capslock" catalog="system" id="EA2-V9-J19"/>
+                    <tabBarItem key="tabBarItem" title="Flow" image="flow_icon black" id="EA2-V9-J19"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="K7y-8W-hhe">
                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
@@ -1794,7 +1794,6 @@
         <image name="buttonSettings" width="90" height="89"/>
         <image name="cameraEditButton" width="12.666666984558105" height="11.333333015441895"/>
         <image name="camera_chat_button" width="38" height="38"/>
-        <image name="capslock" catalog="system" width="128" height="121"/>
         <image name="categoryIcon" width="22" height="14.333333015441895"/>
         <image name="changeEmail_button" width="351" height="47"/>
         <image name="changePassword_button" width="351" height="47"/>
@@ -1803,6 +1802,7 @@
         <image name="currentMail" width="351" height="47"/>
         <image name="currentPassword" width="351" height="47"/>
         <image name="emoji_chat_button" width="38" height="38"/>
+        <image name="flow_icon black" width="29" height="27"/>
         <image name="game_icon-1" width="17.666666030883789" height="12.666666984558105"/>
         <image name="immagine di copertina " width="118.66666412353516" height="72.666664123535156"/>
         <image name="linkIcon" width="18.333333969116211" height="19.333333969116211"/>

@@ -38,8 +38,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var captionAlphaView: GradientView!
     
+    @IBOutlet weak var captionAlphaView: UIView!
+    var gradientLayer: CAGradientLayer?
     
     var isSwipedRightXPView = false
     static let defaultPanSensitivity = 0.05
@@ -104,9 +105,28 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         super.awakeFromNib()
         // Initialization code
         
+        
+        // Gradient
+        gradientLayer = CAGradientLayer()
+        let colors: [AnyObject] = [
+            UIColor(0x141516).withAlphaComponent(0.58).cgColor,
+            UIColor(0x141516).withAlphaComponent(.zero).cgColor
+        ]
+        gradientLayer!.colors = colors
+        gradientLayer?.type = .axial
+        gradientLayer!.masksToBounds = true
+        captionAlphaView.layer.insertSublayer(gradientLayer!, at: 0)
+        captionAlphaView.layer.cornerRadius = 0
+        captionAlphaView.layer.masksToBounds = true
+        captionAlphaView.clipsToBounds = true
+        
+        postCard.layer.masksToBounds = true
+        postCard.clipsToBounds = true
+        
+        postCard.layer.cornerRadius = 15
+        
         contentImageView.layer.cornerRadius = 15
         profileImageView.layer.cornerRadius = 5
-        captionAlphaView.layer.cornerRadius = 15
         timestampLabel.alpha = 1
         nameLabel.alpha = 1
         contentLabel.alpha = 1
@@ -120,6 +140,21 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
         tapProfileImage.delegate = self
         profileImageView.addGestureRecognizer(tapProfileImage)
+        
+        layer.shadowOpacity = 0.6
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 5
+        
+    }
+    
+    override func layoutSubviews() {
+        postCard.frame = CGRect(x: 0, y: 0, width: contentView.width, height: contentView.height)
+        captionAlphaView.frame = CGRect(x: 0, y: 0, width: postCard.width, height: 100)
+        
+        gradientLayer!.frame = captionAlphaView.bounds
+        gradientLayer!.startPoint = CGPoint(x: 0, y: 0.05)
+        gradientLayer!.endPoint = CGPoint(x: 0, y: 0)
+        
     }
     
     override func prepareForReuse() {

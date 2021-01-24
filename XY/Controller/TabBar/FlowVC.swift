@@ -26,7 +26,8 @@ class FlowVC : UITableViewController {
         barXPCircle.addGestureRecognizer(tap)
         
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = UIColor(white: 0.0, alpha: 0.01) // This is necessary to scroll touching outside of the cell, lol.
+        tableView.backgroundColor = UIColor(named: "Black") // This is necessary to scroll touching outside of the cell, lol.
+        tableView.separatorStyle = .none
         
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)

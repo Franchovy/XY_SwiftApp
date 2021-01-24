@@ -24,6 +24,8 @@ class LaunchVC: UIViewController {
         super.viewDidLoad()
         view.addSubview(imageView)
         
+        view.backgroundColor = UIColor(named: "Black")
+        
     }
     
     override func viewDidLayoutSubviews() {

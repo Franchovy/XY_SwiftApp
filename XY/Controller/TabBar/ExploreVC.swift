@@ -114,6 +114,7 @@ class ExploreVC: UIViewController {
         let nextMomentView = MomentViewController(model: self.moments[index])
         
         self.nextMomentView = nextMomentView
+        view.addSubview(nextMomentView.view)
     }
     
     @objc func onSwiping(panGestureRecognizer: UIPanGestureRecognizer) {
@@ -143,24 +144,23 @@ class ExploreVC: UIViewController {
         
         // Animate if needed
         if translationX > 50 {
-            UIView.animate(withDuration: 0.5) {
-                self.momentView?.view.transform = CGAffineTransform(translationX: 500, y: 0).rotated(by: 1)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
+                self.momentView?.view.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
             } completion: { (done) in
                 if done {
                     self.onMomentTapped()
                 }
             }
-            
         } else if translationX < 50 {
-            UIView.animate(withDuration: 0.5) {
-                self.momentView?.view.transform = CGAffineTransform(translationX: -500, y: 0).rotated(by: -1)
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
+                self.momentView?.view.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             } completion: { (done) in
                 if done {
                     self.onMomentTapped()
                 }
             }
         } else {
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
                 self.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
             }
         }
