@@ -49,6 +49,7 @@ class TabBarViewController: UITabBarController {
                     tag: 3
                 )
             }
+            cameraView.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: -5, bottom: -15, right: -5)
         }
     }
 }
