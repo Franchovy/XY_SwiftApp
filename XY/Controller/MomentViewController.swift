@@ -89,6 +89,7 @@ class MomentViewController: UIViewController {
         
         profileButton.addTarget(self, action: #selector(didTapProfileButton), for: .touchUpInside)
         
+        configureVideo()
     }
     
     override func viewDidLayoutSubviews() {
@@ -147,7 +148,6 @@ class MomentViewController: UIViewController {
                     if strongSelf.playState == .play {
                         strongSelf.player?.play()
                     }
-                    
                     
                     guard let player = strongSelf.player else {
                         return

@@ -87,7 +87,7 @@ class ExploreVC: UIViewController {
             
         if nextMomentView == nil {
             nextMomentView = MomentViewController(model: self.moments[index])
-            nextMomentView?.configureVideo()
+            
             currentMomentIndex += 1
         }
         
@@ -103,13 +103,67 @@ class ExploreVC: UIViewController {
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.onMomentTapped))
             momentView.view.addGestureRecognizer(tapGesture)
             
+            let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(self.onSwiping(panGestureRecognizer:)))
+            swipeGesture.delegate = self
+            momentView.view.addGestureRecognizer(swipeGesture)
+            
             self.momentView = momentView
         }
         
         // Load next moment
         let nextMomentView = MomentViewController(model: self.moments[index])
-        nextMomentView.configureVideo()
+        
         self.nextMomentView = nextMomentView
+    }
+    
+    @objc func onSwiping(panGestureRecognizer: UIPanGestureRecognizer) {
+        let translationX = panGestureRecognizer.translation(in: view).x
+        
+        let transform = CGAffineTransform(
+            translationX: translationX,
+            y: 0
+        )
+        
+        momentView?.view.transform = transform.rotated(by: translationX / 500)
+        
+        // Color for swipe
+        if translationX > 0 {
+            momentView?.view.layer.shadowColor = UIColor.green.cgColor
+        } else {
+            momentView?.view.layer.shadowColor = UIColor.red.cgColor
+        }
+        
+        momentView?.view.layer.shadowOpacity = Float(abs(translationX)) / 50
+        
+        
+        // On gesture finish
+        guard panGestureRecognizer.state == .ended else {
+          return
+        }
+        
+        // Animate if needed
+        if translationX > 50 {
+            UIView.animate(withDuration: 0.5) {
+                self.momentView?.view.transform = CGAffineTransform(translationX: 500, y: 0).rotated(by: 1)
+            } completion: { (done) in
+                if done {
+                    self.onMomentTapped()
+                }
+            }
+            
+        } else if translationX < 50 {
+            UIView.animate(withDuration: 0.5) {
+                self.momentView?.view.transform = CGAffineTransform(translationX: -500, y: 0).rotated(by: -1)
+            } completion: { (done) in
+                if done {
+                    self.onMomentTapped()
+                }
+            }
+        } else {
+            UIView.animate(withDuration: 0.5) {
+                self.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
+            }
+        }
     }
     
     
@@ -141,3 +195,6 @@ extension ExploreVC : UITableViewDataSource {
 }
 
 
+extension ExploreVC : UIGestureRecognizerDelegate {
+    
+}
