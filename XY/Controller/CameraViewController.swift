@@ -72,15 +72,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         }
     }
     
-    // MARK: - Initializers
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    private let blurMenu: BlurMenuViewController = {
+        let blurMenu = BlurMenuViewController()
+        return blurMenu
+    }()
     
     // MARK: - Lifecycle
     
@@ -88,15 +83,16 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         videoGravity = .resizeAspectFill
         
         super.viewDidLoad()
-
-        view.addSubview(previewLayerView)
         
+        view.addSubview(previewLayerView)
         view.addSubview(recordButton)
         view.addSubview(openCameraRollButton)
         view.addSubview(closeCameraVCButton)
-
         view.addSubview(nextButton)
         view.addSubview(closePreviewButton)
+        view.addSubview(blurMenu.view)
+        
+        blurMenu.delegate = self
         
         previewMode = false
         
@@ -115,6 +111,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     override func viewWillLayoutSubviews() {
         tabBarController?.setTabBarVisible(visible: false, duration: 0.1, animated: true)
+        blurMenu.view.frame = view.bounds
     }
     
     
@@ -312,5 +309,16 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         previewMode = true
         
         recordedVideoUrl = url
+    }
+}
+
+extension CameraViewController : BlurMenuViewControllerDelegate {
+    func blurMenuViewControllerDelegate(blurMenu: BlurMenuViewController, onButtonSelected: ButtonType) {
+        switch onButtonSelected {
+        case .moment:
+            break
+        case .post:
+            break
+        }
     }
 }

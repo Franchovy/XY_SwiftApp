@@ -160,6 +160,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     override func prepareForReuse() {
         // Load from data for this cell
         postCard.layer.shadowOpacity = 0.0
+        postCard.layer.shadowColor = UIColor.black.cgColor
         postCard.transform.tx = 0
         contentImageView.image = nil
         profileImageView.image = nil
@@ -184,12 +185,16 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
-        let translation = panGestureRecognizer.translation(in: nil)
-        
-        if postCard.transform.tx > 0 {
-            postCard.layer.shadowColor = UIColor.green.cgColor
+        let translation = panGestureRecognizer.translation(in: contentView)
+        print("Translation x: \(translation.x)")
+        if postCard.transform.tx > 50 {
+            let greenToBlackRatio = (50 - postCard.transform.tx) / 50
+            //layer.shadowColor = UIColor.green.blend
+            print("")
+        } else if postCard.transform.tx < -50 {
+            layer.shadowColor = UIColor.red.cgColor
         } else {
-            postCard.layer.shadowColor = UIColor.red.cgColor
+            layer.shadowColor = UIColor.black.cgColor
         }
         
         postCard.layer.shadowOpacity = abs(Float(postCard.transform.tx / 150))
