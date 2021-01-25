@@ -18,19 +18,19 @@ protocol ImagePostCellDelegate {
 
 class ImagePostCell: UITableViewCell, FlowDataCell {
     
+    // MARK: - PROPERTIES
+    
+    static let nibName = "ImagePostCell"
+    static let identifier = "imagePostCell"
+    static var type: FlowDataType = .post
+    var type: FlowDataType = .post
+    
     // MARK: - IBOutlets
     
     @IBOutlet weak var postCard: UIView!
+    var postShadowLayer = CAShapeLayer()
     
     @IBOutlet weak var xpLevelDisplay: CircleView!
-    
-    @IBOutlet weak var nameLabelLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var cameraIcon: UIImageView!
-    @IBOutlet weak var profileImageHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var profileImageWidthConstraint: NSLayoutConstraint!
-    @IBOutlet weak var profileImageLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var profileImageTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var contentImageViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak var contentImageView: UIImageView!
     @IBOutlet weak var profileImageView: UIImageView!
@@ -40,18 +40,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     @IBOutlet weak var timestampLabel: UILabel!
     
     @IBOutlet weak var captionAlphaView: UIView!
+    
     var gradientLayer: CAGradientLayer?
     
     var isSwipedRightXPView = false
     static let defaultPanSensitivity = 0.05
     var panSensitivity = defaultPanSensitivity
-    
-    // MARK: - PROPERTIES
-    
-    static let nibName = "ImagePostCell"
-    static let identifier = "imagePostCell"
-    static var type: FlowDataType = .post
-    var type: FlowDataType = .post
     
     // deprecate
     var delegate: ImagePostCellDelegate?
@@ -118,10 +112,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         captionAlphaView.layer.insertSublayer(gradientLayer!, at: 0)
         captionAlphaView.layer.cornerRadius = 0
         captionAlphaView.layer.masksToBounds = true
-        captionAlphaView.clipsToBounds = true
-        
-        postCard.layer.masksToBounds = true
-        postCard.clipsToBounds = true
         
         postCard.layer.cornerRadius = 15
         
@@ -155,13 +145,24 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         gradientLayer!.startPoint = CGPoint(x: 0, y: 0.05)
         gradientLayer!.endPoint = CGPoint(x: 0, y: 0)
         
+        
+        postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
+        postShadowLayer.shadowPath = postShadowLayer.path
+
+        postShadowLayer.shadowRadius = 6
+        postShadowLayer.shadowOffset = CGSize(width: 0, height: 8)
+        postCard.layer.insertSublayer(postShadowLayer, at: 0)
+        
     }
     
     override func prepareForReuse() {
         // Load from data for this cell
         postCard.layer.shadowOpacity = 0.0
         postCard.layer.shadowColor = UIColor.black.cgColor
-        postCard.transform.tx = 0
+        postCard.transform = CGAffineTransform.identity
+        
+        postShadowLayer.shadowOpacity = 0.0
+        
         contentImageView.image = nil
         profileImageView.image = nil
         contentLabel.text = ""
@@ -185,89 +186,65 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
-        let translation = panGestureRecognizer.translation(in: contentView)
-        if postCard.transform.tx > 50 {
-            let greenToBlackRatio = (50 - postCard.transform.tx) / 50
-            //layer.shadowColor = UIColor.green.blend
-            print("")
-        } else if postCard.transform.tx < -50 {
-            layer.shadowColor = UIColor.red.cgColor
+        let translationX = panGestureRecognizer.translation(in: contentView).x
+        let velocityX = panGestureRecognizer.velocity(in: contentView).x
+        
+        let transform = CGAffineTransform(
+            translationX: translationX,
+            y: 0
+        )
+        
+        postCard.transform = transform.rotated(by: translationX / 500)
+        
+        // Color for swipe
+        if translationX > 0 {
+            postShadowLayer.shadowColor = UIColor.green.cgColor
         } else {
-            layer.shadowColor = UIColor.black.cgColor
+            postShadowLayer.shadowColor = UIColor.red.cgColor
         }
         
-        postCard.layer.shadowOpacity = abs(Float(postCard.transform.tx / 150))
+        postShadowLayer.shadowOpacity = Float(abs(translationX) / 50)
         
-        postCard.transform.tx = postCard.transform.tx + translation.x * CGFloat(panSensitivity)
         
-        if panGestureRecognizer.state == .ended {
-            panSensitivity = ImagePostCell.defaultPanSensitivity
-            
-            // On pan release
-            if translation.x > 0 {
-                // Direction: Right
-                if isSwipedRightXPView {
-                    // Confirm Swipe Right
-                    isSwipedRightXPView = false
-                    confirmSwipe(direction: .right)
+        // On gesture finish
+        guard panGestureRecognizer.state == .ended else {
+          return
+        }
+        
+        // Animate if needed
+        if translationX > 50, velocityX > 10 {
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
+                self.postCard.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
+            } completion: { (done) in
+                if done {
+                    // Swipe Right
+                    
                 }
-                
-                if panGestureRecognizer.velocity(in: nil).x > 150
-                    && translation.x > 50 {
-                    // Confirm swipe right
-                    confirmSwipe(direction: .right)
-                } else if translation.x < 30 {
-                    // Cancel gesture
-                    cancelSwipe()
-                } else {
-                    // XP Circle
-                    swipeRightXPView()
-                }
-            } else {
-                // Direction: Left
-                if isSwipedRightXPView {
-                    isSwipedRightXPView = false
-                    panSensitivity = 1.0
-                    cancelSwipe()
-                } else {
+            }
+        } else if translationX < -50, velocityX < -10 {
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
+                self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
+            } completion: { (done) in
+                if done {
                     // Swipe Left
-                    if translation.x > -100 {
-                        // Cancel gesture
-                        cancelSwipe()
-                    } else {
-                        // Swipe Left
-                        confirmSwipe(direction: .left)
-                    }
+                    
                 }
             }
         } else {
-            // Transform while holding
-            if isSwipedRightXPView && translation.x < 0 {
-                isSwipedRightXPView = false
-                cancelSwipe()
-                return
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
+                self.postCard.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
+                self.postShadowLayer.shadowOpacity = 0
             }
         }
     }
     
     func cancelSwipe() {
         UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseIn, animations: {
-            self.postCard.transform.tx = 0
+            self.postCard.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
             self.postCard.layer.shadowOpacity = 0.0
         }, completion: { bool in
             
         })
-    }
-    
-    func swipeRightXPView() {
-        UIView.animate(withDuration: 0.8, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 5, options: .curveEaseIn, animations: {
-            self.postCard.transform.tx = 150
-            
-            
-        }, completion: { bool in
-            self.isSwipedRightXPView = true
-        })
-        
     }
     
     enum SwipeDirection {
