@@ -158,4 +158,58 @@ extension FlowVC : ImagePostCellDelegate {
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {
         
     }
+    
+    func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              data.count > cellIndex.row else {
+            return
+        }
+        
+        
+        UIView.animate(withDuration: 0.2) {
+            cell.alpha = 0.0
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            self.data.remove(at: cellIndex.row)
+            
+            self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+            
+            guard self.data.count > cellIndex.row else {
+                return
+            }
+            
+            self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
+        }
+    }
+    
+    func imagePostCellDelegate(willSwipeRight cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              data.count > cellIndex.row else {
+            return
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            cell.alpha = 0.0
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            self.data.remove(at: cellIndex.row)
+            
+            self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+            
+            guard self.data.count > cellIndex.row else {
+                return
+            }
+            self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
+        }
+    }
+    
+    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
+        
+    }
+    
+    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell) {
+        
+    }
 }

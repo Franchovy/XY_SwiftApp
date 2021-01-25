@@ -47,6 +47,11 @@ class MessageView: UIView, UITextFieldDelegate {
         get {
             return textField.text ?? ""
         }
+        set {
+            textField.text = newValue
+            textField.sizeToFit()
+            
+        }
     }
     
     init() {

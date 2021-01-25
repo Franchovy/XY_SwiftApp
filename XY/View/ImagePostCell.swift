@@ -13,6 +13,10 @@ protocol ImagePostCellDelegate {
     func imagePostCellDelegate(didTapProfilePictureFor cell: ImagePostCell)
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell)
     //TODO: swipe right, swipe left from flow.
+    func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell)
+    func imagePostCellDelegate(willSwipeRight cell: ImagePostCell)
+    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell)
+    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell)
 }
 
 
@@ -33,13 +37,25 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     @IBOutlet weak var xpLevelDisplay: CircleView!
     
     @IBOutlet weak var contentImageView: UIImageView!
-    @IBOutlet weak var profileImageView: UIImageView!
+    private let profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
     @IBOutlet weak var captionAlphaView: UIView!
+    
+    private let caption: MessageView = {
+        let caption = MessageView()
+        caption.clipsToBounds = true
+        return caption
+    }()
     
     var gradientLayer: CAGradientLayer?
     
@@ -54,8 +70,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     var viewModel: PostViewModel! {
         didSet {
-            // Set delegate so the viewModel can call to set images
-            viewModel.delegate = self
             // Set data already ready
             FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
                 
@@ -72,6 +86,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             xpLevelDisplay.setProgress(level: 1, progress: 0.5)
             
             contentLabel.text = viewModel.content
+            
+            caption.text = viewModel.content
             timestampLabel.text = viewModel.getTimestampString()
             timestampLabel.sizeToFit()
         }
@@ -98,7 +114,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-        
+        addSubview(caption)
+        addSubview(profileImageView)
+        caption.setColor(.blue)
         
         // Gradient
         gradientLayer = CAGradientLayer()
@@ -116,7 +134,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postCard.layer.cornerRadius = 15
         
         contentImageView.layer.cornerRadius = 15
-        profileImageView.layer.cornerRadius = 5
         timestampLabel.alpha = 1
         nameLabel.alpha = 1
         contentLabel.alpha = 1
@@ -126,6 +143,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         panGesture.isEnabled = true
         addGestureRecognizer(panGesture)
         
+        profileImageView.backgroundColor = .gray
         profileImageView.isUserInteractionEnabled = true
         let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
         tapProfileImage.delegate = self
@@ -134,12 +152,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         layer.shadowOpacity = 0.6
         layer.shadowOffset = CGSize(width: 1, height: 1)
         layer.shadowRadius = 5
-        
     }
     
     override func layoutSubviews() {
         let contentWidth = min(contentView.width - 30, contentImageView.width)
         let contentHeight = contentImageView.height
+        
+        print("Layout: \((contentView.width/2 - contentWidth/2))")
         
         postCard.frame = CGRect(
             x: (contentView.width/2 - contentWidth/2),
@@ -148,6 +167,19 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             height: contentHeight
         )
         
+        profileImageView.frame = CGRect(
+            x: postCard.left,
+            y: postCard.bottom + 13,
+            width: 40,
+            height: 40
+        )
+        
+        caption.frame = CGRect(
+            x: profileImageView.right + 14 ,
+            y: postCard.bottom + 6,
+            width: 300,
+            height: 52
+        )
         
         captionAlphaView.frame = CGRect(x: 0, y: 0, width: postCard.width, height: 100)
         
@@ -155,14 +187,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         gradientLayer!.startPoint = CGPoint(x: 0, y: 0.05)
         gradientLayer!.endPoint = CGPoint(x: 0, y: 0)
         
-        
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
 
         postShadowLayer.shadowRadius = 6
         postShadowLayer.shadowOffset = CGSize(width: 0, height: 8)
         postCard.layer.insertSublayer(postShadowLayer, at: 0)
-        
     }
     
     override func prepareForReuse() {
@@ -223,21 +253,24 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         // Animate if needed
         if translationX > 50, velocityX > 10 {
+            
+            self.delegate?.imagePostCellDelegate(willSwipeRight: self)
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.postCard.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
             } completion: { (done) in
                 if done {
                     // Swipe Right
-                    
+                    self.delegate?.imagePostCellDelegate(didSwipeRight: self)
                 }
             }
         } else if translationX < -50, velocityX < -10 {
+            self.delegate?.imagePostCellDelegate(willSwipeLeft: self)
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             } completion: { (done) in
                 if done {
                     // Swipe Left
-                    
+                    self.delegate?.imagePostCellDelegate(didSwipeLeft: self)
                 }
             }
         } else {
@@ -301,16 +334,4 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             }
         })
     }
-}
-
-extension ImagePostCell : PostViewModelDelegate {
-    func profileImageDownloadProgress(progress: Float) {
-        
-    }
-    
-    func postImageDownloadProgress(progress: Float) {
-        
-    }
-    
-    
 }
