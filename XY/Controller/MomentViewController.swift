@@ -41,6 +41,8 @@ class MomentViewController: UIViewController {
         return label
     }()
     
+    public var shadowLayer = CAShapeLayer()
+    
     enum PlayState {
         case play
         case pause
@@ -79,6 +81,8 @@ class MomentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
         view.addSubview(videoView)
         videoView.addSubview(spinner)
 
@@ -88,12 +92,22 @@ class MomentViewController: UIViewController {
         view.addSubview(profileButton)
         
         profileButton.addTarget(self, action: #selector(didTapProfileButton), for: .touchUpInside)
-        
+      
         configureVideo()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        shadowLayer.path = UIBezierPath(roundedRect: videoView.bounds, cornerRadius: 15).cgPath
+        shadowLayer.shadowPath = shadowLayer.path
+
+        shadowLayer.shadowRadius = 6
+        shadowLayer.shadowOffset = CGSize(width: 0, height: 8)
+        view.layer.insertSublayer(shadowLayer, at: 0)
+        
+        videoView.layer.cornerRadius = 15
+        videoView.layer.masksToBounds = true
         
 
         videoView.frame = view.bounds
@@ -165,7 +179,6 @@ class MomentViewController: UIViewController {
             }
         }
     }
-    
     
     @objc func didTapShare() {
         guard let url = URL(string: "https://www.tiktok.com") else {

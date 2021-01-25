@@ -186,7 +186,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
         let translation = panGestureRecognizer.translation(in: contentView)
-        print("Translation x: \(translation.x)")
         if postCard.transform.tx > 50 {
             let greenToBlackRatio = (50 - postCard.transform.tx) / 50
             //layer.shadowColor = UIColor.green.blend

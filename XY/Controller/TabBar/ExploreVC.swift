@@ -119,6 +119,7 @@ class ExploreVC: UIViewController {
     
     @objc func onSwiping(panGestureRecognizer: UIPanGestureRecognizer) {
         let translationX = panGestureRecognizer.translation(in: view).x
+        let velocityX = panGestureRecognizer.velocity(in: view).x
         
         let transform = CGAffineTransform(
             translationX: translationX,
@@ -129,12 +130,12 @@ class ExploreVC: UIViewController {
         
         // Color for swipe
         if translationX > 0 {
-            momentView?.view.layer.shadowColor = UIColor.green.cgColor
+            momentView?.shadowLayer.shadowColor = UIColor.green.cgColor
         } else {
-            momentView?.view.layer.shadowColor = UIColor.red.cgColor
+            momentView?.shadowLayer.shadowColor = UIColor.red.cgColor
         }
         
-        momentView?.view.layer.shadowOpacity = Float(abs(translationX)) / 50
+        momentView?.shadowLayer.shadowOpacity = Float(abs(translationX) / 50)
         
         
         // On gesture finish
@@ -143,7 +144,7 @@ class ExploreVC: UIViewController {
         }
         
         // Animate if needed
-        if translationX > 50 {
+        if translationX > 50, velocityX > 10 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.momentView?.view.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
             } completion: { (done) in
@@ -151,7 +152,7 @@ class ExploreVC: UIViewController {
                     self.onMomentTapped()
                 }
             }
-        } else if translationX < -50 {
+        } else if translationX < -50, velocityX < -10 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.momentView?.view.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             } completion: { (done) in
@@ -162,6 +163,7 @@ class ExploreVC: UIViewController {
         } else {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
                 self.momentView?.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
+                self.momentView?.shadowLayer.shadowOpacity = 0
             }
         }
     }
