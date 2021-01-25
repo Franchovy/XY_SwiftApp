@@ -151,7 +151,7 @@ class ExploreVC: UIViewController {
                     self.onMomentTapped()
                 }
             }
-        } else if translationX < 50 {
+        } else if translationX < -50 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.momentView?.view.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             } completion: { (done) in
@@ -161,7 +161,7 @@ class ExploreVC: UIViewController {
             }
         } else {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
-                self.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
+                self.momentView?.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
             }
         }
     }

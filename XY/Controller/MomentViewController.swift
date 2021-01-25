@@ -95,17 +95,18 @@ class MomentViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+
         videoView.frame = view.bounds
         spinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         spinner.center = videoView.center
         
         let size: CGFloat = 40
         
-        captionLabel.sizeToFit()
+//        captionLabel.sizeToFit()
         let labelHeight = captionLabel.sizeThatFits(CGSize(width: view.width - size - 12, height: view.height))
         captionLabel.frame = CGRect(
             x: 5,
-            y: view.height - 10 - view.safeAreaInsets.bottom - labelHeight.height,
+            y: videoView.bottom - 10 - labelHeight.height,
             width: view.width - size - 12,
             height: labelHeight.height
         )
