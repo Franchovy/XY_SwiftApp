@@ -70,6 +70,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     var viewModel: PostViewModel! {
         didSet {
+            viewModel.delegate = self
             // Set data already ready
             FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
                 
@@ -334,4 +335,16 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             }
         })
     }
+}
+
+extension ImagePostCell : PostViewModelDelegate {
+    func profileImageDownloadProgress(progress: Float) {
+        
+    }
+    
+    func postImageDownloadProgress(progress: Float) {
+        
+    }
+    
+    
 }
