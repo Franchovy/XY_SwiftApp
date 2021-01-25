@@ -27,32 +27,82 @@ enum CaptionColor {
 
 class MessageView: UIView, UITextFieldDelegate {
 
+    private var nameLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 11)
+        label.textColor = .white
+        return label
+    }()
+    
+    private var dateLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 1
+        label.font = UIFont(name: "HelveticaNeue-Thin", size: 12)
+        label.textColor = .white
+        
+        return label
+    }()
+    
     private var label: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "HelveticaNeue", size: 20)
+        label.font = UIFont(name: "HelveticaNeue", size: 15)
+        label.textColor = .white
         return label
     }()
     
     private var textField: UITextField = {
         let textField = UITextField()
-        
-        textField.font = UIFont(name: "HelveticaNeue", size: 20)
+        textField.textColor = .white
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.isHidden = true
         return textField
     }()
     
     private var gradientLayer = CAGradientLayer()
+    
+    public var name: String {
+        get {
+            return nameLabel.text ?? ""
+        }
+        set {
+            nameLabel.text = newValue
+            nameLabel.sizeToFit()
+        }
+    }
     
     public var text: String {
         get {
             return textField.text ?? ""
         }
         set {
-            textField.text = newValue
-            textField.sizeToFit()
+            label.text = newValue
             
+            label.sizeToFit()
+            
+            frame = CGRect(
+                x: 0,
+                y: 0,
+                width: label.width + 28,
+                height: label.height + 28
+            )
+            
+            setNeedsLayout()
         }
     }
+    
+    public var timestamp: String {
+        get {
+            return dateLabel.text ?? ""
+        }
+        set {
+            dateLabel.text = newValue
+            dateLabel.sizeToFit()
+        }
+    }
+    
+    public var isEditable: Bool = false
     
     init() {
         super.init(frame: .zero)
@@ -65,12 +115,12 @@ class MessageView: UIView, UITextFieldDelegate {
         
         addSubview(label)
         addSubview(textField)
-        textField.isHidden = true
+        addSubview(nameLabel)
+        addSubview(dateLabel)
         
         layer.cornerRadius = 10
         
         textField.addTarget(self, action: #selector(onTextFieldChange), for: .editingChanged)
-
     }
     
     required init?(coder: NSCoder) {
@@ -78,6 +128,7 @@ class MessageView: UIView, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
+        label.sizeThatFits(CGSize(width: width - 28, height: height - 28))
         
         label.sizeToFit()
         label.frame = CGRect(
@@ -95,22 +146,23 @@ class MessageView: UIView, UITextFieldDelegate {
             height: height - 28
         )
         
-        gradientLayer.frame = bounds
-    }
-    
-    func setText(_ text: String) {
-        label.text = text
-        
-        label.sizeToFit()
-        
-        frame = CGRect(
-            x: 0,
-            y: 0,
-            width: label.width + 28,
-            height: label.height + 28
+        nameLabel.sizeToFit()
+        nameLabel.frame = CGRect(
+            x: 4,
+            y: 2,
+            width: nameLabel.width,
+            height: nameLabel.height
         )
         
-        setNeedsLayout()
+        dateLabel.sizeToFit()
+        dateLabel.frame = CGRect(
+            x: width - dateLabel.width - 5,
+            y: height - dateLabel.height - 2,
+            width: dateLabel.width,
+            height: dateLabel.height
+        )
+        
+        gradientLayer.frame = bounds
     }
     
     func setColor(_ color: CaptionColor) {
@@ -118,6 +170,8 @@ class MessageView: UIView, UITextFieldDelegate {
     }
     
     func toggleInputMode(inputMode: Bool) {
+        guard isEditable == true else { return }
+        
         if inputMode {
             textField.isHidden = false
             label.isHidden = true
@@ -146,6 +200,6 @@ class MessageView: UIView, UITextFieldDelegate {
             height: textField.height + 28
         )
         
-        
+        setNeedsLayout()
     }
 }

@@ -47,64 +47,14 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="29w-VH-8UM">
-                                <rect key="frame" x="0.0" y="259" width="335" height="76"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" alpha="0.5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 min ago" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSG-yi-Cze">
-                                        <rect key="frame" x="280" y="10" width="47" height="12"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Post's caption goes here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WoM-nW-VyZ">
-                                        <rect key="frame" x="7" y="33" width="167" height="17.5"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="XYname:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dUd-Sk-chk">
-                                        <rect key="frame" x="8" y="7" width="200" height="18"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="200" id="JMQ-XM-c1Z"/>
-                                            <constraint firstAttribute="height" constant="18" id="u5C-eO-1ND"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="19"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <constraints>
-                                    <constraint firstItem="dUd-Sk-chk" firstAttribute="leading" secondItem="29w-VH-8UM" secondAttribute="leading" constant="8" id="BOX-bo-Quq"/>
-                                    <constraint firstAttribute="trailing" secondItem="LSG-yi-Cze" secondAttribute="trailing" constant="8" id="Mmz-as-Aor"/>
-                                    <constraint firstAttribute="bottom" secondItem="WoM-nW-VyZ" secondAttribute="bottom" constant="25.5" id="oWo-B9-sx5"/>
-                                    <constraint firstItem="WoM-nW-VyZ" firstAttribute="leading" secondItem="29w-VH-8UM" secondAttribute="leading" constant="7" id="otH-h9-Tj7"/>
-                                    <constraint firstAttribute="height" constant="76" id="sSX-q1-SCw"/>
-                                    <constraint firstItem="LSG-yi-Cze" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="10" id="tJH-DZ-Akz"/>
-                                    <constraint firstItem="dUd-Sk-chk" firstAttribute="top" secondItem="29w-VH-8UM" secondAttribute="top" constant="7" id="vkO-WO-Lp1"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="angle">
-                                        <real key="value" value="45"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="topGradientColor">
-                                        <color key="value" red="0.054901960780000002" green="0.058823529409999999" blue="0.062745098040000002" alpha="0.40129841550000001" colorSpace="custom" customColorSpace="sRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomGradientColor">
-                                        <color key="value" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="QBp-w0-GdZ" secondAttribute="trailing" constant="8" id="95x-1v-GIQ"/>
                             <constraint firstAttribute="height" constant="396" id="CF3-gv-zql"/>
                             <constraint firstItem="8PX-m5-VQT" firstAttribute="top" secondItem="Iiy-dP-Dkc" secondAttribute="top" id="DEf-qb-gLk"/>
-                            <constraint firstAttribute="bottom" secondItem="29w-VH-8UM" secondAttribute="bottom" constant="61" id="JNZ-ZK-VLd"/>
                             <constraint firstItem="8PX-m5-VQT" firstAttribute="leading" secondItem="Iiy-dP-Dkc" secondAttribute="leading" id="PHl-S3-Uxs"/>
-                            <constraint firstAttribute="trailing" secondItem="29w-VH-8UM" secondAttribute="trailing" id="RBu-CD-Y9T"/>
                             <constraint firstAttribute="bottom" secondItem="8PX-m5-VQT" secondAttribute="bottom" constant="61" id="Unm-RR-JFw"/>
-                            <constraint firstItem="29w-VH-8UM" firstAttribute="leading" secondItem="Iiy-dP-Dkc" secondAttribute="leading" id="fYq-UH-tpT"/>
                             <constraint firstItem="QBp-w0-GdZ" firstAttribute="top" secondItem="Iiy-dP-Dkc" secondAttribute="top" constant="8" id="gS0-yZ-JNe"/>
                             <constraint firstAttribute="trailing" secondItem="8PX-m5-VQT" secondAttribute="trailing" id="uxK-jF-h46"/>
                         </constraints>
@@ -121,12 +71,8 @@
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <connections>
-                <outlet property="captionAlphaView" destination="29w-VH-8UM" id="py2-K3-GjK"/>
                 <outlet property="contentImageView" destination="8PX-m5-VQT" id="rmf-uH-kK1"/>
-                <outlet property="contentLabel" destination="WoM-nW-VyZ" id="yvj-gs-G0f"/>
-                <outlet property="nameLabel" destination="dUd-Sk-chk" id="P73-p8-xnl"/>
                 <outlet property="postCard" destination="Iiy-dP-Dkc" id="jlX-8D-ybK"/>
-                <outlet property="timestampLabel" destination="LSG-yi-Cze" id="RVx-lp-d3e"/>
                 <outlet property="xpLevelDisplay" destination="QBp-w0-GdZ" id="i2b-nE-THc"/>
             </connections>
             <point key="canvasLocation" x="206.52173913043481" y="194.53125"/>

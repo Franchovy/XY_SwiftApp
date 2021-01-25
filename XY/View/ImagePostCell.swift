@@ -45,20 +45,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         return imageView
     }()
     
-    @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var contentLabel: UILabel!
-    @IBOutlet weak var timestampLabel: UILabel!
-    
-    @IBOutlet weak var captionAlphaView: UIView!
     
     private let caption: MessageView = {
         let caption = MessageView()
         caption.clipsToBounds = true
         return caption
     }()
-    
-    var gradientLayer: CAGradientLayer?
-    
+        
     var isSwipedRightXPView = false
     static let defaultPanSensitivity = 0.05
     var panSensitivity = defaultPanSensitivity
@@ -86,11 +79,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             
             xpLevelDisplay.setProgress(level: 1, progress: 0.5)
             
-            contentLabel.text = viewModel.content
-            
             caption.text = viewModel.content
-            timestampLabel.text = viewModel.getTimestampString()
-            timestampLabel.sizeToFit()
+            caption.timestamp = viewModel.getTimestampString()
         }
     }
     
@@ -105,7 +95,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
     
     func didFetchProfileData(xyname: String) {
-        nameLabel.text = xyname
+//        nameLabel.text = xyname
+        caption.name = xyname
     }
     
     // MARK: - PUBLIC METHODS
@@ -119,25 +110,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         addSubview(profileImageView)
         caption.setColor(.blue)
         
-        // Gradient
-        gradientLayer = CAGradientLayer()
-        let colors: [AnyObject] = [
-            UIColor(0x141516).withAlphaComponent(0.58).cgColor,
-            UIColor(0x141516).withAlphaComponent(.zero).cgColor
-        ]
-        gradientLayer!.colors = colors
-        gradientLayer?.type = .axial
-        gradientLayer!.masksToBounds = true
-        captionAlphaView.layer.insertSublayer(gradientLayer!, at: 0)
-        captionAlphaView.layer.cornerRadius = 10
-        captionAlphaView.layer.masksToBounds = true
-        
         postCard.layer.cornerRadius = 15
         
         contentImageView.layer.cornerRadius = 15
-        timestampLabel.alpha = 1
-        nameLabel.alpha = 1
-        contentLabel.alpha = 1
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(panGestureRecognizer:)))
         panGesture.delegate = self
@@ -158,9 +133,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     override func layoutSubviews() {
         let contentWidth = min(contentView.width - 30, contentImageView.width)
         let contentHeight = contentImageView.height
-        
-        print("Layout: \((contentView.width/2 - contentWidth/2))")
-        
+                
         postCard.frame = CGRect(
             x: (contentView.width/2 - contentWidth/2),
             y: 10,
@@ -182,12 +155,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             height: 52
         )
         
-        captionAlphaView.frame = CGRect(x: 0, y: 0, width: postCard.width, height: 100)
-        
-        gradientLayer!.frame = captionAlphaView.bounds
-        gradientLayer!.startPoint = CGPoint(x: 0, y: 0.05)
-        gradientLayer!.endPoint = CGPoint(x: 0, y: 0)
-        
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
 
@@ -206,8 +173,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         contentImageView.image = nil
         profileImageView.image = nil
-        contentLabel.text = ""
-        nameLabel.text = ""
+        caption.text = ""
         
         FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
         xpLevelDisplay.reset()

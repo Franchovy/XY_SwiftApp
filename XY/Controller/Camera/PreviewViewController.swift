@@ -39,7 +39,8 @@ class PreviewViewController: UIViewController {
     
     init(previewVideoUrl: URL) {
         caption = MessageView()
-        caption.setText("Write your caption...")
+        caption.text = "Write your caption..."
+        caption.isEditable = true
         
         super.init(nibName: nil, bundle: nil)
         
@@ -65,7 +66,7 @@ class PreviewViewController: UIViewController {
     
     init(previewImage: UIImage) {
         caption = MessageView()
-        caption.setText("Write your caption...")
+        caption.text = "Write your caption..."
         caption.setColor(.blue)
         
         super.init(nibName: nil, bundle: nil)
