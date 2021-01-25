@@ -112,6 +112,7 @@
 		B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56025A5F362001859EA /* PostViewModel.swift */; };
 		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
 		B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* Notification.swift */; };
+		B9E2807525BEB224005389CF /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E2807425BEB224005389CF /* MessageView.swift */; };
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 /* End PBXBuildFile section */
@@ -243,6 +244,7 @@
 		B9D5E56025A5F362001859EA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
 		B9DFBA6225B7495D0084E79D /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B9E2807425BEB224005389CF /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		DE83AA41076DD5C25678000C /* Pods_XY.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XY.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -272,6 +274,7 @@
 		14175C792570F5D600C88051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B9E2807425BEB224005389CF /* MessageView.swift */,
 				14FF8A5F25A3856E002FE645 /* MessageCell.xib */,
 				14FF8A5E25A3856E002FE645 /* MessageCell.swift */,
 				14BDAF6725A313CB00D19282 /* UserInfoChat.xib */,
@@ -793,6 +796,7 @@
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				14B2705125A9EBA500CCACDE /* OnlineFriendsCellsModel.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
+				B9E2807525BEB224005389CF /* MessageView.swift in Sources */,
 				B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */,
 				14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */,
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,

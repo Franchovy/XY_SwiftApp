@@ -26,6 +26,8 @@ class PreviewViewController: UIViewController {
         return button
     }()
     
+    private let caption: MessageView
+    
     private var playerDidFinishObserver: NSObjectProtocol?
     private var previewLayerView = UIView()
     private var previewLayer: AVPlayerLayer?
@@ -36,6 +38,9 @@ class PreviewViewController: UIViewController {
     //MARK: - Init
     
     init(previewVideoUrl: URL) {
+        caption = MessageView()
+        caption.setText("Write your caption...")
+        
         super.init(nibName: nil, bundle: nil)
         
         let player = AVPlayer(url: previewVideoUrl)
@@ -59,6 +64,10 @@ class PreviewViewController: UIViewController {
     }
     
     init(previewImage: UIImage) {
+        caption = MessageView()
+        caption.setText("Write your caption...")
+        caption.setColor(.blue)
+        
         super.init(nibName: nil, bundle: nil)
         
         self.previewImageView = UIImageView(image: previewImage)
@@ -70,15 +79,16 @@ class PreviewViewController: UIViewController {
     
     //MARK: - Lifecycle
     
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "Black")
-
+        
         view.addSubview(previewLayerView)
         view.addSubview(nextButton)
         view.addSubview(closePreviewButton)
+        
+        view.addSubview(caption)
         
         if let previewImageView = previewImageView {
             view.addSubview(previewImageView)
@@ -93,6 +103,8 @@ class PreviewViewController: UIViewController {
         
         layoutPreviewButtons()
         
+        var captionY:CGFloat = 0
+        
         if let previewImageView = previewImageView, let previewImage = previewImageView.image {
             previewImageView.layer.cornerRadius = 15
             previewImageView.layer.masksToBounds = true
@@ -106,7 +118,17 @@ class PreviewViewController: UIViewController {
                 width: view.width,
                 height: imageHeight
             )
+            
+            captionY = previewImageView.bottom + 10
         }
+        
+        
+        caption.frame = CGRect(
+            x: 10,
+            y: captionY,
+            width: caption.width,
+            height: caption.height
+        )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -163,7 +185,6 @@ class PreviewViewController: UIViewController {
                     print(error)
                 }
             }
-            
         }
     }
     
