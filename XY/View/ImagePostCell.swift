@@ -110,7 +110,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         gradientLayer?.type = .axial
         gradientLayer!.masksToBounds = true
         captionAlphaView.layer.insertSublayer(gradientLayer!, at: 0)
-        captionAlphaView.layer.cornerRadius = 0
+        captionAlphaView.layer.cornerRadius = 10
         captionAlphaView.layer.masksToBounds = true
         
         postCard.layer.cornerRadius = 15
@@ -138,7 +138,17 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
     
     override func layoutSubviews() {
-        postCard.frame = CGRect(x: 0, y: 0, width: contentView.width, height: contentView.height)
+        let contentWidth = min(contentView.width - 30, contentImageView.width)
+        let contentHeight = contentImageView.height
+        
+        postCard.frame = CGRect(
+            x: (contentView.width/2 - contentWidth/2),
+            y: 10,
+            width: contentWidth,
+            height: contentHeight
+        )
+        
+        
         captionAlphaView.frame = CGRect(x: 0, y: 0, width: postCard.width, height: 100)
         
         gradientLayer!.frame = captionAlphaView.bounds
