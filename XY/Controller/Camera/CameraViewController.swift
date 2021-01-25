@@ -17,22 +17,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
 
     var delegate: CameraViewControllerDelegate?
     
-    private let nextButton: UIButton = {
-        let button = UIButton()
-        button.layer.masksToBounds = true
-        button.setBackgroundImage(UIImage(systemName: "chevron.right.circle"), for: .normal)
-        button.tintColor = .green
-        return button
-    }()
-    
-    private let closePreviewButton: UIButton = {
-        let button = UIButton()
-        button.layer.masksToBounds = true
-        button.setBackgroundImage(UIImage(systemName: "xmark.circle"), for: .normal)
-        button.tintColor = .red
-        return button
-    }()
-    
     private let closeCameraVCButton: UIButton = {
         let button = UIButton()
         button.layer.masksToBounds = true
@@ -56,50 +40,37 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         button.tintColor = .white
         return button
     }()
-        
-    private var playerDidFinishObserver: NSObjectProtocol?
-    private var previewLayerView = UIView()
-    private var previewLayer: AVPlayerLayer?
-    private var recordedVideoUrl: URL?
 
-    private var previewMode = false {
-        didSet {
-            recordButton.isHidden = previewMode
-            closeCameraVCButton.isHidden = previewMode
-            openCameraRollButton.isHidden = previewMode
-            closePreviewButton.isHidden = !previewMode
-            nextButton.isHidden = !previewMode
-        }
-    }
+    private var previewVC: PreviewViewController?
     
     private let blurMenu: BlurMenuViewController = {
         let blurMenu = BlurMenuViewController()
         return blurMenu
     }()
     
+    private var pickerController: UIImagePickerController?
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         videoGravity = .resizeAspectFill
+        swipeToZoom = false
         pinchToZoom = true
         maximumVideoDuration = 10.0
         
+        pickerController = UIImagePickerController()
+        
         super.viewDidLoad()
+        
+        self.pickerController!.delegate = self
+        self.pickerController!.allowsEditing = true
     
-        view.addSubview(previewLayerView)
         view.addSubview(recordButton)
         view.addSubview(openCameraRollButton)
         view.addSubview(closeCameraVCButton)
-        view.addSubview(nextButton)
-        view.addSubview(closePreviewButton)
-
         
         blurMenu.delegate = self
         
-        previewMode = false
-        
-        nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
-        closePreviewButton.addTarget(self, action: #selector(didTapClosePreview), for: .touchUpInside)
         openCameraRollButton.addTarget(self, action: #selector(didTapCameraRoll), for: .touchUpInside)
         closeCameraVCButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         
@@ -109,22 +80,18 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         doubleTapGesture.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTapGesture)
-        
-     
-    }
-    
-    override func viewWillLayoutSubviews() {
-        tabBarController?.setTabBarVisible(visible: false, duration: 0.1, animated: true)
-        blurMenu.view.frame = view.bounds
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        view.addSubview(blurMenu.view)
+        //view.addSubview(blurMenu.view)
         
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        tabBarController?.setTabBarVisible(visible: false, duration: 0.1, animated: true)
+        blurMenu.view.frame = view.bounds
                 
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
@@ -144,33 +111,12 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             height: openCameraRollButtonSize
         )
         
-        closeCameraVCButton.frame = CGRect(
+        let closeButtonSize: CGFloat = 30
+        closeCameraVCButton.frame =  CGRect(
             x: 25,
-            y: view.top + 25 + 30,
-            width: 30,
-            height: 30
-        )
-        
-        previewLayerView.frame = view.bounds
-        
-        layoutPreviewButtons()
-    }
-    
-    func layoutPreviewButtons() {
-        let size: CGFloat = 45
-        
-        nextButton.frame = CGRect(
-            x: view.right - 25 - size,
-            y: view.top + 25,
-            width: size,
-            height: size
-        )
-                
-        closePreviewButton.frame = CGRect(
-            x: 25,
-            y: view.top + 25,
-            width: size,
-            height: size
+            y: view.safeAreaInsets.top,
+            width: closeButtonSize,
+            height: closeButtonSize
         )
     }
     
@@ -194,11 +140,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         recordButton.layer.addSublayer(gradient)
     }
 
-    
-    public func setCloseButtonVisible(_ isVisible: Bool) {
-        closeCameraVCButton.isHidden = !isVisible
-    }
-
     // MARK: - Objc functions
     
     @objc private func didDoubleTap() {
@@ -216,42 +157,11 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     @objc private func didTapCameraRoll() {
-        
-    }
-            
-    @objc private func didTapNextButton() {
-        // Upload video
-        
-        guard let url = recordedVideoUrl else {
-            return
-        }
-        
-        FirebaseUpload.uploadVideo(with: url) { [weak self] (result) in
-            switch result {
-            case .success(let uploadedPath):
-                print("Uploaded video with path: \(uploadedPath)")
-                
-                FirebaseUpload.createMoment(caption: "This is our first moment", videoPath: uploadedPath) { result in
-                    switch result {
-                    case .success(let momentId):
-                        print("Uploaded moment document with id: \(momentId)")
-                    case .failure(let error):
-                        print("Error uploading moment document: \(error)")
-                    }
-                }
-                
-                // Close vc, open moment
-                self?.didTapClosePreview()
-                
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
-    @objc private func didTapClosePreview() {
-        previewLayer?.removeFromSuperlayer()
-        previewMode = false
+        pickerController?.sourceType = .photoLibrary
+        present(pickerController!, animated: true, completion: {
+
+            //self.pickerController?.dismiss(animated: true, completion: nil)
+        })
     }
     
     
@@ -296,27 +206,11 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         // End Processing Video
         print("Finished processing")
         
-        let player = AVPlayer(url: url)
-        previewLayer = AVPlayerLayer(player: player)
-        previewLayer?.videoGravity = .resizeAspectFill
-        previewLayer?.frame = view.bounds
+        previewVC = PreviewViewController(previewVideoUrl: url)
         
-        guard let previewLayer = previewLayer else { return }
+        view.addSubview(previewVC!.view)
         
-        previewLayerView.layer.addSublayer(previewLayer)
-        
-        playerDidFinishObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: player.currentItem,
-            queue: .main) { _ in
-            player.seek(to: .zero)
-            player.play()
-        }
-        
-        previewLayer.player?.play()
-        previewMode = true
-        
-        recordedVideoUrl = url
+        previewVC!.view.frame = view.bounds
     }
 }
 
@@ -334,5 +228,20 @@ extension CameraViewController : BlurMenuViewControllerDelegate {
         
         blurMenu.dismissAnimated()
         self.blurMenu.view.removeFromSuperview()
+    }
+}
+
+extension CameraViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        pickerController?.dismiss(animated: true, completion: nil)
+        
+        guard let image = info[.editedImage] as? UIImage else {
+            return
+        }
+        
+        previewVC = PreviewViewController(previewImage: image)
+        
+        previewVC?.modalPresentationStyle = .fullScreen
+        present(previewVC!, animated: true, completion: nil)
     }
 }

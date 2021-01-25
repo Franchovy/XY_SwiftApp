@@ -15,7 +15,6 @@ class TabBarViewController: UITabBarController {
         super.viewDidLoad()
 
         let cameraView = CameraViewController()
-        cameraView.setCloseButtonVisible(false)
         viewControllers?[2] = cameraView
         cameraView.delegate = self
         self.cameraView = cameraView

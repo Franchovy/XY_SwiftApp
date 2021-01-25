@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CircleView" customModule="XY_APP" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CircleView" customModule="XY" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="13x-1g-zOR"/>
                 <outlet property="levelLabel" destination="PU9-3h-pzr" id="nja-dk-FMG"/>
@@ -20,7 +20,7 @@
             <rect key="frame" x="0.0" y="0.0" width="220" height="220"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1wW-7e-bEn" customClass="ProgressBarCircle" customModule="XY_APP" customModuleProvider="target">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1wW-7e-bEn" customClass="ProgressBarCircle" customModule="XY" customModuleProvider="target">
                     <rect key="frame" x="0.0" y="0.0" width="220" height="220"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -31,8 +31,8 @@
                     </userDefinedRuntimeAttributes>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PU9-3h-pzr">
-                    <rect key="frame" x="85.5" y="99" width="49" height="22"/>
-                    <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="18"/>
+                    <rect key="frame" x="90.5" y="101" width="39.5" height="18"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
