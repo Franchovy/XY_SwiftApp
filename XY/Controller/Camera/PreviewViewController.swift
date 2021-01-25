@@ -96,6 +96,24 @@ class PreviewViewController: UIViewController {
     
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         closePreviewButton.addTarget(self, action: #selector(didTapClosePreview), for: .touchUpInside)
+        
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapCaptionView))
+        caption.addGestureRecognizer(tapGestureRecognizer)
+        
+        let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
+        view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
+    }
+    
+    @objc private func didTapCaptionView() {
+        caption.toggleInputMode(inputMode: true)
+    }
+    
+    @objc private func didTapAnywhere() {
+        let captionText = caption.text
+        print("Caption: \(captionText)")
+        caption.toggleInputMode(inputMode: false)
+        
+        view.setNeedsLayout()
     }
     
     override func viewDidLayoutSubviews() {
@@ -157,14 +175,37 @@ class PreviewViewController: UIViewController {
     }
     
     @objc private func didTapNextButton() {
+        nextButton.isEnabled = false
+        
+        let activityIndicator = UIActivityIndicatorView()
+        view.addSubview(activityIndicator)
+        activityIndicator.frame = CGRect(
+            x: view.center.x - 18,
+            y: 75,
+            width: 36,
+            height: 36
+        )
+        activityIndicator.startAnimating()
+        
         if let image = previewImageView?.image {
             // Upload post
-            
-        }
+            FirebaseUpload.createPost(caption: caption.text, image: image) { (result) in
+                activityIndicator.stopAnimating()
+                
+                switch result {
+                case .success(let postModel):
+                    self.dismiss(animated: true, completion: nil)
+                case .failure(let error):
+                    print("Error creating post.")
+                }
+            }
+        } else
         
         if let recordedVideoUrl = recordedVideoUrl {
             // Upload video
             FirebaseUpload.uploadVideo(with: recordedVideoUrl) { [weak self] (result) in
+                activityIndicator.stopAnimating()
+                
                 switch result {
                 case .success(let uploadedPath):
                     print("Uploaded video with path: \(uploadedPath)")

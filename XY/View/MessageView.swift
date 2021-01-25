@@ -25,16 +25,29 @@ enum CaptionColor {
     }
 }
 
-class MessageView: UIView {
+class MessageView: UIView, UITextFieldDelegate {
 
     private var label: UILabel = {
         let label = UILabel()
-        
+        label.numberOfLines = 0
         label.font = UIFont(name: "HelveticaNeue", size: 20)
         return label
     }()
     
+    private var textField: UITextField = {
+        let textField = UITextField()
+        
+        textField.font = UIFont(name: "HelveticaNeue", size: 20)
+        return textField
+    }()
+    
     private var gradientLayer = CAGradientLayer()
+    
+    public var text: String {
+        get {
+            return textField.text ?? ""
+        }
+    }
     
     init() {
         super.init(frame: .zero)
@@ -46,8 +59,13 @@ class MessageView: UIView {
         layer.masksToBounds = true
         
         addSubview(label)
+        addSubview(textField)
+        textField.isHidden = true
         
         layer.cornerRadius = 10
+        
+        textField.addTarget(self, action: #selector(onTextFieldChange), for: .editingChanged)
+
     }
     
     required init?(coder: NSCoder) {
@@ -60,8 +78,16 @@ class MessageView: UIView {
         label.frame = CGRect(
             x: 14,
             y: 14,
-            width: label.width,
-            height: label.height
+            width: width - 28,
+            height: height - 28
+        )
+        
+        textField.sizeToFit()
+        textField.frame = CGRect(
+            x: 14,
+            y: 14,
+            width: width - 28,
+            height: height - 28
         )
         
         gradientLayer.frame = bounds
@@ -86,4 +112,35 @@ class MessageView: UIView {
         gradientLayer.colors = color.gradient
     }
     
+    func toggleInputMode(inputMode: Bool) {
+        if inputMode {
+            textField.isHidden = false
+            label.isHidden = true
+            textField.becomeFirstResponder()
+            
+        } else {
+            label.text = textField.text == "" ? label.text : textField.text
+            textField.isHidden = true
+            label.isHidden = false
+            textField.resignFirstResponder()
+        }
+    }
+    
+    @objc private func onTextFieldChange() {
+        if let text = textField.text, text.count >= 30 {
+            textField.text = String(text.prefix(30))
+            return
+        }
+        
+        textField.sizeToFit()
+        
+        frame = CGRect(
+            x: 0,
+            y: 0,
+            width: textField.width + 28,
+            height: textField.height + 28
+        )
+        
+        
+    }
 }
