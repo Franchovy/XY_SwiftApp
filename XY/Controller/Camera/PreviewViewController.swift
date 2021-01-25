@@ -68,6 +68,7 @@ class PreviewViewController: UIViewController {
         caption = MessageView()
         caption.text = "Write your caption..."
         caption.setColor(.blue)
+        caption.isEditable = true
         
         super.init(nibName: nil, bundle: nil)
         
