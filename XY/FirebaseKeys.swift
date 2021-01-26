@@ -38,7 +38,7 @@ struct FirebaseKeys {
         static let caption = "caption"
         static let level = "level"
         static let xp = "xp"
-        static let user = "user"
+        static let profileId = "profileId"
         static let videoRef = "videoRef"
         static let livesLeft = "livesLeft"
     }

@@ -11,7 +11,7 @@ struct ViralModel {
     let id: String
     let videoRef: String
     let caption: String
-    let profileId: String
+    let user: String
     let level: Int
     let xp: Int
     let lives: Int
@@ -20,7 +20,7 @@ struct ViralModel {
         self.id = id
         videoRef = data[FirebaseKeys.ViralKeys.videoRef] as! String
         caption = data[FirebaseKeys.ViralKeys.caption] as! String
-        profileId = data[FirebaseKeys.ViralKeys.profileId] as! String
+        user = data[FirebaseKeys.ViralKeys.user] as! String
         level = data[FirebaseKeys.ViralKeys.level] as! Int
         xp = data[FirebaseKeys.ViralKeys.xp] as! Int
         lives = data[FirebaseKeys.ViralKeys.livesLeft] as! Int

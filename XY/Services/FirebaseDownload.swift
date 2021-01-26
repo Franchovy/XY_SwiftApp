@@ -143,7 +143,7 @@ class FirebaseDownload {
         }
     }
     
-    static func getMoment(videoRef: String, completion: @escaping(Result<URL, Error>) -> Void) {
+    static func getVideo(videoRef: String, completion: @escaping(Result<URL, Error>) -> Void) {
         let storage = Storage.storage()
         
         let videoDownloadRef = storage.reference().child(videoRef)

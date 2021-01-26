@@ -11,11 +11,11 @@ import UIKit
 
 class ExploreVC: UIViewController {
     
-    var moments = [MomentModel]()
+    var virals = [ViralModel]()
     
-    private var momentView: MomentViewController?
-    private var nextMomentView: MomentViewController?
-    private var currentMomentIndex = 0
+    private var viralView: ViralViewController?
+    private var nextViralView: ViralViewController?
+    private var currentViralIndex = 0
     
     @IBOutlet weak var ExploreTableView: UITableView!
   
@@ -39,82 +39,82 @@ class ExploreVC: UIViewController {
         let cameraButton = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(openCamera))
         navigationItem.rightBarButtonItem = cameraButton
         
-        fetchMoments()
+        fetchVirals()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         DispatchQueue.main.async {
-            self.momentView?.player?.play()
+            self.viralView?.player?.play()
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         DispatchQueue.main.async {
-            self.momentView?.player?.pause()
+            self.viralView?.player?.pause()
         }
     }
     
     override func viewDidLayoutSubviews() {
-        guard let momentView = momentView else {
+        guard let viralView = viralView else {
             return
         }
     }
     
-    private func fetchMoments() {
-        FirebaseDownload.getMoments { (result) in
+    private func fetchVirals() {
+        FirebaseDownload.getVirals { (result) in
             switch result {
-            case .success(let momentModels):
-                self.moments = momentModels
+            case .success(let viralModels):
+                self.virals = viralModels
                 
-                // Load first moment
-                self.nextMomentView = MomentViewController(model: self.moments[self.currentMomentIndex])
+                // Load first viral
+                self.nextViralView = ViralViewController(model: self.virals[self.currentViralIndex])
                 
-                self.createMomentView(index: 0)
+                self.createViralView(index: 0)
             case .failure(let error):
                 print(error)
             }
         }
     }
     
-    private func createMomentView(index: Int) {
-        if let momentView = momentView {
-            // Remove previous moment view
-            momentView.player?.pause()
-            momentView.view.removeFromSuperview()
-            momentView.removeFromParent()
+    private func createViralView(index: Int) {
+        if let viralView = viralView {
+            // Remove previous viral view
+            viralView.player?.pause()
+            viralView.view.removeFromSuperview()
+            viralView.removeFromParent()
         }
-        momentView = nil
+        viralView = nil
             
-        if nextMomentView == nil {
-            nextMomentView = MomentViewController(model: self.moments[index])
+        if nextViralView == nil {
+            nextViralView = ViralViewController(model: self.virals[index])
             
-            currentMomentIndex += 1
+            currentViralIndex += 1
         }
         
-        let momentView = nextMomentView!
-        momentView.play()
+        let viralView = nextViralView!
+        viralView.play()
         
         DispatchQueue.main.async {
-            momentView.view.frame = self.view.bounds
-            momentView.view.layer.cornerRadius = 15
+            viralView.view.frame = self.view.bounds
+            viralView.view.layer.cornerRadius = 15
             
-            self.view.addSubview(momentView.view)
+            self.view.addSubview(viralView.view)
             
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.onMomentTapped))
-            momentView.view.addGestureRecognizer(tapGesture)
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.onViralTapped))
+            viralView.view.addGestureRecognizer(tapGesture)
             
             let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(self.onSwiping(panGestureRecognizer:)))
             swipeGesture.delegate = self
-            momentView.view.addGestureRecognizer(swipeGesture)
+            viralView.view.addGestureRecognizer(swipeGesture)
             
-            self.momentView = momentView
+            self.viralView = viralView
         }
         
-        // Load next moment
-        let nextMomentView = MomentViewController(model: self.moments[index])
+        // Load next viral
+        let nextViralView = ViralViewController(model: self.virals[index])
         
-        self.nextMomentView = nextMomentView
-        view.addSubview(nextMomentView.view)
+        self.nextViralView = nextViralView
+        view.addSubview(nextViralView.view)
     }
     
     @objc func onSwiping(panGestureRecognizer: UIPanGestureRecognizer) {
@@ -126,16 +126,16 @@ class ExploreVC: UIViewController {
             y: 0
         )
         
-        momentView?.view.transform = transform.rotated(by: translationX / 500)
+        viralView?.view.transform = transform.rotated(by: translationX / 500)
         
         // Color for swipe
         if translationX > 0 {
-            momentView?.shadowLayer.shadowColor = UIColor.green.cgColor
+            viralView?.shadowLayer.shadowColor = UIColor.green.cgColor
         } else {
-            momentView?.shadowLayer.shadowColor = UIColor.red.cgColor
+            viralView?.shadowLayer.shadowColor = UIColor.red.cgColor
         }
         
-        momentView?.shadowLayer.shadowOpacity = Float(abs(translationX) / 50)
+        viralView?.shadowLayer.shadowOpacity = Float(abs(translationX) / 50)
         
         
         // On gesture finish
@@ -146,33 +146,33 @@ class ExploreVC: UIViewController {
         // Animate if needed
         if translationX > 50, velocityX > 10 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-                self.momentView?.view.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
+                self.viralView?.view.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
             } completion: { (done) in
                 if done {
-                    self.onMomentTapped()
+                    self.onViralTapped()
                 }
             }
         } else if translationX < -50, velocityX < -10 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-                self.momentView?.view.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
+                self.viralView?.view.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             } completion: { (done) in
                 if done {
-                    self.onMomentTapped()
+                    self.onViralTapped()
                 }
             }
         } else {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
-                self.momentView?.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
-                self.momentView?.shadowLayer.shadowOpacity = 0
+                self.viralView?.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
+                self.viralView?.shadowLayer.shadowOpacity = 0
             }
         }
     }
     
     
-    @objc func onMomentTapped() {
-        currentMomentIndex = (currentMomentIndex + 1) % moments.count
-        // Load new moment
-        createMomentView(index: currentMomentIndex)
+    @objc func onViralTapped() {
+        currentViralIndex = (currentViralIndex + 1) % virals.count
+        // Load new viral
+        createViralView(index: currentViralIndex)
     }
     
     @objc func openCamera() {

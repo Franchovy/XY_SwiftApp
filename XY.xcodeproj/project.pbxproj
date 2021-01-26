@@ -93,6 +93,7 @@
 		B95FF51625A72DA900CFCA9E /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */; };
 		B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */; };
 		B979F68025C078370040AE5B /* ViralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F67F25C078370040AE5B /* ViralModel.swift */; };
+		B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F68B25C0799F0040AE5B /* ViralViewController.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B9AE604125B1F7E70093502B /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AE604025B1F7E70093502B /* SettingsVC.swift */; };
 		B9AE604525B1F7F80093502B /* EditEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AE604425B1F7F80093502B /* EditEmailVC.swift */; };
@@ -224,6 +225,7 @@
 		B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B979F67F25C078370040AE5B /* ViralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralModel.swift; sourceTree = "<group>"; };
+		B979F68B25C0799F0040AE5B /* ViralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralViewController.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B9AE604025B1F7E70093502B /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		B9AE604425B1F7F80093502B /* EditEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailVC.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				149AD6A2259B52E300E81ABC /* TabBar */,
 				B95C2C4025BE91670001FA23 /* Camera */,
 				B90C163F25BC6404003811B2 /* MomentViewController.swift */,
+				B979F68B25C0799F0040AE5B /* ViralViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -824,6 +827,7 @@
 				14C99E3525A0F31300FFE003 /* ProfileUpperCell.swift in Sources */,
 				14169C95259B9E57003C047F /* ExploreViewCellModel.swift in Sources */,
 				14A36073259CB51C002829D7 /* FlowMomentsTableViewCell.swift in Sources */,
+				B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,

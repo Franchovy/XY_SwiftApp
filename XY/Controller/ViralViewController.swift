@@ -1,24 +1,17 @@
 //
-//  MomentViewController.swift
+//  ViralViewController.swift
 //  XY
 //
-//  Created by Maxime Franchot on 23/01/2021.
+//  Created by Maxime Franchot on 26/01/2021.
 //
 
 import UIKit
 import AVFoundation
 
-protocol MomentViewControllerDelegate: AnyObject {
-    //func momentViewController(_ vc: MomentViewController, didTapCommentButtonFor post: MomentModel)
-    
-}
 
-
-class MomentViewController: UIViewController {
-        
-    weak var delegate: MomentViewControllerDelegate?
+class ViralViewController: UIViewController {
     
-    var model : MomentModel
+    var model : ViralModel
     
     private let profileButton: UIButton = {
         let button = UIButton()
@@ -29,15 +22,23 @@ class MomentViewController: UIViewController {
         return button
     }()
     
+    private let userLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .left
+        label.textColor = .white
+        label.numberOfLines = 0
+        label.alpha  = 0.7
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 26)
+        return label
+    }()
+    
     private let captionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.textColor = .white
         label.numberOfLines = 0
         label.alpha  = 0.7
-        label.font = UIFont(name: "HelveticaNeue", size: 15)
-        label.text = "Check out this video! #lol #xy"
-        label.font = .systemFont(ofSize: 24)
+        label.font = UIFont(name: "HelveticaNeue", size: 24)
         return label
     }()
     
@@ -59,6 +60,7 @@ class MomentViewController: UIViewController {
         view.clipsToBounds = true
         return view
     }()
+    
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
         spinner.tintColor = .label
@@ -69,30 +71,33 @@ class MomentViewController: UIViewController {
     
     // MARK: - Initializers
 
-    init(model: MomentModel) {
+    init(model: ViralModel) {
         self.model = model
+        captionLabel.text = model.caption
         super.init(nibName: nil, bundle: nil)
+        
+        // Request nickname for this user
+        FirebaseDownload.getProfileId(userId: model.profileId) { (nickname, error) in
+            
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         view.addSubview(videoView)
         videoView.addSubview(spinner)
-
-        setUpDoubleTapToLike()
         
         view.addSubview(captionLabel)
+        view.addSubview(userLabel)
         view.addSubview(profileButton)
-        
-        profileButton.addTarget(self, action: #selector(didTapProfileButton), for: .touchUpInside)
-      
+              
         configureVideo()
     }
     
@@ -125,6 +130,14 @@ class MomentViewController: UIViewController {
             height: labelHeight.height
         )
         
+        userLabel.sizeToFit()
+        userLabel.frame = CGRect(
+            x: captionLabel.left,
+            y: captionLabel.top - 5 - userLabel.height,
+            width: userLabel.width,
+            height: userLabel.height
+        )
+        
         profileButton.frame = CGRect(
             x: 35,
             y: captionLabel.top - 5,
@@ -135,6 +148,7 @@ class MomentViewController: UIViewController {
 
     }
 
+    // MARK: - Public Functions
     
     public func play() {
         playState = .play
@@ -179,60 +193,4 @@ class MomentViewController: UIViewController {
             }
         }
     }
-    
-    @objc func didTapShare() {
-        guard let url = URL(string: "https://www.tiktok.com") else {
-            return
-        }
-        
-        let vc = UIActivityViewController(
-            activityItems: [url],
-            applicationActivities: []
-        )
-        
-        present(vc, animated: true)
-    }
-    
-    @objc func didTapProfileButton() {
-        //delegate?.postViewController(self, didTapProfileButtonFor: model)
-    }
-    
-    func setUpDoubleTapToLike() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap(_:)))
-        tap.numberOfTapsRequired = 2
-        view.isUserInteractionEnabled = true
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc private func didDoubleTap(_ gesture: UITapGestureRecognizer) {
-        
-        let touchPoint = gesture.location(in: view)
-        let imageView = UIImageView(image: UIImage(systemName: "heart.fill"))
-        
-        imageView.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        imageView.center = touchPoint
-        imageView.contentMode = .scaleAspectFit
-        imageView.alpha = 0
-        
-        view.addSubview(imageView)
-        
-        UIView.animate(withDuration: 0.2) {
-            imageView.alpha = 1
-        } completion: { done in
-            if done {
-                DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
-                    UIView.animate(withDuration: 0.2) {
-                        imageView.alpha = 0
-                    } completion: { done in
-                        if done {
-                            imageView.removeFromSuperview()
-                        }
-                    }
-                }
-            }
-        }
-        
-    }
-    
-
 }
