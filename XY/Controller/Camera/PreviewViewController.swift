@@ -26,7 +26,14 @@ class PreviewViewController: UIViewController {
         return button
     }()
     
-    private let caption: MessageView
+    private let caption: MessageView = {
+        let caption = MessageView()
+        caption.text = "Write your caption here"
+        caption.frame.size.width = 200
+        caption.setColor(.blue)
+        caption.isEditable = true
+        return caption
+    }()
     
     private var playerDidFinishObserver: NSObjectProtocol?
     private var previewLayerView = UIView()
@@ -38,9 +45,6 @@ class PreviewViewController: UIViewController {
     //MARK: - Init
     
     init(previewVideoUrl: URL) {
-        caption = MessageView()
-        caption.text = "Write your caption..."
-        caption.isEditable = true
         
         super.init(nibName: nil, bundle: nil)
         
@@ -65,11 +69,6 @@ class PreviewViewController: UIViewController {
     }
     
     init(previewImage: UIImage) {
-        caption = MessageView()
-        caption.text = "Write your caption..."
-        caption.setColor(.blue)
-        caption.isEditable = true
-        
         super.init(nibName: nil, bundle: nil)
         
         self.previewImageView = UIImageView(image: previewImage)

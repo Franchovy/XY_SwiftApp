@@ -79,7 +79,9 @@ class MessageView: UIView, UITextFieldDelegate {
         }
         set {
             label.text = newValue
-            label.sizeToFit()
+            
+            frame.size = getSize()
+            
             setNeedsLayout()
         }
     }
@@ -143,12 +145,11 @@ class MessageView: UIView, UITextFieldDelegate {
             height: label.height
         )
         
-        textField.sizeToFit()
         textField.frame = CGRect(
             x: 14,
             y: 14,
-            width: width - 28,
-            height: height - 28
+            width: textField.width,
+            height: textField.height
         )
         
         nameLabel.sizeToFit()
@@ -182,6 +183,11 @@ class MessageView: UIView, UITextFieldDelegate {
             label.isHidden = true
             textField.becomeFirstResponder()
             
+            if label.text == "Write your caption here" {
+                textField.text = ""
+                text = ""
+                frame.size.width = 25
+            }
         } else {
             label.text = textField.text == "" ? label.text : textField.text
             textField.isHidden = true
@@ -191,20 +197,26 @@ class MessageView: UIView, UITextFieldDelegate {
     }
     
     @objc private func onTextFieldChange() {
-        if let text = textField.text, text.count >= 30 {
-            textField.text = String(text.prefix(30))
+        guard let text = textField.text else {
             return
         }
         
+        if text.count >= 50 {
+            textField.text = String(text.prefix(50))
+        } else {
+            textField.text = text
+        }
+
         textField.sizeToFit()
         
-        frame = CGRect(
-            x: 0,
-            y: 0,
-            width: textField.width + 28,
-            height: textField.height + 28
+        label.text = text
+        label.frame.size.width = min(textField.width, 350)
+        label.sizeToFit()
+        
+        frame.size = CGSize(
+            width: label.width + 28,
+            height: label.font.lineHeight + 28
         )
         
-        setNeedsLayout()
     }
 }
