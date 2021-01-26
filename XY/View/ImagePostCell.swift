@@ -127,11 +127,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             height: 40
         )
         
+        
+        let captionSize = caption.getSize()
         caption.frame = CGRect(
             x: profileImageView.right + 14 ,
             y: postCard.bottom + 6,
-            width: 295,
-            height: 80
+            width: captionSize.width,
+            height: captionSize.height
         )
         caption.setNeedsLayout()
         

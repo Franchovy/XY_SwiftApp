@@ -38,7 +38,7 @@ class MessageView: UIView, UITextFieldDelegate {
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 1
-        label.font = UIFont(name: "HelveticaNeue-Thin", size: 12)
+        label.font = UIFont(name: "HelveticaNeue-Thin", size: 10)
         label.textColor = .white
         
         return label
@@ -46,7 +46,7 @@ class MessageView: UIView, UITextFieldDelegate {
     
     private var label: UILabel = {
         let label = UILabel()
-        label.numberOfLines = 0
+        label.numberOfLines = 2
         label.font = UIFont(name: "HelveticaNeue", size: 15)
         label.textColor = .white
         
@@ -120,9 +120,22 @@ class MessageView: UIView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
+    public func getSize() -> CGSize {
         
+        let labelWidth = min(label.width, 275)
+        
+        label.frame.size.width = labelWidth
         label.sizeToFit()
+        
+        let numRows:CGFloat = CGFloat(label.calculateMaxLines())
+        return CGSize(
+            width: labelWidth + 28,
+            height: numRows * label.font.lineHeight + 28
+        )
+    }
+    
+    override func layoutSubviews() {
+
         label.frame = CGRect(
             x: 14,
             y: 14,
@@ -130,13 +143,6 @@ class MessageView: UIView, UITextFieldDelegate {
             height: label.height
         )
         
-        frame = CGRect(
-            x: left,
-            y: top,
-            width: label.width + 28,
-            height: label.height + 28
-        )
-                
         textField.sizeToFit()
         textField.frame = CGRect(
             x: 14,

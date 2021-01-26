@@ -101,3 +101,14 @@ extension UIColor {
         return UIColor(red: l1*r1 + l2*r2, green: l1*g1 + l2*g2, blue: l1*b1 + l2*b2, alpha: l1*a1 + l2*a2)
     }
 }
+
+extension UILabel {
+    func calculateMaxLines() -> Int {
+        let maxSize = CGSize(width: frame.size.width, height: CGFloat(Float.infinity))
+        let charSize = font.lineHeight
+        let text = (self.text ?? "") as NSString
+        let textSize = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
+        let linesRoundedUp = Int(ceil(textSize.height/charSize))
+        return linesRoundedUp
+    }
+}
