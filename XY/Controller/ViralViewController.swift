@@ -117,6 +117,7 @@ class ViralViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        
         shadowLayer.path = UIBezierPath(roundedRect: videoView.bounds, cornerRadius: 15).cgPath
         shadowLayer.shadowPath = shadowLayer.path
 
@@ -135,7 +136,7 @@ class ViralViewController: UIViewController {
         let size: CGFloat = 40
         
 //        captionLabel.sizeToFit()
-        let labelHeight = captionLabel.sizeThatFits(CGSize(width: view.width - size - 12, height: view.height))
+        let labelHeight = captionLabel.sizeThatFits(CGSize(width: videoView.width - size - 12, height: videoView.height))
         captionLabel.frame = CGRect(
             x: 5,
             y: videoView.bottom - 10 - labelHeight.height,
@@ -186,6 +187,7 @@ class ViralViewController: UIViewController {
                     playerLayer.frame = strongSelf.view.bounds
                     playerLayer.videoGravity = .resizeAspectFill
                     strongSelf.videoView.layer.addSublayer(playerLayer)
+                    strongSelf.videoView.frame = playerLayer.bounds
                     strongSelf.player?.volume = 1.0
                     
                     if strongSelf.playState == .play {
