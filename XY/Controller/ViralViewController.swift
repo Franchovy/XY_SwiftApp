@@ -77,8 +77,21 @@ class ViralViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         // Request nickname for this user
-        FirebaseDownload.getProfileId(userId: model.profileId) { (nickname, error) in
+        FirebaseDownload.getProfile(profileId: model.profileId) { [weak self] (profileModel, error) in
+            guard let strongSelf = self, let profileModel = profileModel, error == nil else {
+                return
+            }
             
+            strongSelf.userLabel.text = profileModel.nickname
+            strongSelf.userLabel.sizeToFit()
+            
+            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { [weak self] (image, error) in
+                guard let strongSelf = self, let image = image, error == nil else {
+                    return
+                }
+                
+                strongSelf.profileButton.setBackgroundImage(image, for: .normal)
+            }
         }
     }
     
@@ -126,26 +139,27 @@ class ViralViewController: UIViewController {
         captionLabel.frame = CGRect(
             x: 5,
             y: videoView.bottom - 10 - labelHeight.height,
-            width: view.width - size - 12,
+            width: videoView.width - size - 12,
             height: labelHeight.height
         )
-        
-        userLabel.sizeToFit()
-        userLabel.frame = CGRect(
-            x: captionLabel.left,
-            y: captionLabel.top - 5 - userLabel.height,
-            width: userLabel.width,
-            height: userLabel.height
-        )
-        
+
         profileButton.frame = CGRect(
-            x: 35,
-            y: captionLabel.top - 5,
+            x: 5,
+            y: captionLabel.top - 5 - size,
             width: size,
             height: size
         )
         profileButton.layer.cornerRadius = size / 2
 
+        userLabel.sizeToFit()
+        userLabel.frame = CGRect(
+            x: profileButton.right + 5,
+            y: captionLabel.top - 5 - userLabel.height,
+            width: userLabel.width,
+            height: userLabel.height
+        )
+
+        
     }
 
     // MARK: - Public Functions
