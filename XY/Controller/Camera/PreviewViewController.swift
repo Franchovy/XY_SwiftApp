@@ -85,15 +85,16 @@ class PreviewViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "Black")
         
+        if let previewImageView = previewImageView {
+            view.addSubview(previewImageView)
+        }
+        
         view.addSubview(previewLayerView)
         view.addSubview(nextButton)
         view.addSubview(closePreviewButton)
         
         view.addSubview(caption)
-        
-        if let previewImageView = previewImageView {
-            view.addSubview(previewImageView)
-        }
+
     
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         closePreviewButton.addTarget(self, action: #selector(didTapClosePreview), for: .touchUpInside)
@@ -103,18 +104,6 @@ class PreviewViewController: UIViewController {
         
         let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
         view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
-    }
-    
-    @objc private func didTapCaptionView() {
-        caption.toggleInputMode(inputMode: true)
-    }
-    
-    @objc private func didTapAnywhere() {
-        let captionText = caption.text
-        print("Caption: \(captionText)")
-        caption.toggleInputMode(inputMode: false)
-        
-        view.setNeedsLayout()
     }
     
     override func viewDidLayoutSubviews() {
@@ -138,7 +127,12 @@ class PreviewViewController: UIViewController {
                 height: imageHeight
             )
             
-            captionY = previewImageView.bottom + 10
+            captionY = min(
+                previewImageView.bottom + 10,
+                view.height - caption.height - view.safeAreaInsets.bottom - 10
+            )
+        } else {
+            captionY = view.height - caption.height - view.safeAreaInsets.bottom - 10
         }
         
         
@@ -196,13 +190,12 @@ class PreviewViewController: UIViewController {
                 switch result {
                 case .success(let postModel):
                     self.dismiss(animated: true, completion: nil)
+                    self.view.removeFromSuperview()
                 case .failure(let error):
                     print("Error creating post.")
                 }
             }
-        } else
-        
-        if let recordedVideoUrl = recordedVideoUrl {
+        } else if let recordedVideoUrl = recordedVideoUrl {
             // Upload video
             FirebaseUpload.uploadVideo(with: recordedVideoUrl) { [weak self] (result) in
                 activityIndicator.stopAnimating()
@@ -210,19 +203,16 @@ class PreviewViewController: UIViewController {
                 switch result {
                 case .success(let uploadedPath):
                     print("Uploaded video with path: \(uploadedPath)")
-                    
-                    FirebaseUpload.createMoment(caption: "This is our first moment", videoPath: uploadedPath) { result in
+                    FirebaseUpload.createViral(caption: self?.caption.text ?? "", videoPath: uploadedPath) { result in
                         switch result {
                         case .success(let momentId):
-                            print("Uploaded moment document with id: \(momentId)")
+                            // Close vc, open moment
+                            self?.dismiss(animated: true, completion: nil)
+                            self?.view.removeFromSuperview()
                         case .failure(let error):
                             print("Error uploading moment document: \(error)")
                         }
                     }
-                    
-                    // Close vc, open moment
-                    self?.dismiss(animated: true, completion: nil)
-                    
                 case .failure(let error):
                     print(error)
                 }
@@ -232,5 +222,27 @@ class PreviewViewController: UIViewController {
     
     @objc private func didTapClosePreview() {
         dismiss(animated: true, completion: nil)
+        
+        previewLayer?.player?.pause()
+        previewLayer?.removeFromSuperlayer()
+        
+        
+        dismiss(animated: true, completion: nil)
+        view.removeFromSuperview()
+    }
+    
+    
+    @objc private func didTapCaptionView() {
+        caption.toggleInputMode(inputMode: true)
+        view.setNeedsLayout()
+
+    }
+    
+    @objc private func didTapAnywhere() {
+        let captionText = caption.text
+        print("Caption: \(captionText)")
+        caption.toggleInputMode(inputMode: false)
+        
+        view.setNeedsLayout()
     }
 }

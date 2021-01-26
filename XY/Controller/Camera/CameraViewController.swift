@@ -80,11 +80,18 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         doubleTapGesture.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTapGesture)
+        
+        recordButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
         //view.addSubview(blurMenu.view)
+        session.sessionPreset = .high
         
+        session.commitConfiguration()
+        
+        session.startRunning()
     }
     
     override func viewDidLayoutSubviews() {
@@ -131,7 +138,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         ]
         
         let shape = CAShapeLayer()
-        shape.lineWidth = 7
+        shape.lineWidth = 10
         shape.path = UIBezierPath(roundedRect: recordButton.bounds, cornerRadius: recordButton.layer.cornerRadius).cgPath
         shape.strokeColor = UIColor.black.cgColor
         shape.fillColor = UIColor.clear.cgColor
@@ -174,14 +181,11 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         // Take Photo
         
-        FirebaseUpload.createPost(caption: "Here's a post", image: photo) { (result) in
-            switch result {
-            case .failure(let error):
-                break
-            case .success(let postModel):
-                break
-            }
-        }
+        previewVC = PreviewViewController(previewImage: photo)
+
+        view.addSubview(previewVC!.view)
+
+        previewVC!.view.frame = view.bounds
         
     }
     
