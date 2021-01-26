@@ -94,7 +94,6 @@ class FirebaseDownload {
     }
     
     static func getMoments(completion: @escaping(Result<[MomentModel], Error>) -> Void) {
-        // returns moments
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.moments)
             .order(by: FirebaseKeys.MomentsKeys.timestamp, descending: true)
             .getDocuments { (querySnapshot, error) in
@@ -115,6 +114,31 @@ class FirebaseDownload {
                     )
                 }
                 completion(.success(moments))
+            }
+        }
+    }
+    
+    static func getVirals(completion: @escaping(Result<[ViralModel], Error>) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals)
+            .order(by: FirebaseKeys.ViralKeys.level, descending: true)
+            .getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            if let querySnapshot = querySnapshot {
+                var virals = [ViralModel]()
+                
+                for doc in querySnapshot.documents {
+                    
+                    virals.append(
+                        ViralModel(
+                            from: doc.data(),
+                            id: doc.documentID
+                        )
+                    )
+                }
+                completion(.success(virals))
             }
         }
     }

@@ -92,6 +92,7 @@
 		B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */; };
 		B95FF51625A72DA900CFCA9E /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */; };
 		B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */; };
+		B979F68025C078370040AE5B /* ViralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F67F25C078370040AE5B /* ViralModel.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B9AE604125B1F7E70093502B /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AE604025B1F7E70093502B /* SettingsVC.swift */; };
 		B9AE604525B1F7F80093502B /* EditEmailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AE604425B1F7F80093502B /* EditEmailVC.swift */; };
@@ -222,6 +223,7 @@
 		B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateXYUserService.swift; sourceTree = "<group>"; };
 		B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		B979F67F25C078370040AE5B /* ViralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralModel.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B9AE604025B1F7E70093502B /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		B9AE604425B1F7F80093502B /* EditEmailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmailVC.swift; sourceTree = "<group>"; };
@@ -435,6 +437,7 @@
 				14169C94259B9E57003C047F /* ExploreViewCellModel.swift */,
 				B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */,
 				B94D46F0257253BA00A21355 /* PostModel.swift */,
+				B979F67F25C078370040AE5B /* ViralModel.swift */,
 				14607A7B25A0DDE5009B3B50 /* ProfileModel.swift */,
 				B90C164325BC6474003811B2 /* MomentModel.swift */,
 				14169C98259B9EE5003C047F /* ExploreViewCollectionModel.swift */,
@@ -754,6 +757,7 @@
 			files = (
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				14BDAF6825A313CB00D19282 /* UserInfoChat.swift in Sources */,
+				B979F68025C078370040AE5B /* ViralModel.swift in Sources */,
 				14169C99259B9EE5003C047F /* ExploreViewCollectionModel.swift in Sources */,
 				B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,

@@ -19,11 +19,28 @@ struct FirebaseKeys {
         static let notifications = "Notifications"
         static let moments = "Moments"
         static let conversations = "Conversations"
+        static let virals = "Viral"
         
         static let messages = "messages"
         static let senderField = "senderField"
         static let bodyField = "bodyField"
         static let dateField = "dateField"
+    }
+    
+    struct LevelKeys {
+        static let postLevels = "postLevels"
+        static let userLevels = "userLevels"
+        static let viralLevels = "viralLevels"
+        static let viralLives = "viralLives"
+    }
+    
+    struct ViralKeys {
+        static let caption = "caption"
+        static let level = "level"
+        static let xp = "xp"
+        static let user = "user"
+        static let videoRef = "videoRef"
+        static let livesLeft = "livesLeft"
     }
     
     struct ActionKeys {
