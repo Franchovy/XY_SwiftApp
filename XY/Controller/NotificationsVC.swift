@@ -19,7 +19,6 @@ class NotificationsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
@@ -45,7 +44,11 @@ class NotificationsVC: UIViewController {
                 return
             }
             
-            self?.notifications = []
+            guard let strongSelf = self else {
+                return
+            }
+            
+            strongSelf.notifications = []
             
             for notificationDocument in querySnapshot.documents {
                 let data = notificationDocument.data()
@@ -53,19 +56,16 @@ class NotificationsVC: UIViewController {
                 
                 let notificationModel = Notification(data)
                 var notificationViewModel = NotificationViewModel(from: notificationModel)
-                notificationViewModel.delegate = self
+                notificationViewModel.delegate = strongSelf
                 
-                if self?.notifications != nil {
-                    notificationViewModel.fetch(index: (self?.notifications.count)!)
-                    self?.notifications.append(notificationViewModel)
-                }
+                notificationViewModel.fetch(index: strongSelf.notifications.count)
+                strongSelf.notifications.append(notificationViewModel)
             }
             DispatchQueue.main.async {
-                self?.tableView.reloadData()
+                strongSelf.tableView.reloadData()
             }
         }
     }
-    
 }
 
 
@@ -81,7 +81,6 @@ extension NotificationsVC : UITableViewDataSource {
         cell.configure(with: model)
         
         return cell
-        
     }
     
     func tableView(_ tableView: UITableView, EditingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {

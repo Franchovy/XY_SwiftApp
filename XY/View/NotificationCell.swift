@@ -30,6 +30,7 @@ class NotificationCell: UITableViewCell {
         NotPostPrev.image = model.previewImage
         NotNick.text = model.title
         NotLabel.text = model.text
+        
     }
     
     override func prepareForReuse() {

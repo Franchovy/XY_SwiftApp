@@ -61,28 +61,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     var images: [UIImage]?
     
-    var viewModel: PostViewModel! {
-        didSet {
-            viewModel.delegate = self
-            // Set data already ready
-            FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
-                
-                guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
-                    return
-                }
-                
-                strongSelf.xpLevelDisplay.onProgress(
-                    level: xpModel.level,
-                    progress: Float(xpModel.xp) / Float(nextLevelXP)
-                )
-            }
-            
-            xpLevelDisplay.setProgress(level: 1, progress: 0.5)
-            
-            caption.text = viewModel.content
-            caption.timestamp = viewModel.getTimestampString()
-        }
-    }
+    weak var viewModel: PostViewModel?
     
     // MARK: - PostViewModel Delegate Methods
     
@@ -133,7 +112,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     override func layoutSubviews() {
         let contentWidth = min(contentView.width - 30, contentImageView.width)
         let contentHeight = contentImageView.height
-                
+        
         postCard.frame = CGRect(
             x: (contentView.width/2 - contentWidth/2),
             y: 10,
@@ -151,9 +130,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         caption.frame = CGRect(
             x: profileImageView.right + 14 ,
             y: postCard.bottom + 6,
-            width: 300,
-            height: 52
+            width: 295,
+            height: 80
         )
+        caption.setNeedsLayout()
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
@@ -175,7 +155,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         profileImageView.image = nil
         caption.text = ""
         
-        FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
+        if let viewModel = viewModel {
+            FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
+        }
         xpLevelDisplay.reset()
     }
 
@@ -186,6 +168,29 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
         else { return true }
         
+    }
+    
+    public func configure(with viewModel: PostViewModel) {
+        viewModel.delegate = self
+        // Set data already ready
+        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
+            
+            guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
+                return
+            }
+            
+            strongSelf.xpLevelDisplay.onProgress(
+                level: xpModel.level,
+                progress: Float(xpModel.xp) / Float(nextLevelXP)
+            )
+        }
+        
+        xpLevelDisplay.setProgress(level: 1, progress: 0.5)
+        
+        caption.text = viewModel.content
+        caption.timestamp = viewModel.getTimestampString()
+        
+        self.viewModel = viewModel
     }
     
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
@@ -285,7 +290,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                         flowVC.data.remove(at: indexPath.row)
                         flowVC.tableView.deleteRows(at: [indexPath], with: direction == .right ? .right : .left)
                         
-                        self.viewModel.sendSwipeLeft()
+                        self.viewModel?.sendSwipeLeft()
                     })
                 } else {
                     UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 15, options: .beginFromCurrentState, animations: {
@@ -294,7 +299,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                     }, completion: { done in
                         if done {
                             // Swipe Right to firebase
-                            self.viewModel.sendSwipeRight()
+                            self.viewModel?.sendSwipeRight()
                         }
                     })
                 }

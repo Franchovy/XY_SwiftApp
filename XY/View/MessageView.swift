@@ -49,6 +49,7 @@ class MessageView: UIView, UITextFieldDelegate {
         label.numberOfLines = 0
         label.font = UIFont(name: "HelveticaNeue", size: 15)
         label.textColor = .white
+        
         return label
     }()
     
@@ -78,16 +79,7 @@ class MessageView: UIView, UITextFieldDelegate {
         }
         set {
             label.text = newValue
-            
             label.sizeToFit()
-            
-            frame = CGRect(
-                x: 0,
-                y: 0,
-                width: label.width + 28,
-                height: label.height + 28
-            )
-            
             setNeedsLayout()
         }
     }
@@ -121,6 +113,7 @@ class MessageView: UIView, UITextFieldDelegate {
         layer.cornerRadius = 10
         
         textField.addTarget(self, action: #selector(onTextFieldChange), for: .editingChanged)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -128,16 +121,22 @@ class MessageView: UIView, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        label.sizeThatFits(CGSize(width: width - 28, height: height - 28))
         
         label.sizeToFit()
         label.frame = CGRect(
             x: 14,
             y: 14,
-            width: width - 28,
-            height: height - 28
+            width: label.width,
+            height: label.height
         )
         
+        frame = CGRect(
+            x: left,
+            y: top,
+            width: label.width + 28,
+            height: label.height + 28
+        )
+                
         textField.sizeToFit()
         textField.frame = CGRect(
             x: 14,

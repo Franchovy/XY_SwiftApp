@@ -126,7 +126,7 @@ class FlowVC : UITableViewController {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
         var cellViewModel = PostViewModel()
         cellViewModel.data =  data[indexPath.row] as! PostModel
-        cell.viewModel = cellViewModel
+        cell.configure(with: cellViewModel)
         cell.delegate = self
         return cell
     }
@@ -147,8 +147,12 @@ extension FlowVC : ImagePostCellDelegate {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
         
-        profileVC.profileId = cell.viewModel.profileId
-        profileVC.ownerId = cell.viewModel.data!.userId
+        guard let viewModel = cell.viewModel else {
+            return
+        }
+        
+        profileVC.profileId = viewModel.profileId
+        profileVC.ownerId = viewModel.data!.userId
         
         
         profileVC.modalEscapable = true
