@@ -958,10 +958,10 @@
             </objects>
             <point key="canvasLocation" x="-2252" y="1854"/>
         </scene>
-        <!--Create PostVC-->
+        <!--View Controller-->
         <scene sceneID="pES-Ob-AmG">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="LfZ-EL-Agi" customClass="CreatePostVC" customModule="XY" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="LfZ-EL-Agi" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="naz-3l-E8P">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1636,10 +1636,10 @@
             </objects>
             <point key="canvasLocation" x="25492" y="4142"/>
         </scene>
-        <!--ExploreVC-->
+        <!--View Controller-->
         <scene sceneID="M6p-KU-v69">
             <objects>
-                <viewController modalPresentationStyle="fullScreen" id="xJb-Q0-JV3" customClass="ExploreVC" customModule="XY" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController modalPresentationStyle="fullScreen" id="xJb-Q0-JV3" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jxL-2r-Rac">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

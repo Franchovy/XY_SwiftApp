@@ -11,64 +11,74 @@ import UIKit
 
 class ExploreVC: UIViewController {
     
-    var virals = [ViralModel]()
+    private let noViralsLeftLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "tintColor")
+        label.font = UIFont(name: "HelveticaNeue", size: 30)
+        //label.isHidden = true
+        return label
+    }()
+    
+    private var virals = [ViralModel]()
     
     private var viralView: ViralViewController?
     private var nextViralView: ViralViewController?
     private var currentViralIndex = 0
     
-    @IBOutlet weak var ExploreTableView: UITableView!
-  
-    var challenges: [ExploreViewCellModel] = [
-        
-        ExploreViewCellModel(circle: "0", challengesLabel: "Challenge_1"),
-        ExploreViewCellModel(circle: "0", challengesLabel: "Challenge_2"),
-        ExploreViewCellModel(circle: "0", challengesLabel: "Challenge_3"),
-        ExploreViewCellModel(circle: "0", challengesLabel: "Challenge_4")
+    // MARK: - Initializers
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
     
-    ]
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    // MARK: - Lifecycle
    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ExploreTableView.dataSource = self
+        view.backgroundColor = UIColor(named: "Black")
         
-        let cellNib = UINib(nibName: "ExploreTableViewCell", bundle: nil)
-                self.ExploreTableView.register(cellNib, forCellReuseIdentifier: "tableviewcellid")
-
-        let cameraButton = UIBarButtonItem(image: UIImage(systemName: "camera"), style: .plain, target: self, action: #selector(openCamera))
-        navigationItem.rightBarButtonItem = cameraButton
+        navigationController?.navigationBar.isHidden = false
         
         fetchVirals()
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         DispatchQueue.main.async {
             self.viralView?.player?.play()
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         DispatchQueue.main.async {
             self.viralView?.player?.pause()
         }
     }
     
     override func viewDidLayoutSubviews() {
-        guard let viralView = viralView else {
-            return
-        }
+        super.viewDidLayoutSubviews()
     }
+    
+    // MARK: - Private functions
     
     private func fetchVirals() {
         FirebaseDownload.getVirals { (result) in
             switch result {
             case .success(let viralModels):
+                guard viralModels.count > 0 else {
+                    self.noViralsLeftLabel.isHidden = false
+                    return
+                }
+                
                 self.virals = viralModels
                 
                 // Load first viral
-                self.nextViralView = ViralViewController(model: self.virals[self.currentViralIndex])
-                
                 self.createViralView(index: 0)
             case .failure(let error):
                 print(error)
@@ -98,13 +108,17 @@ class ExploreVC: UIViewController {
             
             if !self.view.subviews.contains(viralView.view) {
                 self.view.addSubview(viralView.view)
-                viralView.view.frame = self.view.bounds
+                viralView.view.frame = CGRect(
+                    x: 0,
+                    y: self.view.safeAreaInsets.top,
+                    width: self.view.width,
+                    height: self.view.height - self.view.safeAreaInsets.top
+                )
             } else {
                 self.view.bringSubviewToFront(viralView.view)
             }
             
             let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(self.onSwiping(panGestureRecognizer:)))
-            swipeGesture.delegate = self
             viralView.view.addGestureRecognizer(swipeGesture)
             
             self.viralView = viralView
@@ -114,9 +128,39 @@ class ExploreVC: UIViewController {
         let nextViralView = ViralViewController(model: self.virals[index])
         
         self.nextViralView = nextViralView
-        view.insertSubview(nextViralView.view, at: 0)
-        nextViralView.view.frame = view.bounds
+        view.insertSubview(nextViralView.view, belowSubview: viralView.view)
+        nextViralView.view.frame = CGRect(
+            x: 0,
+            y: self.view.safeAreaInsets.top,
+            width: self.view.width,
+            height: self.view.height - view.safeAreaInsets.top
+        )
     }
+    
+    private func onViralSwipedRight(viral: ViralModel) {
+        
+        
+        currentViralIndex = (currentViralIndex + 1) % virals.count
+        createViralView(index: currentViralIndex)
+
+        // Remove 1 life
+        // + 10 XP
+        // Check Level Up
+        // Level up if needed
+        // -> Update lives
+        
+    }
+    
+    private func onViralSwipedLeft(viral: ViralModel) {
+        currentViralIndex = (currentViralIndex + 1) % virals.count
+        createViralView(index: currentViralIndex)
+
+        // Remove 1 life
+        // Check lives
+        // If none left, delete viral
+    }
+    
+    // MARK: - Objc / Gesture recognizers
     
     @objc func onSwiping(panGestureRecognizer: UIPanGestureRecognizer) {
         let translationX = panGestureRecognizer.translation(in: view).x
@@ -168,52 +212,4 @@ class ExploreVC: UIViewController {
             }
         }
     }
-    
-    private func onViralSwipedRight(viral: ViralModel) {
-        
-        
-        currentViralIndex = (currentViralIndex + 1) % virals.count
-        createViralView(index: currentViralIndex)
-
-        // Remove 1 life
-        // + 10 XP
-        // Check Level Up
-        // Level up if needed
-        // -> Update lives
-        
-    }
-    
-    private func onViralSwipedLeft(viral: ViralModel) {
-        currentViralIndex = (currentViralIndex + 1) % virals.count
-        createViralView(index: currentViralIndex)
-
-        // Remove 1 life
-        // Check lives
-        // If none left, delete viral
-    }
-    
-    @objc func openCamera() {
-        let cameraVC = CameraViewController()
-        cameraVC.modalPresentationStyle = .fullScreen
-        present(cameraVC, animated: true, completion: {})
-    }
-}
-
-
-extension ExploreVC : UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return challenges.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "tableviewcellid", for: indexPath) as! ExploreTableViewCell
-        cell.Label.text = challenges[indexPath.row].challengesLabel
-        return cell
-    }
-    
-}
-
-
-extension ExploreVC : UIGestureRecognizerDelegate {
-    
 }

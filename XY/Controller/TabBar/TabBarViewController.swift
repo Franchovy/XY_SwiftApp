@@ -9,15 +9,27 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
     
-    private var cameraView: CameraViewController?
+    private var exploreVC: ExploreVC?
+    private var cameraVC: CameraViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let cameraView = CameraViewController()
-        viewControllers?[2] = cameraView
-        cameraView.delegate = self
-        self.cameraView = cameraView
+        // TAB 2: EXPLORE VC
+        let exploreVC = ExploreVC()
+        let tabBarItem = UITabBarItem(title: "Viral", image: UIImage(named: "viral_item"), tag: 2)
+        tabBarItem.badgeColor = UIColor(named: "tintColor")
+        exploreVC.tabBarItem = tabBarItem
+        
+        viewControllers?[1] = exploreVC
+        self.exploreVC = exploreVC
+        
+        
+        // TAB 3: CAMERA VC
+        let cameraVC = CameraViewController()
+        viewControllers?[2] = cameraVC
+        cameraVC.delegate = self
+        self.cameraVC = cameraVC
         
         setCreatePostIcon()
     }
