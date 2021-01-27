@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Firebase
 
 enum NotificationType {
     case swipeRight
@@ -25,6 +26,7 @@ struct Notification {
     let type: NotificationType
     let objectId: String
     let senderId: String
+    let timestamp: Date
 }
 
 extension Notification {
@@ -40,5 +42,6 @@ extension Notification {
         }()
         senderId = data[FirebaseKeys.NotificationKeys.notifications.senderId] as! String
         objectId = data[FirebaseKeys.NotificationKeys.notifications.objectId] as! String
+        timestamp = (data[FirebaseKeys.NotificationKeys.notifications.timestamp] as! Firebase.Timestamp).dateValue()
     }
 }

@@ -18,6 +18,9 @@ class NotificationsVC: UIViewController {
     
     var notificationsListener : ListenerRegistration?
     
+    let queryLimit: Int = 30
+    var lastFetchedElement: DocumentSnapshot?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,7 +46,7 @@ class NotificationsVC: UIViewController {
     private func subscribeToNotifications() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection)
+        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).limit(to: 30)
         
         notificationsListener = notificationsDocument.addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let querySnapshot = querySnapshot, error == nil else {
@@ -61,8 +64,9 @@ class NotificationsVC: UIViewController {
                 if documentChanges.type == .added {
                     // Append post
                     for notificationDocument in querySnapshot.documents {
+                        self?.lastFetchedElement = notificationDocument
+                        
                         let data = notificationDocument.data()
-                        print("Fetched notification: \(data)")
                         
                         let notificationModel = Notification(data)
                         var notificationViewModel = NotificationViewModel(from: notificationModel)
@@ -95,6 +99,41 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        // Fetch next page
+        if notifications.count < indexPath.row {
+            return
+        }
+        
+        guard let uid = Auth.auth().currentUser?.uid, let lastFetchedElement = lastFetchedElement else {
+            return
+        }
+        
+        let notificationsDocumentFetch = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true).start(afterDocument: lastFetchedElement).limit(to: 30)
+        
+        notificationsDocumentFetch.getDocuments { (snapshot, error) in
+            guard let snapshot = snapshot, error == nil else {
+                return
+            }
+            
+            for notificationDocument in snapshot.documents {
+                self.lastFetchedElement = notificationDocument
+                
+                let data = notificationDocument.data()
+                
+                let notificationModel = Notification(data)
+                var notificationViewModel = NotificationViewModel(from: notificationModel)
+                notificationViewModel.delegate = self
+                
+                self.notifications.append(notificationViewModel)
+            }
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 79
     }
@@ -121,6 +160,7 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
 
 extension NotificationsVC : NotificationViewModelDelegate {
     func didFetchProfileData(index: Int, profile: ProfileModel) {
+        
         guard let cell = tableView.cellForRow(
                 at: IndexPath(row: index, section: 0)
         ) as? NotificationCell else {

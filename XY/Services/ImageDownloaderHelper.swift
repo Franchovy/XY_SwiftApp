@@ -15,7 +15,7 @@ class ImageDownloaderHelper {
     func getFullURL(imageId: String, completion: @escaping(URL?, Error?) -> Void) {
         let storage = Storage.storage()
         let ref = storage.reference(withPath: imageId)
-        print("Fetching image: \(imageId)")
+        
         ref.downloadURL() { url, error in
             guard error == nil else {
                 completion(nil, error)
