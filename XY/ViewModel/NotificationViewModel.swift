@@ -7,20 +7,24 @@
 
 import Foundation
 import UIKit
+import Kingfisher
 
 protocol NotificationViewModelDelegate: AnyObject {
     func didFetchDisplayImage(index: Int, image: UIImage)
     func didFetchPreviewImage(index: Int, image: UIImage)
     func didFetchPostForHandler(index: Int, post: PostModel)
-    func didFetchText(index: Int, text: String)
+    func didFetchProfileData(index: Int, profile: ProfileModel)
 }
 
 class NotificationViewModel {
     weak var delegate: NotificationViewModelDelegate?
     
+    var profileData: ProfileModel?
+    var postData: PostModel?
+    
     var displayImage: UIImage?
     var previewImage: UIImage?
-    var title: String
+    var nickname: String?
     var text: String?
     var onSelect: (() -> Void)?
     
@@ -28,7 +32,7 @@ class NotificationViewModel {
     
     init(from model: Notification) {
         self.model = model
-        title = model.type.title
+        text = model.type.text
     }
     
     func fetch(index: Int) {
@@ -42,21 +46,36 @@ class NotificationViewModel {
                 
                 // Set up segue action for post VC
                 DispatchQueue.main.async {
+                    self.postData = postData
                     self.delegate?.didFetchPostForHandler(index: index, post: postData)
                 }
                 
                 // Fetch image for post
-                guard let imageId = postData.images?.first else { return }
-                FirebaseDownload.getImage(imageId: imageId) { (image, error) in
-                    guard let image = image, error == nil else {
+                guard let imageId = postData.images?.first else {
+                    return
+                }
+                
+                ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
+                    guard let imageUrl = imageUrl, error == nil else {
                         print(error ?? "Error fetching post preview image for post: \(self.model.objectId)")
                         return
                     }
                     
-                    DispatchQueue.main.async {
-                        self.previewImage = image
-                        self.delegate?.didFetchPreviewImage(index: index, image: image)
-                    }
+                    KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
+                        // Update download progress
+                    }, downloadTaskUpdated: { task in
+                        // Download task update
+                    }, completionHandler: { result in
+                        do {
+                            let image = try result.get().image
+                            DispatchQueue.main.async {
+                                self.previewImage = image
+                                self.delegate?.didFetchPreviewImage(index: index, image: image)
+                            }
+                        } catch let error {
+                            print("Error fetching profile image: \(error)")
+                        }
+                    })
                 }
             }
             
@@ -72,17 +91,33 @@ class NotificationViewModel {
                         print(error ?? "Error fetching profile for user: \(self.model.senderId)")
                         return
                     }
-                    // Fetch swipe user profile image
-                    FirebaseDownload.getImage(imageId: profileData.profileImageId) { (profileImage, error) in
-                        guard let profileImage = profileImage, error == nil else {
+                    
+                    self.profileData = profileData
+                    self.nickname = profileData.nickname
+                    self.delegate?.didFetchProfileData(index: index, profile: profileData)
+                    
+                    
+                    ImageDownloaderHelper.shared.getFullURL(imageId: profileData.profileImageId) { imageUrl, error in
+                        guard let imageUrl = imageUrl, error == nil else {
                             print(error ?? "Error fetching profileImage for user: \(self.model.senderId)")
                             return
                         }
                         
-                        DispatchQueue.main.async {
-                            self.displayImage = profileImage
-                            self.delegate?.didFetchDisplayImage(index: index, image: profileImage)
-                        }
+                        KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
+                            // Update download progress
+                        }, downloadTaskUpdated: { task in
+                            // Download task update
+                        }, completionHandler: { result in
+                            do {
+                                let image = try result.get().image
+                                DispatchQueue.main.async {
+                                    self.displayImage = image
+                                    self.delegate?.didFetchDisplayImage(index: index, image: image)
+                                }
+                            } catch let error {
+                                print("Error fetching profile image: \(error)")
+                            }
+                        })
                     }
                 }
             }

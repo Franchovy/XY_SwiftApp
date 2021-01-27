@@ -7,33 +7,129 @@
 
 import UIKit
 
+//TODO: Delegate for data fetch
+
 class NotificationCell: UITableViewCell {
 
-    @IBOutlet weak var NotificationProfImg: UIImageView!
+    static let identifier = "NotificationCell"
     
-    @IBOutlet weak var NotNick: UILabel!
+    public let profileImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 35 / 2
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     
-    @IBOutlet weak var NotLabel: UILabel!
+    public let postImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 35 / 2
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     
-    @IBOutlet weak var NotContainer: UIView!
+    public let nicknameLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "tintColor")
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
+        return label
+    }()
     
-    @IBOutlet weak var NotPostPrev: UIImageView!
+    private let label: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "tintColor")
+        label.font = UIFont(name: "HelveticaNeue", size: 12)
+        return label
+    }()
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    private let containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "Black")
+        return view
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        NotContainer.layer.cornerRadius = 15
+        backgroundColor = .clear
+        
+        
+        containerView.layer.cornerRadius = 15
+        containerView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        containerView.layer.shadowRadius = 1
+        
+        addSubview(containerView)
+        containerView.addSubview(profileImage)
+        containerView.addSubview(postImage)
+        containerView.addSubview(nicknameLabel)
+        containerView.addSubview(label)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError()
+    }
+    
+    override func layoutSubviews() {
+        
+        containerView.frame = CGRect(
+            x: 15,
+            y: 5,
+            width: contentView.width - 30,
+            height: contentView.height - 5
+        )
+        
+        profileImage.frame = CGRect(
+            x: 5,
+            y: 21,
+            width: 35,
+            height: 35
+        )
+        
+        profileImage.layer.cornerRadius = profileImage.width / 2
+        profileImage.layer.shadowOffset = CGSize(width: 0, height: 3)
+        profileImage.layer.shadowRadius = 6
+        
+        postImage.frame = CGRect(
+            x: containerView.width - 50 - 10,
+            y: 12,
+            width: 50,
+            height: 50
+        )
+        
+        postImage.layer.cornerRadius = 10
+        postImage.layer.shadowOffset = CGSize(width: 0, height: 3)
+        postImage.layer.shadowRadius = 6
+        
+        nicknameLabel.sizeToFit()
+        nicknameLabel.frame = CGRect(
+            x: profileImage.right + 10,
+            y: 14,
+            width: nicknameLabel.width,
+            height: nicknameLabel.height
+        )
+        
+        label.sizeToFit()
+        label.frame = CGRect(
+            x: profileImage.right + 10,
+            y: nicknameLabel.bottom + 18,
+            width: label.width,
+            height: label.height
+        )
     }
 
     func configure(with model: NotificationViewModel) {
-        NotificationProfImg.image = model.displayImage
-        NotPostPrev.image = model.previewImage
-        NotNick.text = model.title
-        NotLabel.text = model.text
-        
+
+        profileImage.image = model.displayImage
+        postImage.image = model.previewImage
+        nicknameLabel.text = model.nickname
+        label.text = model.text
     }
     
     override func prepareForReuse() {
-        
+        profileImage.image = nil
+        postImage.image = nil
+        nicknameLabel.text = nil
+        label.text = nil
     }
 }

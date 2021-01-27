@@ -73,7 +73,7 @@ class PostViewModel {
         didSet {
             guard let profileImageId = profileImageId else { return }
 
-            ImageDownloaderHelper.getFullURL(imageId: profileImageId) { imageUrl, error in
+            ImageDownloaderHelper.shared.getFullURL(imageId: profileImageId) { imageUrl, error in
                 if let error = error {
                     print("Error fetching image!")
                 }
@@ -103,7 +103,7 @@ class PostViewModel {
             let storage = Storage.storage()
             for imageId in imageIds {
                 
-                ImageDownloaderHelper.getFullURL(imageId: imageId) { imageUrl, error in
+                ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
                     guard let imageUrl = imageUrl, error == nil else {
                         print(error ?? "Error fetching image")
                         return

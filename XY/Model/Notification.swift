@@ -12,11 +12,11 @@ enum NotificationType {
     case swipeLeft
     case levelUp
     
-    var title: String {
+    var text: String {
         switch self {
-        case .swipeRight: return "Swipe Right"
-        case .swipeLeft: return "Swipe Left"
-        case .levelUp: return "Level Up"
+        case .swipeRight: return "Swiped Right on your Post"
+        case .swipeLeft: return "Swipe Left on your Post"
+        case .levelUp: return "Post Leveled Up"
         }
     }
 }
