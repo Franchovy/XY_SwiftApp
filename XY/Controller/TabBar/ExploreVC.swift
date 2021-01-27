@@ -95,13 +95,13 @@ class ExploreVC: UIViewController {
         viralView.play()
         
         DispatchQueue.main.async {
-            viralView.view.frame = self.view.bounds
-            viralView.view.layer.cornerRadius = 15
             
-            self.view.addSubview(viralView.view)
-            
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.onViralTapped))
-            viralView.view.addGestureRecognizer(tapGesture)
+            if !self.view.subviews.contains(viralView.view) {
+                self.view.addSubview(viralView.view)
+                viralView.view.frame = self.view.bounds
+            } else {
+                self.view.bringSubviewToFront(viralView.view)
+            }
             
             let swipeGesture = UIPanGestureRecognizer(target: self, action: #selector(self.onSwiping(panGestureRecognizer:)))
             swipeGesture.delegate = self
@@ -114,7 +114,8 @@ class ExploreVC: UIViewController {
         let nextViralView = ViralViewController(model: self.virals[index])
         
         self.nextViralView = nextViralView
-        view.addSubview(nextViralView.view)
+        view.insertSubview(nextViralView.view, at: 0)
+        nextViralView.view.frame = view.bounds
     }
     
     @objc func onSwiping(panGestureRecognizer: UIPanGestureRecognizer) {
@@ -139,40 +140,56 @@ class ExploreVC: UIViewController {
         
         
         // On gesture finish
-        guard panGestureRecognizer.state == .ended else {
+        guard panGestureRecognizer.state == .ended, let viralView = self.viralView else {
           return
         }
         
         // Animate if needed
         if translationX > 50, velocityX > 10 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-                self.viralView?.view.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
+                viralView.view.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
             } completion: { (done) in
                 if done {
-                    self.onViralTapped()
+                    self.onViralSwipedRight(viral: viralView.model)
                 }
             }
         } else if translationX < -50, velocityX < -10 {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-                self.viralView?.view.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
+                viralView.view.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             } completion: { (done) in
                 if done {
-                    self.onViralTapped()
+                    self.onViralSwipedLeft(viral: viralView.model)
                 }
             }
         } else {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
-                self.viralView?.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
-                self.viralView?.shadowLayer.shadowOpacity = 0
+                viralView.view.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
+                viralView.shadowLayer.shadowOpacity = 0
             }
         }
     }
     
-    
-    @objc func onViralTapped() {
+    private func onViralSwipedRight(viral: ViralModel) {
+        
+        
         currentViralIndex = (currentViralIndex + 1) % virals.count
-        // Load new viral
         createViralView(index: currentViralIndex)
+
+        // Remove 1 life
+        // + 10 XP
+        // Check Level Up
+        // Level up if needed
+        // -> Update lives
+        
+    }
+    
+    private func onViralSwipedLeft(viral: ViralModel) {
+        currentViralIndex = (currentViralIndex + 1) % virals.count
+        createViralView(index: currentViralIndex)
+
+        // Remove 1 life
+        // Check lives
+        // If none left, delete viral
     }
     
     @objc func openCamera() {

@@ -13,6 +13,25 @@ class ViralViewController: UIViewController {
     
     var model : ViralModel
     
+    private let healthBar: CAGradientLayer = {
+        let layer = CAGradientLayer()
+        layer.colors = [
+            UIColor(0xFF4A4A).cgColor,
+            UIColor(0xFD963A).cgColor,
+            UIColor(0xFD9A39).cgColor,
+            UIColor(0xFF4A4A).cgColor
+        ]
+        layer.startPoint = CGPoint(x: 0, y: 0)
+        layer.endPoint = CGPoint(x: 1.0, y: 0)
+        layer.locations = [
+            0.0,
+            0.45,
+            0.75,
+            1.0
+        ]
+        return layer
+    }()
+    
     private let profileButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "test"), for: .normal)
@@ -104,6 +123,8 @@ class ViralViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.layer.cornerRadius = 15
+        
         view.addSubview(videoView)
         videoView.addSubview(spinner)
         
@@ -112,11 +133,23 @@ class ViralViewController: UIViewController {
         view.addSubview(profileButton)
               
         configureVideo()
+
+        videoView.layer.insertSublayer(healthBar, above: nil)
+
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        healthBar.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: self.videoView.width * getHealthBarPercentage(
+                forLives: model.lives,
+                forLevel: model.level
+            ),
+            height: 11
+        )
         
         shadowLayer.path = UIBezierPath(roundedRect: videoView.bounds, cornerRadius: 15).cgPath
         shadowLayer.shadowPath = shadowLayer.path
@@ -127,9 +160,8 @@ class ViralViewController: UIViewController {
         
         videoView.layer.cornerRadius = 15
         videoView.layer.masksToBounds = true
-        
-
         videoView.frame = view.bounds
+        
         spinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         spinner.center = videoView.center
         
@@ -159,8 +191,41 @@ class ViralViewController: UIViewController {
             width: userLabel.width,
             height: userLabel.height
         )
-
+    }
+    
+    private func getHealthBarPercentage(forLives currentLives: Int, forLevel currentLevel: Int) -> CGFloat {
         
+        guard let maxLife = XPModel.LIVES[.viral]?[model.level] else {
+            print("Error! Level out of bounds!")
+            return CGFloat()
+        }
+        
+        return CGFloat(currentLives) / CGFloat(maxLife)
+    }
+    
+    
+    private func beginHealthBarAnimation() {
+        guard let videoLength = player?.currentItem?.asset.duration else {
+            return
+        }
+        
+        
+        let animationLength = videoLength.seconds
+        UIView.animate(withDuration: animationLength) {
+            self.healthBar.frame = CGRect(
+                x: 0,
+                y: 0,
+                width: self.videoView.width * self.getHealthBarPercentage(
+                    forLives: self.model.lives - 1,
+                    forLevel: self.model.level
+                ),
+                height: 11
+            )
+        }
+    }
+    
+    private func onPlay() {
+        beginHealthBarAnimation()
     }
 
     // MARK: - Public Functions
@@ -168,7 +233,9 @@ class ViralViewController: UIViewController {
     public func play() {
         playState = .play
         
-        self.player?.play()
+        if let player = self.player {
+            player.play()
+        }
     }
     
     public func configureVideo() {
@@ -181,30 +248,51 @@ class ViralViewController: UIViewController {
             case .failure(let error):
                 print("Error fetching video: \(error)")
             case .success(let url):
-                DispatchQueue.main.async {
-                    strongSelf.player = AVPlayer(url: url)
-                    let playerLayer = AVPlayerLayer(player: strongSelf.player)
-                    playerLayer.frame = strongSelf.view.bounds
-                    playerLayer.videoGravity = .resizeAspectFill
-                    strongSelf.videoView.layer.addSublayer(playerLayer)
-                    strongSelf.videoView.frame = playerLayer.bounds
-                    strongSelf.player?.volume = 1.0
-                    
-                    if strongSelf.playState == .play {
-                        strongSelf.player?.play()
-                    }
-                    
-                    guard let player = strongSelf.player else {
-                        return
-                    }
-                    
-                    strongSelf.playerDidFinishObserver = NotificationCenter.default.addObserver(
-                        forName: .AVPlayerItemDidPlayToEndTime,
-                        object: player.currentItem,
-                        queue: .main) { _ in
-                        player.seek(to: .zero)
-                        player.play()
-                    }
+                strongSelf.player = AVPlayer(url: url)
+                
+                let playerLayer = AVPlayerLayer(player: strongSelf.player)
+                playerLayer.frame = strongSelf.videoView.bounds
+                playerLayer.videoGravity = .resizeAspectFill
+                
+                strongSelf.videoView.layer.insertSublayer(
+                    playerLayer,
+                    below: strongSelf.healthBar
+                )
+                strongSelf.videoView.frame = playerLayer.bounds
+                strongSelf.player?.volume = 1.0
+
+                guard let player = strongSelf.player else {
+                    return
+                }
+                
+                player.addObserver(strongSelf, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+                
+                if strongSelf.playState == .play {
+                    strongSelf.player?.play()
+                }
+                
+                strongSelf.playerDidFinishObserver = NotificationCenter.default.addObserver(
+                    forName: .AVPlayerItemDidPlayToEndTime,
+                    object: player.currentItem,
+                    queue: .main) { _ in
+                    player.seek(to: .zero)
+                    player.play()
+                }
+            }
+        }
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        //super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        
+        guard let player = player else {
+            return
+        }
+        
+        if object as AnyObject? === player {
+            if keyPath == "timeControlStatus" {
+                if player.timeControlStatus == .playing {
+                    onPlay()
                 }
             }
         }
