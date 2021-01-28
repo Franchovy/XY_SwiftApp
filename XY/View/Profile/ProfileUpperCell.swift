@@ -10,6 +10,10 @@ import Firebase
 import FirebaseStorage
 
 class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
+    func setCoverPictureOpacity(_ opacity: CGFloat) {
+        
+    }
+    
     func onXpUpdate(_ model: XPModel) {
         
     }

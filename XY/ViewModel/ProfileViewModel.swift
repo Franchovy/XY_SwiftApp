@@ -14,6 +14,7 @@ protocol ProfileViewModelDelegate: NSObjectProtocol {
     func onProfileImageFetched(_ image: UIImage)
     func onCoverImageFetched(_ image: UIImage)
     func onXpUpdate(_ model: XPModel)
+    func setCoverPictureOpacity(_ opacity: CGFloat)
 }
 
 class ProfileViewModel {
@@ -116,5 +117,9 @@ class ProfileViewModel {
         xp = xpModel.xp
         
         delegate?.onXpUpdate(xpModel)
+    }
+    
+    public func setOpacity(_ opacity: CGFloat) {
+        delegate?.setCoverPictureOpacity(opacity)
     }
 }

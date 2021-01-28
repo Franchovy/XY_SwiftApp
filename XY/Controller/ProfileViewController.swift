@@ -42,24 +42,6 @@ class ProfileViewController: UIViewController {
     
     // MARK: - Lifecycle
     
-//    init(profileId: String) {
-//        self?.profileHeaderViewModel = ProfileViewModel(profileId: profileId, userId: nil)
-//
-//        FirebaseDownload.getFlowForProfile(userId: userId) { [weak self] (postModels, error) in
-//            if let eror = error {
-//                print("Error fetching posts for profile!")
-//            }
-//
-//            if let postModels = postModels {
-//                for postModel in postModels {
-//                    // Configure ViewModel
-//                    self?.postViewModels.append(PostViewModel(from: postModel))
-//                }
-//                self?.collectionView.reloadData()
-//            }
-//        }
-//    }
-    
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
@@ -203,6 +185,22 @@ class ProfileViewController: UIViewController {
 
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let scrollY = scrollView.contentOffset.y
+        print("Scroll Y: \(scrollY)")
+        
+        let alphaOffset = min(
+            ceil(CGFloat(postViewModels.count) / 3) * (CGFloat(view.width) * 1/3),
+            425
+        )
+        
+        print("Offset: \(alphaOffset)")
+        let alpha = min(CGFloat(scrollY - 25) / alphaOffset, 1.0)
+        print("Set Alpha: \(alpha)")
+        
+        profileHeaderViewModel?.setOpacity(1 - alpha)
     }
 }
 

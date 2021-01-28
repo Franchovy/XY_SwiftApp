@@ -284,6 +284,10 @@ extension ProfileVC : XYImagePickerDelegate {
 }
 
 extension ProfileVC: ProfileViewModelDelegate {
+    func setCoverPictureOpacity(_ opacity: CGFloat) {
+        
+    }
+    
     func onXpUpdate(_ model: XPModel) {
         
     }

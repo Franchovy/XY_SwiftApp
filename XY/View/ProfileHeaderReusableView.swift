@@ -14,6 +14,7 @@ class ProfileHeaderReusableView: UICollectionReusableView {
     private let coverImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
+        image.backgroundColor = .black
         return image
     }()
     
@@ -224,6 +225,10 @@ class ProfileHeaderReusableView: UICollectionReusableView {
 }
 
 extension ProfileHeaderReusableView: ProfileViewModelDelegate {
+    func setCoverPictureOpacity(_ opacity: CGFloat) {
+        coverImage.alpha = opacity
+    }
+    
     func onXpUpdate(_ model: XPModel) {
         guard let nextLevelXp = XPModel.LEVELS[.user]?[model.level] else {
             return
