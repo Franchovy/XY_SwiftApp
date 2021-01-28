@@ -11,7 +11,8 @@ class TabBarViewController: UITabBarController {
     
     private var exploreVC: ExploreVC?
     private var cameraVC: CameraViewController?
-
+    private var profileVC: ProfileViewController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -32,6 +33,18 @@ class TabBarViewController: UITabBarController {
         self.cameraVC = cameraVC
         
         setCreatePostIcon()
+        
+        // TAB 5: PROFILE VC
+        let profileVC = ProfileViewController()
+        let profileTabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile_item"), tag: 5)
+        profileTabBarItem.badgeColor = UIColor(named: "tintColor")
+        
+        let profileNavigator = UINavigationController(rootViewController: profileVC)
+
+        profileNavigator.tabBarItem = profileTabBarItem
+        viewControllers?[4] = profileNavigator
+        
+        self.profileVC = profileVC
     }
     
     
