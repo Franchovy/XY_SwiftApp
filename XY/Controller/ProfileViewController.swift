@@ -63,12 +63,20 @@ class ProfileViewController: UIViewController {
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
+        var tempLvlStore: Int? = nil
+        var tempXPStore: Int? = nil
+        
         // Fetch Profile Data
         ProfileManager.shared.fetchProfile(userId: userId) { [weak self] (result) in
             switch result {
             case .success(let model):
                 // Configure ViewModel ( & Triggers fetch)
                 self?.profileHeaderViewModel = ProfileViewModel(profileId: model.profileId, userId: userId)
+                
+                if let xp = tempXPStore, let level = tempLvlStore {
+                    // Send initial xp update
+                    self?.profileHeaderViewModel?.updateXP(XPModel(type: .user, xp: xp, level: level))
+                }
                 
                 guard let strongSelf = self, let profileHeader = strongSelf.collectionView.supplementaryView(
                     forElementKind: UICollectionView.elementKindSectionHeader,
@@ -102,16 +110,41 @@ class ProfileViewController: UIViewController {
             }
         }
         
+        // Fetch data from user document
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId).getDocument { (snapshot, error) in
             guard let snapshot = snapshot, error == nil else {
                 print(error ?? "Error fetching xyname for userId: \(userId)")
                 return
             }
             
-            if let data = snapshot.data(), let xyname = data[FirebaseKeys.UserKeys.xyname] as? String {
-                self.profileHeaderViewModel?.xyname = xyname
-                
+            if let data = snapshot.data() {
+                // Fetch XYName
+                if let xyname = data[FirebaseKeys.UserKeys.xyname] as? String {
+                    self.profileHeaderViewModel?.xyname = xyname
+                }
+                // Fetch initial level & xp
+                if let xp = data[FirebaseKeys.UserKeys.xp] as? Int, let level = data[FirebaseKeys.UserKeys.level] as? Int {
+                    let xpModel = XPModel(type: .user, xp: xp, level: level)
+                    
+                    self.profileHeaderViewModel?.updateXP(xpModel)
+                    
+                    guard let profileHeader = self.collectionView.supplementaryView(
+                        forElementKind: UICollectionView.elementKindSectionHeader,
+                        at: IndexPath(row: 0, section: 0)
+                    ) as? ProfileHeaderReusableView else {
+                        tempLvlStore = level
+                        tempXPStore = xp
+                        return
+                    }
+                    
+                    profileHeader.onXpUpdate(xpModel)
+                }
             }
+        }
+        
+        // Register for XP Updates
+        FirebaseSubscriptionManager.shared.registerXPUpdates(for: userId, ofType: .user) { [weak self] (xpModel) in
+            self?.profileHeaderViewModel?.updateXP(xpModel)
         }
     }
     

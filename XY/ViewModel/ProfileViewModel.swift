@@ -13,6 +13,7 @@ protocol ProfileViewModelDelegate: NSObjectProtocol {
     func onProfileDataFetched(_ viewModel: ProfileViewModel)
     func onProfileImageFetched(_ image: UIImage)
     func onCoverImageFetched(_ image: UIImage)
+    func onXpUpdate(_ model: XPModel)
 }
 
 class ProfileViewModel {
@@ -22,7 +23,6 @@ class ProfileViewModel {
             nickname = profileData.nickname
             numFollowers = profileData.followers
             numFollowing = profileData.following
-            level = profileData.level
             caption = profileData.caption
             website = profileData.website
             
@@ -53,10 +53,12 @@ class ProfileViewModel {
     var numFollowers: Int!
     var numFollowing: Int!
     var website: String!
-    var level: Int!
     var caption: String!
     var profileImage: UIImage?
     var coverImage: UIImage?
+    
+    var xp: Int?
+    var level: Int?
     
     var xyname: String?
     var userId: String?
@@ -68,7 +70,7 @@ class ProfileViewModel {
         self.profileId = profileId
         self.userId = userId
         
-        FirebaseDownload.getProfile(profileId: profileId) {profileData, error in
+        FirebaseDownload.getProfile(profileId: profileId) { profileData, error in
             if let error = error {
                 print("Error fetching profile: \(error)")
             }
@@ -109,5 +111,10 @@ class ProfileViewModel {
         }
     }
     
-    
+    public func updateXP(_ xpModel: XPModel) {
+        level = xpModel.level
+        xp = xpModel.xp
+        
+        delegate?.onXpUpdate(xpModel)
+    }
 }

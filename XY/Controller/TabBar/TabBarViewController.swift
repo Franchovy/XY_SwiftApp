@@ -42,11 +42,9 @@ class TabBarViewController: UITabBarController {
         let profileVC = ProfileViewController(userId: uid)
         let profileTabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile_item"), tag: 5)
         profileTabBarItem.badgeColor = UIColor(named: "tintColor")
-        
-        let profileNavigator = UINavigationController(rootViewController: profileVC)
 
-        profileNavigator.tabBarItem = profileTabBarItem
-        viewControllers?[4] = profileNavigator
+        profileVC.tabBarItem = profileTabBarItem
+        viewControllers?[4] = profileVC
         
         self.profileVC = profileVC
     }

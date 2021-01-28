@@ -53,6 +53,11 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         return imageView
     }()
     
+    private let xpCircle: CircleView = {
+        let xpCircle = CircleView()
+        return xpCircle
+    }()
+    
     private let nicknameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 28)
@@ -113,6 +118,7 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         
         profileCard.layer.addSublayer(gradientLayer)
         
+        profileCard.addSubview(xpCircle)
         profileCard.addSubview(xynameLabel)
         profileCard.addSubview(websiteLabel)
         profileCard.addSubview(websiteIcon)
@@ -153,6 +159,13 @@ class ProfileHeaderReusableView: UICollectionReusableView {
             width: nicknameLabel.width,
             height: nicknameLabel.height
         )
+        xpCircle.frame = CGRect(
+            x: nicknameLabel.right + 9,
+            y: nicknameLabel.bottom - 25,
+            width: 25,
+            height: 25
+        )
+        
         xynameLabel.sizeToFit()
         xynameLabel.frame = CGRect(
             x: 11,
@@ -202,10 +215,23 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         coverImage.image = viewModel.coverImage
 
         setNeedsLayout()
+        
+        guard let level = viewModel.level, let xp = viewModel.xp, let nextLevelXp = XPModel.LEVELS[.user]?[level] else {
+            return
+        }
+        xpCircle.setProgress(level: level, progress: Float(xp) / Float(nextLevelXp))
     }
 }
 
 extension ProfileHeaderReusableView: ProfileViewModelDelegate {
+    func onXpUpdate(_ model: XPModel) {
+        guard let nextLevelXp = XPModel.LEVELS[.user]?[model.level] else {
+            return
+        }
+        
+        self.xpCircle.setProgress(level: model.level, progress: Float(model.xp) / Float(nextLevelXp))
+    }
+    
     func onXYNameFetched(_ xyname: String) {
         xynameLabel.text = xyname
         setNeedsLayout()

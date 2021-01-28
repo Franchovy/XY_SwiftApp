@@ -10,6 +10,10 @@ import Firebase
 import FirebaseStorage
 
 class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
+    func onXpUpdate(_ model: XPModel) {
+        
+    }
+    
     func onXYNameFetched(_ xyname: String) {
         
     }
