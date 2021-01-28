@@ -10,7 +10,7 @@ import FirebaseStorage
 import AVFoundation
 
 protocol ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureFor xyname: String)
+    func imagePostCellDelegate(didTapProfilePictureForProfile profileId: String)
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell)
     //TODO: swipe right, swipe left from flow.
     func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell)
@@ -182,11 +182,11 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
     
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-
-        guard let xyname = viewModel?.xyname else {
+        
+        guard let profileId = viewModel?.profileId else {
             return
         }
-        delegate?.imagePostCellDelegate(didTapProfilePictureFor: xyname)
+        delegate?.imagePostCellDelegate(didTapProfilePictureForProfile: profileId)
     }
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
@@ -305,7 +305,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
 
 extension ImagePostCell : PostViewModelDelegate {
     func didFetchProfileData(viewModel: PostViewModel) {
-        caption.name = viewModel.xyname ?? ""
+        caption.name = viewModel.nickname
     }
     
     func didFetchProfileImage(viewModel: PostViewModel) {

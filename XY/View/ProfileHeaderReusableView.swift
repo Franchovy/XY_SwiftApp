@@ -193,7 +193,9 @@ class ProfileHeaderReusableView: UICollectionReusableView {
     public func configure(with viewModel: ProfileViewModel) {
         nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption
-        xynameLabel.text = viewModel.xyname
+        if let xyname = viewModel.xyname {
+            xynameLabel.text = viewModel.xyname
+        }
         websiteLabel.text = viewModel.website
         
         profilePicture.image = viewModel.profileImage
@@ -204,6 +206,11 @@ class ProfileHeaderReusableView: UICollectionReusableView {
 }
 
 extension ProfileHeaderReusableView: ProfileViewModelDelegate {
+    func onXYNameFetched(_ xyname: String) {
+        xynameLabel.text = xyname
+        setNeedsLayout()
+    }
+    
     func onProfileDataFetched(_ viewModel: ProfileViewModel) {
         configure(with: viewModel)
     }

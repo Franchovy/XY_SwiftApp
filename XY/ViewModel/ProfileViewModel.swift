@@ -9,6 +9,7 @@ import Foundation
 import FirebaseStorage
 
 protocol ProfileViewModelDelegate: NSObjectProtocol {
+    func onXYNameFetched(_ xyname: String)
     func onProfileDataFetched(_ viewModel: ProfileViewModel)
     func onProfileImageFetched(_ image: UIImage)
     func onCoverImageFetched(_ image: UIImage)
@@ -62,7 +63,7 @@ class ProfileViewModel {
     
     var profileId: String
     
-    init(profileId: String, userId: String?) {
+    init(profileId: String, userId: String) {
         // Fetch profile data
         self.profileId = profileId
         self.userId = userId
@@ -76,6 +77,22 @@ class ProfileViewModel {
                 self.profileData = profileData
                 self.delegate?.onProfileDataFetched(self)
             }
+        }
+        
+        // Fetch xyname
+        let userDoc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
+        
+        userDoc.getDocument { (snapshot, error) in
+            guard let snapshot = snapshot, error == nil else {
+                print(error ?? "Error fetching user document with id: \(userId)")
+                return
+            }
+            
+            guard let userData = snapshot.data() as? [String: Any], let xyname = userData[FirebaseKeys.UserKeys.xyname] as? String else {
+                 return
+            }
+            self.xyname = "@\(xyname)"
+            self.delegate?.onXYNameFetched("@\(xyname)")
         }
     }
     

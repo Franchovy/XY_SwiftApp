@@ -63,6 +63,7 @@ class ProfileViewController: UIViewController {
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
+        // Fetch Profile Data
         ProfileManager.shared.fetchProfile(userId: userId) { [weak self] (result) in
             switch result {
             case .success(let model):
@@ -86,6 +87,7 @@ class ProfileViewController: UIViewController {
             }
         }
         
+        // Fetch Posts for this user
         FirebaseDownload.getFlowForProfile(userId: userId) { [weak self] (postModels, error) in
             if let eror = error {
                 print("Error fetching posts for profile!")
@@ -97,6 +99,18 @@ class ProfileViewController: UIViewController {
                     self?.postViewModels.append(PostViewModel(from: postModel))
                 }
                 self?.collectionView.reloadData()
+            }
+        }
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId).getDocument { (snapshot, error) in
+            guard let snapshot = snapshot, error == nil else {
+                print(error ?? "Error fetching xyname for userId: \(userId)")
+                return
+            }
+            
+            if let data = snapshot.data(), let xyname = data[FirebaseKeys.UserKeys.xyname] as? String {
+                self.profileHeaderViewModel?.xyname = xyname
+                
             }
         }
     }

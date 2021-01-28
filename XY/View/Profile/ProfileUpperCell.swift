@@ -10,6 +10,10 @@ import Firebase
 import FirebaseStorage
 
 class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
+    func onXYNameFetched(_ xyname: String) {
+        
+    }
+    
     func onProfileDataFetched(_ viewModel: ProfileViewModel) {
         
     }

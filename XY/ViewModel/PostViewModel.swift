@@ -22,7 +22,7 @@ class PostViewModel {
     var data: PostModel
     
     var postId: String
-    var xyname: String!
+    var nickname: String!
     var timestamp: Date
     var content: String
     var profileId: String!
@@ -81,8 +81,8 @@ class PostViewModel {
                         print("Error fetching profile data: \(error)")
                     }
                     if let documentData = document?.data() {
-                        // Set XYName
-                        self.xyname = documentData[FirebaseKeys.ProfileKeys.nickname] as? String
+                        // Set Nickname
+                        self.nickname = documentData[FirebaseKeys.ProfileKeys.nickname] as? String
                         self.delegate?.didFetchProfileData(viewModel: self)
                         // Set profileImageId
                         self.profileImageId = documentData[FirebaseKeys.ProfileKeys.profileImage] as? String

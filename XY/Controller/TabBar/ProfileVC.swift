@@ -284,6 +284,10 @@ extension ProfileVC : XYImagePickerDelegate {
 }
 
 extension ProfileVC: ProfileViewModelDelegate {
+    func onXYNameFetched(_ xyname: String) {
+        
+    }
+    
     func onProfileDataFetched(_ viewModel: ProfileViewModel) {
         
     }

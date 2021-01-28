@@ -19,7 +19,6 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
         imageView.backgroundColor = UIColor(named: "Black")
         return imageView
     }()
-   
     
     override init(frame: CGRect) {
         super.init(frame: frame)

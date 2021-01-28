@@ -142,13 +142,11 @@ class FlowVC : UITableViewController {
 }
 
 extension FlowVC : ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureFor xyname: String) {
+    func imagePostCellDelegate(didTapProfilePictureForProfile profileId: String) {
         
-        print(xyname)
-        
-        FirebaseDownload.getUserIdForXyname(xyname) { userId, error in
+        FirebaseDownload.getOwnerUser(forProfileId: profileId) { userId, error in
             guard let userId = userId, error == nil else {
-                print("Error fetching profile for xyname: \(xyname)")
+                print("Error fetching profile with id: \(profileId)")
                 print(error)
                 return
             }

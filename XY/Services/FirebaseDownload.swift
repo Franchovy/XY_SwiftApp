@@ -29,6 +29,26 @@ class FirebaseDownload {
         }
     }
     
+    static func getOwnerUser(forProfileId profileId: String, completion: @escaping(String?, Error?) -> Void) {
+        let userDoc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users)
+            .whereField(FirebaseKeys.UserKeys.profile, isEqualTo: profileId).limit(to: 1)
+        
+        userDoc.getDocuments { (querySnapshot, error) in
+            if let error = error {
+                completion(nil, error)
+            }
+            if let querySnapshot = querySnapshot, let doc = querySnapshot.documents.first {
+                
+                let userData = doc.data()
+                if let profileId = userData[FirebaseKeys.UserKeys.profile] as? String {
+                    completion(doc.documentID, nil)
+                } else {
+                    fatalError()
+                }
+            }
+        }
+    }
+    
     static func getUserIdForXyname(_ xyname: String, completion: @escaping(String?, Error?) -> Void) {
         let userDoc = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users)
             .whereField(FirebaseKeys.UserKeys.xyname, isEqualTo: xyname).limit(to: 1)
