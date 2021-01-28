@@ -10,6 +10,10 @@ import Firebase
 import FirebaseStorage
 
 class ProfileUpperCell: UITableViewCell, ProfileViewModelDelegate {
+    func onProfileDataFetched(_ viewModel: ProfileViewModel) {
+        
+    }
+    
 
     var imagePickerDelegate: XYImagePickerDelegate?
     var imagePicker = UIImagePickerController()

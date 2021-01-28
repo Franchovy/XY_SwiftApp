@@ -16,7 +16,7 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
-        imageView.backgroundColor = .purple
+        imageView.backgroundColor = UIColor(named: "Black")
         return imageView
     }()
    
@@ -34,4 +34,24 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         image.frame = bounds.insetBy(dx: 5, dy: 5)
     }
+    
+    public func configure(viewModel: PostViewModel) {
+        image.image = viewModel.images.first
+        viewModel.delegate = self
+    }
+}
+
+extension ProfileFlowCollectionViewCell : PostViewModelDelegate {
+    func didFetchProfileImage(viewModel: PostViewModel) {
+        
+    }
+    
+    func didFetchPostImages(viewModel: PostViewModel) {
+        image.image = viewModel.images.first
+    }
+    
+    func didFetchProfileData(viewModel: PostViewModel) {
+        
+    }
+    
 }

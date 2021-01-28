@@ -42,14 +42,43 @@ class ProfileViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+//    init(profileId: String) {
+//        self?.profileHeaderViewModel = ProfileViewModel(profileId: profileId, userId: nil)
+//
+//        FirebaseDownload.getFlowForProfile(userId: userId) { [weak self] (postModels, error) in
+//            if let eror = error {
+//                print("Error fetching posts for profile!")
+//            }
+//
+//            if let postModels = postModels {
+//                for postModel in postModels {
+//                    // Configure ViewModel
+//                    self?.postViewModels.append(PostViewModel(from: postModel))
+//                }
+//                self?.collectionView.reloadData()
+//            }
+//        }
+//    }
+    
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
         ProfileManager.shared.fetchProfile(userId: userId) { [weak self] (result) in
             switch result {
             case .success(let model):
-                // Configure ViewModel
+                // Configure ViewModel ( & Triggers fetch)
                 self?.profileHeaderViewModel = ProfileViewModel(profileId: model.profileId, userId: userId)
+                
+                guard let strongSelf = self, let profileHeader = strongSelf.collectionView.supplementaryView(
+                    forElementKind: UICollectionView.elementKindSectionHeader,
+                    at: IndexPath(row: 0, section: 0)
+                ) as? ProfileHeaderReusableView else {
+                    return
+                }
+                
+                profileHeader.configure(with: strongSelf.profileHeaderViewModel!)
+                strongSelf.profileHeaderViewModel?.delegate = profileHeader
+                
             case .failure(let error):
                 print("Error fetching profile for user: \(userId)")
                 print(error)
@@ -107,6 +136,10 @@ class ProfileViewController: UIViewController {
             width: view.width,
             height: view.height
         )
+        
+//        print("Bottom: \(collectionView.bottom)")
+        view.frame.size.height = min(collectionView.bottom, 1081)
+        
     }
     
     // MARK: - Private functions
@@ -135,7 +168,7 @@ extension ProfileViewController : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return postViewModels.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -143,6 +176,8 @@ extension ProfileViewController : UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileFlowCollectionViewCell.identifier, for: indexPath) as? ProfileFlowCollectionViewCell else {
             fatalError("CollectionViewCell type unsupported")
         }
+        
+        cell.configure(viewModel: postViewModels[indexPath.row])
         
         cell.layer.cornerRadius = 15
         
@@ -165,6 +200,13 @@ extension ProfileViewController : UICollectionViewDataSource {
             width: view.width,
             height: view.width * aspectRatio
         )
+        
+        guard let profileHeaderViewModel = profileHeaderViewModel else {
+            return headerView
+        }
+        
+        headerView.configure(with: profileHeaderViewModel)
+        profileHeaderViewModel.delegate = headerView
         
         return headerView
     }

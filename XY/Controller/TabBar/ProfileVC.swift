@@ -271,26 +271,8 @@ extension ProfileVC : UIGestureRecognizerDelegate {
             return true
         }
     }
-    
-//    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
-//        if let panGestureRecognizer = gestureRecognizer as? UIPanGestureRecognizer {
-//            return false
-//            return panGestureRecognizer.velocity(in: UpProfTableView).y > 500 || panGestureRecognizer.location(in: UpProfTableView).y < 250
-//        } else {
-//            return false
-//        }
-//    }
 }
-    
-    //extension ProfileVC : UITableViewDelegate {
-        
-        //func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-         //   print(indexPath.row)
-            
-      //  }
-        
-  //  }
-    
+
 extension ProfileVC : XYImagePickerDelegate {
     func presentImagePicker(imagePicker: UIImagePickerController) {
         present(imagePicker, animated: true, completion: nil)
@@ -302,6 +284,10 @@ extension ProfileVC : XYImagePickerDelegate {
 }
 
 extension ProfileVC: ProfileViewModelDelegate {
+    func onProfileDataFetched(_ viewModel: ProfileViewModel) {
+        
+    }
+    
     func onProfileDataFetched(_ profileData: ProfileModel) {
         guard let topViewModel = topViewModel, topCell != nil else {
             return

@@ -9,7 +9,7 @@ import Foundation
 import FirebaseStorage
 
 protocol ProfileViewModelDelegate: NSObjectProtocol {
-    func onProfileDataFetched(_ profileData: ProfileModel)
+    func onProfileDataFetched(_ viewModel: ProfileViewModel)
     func onProfileImageFetched(_ image: UIImage)
     func onCoverImageFetched(_ image: UIImage)
 }
@@ -49,7 +49,6 @@ class ProfileViewModel {
     }
     
     var nickname: String!
-    var xyname: String!
     var numFollowers: Int!
     var numFollowing: Int!
     var website: String!
@@ -58,10 +57,12 @@ class ProfileViewModel {
     var profileImage: UIImage?
     var coverImage: UIImage?
     
-    var userId: String
+    var xyname: String?
+    var userId: String?
+    
     var profileId: String
     
-    init(profileId: String, userId: String) {
+    init(profileId: String, userId: String?) {
         // Fetch profile data
         self.profileId = profileId
         self.userId = userId
@@ -73,7 +74,7 @@ class ProfileViewModel {
             if let profileData = profileData {
                 // Set profile data
                 self.profileData = profileData
-                self.delegate?.onProfileDataFetched(profileData)
+                self.delegate?.onProfileDataFetched(self)
             }
         }
     }

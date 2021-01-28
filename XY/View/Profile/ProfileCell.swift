@@ -128,7 +128,11 @@ class ProfileCell: UITableViewCell {
         
         self.viewModel = viewModel
         
-        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.userId, ofType: .user) { [weak self] (xpModel) in
+        guard let userId = viewModel.userId else {
+            return
+        }
+        
+        FirebaseSubscriptionManager.shared.registerXPUpdates(for: userId, ofType: .user) { [weak self] (xpModel) in
             guard let strongSelf = self, let nextLevelXp = XPModel.LEVELS[.user]?[xpModel.level] else {
                 return
             }

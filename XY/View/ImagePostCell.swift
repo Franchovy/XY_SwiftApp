@@ -10,7 +10,7 @@ import FirebaseStorage
 import AVFoundation
 
 protocol ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureFor cell: ImagePostCell)
+    func imagePostCellDelegate(didTapProfilePictureFor xyname: String)
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell)
     //TODO: swipe right, swipe left from flow.
     func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell)
@@ -28,6 +28,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     static let identifier = "imagePostCell"
     static var type: FlowDataType = .post
     var type: FlowDataType = .post
+
+    var viewModel: PostViewModel?
     
     // MARK: - IBOutlets
     
@@ -60,23 +62,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     var delegate: ImagePostCellDelegate?
     
     var images: [UIImage]?
-    
-    weak var viewModel: PostViewModel?
-    
-    // MARK: - PostViewModel Delegate Methods
-    
-    func didFetchProfileImage() {
-        profileImageView.image = viewModel?.profileImage
-    }
-    
-    func didFetchPostImages() {
-        contentImageView.image = viewModel?.images.first
-    }
-    
-    func didFetchProfileData(xyname: String) {
-//        nameLabel.text = xyname
-        caption.name = xyname
-    }
+
     
     // MARK: - PUBLIC METHODS
     
@@ -174,6 +160,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     public func configure(with viewModel: PostViewModel) {
         viewModel.delegate = self
+        self.viewModel = viewModel
+
         // Set data already ready
         FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
             
@@ -191,12 +179,14 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         caption.text = viewModel.content
         caption.timestamp = viewModel.getTimestampString()
-        
-        self.viewModel = viewModel
     }
     
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        delegate?.imagePostCellDelegate(didTapProfilePictureFor: self)
+
+        guard let xyname = viewModel?.xyname else {
+            return
+        }
+        delegate?.imagePostCellDelegate(didTapProfilePictureFor: xyname)
     }
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
@@ -310,14 +300,19 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
 }
 
+
+// MARK: - PostViewModelDelegate Extension
+
 extension ImagePostCell : PostViewModelDelegate {
-    func profileImageDownloadProgress(progress: Float) {
-        
+    func didFetchProfileData(viewModel: PostViewModel) {
+        caption.name = viewModel.xyname ?? ""
     }
     
-    func postImageDownloadProgress(progress: Float) {
-        
+    func didFetchProfileImage(viewModel: PostViewModel) {
+        profileImageView.image = viewModel.profileImage
     }
     
-    
+    func didFetchPostImages(viewModel: PostViewModel) {
+        contentImageView.image = viewModel.images.first
+    }
 }

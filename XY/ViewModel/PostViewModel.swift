@@ -11,11 +11,9 @@ import FirebaseStorage
 import Kingfisher
 
 protocol PostViewModelDelegate: NSObjectProtocol {
-    func didFetchProfileData(xyname: String)
-    func profileImageDownloadProgress(progress: Float)
-    func didFetchProfileImage()
-    func postImageDownloadProgress(progress: Float)
-    func didFetchPostImages()
+    func didFetchProfileData(viewModel: PostViewModel)
+    func didFetchProfileImage(viewModel: PostViewModel)
+    func didFetchPostImages(viewModel: PostViewModel)
 }
 
 class PostViewModel {
@@ -55,7 +53,7 @@ class PostViewModel {
                     do {
                         let image = try result.get().image
                         self.images = [image]
-                        self.delegate?.didFetchPostImages()
+                        self.delegate?.didFetchPostImages(viewModel: self)
                     } catch let error {
                         print("Error fetching profile image: \(error)")
                     }
@@ -85,7 +83,7 @@ class PostViewModel {
                     if let documentData = document?.data() {
                         // Set XYName
                         self.xyname = documentData[FirebaseKeys.ProfileKeys.nickname] as? String
-                        self.delegate?.didFetchProfileData(xyname: self.xyname!)
+                        self.delegate?.didFetchProfileData(viewModel: self)
                         // Set profileImageId
                         self.profileImageId = documentData[FirebaseKeys.ProfileKeys.profileImage] as? String
                     }
@@ -112,7 +110,7 @@ class PostViewModel {
                     do {
                         let image = try result.get().image
                         self.profileImage = image
-                        self.delegate?.didFetchProfileImage()
+                        self.delegate?.didFetchProfileImage(viewModel: self)
                     } catch let error {
                         print("Error fetching profile image: \(error)")
                     }

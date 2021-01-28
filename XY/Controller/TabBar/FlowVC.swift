@@ -142,20 +142,21 @@ class FlowVC : UITableViewController {
 }
 
 extension FlowVC : ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureFor cell: ImagePostCell) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let profileVC = storyboard.instantiateViewController(withIdentifier: "ProfileVC") as! ProfileVC
+    func imagePostCellDelegate(didTapProfilePictureFor xyname: String) {
         
-        guard let viewModel = cell.viewModel else {
-            return
+        print(xyname)
+        
+        FirebaseDownload.getUserIdForXyname(xyname) { userId, error in
+            guard let userId = userId, error == nil else {
+                print("Error fetching profile for xyname: \(xyname)")
+                print(error)
+                return
+            }
+            
+            let profileVC = ProfileViewController(userId: userId)
+            
+            self.present(profileVC, animated: true) { }
         }
-        
-        profileVC.profileId = viewModel.profileId
-        profileVC.ownerId = viewModel.data.userId
-        
-        
-        profileVC.modalEscapable = true
-        present(profileVC, animated: true) { }
     }
     
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {

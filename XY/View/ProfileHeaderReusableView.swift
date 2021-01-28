@@ -14,8 +14,6 @@ class ProfileHeaderReusableView: UICollectionReusableView {
     private let coverImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        
-        image.image = UIImage(named: "J2NTP9Er4Ad3kRsms7XRoD")
         return image
     }()
     
@@ -52,8 +50,6 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         imageView.layer.addSublayer(shadowLayer)
         // Probably needs to mask differently to work
         
-        imageView.image = UIImage(named: "elizabeth_online")
-        
         return imageView
     }()
     
@@ -61,7 +57,7 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 28)
         label.textColor = .white
-        label.text = "Bro Man"
+        
         return label
     }()
     
@@ -69,7 +65,7 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue", size: 15)
         label.textColor = .white
-        label.text = "@xyname"
+        
         return label
     }()
     
@@ -77,15 +73,15 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue", size: 15)
         label.textColor = .white
-        label.text = "This is the description of my profile"
+        
         return label
     }()
     
     private let websiteLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue", size: 10)
+        label.font = UIFont(name: "HelveticaNeue", size: 13)
         label.textColor = .white
-        label.text = "www.aaaaaa.com"
+        
         return label
     }()
     
@@ -108,7 +104,6 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         
         super.init(frame: frame)
         
-        backgroundColor = .purple
         layer.cornerRadius = 15
         layer.masksToBounds = true
         
@@ -149,11 +144,12 @@ class ProfileHeaderReusableView: UICollectionReusableView {
             width: profilePictureSize,
             height: profilePictureSize
         )
+        profilePicture.layer.cornerRadius = profilePictureSize/2
         
         nicknameLabel.sizeToFit()
         nicknameLabel.frame = CGRect(
             x: 10.9,
-            y: 25.59,
+            y: 27.59,
             width: nicknameLabel.width,
             height: nicknameLabel.height
         )
@@ -194,22 +190,29 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         )
     }
     
-    public func setProfileImage(image: UIImage) {
+    public func configure(with viewModel: ProfileViewModel) {
+        nicknameLabel.text = viewModel.nickname
+        descriptionLabel.text = viewModel.caption
+        xynameLabel.text = viewModel.xyname
+        websiteLabel.text = viewModel.website
+        
+        profilePicture.image = viewModel.profileImage
+        coverImage.image = viewModel.coverImage
+
+        setNeedsLayout()
+    }
+}
+
+extension ProfileHeaderReusableView: ProfileViewModelDelegate {
+    func onProfileDataFetched(_ viewModel: ProfileViewModel) {
+        configure(with: viewModel)
+    }
+    
+    func onProfileImageFetched(_ image: UIImage) {
         profilePicture.image = image
     }
     
-    public func setCoverImage(image: UIImage) {
+    func onCoverImageFetched(_ image: UIImage) {
         coverImage.image = image
     }
-    
-    public func setProfileData(profileViewModel: ProfileViewModel) {
-        nicknameLabel.text = profileViewModel.nickname
-        descriptionLabel.text = profileViewModel.caption
-        xynameLabel.text = "@\(profileViewModel.xyname)"
-        websiteLabel.text = profileViewModel.website
-        
-        profilePicture.image = profileViewModel.profileImage
-        coverImage.image = profileViewModel.coverImage
-    }
-    
 }
