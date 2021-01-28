@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileHeaderReusableView: UICollectionReusableView {
     
+    static let identifier = "ProfileHeaderReusableView"
+    
     private let coverImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill

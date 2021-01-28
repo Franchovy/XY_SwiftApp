@@ -11,39 +11,34 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    let collectionView: UICollectionView = {
+    // MARK: - Private properties
+    
+    private let collectionView: UICollectionView = {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1/3),
             heightDimension: .fractionalHeight(1.0)
         )
-        
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 0, trailing: 5)
+//        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.3))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1/3))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-
         let section = NSCollectionLayoutSection(group: group)
-        
         let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                       heightDimension: .fractionalWidth(605 / 375))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerFooterSize,
             elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
         section.boundarySupplementaryItems = [sectionHeader]
-
         
         let layout = UICollectionViewCompositionalLayout(section: section)
-        
-
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        
-        collection.backgroundColor = .green
-        collection.showsVerticalScrollIndicator = false
         
         return collection
     }()
 
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,11 +46,15 @@ class ProfileViewController: UIViewController {
         collectionView.delegate = self
         
         collectionView.register(
-            UICollectionViewCell.self,
-            forCellWithReuseIdentifier: "cell"
+            ProfileFlowCollectionViewCell.self,
+            forCellWithReuseIdentifier: ProfileFlowCollectionViewCell.identifier
         )
         
-        collectionView.register(ProfileHeaderReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView")
+        collectionView.register(
+            ProfileHeaderReusableView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: "headerView"
+        )
         
         view.addSubview(collectionView)
         
@@ -73,6 +72,8 @@ class ProfileViewController: UIViewController {
         )
     }
     
+    // MARK: - Private functions
+    
     private func createCompositionalLayout() -> UICollectionViewCompositionalLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.5), heightDimension: .fractionalHeight(1.0))
 
@@ -88,6 +89,8 @@ class ProfileViewController: UIViewController {
     }
 }
 
+// MARK: - CollectionView Extension
+
 extension ProfileViewController : UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -100,10 +103,13 @@ extension ProfileViewController : UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileFlowCollectionViewCell.identifier, for: indexPath) as? ProfileFlowCollectionViewCell else {
+            fatalError("CollectionViewCell type unsupported")
+        }
         
-        cell.backgroundColor =  [.blue, .red, .orange, .brown, .gray, .yellow, .systemPink, .cyan][Int.random(in: 0...7)]
         cell.layer.cornerRadius = 15
+        
+        cell.frame.size = CGSize(width: view.width * 1/3, height: view.width * 1/3)
         
         return cell
     }
@@ -127,6 +133,8 @@ extension ProfileViewController : UICollectionViewDataSource {
     }
     
 }
+
+//MARK: - DelegateFlowLayout Extension
 
 extension ProfileViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

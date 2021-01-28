@@ -48,7 +48,6 @@
 		14B2709825AA087400CCACDE /* ProfileFlowTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B2709625AA087400CCACDE /* ProfileFlowTableViewCell.swift */; };
 		14B2709925AA087400CCACDE /* ProfileFlowTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B2709725AA087400CCACDE /* ProfileFlowTableViewCell.xib */; };
 		14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */; };
-		14B270A125AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */; };
 		14B270A725AA1DD900CCACDE /* Profile2Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B270A625AA1DD900CCACDE /* Profile2Model.swift */; };
 		14B2711B25AA233C00CCACDE /* ProfilePostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14B2711A25AA233C00CCACDE /* ProfilePostModel.swift */; };
 		14BA46B225AB5E1600ADDC8B /* suggestedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BA46B025AB5E1600ADDC8B /* suggestedTableViewCell.swift */; };
@@ -173,7 +172,6 @@
 		14B2709625AA087400CCACDE /* ProfileFlowTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowTableViewCell.swift; sourceTree = "<group>"; };
 		14B2709725AA087400CCACDE /* ProfileFlowTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileFlowTableViewCell.xib; sourceTree = "<group>"; };
 		14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowCollectionViewCell.swift; sourceTree = "<group>"; };
-		14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProfileFlowCollectionViewCell.xib; sourceTree = "<group>"; };
 		14B270A625AA1DD900CCACDE /* Profile2Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile2Model.swift; sourceTree = "<group>"; };
 		14B2711A25AA233C00CCACDE /* ProfilePostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostModel.swift; sourceTree = "<group>"; };
 		14BA46B025AB5E1600ADDC8B /* suggestedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = suggestedTableViewCell.swift; sourceTree = "<group>"; };
@@ -282,6 +280,7 @@
 			children = (
 				B9E2807425BEB224005389CF /* MessageView.swift */,
 				14251381259F936500DC08BB /* NotificationCell.swift */,
+				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
 				B95E6DE325C311EA00FBEDF9 /* ProfileHeaderReusableView.swift */,
 				14FF8A5F25A3856E002FE645 /* MessageCell.xib */,
 				14FF8A5E25A3856E002FE645 /* MessageCell.swift */,
@@ -382,8 +381,6 @@
 				14C99E3325A0F31300FFE003 /* ProfileUpperCell.swift */,
 				14B2709725AA087400CCACDE /* ProfileFlowTableViewCell.xib */,
 				14B2709625AA087400CCACDE /* ProfileFlowTableViewCell.swift */,
-				14B2709F25AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib */,
-				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
 				B902DEBF25AF372D00F32B12 /* ProfileCell.xib */,
 				B902DEC325AF375E00F32B12 /* ProfileCell.swift */,
 			);
@@ -668,7 +665,6 @@
 				14BA46B925AB5E3000ADDC8B /* suggestedCollectionViewCell.xib in Resources */,
 				B902DEC025AF372D00F32B12 /* ProfileCell.xib in Resources */,
 				14B26FD225A9E4B900CCACDE /* OnlineFriendsTableViewCell.xib in Resources */,
-				14B270A125AA08A000CCACDE /* ProfileFlowCollectionViewCell.xib in Resources */,
 				148935F325A26AFC00CB60C3 /* ConversationCell.xib in Resources */,
 				14A36074259CB51C002829D7 /* FlowMomentsTableViewCell.xib in Resources */,
 				B9530026259F476000DE926A /* CircleView.xib in Resources */,

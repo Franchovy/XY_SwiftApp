@@ -108,7 +108,7 @@ extension ProfileFlowTableViewCell : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCollectionPostReusable", for: indexPath) as! ProfileFlowCollectionViewCell
         
-        cell.postPicPreview.image = postPrevCollection[indexPath.row]!.imagePostPrev
+//        cell.postPicPreview.image = postPrevCollection[indexPath.row]!.imagePostPrev
         
         return cell
     }
