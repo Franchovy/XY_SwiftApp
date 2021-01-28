@@ -58,8 +58,6 @@ class NotificationsVC: UIViewController {
                 return
             }
             
-            strongSelf.notifications = []
-            
             for documentChanges in querySnapshot.documentChanges {
                 if documentChanges.type == .added {
                     // Append post
@@ -68,14 +66,19 @@ class NotificationsVC: UIViewController {
                         
                         let data = notificationDocument.data()
                         
-                        let notificationModel = Notification(data)
+                        let notificationModel = Notification(data, id: notificationDocument.documentID)
                         var notificationViewModel = NotificationViewModel(from: notificationModel)
                         notificationViewModel.delegate = strongSelf
                         
                         strongSelf.notifications.append(notificationViewModel)
+                        
+                        strongSelf.tableView.insertRows(
+                            at: [IndexPath(row: strongSelf.notifications.count - 1, section: 0)],
+                            with: .top
+                        )
                     }
                     DispatchQueue.main.async {
-                        strongSelf.tableView.reloadData()
+//                        strongSelf.tableView.reloadData()
                     }
                 }
             }
@@ -99,41 +102,6 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        // Fetch next page
-        if notifications.count < indexPath.row {
-            return
-        }
-        
-        guard let uid = Auth.auth().currentUser?.uid, let lastFetchedElement = lastFetchedElement else {
-            return
-        }
-        
-        let notificationsDocumentFetch = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true).start(afterDocument: lastFetchedElement).limit(to: 30)
-        
-        notificationsDocumentFetch.getDocuments { (snapshot, error) in
-            guard let snapshot = snapshot, error == nil else {
-                return
-            }
-            
-            for notificationDocument in snapshot.documents {
-                self.lastFetchedElement = notificationDocument
-                
-                let data = notificationDocument.data()
-                
-                let notificationModel = Notification(data)
-                var notificationViewModel = NotificationViewModel(from: notificationModel)
-                notificationViewModel.delegate = self
-                
-                self.notifications.append(notificationViewModel)
-            }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
-        }
-        
-    }
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 79
     }
@@ -145,13 +113,24 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete{
             
+            print(indexPath.row)
+            print(notifications.count)
+            
+            guard notifications.count > indexPath.row else {
+                return
+            }
+            
             tableView.beginUpdates()
-            notifications.remove(at: indexPath.row)
+            
+            let notificationToDelete = notifications[indexPath.row]
             
             // Remove notification from backend
+            FirebaseUpload.deleteNotification(notificationId: notificationToDelete.notificationId)
             
+            notifications.remove(at: indexPath.row)
             
             tableView.deleteRows(at:[indexPath]  , with: .fade)
+            
             tableView.endUpdates()
         }
     }

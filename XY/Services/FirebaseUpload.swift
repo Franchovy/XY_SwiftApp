@@ -262,6 +262,16 @@ class FirebaseUpload {
         }
     }
     
+    static func deleteNotification(notificationId: String) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        let notificationDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(userId).collection(FirebaseKeys.NotificationKeys.notificationsCollection).document(notificationId)
+        
+        notificationDocument.delete()
+    }
+    
     static func createViral(caption: String, videoPath: String, completion: @escaping(Result<String, Error>) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return

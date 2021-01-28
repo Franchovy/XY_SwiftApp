@@ -23,6 +23,7 @@ enum NotificationType {
 }
 
 struct Notification {
+    let notificationId: String
     let type: NotificationType
     let objectId: String
     let senderId: String
@@ -30,7 +31,7 @@ struct Notification {
 }
 
 extension Notification {
-    init(_ data: [String: Any]) {
+    init(_ data: [String: Any], id: String) {
         type = {
             switch data[FirebaseKeys.NotificationKeys.notifications.type] as! String {
             case "swipeRight": return .swipeRight
@@ -40,6 +41,7 @@ extension Notification {
                 fatalError("Notification type not found!")
             }
         }()
+        notificationId = id
         senderId = data[FirebaseKeys.NotificationKeys.notifications.senderId] as! String
         objectId = data[FirebaseKeys.NotificationKeys.notifications.objectId] as! String
         timestamp = (data[FirebaseKeys.NotificationKeys.notifications.timestamp] as! Firebase.Timestamp).dateValue()

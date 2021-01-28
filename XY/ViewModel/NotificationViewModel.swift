@@ -22,16 +22,21 @@ class NotificationViewModel {
     var profileData: ProfileModel?
     var postData: PostModel?
     
+    var notificationId: String
+    
     var displayImage: UIImage?
     var previewImage: UIImage?
     var nickname: String?
     var text: String?
+    var date: Date
     var onSelect: (() -> Void)?
     
     let model: Notification
     
     init(from model: Notification) {
         self.model = model
+        notificationId = model.notificationId
+        date = model.timestamp
         text = model.type.text
     }
     

@@ -43,6 +43,13 @@ class NotificationCell: UITableViewCell {
         return label
     }()
     
+    private let timestampLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "tintColor")
+        label.font = UIFont(name: "HelveticaNeue-Thin", size: 10)
+        return label
+    }()
+    
     private let containerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "Black")
@@ -64,6 +71,7 @@ class NotificationCell: UITableViewCell {
         containerView.addSubview(postImage)
         containerView.addSubview(nicknameLabel)
         containerView.addSubview(label)
+        containerView.addSubview(timestampLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -112,9 +120,17 @@ class NotificationCell: UITableViewCell {
         label.sizeToFit()
         label.frame = CGRect(
             x: profileImage.right + 10,
-            y: nicknameLabel.bottom + 18,
+            y: nicknameLabel.bottom + 10,
             width: label.width,
             height: label.height
+        )
+        
+        timestampLabel.sizeToFit()
+        timestampLabel.frame = CGRect(
+            x: postImage.right - timestampLabel.width - 15,
+            y: postImage.bottom,
+            width: timestampLabel.width,
+            height: timestampLabel.height
         )
     }
 
@@ -124,6 +140,7 @@ class NotificationCell: UITableViewCell {
         postImage.image = model.previewImage
         nicknameLabel.text = model.nickname
         label.text = model.text
+        timestampLabel.text = DateFormatter.defaultFormatter.string(from: model.date)
     }
     
     override func prepareForReuse() {
@@ -131,5 +148,6 @@ class NotificationCell: UITableViewCell {
         postImage.image = nil
         nicknameLabel.text = nil
         label.text = nil
+        timestampLabel.text = nil
     }
 }
