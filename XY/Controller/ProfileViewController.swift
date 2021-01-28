@@ -37,7 +37,44 @@ class ProfileViewController: UIViewController {
         return collection
     }()
 
+    private var profileHeaderViewModel: ProfileViewModel?
+    private var postViewModels = [PostViewModel]()
+    
     // MARK: - Lifecycle
+    
+    init(userId: String) {
+        super.init(nibName: nil, bundle: nil)
+        
+        ProfileManager.shared.fetchProfile(userId: userId) { [weak self] (result) in
+            switch result {
+            case .success(let model):
+                // Configure ViewModel
+                self?.profileHeaderViewModel = ProfileViewModel(profileId: model.profileId, userId: userId)
+            case .failure(let error):
+                print("Error fetching profile for user: \(userId)")
+                print(error)
+                return
+            }
+        }
+        
+        FirebaseDownload.getFlowForProfile(userId: userId) { [weak self] (postModels, error) in
+            if let eror = error {
+                print("Error fetching posts for profile!")
+            }
+            
+            if let postModels = postModels {
+                for postModel in postModels {
+                    // Configure ViewModel
+                    self?.postViewModels.append(PostViewModel(from: postModel))
+                }
+                self?.collectionView.reloadData()
+            }
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

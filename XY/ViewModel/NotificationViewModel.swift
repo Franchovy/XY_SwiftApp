@@ -56,7 +56,7 @@ class NotificationViewModel {
                 }
                 
                 // Fetch image for post
-                guard let imageId = postData.images?.first else {
+                guard let imageId = postData.images.first else {
                     return
                 }
                 

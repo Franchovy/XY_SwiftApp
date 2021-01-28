@@ -124,8 +124,7 @@ class FlowVC : UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
-        var cellViewModel = PostViewModel()
-        cellViewModel.data =  data[indexPath.row] as! PostModel
+        var cellViewModel = PostViewModel(from: data[indexPath.row] as! PostModel)
         cell.configure(with: cellViewModel)
         cell.delegate = self
         return cell
@@ -152,7 +151,7 @@ extension FlowVC : ImagePostCellDelegate {
         }
         
         profileVC.profileId = viewModel.profileId
-        profileVC.ownerId = viewModel.data!.userId
+        profileVC.ownerId = viewModel.data.userId
         
         
         profileVC.modalEscapable = true

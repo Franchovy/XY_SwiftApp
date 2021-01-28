@@ -193,4 +193,23 @@ class ProfileHeaderReusableView: UICollectionReusableView {
             height: editButtonIconSize
         )
     }
+    
+    public func setProfileImage(image: UIImage) {
+        profilePicture.image = image
+    }
+    
+    public func setCoverImage(image: UIImage) {
+        coverImage.image = image
+    }
+    
+    public func setProfileData(profileViewModel: ProfileViewModel) {
+        nicknameLabel.text = profileViewModel.nickname
+        descriptionLabel.text = profileViewModel.caption
+        xynameLabel.text = "@\(profileViewModel.xyname)"
+        websiteLabel.text = profileViewModel.website
+        
+        profilePicture.image = profileViewModel.profileImage
+        coverImage.image = profileViewModel.coverImage
+    }
+    
 }

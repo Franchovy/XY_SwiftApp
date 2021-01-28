@@ -17,7 +17,7 @@ struct PostModel : FlowDataModel {
     var profileImage: String?
     var timestamp: Date
     var content: String
-    var images: [String]?
+    var images: [String]
     
     var level: Int
     var xp: Int
@@ -44,7 +44,7 @@ extension PostModel {
             FirebaseKeys.PostKeys.xp : xp,
             FirebaseKeys.PostKeys.postData : [
                 FirebaseKeys.PostKeys.PostData.caption : content,
-                FirebaseKeys.PostKeys.PostData.imageRef : images!.first
+                FirebaseKeys.PostKeys.PostData.imageRef : images.first
             ]
         ]
     }

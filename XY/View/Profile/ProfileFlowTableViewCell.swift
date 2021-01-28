@@ -59,7 +59,7 @@ class ProfileFlowTableViewCell: UITableViewCell, UICollectionViewDelegate {
                     self.posts.append(post)
                     
                     // Fetch image for post
-                    FirebaseDownload.getImage(imageId: post.images!.first!) { image, error in
+                    FirebaseDownload.getImage(imageId: post.images.first!) { image, error in
                         if let error = error { print("Error fetching image for post: \(error)")}
                         
                         if let image = image {

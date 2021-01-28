@@ -117,6 +117,7 @@
 		B9E2807525BEB224005389CF /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E2807425BEB224005389CF /* MessageView.swift */; };
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
+		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,6 +252,7 @@
 		B9E2807425BEB224005389CF /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
+		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
 		DE83AA41076DD5C25678000C /* Pods_XY.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XY.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XYTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -516,6 +518,7 @@
 		B9B92DD225644A3F005D9B86 /* XY */ = {
 			isa = PBXGroup;
 			children = (
+				B9E89CED25C3372F0007D6B1 /* Managers */,
 				B9C8482525B09697002F7CD5 /* Extensions */,
 				B95FF4BF25A6F09900CFCA9E /* Services */,
 				B9B92DD325644A3F005D9B86 /* AppDelegate.swift */,
@@ -554,6 +557,14 @@
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		B9E89CED25C3372F0007D6B1 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -802,6 +813,7 @@
 				14B2705125A9EBA500CCACDE /* OnlineFriendsCellsModel.swift in Sources */,
 				B981F91D25C307BD00A123BC /* ProfileViewController.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
+				B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */,
 				B9E2807525BEB224005389CF /* MessageView.swift in Sources */,
 				B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */,
 				14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */,

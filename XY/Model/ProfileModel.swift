@@ -10,7 +10,7 @@ import UIKit
 import Firebase
 
 struct ProfileModel : Encodable {
-    
+    var profileId: String
     var nickname: String
     var profileImageId: String
     var coverImageId: String
@@ -24,7 +24,8 @@ struct ProfileModel : Encodable {
 }
 
 extension ProfileModel {
-    init(data: [String: Any?]) {
+    init(data: [String: Any?], id: String) {
+        profileId = id
         nickname = data[FirebaseKeys.ProfileKeys.nickname] as! String
         caption = data[FirebaseKeys.ProfileKeys.caption] as! String
         profileImageId = data[FirebaseKeys.ProfileKeys.profileImage] as! String
