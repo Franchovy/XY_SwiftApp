@@ -46,7 +46,7 @@ class NotificationsVC: UIViewController {
     private func subscribeToNotifications() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).limit(to: 30)
+        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true)
         
         notificationsListener = notificationsDocument.addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let querySnapshot = querySnapshot, error == nil else {
