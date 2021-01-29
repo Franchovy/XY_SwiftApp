@@ -207,7 +207,6 @@ class ProfileViewController: UIViewController {
         guard let scrollToPos = profileHeaderScrollHeight else {
             return
         }
-        print(scrollToPos)
         
         if scrollY < 480 {
             if scrollY < previousScrollY {
@@ -238,7 +237,6 @@ class ProfileViewController: UIViewController {
         guard let scrollToPos = profileHeaderScrollHeight else {
             return
         }
-        print(scrollToPos)
         
         if scrollY < 480 {
             if scrollY < previousScrollY {

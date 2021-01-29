@@ -12,9 +12,10 @@ import UIKit
 class NotificationCell: UITableViewCell {
 
     static let identifier = "NotificationCell"
+    var viewModel: NotificationViewModel?
     
-    public let profileImage: UIImageView = {
-        let imageView = UIImageView()
+    public let profileImage: UIButton = {
+        let imageView = UIButton()
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 35 / 2
         imageView.contentMode = .scaleAspectFill
@@ -62,12 +63,14 @@ class NotificationCell: UITableViewCell {
         
         backgroundColor = .clear
         
-        
         containerView.layer.cornerRadius = 15
         containerView.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         containerView.layer.shadowRadius = 1
         
         addSubview(containerView)
+        
+        contentView.isUserInteractionEnabled = false
+        selectionStyle = .none
         
         let profileImageContainer = UIView()
         profileImageContainer.addSubview(profileImage)
@@ -80,6 +83,9 @@ class NotificationCell: UITableViewCell {
         containerView.addSubview(nicknameLabel)
         containerView.addSubview(label)
         containerView.addSubview(timestampLabel)
+        
+        profileImage.addTarget(self, action: #selector(profilePictureTapped), for: .touchUpInside)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -95,7 +101,7 @@ class NotificationCell: UITableViewCell {
             height: contentView.height - 5
         )
         
-        if profileImage.image != nil {
+        if profileImage.backgroundImage(for: .normal) != nil {
             profileImage.superview!.frame = CGRect(
                 x: 6,
                 y: 12,
@@ -151,21 +157,38 @@ class NotificationCell: UITableViewCell {
             height: timestampLabel.height
         )
     }
+    
+    @objc func profilePictureTapped() {
+        viewModel?.openProfile()
+    }
+    
+    @objc func postTapped() {
+        viewModel?.openPost()
+    }
+    
+    public func loadPostData(postModel: PostModel) {
+        // Load XP Data
+        
+    }
 
     func configure(with model: NotificationViewModel) {
-
-        profileImage.image = model.displayImage
+        profileImage.setBackgroundImage(model.displayImage, for: .normal)
         postImage.image = model.previewImage
         nicknameLabel.text = model.nickname
         label.text = model.text
         timestampLabel.text = model.date.shortTimestamp()
+        
+        self.viewModel = model
     }
     
     override func prepareForReuse() {
-        profileImage.image = nil
+        profileImage.setBackgroundImage(nil, for: .normal)
         postImage.image = nil
         nicknameLabel.text = nil
         label.text = nil
         timestampLabel.text = nil
+        
+        self.viewModel = nil
     }
 }
+

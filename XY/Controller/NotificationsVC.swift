@@ -34,7 +34,7 @@ class NotificationsVC: UIViewController {
         tableView.backgroundColor = .clear
         
         tableView.register(NotificationCell.self, forCellReuseIdentifier: NotificationCell.identifier)
-        
+                
         // Create subscription to notifications
         subscribeToNotifications()
     }
@@ -164,6 +164,22 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
 }
 
 extension NotificationsVC : NotificationViewModelDelegate {
+    
+    func didOpenProfile(profile: ProfileModel) {
+        FirebaseDownload.getOwnerUser(forProfileId: profile.profileId) { (userId, error) in
+            guard let userId = userId, error == nil else {
+                print(error ?? "Error loading profile: \(profile)")
+                return
+            }
+            let profileVC = ProfileViewController(userId: userId)
+            self.present(profileVC, animated: true, completion: nil)
+        }
+    }
+    
+    func didOpenPost(post: PostModel) {
+        // Open Post VC
+    }
+    
     func didFetchProfileData(index: Int, profile: ProfileModel) {
         
         guard let cell = tableView.cellForRow(
@@ -177,6 +193,17 @@ extension NotificationsVC : NotificationViewModelDelegate {
     
     func didFetchPostForHandler(index: Int, post: PostModel) {
         // Open post vc segue
+        guard let cell = tableView.visibleCells.filter({ (cell) -> Bool in
+                if let loadedCell = cell as? NotificationCell {
+                    return loadedCell.viewModel === notifications[index]
+                } else {
+                    return false
+                }
+        }).first as? NotificationCell else {
+            return
+        }
+        
+        cell.loadPostData(postModel: post)
     }
     
     func didFetchDisplayImage(index: Int, image: UIImage) {
@@ -186,7 +213,7 @@ extension NotificationsVC : NotificationViewModelDelegate {
         ) as? NotificationCell else {
             return
         }
-        cell.profileImage.image = image
+        cell.profileImage.setBackgroundImage(image, for: .normal)
         cell.setNeedsLayout()
     }
     

@@ -62,7 +62,7 @@ extension Date {
     }
 }
 
-extension UIImageView {
+extension UIView {
     func applyshadowWithCorner(containerView : UIView, cornerRadious : CGFloat, shadowOffset: CGSize, shadowRadius: CGFloat){
         containerView.clipsToBounds = false
         containerView.layer.shadowColor = UIColor.black.cgColor
