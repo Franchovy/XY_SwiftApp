@@ -31,6 +31,7 @@ class NotificationsVC: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.layer.cornerRadius = 15
+        tableView.backgroundColor = .clear
         
         tableView.register(NotificationCell.self, forCellReuseIdentifier: NotificationCell.identifier)
         
@@ -41,6 +42,15 @@ class NotificationsVC: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         // deactivate listener.
         notificationsListener?.remove()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        tableView.frame = CGRect(
+            x: view.safeAreaInsets.top,
+            y: 0,
+            width: view.width,
+            height: view.height
+        )
     }
     
     private func subscribeToNotifications() {
