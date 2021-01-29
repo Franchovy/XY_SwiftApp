@@ -24,7 +24,16 @@ class CircleView: UIView {
     
     @IBOutlet var contentView: UIView!
     @IBOutlet weak var progressBarCircle: ProgressBarCircle!
-    @IBOutlet weak var levelLabel: UILabel!
+    private var levelLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 24)
+        label.layer.shadowRadius = 3
+        label.layer.shadowOpacity = 1.0
+        label.layer.shadowOffset = CGSize(width: 1, height: 1)
+        return label
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,19 +54,16 @@ class CircleView: UIView {
         progressBarCircle.frame = self.bounds
         progressBarCircle.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
+        addSubview(levelLabel)
+        
         backgroundColor = .clear
     }
     
     override func layoutSubviews() {
-        levelLabel.frame = self.bounds
-        levelLabel.sizeToFit()
-        levelLabel.textAlignment = .center
-        levelLabel.center = contentView.center
-        levelLabel.textColor = .white
-        levelLabel.layer.shadowRadius = 3
-        levelLabel.shadowOffset = CGSize(width: 1, height: 1)
-        levelLabel.shadowColor = UIColor.black.withAlphaComponent(0.2)
         
+        levelLabel.font = UIFont(name: "HelveticaNeue-Bold", size: width * 2 / 3)
+        levelLabel.sizeToFit()
+        levelLabel.center = contentView.center
         
         let shadowLayer = CAShapeLayer()
         shadowLayer.path = progressBarCircle.getPath()
@@ -204,7 +210,7 @@ class ProgressBarCircle: UIView {
         progressLayer.strokeColor = UIColor.black.cgColor
 
         gradientLayer.frame = rect
-        gradientLayer.colors = [color.cgColor, gradientColor.cgColor, color.cgColor]
+        gradientLayer.colors = [color.cgColor, color.cgColor, color.cgColor]
 
     }
 }

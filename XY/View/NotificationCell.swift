@@ -95,37 +95,37 @@ class NotificationCell: UITableViewCell {
             height: contentView.height - 5
         )
         
-        profileImage.superview!.frame = CGRect(
-            x: 6,
-            y: 12,
-            width: 50,
-            height: 50
-        )
-        profileImage.frame = profileImage.superview!.bounds
-        profileImage.applyshadowWithCorner(
-            containerView: profileImage.superview!,
-            cornerRadious: profileImage.width / 2,
-            shadowOffset: CGSize(width: 0, height: 3),
-            shadowRadius: 6
-        )
+        if profileImage.image != nil {
+            profileImage.superview!.frame = CGRect(
+                x: 6,
+                y: 12,
+                width: 50,
+                height: 50
+            )
+            profileImage.frame = profileImage.superview!.bounds
+            profileImage.applyshadowWithCorner(
+                containerView: profileImage.superview!,
+                cornerRadious: profileImage.width / 2,
+                shadowOffset: CGSize(width: 0, height: 3),
+                shadowRadius: 6
+            )
+        }
         
-        postImage.superview!.frame = CGRect(
-            x: containerView.width - 50 - 10,
-            y: 12,
-            width: 50,
-            height: 50
-        )
-        postImage.frame = postImage.superview!.bounds
-        postImage.applyshadowWithCorner(
-            containerView: postImage.superview!,
-            cornerRadious: 15,
-            shadowOffset: CGSize(width: 0, height: 3),
-            shadowRadius: 6
-        )
-        
-        postImage.layer.cornerRadius = 10
-        postImage.layer.shadowOffset = CGSize(width: 0, height: 3)
-        postImage.layer.shadowRadius = 6
+        if postImage.image != nil {
+            postImage.superview!.frame = CGRect(
+                x: containerView.width - 50 - 10,
+                y: 12,
+                width: 50,
+                height: 50
+            )
+            postImage.frame = postImage.superview!.bounds
+            postImage.applyshadowWithCorner(
+                containerView: postImage.superview!,
+                cornerRadious: 10,
+                shadowOffset: CGSize(width: 0, height: 3),
+                shadowRadius: 6
+            )
+        }
         
         nicknameLabel.sizeToFit()
         nicknameLabel.frame = CGRect(

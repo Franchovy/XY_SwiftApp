@@ -11,7 +11,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CircleView" customModule="XY" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="iN0-l3-epB" id="13x-1g-zOR"/>
-                <outlet property="levelLabel" destination="PU9-3h-pzr" id="nja-dk-FMG"/>
                 <outlet property="progressBarCircle" destination="1wW-7e-bEn" id="5ep-lc-Ls6"/>
             </connections>
         </placeholder>
@@ -30,25 +29,9 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </view>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="PU9-3h-pzr">
-                    <rect key="frame" x="90" y="100.5" width="40.5" height="19"/>
-                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
-                    <nil key="textColor"/>
-                    <nil key="highlightedColor"/>
-                    <color key="shadowColor" red="0.054901960780000002" green="0.058823529409999999" blue="0.062745098040000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                    <size key="shadowOffset" width="1" height="1"/>
-                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-            <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="PU9-3h-pzr" secondAttribute="bottom" constant="5" id="H9b-Kz-Kq1"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="PU9-3h-pzr" secondAttribute="trailing" constant="5" id="TOr-G9-VEb"/>
-                <constraint firstItem="PU9-3h-pzr" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Wuq-Xl-iO1"/>
-                <constraint firstItem="PU9-3h-pzr" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="5" id="b37-8n-0qJ"/>
-                <constraint firstItem="PU9-3h-pzr" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="5" id="r3T-ka-rJ0"/>
-                <constraint firstItem="PU9-3h-pzr" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="s8G-53-eqK"/>
-            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <point key="canvasLocation" x="-286.95652173913044" y="253.125"/>
         </view>

@@ -41,51 +41,51 @@ class NotificationViewModel {
     }
     
     func fetch(index: Int) {
-        if model.type == .swipeRight {
-            // Fetch swiped post
-            FirebaseDownload.getPost(for: model.objectId) { postData, error in
-                guard let postData = postData, error == nil else {
-                    print(error ?? "Error fetching data for post: \(self.model.objectId)")
-                    return
-                }
-                
-                // Set up segue action for post VC
-                DispatchQueue.main.async {
-                    self.postData = postData
-                    self.delegate?.didFetchPostForHandler(index: index, post: postData)
-                }
-                
-                // Fetch image for post
-                guard let imageId = postData.images.first else {
-                    return
-                }
-                
-                ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
-                    guard let imageUrl = imageUrl, error == nil else {
-                        print(error ?? "Error fetching post preview image for post: \(self.model.objectId)")
-                        return
-                    }
-                    
-                    KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
-                        // Update download progress
-                    }, downloadTaskUpdated: { task in
-                        // Download task update
-                    }, completionHandler: { result in
-                        do {
-                            let image = try result.get().image
-                            DispatchQueue.main.async {
-                                self.previewImage = image
-                                self.delegate?.didFetchPreviewImage(index: index, image: image)
-                            }
-                        } catch let error {
-                            print("Error fetching profile image: \(error)")
-                        }
-                    })
-                }
+        // Fetch swiped post
+        FirebaseDownload.getPost(for: model.objectId) { postData, error in
+            guard let postData = postData, error == nil else {
+                print(error ?? "Error fetching data for post: \(self.model.objectId)")
+                return
             }
             
+            // Set up segue action for post VC
+            DispatchQueue.main.async {
+                self.postData = postData
+                self.delegate?.didFetchPostForHandler(index: index, post: postData)
+            }
+            
+            // Fetch image for post
+            guard let imageId = postData.images.first else {
+                return
+            }
+            
+            ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
+                guard let imageUrl = imageUrl, error == nil else {
+                    print(error ?? "Error fetching post preview image for post: \(self.model.objectId)")
+                    return
+                }
+                
+                KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
+                    // Update download progress
+                }, downloadTaskUpdated: { task in
+                    // Download task update
+                }, completionHandler: { result in
+                    do {
+                        let image = try result.get().image
+                        DispatchQueue.main.async {
+                            self.previewImage = image
+                            self.delegate?.didFetchPreviewImage(index: index, image: image)
+                        }
+                    } catch let error {
+                        print("Error fetching profile image: \(error)")
+                    }
+                })
+            }
+        }
+        if let senderId = model.senderId {
+            
             // Fetch swipe user profile
-            FirebaseDownload.getProfileId(userId: model.senderId) { (profileId, error) in
+            FirebaseDownload.getProfileId(userId: senderId) { (profileId, error) in
                 guard let profileId = profileId, error == nil else {
                     print(error ?? "Error fetching profileId for user: \(self.model.senderId)")
                     return
@@ -127,5 +127,6 @@ class NotificationViewModel {
                 }
             }
         }
+        
     }
 }

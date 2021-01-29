@@ -56,6 +56,8 @@ class NotificationsVC: UIViewController {
     private func subscribeToNotifications() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
+        var initializing = true
+        
         let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true)
         
         notificationsListener = notificationsDocument.addSnapshotListener { [weak self] (querySnapshot, error) in
@@ -68,27 +70,41 @@ class NotificationsVC: UIViewController {
                 return
             }
             
-            for documentChanges in querySnapshot.documentChanges {
-                if documentChanges.type == .added {
-                    // Append post
-                    for notificationDocument in querySnapshot.documents {
-                        self?.lastFetchedElement = notificationDocument
-                        
-                        let data = notificationDocument.data()
-                        
-                        let notificationModel = Notification(data, id: notificationDocument.documentID)
+            if initializing {
+                // Append post
+                for notificationDocument in querySnapshot.documents {
+                    self?.lastFetchedElement = notificationDocument
+                    
+                    let data = notificationDocument.data()
+                    
+                    let notificationModel = Notification(data, id: notificationDocument.documentID)
+                    var notificationViewModel = NotificationViewModel(from: notificationModel)
+                    notificationViewModel.delegate = strongSelf
+                    
+                    strongSelf.notifications.append(notificationViewModel)
+                    
+                }
+                DispatchQueue.main.async {
+                    strongSelf.tableView.reloadData()
+                }
+                initializing = false
+
+            } else {
+                for documentChanges in querySnapshot.documentChanges {
+                    if documentChanges.type == .added {
+                        let document = documentChanges.document
+                        let data = document.data()
+
+                        let notificationModel = Notification(data, id: document.documentID)
                         var notificationViewModel = NotificationViewModel(from: notificationModel)
                         notificationViewModel.delegate = strongSelf
-                        
-                        strongSelf.notifications.append(notificationViewModel)
-                        
+
+                        strongSelf.notifications.insert(notificationViewModel, at: 0)
+
                         strongSelf.tableView.insertRows(
-                            at: [IndexPath(row: strongSelf.notifications.count - 1, section: 0)],
+                            at: [IndexPath(row: 0, section: 0)],
                             with: .top
                         )
-                    }
-                    DispatchQueue.main.async {
-//                        strongSelf.tableView.reloadData()
                     }
                 }
             }
@@ -171,6 +187,7 @@ extension NotificationsVC : NotificationViewModelDelegate {
             return
         }
         cell.profileImage.image = image
+        cell.setNeedsLayout()
     }
     
     func didFetchPreviewImage(index: Int, image: UIImage) {
@@ -181,6 +198,7 @@ extension NotificationsVC : NotificationViewModelDelegate {
             return
         }
         cell.postImage.image = image
+        cell.setNeedsLayout()
     }
     
     func didFetchText(index: Int, text: String) {

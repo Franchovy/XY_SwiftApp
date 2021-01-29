@@ -26,12 +26,14 @@ enum ObjectType: String {
     case post
     case moment
     case viral
+    case user
     
     var text: String {
         switch self {
         case .post: return "Post"
         case .moment: return "Moment"
         case .viral: return "Viral"
+        case .user: return "User"
         }
     }
 }
@@ -41,7 +43,7 @@ struct Notification {
     let type: NotificationType
     let objectId: String
     let objectType: ObjectType
-    let senderId: String
+    let senderId: String?
     let timestamp: Date
 }
 
@@ -51,7 +53,7 @@ extension Notification {
         objectType = ObjectType(rawValue: data[FirebaseKeys.NotificationKeys.notifications.objectType] as! String)!
         
         notificationId = id
-        senderId = data[FirebaseKeys.NotificationKeys.notifications.senderId] as! String
+        senderId = data[FirebaseKeys.NotificationKeys.notifications.senderId] as? String
         objectId = data[FirebaseKeys.NotificationKeys.notifications.objectId] as! String
         
         timestamp = (data[FirebaseKeys.NotificationKeys.notifications.timestamp] as! Firebase.Timestamp).dateValue()

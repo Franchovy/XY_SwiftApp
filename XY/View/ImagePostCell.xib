@@ -26,11 +26,11 @@
                                 <rect key="frame" x="0.0" y="0.0" width="335" height="335"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QBp-w0-GdZ" customClass="CircleView" customModule="XY" customModuleProvider="target">
-                                <rect key="frame" x="287" y="8" width="40" height="40"/>
+                                <rect key="frame" x="297" y="8" width="30" height="30"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="40" id="WFI-fC-AVi"/>
-                                    <constraint firstAttribute="height" constant="40" id="gTL-pW-lUg"/>
+                                    <constraint firstAttribute="width" constant="30" id="WFI-fC-AVi"/>
+                                    <constraint firstAttribute="height" constant="30" id="gTL-pW-lUg"/>
                                 </constraints>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="gradientColor">
