@@ -19,7 +19,6 @@ class ProfileViewController: UIViewController {
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-//        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
 
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1/3))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
@@ -33,6 +32,8 @@ class ProfileViewController: UIViewController {
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        collection.decelerationRate = UIScrollView.DecelerationRate.fast
         
         return collection
     }()
@@ -128,6 +129,7 @@ class ProfileViewController: UIViewController {
         FirebaseSubscriptionManager.shared.registerXPUpdates(for: userId, ofType: .user) { [weak self] (xpModel) in
             self?.profileHeaderViewModel?.updateXP(xpModel)
         }
+        
     }
     
     required init?(coder: NSCoder) {
@@ -166,7 +168,6 @@ class ProfileViewController: UIViewController {
             height: view.height
         )
         
-//        print("Bottom: \(collectionView.bottom)")
         view.frame.size.height = min(collectionView.bottom, 1081)
         
     }
@@ -187,20 +188,75 @@ class ProfileViewController: UIViewController {
         return layout
     }
     
+    var previousScrollY:CGFloat = 0.0
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        
+        let scrollY = scrollView.contentOffset.y
+
+        if scrollY < 480 {
+            if scrollY < previousScrollY {
+                // Scroll up
+                scrollView.scrollRectToVisible(
+                    CGRect(
+                        x: 0,
+                        y: 0,
+                        width: view.width,
+                        height: view.height
+                    ), animated: true)
+            } else {
+                // Scroll down
+                scrollView.scrollRectToVisible(
+                    CGRect(
+                        x: 0,
+                        y: 450,
+                        width: view.width,
+                        height: view.height
+                    ), animated: true)
+            }
+        }
+    }
+    
+    func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        let scrollY = scrollView.contentOffset.y
+
+        if scrollY < 480 {
+            if scrollY < previousScrollY {
+                // Scroll up
+                scrollView.scrollRectToVisible(
+                    CGRect(
+                        x: 0,
+                        y: 0,
+                        width: view.width,
+                        height: view.height
+                    ), animated: true)
+            } else {
+                // Scroll down
+                scrollView.scrollRectToVisible(
+                    CGRect(
+                        x: 0,
+                        y: 450,
+                        width: view.width,
+                        height: view.height
+                    ), animated: true)
+            }
+        }
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        previousScrollY = scrollView.contentOffset.y
+    }
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let scrollY = scrollView.contentOffset.y
-        print("Scroll Y: \(scrollY)")
         
         let alphaOffset = min(
             ceil(CGFloat(postViewModels.count) / 3) * (CGFloat(view.width) * 1/3),
             425
         )
-        
-        print("Offset: \(alphaOffset)")
         let alpha = min(CGFloat(scrollY - 25) / alphaOffset, 1.0)
-        print("Set Alpha: \(alpha)")
         
         profileHeaderViewModel?.setOpacity(1 - alpha)
+        
     }
     
     @objc private func didTapAnywhere() {
