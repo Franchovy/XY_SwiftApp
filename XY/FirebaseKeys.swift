@@ -61,6 +61,7 @@ struct FirebaseKeys {
             static let senderId = "senderId"
             static let type = "type"
             static let timestamp = "timestamp"
+            static let objectType = "objectType"
         }
     }
     

@@ -37,7 +37,7 @@ class NotificationViewModel {
         self.model = model
         notificationId = model.notificationId
         date = model.timestamp
-        text = model.type.text
+        text = model.type.text.replacingOccurrences(of: "_", with: model.objectType.text)
     }
     
     func fetch(index: Int) {
