@@ -45,29 +45,38 @@ class CircleView: UIView {
         progressBarCircle.frame = self.bounds
         progressBarCircle.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
-        progressBarCircle.layer.shadowRadius = 5
-        progressBarCircle.layer.shadowOffset = .zero
-        progressBarCircle.layer.shadowOpacity = 0.3
-        progressBarCircle.layer.shadowColor = UIColor.blue.cgColor
-        progressBarCircle.layer.shadowPath = UIBezierPath(rect: progressBarCircle.bounds).cgPath
-        progressBarCircle.layer.masksToBounds = false
-
-        layer.shadowRadius = 10
-        layer.shadowOffset = .zero
-        layer.shadowOpacity = 0.5
-        layer.shadowColor = UIColor.blue.cgColor
-        layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        layer.masksToBounds = false
-        tintColor = .blue
-        
         backgroundColor = .clear
-        
+    }
+    
+    override func layoutSubviews() {
         levelLabel.frame = self.bounds
         levelLabel.sizeToFit()
         levelLabel.textAlignment = .center
         levelLabel.center = contentView.center
         levelLabel.textColor = .white
+        levelLabel.layer.shadowRadius = 3
+        levelLabel.shadowOffset = CGSize(width: 1, height: 1)
+        levelLabel.shadowColor = UIColor.black.withAlphaComponent(0.2)
         
+        
+        let shadowLayer = CAShapeLayer()
+        shadowLayer.path = progressBarCircle.getPath()
+        shadowLayer.frame = progressBarCircle.frame
+        shadowLayer.backgroundColor = UIColor.clear.cgColor
+        
+        shadowLayer.fillColor = UIColor.clear.cgColor
+        shadowLayer.strokeColor = UIColor.green.cgColor
+        shadowLayer.lineWidth = 2.0
+        shadowLayer.shadowOpacity = 1.0
+        shadowLayer.shadowRadius = 5
+        shadowLayer.shadowColor = UIColor.blue.cgColor
+        shadowLayer.shadowOffset = .zero
+        
+
+        let shadowView = UIView()
+        shadowView.layer.addSublayer(shadowLayer)
+        
+        insertSubview(shadowView, at: 0)
     }
     
     // MARK: - Public methods
@@ -131,6 +140,10 @@ class ProgressBarCircle: UIView {
         progress = 0
     }
     
+    func getPath() -> CGPath {
+        return backgroundMask.path ?? UIBezierPath(ovalIn: bounds.insetBy(dx: ringWidth / 2, dy: ringWidth / 2)).cgPath
+    }
+    
     private var progressLayer = CAShapeLayer()
     private var backgroundMask = CAShapeLayer()
     private let gradientLayer = CAGradientLayer()
@@ -182,7 +195,8 @@ class ProgressBarCircle: UIView {
     override func draw(_ rect: CGRect) {
         let circlePath = UIBezierPath(ovalIn: rect.insetBy(dx: ringWidth / 2, dy: ringWidth / 2))
         backgroundMask.path = circlePath.cgPath
-
+        
+        
         progressLayer.path = circlePath.cgPath
         progressLayer.lineCap = .round
         progressLayer.strokeStart = 0
