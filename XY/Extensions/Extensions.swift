@@ -46,6 +46,22 @@ extension String {
     }
 }
 
+extension Date {
+    func shortTimestamp() -> String {
+        let ti = NSInteger(-self.timeIntervalSinceNow)
+
+        if ti < 60 {
+            return "\(ti)s"
+        } else if (ti / 60) < 60 {
+            return "\((ti / 60))m"
+        } else if (ti / 3600) < 26 {
+            return "\((ti / 3600))h"
+        } else {
+            return "\((ti / 3600 / 24))d"
+        }
+    }
+}
+
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {
        assert(red >= 0 && red <= 255, "Invalid red component")
