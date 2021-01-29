@@ -202,6 +202,18 @@ class ProfileViewController: UIViewController {
         
         profileHeaderViewModel?.setOpacity(1 - alpha)
     }
+    
+    @objc private func didTapAnywhere() {
+        // Send a message to header to stop editing
+        guard let profileHeader = self.collectionView.supplementaryView(
+            forElementKind: UICollectionView.elementKindSectionHeader,
+            at: IndexPath(row: 0, section: 0)
+        ) as? ProfileHeaderReusableView else {
+            return
+        }
+        
+        profileHeader.endEditing(true)
+    }
 }
 
 // MARK: - CollectionView Extension
@@ -245,6 +257,10 @@ extension ProfileViewController : UICollectionViewDataSource {
             width: view.width,
             height: view.width * aspectRatio
         )
+        
+        let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
+        headerView.isUserInteractionEnabled = true
+        headerView.addGestureRecognizer(tappedAnywhereExitEditingGesture)
         
         guard let profileHeaderViewModel = profileHeaderViewModel else {
             return headerView

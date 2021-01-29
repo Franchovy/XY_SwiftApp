@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ProfileHeaderReusableView: UICollectionReusableView {
     
     static let identifier = "ProfileHeaderReusableView"
+    
+    var viewModel: ProfileViewModel?
     
     private let coverImage: UIImageView = {
         let image = UIImageView()
@@ -100,11 +103,65 @@ class ProfileHeaderReusableView: UICollectionReusableView {
     
     private let editButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "edit"), for: .normal)
+        button.setImage(UIImage(named: "edit")?.withTintColor(.white), for: .normal)
         button.contentMode = .scaleAspectFill
-        button.tintColor = .white
+        button.isHidden = true
         return button
     }()
+    
+    // MARK: - Edit Profile properties
+    
+    private lazy var editNicknameTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .clear
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.layer.cornerRadius = 5
+        textField.layer.masksToBounds = true
+        textField.font = UIFont(name: "HelveticaNeue-Bold", size: 28)
+        textField.isHidden = true
+        return textField
+    }()
+    
+    private lazy var editCaptionTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .clear
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.layer.cornerRadius = 5
+        textField.layer.masksToBounds = true
+        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.isHidden = true
+        return textField
+    }()
+    
+    private lazy var editWebsiteTextField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .clear
+        textField.layer.borderWidth = 1
+        textField.layer.borderColor = UIColor.white.cgColor
+        textField.layer.cornerRadius = 5
+        textField.layer.masksToBounds = true
+        textField.font = UIFont(name: "HelveticaNeue", size: 13)
+        textField.isHidden = true
+        return textField
+    }()
+    
+    private lazy var editCoverImageButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "cameraEditButton"), for: .normal)
+        button.isHidden = true
+        return button
+    }()
+    
+    private lazy var editProfileImageButton: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(named: "cameraEditButton"), for: .normal)
+        button.isHidden = true
+        return button
+    }()
+    
+    private var editable = true
     
     override init(frame: CGRect) {
         
@@ -124,8 +181,32 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         profileCard.addSubview(websiteLabel)
         profileCard.addSubview(websiteIcon)
         profileCard.addSubview(nicknameLabel)
-        profileCard.addSubview(editButton)
         profileCard.addSubview(descriptionLabel)
+        
+        if editable {
+            profileCard.addSubview(editButton)
+            
+            profileCard.addSubview(editNicknameTextField)
+            profileCard.addSubview(editWebsiteTextField)
+            profileCard.addSubview(editCaptionTextField)
+            
+            addSubview(editProfileImageButton)
+            addSubview(editCoverImageButton)
+            
+            editButton.addTarget(self, action: #selector(onEnterEditMode), for: .touchUpInside)
+            
+            editNicknameTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
+            editWebsiteTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
+            editCaptionTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
+            
+            editNicknameTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
+            editWebsiteTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
+            editCaptionTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
+            
+            editNicknameTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
+            editCaptionTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
+            editWebsiteTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -195,16 +276,131 @@ class ProfileHeaderReusableView: UICollectionReusableView {
             width: websiteLabel.width,
             height: websiteLabel.height
         )
-        let editButtonIconSize:CGFloat = 11
-        editButton.frame = CGRect(
-            x: profileCard.width - editButtonIconSize - 11,
-            y: 6,
-            width: editButtonIconSize,
-            height: editButtonIconSize
-        )
+        
+        if editable {
+            let editButtonIconSize:CGFloat = 11
+            editButton.frame = CGRect(
+                x: profileCard.width - editButtonIconSize - 11,
+                y: 6,
+                width: editButtonIconSize,
+                height: editButtonIconSize
+            )
+            
+            editNicknameTextField.sizeToFit()
+            editNicknameTextField.frame = CGRect(
+                x: nicknameLabel.left,
+                y: nicknameLabel.top,
+                width: editNicknameTextField.width,
+                height: editNicknameTextField.height
+            )
+            xpCircle.frame.origin.x = max(nicknameLabel.right, editNicknameTextField.right) + 9
+            
+            editCaptionTextField.sizeToFit()
+            editCaptionTextField.frame = CGRect(
+                x: descriptionLabel.left,
+                y: descriptionLabel.top,
+                width: editCaptionTextField.width,
+                height: editCaptionTextField.height
+            )
+            editWebsiteTextField.sizeToFit()
+            editWebsiteTextField.frame = CGRect(
+                x: websiteLabel.left,
+                y: websiteLabel.top,
+                width: editWebsiteTextField.width,
+                height: editWebsiteTextField.height
+            )
+            
+            let editPicIconSize: CGFloat = 25
+            editProfileImageButton.frame = CGRect(
+                x: profilePicture.left + 10,
+                y: profilePicture.top + 10,
+                width: editPicIconSize,
+                height: editPicIconSize
+            )
+            editProfileImageButton.frame = CGRect(
+                x: coverImage.left + 10,
+                y: coverImage.top + 10,
+                width: editPicIconSize,
+                height: editPicIconSize
+            )
+        }
+    }
+    
+    @objc private func onEnterEditMode() {
+        editNicknameTextField.text = nicknameLabel.text
+        nicknameLabel.isHidden = true
+        editNicknameTextField.isHidden = false
+        
+        editCaptionTextField.text = descriptionLabel.text
+        editCaptionTextField.isHidden = false
+        descriptionLabel.isHidden = true
+        
+        editWebsiteTextField.text = websiteLabel.text
+        editWebsiteTextField.isHidden = false
+        websiteLabel.isHidden = true
+        
+        setNeedsLayout()
+    }
+        
+    @objc private func onTextFieldTapped(_ sender: UITextField) {
+        switch sender {
+        case editNicknameTextField:
+            editNicknameTextField.becomeFirstResponder()
+        case editCaptionTextField:
+            editCaptionTextField.becomeFirstResponder()
+        case editWebsiteTextField:
+            editWebsiteTextField.becomeFirstResponder()
+        default:
+            fatalError()
+        }
+    }
+    
+    @objc private func onTextFieldChanged(_ sender: UITextField) {
+        setNeedsLayout()
+    }
+    
+    @objc private func onTextFieldEnded(_ sender: UITextField) {
+        
+        editNicknameTextField.isHidden = true
+        nicknameLabel.isHidden = false
+        if editNicknameTextField.text != "" {
+            nicknameLabel.text = editNicknameTextField.text
+        }
+    
+        editCaptionTextField.isHidden = true
+        descriptionLabel.isHidden = false
+        if descriptionLabel.text != "" {
+            descriptionLabel.text = editCaptionTextField.text
+        }
+        
+        editWebsiteTextField.isHidden = true
+        websiteLabel.isHidden = false
+        if websiteLabel.text != "" {
+            websiteLabel.text = editWebsiteTextField.text
+        }
+        
+        setNeedsLayout()
+        
+        guard let nickname = nicknameLabel.text, let descriptionText = descriptionLabel.text, let website = websiteLabel.text else {
+            return
+        }
+        
+        viewModel?.profileData.nickname = nickname
+        viewModel?.profileData.caption = descriptionText
+        viewModel?.profileData.website = website
+        
+        // Send update to backend
+        viewModel?.sendEditUpdate()
     }
     
     public func configure(with viewModel: ProfileViewModel) {
+        self.viewModel = viewModel
+        
+        if viewModel.userId == Auth.auth().currentUser?.uid {
+            editButton.isHidden = false
+        }
+
+        
         nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption
         if let xyname = viewModel.xyname {
@@ -224,6 +420,8 @@ class ProfileHeaderReusableView: UICollectionReusableView {
     }
 }
 
+// MARK: - ProfileViewModel delegate functions
+
 extension ProfileHeaderReusableView: ProfileViewModelDelegate {
     func setCoverPictureOpacity(_ opacity: CGFloat) {
         coverImage.alpha = opacity
@@ -239,6 +437,7 @@ extension ProfileHeaderReusableView: ProfileViewModelDelegate {
     
     func onXYNameFetched(_ xyname: String) {
         xynameLabel.text = xyname
+                
         setNeedsLayout()
     }
     
