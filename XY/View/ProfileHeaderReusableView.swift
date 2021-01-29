@@ -393,6 +393,10 @@ class ProfileHeaderReusableView: UICollectionReusableView {
         viewModel?.sendEditUpdate()
     }
     
+    public func getScrollPosition() -> CGFloat {
+        return profilePicture.top + 10
+    }
+    
     public func configure(with viewModel: ProfileViewModel) {
         self.viewModel = viewModel
         

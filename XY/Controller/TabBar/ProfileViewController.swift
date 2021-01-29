@@ -41,6 +41,17 @@ class ProfileViewController: UIViewController {
     private var profileHeaderViewModel: ProfileViewModel?
     private var postViewModels = [PostViewModel]()
     
+    private lazy var profileHeaderScrollHeight: CGFloat? = {
+        guard let profileHeader = collectionView.supplementaryView(
+            forElementKind: UICollectionView.elementKindSectionHeader,
+            at: IndexPath(row: 0, section: 0)
+        ) as? ProfileHeaderReusableView else {
+            return nil
+        }
+        
+        return profileHeader.getScrollPosition() - 70 - view.safeAreaInsets.top
+    }()
+    
     // MARK: - Lifecycle
     
     init(userId: String) {
@@ -193,6 +204,11 @@ class ProfileViewController: UIViewController {
         
         let scrollY = scrollView.contentOffset.y
 
+        guard let scrollToPos = profileHeaderScrollHeight else {
+            return
+        }
+        print(scrollToPos)
+        
         if scrollY < 480 {
             if scrollY < previousScrollY {
                 // Scroll up
@@ -208,7 +224,7 @@ class ProfileViewController: UIViewController {
                 scrollView.scrollRectToVisible(
                     CGRect(
                         x: 0,
-                        y: 450,
+                        y: scrollToPos,
                         width: view.width,
                         height: view.height
                     ), animated: true)
@@ -219,6 +235,11 @@ class ProfileViewController: UIViewController {
     func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
         let scrollY = scrollView.contentOffset.y
 
+        guard let scrollToPos = profileHeaderScrollHeight else {
+            return
+        }
+        print(scrollToPos)
+        
         if scrollY < 480 {
             if scrollY < previousScrollY {
                 // Scroll up
@@ -234,7 +255,7 @@ class ProfileViewController: UIViewController {
                 scrollView.scrollRectToVisible(
                     CGRect(
                         x: 0,
-                        y: 450,
+                        y: scrollToPos,
                         width: view.width,
                         height: view.height
                     ), animated: true)
