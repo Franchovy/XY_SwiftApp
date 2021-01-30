@@ -39,7 +39,6 @@
 		B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482B725AAF1E00058D8B4 /* XPModel.swift */; };
 		B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9599A3B25711D810057B7D9 /* LoginViewController.swift */; };
 		B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */; };
-		B95C2C3925BDD5790001FA23 /* BlurMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95C2C3825BDD5790001FA23 /* BlurMenuViewController.swift */; };
 		B95C2C3D25BE91620001FA23 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95C2C3C25BE91620001FA23 /* PreviewViewController.swift */; };
 		B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */; };
 		B95E6DE425C311EA00FBEDF9 /* ProfileHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95E6DE325C311EA00FBEDF9 /* ProfileHeaderReusableView.swift */; };
@@ -126,7 +125,6 @@
 		B95482B725AAF1E00058D8B4 /* XPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModel.swift; sourceTree = "<group>"; };
 		B9599A3B25711D810057B7D9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		B95C2C3825BDD5790001FA23 /* BlurMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurMenuViewController.swift; sourceTree = "<group>"; };
 		B95C2C3C25BE91620001FA23 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloaderHelper.swift; sourceTree = "<group>"; };
 		B95E6DE325C311EA00FBEDF9 /* ProfileHeaderReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderReusableView.swift; sourceTree = "<group>"; };
@@ -207,16 +205,9 @@
 		14175C7C2570F62D00C88051 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				B926225D25A234A100BA2FB0 /* LaunchVC.swift */,
-				B9D1AB3025A3A591009B428E /* FlowDataCell.swift */,
-				14251377259F89F800DC08BB /* NotificationsVC.swift */,
-				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
-				B9599A3B25711D810057B7D9 /* LoginViewController.swift */,
-				B9B92DF125644F9B005D9B86 /* SignupViewController.swift */,
+				B981338525C5B00400FE857D /* Other */,
+				B981338425C5AFEE00FE857D /* Launch & Auth */,
 				149AD6A2259B52E300E81ABC /* TabBar */,
-				B95C2C4025BE91670001FA23 /* Camera */,
-				B90C163F25BC6404003811B2 /* MomentViewController.swift */,
-				B979F68B25C0799F0040AE5B /* ViralViewController.swift */,
 				B93CF23325C566C4003CB3DB /* Profile Header */,
 			);
 			path = Controller;
@@ -299,17 +290,9 @@
 				148935BE25A2686F00CB60C3 /* ConversationModel.swift */,
 				B95482B725AAF1E00058D8B4 /* XPModel.swift */,
 				B9DFBA6225B7495D0084E79D /* Notification.swift */,
+				B9D1AB3025A3A591009B428E /* FlowDataCell.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		B95C2C4025BE91670001FA23 /* Camera */ = {
-			isa = PBXGroup;
-			children = (
-				B95C2C3825BDD5790001FA23 /* BlurMenuViewController.swift */,
-				B95C2C3C25BE91620001FA23 /* PreviewViewController.swift */,
-			);
-			path = Camera;
 			sourceTree = "<group>";
 		};
 		B95FF4BF25A6F09900CFCA9E /* Services */ = {
@@ -325,6 +308,28 @@
 				B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B981338425C5AFEE00FE857D /* Launch & Auth */ = {
+			isa = PBXGroup;
+			children = (
+				B926225D25A234A100BA2FB0 /* LaunchVC.swift */,
+				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
+				B9599A3B25711D810057B7D9 /* LoginViewController.swift */,
+				B9B92DF125644F9B005D9B86 /* SignupViewController.swift */,
+			);
+			path = "Launch & Auth";
+			sourceTree = "<group>";
+		};
+		B981338525C5B00400FE857D /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				B95C2C3C25BE91620001FA23 /* PreviewViewController.swift */,
+				14251377259F89F800DC08BB /* NotificationsVC.swift */,
+				B90C163F25BC6404003811B2 /* MomentViewController.swift */,
+				B979F68B25C0799F0040AE5B /* ViralViewController.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 		B9B92DC725644A3F005D9B86 = {
@@ -603,7 +608,6 @@
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
-				B95C2C3925BDD5790001FA23 /* BlurMenuViewController.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
 				B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */,

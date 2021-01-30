@@ -43,11 +43,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
 
     private var previewVC: PreviewViewController?
     
-    private let blurMenu: BlurMenuViewController = {
-        let blurMenu = BlurMenuViewController()
-        return blurMenu
-    }()
-    
     private var pickerController: UIImagePickerController?
     
     // MARK: - Lifecycle
@@ -68,9 +63,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         view.addSubview(recordButton)
         view.addSubview(openCameraRollButton)
         view.addSubview(closeCameraVCButton)
-        
-        blurMenu.delegate = self
-        
+                
         openCameraRollButton.addTarget(self, action: #selector(didTapCameraRoll), for: .touchUpInside)
         closeCameraVCButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         
@@ -98,8 +91,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         super.viewDidLayoutSubviews()
         
         tabBarController?.setTabBarVisible(visible: false, duration: 0.1, animated: true)
-        blurMenu.view.frame = view.bounds
-                
+
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
             x: (view.width - recordButtonSize)/2,
@@ -215,23 +207,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         view.addSubview(previewVC!.view)
         
         previewVC!.view.frame = view.bounds
-    }
-}
-
-extension CameraViewController : BlurMenuViewControllerDelegate {
-    func blurMenuViewControllerDelegate(blurMenu: BlurMenuViewController, onButtonSelected: ButtonType) {
-        switch onButtonSelected {
-        case .moment:
-            session.sessionPreset = .high
-            session.startRunning()
-        case .post:
-            
-            session.startRunning()
-        }
-        
-        
-        blurMenu.dismissAnimated()
-        self.blurMenu.view.removeFromSuperview()
     }
 }
 
