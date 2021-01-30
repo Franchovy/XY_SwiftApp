@@ -158,6 +158,9 @@ class ProfileViewController: UIViewController {
             forCellWithReuseIdentifier: ProfileFlowCollectionViewCell.identifier
         )
         
+        additionalSafeAreaInsets.top = .zero
+//        edgesForExtendedLayout = .top
+        
 //        collectionView.register(ProfileScrollerReusableView.self, forCellWithReuseIdentifier: ProfileScrollerReusableView.identifier)
         
         collectionView.register(
@@ -173,6 +176,8 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        
         
         collectionView.frame = CGRect(
             x: 0,
@@ -333,6 +338,8 @@ extension ProfileViewController : UICollectionViewDataSource {
             width: view.width,
             height: view.width * aspectRatio
         )
+        
+        headerView.setUpNavigationBarForViewController(self)
         
         return headerView
     }

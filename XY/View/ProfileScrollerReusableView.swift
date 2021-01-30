@@ -20,11 +20,19 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     }()
 
     let control: UISegmentedControl = {
-        let titles = ["Following", "For You"]
-        let control = UISegmentedControl(items: titles)
-        control.selectedSegmentIndex = 1
-        control.backgroundColor = nil
-        control.selectedSegmentTintColor = .white
+        let titles = ["Profile", "For You"]
+        let icons = [
+            UIImage(named: "profile_profile_icon")?.withTintColor(.white, renderingMode: .alwaysOriginal),
+            UIImage(named: "profile_settings_icon")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        ]
+        let control = UISegmentedControl(items: icons)
+        
+        control.selectedSegmentIndex = 0
+        control.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
+        control.setDividerImage(UIImage(), forLeftSegmentState: .normal, rightSegmentState: .normal, barMetrics: .default)
+
+        control.backgroundColor = .clear
+        control.selectedSegmentTintColor = .clear
         return control
     }()
     
@@ -44,6 +52,8 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         super.init(frame: frame)
         
         addSubview(horizontalScrollView)
+        addSubview(control)
+        
         setUpFeed()
         horizontalScrollView.contentInsetAdjustmentBehavior = .never
         horizontalScrollView.delegate = self
@@ -61,6 +71,12 @@ class ProfileScrollerReusableView: UICollectionReusableView {
 
         horizontalScrollView.frame = bounds
 
+        control.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: width,
+            height: 30
+        )
         
         view1.frame = CGRect(x: 0,
              y: 0,
@@ -79,10 +95,15 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                                                       y: 0),
                                               animated: true)
     }
+    
+    public func setUpNavigationBarForViewController(_ vc: UIViewController) {
+        
+        vc.navigationItem.titleView = control
+    }
 
     func setUpHeaderButtons() {
         control.addTarget(self, action: #selector(didChangeSegmentControl(_:)), for: .valueChanged)
-        parentContainerViewController()?.navigationItem.titleView = control
+        
     }
     
     private func setUpFeed() {
@@ -92,51 +113,11 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     }
 
     func setUpFollowingFeed() {
-//        guard let model = followingPosts.first else {
-//            return
-//        }
-//        let vc = PostViewController(model: model)
-//        vc.delegate = self
-//        followingnPageViewController.setViewControllers(
-//            [vc],
-//            direction: .forward,
-//            animated: false,
-//            completion: nil
-//        )
-//        followingnPageViewController.dataSource = self
-
-//        horizontalScrollView.addSubview(followingnPageViewController.view)
-        
-        
         horizontalScrollView.addSubview(view1)
-//        addChild(followingnPageViewController)
-//        followingnPageViewController.didMove(toParent: self)
     }
 
     func setUpForYouFeed() {
-//        guard let model = forYouPosts.first else {
-//            return
-//        }
-//        let vc = PostViewController(model: model)
-//        vc.delegate = self
-//        forYouPageViewController.setViewControllers(
-//            [vc],
-//            direction: .forward,
-//            animated: false,
-//            completion: nil
-//        )
-//        forYouPageViewController.dataSource = self
-//
-//        horizontalScrollView.addSubview(forYouPageViewController.view)
-        
-        
         horizontalScrollView.addSubview(view2)
-//        forYouPageViewController.view.frame = CGRect(x: view.width,
-//                                             y: 0,
-//                                             width: horizontalScrollView.width,
-//                                             height: horizontalScrollView.height)
-//        addChild(forYouPageViewController)
-//        forYouPageViewController.didMove(toParent: self)
     }
 }
 
@@ -144,8 +125,17 @@ extension ProfileScrollerReusableView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView.contentOffset.x == 0 || scrollView.contentOffset.x <= (width/2) {
             control.selectedSegmentIndex = 0
+            
         } else if scrollView.contentOffset.x > (width/2) {
             control.selectedSegmentIndex = 1
         }
+        
+        
+        for index in 0...control.numberOfSegments-1 {
+            let image = control.imageForSegment(at: index)
+            control.setImage(image?.withTintColor(.gray, renderingMode: .alwaysOriginal), forSegmentAt: index)
+        }
+        let selectedImage = control.imageForSegment(at: control.selectedSegmentIndex)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        control.setImage(selectedImage, forSegmentAt: control.selectedSegmentIndex)
     }
 }
