@@ -72,15 +72,14 @@ class ProfileViewController: UIViewController {
                     self?.profileHeaderViewModel?.updateXP(XPModel(type: .user, xp: xp, level: level))
                 }
                 
-                guard let strongSelf = self, let profileHeader = strongSelf.collectionView.supplementaryView(
-                    forElementKind: UICollectionView.elementKindSectionHeader,
-                    at: IndexPath(row: 0, section: 0)
-                ) as? ProfileHeaderReusableView else {
+                guard let strongSelf = self,
+                    let profileHeader = strongSelf.collectionView.supplementaryView(forElementKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: 0)) as? ProfileScrollerReusableView else {
                     return
                 }
                 
+                let profileVC = profileHeader.getProfileDelegate()
                 profileHeader.configure(with: strongSelf.profileHeaderViewModel!)
-                strongSelf.profileHeaderViewModel?.delegate = profileHeader
+                strongSelf.profileHeaderViewModel?.delegate = profileVC
                 
             case .failure(let error):
                 print("Error fetching profile for user: \(userId)")
@@ -336,14 +335,14 @@ extension ProfileViewController : UICollectionViewDataSource {
         let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
         headerView.isUserInteractionEnabled = true
         headerView.addGestureRecognizer(tappedAnywhereExitEditingGesture)
-
+        
         guard let profileHeaderViewModel = profileHeaderViewModel else {
             return headerView
         }
-
+        
         headerView.configure(with: profileHeaderViewModel)
         profileHeaderViewModel.delegate = headerView.getProfileDelegate()
-
+        
         return headerView
     }
     
