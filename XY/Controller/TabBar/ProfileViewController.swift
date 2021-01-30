@@ -158,10 +158,12 @@ class ProfileViewController: UIViewController {
             forCellWithReuseIdentifier: ProfileFlowCollectionViewCell.identifier
         )
         
+//        collectionView.register(ProfileScrollerReusableView.self, forCellWithReuseIdentifier: ProfileScrollerReusableView.identifier)
+        
         collectionView.register(
-            ProfileHeaderReusableView.self,
+            ProfileScrollerReusableView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: "headerView"
+            withReuseIdentifier: ProfileScrollerReusableView.identifier
         )
         
         view.addSubview(collectionView)
@@ -320,10 +322,9 @@ extension ProfileViewController : UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        guard kind == UICollectionView.elementKindSectionHeader, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerView", for: indexPath) as? ProfileHeaderReusableView else {
+        guard kind == UICollectionView.elementKindSectionHeader, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileScrollerReusableView.identifier, for: indexPath) as? ProfileScrollerReusableView else {
             fatalError()
         }
-        
         
         let aspectRatio: CGFloat = 605 / 375
         headerView.frame = CGRect(
@@ -333,19 +334,37 @@ extension ProfileViewController : UICollectionViewDataSource {
             height: view.width * aspectRatio
         )
         
-        let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
-        headerView.isUserInteractionEnabled = true
-        headerView.addGestureRecognizer(tappedAnywhereExitEditingGesture)
-        
-        guard let profileHeaderViewModel = profileHeaderViewModel else {
-            return headerView
-        }
-        
-        headerView.configure(with: profileHeaderViewModel)
-        profileHeaderViewModel.delegate = headerView
-        
         return headerView
     }
+    
+//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+//
+//        guard kind == UICollectionView.elementKindSectionHeader, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerView", for: indexPath) as? ProfileHeaderReusableView else {
+//            fatalError()
+//        }
+//
+//
+//        let aspectRatio: CGFloat = 605 / 375
+//        headerView.frame = CGRect(
+//            x: 0,
+//            y: 0,
+//            width: view.width,
+//            height: view.width * aspectRatio
+//        )
+//
+//        let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
+//        headerView.isUserInteractionEnabled = true
+//        headerView.addGestureRecognizer(tappedAnywhereExitEditingGesture)
+//
+//        guard let profileHeaderViewModel = profileHeaderViewModel else {
+//            return headerView
+//        }
+//
+//        headerView.configure(with: profileHeaderViewModel)
+//        profileHeaderViewModel.delegate = headerView
+//
+//        return headerView
+//    }
     
 }
 
