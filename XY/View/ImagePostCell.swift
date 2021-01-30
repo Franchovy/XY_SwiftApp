@@ -24,7 +24,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     // MARK: - PROPERTIES
     
-    static let nibName = "ImagePostCell"
     static let identifier = "imagePostCell"
     static var type: FlowDataType = .post
     var type: FlowDataType = .post
@@ -36,11 +35,22 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     private var postCard: UIView = {
         let postCard = UIView()
         postCard.layer.cornerRadius = 15
-        postCard.layer.masksToBounds = true
+        postCard.layer.masksToBounds = false
+        // Normal shadow
+        postCard.layer.shadowOpacity = 1.0
+        postCard.layer.shadowColor = UIColor.black.cgColor
+        postCard.layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+        postCard.layer.shadowRadius = 3.0
         return postCard
     }()
     
-    var postShadowLayer = CAShapeLayer()
+    private var postShadowLayer: CAShapeLayer = {
+        let shadowLayer = CAShapeLayer()
+        shadowLayer.shadowOpacity = 0.0
+        shadowLayer.shadowOffset = CGSize(width: 0, height: 6)
+        shadowLayer.shadowRadius = 8
+        return shadowLayer
+    }()
     
     private var xpLevelDisplay = CircleView()
     
@@ -59,7 +69,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         return imageView
     }()
     
-    
     private let caption: MessageView = {
         let caption = MessageView()
         caption.clipsToBounds = true
@@ -69,6 +78,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     var isSwipedRightXPView = false
     static let defaultPanSensitivity = 0.05
     var panSensitivity = defaultPanSensitivity
+    var isSwiping = false
     
     // deprecate
     var delegate: ImagePostCellDelegate?
@@ -82,19 +92,23 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        // Initialization code
-        addSubview(postCard)
-        postCard.addSubview(contentImageView)
-        
-        addSubview(caption)
-        addSubview(profileImageView)
-        caption.setColor(.blue)
-        
+
         selectionStyle = .none
         
-        postCard.layer.cornerRadius = 15
+        addSubview(postCard)
+        postCard.addSubview(contentImageView)
+        postCard.layer.insertSublayer(postShadowLayer, at: 0)
         
-        contentImageView.layer.cornerRadius = 15
+        addSubview(caption)
+        caption.setColor(.blue)
+
+        addSubview(profileImageView)
+        
+        postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
+        postShadowLayer.shadowPath = postShadowLayer.path
+
+        postShadowLayer.shadowRadius = 6
+        postShadowLayer.shadowOffset = CGSize(width: 0, height: 8)
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(panGestureRecognizer:)))
         panGesture.delegate = self
@@ -107,9 +121,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         tapProfileImage.delegate = self
         profileImageView.addGestureRecognizer(tapProfileImage)
         
-        layer.shadowOpacity = 0.6
-        layer.shadowOffset = CGSize(width: 1, height: 1)
-        layer.shadowRadius = 5
     }
     
     required init?(coder: NSCoder) {
@@ -119,30 +130,32 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let postCardWidth = contentView.width - 44
-        
-        postCard.frame = CGRect(
-            x: (contentView.width/2 - postCardWidth/2),
-            y: 10,
-            width: postCardWidth,
-            height: postCardWidth
-        )
-        
+        let postCardSize = contentView.width - 44
+
+        if !isSwiping {
+            postCard.frame = CGRect(
+                x: (contentView.width/2 - postCardSize/2),
+                y: 10,
+                width: postCardSize,
+                height: postCardSize
+            )
+        }
         contentImageView.frame = postCard.bounds
         
+        let postCardPos = postCardSize + 10
+        
         profileImageView.frame = CGRect(
-            x: postCard.left,
-            y: postCard.bottom + 5,
+            x: (contentView.width/2 - postCardSize/2),
+            y: postCardPos + 5,
             width: 50,
             height: 50
         )
         profileImageView.layer.cornerRadius = profileImageView.width / 2
         
-
         let captionSize = caption.getSize()
         caption.frame = CGRect(
             x: profileImageView.right + 14 ,
-            y: postCard.bottom + 6,
+            y: postCardPos + 6,
             width: captionSize.width,
             height: captionSize.height
         )
@@ -151,18 +164,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
 
-        postShadowLayer.shadowRadius = 6
-        postShadowLayer.shadowOffset = CGSize(width: 0, height: 8)
-        postCard.layer.insertSublayer(postShadowLayer, at: 0)
+        
     }
     
     override func prepareForReuse() {
         // Load from data for this cell
-        postCard.layer.shadowOpacity = 0.0
-        postCard.layer.shadowColor = UIColor.black.cgColor
-        postCard.transform = CGAffineTransform.identity
-        
         postShadowLayer.shadowOpacity = 0.0
+        postCard.transform = CGAffineTransform.identity
         
         contentImageView.image = nil
         profileImageView.image = nil
@@ -226,6 +234,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             y: 0
         )
         
+        isSwiping = true
+        
         postCard.transform = transform.rotated(by: translationX / 500)
         
         // Color for swipe
@@ -236,7 +246,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
         
         postShadowLayer.shadowOpacity = Float(abs(translationX) / 50)
-        
         
         // On gesture finish
         guard panGestureRecognizer.state == .ended else {
@@ -253,22 +262,26 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 if done {
                     // Swipe Right
                     self.delegate?.imagePostCellDelegate(didSwipeRight: self)
+                    self.isSwiping = false
                 }
             }
         } else if translationX < -50, velocityX < -10 {
             self.delegate?.imagePostCellDelegate(willSwipeLeft: self)
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
+                
             } completion: { (done) in
                 if done {
                     // Swipe Left
                     self.delegate?.imagePostCellDelegate(didSwipeLeft: self)
+                    self.isSwiping = false
                 }
             }
         } else {
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
                 self.postCard.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
                 self.postShadowLayer.shadowOpacity = 0
+                self.isSwiping = false
             }
         }
     }
