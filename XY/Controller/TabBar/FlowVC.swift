@@ -134,10 +134,6 @@ class FlowVC : UITableViewController {
         return cell
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15 // Return the spacing between sections
-    }
-    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear // Make the background color show through
@@ -156,6 +152,7 @@ extension FlowVC : ImagePostCellDelegate {
             }
             
             let profileVC = ProfileViewController(userId: userId)
+            
             
             self.present(profileVC, animated: true) { }
         }

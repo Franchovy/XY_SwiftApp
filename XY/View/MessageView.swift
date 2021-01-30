@@ -172,8 +172,6 @@ class MessageView: UIView, UITextFieldDelegate {
             height: textField.height
         )
         
-
-        
         dateLabel.sizeToFit()
         dateLabel.frame = CGRect(
             x: width - dateLabel.width - 5,

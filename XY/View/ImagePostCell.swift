@@ -62,6 +62,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         return imageView
     }()
     
+    private let profileImageContainer = UIView()
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -69,6 +70,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         return imageView
     }()
     
+    private let captionContainer = UIView()
     private let caption: MessageView = {
         let caption = MessageView()
         caption.clipsToBounds = true
@@ -99,10 +101,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postCard.addSubview(contentImageView)
         postCard.layer.insertSublayer(postShadowLayer, at: 0)
         
-        addSubview(caption)
         caption.setColor(.blue)
-
-        addSubview(profileImageView)
+        captionContainer.addSubview(caption)
+        addSubview(captionContainer)
+        
+        profileImageContainer.addSubview(profileImageView)
+        addSubview(profileImageContainer)
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
@@ -117,9 +121,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         profileImageView.backgroundColor = .gray
         profileImageView.isUserInteractionEnabled = true
+        
+        contentView.isUserInteractionEnabled = false
+        
         let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
         tapProfileImage.delegate = self
-        profileImageView.addGestureRecognizer(tapProfileImage)
+        profileImageContainer.addGestureRecognizer(tapProfileImage)
+        
         
     }
     
@@ -144,27 +152,39 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         let postCardPos = postCardSize + 10
         
-        profileImageView.frame = CGRect(
+        profileImageContainer.frame = CGRect(
             x: (contentView.width/2 - postCardSize/2),
             y: postCardPos + 5,
             width: 50,
             height: 50
         )
-        profileImageView.layer.cornerRadius = profileImageView.width / 2
+        profileImageView.frame = profileImageContainer.bounds
+        profileImageView.applyshadowWithCorner(
+            containerView: profileImageContainer,
+            cornerRadious: profileImageContainer.width / 2,
+            shadowOffset: CGSize(width: 0.5, height: 0.5),
+            shadowRadius: 2
+        )
         
         let captionSize = caption.getSize()
-        caption.frame = CGRect(
-            x: profileImageView.right + 14 ,
+        captionContainer.frame = CGRect(
+            x: profileImageContainer.right + 14 ,
             y: postCardPos + 6,
             width: captionSize.width,
             height: captionSize.height
         )
         caption.layoutSubviews()
+        caption.applyshadowWithCorner(
+            containerView: captionContainer,
+            cornerRadious: caption.layer.cornerRadius,
+            shadowOffset: CGSize(width: 0.5, height: 0.5),
+            shadowRadius: 1
+        )
+        caption.frame = captionContainer.bounds
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
 
-        
     }
     
     override func prepareForReuse() {
@@ -213,8 +233,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         caption.text = viewModel.content
         caption.timestamp = viewModel.getTimestampString()
         
-        caption.frame.size = caption.getSize()
-        caption.layoutSubviews()
     }
     
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {

@@ -98,6 +98,10 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         
     }
     
+    public func setIsOwnProfile(isOwn: Bool) {
+        control.isHidden = !isOwn
+    }
+    
     public func configure(with viewModel: ProfileViewModel) {
         guard let profileViewController = viewControllers[0] as? ProfileHeaderViewController else {
             return
