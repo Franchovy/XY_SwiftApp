@@ -13,14 +13,19 @@ import ImagePicker
 
 class FlowVC : UITableViewController {
     
+    // MARK: - Properties
+    
     var data: [FlowDataModel] = []
     
     @IBOutlet weak var barXPCircle: CircleView!
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         
-        barXPCircle.setProgress(level: 1, progress: 0.0)
+        barXPCircle.setProgress(level: 0, progress: 0.0)
         barXPCircle.setupFinished()
+        barXPCircle.setLevelLabelFontSize(size: 24)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
         barXPCircle.addGestureRecognizer(tap)
@@ -56,7 +61,7 @@ class FlowVC : UITableViewController {
         }
     }
     
-    // MARK: - GESTURE RECOGNIZERS
+    // MARK: - Obj-C Functions
     
     @objc func xpButtonPressed() {
         // Level up check
@@ -78,6 +83,8 @@ class FlowVC : UITableViewController {
     func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
         print("cancel")
     }
+    
+    // MARK: - Private Methods
     
     private func prefetchData() {
         
@@ -118,6 +125,8 @@ class FlowVC : UITableViewController {
         }
     }
     
+    // MARK: - TableView Overrides
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
@@ -140,6 +149,8 @@ class FlowVC : UITableViewController {
         return headerView
     }
 }
+
+// MARK: - ImagePostCell Delegate functions
 
 extension FlowVC : ImagePostCellDelegate {
     func imagePostCellDelegate(didTapProfilePictureForProfile profileId: String) {
