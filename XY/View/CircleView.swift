@@ -61,7 +61,7 @@ class CircleView: UIView {
     
     override func layoutSubviews() {
         
-        levelLabel.font = UIFont(name: "HelveticaNeue-Bold", size: width * 2 / 3)
+        levelLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
         levelLabel.sizeToFit()
         levelLabel.center = contentView.center
         
@@ -75,10 +75,9 @@ class CircleView: UIView {
         shadowLayer.lineWidth = 2.0
         shadowLayer.shadowOpacity = 1.0
         shadowLayer.shadowRadius = 5
-        shadowLayer.shadowColor = UIColor.blue.cgColor
+        shadowLayer.shadowColor = UIColor(named: "xp_blue")!.cgColor
         shadowLayer.shadowOffset = .zero
         
-
         let shadowView = UIView()
         shadowView.layer.addSublayer(shadowLayer)
         
@@ -92,6 +91,12 @@ class CircleView: UIView {
     
     func setupFinished() {
         progressBarCircle.setup = false
+    }
+    
+    func setLevelLabelFontSize(size: CGFloat) {
+        levelLabel.font = UIFont(name: "HelveticaNeue-Bold", size: size)
+        levelLabel.sizeToFit()
+        levelLabel.center = contentView.center
     }
 }
 

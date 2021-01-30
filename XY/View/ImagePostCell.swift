@@ -52,7 +52,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         return shadowLayer
     }()
     
-    private var xpLevelDisplay = CircleView()
+    private var xpCircle = CircleView()
     
     private var contentImageView: UIImageView = {
         let imageView = UIImageView()
@@ -100,6 +100,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         addSubview(postCard)
         postCard.addSubview(contentImageView)
         postCard.layer.insertSublayer(postShadowLayer, at: 0)
+        
+        postCard.addSubview(xpCircle)
         
         caption.setColor(.blue)
         captionContainer.addSubview(caption)
@@ -150,6 +152,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
         contentImageView.frame = postCard.bounds
         
+        xpCircle.frame = CGRect(
+            x: postCard.width - 30 - 10.78,
+            y: 10.78,
+            width: 30,
+            height: 30
+        )
+        
         let postCardPos = postCardSize + 10
         
         profileImageContainer.frame = CGRect(
@@ -199,7 +208,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         if let viewModel = viewModel {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
         }
-        xpLevelDisplay.reset()
+        xpCircle.reset()
     }
 
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -222,13 +231,14 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 return
             }
             
-            strongSelf.xpLevelDisplay.onProgress(
+            strongSelf.xpCircle.onProgress(
                 level: xpModel.level,
                 progress: Float(xpModel.xp) / Float(nextLevelXP)
             )
         }
         
-        xpLevelDisplay.setProgress(level: 1, progress: 0.5)
+        xpCircle.setProgress(level: 0, progress: 0.0)
+        xpCircle.setupFinished()
         
         caption.text = viewModel.content
         caption.timestamp = viewModel.getTimestampString()
