@@ -57,6 +57,9 @@ class ProfileViewController: UIViewController {
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
+        view.backgroundColor = .clear
+        collectionView.backgroundColor = UIColor(named: "Black")
+        
         var tempLvlStore: Int? = nil
         var tempXPStore: Int? = nil
         

@@ -422,6 +422,7 @@ class ProfileHeaderViewController: UIViewController {
             return
         }
         xpCircle.setProgress(level: level, progress: Float(xp) / Float(nextLevelXp))
+        xpCircle.layoutSubviews()
     }
 }
 

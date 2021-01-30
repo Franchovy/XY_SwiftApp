@@ -163,7 +163,7 @@ extension FlowVC : ImagePostCellDelegate {
             }
             
             let profileVC = ProfileViewController(userId: userId)
-            
+            profileVC.modalPresentationStyle = .popover
             
             self.present(profileVC, animated: true) { }
         }

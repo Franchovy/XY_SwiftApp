@@ -29,9 +29,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     var type: FlowDataType = .post
 
     var viewModel: PostViewModel?
-    
-    // MARK: - IBOutlets
-    
+        
     private var postCard: UIView = {
         let postCard = UIView()
         postCard.layer.cornerRadius = 15
@@ -86,11 +84,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     var delegate: ImagePostCellDelegate?
     
     var images: [UIImage]?
-
-    
-    // MARK: - PUBLIC METHODS
     
     var panGesture:UIPanGestureRecognizer!
+    
+    // MARK: Initializers
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -137,10 +134,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Lifecycle
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let postCardSize = contentView.width - 44
+        let postCardSize = contentView.width - 34
 
         if !isSwiping {
             postCard.frame = CGRect(
@@ -149,16 +148,16 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 width: postCardSize,
                 height: postCardSize
             )
+            
+            xpCircle.frame = CGRect(
+                x: postCard.width - 30 - 10.78,
+                y: 10.78,
+                width: 30,
+                height: 30
+            )
         }
         contentImageView.frame = postCard.bounds
-        
-        xpCircle.frame = CGRect(
-            x: postCard.width - 30 - 10.78,
-            y: 10.78,
-            width: 30,
-            height: 30
-        )
-        
+    
         let postCardPos = postCardSize + 10
         
         profileImageContainer.frame = CGRect(
