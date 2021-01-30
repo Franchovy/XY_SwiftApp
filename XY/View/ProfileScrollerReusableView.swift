@@ -42,14 +42,12 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         super.init(frame: frame)
 
         let profileViewController = ProfileHeaderViewController()
-        profileViewController.view.backgroundColor = .red
         horizontalScrollView.addSubview(profileViewController.view)
         viewControllers.append(profileViewController)
         
-        let test = UIViewController()
-        test.view.backgroundColor = .blue
-        horizontalScrollView.addSubview(test.view)
-        viewControllers.append(test)
+        let settingsViewController = ProfileHeaderSettingsViewController()
+        horizontalScrollView.addSubview(settingsViewController.view)
+        viewControllers.append(settingsViewController)
         
         addSubview(horizontalScrollView)
         addSubview(control)

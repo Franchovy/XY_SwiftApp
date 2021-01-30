@@ -29,6 +29,7 @@
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */; };
+		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
 		B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D4ADD25AEE85000CC5147 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D4ADC25AEE85000CC5147 /* ChatViewModel.swift */; };
@@ -113,6 +114,7 @@
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
 		B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScrollerReusableView.swift; sourceTree = "<group>"; };
+		B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSettingsViewController.swift; sourceTree = "<group>"; };
 		B93D1BEB2597E9C6009ADBFC /* XYTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XYTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -215,7 +217,7 @@
 				B95C2C4025BE91670001FA23 /* Camera */,
 				B90C163F25BC6404003811B2 /* MomentViewController.swift */,
 				B979F68B25C0799F0040AE5B /* ViralViewController.swift */,
-				B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */,
+				B93CF23325C566C4003CB3DB /* Profile Header */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -262,6 +264,15 @@
 				B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B93CF23325C566C4003CB3DB /* Profile Header */ = {
+			isa = PBXGroup;
+			children = (
+				B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */,
+				B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */,
+			);
+			path = "Profile Header";
 			sourceTree = "<group>";
 		};
 		B93D1BEC2597E9C6009ADBFC /* XYTests */ = {
@@ -577,6 +588,7 @@
 				B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
+				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B94D4ADD25AEE85000CC5147 /* ChatViewModel.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,

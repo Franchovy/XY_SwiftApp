@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseAuth
 
+
 class ProfileHeaderViewController: UIViewController {
     
     var viewModel: ProfileViewModel?
