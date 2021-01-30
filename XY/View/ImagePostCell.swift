@@ -33,16 +33,28 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     // MARK: - IBOutlets
     
-    @IBOutlet weak var postCard: UIView!
+    private var postCard: UIView = {
+        let postCard = UIView()
+        postCard.layer.cornerRadius = 15
+        postCard.layer.masksToBounds = true
+        return postCard
+    }()
+    
     var postShadowLayer = CAShapeLayer()
     
-    @IBOutlet weak var xpLevelDisplay: CircleView!
+    private var xpLevelDisplay = CircleView()
     
-    @IBOutlet weak var contentImageView: UIImageView!
+    private var contentImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 15
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 20
         imageView.layer.masksToBounds = true
         return imageView
     }()
@@ -68,12 +80,17 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     var panGesture:UIPanGestureRecognizer!
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         // Initialization code
+        addSubview(postCard)
+        postCard.addSubview(contentImageView)
+        
         addSubview(caption)
         addSubview(profileImageView)
         caption.setColor(.blue)
+        
+        selectionStyle = .none
         
         postCard.layer.cornerRadius = 15
         
@@ -95,25 +112,33 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         layer.shadowRadius = 5
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func layoutSubviews() {
-        let contentWidth = min(contentView.width - 30, contentImageView.width)
-        let contentHeight = contentImageView.height
+        super.layoutSubviews()
+        
+        let postCardWidth = contentView.width - 44
         
         postCard.frame = CGRect(
-            x: (contentView.width/2 - contentWidth/2),
+            x: (contentView.width/2 - postCardWidth/2),
             y: 10,
-            width: contentWidth,
-            height: contentHeight
+            width: postCardWidth,
+            height: postCardWidth
         )
+        
+        contentImageView.frame = postCard.bounds
         
         profileImageView.frame = CGRect(
             x: postCard.left,
-            y: postCard.bottom + 13,
-            width: 40,
-            height: 40
+            y: postCard.bottom + 5,
+            width: 50,
+            height: 50
         )
+        profileImageView.layer.cornerRadius = profileImageView.width / 2
         
-        
+
         let captionSize = caption.getSize()
         caption.frame = CGRect(
             x: profileImageView.right + 14 ,
@@ -121,7 +146,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             width: captionSize.width,
             height: captionSize.height
         )
-        caption.setNeedsLayout()
+        caption.layoutSubviews()
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
@@ -179,6 +204,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         caption.text = viewModel.content
         caption.timestamp = viewModel.getTimestampString()
+        
+        caption.frame.size = caption.getSize()
+        caption.layoutSubviews()
     }
     
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {

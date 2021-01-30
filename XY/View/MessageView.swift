@@ -49,7 +49,6 @@ class MessageView: UIView, UITextFieldDelegate {
         label.numberOfLines = 2
         label.font = UIFont(name: "HelveticaNeue", size: 15)
         label.textColor = .white
-        
         return label
     }()
     
@@ -75,7 +74,7 @@ class MessageView: UIView, UITextFieldDelegate {
     
     public var text: String {
         get {
-            return textField.text ?? ""
+            return label.text ?? ""
         }
         set {
             label.text = newValue
@@ -94,6 +93,22 @@ class MessageView: UIView, UITextFieldDelegate {
             dateLabel.text = newValue
             dateLabel.sizeToFit()
         }
+    }
+    
+    public func getSize() -> CGSize {
+        
+        let labelWidth = min(label.width, 275)
+        
+        label.frame.size.width = labelWidth
+        label.sizeToFit()
+        
+        let minWidth = nameLabel.width + dateLabel.width + 15
+        
+        let numRows:CGFloat = CGFloat(label.calculateMaxLines())
+        return CGSize(
+            width: max(minWidth, labelWidth + 28),
+            height: numRows * label.font.lineHeight + 28
+        )
     }
     
     public var isEditable: Bool = false
@@ -116,54 +131,53 @@ class MessageView: UIView, UITextFieldDelegate {
         
         textField.addTarget(self, action: #selector(onTextFieldChange), for: .editingChanged)
         
+//        translatesAutoresizingMaskIntoConstraints = false
+//        label.translatesAutoresizingMaskIntoConstraints = false
+        
+//        addConstraint(NSLayoutConstraint(item: label, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 19.0))
+//        addConstraint(NSLayoutConstraint(item: label, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: 6.0))
+//        addConstraint(NSLayoutConstraint(item: label, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 16.0))
+//        addConstraint(NSLayoutConstraint(item: label, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: 13.0))
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func getSize() -> CGSize {
-        
-        let labelWidth = min(label.width, 275)
-        
-        label.frame.size.width = labelWidth
-        label.sizeToFit()
-        
-        let numRows:CGFloat = CGFloat(label.calculateMaxLines())
-        return CGSize(
-            width: labelWidth + 28,
-            height: numRows * label.font.lineHeight + 28
-        )
-    }
-    
     override func layoutSubviews() {
+        
+        super.layoutSubviews()
 
-        label.frame = CGRect(
-            x: 14,
-            y: 14,
-            width: label.width,
-            height: label.height
-        )
-        
-        textField.frame = CGRect(
-            x: 14,
-            y: 14,
-            width: textField.width,
-            height: textField.height
-        )
-        
         nameLabel.sizeToFit()
         nameLabel.frame = CGRect(
-            x: 4,
-            y: 2,
+            x: 5.94,
+            y: 3.72,
             width: nameLabel.width,
             height: nameLabel.height
         )
         
+        label.frame = CGRect(
+            x: 14,
+            y: nameLabel.bottom + 3,
+            width: label.width,
+            height: label.height
+        )
+        
+        textField.sizeToFit()
+        textField.frame = CGRect(
+            x: 14,
+            y: 16,
+            width: textField.width,
+            height: textField.height
+        )
+        
+
+        
         dateLabel.sizeToFit()
         dateLabel.frame = CGRect(
             x: width - dateLabel.width - 5,
-            y: height - dateLabel.height - 2,
+            y: 4,
             width: dateLabel.width,
             height: dateLabel.height
         )

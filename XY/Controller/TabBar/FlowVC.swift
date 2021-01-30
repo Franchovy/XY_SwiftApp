@@ -33,7 +33,7 @@ class FlowVC : UITableViewController {
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
-        tableView.register(UINib(nibName: ImagePostCell.nibName, bundle: nil), forCellReuseIdentifier: ImagePostCell.identifier)
+        tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
         prefetchData()
     }
     
@@ -120,6 +120,10 @@ class FlowVC : UITableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 465
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
