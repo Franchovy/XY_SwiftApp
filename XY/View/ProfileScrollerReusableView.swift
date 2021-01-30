@@ -36,28 +36,28 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         return control
     }()
     
-    private let view1: UIView = {
-        let view = UIView()
-        view.backgroundColor = .red
-        return view
-    }()
-    
-    private let view2: UIView = {
-        let view = UIView()
-        view.backgroundColor = .blue
-        return view
-    }()
+    private var viewControllers = [UIViewController]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+
+        let profileViewController = ProfileHeaderViewController()
+        profileViewController.view.backgroundColor = .red
+        horizontalScrollView.addSubview(profileViewController.view)
+        viewControllers.append(profileViewController)
+        
+        let test = UIViewController()
+        test.view.backgroundColor = .blue
+        horizontalScrollView.addSubview(test.view)
+        viewControllers.append(test)
         
         addSubview(horizontalScrollView)
         addSubview(control)
         
-        setUpFeed()
+        horizontalScrollView.contentSize = CGSize(width: width * 2, height: height)
+        
         horizontalScrollView.contentInsetAdjustmentBehavior = .never
         horizontalScrollView.delegate = self
-        horizontalScrollView.contentOffset = CGPoint(x: width, y: 0)
         
         setUpHeaderButtons()
     }
@@ -78,16 +78,15 @@ class ProfileScrollerReusableView: UICollectionReusableView {
             height: 30
         )
         
-        view1.frame = CGRect(x: 0,
-             y: 0,
-             width: horizontalScrollView.width,
-             height: horizontalScrollView.height)
-        
-        view2.frame = CGRect(x: horizontalScrollView.width,
-             y: 0,
-             width: horizontalScrollView.width,
-             height: horizontalScrollView.height)
-        
+        for i in 0...viewControllers.count-1 {
+            let viewController = viewControllers[i]
+            viewController.view.frame = CGRect(
+                x: horizontalScrollView.width * CGFloat(i),
+                y: 0,
+                width: horizontalScrollView.width,
+                height: horizontalScrollView.height
+            )
+        }
     }
     
     @objc private func didChangeSegmentControl(_ sender: UISegmentedControl) {
@@ -96,28 +95,23 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                                               animated: true)
     }
     
-    public func setUpNavigationBarForViewController(_ vc: UIViewController) {
-        
-        vc.navigationItem.titleView = control
-    }
-
     func setUpHeaderButtons() {
         control.addTarget(self, action: #selector(didChangeSegmentControl(_:)), for: .valueChanged)
         
     }
     
-    private func setUpFeed() {
-        horizontalScrollView.contentSize = CGSize(width: width * 2, height: height)
-        setUpFollowingFeed()
-        setUpForYouFeed()
+    public func configure(with viewModel: ProfileViewModel) {
+        guard let profileViewController = viewControllers[0] as? ProfileHeaderViewController else {
+            return
+        }
+        profileViewController.configure(with: viewModel)
     }
-
-    func setUpFollowingFeed() {
-        horizontalScrollView.addSubview(view1)
-    }
-
-    func setUpForYouFeed() {
-        horizontalScrollView.addSubview(view2)
+    
+    public func getProfileDelegate() -> ProfileViewModelDelegate {
+        guard let profileViewController = viewControllers[0] as? ProfileHeaderViewController else {
+            fatalError()
+        }
+        return profileViewController
     }
 }
 

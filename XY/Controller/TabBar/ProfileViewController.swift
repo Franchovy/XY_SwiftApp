@@ -159,9 +159,6 @@ class ProfileViewController: UIViewController {
         )
         
         additionalSafeAreaInsets.top = .zero
-//        edgesForExtendedLayout = .top
-        
-//        collectionView.register(ProfileScrollerReusableView.self, forCellWithReuseIdentifier: ProfileScrollerReusableView.identifier)
         
         collectionView.register(
             ProfileScrollerReusableView.self,
@@ -177,8 +174,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        
-        
         collectionView.frame = CGRect(
             x: 0,
             y: 0,
@@ -187,7 +182,6 @@ class ProfileViewController: UIViewController {
         )
         
         view.frame.size.height = min(collectionView.bottom, 1081)
-        
     }
     
     // MARK: - Private functions
@@ -339,8 +333,17 @@ extension ProfileViewController : UICollectionViewDataSource {
             height: view.width * aspectRatio
         )
         
-        headerView.setUpNavigationBarForViewController(self)
-        
+        let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
+        headerView.isUserInteractionEnabled = true
+        headerView.addGestureRecognizer(tappedAnywhereExitEditingGesture)
+
+        guard let profileHeaderViewModel = profileHeaderViewModel else {
+            return headerView
+        }
+
+        headerView.configure(with: profileHeaderViewModel)
+        profileHeaderViewModel.delegate = headerView.getProfileDelegate()
+
         return headerView
     }
     
