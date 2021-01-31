@@ -247,7 +247,6 @@ class FirebaseDownload {
     }
     
     // static func get flow [range of int] posts to get within algorithm
-    
     static func getConversation(conversationId: String, completion: @escaping(ConversationModel?, Error?) -> Void ) {
         let document = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationId)
         

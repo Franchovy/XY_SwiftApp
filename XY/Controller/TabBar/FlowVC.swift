@@ -179,7 +179,6 @@ extension FlowVC : ImagePostCellDelegate {
             return
         }
         
-        
         UIView.animate(withDuration: 0.2) {
             cell.alpha = 0.0
         }
@@ -203,10 +202,6 @@ extension FlowVC : ImagePostCellDelegate {
             return
         }
         
-        if let model = data[cellIndex.row] as? PostModel {
-            FirebaseFunctionsManager.shared.swipeRight(postId: model.id)
-        }
-        
         UIView.animate(withDuration: 0.2) {
             cell.alpha = 0.0
         }
@@ -223,26 +218,11 @@ extension FlowVC : ImagePostCellDelegate {
         }
     }
     
-    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
-        guard let postId = cell.viewModel?.postId else {
-            return
-        }
-        
-        FirebaseUpload.sendSwipeLeft(postId: postId) { (result) in
-            switch result {
-            case .success():
-                // Swipe Left successful
-                break
-            case .failure(let error):
-                print("Error swiping left!")
-            }
-        }
+    func imagePostCellDelegate(didSwipeLeft postId: String) {
+        FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
     }
     
-    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell) {
-        guard let postId = cell.viewModel?.postId else {
-            return
-        }
-        
+    func imagePostCellDelegate(didSwipeRight postId: String) {
+        FirebaseFunctionsManager.shared.swipeRight(postId: postId)
     }
 }

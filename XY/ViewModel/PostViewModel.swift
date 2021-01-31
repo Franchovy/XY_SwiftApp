@@ -132,15 +132,7 @@ class PostViewModel {
     }
     
     func sendSwipeLeft() {
-        FirebaseUpload.sendSwipeLeft(postId: postId) { result in
-            switch result {
-            case .success():
-                // Flow automatically reloads
-                break
-            case .failure(let error):
-                print("Error sending swipe left transaction: \(error)")
-            }
-        }
+        FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
     }
     
     func getTimestampString() -> String {

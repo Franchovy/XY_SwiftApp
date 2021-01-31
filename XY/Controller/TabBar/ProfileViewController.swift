@@ -358,35 +358,6 @@ extension ProfileViewController : UICollectionViewDataSource {
         return headerView
     }
     
-//    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-//
-//        guard kind == UICollectionView.elementKindSectionHeader, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "headerView", for: indexPath) as? ProfileHeaderReusableView else {
-//            fatalError()
-//        }
-//
-//
-//        let aspectRatio: CGFloat = 605 / 375
-//        headerView.frame = CGRect(
-//            x: 0,
-//            y: 0,
-//            width: view.width,
-//            height: view.width * aspectRatio
-//        )
-//
-//        let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
-//        headerView.isUserInteractionEnabled = true
-//        headerView.addGestureRecognizer(tappedAnywhereExitEditingGesture)
-//
-//        guard let profileHeaderViewModel = profileHeaderViewModel else {
-//            return headerView
-//        }
-//
-//        headerView.configure(with: profileHeaderViewModel)
-//        profileHeaderViewModel.delegate = headerView
-//
-//        return headerView
-//    }
-    
 }
 
 //MARK: - DelegateFlowLayout Extension

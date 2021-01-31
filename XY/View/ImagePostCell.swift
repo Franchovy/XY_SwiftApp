@@ -15,8 +15,8 @@ protocol ImagePostCellDelegate {
     //TODO: swipe right, swipe left from flow.
     func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell)
     func imagePostCellDelegate(willSwipeRight cell: ImagePostCell)
-    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell)
-    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell)
+    func imagePostCellDelegate(didSwipeLeft postId: String)
+    func imagePostCellDelegate(didSwipeRight postId: String)
 }
 
 
@@ -282,25 +282,35 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         // Animate if needed
         if translationX > 50, velocityX > 10 {
             
-            self.delegate?.imagePostCellDelegate(willSwipeRight: self)
+            guard let delegate = self.delegate, let viewModel = self.viewModel else {
+                return
+            }
+            delegate.imagePostCellDelegate(willSwipeRight: self)
+            
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.postCard.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
             } completion: { (done) in
                 if done {
                     // Swipe Right
-                    self.delegate?.imagePostCellDelegate(didSwipeRight: self)
+                    delegate.imagePostCellDelegate(didSwipeRight: viewModel.postId)
+                    
                     self.isSwiping = false
                 }
             }
         } else if translationX < -50, velocityX < -10 {
-            self.delegate?.imagePostCellDelegate(willSwipeLeft: self)
+            
+            guard let delegate = self.delegate, let viewModel = self.viewModel else {
+                return
+            }
+            delegate.imagePostCellDelegate(willSwipeLeft: self)
+            
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
                 self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
                 
             } completion: { (done) in
                 if done {
                     // Swipe Left
-                    self.delegate?.imagePostCellDelegate(didSwipeLeft: self)
+                    delegate.imagePostCellDelegate(didSwipeLeft: viewModel.postId)
                     self.isSwiping = false
                 }
             }
@@ -313,59 +323,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
     }
     
-    func cancelSwipe() {
-        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 1.0, initialSpringVelocity: 1.0, options: .curveEaseIn, animations: {
-            self.postCard.transform = CGAffineTransform(a: 1, b: 0, c: 0, d: 1, tx: 0, ty: 0)
-            self.postCard.layer.shadowOpacity = 0.0
-        }, completion: { bool in
-            
-        })
-    }
-    
-    enum SwipeDirection {
-        case left
-        case right
-    }
-    
-    func confirmSwipe(direction: SwipeDirection) {
-        let directionMultiplier = direction == .left ? -1 : 1
-        
-        UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 5.0, initialSpringVelocity: 20, options: .curveEaseIn, animations: {
-            self.postCard.transform.tx = 500 * CGFloat(directionMultiplier)
-            
-        }, completion: { done in
-            if done {
-                
-                if direction == .left {
-                    UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 1.0, initialSpringVelocity: 10, options: .curveEaseOut, animations: {
-                        self.postCard.transform.tx = 500 * CGFloat(directionMultiplier)
-                    }, completion: { bool in
-                        guard let flowVC = self.viewContainingController() as? FlowVC else { fatalError() }
-                        
-                        flowVC.barXPCircle.progressBarCircle.color = .blue
-                        
-                        // Collapse this view
-                        let indexPath = flowVC.tableView.indexPath(for: self)!
-                        
-                        flowVC.data.remove(at: indexPath.row)
-                        flowVC.tableView.deleteRows(at: [indexPath], with: direction == .right ? .right : .left)
-                        
-                        self.viewModel?.sendSwipeLeft()
-                    })
-                } else {
-                    UIView.animate(withDuration: 0.5, delay: 0.0, usingSpringWithDamping: 1.0, initialSpringVelocity: 15, options: .beginFromCurrentState, animations: {
-                        self.postCard.transform.tx = 0
-                        self.postCard.layer.shadowOpacity = 0.0
-                    }, completion: { done in
-                        if done {
-                            // Swipe Right to firebase
-                            self.viewModel?.sendSwipeRight()
-                        }
-                    })
-                }
-            }
-        })
-    }
 }
 
 

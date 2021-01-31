@@ -71,6 +71,7 @@ class NotificationsVC: UIViewController {
             }
             
             if initializing {
+                print("Initializing notifications")
                 // Append post
                 for notificationDocument in querySnapshot.documents {
                     self?.lastFetchedElement = notificationDocument
@@ -81,17 +82,21 @@ class NotificationsVC: UIViewController {
                     var notificationViewModel = NotificationViewModel(from: notificationModel)
                     notificationViewModel.delegate = strongSelf
                     
+                    print("Appending notification")
                     strongSelf.notifications.append(notificationViewModel)
                     
                 }
                 DispatchQueue.main.async {
+                    print("Reloading notifications")
                     strongSelf.tableView.reloadData()
                 }
                 initializing = false
 
             } else {
+                print("Updating notifications")
                 for documentChanges in querySnapshot.documentChanges {
                     if documentChanges.type == .added {
+                        print("Inserting new notification")
                         let document = documentChanges.document
                         let data = document.data()
 
