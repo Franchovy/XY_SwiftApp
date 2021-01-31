@@ -203,25 +203,25 @@ class ViralViewController: UIViewController {
         return CGFloat(currentLives) / CGFloat(maxLife)
     }
     
-    
+    var animationPlayed = false
     private func beginHealthBarAnimation() {
-        guard let videoLength = player?.currentItem?.asset.duration else {
+        guard !animationPlayed, let videoLength = player?.currentItem?.asset.duration else {
             return
         }
         
+        let newFrame = CGRect(
+            x: healthBar.frame.origin.x,
+            y: healthBar.frame.origin.y,
+            width: self.videoView.width * self.getHealthBarPercentage(
+                forLives: self.model.lives - 1,
+                forLevel: self.model.level
+            ) * 0.8, // Amplify the effect a little bit
+            height: healthBar.frame.size.height
+        )
         
-        let animationLength = videoLength.seconds
-        UIView.animate(withDuration: animationLength) {
-            self.healthBar.frame = CGRect(
-                x: 0,
-                y: 0,
-                width: self.videoView.width * self.getHealthBarPercentage(
-                    forLives: self.model.lives - 1,
-                    forLevel: self.model.level
-                ),
-                height: 11
-            )
-        }
+        healthBar.resizeAndMove(frame: newFrame, animated: true, duration: videoLength.seconds)
+        
+        animationPlayed = true
     }
     
     private func onPlay() {
