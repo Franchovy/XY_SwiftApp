@@ -347,4 +347,29 @@ class FirebaseUpload {
             completion(.success(momentDocument.documentID))
         }
     }
+    
+    enum ChangePasswordError: Error {
+        case invalidOldPassword
+        case otherError
+    }
+    static func changePassword(oldPassword: String, newPassword: String, completion: @escaping(Result<Void,Error>) -> Void) {
+        guard let email = Auth.auth().currentUser?.email else {
+            return
+        }
+        
+        Auth.auth().signIn(withEmail: email, password: oldPassword) { (result, error) in
+            if let error = error {
+                print("Error resetting password: \(error)")
+                completion(.failure(error))
+            }
+            if result != nil {
+                Auth.auth().currentUser?.updatePassword(to: newPassword, completion: { (error) in
+                    if let error = error {
+                        completion(.failure(error))
+                    }
+                    completion(.success(()))
+                })
+            }
+        }
+    }
 }

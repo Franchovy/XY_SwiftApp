@@ -30,6 +30,17 @@ class ProfileHeaderSettingsViewController: UIViewController {
         return button
     }()
     
+    private let oldPasswordField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(0xC6C6C6)
+        textField.layer.cornerRadius = 15
+        textField.textColor = .gray
+        textField.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+        textField.placeholder = "Current Password"
+        textField.alpha = 0.0
+        return textField
+    }()
+    
     private let changePasswordButton: UIButton = {
         let button = UIButton()
         button.setTitle("Change Password", for: .normal)
@@ -105,8 +116,11 @@ class ProfileHeaderSettingsViewController: UIViewController {
         
         view.addSubview(settingsLabel)
         view.addSubview(logoutButton)
+        view.addSubview(oldPasswordField)
         view.addSubview(changePasswordButton)
         view.addSubview(changeEmailButton)
+        
+        changePasswordButton.addTarget(self, action: #selector(changePasswordPressed), for: .touchUpInside)
         
         view.addSubview(lightModeButton)
         lightModeButton.layer.insertSublayer(lightModeGradient, below: nil)
@@ -216,6 +230,14 @@ class ProfileHeaderSettingsViewController: UIViewController {
                 right: view.width / 2 - buttonTitle.width
             )
         }
+    }
+    
+    @objc private func changePasswordPressed() {
+        
+    }
+    
+    private func animateSpace(view: UIView) {
+        
     }
     
     @objc private func previewLightMode(gestureRecognizer: UILongPressGestureRecognizer) {
