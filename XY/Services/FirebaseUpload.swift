@@ -293,6 +293,8 @@ class FirebaseUpload {
         notificationDocument.delete()
     }
     
+    // MARK: - Virals
+    
     static func createViral(caption: String, videoPath: String, completion: @escaping(Result<ViralModel, Error>) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
@@ -323,9 +325,9 @@ class FirebaseUpload {
             }
         }
     }
-
-//    static func swipeRightViral
     
+    
+    // MARK: - Moments
     
     static func createMoment(caption: String, videoPath: String, completion: @escaping(Result<String, Error>) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {

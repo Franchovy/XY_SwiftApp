@@ -13,11 +13,43 @@ final class FirebaseFunctionsManager {
     static let shared = FirebaseFunctionsManager()
     
     private init() {
-//        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
+        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
     }
     
     lazy var functions = Functions.functions()
     
+    
+    public func swipeRight(viralId: String) {
+        let swipeRightData = [
+            "viralId": viralId,
+            "swipeUserId": Auth.auth().currentUser!.uid
+        ]
+        
+        functions.httpsCallable("swipeRightViral").call(swipeRightData) { (result, error) in
+            if let error = error {
+                print("Error swiping right on viral: \(error)")
+                return
+            } else if let result = result {
+                print(result)
+            }
+        }
+    }
+    
+    public func swipeLeft(viralId: String) {
+        let swipeLeftData = [
+            "viralId": viralId,
+            "swipeUserId": Auth.auth().currentUser!.uid
+        ]
+        
+        functions.httpsCallable("swipeLeftViral").call(swipeLeftData) { (result, error) in
+            if let error = error {
+                print("Error swiping right on viral: \(error)")
+                return
+            } else if let result = result {
+                print(result)
+            }
+        }
+    }
     
     public func swipeRight(postId: String) {
         let swipeRightData = [

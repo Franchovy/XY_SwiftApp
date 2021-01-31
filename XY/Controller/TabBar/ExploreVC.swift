@@ -43,7 +43,7 @@ class ExploreVC: UIViewController {
         view.backgroundColor = UIColor(named: "Black")
         
         navigationController?.navigationBar.isHidden = false
-        
+                
         fetchVirals()
     }
     
@@ -96,15 +96,19 @@ class ExploreVC: UIViewController {
         viralView = nil
             
         if nextViralView == nil {
-            nextViralView = ViralViewController(model: self.virals[index])
-            
+            nextViralView = ViralViewController(model: self.virals[currentViralIndex])
             currentViralIndex += 1
         }
         
         let viralView = nextViralView!
         viralView.play()
+
         
         DispatchQueue.main.async {
+            
+            guard self.currentViralIndex <= self.virals.count else {
+                return
+            }
             
             if !self.view.subviews.contains(viralView.view) {
                 self.view.addSubview(viralView.view)
@@ -124,8 +128,12 @@ class ExploreVC: UIViewController {
             self.viralView = viralView
         }
         
+        if currentViralIndex > self.virals.count-1 {
+            return
+        }
+        
         // Load next viral
-        let nextViralView = ViralViewController(model: self.virals[index])
+        let nextViralView = ViralViewController(model: self.virals[currentViralIndex])
         
         self.nextViralView = nextViralView
         view.insertSubview(nextViralView.view, belowSubview: viralView.view)
@@ -138,26 +146,17 @@ class ExploreVC: UIViewController {
     }
     
     private func onViralSwipedRight(viral: ViralModel) {
+        FirebaseFunctionsManager.shared.swipeRight(viralId: viral.id)
         
-        
-        currentViralIndex = (currentViralIndex + 1) % virals.count
+        currentViralIndex = currentViralIndex + 1
         createViralView(index: currentViralIndex)
-
-        // Remove 1 life
-        // + 10 XP
-        // Check Level Up
-        // Level up if needed
-        // -> Update lives
-        
     }
     
     private func onViralSwipedLeft(viral: ViralModel) {
-        currentViralIndex = (currentViralIndex + 1) % virals.count
+        FirebaseFunctionsManager.shared.swipeLeft(viralId: viral.id)
+        
+        currentViralIndex = currentViralIndex + 1
         createViralView(index: currentViralIndex)
-
-        // Remove 1 life
-        // Check lives
-        // If none left, delete viral
     }
     
     // MARK: - Objc / Gesture recognizers
