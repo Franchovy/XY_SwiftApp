@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>276480181194-1duckbaq0j3p471nh73fatek1t6n2hga.apps.googleusercontent.com</string>
+	<string>276480181194-pg4heua83a3kbb4diirm8likcp768qsb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.276480181194-1duckbaq0j3p471nh73fatek1t6n2hga</string>
+	<string>com.googleusercontent.apps.276480181194-pg4heua83a3kbb4diirm8likcp768qsb</string>
 	<key>API_KEY</key>
 	<string>AIzaSyAZxU1WSqKsmDkRyviJO9Z6CN10d_Ag8eQ</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,22 +13,24 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.XY-XY-APP</string>
+	<string>com.XY-APP.XY</string>
 	<key>PROJECT_ID</key>
 	<string>xy-app-cd86e</string>
 	<key>STORAGE_BUCKET</key>
 	<string>xy-app-cd86e.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:276480181194:ios:3fedd6db0fbb12f208c533</string>
+	<string>1:276480181194:ios:ad56d26f69115a8c08c533</string>
+	<key>DATABASE_URL</key>
+	<string>https://xy-app-cd86e-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>

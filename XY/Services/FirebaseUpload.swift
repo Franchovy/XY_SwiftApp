@@ -11,7 +11,7 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 
-var TESTMODE = true
+var TESTMODE = false
 
 class FirebaseUpload {
     

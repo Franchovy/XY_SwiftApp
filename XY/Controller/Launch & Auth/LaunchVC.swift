@@ -37,12 +37,16 @@ class LaunchVC: UIViewController {
     var segueToPerformOnAnimationFinished = "segueToLogin"
     
     override func viewDidAppear(_ animated: Bool) {
-
+        
         // Check for login
         if let user = Auth.auth().currentUser {
             self.segueToPerformOnAnimationFinished = "segueToMain"
         } else {
-            segueToPerformOnAnimationFinished = "segueToLogin"
+            if let notFirstTimeUse = UserDefaults.standard.value(forKeyPath: "notFirstTimeUse") as? Bool, notFirstTimeUse {
+                segueToPerformOnAnimationFinished = "segueToLogin"
+            } else {
+                segueToPerformOnAnimationFinished = "segueToSignup"
+            }
         }
         
         DispatchQueue.main.async {
@@ -67,6 +71,8 @@ class LaunchVC: UIViewController {
             self.imageView.alpha = 0
         }, completion: { done in
             if done {
+                UserDefaults.standard.set(true, forKey: "notFirstTimeUse")
+                
                 let timer = Timer(timeInterval: TimeInterval(1.0), repeats: false, block: { _ in
                     self.performSegue(withIdentifier: self.segueToPerformOnAnimationFinished, sender: self)
                 })

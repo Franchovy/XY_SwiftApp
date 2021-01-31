@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class ProfileHeaderSettingsViewController: UIViewController {
 
@@ -121,6 +122,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
         view.addSubview(changeEmailButton)
         
         changePasswordButton.addTarget(self, action: #selector(changePasswordPressed), for: .touchUpInside)
+        logoutButton.addTarget(self, action: #selector(logout), for: .touchUpInside)
         
         view.addSubview(lightModeButton)
         lightModeButton.layer.insertSublayer(lightModeGradient, below: nil)
@@ -230,6 +232,10 @@ class ProfileHeaderSettingsViewController: UIViewController {
                 right: view.width / 2 - buttonTitle.width
             )
         }
+    }
+    
+    @objc private func logout() {
+        try? Auth.auth().signOut()
     }
     
     @objc private func changePasswordPressed() {
