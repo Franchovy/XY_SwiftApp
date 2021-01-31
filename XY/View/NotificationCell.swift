@@ -14,6 +14,7 @@ class NotificationCell: UITableViewCell {
     static let identifier = "NotificationCell"
     var viewModel: NotificationViewModel?
     
+    private let profileImageContainer = UIView()
     public let profileImage: UIButton = {
         let imageView = UIButton()
         imageView.layer.masksToBounds = true
@@ -22,6 +23,7 @@ class NotificationCell: UITableViewCell {
         return imageView
     }()
     
+    private let postImageContainer = UIView()
     public let postImage: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
@@ -72,11 +74,9 @@ class NotificationCell: UITableViewCell {
         contentView.isUserInteractionEnabled = false
         selectionStyle = .none
         
-        let profileImageContainer = UIView()
         profileImageContainer.addSubview(profileImage)
         containerView.addSubview(profileImageContainer)
         
-        let postImageContainer = UIView()
         postImageContainer.addSubview(postImage)
         containerView.addSubview(postImageContainer)
         
@@ -102,6 +102,7 @@ class NotificationCell: UITableViewCell {
         )
         
         if profileImage.backgroundImage(for: .normal) != nil {
+            
             profileImage.superview!.frame = CGRect(
                 x: 6,
                 y: 12,
@@ -115,6 +116,8 @@ class NotificationCell: UITableViewCell {
                 shadowOffset: CGSize(width: 0, height: 3),
                 shadowRadius: 6
             )
+            
+            profileImageContainer.layer.shadowOpacity = 1.0
         }
         
         if postImage.image != nil {
@@ -131,6 +134,8 @@ class NotificationCell: UITableViewCell {
                 shadowOffset: CGSize(width: 0, height: 3),
                 shadowRadius: 6
             )
+            
+            postImageContainer.layer.shadowOpacity = 1.0
         }
         
         nicknameLabel.sizeToFit()
@@ -141,9 +146,10 @@ class NotificationCell: UITableViewCell {
             height: nicknameLabel.height
         )
         
+        
         label.sizeToFit()
         label.frame = CGRect(
-            x: profileImage.right + 15.28,
+            x: profileImage.backgroundImage(for: .normal) == nil ? profileImageContainer.left : profileImage.right + 15.28 ,
             y: nicknameLabel.bottom + 10.28,
             width: label.width,
             height: label.height
@@ -184,6 +190,9 @@ class NotificationCell: UITableViewCell {
     override func prepareForReuse() {
         profileImage.setBackgroundImage(nil, for: .normal)
         postImage.image = nil
+        
+        profileImageContainer.layer.shadowOpacity = 0.0
+        
         nicknameLabel.text = nil
         label.text = nil
         timestampLabel.text = nil
