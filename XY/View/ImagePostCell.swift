@@ -218,31 +218,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         else { return true }
         
     }
-    
-    public func configure(with viewModel: PostViewModel) {
-        viewModel.delegate = self
-        self.viewModel = viewModel
 
-        // Set data already ready
-        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
-            
-            guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
-                return
-            }
-            
-            strongSelf.xpCircle.onProgress(
-                level: xpModel.level,
-                progress: Float(xpModel.xp) / Float(nextLevelXP)
-            )
-        }
-        
-        xpCircle.setProgress(level: 0, progress: 0.0)
-        xpCircle.setupFinished()
-        
-        caption.text = viewModel.content
-        caption.timestamp = viewModel.getTimestampString()
-        
-    }
+    // MARK: - Obj-C Functions
     
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
         
@@ -323,16 +300,46 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
     }
     
-    func setHeroId(_ id: String) {
-        guard let imageView = imageView else {
+    // MARK: - Public functions
+    
+    public func configure(with viewModel: PostViewModel) {
+        viewModel.delegate = self
+        self.viewModel = viewModel
+        
+        contentImageView.image = viewModel.images.first
+        profileImageView.image = viewModel.profileImage
+        
+        caption.text = viewModel.content
+        caption.timestamp = viewModel.getTimestampString()
+
+        guard viewModel.postId != "" else {
             return
         }
+        
+        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
+            
+            guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
+                return
+            }
+            
+            strongSelf.xpCircle.onProgress(
+                level: xpModel.level,
+                progress: Float(xpModel.xp) / Float(nextLevelXP)
+            )
+        }
+        
+        xpCircle.setProgress(level: 0, progress: 0.0)
+        xpCircle.setupFinished()
+    }
+    
+    func setHeroId(_ id: String) {
+//        contentImageView.heroID = "batman"
     }
     
 }
 
 
-// MARK: - PostViewModelDelegate Extension
+// MARK: - PostViewModel Delegate
 
 extension ImagePostCell : PostViewModelDelegate {
     func didFetchProfileData(viewModel: PostViewModel) {

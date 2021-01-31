@@ -14,8 +14,7 @@ class FlowVC : UITableViewController {
     
     // MARK: - Properties
     
-    
-    var data: [FlowDataModel] = []
+    var postViewModels = [PostViewModel]()
     
     @IBOutlet weak var barXPCircle: CircleView!
     
@@ -93,7 +92,7 @@ class FlowVC : UITableViewController {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
-            self.data.insert(postData.data, at: indexPathToInsert.row)
+            self.postViewModels.insert(postData, at: indexPathToInsert.row)
             self.tableView.insertRows(at: [indexPathToInsert], with: .top)
             
             guard let newPostCell = self.tableView.cellForRow(at: indexPathToInsert) as? ImagePostCell else {
@@ -112,22 +111,18 @@ class FlowVC : UITableViewController {
             print("Flow update")
             if let posts = newPosts {
                 for newPost in posts {
-                    if self.data.contains(where: { flowDataModel in
-                        if let postData = flowDataModel as? PostModel {
-                            return postData.id == newPost.id
-                        } else { return true }
-                    }) {
-                        continue
-                    } else {
-                        
+                    if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
+                    {
                         if initializingFlow {
-                            self.data.append(newPost)
+                            let postViewModel = PostViewModel(from: newPost)
+                            self.postViewModels.append(postViewModel)
                         } else {
                             // Insert into visible row
                             let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
                             // Automatically updates tableview
                             DispatchQueue.main.async {
-                                self.data.insert(newPost, at: firstVisibleRowIndex.row)
+                                let postViewModel = PostViewModel(from: newPost)
+                                self.postViewModels.insert(postViewModel, at: firstVisibleRowIndex.row)
                                 self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
                             }
                         }
@@ -146,7 +141,7 @@ class FlowVC : UITableViewController {
     // MARK: - TableView Overrides
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        return postViewModels.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -155,8 +150,7 @@ class FlowVC : UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
-        var cellViewModel = PostViewModel(from: data[indexPath.row] as! PostModel)
-        cell.configure(with: cellViewModel)
+        cell.configure(with: postViewModels[indexPath.row])
         cell.delegate = self
         return cell
     }
@@ -165,6 +159,14 @@ class FlowVC : UITableViewController {
         let headerView = UIView()
         headerView.backgroundColor = UIColor.clear // Make the background color show through
         return headerView
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let postCell = cell as? ImagePostCell else {
+            return
+        }
+        
+//        postCell.viewModel.fetch()
     }
 }
 
@@ -193,7 +195,7 @@ extension FlowVC : ImagePostCellDelegate {
     
     func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell) {
         guard let cellIndex = tableView.indexPath(for: cell),
-              data.count > cellIndex.row else {
+              postViewModels.count > cellIndex.row else {
             return
         }
         
@@ -202,11 +204,11 @@ extension FlowVC : ImagePostCellDelegate {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-            self.data.remove(at: cellIndex.row)
+            self.postViewModels.remove(at: cellIndex.row)
             
             self.tableView.deleteRows(at: [cellIndex], with: .bottom)
             
-            guard self.data.count > cellIndex.row else {
+            guard self.postViewModels.count > cellIndex.row else {
                 return
             }
             
@@ -216,7 +218,7 @@ extension FlowVC : ImagePostCellDelegate {
     
     func imagePostCellDelegate(willSwipeRight cell: ImagePostCell) {
         guard let cellIndex = tableView.indexPath(for: cell),
-              data.count > cellIndex.row else {
+              postViewModels.count > cellIndex.row else {
             return
         }
         
@@ -225,11 +227,11 @@ extension FlowVC : ImagePostCellDelegate {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-            self.data.remove(at: cellIndex.row)
+            self.postViewModels.remove(at: cellIndex.row)
             
             self.tableView.deleteRows(at: [cellIndex], with: .bottom)
             
-            guard self.data.count > cellIndex.row else {
+            guard self.postViewModels.count > cellIndex.row else {
                 return
             }
             self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
