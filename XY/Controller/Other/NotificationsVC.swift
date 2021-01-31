@@ -28,6 +28,8 @@ class NotificationsVC: UIViewController {
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Delete All", style: .plain, target: self, action: #selector(deleteAllNotificationsPressed))
+        
         tableView.delegate = self
         tableView.dataSource = self
         tableView.layer.cornerRadius = 15
@@ -110,10 +112,33 @@ class NotificationsVC: UIViewController {
                             at: [IndexPath(row: 0, section: 0)],
                             with: .top
                         )
+                    } else if documentChanges.type == .removed {
+                        print("Deleting notification")
+                        
+                        let document = documentChanges.document
+                        let data = document.data()
+
+                        let numberOfNotificationsCheck = strongSelf.notifications.count
+                        strongSelf.notifications.removeAll { $0.notificationId == document.documentID }
+
+                        let numberOfNotificationsCheckAfterRemove = strongSelf.notifications.count
+                        
+                        if numberOfNotificationsCheck - 1 == numberOfNotificationsCheckAfterRemove {
+                            strongSelf.tableView.deleteRows(
+                                at: [IndexPath(row: 0, section: 0)],
+                                with: .left
+                            )
+                        } else {
+                            print("Error updating for removed notification!")
+                        }
                     }
                 }
             }
         }
+    }
+    
+    @objc private func deleteAllNotificationsPressed() {
+        FirebaseUpload.deleteAllNotifications()
     }
 }
 

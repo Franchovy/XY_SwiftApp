@@ -149,7 +149,7 @@ class NotificationCell: UITableViewCell {
         
         label.sizeToFit()
         label.frame = CGRect(
-            x: profileImage.backgroundImage(for: .normal) == nil ? profileImageContainer.left : profileImage.right + 15.28 ,
+            x: profileImage.backgroundImage(for: .normal) == nil ? 15 : profileImage.right + 15.28 ,
             y: nicknameLabel.bottom + 10.28,
             width: label.width,
             height: label.height
@@ -192,6 +192,7 @@ class NotificationCell: UITableViewCell {
         postImage.image = nil
         
         profileImageContainer.layer.shadowOpacity = 0.0
+        postImageContainer.layer.shadowOpacity = 0.0
         
         nicknameLabel.text = nil
         label.text = nil

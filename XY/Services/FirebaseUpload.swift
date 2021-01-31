@@ -200,6 +200,27 @@ class FirebaseUpload {
         }
     }
     
+    static func deleteAllNotifications() {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).getDocuments { (querySnapshot, error) in
+            if let error = error {
+                print("Error fetching notification documents: \(error)")
+            }
+            if let documents = querySnapshot?.documents {
+                for document in documents {
+                    FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).document(document.documentID).delete { (error) in
+                        if let error = error {
+                            print("Error deleting document with id \(document.documentID): \(error)")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     /// Returns map of userIds -> xp given
     static func getXPContributors(postId: String, completion: @escaping([String: Int]?, Error?) -> Void) {
         // Get timestamp of previous level up from action script
