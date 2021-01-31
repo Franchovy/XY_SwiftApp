@@ -80,12 +80,19 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+
         view.setNeedsLayout()
         
         session.sessionPreset = .high
         session.commitConfiguration()
         
         session.startRunning()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = false
+
     }
     
     override func viewDidLayoutSubviews() {
@@ -119,8 +126,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             height: closeButtonSize
         )
     }
+
+    // MARK: - Private functions
     
-    func layoutCameraButton() {
+    private func layoutCameraButton() {
         recordButton.layer.cornerRadius = recordButton.width / 2
         
         let gradient = CAGradientLayer()
@@ -138,6 +147,46 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         gradient.mask = shape
         
         recordButton.layer.addSublayer(gradient)
+    }
+    
+    private func doneAnimation() {
+        let doneLabel = UILabel()
+        doneLabel.text = "Your Viral has been Uploaded!"
+        doneLabel.textColor = .white
+        doneLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
+        doneLabel.layer.shadowRadius = 1.0
+        doneLabel.layer.shadowOffset = CGSize(width: 0, height: 1)
+        doneLabel.sizeToFit()
+        
+        view.addSubview(doneLabel)
+        
+        doneLabel.alpha = 0.0
+        doneLabel.center = CGPoint(
+            x: self.view.center.x,
+            y: self.view.height - 100
+        )
+        
+        UIView.animate(withDuration: 0.3) {
+            doneLabel.alpha = 1.0
+            doneLabel.center = CGPoint(
+                x: self.view.center.x,
+                y: self.view.center.y - self.view.height / 6
+            )
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.2, delay: 2.0) {
+                    doneLabel.alpha = 0.0
+                    doneLabel.center = CGPoint(
+                        x: self.view.center.x,
+                        y: 0
+                    )
+                } completion: { (done) in
+                    if done {
+                        doneLabel.removeFromSuperview()
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Objc functions
@@ -158,10 +207,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     @objc private func didTapCameraRoll() {
         pickerController?.sourceType = .photoLibrary
-        present(pickerController!, animated: true, completion: {
-
-            //self.pickerController?.dismiss(animated: true, completion: nil)
-        })
+        present(pickerController!, animated: true)
     }
     
     
@@ -209,12 +255,17 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
 }
 
 extension CameraViewController : PreviewViewControllerDelegate {
+    func didFinishUploadingViral(videoUrl: URL, viralModel: ViralModel) {
+        
+        previewVC?.dismiss(animated: true) {
+            self.doneAnimation()
+        }
+    }
+    
     func didFinishUploadingPost(postData: PostViewModel) {
         self.delegate?.didFinishUploadingPost(postData: postData)
-
-        previewVC?.dismiss(animated: true) {
-            self.previewVC?.view.removeFromSuperview()
-        }
+        
+        previewVC?.dismiss(animated: true)
     }
 }
 

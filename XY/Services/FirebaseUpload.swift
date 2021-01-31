@@ -293,27 +293,33 @@ class FirebaseUpload {
         notificationDocument.delete()
     }
     
-    static func createViral(caption: String, videoPath: String, completion: @escaping(Result<String, Error>) -> Void) {
+    static func createViral(caption: String, videoPath: String, completion: @escaping(Result<ViralModel, Error>) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
         
         FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
-            let viralData: [String: Any] = [
-                FirebaseKeys.ViralKeys.videoRef: videoPath,
-                FirebaseKeys.ViralKeys.profileId: profileId,
-                FirebaseKeys.ViralKeys.caption: caption,
-                FirebaseKeys.ViralKeys.livesLeft: 10,
-                FirebaseKeys.ViralKeys.xp: 0,
-                FirebaseKeys.ViralKeys.level: 0
-            ]
-            
-            let viralDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document()
-            viralDocument.setData(viralData) { (error) in
-                if let error = error {
-                    completion(.failure(error))
+            if let error = error {
+                completion(.failure(error))
+            }
+            if let profileId = profileId {
+                let viralData: [String: Any] = [
+                    FirebaseKeys.ViralKeys.videoRef: videoPath,
+                    FirebaseKeys.ViralKeys.profileId: profileId,
+                    FirebaseKeys.ViralKeys.caption: caption,
+                    FirebaseKeys.ViralKeys.livesLeft: XPModel.LIVES[.viral]![0],
+                    FirebaseKeys.ViralKeys.xp: 0,
+                    FirebaseKeys.ViralKeys.level: 0
+                ]
+                
+                let viralDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document()
+                viralDocument.setData(viralData) { (error) in
+                    if let error = error {
+                        completion(.failure(error))
+                    }
+                    let viralModel = ViralModel.init(from: viralData, id: viralDocument.documentID)
+                    completion(.success(viralModel))
                 }
-                completion(.success(viralDocument.documentID))
             }
         }
     }

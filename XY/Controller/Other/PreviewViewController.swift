@@ -10,6 +10,7 @@ import AVFoundation
 
 protocol PreviewViewControllerDelegate: AnyObject {
     func didFinishUploadingPost(postData: PostViewModel)
+    func didFinishUploadingViral(videoUrl: URL, viralModel: ViralModel)
 }
 
 class PreviewViewController: UIViewController {
@@ -158,7 +159,9 @@ class PreviewViewController: UIViewController {
         }
     }
     
-    func layoutPreviewButtons() {
+    // MARK: - Private functions
+    
+    private func layoutPreviewButtons() {
         let size: CGFloat = 25
         
         nextButton.frame = CGRect(
@@ -175,6 +178,24 @@ class PreviewViewController: UIViewController {
             height: size
         )
     }
+    
+    private func postUploadComplete(_ postModel: PostModel) {
+
+        print("Post upload complete: \(postModel)")
+        guard let previewImage = previewImageView?.image else {
+            return
+        }
+        
+        let viewmodel = PostViewModel(fromOffline: postModel, image: previewImage)
+        
+        delegate.didFinishUploadingPost(postData: viewmodel)
+    }
+    
+    private func viralUploadComplete(_ viralModel: ViralModel) {
+        
+    }
+    
+    // MARK: - Obj-C Functions
     
     @objc private func didTapNextButton() {
         nextButton.isEnabled = false
@@ -213,10 +234,9 @@ class PreviewViewController: UIViewController {
                     print("Uploaded video with path: \(uploadedPath)")
                     FirebaseUpload.createViral(caption: self?.caption.text ?? "", videoPath: uploadedPath) { result in
                         switch result {
-                        case .success(let momentId):
-                            // Close vc, open moment
-                            self?.dismiss(animated: true, completion: nil)
-                            self?.view.removeFromSuperview()
+                        case .success(let viralModel):
+                            
+                            self?.viralUploadComplete(viralModel)
                         case .failure(let error):
                             print("Error uploading moment document: \(error)")
                         }
@@ -252,17 +272,5 @@ class PreviewViewController: UIViewController {
         caption.toggleInputMode(inputMode: false)
         
         view.setNeedsLayout()
-    }
-    
-    private func postUploadComplete(_ postModel: PostModel) {
-
-        print("Post upload complete: \(postModel)")
-        guard let previewImage = previewImageView?.image else {
-            return
-        }
-        
-        let viewmodel = PostViewModel(fromOffline: postModel, image: previewImage)
-        
-        delegate.didFinishUploadingPost(postData: viewmodel)
     }
 }
