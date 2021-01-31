@@ -13,9 +13,19 @@ class ExploreVC: UIViewController {
     
     private let noViralsLeftLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "tintColor")
-        label.font = UIFont(name: "HelveticaNeue", size: 30)
-        //label.isHidden = true
+        label.textColor = UIColor(named: "tintColor_grey")
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+        label.alpha = 0.0
+        label.text = "No virals left!"
+        return label
+    }()
+    
+    private let whyNotUploadLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor(named: "tintColor_grey")
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+        label.alpha = 0.0
+        label.text = "Why not upload one?"
         return label
     }()
     
@@ -40,6 +50,9 @@ class ExploreVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(noViralsLeftLabel)
+        view.addSubview(whyNotUploadLabel)
+        
         view.backgroundColor = UIColor(named: "Black")
         
         navigationController?.navigationBar.isHidden = false
@@ -63,6 +76,22 @@ class ExploreVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        noViralsLeftLabel.sizeToFit()
+        noViralsLeftLabel.frame = CGRect(
+            x: (view.width - noViralsLeftLabel.width)/2,
+            y: view.center.y - 15,
+            width: noViralsLeftLabel.width,
+            height: noViralsLeftLabel.height
+        )
+        
+        whyNotUploadLabel.sizeToFit()
+        whyNotUploadLabel.frame = CGRect(
+            x: (view.width - whyNotUploadLabel.width)/2,
+            y: noViralsLeftLabel.bottom + 30,
+            width: whyNotUploadLabel.width,
+            height: whyNotUploadLabel.height
+        )
     }
     
     // MARK: - Private functions
@@ -107,6 +136,16 @@ class ExploreVC: UIViewController {
         DispatchQueue.main.async {
             
             guard self.currentViralIndex <= self.virals.count else {
+                UIView.animate(withDuration: 0.4, delay: 1.0) {
+                    self.noViralsLeftLabel.alpha = 1.0
+                } completion: { done in
+                    if done {
+                        UIView.animate(withDuration: 0.4, delay: 1.0) {
+                            self.whyNotUploadLabel.alpha = 1.0
+                        }
+                    }
+                }
+                
                 return
             }
             

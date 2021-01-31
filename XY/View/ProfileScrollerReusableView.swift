@@ -102,6 +102,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     public func setIsOwnProfile(isOwn: Bool) {
         control.isHidden = !isOwn
+        horizontalScrollView.isScrollEnabled = isOwn
     }
     
     public func configure(with viewModel: ProfileViewModel) {
