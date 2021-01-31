@@ -10,10 +10,10 @@ import Firebase
 import ImagePicker
 
 
-
 class FlowVC : UITableViewController {
     
     // MARK: - Properties
+    
     
     var data: [FlowDataModel] = []
     
@@ -84,7 +84,25 @@ class FlowVC : UITableViewController {
         print("cancel")
     }
     
-    // MARK: - Private Methods
+    // MARK: - Public Functions
+    
+    public func insertPost(_ postData: PostViewModel) {
+        
+        guard let indexPathToInsert = tableView.indexPathsForVisibleRows?.first else {
+            return
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            self.data.insert(postData.data, at: indexPathToInsert.row)
+            self.tableView.insertRows(at: [indexPathToInsert], with: .top)
+            
+            guard let newPostCell = self.tableView.cellForRow(at: indexPathToInsert) as? ImagePostCell else {
+                return
+            }
+        }
+    }
+    
+    // MARK: - Private Functions
     
     private func prefetchData() {
         

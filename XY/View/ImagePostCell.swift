@@ -323,6 +323,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
     }
     
+    func setHeroId(_ id: String) {
+        guard let imageView = imageView else {
+            return
+        }
+    }
+    
 }
 
 

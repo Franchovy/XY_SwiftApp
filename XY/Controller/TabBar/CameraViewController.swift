@@ -11,6 +11,7 @@ import SwiftyCam
 
 protocol CameraViewControllerDelegate {
     func cameraViewDidTapCloseButton()
+    func didFinishUploadingPost(postData: PostViewModel)
 }
 
 class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
@@ -79,9 +80,9 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        //view.addSubview(blurMenu.view)
-        session.sessionPreset = .high
+        view.setNeedsLayout()
         
+        session.sessionPreset = .high
         session.commitConfiguration()
         
         session.startRunning()
@@ -172,13 +173,11 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
         // Take Photo
-        
-        previewVC = PreviewViewController(previewImage: photo)
+        previewVC = PreviewViewController(previewImage: photo, delegate: self)
 
         view.addSubview(previewVC!.view)
 
         previewVC!.view.frame = view.bounds
-        
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
@@ -187,7 +186,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         UIView.animate(withDuration: 0.3, animations: {
             self.recordButton.backgroundColor = .red
         })
-        
     }
     
     func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
@@ -202,11 +200,21 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         // End Processing Video
         print("Finished processing")
         
-        previewVC = PreviewViewController(previewVideoUrl: url)
+        previewVC = PreviewViewController(previewVideoUrl: url, delegate: self)
         
         view.addSubview(previewVC!.view)
         
         previewVC!.view.frame = view.bounds
+    }
+}
+
+extension CameraViewController : PreviewViewControllerDelegate {
+    func didFinishUploadingPost(postData: PostViewModel) {
+        self.delegate?.didFinishUploadingPost(postData: postData)
+
+        previewVC?.dismiss(animated: true) {
+            self.previewVC?.view.removeFromSuperview()
+        }
     }
 }
 
@@ -218,7 +226,7 @@ extension CameraViewController : UIImagePickerControllerDelegate, UINavigationCo
             return
         }
         
-        previewVC = PreviewViewController(previewImage: image)
+        previewVC = PreviewViewController(previewImage: image, delegate: self)
         
         previewVC?.modalPresentationStyle = .fullScreen
         present(previewVC!, animated: true, completion: nil)

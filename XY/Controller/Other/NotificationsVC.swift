@@ -211,12 +211,18 @@ extension NotificationsVC : NotificationViewModelDelegate {
     }
     
     func didFetchProfileData(index: Int, profile: ProfileModel) {
-        
-        guard let cell = tableView.cellForRow(
-                at: IndexPath(row: index, section: 0)
-        ) as? NotificationCell else {
+        guard let containsCell = tableView.indexPathsForVisibleRows?.contains(IndexPath.init(row: index, section: 0)),
+              containsCell,
+              let cell = tableView.visibleCells.filter({ (cell) -> Bool in
+                if let notificationCell = cell as? NotificationCell {
+                    return notificationCell.viewModel === notifications[index]
+                } else {
+                    return false
+                }
+              }).first as? NotificationCell else {
             return
         }
+        
         cell.nicknameLabel.text = profile.nickname
         cell.layoutSubviews()
     }
@@ -238,11 +244,18 @@ extension NotificationsVC : NotificationViewModelDelegate {
     
     func didFetchDisplayImage(index: Int, image: UIImage) {
         print("Fetched profile image: \(image)")
-        guard let cell = tableView.cellForRow(
-                at: IndexPath(row: index, section: 0)
-        ) as? NotificationCell else {
+        guard let containsCell = tableView.indexPathsForVisibleRows?.contains(IndexPath.init(row: index, section: 0)),
+              containsCell,
+              let cell = tableView.visibleCells.filter({ (cell) -> Bool in
+                if let notificationCell = cell as? NotificationCell {
+                    return notificationCell.viewModel === notifications[index]
+                } else {
+                    return false
+                }
+              }).first as? NotificationCell else {
             return
         }
+        
         cell.profileImage.setBackgroundImage(image, for: .normal)
         cell.setNeedsLayout()
     }

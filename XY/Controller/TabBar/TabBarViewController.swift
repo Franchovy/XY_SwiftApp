@@ -78,6 +78,19 @@ class TabBarViewController: UITabBarController {
 }
 
 extension TabBarViewController: CameraViewControllerDelegate {
+    func didFinishUploadingPost(postData: PostViewModel) {
+        selectedIndex = 0
+        
+        viewControllers?.forEach({ print($0) })
+        
+        guard let flowNavigationVC = self.viewControllers?[0] as? UINavigationController,
+              let flowVC = flowNavigationVC.children.first as? FlowVC else {
+            return
+        }
+        
+        flowVC.insertPost(postData)
+    }
+    
     func cameraViewDidTapCloseButton() {
         selectedIndex = 0
         setTabBarVisible(visible: true, duration: 0.1, animated: true)

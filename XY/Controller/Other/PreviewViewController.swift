@@ -8,7 +8,13 @@
 import UIKit
 import AVFoundation
 
+protocol PreviewViewControllerDelegate: AnyObject {
+    func didFinishUploadingPost(postData: PostViewModel)
+}
+
 class PreviewViewController: UIViewController {
+    
+    private let delegate: PreviewViewControllerDelegate
     
     private let nextButton: UIButton = {
         let button = UIButton()
@@ -44,10 +50,10 @@ class PreviewViewController: UIViewController {
     
     //MARK: - Init
     
-    init(previewVideoUrl: URL) {
-        
+    init(previewVideoUrl: URL, delegate: PreviewViewControllerDelegate) {
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
-        
+                
         let player = AVPlayer(url: previewVideoUrl)
         previewLayer = AVPlayerLayer(player: player)
         previewLayer?.videoGravity = .resizeAspectFill
@@ -68,7 +74,9 @@ class PreviewViewController: UIViewController {
         recordedVideoUrl = previewVideoUrl
     }
     
-    init(previewImage: UIImage) {
+    init(previewImage: UIImage, delegate: PreviewViewControllerDelegate) {
+        self.delegate = delegate
+        
         super.init(nibName: nil, bundle: nil)
         
         self.previewImageView = UIImageView(image: previewImage)
@@ -135,7 +143,6 @@ class PreviewViewController: UIViewController {
             captionY = view.height - caption.height - view.safeAreaInsets.bottom - 10
         }
         
-        
         caption.frame = CGRect(
             x: 10,
             y: captionY,
@@ -189,13 +196,14 @@ class PreviewViewController: UIViewController {
                 
                 switch result {
                 case .success(let postModel):
-                    self.dismiss(animated: true, completion: nil)
-                    self.view.removeFromSuperview()
+                    
+                    self.postUploadComplete(postModel)
                 case .failure(let error):
                     print("Error creating post.")
                 }
             }
         } else if let recordedVideoUrl = recordedVideoUrl {
+            previewLayer?.player?.pause()
             // Upload video
             FirebaseUpload.uploadVideo(with: recordedVideoUrl) { [weak self] (result) in
                 activityIndicator.stopAnimating()
@@ -244,5 +252,17 @@ class PreviewViewController: UIViewController {
         caption.toggleInputMode(inputMode: false)
         
         view.setNeedsLayout()
+    }
+    
+    private func postUploadComplete(_ postModel: PostModel) {
+
+        print("Post upload complete: \(postModel)")
+        guard let previewImage = previewImageView?.image else {
+            return
+        }
+        
+        let viewmodel = PostViewModel(fromOffline: postModel, image: previewImage)
+        
+        delegate.didFinishUploadingPost(postData: viewmodel)
     }
 }

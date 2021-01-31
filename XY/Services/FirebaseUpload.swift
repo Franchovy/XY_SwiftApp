@@ -11,37 +11,38 @@ import Firebase
 import FirebaseStorage
 import FirebaseAuth
 
+var TESTMODE = true
+
 class FirebaseUpload {
     
     static func createPost(caption: String, image: UIImage, completion: @escaping(Result<PostModel, Error>) -> Void) {
         let uid = Auth.auth().currentUser!.uid
-        let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
-        userDocument.getDocument() { snapshot, error in
-            if let error = error {
-                completion(.failure(error))
+        
+        if TESTMODE {
+            print("UPLODING POST IN TESTMODE")
+            DispatchQueue.main.asyncAfter(deadline: .now()+2.0) {
+                var postData = PostModel(id: "", userId: uid, timestamp: Date(), content: caption, images: [], level: 0, xp: 0)
+                completion(.success(postData))
             }
-            
-            if let snapshot = snapshot, let profileId = snapshot.get(FirebaseKeys.UserKeys.profile) as? String {
-                uploadImage(image: image) { imageRef, error in
-                    if let error = error {
-                        completion(.failure(error))
-                    }
-                    if let imageRef = imageRef {
-                        // Upload post to firestore
-                        var postData = PostModel(id: "", userId: uid, timestamp: Date(), content: caption, images: [imageRef], level: 0, xp: 0)
-                        
-                        let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).addDocument(data: postData.toUpload()) { error in
-                            if let error = error {
-                                completion(.failure(error))
-                            }
+        } else {
+            uploadImage(image: image) { imageRef, error in
+                if let error = error {
+                    completion(.failure(error))
+                }
+                if let imageRef = imageRef {
+                    // Upload post to firestore
+                    var postData = PostModel(id: "", userId: uid, timestamp: Date(), content: caption, images: [imageRef], level: 0, xp: 0)
+                    
+                    let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document()
+                    
+                    postData.id = postDocument.documentID
+                    postDocument.setData(postData.toUpload(), merge: false) { error in
+                        if let error = error {
+                            completion(.failure(error))
                         }
-                        
-                        postData.id = postDocument.documentID
                         completion(.success(postData))
                     }
                 }
-                
-                //TODO: Add post to profile posts
             }
         }
     }
@@ -317,6 +318,8 @@ class FirebaseUpload {
         }
     }
 
+//    static func swipeRightViral
+    
     
     static func createMoment(caption: String, videoPath: String, completion: @escaping(Result<String, Error>) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {

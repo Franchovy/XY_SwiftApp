@@ -27,6 +27,18 @@ class PostViewModel {
     var content: String
     var profileId: String!
     
+    // MARK: - Initializers
+    
+    init (fromOffline data: PostModel, image: UIImage) {
+        postId = data.id
+        content = data.content
+        timestamp = data.timestamp
+        imageIds = data.images
+        images.append(image)
+        self.data = data
+        
+    }
+    
     init (from data: PostModel) {
         // Set normal properties
         postId = data.id
@@ -36,7 +48,15 @@ class PostViewModel {
         self.data = data
         
         // Fetch image(s)
-        let storage = Storage.storage()
+        fetchImages()
+        
+        // Fetch profile image and profile data
+        fetchProfileData()
+    }
+    
+    // MARK: - Private functions
+    
+    private func fetchImages() {
         for imageId in imageIds {
             
             ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
@@ -61,8 +81,9 @@ class PostViewModel {
                 
             }
         }
-        
-        // Fetch profile image and profile data
+    }
+    
+    private func fetchProfileData() {
         let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(data.userId)
         userDocument.getDocument() { document, error in
             if let error = error {
