@@ -204,6 +204,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         profileImageView.image = nil
         caption.text = ""
         caption.name = ""
+        caption.timestamp = ""
         
         if let viewModel = viewModel {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
