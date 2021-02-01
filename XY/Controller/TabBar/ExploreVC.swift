@@ -136,7 +136,13 @@ class ExploreVC: UIViewController {
         DispatchQueue.main.async {
             
             guard self.currentViralIndex <= self.virals.count else {
-                UIView.animate(withDuration: 0.4, delay: 1.0) {
+                
+                DispatchQueue.main.async {
+                    self.viralView?.player?.pause()
+                    self.nextViralView?.player?.pause()
+                }
+                
+                UIView.animate(withDuration: 0.4, delay: 0.5) {
                     self.noViralsLeftLabel.alpha = 1.0
                 } completion: { done in
                     if done {
