@@ -79,7 +79,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 20) {
+        UIView.animate(withDuration: 5) {
             self.xyWorldComingLabel.alpha = 1.0
         }
         
