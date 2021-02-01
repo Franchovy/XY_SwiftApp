@@ -8,9 +8,14 @@
 import UIKit
 import FirebaseAuth
 
+protocol ProfileHeaderViewControllerDelegate: AnyObject {
+    func didEnterEditMode()
+    func didExitEditMode()
+}
 
 class ProfileHeaderViewController: UIViewController {
     
+    var delegate: ProfileHeaderViewControllerDelegate?
     var viewModel: ProfileViewModel?
     
     private let coverImage: UIImageView = {
@@ -118,6 +123,7 @@ class ProfileHeaderViewController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.layer.masksToBounds = true
         textField.font = UIFont(name: "HelveticaNeue-Bold", size: 28)
+        textField.textColor = .white
         textField.isHidden = true
         return textField
     }()
@@ -130,6 +136,7 @@ class ProfileHeaderViewController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.layer.masksToBounds = true
         textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.textColor = .white
         textField.isHidden = true
         return textField
     }()
@@ -142,6 +149,7 @@ class ProfileHeaderViewController: UIViewController {
         textField.layer.cornerRadius = 5
         textField.layer.masksToBounds = true
         textField.font = UIFont(name: "HelveticaNeue", size: 13)
+        textField.textColor = .white
         textField.isHidden = true
         return textField
     }()
@@ -161,6 +169,9 @@ class ProfileHeaderViewController: UIViewController {
     }()
     
     private var editable = true
+    private var editMode = false
+    
+    // MARK: - Initializers
     
     init() {
         
@@ -205,12 +216,17 @@ class ProfileHeaderViewController: UIViewController {
             editNicknameTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             editCaptionTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             editWebsiteTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
+            
+            let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
+            view.addGestureRecognizer(tappedAnywhereGesture)
         }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Lifecycle
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -327,7 +343,16 @@ class ProfileHeaderViewController: UIViewController {
         }
     }
     
+    // MARK: - Obj-C Functions
+    
     @objc private func onEnterEditMode() {
+        if editMode {
+            exitEditMode()
+            return
+        }
+        
+        editMode = true
+        
         editNicknameTextField.text = nicknameLabel.text
         nicknameLabel.isHidden = true
         editNicknameTextField.isHidden = false
@@ -339,6 +364,10 @@ class ProfileHeaderViewController: UIViewController {
         editWebsiteTextField.text = websiteLabel.text
         editWebsiteTextField.isHidden = false
         websiteLabel.isHidden = true
+        
+        profilePicture.layer.borderColor = UIColor.white.cgColor
+        
+        delegate?.didEnterEditMode()
         
         view.setNeedsLayout()
     }
@@ -354,6 +383,9 @@ class ProfileHeaderViewController: UIViewController {
         default:
             fatalError()
         }
+        
+        sender.returnKeyType = .done
+        sender.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .primaryActionTriggered)
     }
     
     @objc private func onTextFieldChanged(_ sender: UITextField) {
@@ -361,6 +393,11 @@ class ProfileHeaderViewController: UIViewController {
     }
     
     @objc private func onTextFieldEnded(_ sender: UITextField) {
+        exitEditMode()
+    }
+    
+    private func exitEditMode() {
+        editMode = false
         
         editNicknameTextField.isHidden = true
         nicknameLabel.isHidden = false
@@ -380,6 +417,8 @@ class ProfileHeaderViewController: UIViewController {
             websiteLabel.text = editWebsiteTextField.text
         }
         
+        profilePicture.layer.borderColor = UIColor.clear.cgColor
+        
         view.setNeedsLayout()
         
         guard let nickname = nicknameLabel.text, let descriptionText = descriptionLabel.text, let website = websiteLabel.text else {
@@ -390,9 +429,24 @@ class ProfileHeaderViewController: UIViewController {
         viewModel?.profileData.caption = descriptionText
         viewModel?.profileData.website = website
         
+        delegate?.didExitEditMode()
         // Send update to backend
         viewModel?.sendEditUpdate()
     }
+    
+    // MARK: - Public functions
+    
+    @objc public func didTapAnywhere() {
+        for view in [
+            view,
+            editNicknameTextField,
+            editCaptionTextField,
+            editWebsiteTextField
+        ] {
+            view?.resignFirstResponder()
+        }
+    }
+    
     
     public func getScrollPosition() -> CGFloat {
         return profilePicture.top + 10

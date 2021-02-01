@@ -44,6 +44,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         backgroundColor = .clear
 
         let profileViewController = ProfileHeaderViewController()
+        profileViewController.delegate = self
         horizontalScrollView.addSubview(profileViewController.view)
         viewControllers.append(profileViewController)
         
@@ -95,6 +96,13 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                                               animated: true)
     }
     
+    @objc private func didTapAnywhere() {
+        guard let profileViewController = viewControllers[0] as? ProfileHeaderViewController else {
+            return
+        }
+        profileViewController.didTapAnywhere()
+    }
+    
     func setUpHeaderButtons() {
         control.addTarget(self, action: #selector(didChangeSegmentControl(_:)), for: .valueChanged)
         
@@ -137,4 +145,16 @@ extension ProfileScrollerReusableView: UIScrollViewDelegate {
         let selectedImage = control.imageForSegment(at: control.selectedSegmentIndex)?.withTintColor(.white, renderingMode: .alwaysOriginal)
         control.setImage(selectedImage, forSegmentAt: control.selectedSegmentIndex)
     }
+}
+
+extension ProfileScrollerReusableView : ProfileHeaderViewControllerDelegate {
+    func didEnterEditMode() {
+        horizontalScrollView.isScrollEnabled = false
+    }
+    
+    func didExitEditMode() {
+        horizontalScrollView.isScrollEnabled = true
+    }
+    
+    
 }
