@@ -43,6 +43,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         super.init(frame: frame)
         
         backgroundColor = .clear
+        layer.cornerRadius = 15
 
         let profileViewController = ProfileHeaderViewController()
         profileViewController.delegate = self

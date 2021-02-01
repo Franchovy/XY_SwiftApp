@@ -160,6 +160,9 @@ class ProfileViewController: UIViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        view.layer.cornerRadius = 15
+        collectionView.layer.cornerRadius = 15
+        
         collectionView.register(
             ProfileFlowCollectionViewCell.self,
             forCellWithReuseIdentifier: ProfileFlowCollectionViewCell.identifier
