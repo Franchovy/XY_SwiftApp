@@ -31,6 +31,19 @@ class ProfileHeaderSettingsViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Change password fields
+    
+    private let newPasswordField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = UIColor(0xC6C6C6)
+        textField.layer.cornerRadius = 15
+        textField.textColor = .gray
+        textField.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
+        textField.placeholder = "New Password"
+        textField.isSecureTextEntry = true
+        return textField
+    }()
+    
     private let oldPasswordField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = UIColor(0xC6C6C6)
@@ -38,7 +51,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
         textField.textColor = .gray
         textField.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         textField.placeholder = "Current Password"
-        textField.alpha = 0.0
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -53,6 +66,10 @@ class ProfileHeaderSettingsViewController: UIViewController {
         return button
     }()
     
+    private var changePasswordCurrentlyAnimated = false
+    
+    // MARK: - Change Email Fields
+    
     private let changeEmailButton: UIButton = {
         let button = UIButton()
         button.setTitle("Change Email", for: .normal)
@@ -63,6 +80,8 @@ class ProfileHeaderSettingsViewController: UIViewController {
         button.setImage(UIImage(systemName: "envelope.fill")?.withTintColor(.white, renderingMode: .alwaysTemplate), for: .normal)
         return button
     }()
+    
+    // MARK: - Light and Dark Mode Fields
     
     private let lightModeGradient: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()
@@ -109,16 +128,22 @@ class ProfileHeaderSettingsViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Lifecycle, ViewDidLoad
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.clipsToBounds = true
         view.backgroundColor = UIColor(named: "Black")
         view.layer.cornerRadius = 15
         
         view.addSubview(settingsLabel)
         view.addSubview(logoutButton)
+        
+        view.addSubview(newPasswordField)
         view.addSubview(oldPasswordField)
         view.addSubview(changePasswordButton)
+        
         view.addSubview(changeEmailButton)
         
         changePasswordButton.addTarget(self, action: #selector(changePasswordPressed), for: .touchUpInside)
@@ -141,6 +166,8 @@ class ProfileHeaderSettingsViewController: UIViewController {
         darkModeButton.addGestureRecognizer(holdDarkModePreviewGesture)
     }
     
+    // MARK: - ViewDidLayoutSubviews
+    
     override func viewDidLayoutSubviews() {
         
         settingsLabel.sizeToFit()
@@ -151,26 +178,32 @@ class ProfileHeaderSettingsViewController: UIViewController {
             height: settingsLabel.height
         )
         
-        changePasswordButton.frame = CGRect(
-            x: 10,
-            y: settingsLabel.bottom + 10,
-            width: view.width - 20,
-            height: 44
-        )
-        
-        if let buttonTitle = changePasswordButton.titleLabel, let buttonImage = changePasswordButton.imageView {
-            changePasswordButton.imageEdgeInsets = UIEdgeInsets(
-                top: 11.83,
-                left: 9.16,
-                bottom: 12.63,
-                right: buttonTitle.left + view.width/3
+        if !changePasswordCurrentlyAnimated {
+            
+            changePasswordButton.frame = CGRect(
+                x: 10,
+                y: settingsLabel.bottom + 10,
+                width: view.width - 20,
+                height: 44
             )
-            changePasswordButton.titleEdgeInsets = UIEdgeInsets(
-                top: 11.83,
-                left: view.width / 2 - buttonTitle.width - buttonImage.width + 5,
-                bottom: 12.63,
-                right: view.width / 2 - buttonTitle.width
-            )
+            
+            oldPasswordField.frame = changePasswordButton.frame.applying(CGAffineTransform(translationX: view.width, y: 0))
+            newPasswordField.frame = changePasswordButton.frame.applying(CGAffineTransform(translationX: view.width, y: 0))
+            
+            if let buttonTitle = changePasswordButton.titleLabel, let buttonImage = changePasswordButton.imageView {
+                changePasswordButton.imageEdgeInsets = UIEdgeInsets(
+                    top: 11.83,
+                    left: 9.16,
+                    bottom: 12.63,
+                    right: buttonTitle.left + view.width/3
+                )
+                changePasswordButton.titleEdgeInsets = UIEdgeInsets(
+                    top: 11.83,
+                    left: view.width / 2 - buttonTitle.width - buttonImage.width + 5,
+                    bottom: 12.63,
+                    right: view.width / 2 - buttonTitle.width
+                )
+            }
         }
         
         changeEmailButton.frame = CGRect(
@@ -234,15 +267,48 @@ class ProfileHeaderSettingsViewController: UIViewController {
         }
     }
     
+    // MARK: - Obj-C Private Functions
+    
     @objc private func logout() {
         try? Auth.auth().signOut()
     }
     
     @objc private func changePasswordPressed() {
         
-    }
-    
-    private func animateSpace(view: UIView) {
+        changePasswordCurrentlyAnimated = true
+        
+        let outOfViewLeftX = changePasswordButton.frame.origin.x - view.width
+        let outOfViewRightX = changePasswordButton.frame.origin.x + view.width
+        let inScreenPosX = changePasswordButton.frame.origin.x
+        
+        // Show old password text field
+        UIView.animate(withDuration: 0.3) {
+            self.changePasswordButton.frame.origin.x = outOfViewLeftX
+            self.oldPasswordField.frame.origin.x = inScreenPosX
+        } completion: { (done) in
+            // Show next
+            if done {
+                UIView.animate(withDuration: 0.3, delay: 3.0) {
+                    self.oldPasswordField.frame.origin.x = outOfViewLeftX
+                    self.newPasswordField.frame.origin.x = inScreenPosX
+                } completion: { (done) in
+                    UIView.animate(withDuration: 0.3, delay: 3.0) {
+                        self.newPasswordField.frame.origin.x = outOfViewRightX
+                        self.changePasswordButton.frame.origin.x = inScreenPosX
+                    }
+                }
+                
+                self.oldPasswordField.frame.origin.x = outOfViewRightX
+            }
+        }
+        
+        // Animate the button to the left
+        // make visible the text field, animate it from the right
+        // old password entered, click next
+        // animate it to left, make next visible and animate it
+        // confirm
+        // Send firebase request
+        // bring button back
         
     }
     
