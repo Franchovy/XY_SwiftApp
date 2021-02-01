@@ -18,6 +18,14 @@ class ProfileHeaderViewController: UIViewController {
     var delegate: ProfileHeaderViewControllerDelegate?
     var viewModel: ProfileViewModel?
     
+    var imagePicker: UIImagePickerController?
+    
+    enum ImageToPickType {
+        case profilePicture
+        case coverPicture
+    }
+    var imagePickerImageToPick: ImageToPickType?
+    
     private let coverImage: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -156,15 +164,9 @@ class ProfileHeaderViewController: UIViewController {
     
     private lazy var editCoverImageButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "cameraEditButton"), for: .normal)
-        button.isHidden = true
-        return button
-    }()
-    
-    private lazy var editProfileImageButton: UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "cameraEditButton"), for: .normal)
-        button.isHidden = true
+        button.setBackgroundImage(UIImage(systemName: "camera.fill"), for: .normal)
+        button.tintColor = .white
+        button.alpha = 0.0
         return button
     }()
     
@@ -200,8 +202,11 @@ class ProfileHeaderViewController: UIViewController {
             profileCard.addSubview(editWebsiteTextField)
             profileCard.addSubview(editCaptionTextField)
             
-            view.addSubview(editProfileImageButton)
             view.addSubview(editCoverImageButton)
+            editCoverImageButton.addTarget(self, action: #selector(editCoverImage), for: .touchUpInside)
+            
+            let tapProfilePictureGesture = UITapGestureRecognizer(target: self, action: #selector(editProfilePicture))
+            profilePicture.addGestureRecognizer(tapProfilePictureGesture)
             
             editButton.addTarget(self, action: #selector(onEnterEditMode), for: .touchUpInside)
             
@@ -216,6 +221,7 @@ class ProfileHeaderViewController: UIViewController {
             editNicknameTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             editCaptionTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             editWebsiteTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
+            
             
             let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
             view.addGestureRecognizer(tappedAnywhereGesture)
@@ -327,17 +333,12 @@ class ProfileHeaderViewController: UIViewController {
                 height: editWebsiteTextField.height
             )
             
-            let editPicIconSize: CGFloat = 25
-            editProfileImageButton.frame = CGRect(
-                x: profilePicture.left + 10,
-                y: profilePicture.top + 10,
-                width: editPicIconSize,
-                height: editPicIconSize
-            )
-            editProfileImageButton.frame = CGRect(
+            let editPicIconSize: CGFloat = 22
+
+            editCoverImageButton.frame = CGRect(
                 x: coverImage.left + 10,
-                y: coverImage.top + 10,
-                width: editPicIconSize,
+                y: coverImage.top + 50,
+                width: editPicIconSize*1.35,
                 height: editPicIconSize
             )
         }
@@ -366,6 +367,13 @@ class ProfileHeaderViewController: UIViewController {
         websiteLabel.isHidden = true
         
         profilePicture.layer.borderColor = UIColor.white.cgColor
+        profilePicture.layer.borderWidth = 2
+        
+        profilePicture.isUserInteractionEnabled = true
+        
+        UIView.animate(withDuration: 0.1) {
+            self.editCoverImageButton.alpha = 1.0
+        }
         
         delegate?.didEnterEditMode()
         
@@ -418,6 +426,11 @@ class ProfileHeaderViewController: UIViewController {
         }
         
         profilePicture.layer.borderColor = UIColor.clear.cgColor
+        profilePicture.isUserInteractionEnabled = false
+        
+        UIView.animate(withDuration: 0.1) {
+            self.editCoverImageButton.alpha = 0.0
+        }
         
         view.setNeedsLayout()
         
@@ -432,6 +445,65 @@ class ProfileHeaderViewController: UIViewController {
         delegate?.didExitEditMode()
         // Send update to backend
         viewModel?.sendEditUpdate()
+    }
+    
+    @objc private func editProfilePicture() {
+        imagePicker = UIImagePickerController()
+        imagePicker?.delegate = self
+        imagePicker?.allowsEditing = true
+        imagePickerImageToPick = .profilePicture
+        
+        presentImagePickerAlert()
+    }
+    
+    @objc private func editCoverImage() {
+        imagePicker = UIImagePickerController()
+        imagePicker?.delegate = self
+        imagePicker?.allowsEditing = false
+        imagePickerImageToPick = .coverPicture
+        
+        presentImagePickerAlert()
+    }
+    
+    private func presentImagePickerAlert() {
+        
+        let alert = UIAlertController(title: "Choose Image From:", message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { _ in
+            self.openCamera()
+        }))
+
+        alert.addAction(UIAlertAction(title: "Gallery", style: .default, handler: { _ in
+            self.openGallery()
+        }))
+
+        alert.addAction(UIAlertAction.init(title: "Cancel", style: .cancel, handler: nil))
+
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    func openCamera()
+    {
+        if let imagePicker = imagePicker {
+            if(UIImagePickerController .isSourceTypeAvailable(UIImagePickerController.SourceType.camera))
+            {
+                imagePicker.sourceType = UIImagePickerController.SourceType.camera
+                self.present(imagePicker, animated: true, completion: nil)
+            }
+            else
+            {
+                let alert  = UIAlertController(title: "Warning", message: "No camera access", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+    }
+
+    func openGallery()
+    {
+        if let imagePicker = imagePicker {
+            imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+            self.present(imagePicker, animated: true, completion: nil)
+        }
     }
     
     // MARK: - Public functions
@@ -511,5 +583,57 @@ extension ProfileHeaderViewController: ProfileViewModelDelegate {
     
     func onCoverImageFetched(_ image: UIImage) {
         coverImage.image = image
+    }
+}
+
+
+extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imagePicker?.dismiss(animated: true)
+        
+        var image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage
+        if image == nil {
+            image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        }
+        
+        guard let imagePickerImageToPick = imagePickerImageToPick, image != nil else {
+            return
+        }
+        
+        switch imagePickerImageToPick {
+        case .coverPicture:
+            // Update cover picture
+            coverImage.image = image
+            exitEditMode()
+            
+            FirebaseUpload.uploadImage(image: image!) { (imageId, error) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: "Could not upload your cover image!", preferredStyle: .alert)
+                    self.present(alert, animated: true)
+                    print(error)
+                    return
+                } else if let imageId = imageId, let viewModel = self.viewModel {
+                    viewModel.profileData.coverImageId = imageId
+                    viewModel.sendEditUpdate()
+                }
+            }
+            break
+        case .profilePicture:
+            // Update profile picture
+            profilePicture.image = image
+            exitEditMode()
+            
+            FirebaseUpload.uploadImage(image: image!) { (imageId, error) in
+                if let error = error {
+                    let alert = UIAlertController(title: "Error", message: "Could not upload your profile picture!", preferredStyle: .alert)
+                    self.present(alert, animated: true)
+                    print(error)
+                    return
+                } else if let imageId = imageId, let viewModel = self.viewModel {
+                    viewModel.profileData.profileImageId = imageId
+                    viewModel.sendEditUpdate()
+                }
+            }
+        }
     }
 }
