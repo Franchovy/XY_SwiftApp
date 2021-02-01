@@ -22,8 +22,8 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     let control: UISegmentedControl = {
         let titles = ["Profile", "For You"]
         let icons = [
-            UIImage(named: "profile_profile_icon")?.withTintColor(.white, renderingMode: .alwaysOriginal),
-            UIImage(named: "profile_settings_icon")?.withTintColor(.white, renderingMode: .alwaysOriginal)
+            UIImage(named: "profile_profile_icon")?.withTintColor(UIColor(0xF6F6F6), renderingMode: .alwaysOriginal),
+            UIImage(named: "profile_settings_icon")?.withTintColor(UIColor(0xB6B6B6), renderingMode: .alwaysOriginal)
         ]
         let control = UISegmentedControl(items: icons)
         
@@ -33,6 +33,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
 
         control.backgroundColor = .clear
         control.selectedSegmentTintColor = .clear
+        
         return control
     }()
     
@@ -137,12 +138,22 @@ extension ProfileScrollerReusableView: UIScrollViewDelegate {
             control.selectedSegmentIndex = 1
         }
         
+        var selectedIndexColor = UIColor()
+        var unselectedIndexColor = UIColor()
+        
+        if control.selectedSegmentIndex == 0 {
+            selectedIndexColor = UIColor(0xF6F6F6)
+            unselectedIndexColor = UIColor(0xB6B6B6)
+        } else {
+            selectedIndexColor = UIColor(named:"Light")!
+            unselectedIndexColor = UIColor(named: "Dark")!
+        }
         
         for index in 0...control.numberOfSegments-1 {
             let image = control.imageForSegment(at: index)
-            control.setImage(image?.withTintColor(.gray, renderingMode: .alwaysOriginal), forSegmentAt: index)
+            control.setImage(image?.withTintColor(unselectedIndexColor, renderingMode: .alwaysOriginal), forSegmentAt: index)
         }
-        let selectedImage = control.imageForSegment(at: control.selectedSegmentIndex)?.withTintColor(.white, renderingMode: .alwaysOriginal)
+        let selectedImage = control.imageForSegment(at: control.selectedSegmentIndex)?.withTintColor(selectedIndexColor, renderingMode: .alwaysOriginal)
         control.setImage(selectedImage, forSegmentAt: control.selectedSegmentIndex)
     }
 }
