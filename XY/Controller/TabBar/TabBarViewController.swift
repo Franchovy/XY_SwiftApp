@@ -49,6 +49,10 @@ class TabBarViewController: UITabBarController {
         self.profileVC = profileVC
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        tabBar.isHidden = false
+        view.layoutSubviews()
+    }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         setCreatePostIcon()
@@ -88,7 +92,7 @@ extension TabBarViewController: CameraViewControllerDelegate {
             return
         }
         
-        flowVC.insertPost(postData)
+//        flowVC.insertPost(postData)
     }
     
     func cameraViewDidTapCloseButton() {
