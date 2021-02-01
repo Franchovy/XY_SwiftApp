@@ -49,7 +49,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
         button.setBackgroundColor(color: UIColor(0xC6C6C6), forState: .normal)
         button.tintAdjustmentMode = .dimmed
         button.layer.cornerRadius = 15
-        button.setImage(UIImage(systemName: "return")?.withTintColor(.white, renderingMode: .alwaysTemplate), for: .normal)
+        button.setImage(UIImage(systemName: "key.fill")?.withTintColor(.white, renderingMode: .alwaysTemplate), for: .normal)
         return button
     }()
     
@@ -60,7 +60,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
         button.setBackgroundColor(color: UIColor(0xC6C6C6), forState: .normal)
         button.tintAdjustmentMode = .dimmed
         button.layer.cornerRadius = 15
-        button.setImage(UIImage(systemName: "return")?.withTintColor(.white, renderingMode: .alwaysTemplate), for: .normal)
+        button.setImage(UIImage(systemName: "envelope.fill")?.withTintColor(.white, renderingMode: .alwaysTemplate), for: .normal)
         return button
     }()
     
@@ -167,7 +167,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
             )
             changePasswordButton.titleEdgeInsets = UIEdgeInsets(
                 top: 11.83,
-                left: view.width / 2 - buttonTitle.width - buttonImage.width,
+                left: view.width / 2 - buttonTitle.width - buttonImage.width + 5,
                 bottom: 12.63,
                 right: view.width / 2 - buttonTitle.width
             )
@@ -196,7 +196,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
         }
         
         lightModeButton.frame = CGRect(
-            x: 10,
+            x: (view.width/2 - 160)/2,
             y: changeEmailButton.bottom + 10,
             width: 160,
             height: 65
@@ -204,7 +204,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
         lightModeGradient.frame = lightModeButton.bounds
         
         darkModeButton.frame = CGRect(
-            x: lightModeButton.right + 28,
+            x: (view.width*3/2 - 160)/2,
             y: changeEmailButton.bottom + 10,
             width: 160,
             height: 65
