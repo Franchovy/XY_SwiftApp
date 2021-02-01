@@ -23,6 +23,21 @@ class SignupViewController: UIViewController {
         gradientView.layer.cornerRadius = 20
         
         loadingIcon.isHidden = true
+        
+        passwordTextField.addTarget(self, action: #selector(securePassword), for: .editingDidBegin)
+        
+        repeatPasswordTextField.addTarget(self, action: #selector(secureRepeatPassword), for: .editingDidBegin)
+
+        let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
+        view.addGestureRecognizer(tapAnywhereGesture)
+        
+        xyNameTextField.addTarget(self, action: #selector(xyNameDidPressReturn), for: .primaryActionTriggered)
+        
+        emailPhoneTextField.addTarget(self, action: #selector(emailPhoneDidPressReturn), for: .primaryActionTriggered)
+        
+        passwordTextField.addTarget(self, action: #selector(passwordDidPressReturn), for: .primaryActionTriggered)
+        
+        repeatPasswordTextField.addTarget(self, action: #selector(repeatPasswordDidPressReturn), for: .primaryActionTriggered)
     }
     
     // UI Textfield reference outlets
@@ -30,6 +45,8 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var emailPhoneTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var xyNameTextField: UITextField!
+    @IBOutlet weak var repeatPasswordTextField: UITextField!
+    
     
     
     // Error notification reference outlets
@@ -38,6 +55,7 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var loadingIcon: UIActivityIndicatorView!
     
     @IBAction func signupButtonPressed(_ sender: UIButton) {
+        tappedAnywhere()
         
         if let email = emailPhoneTextField.text, let password = passwordTextField.text {
             
@@ -48,15 +66,54 @@ class SignupViewController: UIViewController {
                 CreateXYUserService.createUser(xyname: xyname, email: email, phoneNumber: nil, password: password) { result in
                     switch result {
                     case .success(_):
+                        self.signupErrorLabel.isHidden = true
                         self.loadingIcon.isHidden = true
                         self.loadingIcon.stopAnimating()
                         self.performSegue(withIdentifier: "fromSignupToFlow", sender: self)
+                        
                     case .failure(let error):
                         print("Error creating profile: \(error)")
+                        self.signupErrorLabel.isHidden = false
                     }
                 }
             }
         }
+    }
+    
+    @objc private func tappedAnywhere() {
+        for view in [
+            view,
+            emailPhoneTextField,
+            xyNameTextField,
+            passwordTextField,
+            repeatPasswordTextField
+        ] {
+            view?.resignFirstResponder()
+        }
+    }
+    
+    @objc private func xyNameDidPressReturn() {
+        emailPhoneTextField.becomeFirstResponder()
+    }
+    
+    @objc private func emailPhoneDidPressReturn() {
+        passwordTextField.becomeFirstResponder()
+    }
+    
+    @objc private func passwordDidPressReturn() {
+        repeatPasswordTextField.becomeFirstResponder()
+    }
+
+    @objc private func repeatPasswordDidPressReturn() {
+        signupButtonPressed(signupButton)
+    }
+    
+    @objc private func securePassword() {
+        passwordTextField.isSecureTextEntry = true
+    }
+    
+    @objc private func secureRepeatPassword() {
+        repeatPasswordTextField.isSecureTextEntry = true
     }
 }
 

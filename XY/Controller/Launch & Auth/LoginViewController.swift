@@ -38,27 +38,57 @@ class LoginViewController: UIViewController {
         loadingIcon.isHidden = true
         super.viewDidLoad()
         
+        let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
+        view.addGestureRecognizer(tapAnywhereGesture)
+        
+        usernameEmailPhoneTextField.addTarget(self, action: #selector(usernameEmailPhoneDidPressReturn), for: .primaryActionTriggered)
+        
+        passwordTextField.addTarget(self, action: #selector(passwordDidPressReturn), for: .primaryActionTriggered)
     }
     
- 
+    @objc private func tappedAnywhere() {
+        for view in [
+            view,
+            usernameEmailPhoneTextField,
+            passwordTextField
+        ] {
+            view?.resignFirstResponder()
+        }
+    }
+    
+    @objc private func usernameEmailPhoneDidPressReturn() {
+        passwordTextField.becomeFirstResponder()
+    }
+    
+    @objc private func passwordDidPressReturn() {
+        loginPressed(loginButton)
+    }
+    
+    @objc private func secureTextEntry() {
+        passwordTextField.isSecureTextEntry = true
+    }
     
     @IBAction func loginPressed(_ sender: UIButton) {
+        tappedAnywhere()
+        
         if let email = usernameEmailPhoneTextField.text, let password = passwordTextField.text {
             
             loadingIcon.isHidden = false
             loadingIcon.startAnimating()
-            
-            
+
             
             Firebase.Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
                 self.loadingIcon.isHidden = true
                 self.loadingIcon.stopAnimating()
                 
                 if let error = error {
+                    print(error)
                     if let errCode = AuthErrorCode(rawValue: error._code) {
                         // HANDLE ERRORS
                         if errCode == .userNotFound || errCode == .wrongPassword {
                             self.displayError(errorText: "Login incorrect!")
+                        } else {
+                            self.displayError(errorText: "Login failed")
                         }
                     }
                     return
