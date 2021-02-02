@@ -8,7 +8,13 @@
 import UIKit
 import FirebaseAuth
 
+protocol ProfileHeaderSettingsViewControllerDelegate {
+    func didLogOut()
+}
+
 class ProfileHeaderSettingsViewController: UIViewController {
+    
+    var delegate: ProfileHeaderSettingsViewControllerDelegate?
 
     private let settingsLabel: UILabel = {
         let label = UILabel()
@@ -297,7 +303,14 @@ class ProfileHeaderSettingsViewController: UIViewController {
     // MARK: - Obj-C Private Functions
     
     @objc private func logout() {
-        try? Auth.auth().signOut()
+        do {
+            try Auth.auth().signOut()
+            
+            delegate?.didLogOut()
+        } catch let error {
+            print("Error logging out: \(error)")
+        }
+        
     }
     
     @objc private func changePasswordPressed() {

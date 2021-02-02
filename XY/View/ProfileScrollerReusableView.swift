@@ -51,6 +51,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         viewControllers.append(profileViewController)
         
         let settingsViewController = ProfileHeaderSettingsViewController()
+        settingsViewController.delegate = self
         horizontalScrollView.addSubview(settingsViewController.view)
         viewControllers.append(settingsViewController)
         
@@ -167,6 +168,19 @@ extension ProfileScrollerReusableView : ProfileHeaderViewControllerDelegate {
     func didExitEditMode() {
         horizontalScrollView.isScrollEnabled = true
     }
-    
-    
+}
+
+extension ProfileScrollerReusableView : ProfileHeaderSettingsViewControllerDelegate {
+    func didLogOut() {
+        guard let superview = superview else {
+            return
+        }
+        print(superview)
+        guard let superviewController = superview.parentContainerViewController() as? TabBarViewController else {
+            return
+        }
+        print(superviewController)
+        
+        superviewController.backToLaunch()
+    }
 }

@@ -79,6 +79,14 @@ class TabBarViewController: UITabBarController {
             cameraView.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: -5, bottom: -5, right: -5)
         }
     }
+    
+    public func backToLaunch() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        let vc = mainStoryboard.instantiateViewController(identifier: "LaunchVC")
+        vc.modalPresentationStyle = .fullScreen
+        show(vc, sender: self)
+    }
 }
 
 extension TabBarViewController: CameraViewControllerDelegate {
