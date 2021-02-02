@@ -29,13 +29,15 @@
 	<key>NSAppTransportSecurity</key>
 	<dict/>
 	<key>NSCameraUsageDescription</key>
-	<string>Please allow XY to use the camera</string>
+	<string>This app wants to take pictures &amp; videos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Please allow XY to access your location access for analytics.</string>
+	<string>This app wants to use your location.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Please allow XY to use the microphone</string>
+	<string>This app wants to record sound.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Please allow XY to have camera roll access</string>
+	<string>This app wants to use your photo &amp; video library.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This app wants to save pictures &amp; videos to your library.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

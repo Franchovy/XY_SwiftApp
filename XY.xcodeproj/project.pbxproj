@@ -52,6 +52,8 @@
 		B981F91D25C307BD00A123BC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981F91C25C307BD00A123BC /* ProfileViewController.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */; };
+		B9AD3B3225C9CA3900BF74C3 /* VideoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B3125C9CA3900BF74C3 /* VideoPicker.swift */; };
+		B9AD3B3625C9CBD100BF74C3 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B3525C9CBD100BF74C3 /* VideoView.swift */; };
 		B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
 		B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */; };
@@ -143,6 +145,8 @@
 		B981F91C25C307BD00A123BC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralManager.swift; sourceTree = "<group>"; };
+		B9AD3B3125C9CA3900BF74C3 /* VideoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPicker.swift; sourceTree = "<group>"; };
+		B9AD3B3525C9CBD100BF74C3 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewModel.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B92DD325644A3F005D9B86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -341,6 +345,16 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
+		B9AD3B3025C9CA2D00BF74C3 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				B9AD3B3125C9CA3900BF74C3 /* VideoPicker.swift */,
+				B9AD3B3525C9CBD100BF74C3 /* VideoView.swift */,
+			);
+			name = Utilities;
+			path = Managers/Utilities;
+			sourceTree = "<group>";
+		};
 		B9B92DC725644A3F005D9B86 = {
 			isa = PBXGroup;
 			children = (
@@ -366,6 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				B9BDE34325C96BFD00B00656 /* XY.entitlements */,
+				B9AD3B3025C9CA2D00BF74C3 /* Utilities */,
 				B9E89CED25C3372F0007D6B1 /* Managers */,
 				B9C8482525B09697002F7CD5 /* Extensions */,
 				B95FF4BF25A6F09900CFCA9E /* Services */,
@@ -626,6 +641,7 @@
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B94D4ADD25AEE85000CC5147 /* ChatViewModel.swift in Sources */,
+				B9AD3B3625C9CBD100BF74C3 /* VideoView.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
@@ -639,6 +655,7 @@
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
+				B9AD3B3225C9CA3900BF74C3 /* VideoPicker.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,

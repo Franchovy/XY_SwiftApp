@@ -37,7 +37,7 @@ final class ViralManager {
                 switch result {
                 case .success(let videoId):
                     // upload viral document
-                    self.uploadViralDocument(caption: caption, uploadedVideoId: videoId) { (result) in
+                    self.uploadViralDocument(caption: caption, uploadedVideoPath: videoUrl) { (result) in
                         switch result {
                         case .success(let viralModel):
                             completion(.success(viralModel))
@@ -75,7 +75,7 @@ final class ViralManager {
     
     // MARK: - Private functions
     
-    private func uploadViralDocument(caption: String, uploadedVideoId: String, completion: @escaping(Result<ViralModel, Error>) -> Void) {
+    private func uploadViralDocument(caption: String, uploadedVideoPath: String, completion: @escaping(Result<ViralModel, Error>) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
@@ -86,7 +86,7 @@ final class ViralManager {
             }
             if let profileId = profileId {
                 let viralData: [String: Any] = [
-                    FirebaseKeys.ViralKeys.videoRef: uploadedVideoId,
+                    FirebaseKeys.ViralKeys.videoRef: uploadedVideoPath,
                     FirebaseKeys.ViralKeys.profileId: profileId,
                     FirebaseKeys.ViralKeys.caption: caption,
                     FirebaseKeys.ViralKeys.livesLeft: XPModel.LIVES[.viral]![0],
