@@ -11,7 +11,6 @@ target 'XY' do
     inherit! :search_paths
     # Pods for testing
   end
-pod 'Firebase/Analytics'
 pod 'Firebase/Auth'
 pod 'Firebase/Firestore'
 pod 'Firebase/Storage'
