@@ -41,6 +41,12 @@ class ProfileHeaderSettingsViewController: UIViewController {
         textField.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         textField.placeholder = "New Password"
         textField.isSecureTextEntry = true
+        
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "paperplane.fill"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
+        textField.rightView = button
+        textField.rightViewMode = .always
         return textField
     }()
     
@@ -52,6 +58,12 @@ class ProfileHeaderSettingsViewController: UIViewController {
         textField.font = UIFont(name: "HelveticaNeue-Bold", size: 20)
         textField.placeholder = "Current Password"
         textField.isSecureTextEntry = true
+        
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(systemName: "arrow.right"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -16, bottom: 0, right: 0)
+        textField.rightView = button
+        textField.rightViewMode = .always
         return textField
     }()
     
@@ -144,6 +156,13 @@ class ProfileHeaderSettingsViewController: UIViewController {
         view.addSubview(oldPasswordField)
         view.addSubview(changePasswordButton)
         
+        if let rightButton = oldPasswordField.rightView as? UIButton {
+            rightButton.addTarget(self, action: #selector(oldPasswordSubmitted), for: .touchUpInside)
+        }
+        if let rightButton = newPasswordField.rightView as? UIButton {
+            rightButton.addTarget(self, action: #selector(newPasswordSubmitted), for: .touchUpInside)
+        }
+        
         view.addSubview(changeEmailButton)
         
         changePasswordButton.addTarget(self, action: #selector(changePasswordPressed), for: .touchUpInside)
@@ -189,6 +208,14 @@ class ProfileHeaderSettingsViewController: UIViewController {
             
             oldPasswordField.frame = changePasswordButton.frame.applying(CGAffineTransform(translationX: view.width, y: 0))
             newPasswordField.frame = changePasswordButton.frame.applying(CGAffineTransform(translationX: view.width, y: 0))
+            
+            oldPasswordField.rightView?.frame = CGRect(
+                x: CGFloat(oldPasswordField.frame.size.width - 25),
+                y: CGFloat(5),
+                width: CGFloat(25),
+                height: CGFloat(25)
+            )
+            newPasswordField.rightView?.frame = CGRect(x: CGFloat(oldPasswordField.frame.size.width - 25), y: CGFloat(5), width: CGFloat(25), height: CGFloat(25))
             
             if let buttonTitle = changePasswordButton.titleLabel, let buttonImage = changePasswordButton.imageView {
                 changePasswordButton.imageEdgeInsets = UIEdgeInsets(
@@ -288,17 +315,7 @@ class ProfileHeaderSettingsViewController: UIViewController {
         } completion: { (done) in
             // Show next
             if done {
-                UIView.animate(withDuration: 0.3, delay: 3.0) {
-                    self.oldPasswordField.frame.origin.x = outOfViewLeftX
-                    self.newPasswordField.frame.origin.x = inScreenPosX
-                } completion: { (done) in
-                    UIView.animate(withDuration: 0.3, delay: 3.0) {
-                        self.newPasswordField.frame.origin.x = outOfViewRightX
-                        self.changePasswordButton.frame.origin.x = inScreenPosX
-                    }
-                }
-                
-                self.oldPasswordField.frame.origin.x = outOfViewRightX
+                self.oldPasswordField.becomeFirstResponder()
             }
         }
         
@@ -310,6 +327,73 @@ class ProfileHeaderSettingsViewController: UIViewController {
         // Send firebase request
         // bring button back
         
+    }
+    
+    @objc private func oldPasswordSubmitted() {
+        
+        guard let passwordEntry = oldPasswordField.text,
+              let button = oldPasswordField.rightView as? UIButton else {
+            return
+        }
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.startAnimating()
+        oldPasswordField.rightView = activityIndicator
+        
+        let outOfViewLeftX = oldPasswordField.frame.origin.x - view.width
+        let outOfViewRightX = oldPasswordField.frame.origin.x + view.width
+        let inScreenPosX = oldPasswordField.frame.origin.x
+        
+        AuthManager.shared.verifyPassword(password: passwordEntry) { (passwordCorrect, error) in
+            if let error = error {
+                print("Error verifying password: \(error.localizedDescription)")
+            } else if let passwordCorrect = passwordCorrect {
+                self.oldPasswordField.rightView = button
+                
+                if passwordCorrect {
+                    // Proceed
+                    UIView.animate(withDuration: 0.3) {
+                        self.oldPasswordField.frame.origin.x = outOfViewLeftX
+                        self.newPasswordField.frame.origin.x = inScreenPosX
+                    } completion: { (done) in
+                        self.oldPasswordField.frame.origin.x = outOfViewRightX
+                    }
+                } else {
+                    // Invalid password
+                    self.oldPasswordField.shake()
+                    self.oldPasswordField.text = ""
+                }
+            }
+        }
+    }
+    
+    @objc private func newPasswordSubmitted() {
+        let outOfViewRightX = newPasswordField.frame.origin.x + view.width
+        let inScreenPosX = newPasswordField.frame.origin.x
+        
+        guard let newPassword = newPasswordField.text,
+              let button = oldPasswordField.rightView as? UIButton else {
+            return
+        }
+        
+        let activityIndicator = UIActivityIndicatorView(style: .medium)
+        activityIndicator.startAnimating()
+        oldPasswordField.rightView = activityIndicator
+        
+        AuthManager.shared.changePassword(newPassword: newPassword) { (error) in
+            if let error = error {
+                print("Error changing to new password: \(error)")
+            } else {
+                UIView.animate(withDuration: 0.3) {
+                    self.newPasswordField.frame.origin.x = outOfViewRightX
+                    self.changePasswordButton.frame.origin.x = inScreenPosX
+                } completion: { done in
+                    if done {
+                        self.newPasswordField.rightView = button
+                        self.changePasswordCurrentlyAnimated = false
+                    }
+                }
+            }
+        }
     }
     
     @objc private func previewLightMode(gestureRecognizer: UILongPressGestureRecognizer) {
