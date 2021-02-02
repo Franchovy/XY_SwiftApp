@@ -30,6 +30,8 @@
 	<dict/>
 	<key>NSCameraUsageDescription</key>
 	<string>Please allow XY to use the camera</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Please allow XY to access your location access for analytics.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Please allow XY to use the microphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
