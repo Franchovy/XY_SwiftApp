@@ -244,7 +244,6 @@ extension NotificationsVC : NotificationViewModelDelegate {
     }
     
     func didFetchDisplayImage(index: Int, image: UIImage) {
-        print("Fetched profile image: \(image)")
         guard let containsCell = tableView.indexPathsForVisibleRows?.contains(IndexPath.init(row: index, section: 0)),
               containsCell,
               let cell = tableView.visibleCells.filter({ (cell) -> Bool in
@@ -262,7 +261,6 @@ extension NotificationsVC : NotificationViewModelDelegate {
     }
     
     func didFetchPreviewImage(index: Int, image: UIImage) {
-        print("Fetched preview image: \(image)")
         guard let cell = tableView.cellForRow(
                 at: IndexPath(row: index, section: 0)
         ) as? NotificationCell else {

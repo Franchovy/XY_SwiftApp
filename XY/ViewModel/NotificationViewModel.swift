@@ -100,27 +100,27 @@ class NotificationViewModel {
                 return
             }
             
-            ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
-                guard let imageUrl = imageUrl, error == nil else {
-                    print(error ?? "Error fetching post preview image for post: \(self.model.objectId)")
-                    return
-                }
-                
-                KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
-                    // Update download progress
-                }, downloadTaskUpdated: { task in
-                    // Download task update
-                }, completionHandler: { result in
-                    do {
-                        let image = try result.get().image
-                        DispatchQueue.main.async {
-                            self.previewImage = image
-                            self.delegate?.didFetchPreviewImage(index: index, image: image)
-                        }
-                    } catch let error {
-                        print("Error fetching profile image: \(error)")
+            StorageManager.shared.downloadThumbnail(withContainerId: postId, withImageId: imageId) { (result) in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.previewImage = image
+                        self.delegate?.didFetchPreviewImage(index: index, image: image)
                     }
-                })
+                case .failure(let error):
+                    // Backup: get image using normal imageId
+                    StorageManager.shared.downloadImage(withContainerId: postId, withImageId: imageId) { (result) in
+                        switch result {
+                        case .success(let image):
+                            DispatchQueue.main.async {
+                                self.previewImage = image
+                                self.delegate?.didFetchPreviewImage(index: index, image: image)
+                            }
+                        case .failure(let error):
+                            print("Error fetching image for imageId: \(imageId) and postId: \(postId): \(error)")
+                        }
+                    }
+                }
             }
         }
     }
