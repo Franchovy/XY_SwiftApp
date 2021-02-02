@@ -149,6 +149,27 @@ final class StorageManager {
         }
     }
     
+    public func downloadVideo(videoId: String, containerId: String, completion: @escaping(Result<URL, Error>) -> Void) {
+        let videoDownloadRef = storage.reference().child(containerId).child(videoId)
+        
+        videoDownloadRef.downloadURL { (url, error) in
+            if let error = error {
+                // Try backup option, check directly in firebase storage
+                let videoDownloadRef = self.storage.reference().child(videoId)
+                
+                videoDownloadRef.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else if let url = url {
+                        completion(.success(url))
+                    }
+                }
+            } else if let url = url {
+              completion(.success(url))
+            }
+        }
+    }
+    
     // MARK: - Private functions
     
     private func downloadImageWithKingfisher(imageUrl: URL, completion: @escaping(UIImage?, Error?) -> Void) {
@@ -178,9 +199,9 @@ final class StorageManager {
         }
         
         let metadata = StorageMetadata()
-        metadata.contentType = "image/png"
+        metadata.contentType = "image/jpeg"
 
-        let thumbnailId = imageId.replacingOccurrences(of: ".", with: "_thumbnail.")
+        let thumbnailId = imageId.replacingOccurrences(of: ".", with: "_thumbnail.").replacingOccurrences(of: ".mov", with: ".jpeg")
         
         let storageRef = storage.reference()
         let imageRef = storageRef.child(path).child(thumbnailId)

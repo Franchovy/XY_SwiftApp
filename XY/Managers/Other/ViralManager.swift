@@ -37,12 +37,20 @@ final class ViralManager {
                 switch result {
                 case .success(let videoId):
                     // upload viral document
-                    self.uploadViralDocument(caption: caption, uploadedVideoPath: videoId) { (result) in
-                        switch result {
-                        case .success(let viralModel):
-                            completion(.success(viralModel))
-                        case .failure(let error):
+                    self.createViralData(caption: caption, uploadedVideoPath: videoId) { viralData, error in
+                        if let error = error {
                             completion(.failure(error))
+                        } else if let viralData = viralData {
+                            
+                            viralDocument.setData(viralData, merge: false) { (error) in
+                                if let error = error {
+                                    completion(.failure(error))
+                                }
+                            }
+                            
+                            let viralModel = ViralModel(from: viralData, id: viralDocument.documentID)
+                            completion(.success(viralModel))
+                            
                         }
                     }
                 case .failure(let error):
@@ -70,14 +78,14 @@ final class ViralManager {
     
     // MARK: - Private functions
     
-    private func uploadViralDocument(caption: String, uploadedVideoPath: String, completion: @escaping(Result<ViralModel, Error>) -> Void) {
+    private func createViralData(caption caption: String, uploadedVideoPath: String, completion: @escaping([String : Any]?, Error?) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
         
         FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
             if let error = error {
-                completion(.failure(error))
+                completion(nil, error)
             }
             if let profileId = profileId {
                 let viralData: [String: Any] = [
@@ -89,16 +97,7 @@ final class ViralManager {
                     FirebaseKeys.ViralKeys.level: 0
                 ]
                 
-                let viralDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document()
-                
-                let setDataTask = viralDocument.setData(viralData, merge: false) { (error) in
-                    if let error = error {
-                        completion(.failure(error))
-                    }
-                }
-                
-                let viralModel = ViralModel.init(from: viralData, id: viralDocument.documentID)
-                completion(.success(viralModel))
+                completion(viralData, nil)
             }
         }
     }
