@@ -13,7 +13,7 @@ final class FirebaseFunctionsManager {
     static let shared = FirebaseFunctionsManager()
     
     private init() {
-//        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
+        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
     }
     
     lazy var functions = Functions.functions()

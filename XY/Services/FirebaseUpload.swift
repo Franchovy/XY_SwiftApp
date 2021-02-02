@@ -227,30 +227,6 @@ class FirebaseUpload {
         }
     }
     
-    static func uploadVideo(with url: URL, completion: @escaping(Result<String,Error>) -> Void) {
-        // Upload photo in post
-        let storage = Storage.storage()
-        
-        var uuid: String!
-        var metadata = StorageMetadata()
-        
-        uuid = UUID().uuidString + ".mov"
-        metadata.contentType = "video/quicktime"
-        
-        let storageRef = storage.reference()
-        let videoRef = storageRef.child(uuid)
-        
-        videoRef.putFile(from: url, metadata: metadata)  { (metadata, error) in
-            if let error = error {
-                completion(.failure(error))
-            }
-
-            if let metadata = metadata {
-                completion(.success(videoRef.fullPath))
-            }
-        }
-    }
-    
     static func deleteNotification(notificationId: String) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
@@ -259,39 +235,6 @@ class FirebaseUpload {
         let notificationDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(userId).collection(FirebaseKeys.NotificationKeys.notificationsCollection).document(notificationId)
         
         notificationDocument.delete()
-    }
-    
-    // MARK: - Virals
-    
-    static func createViral(caption: String, videoPath: String, completion: @escaping(Result<ViralModel, Error>) -> Void) {
-        guard let userId = Auth.auth().currentUser?.uid else {
-            return
-        }
-        
-        FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
-            if let error = error {
-                completion(.failure(error))
-            }
-            if let profileId = profileId {
-                let viralData: [String: Any] = [
-                    FirebaseKeys.ViralKeys.videoRef: videoPath,
-                    FirebaseKeys.ViralKeys.profileId: profileId,
-                    FirebaseKeys.ViralKeys.caption: caption,
-                    FirebaseKeys.ViralKeys.livesLeft: XPModel.LIVES[.viral]![0],
-                    FirebaseKeys.ViralKeys.xp: 0,
-                    FirebaseKeys.ViralKeys.level: 0
-                ]
-                
-                let viralDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document()
-                viralDocument.setData(viralData) { (error) in
-                    if let error = error {
-                        completion(.failure(error))
-                    }
-                    let viralModel = ViralModel.init(from: viralData, id: viralDocument.documentID)
-                    completion(.success(viralModel))
-                }
-            }
-        }
     }
     
     

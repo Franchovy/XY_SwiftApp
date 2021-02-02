@@ -225,24 +225,16 @@ class PreviewViewController: UIViewController {
             }
         } else if let recordedVideoUrl = recordedVideoUrl {
             previewLayer?.player?.pause()
+            
+            let caption = self.caption.text
+            
             // Upload video
-            FirebaseUpload.uploadVideo(with: recordedVideoUrl) { [weak self] (result) in
-                activityIndicator.stopAnimating()
-                
+            ViralManager.shared.createViral(caption: caption, videoUrl: recordedVideoUrl) { (result) in
                 switch result {
-                case .success(let uploadedPath):
-                    print("Uploaded video with path: \(uploadedPath)")
-                    FirebaseUpload.createViral(caption: self?.caption.text ?? "", videoPath: uploadedPath) { result in
-                        switch result {
-                        case .success(let viralModel):
-                            
-                            self?.viralUploadComplete(viralModel)
-                        case .failure(let error):
-                            print("Error uploading moment document: \(error)")
-                        }
-                    }
+                case .success(let viralModel):
+                    self.viralUploadComplete(viralModel)
                 case .failure(let error):
-                    print(error)
+                    print("Error uploading viral: \(error)")
                 }
             }
         }

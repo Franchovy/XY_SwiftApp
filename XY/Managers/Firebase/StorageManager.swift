@@ -47,7 +47,7 @@ final class StorageManager {
             if let error = error {
                 completion(.failure(error))
             } else {
-                self.uploadThumbnail(for: image, withPath: storageId, withId: uuid) { (result) in
+                self.uploadThumbnail(forImage: image, withPath: storageId, withId: uuid) { (result) in
                     switch result {
                     case .success(let bool):
                         if bool {
@@ -116,6 +116,36 @@ final class StorageManager {
         }
     }
     
+    public func uploadVideo(from url: URL, withThumbnail image: UIImage, withContainer containerId: String, completion: @escaping(Result<String,Error>) -> Void) {
+        var uuid: String!
+        let metadata = StorageMetadata()
+        
+        uuid = UUID().uuidString + ".mov"
+        metadata.contentType = "video/quicktime"
+        
+        let storageRef = storage.reference()
+        let videoRef = storageRef.child(containerId).child(uuid)
+        
+        videoRef.putFile(from: url, metadata: metadata)  { (_, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                self.uploadThumbnail(forImage: image, withPath: containerId, withId: uuid) { (result) in
+                    switch result {
+                    case .success(let bool):
+                        if bool {
+                            completion(.success(uuid))
+                        } else {
+                            completion(.failure(ImageUploadFailure.failedToGenerateThumbnail))
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Private functions
     
     private func downloadImageWithKingfisher(imageUrl: URL, completion: @escaping(UIImage?, Error?) -> Void) {
@@ -134,7 +164,7 @@ final class StorageManager {
         })
     }
     
-    private func uploadThumbnail(for image: UIImage, withPath path: String, withId imageId: String, completion: @escaping(Result<Bool, Error>) -> Void) {
+    private func uploadThumbnail(forImage image: UIImage, withPath path: String, withId imageId: String, completion: @escaping(Result<Bool, Error>) -> Void) {
         guard let thumbnailImage = image.generateThumbnail() else {
             completion(.failure(ImageUploadFailure.failedToGenerateThumbnail))
             return
@@ -159,7 +189,6 @@ final class StorageManager {
                 completion(.success(true))
             }
         }
-        
     }
     
 }
