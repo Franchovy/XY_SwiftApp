@@ -73,6 +73,7 @@ class NotificationsVC: UIViewController {
             }
             
             if initializing {
+                strongSelf.notifications = []
                 print("Initializing notifications")
                 // Append post
                 for notificationDocument in querySnapshot.documents {
@@ -84,7 +85,7 @@ class NotificationsVC: UIViewController {
                     var notificationViewModel = NotificationViewModel(from: notificationModel)
                     notificationViewModel.delegate = strongSelf
                     
-                    print("Appending notification")
+                    print("Appending notification of type: \(notificationModel.objectType)")
                     strongSelf.notifications.append(notificationViewModel)
                     
                 }

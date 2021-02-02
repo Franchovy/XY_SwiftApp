@@ -16,6 +16,7 @@ class ImageDownloaderHelper {
         let storage = Storage.storage()
         let ref = storage.reference(withPath: imageId)
         
+        
         ref.downloadURL() { url, error in
             guard error == nil else {
                 completion(nil, error)

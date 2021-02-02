@@ -59,26 +59,14 @@ class PostViewModel {
     private func fetchImages() {
         for imageId in imageIds {
             
-            ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
-                guard let imageUrl = imageUrl, error == nil else {
-                    print(error ?? "Error fetching image")
-                    return
+            StorageManager.shared.downloadImage(withContainerId: postId, withImageId: imageId) { (result) in
+                switch result {
+                case .success(let image):
+                    self.images = [image]
+                    self.delegate?.didFetchPostImages(viewModel: self)
+                case .failure(let error):
+                    print("Error downloading images for post: \(error)")
                 }
-                
-                KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
-                    // Update download progress
-                }, downloadTaskUpdated: { task in
-                    // Download task update
-                }, completionHandler: { result in
-                    do {
-                        let image = try result.get().image
-                        self.images = [image]
-                        self.delegate?.didFetchPostImages(viewModel: self)
-                    } catch let error {
-                        print("Error fetching profile image: \(error)")
-                    }
-                })
-                
             }
         }
     }

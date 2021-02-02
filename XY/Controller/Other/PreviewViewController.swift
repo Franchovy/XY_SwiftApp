@@ -212,7 +212,7 @@ class PreviewViewController: UIViewController {
         
         if let image = previewImageView?.image {
             // Upload post
-            FirebaseUpload.createPost(caption: caption.text, image: image) { (result) in
+            PostManager.shared.createPost(caption: caption.text, image: image) { (result) in
                 activityIndicator.stopAnimating()
                 
                 switch result {
@@ -220,7 +220,7 @@ class PreviewViewController: UIViewController {
                     
                     self.postUploadComplete(postModel)
                 case .failure(let error):
-                    print("Error creating post.")
+                    print("Error creating post: \(error)")
                 }
             }
         } else if let recordedVideoUrl = recordedVideoUrl {

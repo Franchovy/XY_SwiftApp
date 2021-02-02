@@ -115,6 +115,24 @@ extension UITabBarController {
     }
 }
 
+extension UIImage {
+    func generateThumbnail() -> UIImage? {
+        let options = [
+            kCGImageSourceCreateThumbnailWithTransform: true,
+            kCGImageSourceCreateThumbnailFromImageAlways: true,
+            kCGImageSourceThumbnailMaxPixelSize: 100] as CFDictionary
+
+        guard let imageData = self.pngData(),
+              let imageSource = CGImageSourceCreateWithData(imageData as NSData, nil),
+              let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options)
+        else {
+            return nil
+        }
+
+        return UIImage(cgImage: image)
+    }
+}
+
 extension CALayer {
     func moveTo(point: CGPoint, animated: Bool) {
         if animated {
