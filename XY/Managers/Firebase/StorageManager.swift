@@ -126,20 +126,23 @@ final class StorageManager {
         let storageRef = storage.reference()
         let videoRef = storageRef.child(containerId).child(uuid)
         
-        videoRef.putFile(from: url, metadata: metadata)  { (_, error) in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                self.uploadThumbnail(forImage: image, withPath: containerId, withId: uuid) { (result) in
-                    switch result {
-                    case .success(let bool):
-                        if bool {
-                            completion(.success(uuid))
-                        } else {
-                            completion(.failure(ImageUploadFailure.failedToGenerateThumbnail))
+        if let videoData = NSData(contentsOf: url) as Data? {
+            //use 'putData' instead
+            videoRef.putData(videoData, metadata: metadata) { (_, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    self.uploadThumbnail(forImage: image, withPath: containerId, withId: uuid) { (result) in
+                        switch result {
+                        case .success(let bool):
+                            if bool {
+                                completion(.success(uuid))
+                            } else {
+                                completion(.failure(ImageUploadFailure.failedToGenerateThumbnail))
+                            }
+                        case .failure(let error):
+                            completion(.failure(error))
                         }
-                    case .failure(let error):
-                        completion(.failure(error))
                     }
                 }
             }
