@@ -264,9 +264,10 @@ class PreviewViewController: UIViewController {
     
     @objc private func didTapAnywhere() {
         if caption.isEditing() {
-            print("Is Editing")
+            caption.toggleInputMode(inputMode: false)
+            
+            view.setNeedsLayout()
         } else {
-            print("Is Not Editing")
             if let player = previewLayer?.player {
                 if player.timeControlStatus == .playing {
                     player.pause()
@@ -275,11 +276,5 @@ class PreviewViewController: UIViewController {
                 }
             }
         }
-        
-        let captionText = caption.text
-        print("Caption: \(captionText)")
-        caption.toggleInputMode(inputMode: false)
-        
-        view.setNeedsLayout()
     }
 }
