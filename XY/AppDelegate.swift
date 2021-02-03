@@ -21,6 +21,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
 
         FirebaseApp.configure()
+        
+        OnlineStatusManager.shared.setupOnlineStatus()
 
         return true
     }
@@ -88,6 +90,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-
 }
 

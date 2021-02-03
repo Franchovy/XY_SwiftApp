@@ -53,6 +53,7 @@
 		B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */; };
 		B9AD3B3225C9CA3900BF74C3 /* VideoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B3125C9CA3900BF74C3 /* VideoPicker.swift */; };
 		B9AD3B3625C9CBD100BF74C3 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B3525C9CBD100BF74C3 /* VideoView.swift */; };
+		B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */; };
 		B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
 		B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */; };
@@ -145,6 +146,7 @@
 		B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralManager.swift; sourceTree = "<group>"; };
 		B9AD3B3125C9CA3900BF74C3 /* VideoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPicker.swift; sourceTree = "<group>"; };
 		B9AD3B3525C9CBD100BF74C3 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
+		B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusManager.swift; sourceTree = "<group>"; };
 		B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewModel.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B92DD325644A3F005D9B86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				B9BDE37925C9AD8C00B00656 /* PostManager.swift */,
 				B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */,
 				B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */,
+				B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -690,6 +693,7 @@
 				14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
+				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
 				B95E6DE425C311EA00FBEDF9 /* ProfileHeaderReusableView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
