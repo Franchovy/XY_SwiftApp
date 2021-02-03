@@ -184,6 +184,15 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
             // Remove notification from backend
             FirebaseUpload.deleteNotification(notificationId: notificationToDelete.notificationId)
             
+            if notificationToDelete.type == .lifeOut {
+                // Delete viral from backend
+                ViralManager.shared.deleteViral(withId: notificationToDelete.model.objectId) { error in
+                    if let error = error {
+                        print("Error deleting viral: \(error)")
+                    }
+                }
+            }
+            
             notifications.remove(at: indexPath.row)
             
             tableView.deleteRows(at:[indexPath]  , with: .fade)

@@ -23,6 +23,21 @@ final class StorageManager {
     
     // MARK: - Public functions
     
+    public func deleteContainer(withPath path: String, completion: @escaping(Error?) -> Void) {
+        storage.reference().child(path).listAll { (storageListResult, error) in
+            if let error = error {
+                completion(error)
+            } else {
+                for item in storageListResult.items {
+                    item.delete { (error) in
+                        completion(error)
+                    }
+                }
+            }
+        }
+    }
+    
+    
     /// Uses storageId as folder, containing image (original), and thumbnail image. Id should match PostId, ViralId, etc.
     public func uploadPhoto(_ image: UIImage, storageId: String, completion: @escaping(Result<String, Error>) -> Void) {
         var uuid: String!

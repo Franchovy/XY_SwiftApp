@@ -72,6 +72,21 @@ final class ViralManager {
         }
     }
     
+    public func deleteViral(withId viralId: String, completion: @escaping (Error?) -> Void) {
+        // Delete viral from firestore
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document(viralId).delete { (error) in
+            if let error = error {
+                completion(error)
+            } else {
+                StorageManager.shared.deleteContainer(withPath: viralId) { error in
+                    if let error = error {
+                        completion(error)
+                    }
+                }
+            }
+        }
+    }
+    
     // MARK: - Private functions
     
     private func generateVideoThumbnail(url: URL, completion: @escaping ((_ image: UIImage?) -> Void)) {

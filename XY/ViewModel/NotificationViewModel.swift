@@ -47,7 +47,7 @@ class NotificationViewModel {
     
     func fetch(index: Int) {
         
-        if type == .levelUp {
+        if type == .levelUp || type == .lifeOut {
             if objectType == .user {
                 fetchProfile(for: index, id: model.objectId)
             } else if objectType == .post {
