@@ -75,7 +75,7 @@ final class AuthManager {
                 self.userId = uid
                 
                 // Load profile data
-                ProfileManager.shared.initialiseForCurrentUser()
+                ProfileManager.shared.initialiseForCurrentUser(completion: {_ in })
                 
                 completion(.success(true))
             }

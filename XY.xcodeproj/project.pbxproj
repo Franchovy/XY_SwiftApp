@@ -51,6 +51,8 @@
 		B9AD3B3225C9CA3900BF74C3 /* VideoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B3125C9CA3900BF74C3 /* VideoPicker.swift */; };
 		B9AD3B3625C9CBD100BF74C3 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B3525C9CBD100BF74C3 /* VideoView.swift */; };
 		B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */; };
+		B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */; };
+		B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */; };
 		B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
 		B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */; };
@@ -141,6 +143,8 @@
 		B9AD3B3125C9CA3900BF74C3 /* VideoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPicker.swift; sourceTree = "<group>"; };
 		B9AD3B3525C9CBD100BF74C3 /* VideoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
 		B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusManager.swift; sourceTree = "<group>"; };
+		B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardCollectionViewCell.swift; sourceTree = "<group>"; };
+		B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B9B053BF25AE4691006962DD /* ConversationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsViewModel.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B92DD325644A3F005D9B86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -205,6 +209,7 @@
 				140826B725867EC400DC055D /* ImagePostCell.swift */,
 				B9B92DD925644A3F005D9B86 /* Main.storyboard */,
 				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
+				B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -395,6 +400,7 @@
 			children = (
 				B9BDE33F25C9413A00B00656 /* AuthManager.swift */,
 				B9BDE37D25C9AE1000B00656 /* StorageManager.swift */,
+				B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -638,6 +644,7 @@
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
+				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */,
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
@@ -683,6 +690,7 @@
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
 				B95E6DE425C311EA00FBEDF9 /* ProfileHeaderReusableView.swift in Sources */,
+				B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

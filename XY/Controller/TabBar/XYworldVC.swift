@@ -10,33 +10,43 @@ import UIKit
 
 class XYworldVC: UIViewController, UISearchBarDelegate {
     
+    // MARK: - Properties
     
     @IBOutlet var xyworldSearchBar: UISearchBar!
     @IBOutlet var xyworldTableView: UITableView!
     
-    private let xyWorldComingLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor(named: "tintColor_grey")
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        label.alpha = 0.0
-        label.text = "XY World Coming Soon"
-        return label
-    }()
+    static var onlineNowCellSize = CGSize(width: 145, height: 145 * 4/3)
+    
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = XYworldVC.onlineNowCellSize
+        layout.minimumInteritemSpacing = 10
 
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor(named: "tintColor_grey")
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        label.alpha = 0.0
-        label.text = "02/05/2021"
-        return label
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.decelerationRate = UIScrollView.DecelerationRate.fast
+        collection.showsHorizontalScrollIndicator = false
+        collection.backgroundColor = .clear
+        return collection
     }()
+    
+    private var onlineNowUsers = [ProfileViewModel]()
+    
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(xyWorldComingLabel)
-        view.addSubview(dateLabel)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        
+        collectionView.register(
+            ProfileCardCollectionViewCell.self,
+            forCellWithReuseIdentifier: ProfileCardCollectionViewCell.identifier
+        )
+        
+        view.addSubview(collectionView)
         
         // Search bar
         xyworldSearchBar.delegate = self
@@ -53,7 +63,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             //Magnifying glass
             glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
             glassIconView.tintColor = .gray
-            
         }
         
         let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhereGesture))
@@ -61,30 +70,25 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     override func viewDidLayoutSubviews() {
-        xyWorldComingLabel.sizeToFit()
-        xyWorldComingLabel.frame = CGRect(
-            x: (view.width - xyWorldComingLabel.width)/2,
-            y: view.center.y - 70,
-            width: xyWorldComingLabel.width,
-            height: xyWorldComingLabel.height
-        )
-        
-        dateLabel.sizeToFit()
-        dateLabel.frame = CGRect(
-            x: (view.width - dateLabel.width)/2,
-            y: xyWorldComingLabel.bottom + 20,
-            width: dateLabel.width,
-            height: dateLabel.height
+        collectionView.frame = CGRect(
+            x: 0,
+            y: 20,
+            width: view.width,
+            height: XYworldVC.onlineNowCellSize.height
         )
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 5) {
-            self.xyWorldComingLabel.alpha = 1.0
-        }
-        
-        UIView.animate(withDuration: 20, delay: 10) {
-            self.dateLabel.alpha = 0.3
+        // Subscribe to Online Now in RT DB
+        DatabaseManager.shared.subscribeToOnlineNow() { ids in
+            if let ids = ids {
+                for (userId, profileId) in ids {
+                    print("User id: \(userId), profile id: \(profileId)")
+                    let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
+                    self.onlineNowUsers.append(viewModel)
+                }
+                self.collectionView.reloadData()
+            }
         }
     }
     
@@ -92,4 +96,23 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         xyworldSearchBar.resignFirstResponder()
     }
     
+}
+
+extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return onlineNowUsers.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ProfileCardCollectionViewCell.identifier,
+            for: indexPath
+        ) as? ProfileCardCollectionViewCell else {
+            fatalError()
+        }
+        
+        cell.configure(with: onlineNowUsers[indexPath.row])
+        
+        return cell
+    }
 }

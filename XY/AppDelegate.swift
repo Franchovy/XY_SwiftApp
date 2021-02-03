@@ -22,7 +22,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         FirebaseApp.configure()
         
-        OnlineStatusManager.shared.setupOnlineStatus()
+        if AuthManager.shared.isLoggedIn() {
+            OnlineStatusManager.shared.setupOnlineStatus()
+        }
 
         return true
     }
