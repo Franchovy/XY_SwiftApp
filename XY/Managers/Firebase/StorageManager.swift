@@ -126,22 +126,46 @@ final class StorageManager {
         let storageRef = storage.reference()
         let videoRef = storageRef.child(containerId).child(uuid)
         
-        videoRef.putFile(from: url, metadata: metadata)  { (_, error) in
-            if let error = error {
-                completion(.failure(error))
-            } else {
-                self.uploadThumbnail(forImage: image, withPath: containerId, withId: uuid) { (result) in
-                    switch result {
-                    case .success(let bool):
-                        if bool {
-                            completion(.success(uuid))
-                        } else {
-                            completion(.failure(ImageUploadFailure.failedToGenerateThumbnail))
+        if let videoData = NSData(contentsOf: url) as Data? {
+            //use 'putData' instead
+            videoRef.putData(videoData, metadata: metadata) { (_, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else {
+                    self.uploadThumbnail(forImage: image, withPath: containerId, withId: uuid) { (result) in
+                        switch result {
+                        case .success(let bool):
+                            if bool {
+                                completion(.success(uuid))
+                            } else {
+                                completion(.failure(ImageUploadFailure.failedToGenerateThumbnail))
+                            }
+                        case .failure(let error):
+                            completion(.failure(error))
                         }
-                    case .failure(let error):
-                        completion(.failure(error))
                     }
                 }
+            }
+        }
+    }
+    
+    public func downloadVideo(videoId: String, containerId: String, completion: @escaping(Result<URL, Error>) -> Void) {
+        let videoDownloadRef = storage.reference().child(containerId).child(videoId)
+        
+        videoDownloadRef.downloadURL { (url, error) in
+            if let error = error {
+                // Try backup option, check directly in firebase storage
+                let videoDownloadRef = self.storage.reference().child(videoId)
+                
+                videoDownloadRef.downloadURL { (url, error) in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else if let url = url {
+                        completion(.success(url))
+                    }
+                }
+            } else if let url = url {
+              completion(.success(url))
             }
         }
     }
@@ -175,9 +199,9 @@ final class StorageManager {
         }
         
         let metadata = StorageMetadata()
-        metadata.contentType = "image/png"
+        metadata.contentType = "image/jpeg"
 
-        let thumbnailId = imageId.replacingOccurrences(of: ".", with: "_thumbnail.")
+        let thumbnailId = imageId.replacingOccurrences(of: ".", with: "_thumbnail.").replacingOccurrences(of: ".mov", with: ".jpeg")
         
         let storageRef = storage.reference()
         let imageRef = storageRef.child(path).child(thumbnailId)

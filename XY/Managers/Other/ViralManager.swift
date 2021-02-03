@@ -37,12 +37,20 @@ final class ViralManager {
                 switch result {
                 case .success(let videoId):
                     // upload viral document
-                    self.uploadViralDocument(caption: caption, uploadedVideoPath: videoUrl) { (result) in
-                        switch result {
-                        case .success(let viralModel):
-                            completion(.success(viralModel))
-                        case .failure(let error):
+                    self.createViralData(caption: caption, uploadedVideoPath: videoId) { viralData, error in
+                        if let error = error {
                             completion(.failure(error))
+                        } else if let viralData = viralData {
+                            
+                            viralDocument.setData(viralData, merge: false) { (error) in
+                                if let error = error {
+                                    completion(.failure(error))
+                                }
+                            }
+                            
+                            let viralModel = ViralModel(from: viralData, id: viralDocument.documentID)
+                            completion(.success(viralModel))
+                            
                         }
                     }
                 case .failure(let error):
@@ -53,36 +61,31 @@ final class ViralManager {
     }
     
     private func generateVideoThumbnail(url: URL, completion: @escaping ((_ image: UIImage?)->Void)) {
-        DispatchQueue.global().async { //1
-            let asset = AVAsset(url: url) //2
-            let avAssetImageGenerator = AVAssetImageGenerator(asset: asset) //3
-            avAssetImageGenerator.appliesPreferredTrackTransform = true //4
-            let thumnailTime = CMTimeMake(value: 2, timescale: 1) //5
-            do {
-                let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil) //6
-                let thumbImage = UIImage(cgImage: cgThumbImage) //7
-                DispatchQueue.main.async { //8
-                    completion(thumbImage) //9
-                }
-            } catch {
-                print(error.localizedDescription) //10
-                DispatchQueue.main.async {
-                    completion(nil) //11
-                }
-            }
+        let asset = AVAsset(url: url) //2
+        let avAssetImageGenerator = AVAssetImageGenerator(asset: asset) //3
+        avAssetImageGenerator.appliesPreferredTrackTransform = true //4
+        let thumnailTime = CMTimeMake(value: 2, timescale: 1) //5
+        do {
+            let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil) //6
+            let thumbImage = UIImage(cgImage: cgThumbImage) //7
+            completion(thumbImage) //9
+        } catch {
+            print(error.localizedDescription) //10
+            completion(nil) //11
         }
+        
     }
     
     // MARK: - Private functions
     
-    private func uploadViralDocument(caption: String, uploadedVideoPath: String, completion: @escaping(Result<ViralModel, Error>) -> Void) {
+    private func createViralData(caption caption: String, uploadedVideoPath: String, completion: @escaping([String : Any]?, Error?) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
         
         FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
             if let error = error {
-                completion(.failure(error))
+                completion(nil, error)
             }
             if let profileId = profileId {
                 let viralData: [String: Any] = [
@@ -94,14 +97,7 @@ final class ViralManager {
                     FirebaseKeys.ViralKeys.level: 0
                 ]
                 
-                let viralDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document()
-                viralDocument.setData(viralData) { (error) in
-                    if let error = error {
-                        completion(.failure(error))
-                    }
-                    let viralModel = ViralModel.init(from: viralData, id: viralDocument.documentID)
-                    completion(.success(viralModel))
-                }
+                completion(viralData, nil)
             }
         }
     }

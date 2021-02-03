@@ -192,7 +192,11 @@ class PreviewViewController: UIViewController {
     }
     
     private func viralUploadComplete(_ viralModel: ViralModel) {
-        
+        guard let videoUrl = recordedVideoUrl else {
+            return
+        }
+        dismiss(animated: true, completion: nil)
+        delegate.didFinishUploadingViral(videoUrl: videoUrl, viralModel: viralModel)
     }
     
     // MARK: - Obj-C Functions
