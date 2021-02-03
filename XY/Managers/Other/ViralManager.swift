@@ -19,12 +19,10 @@ final class ViralManager {
         case errorGeneratingThumbnail
     }
     
+    // MARK: - Public functions
+    
     public func createViral(caption: String, videoUrl: URL, completion: @escaping(Result<ViralModel, Error>) -> Void) {
         // Create document
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
-        
         let viralDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document()
         
         generateVideoThumbnail(url: videoUrl) { (thumbnail) in
@@ -60,7 +58,9 @@ final class ViralManager {
         }
     }
     
-    private func generateVideoThumbnail(url: URL, completion: @escaping ((_ image: UIImage?)->Void)) {
+    // MARK: - Private functions
+    
+    private func generateVideoThumbnail(url: URL, completion: @escaping ((_ image: UIImage?) -> Void)) {
         let asset = AVAsset(url: url) //2
         let avAssetImageGenerator = AVAssetImageGenerator(asset: asset) //3
         avAssetImageGenerator.appliesPreferredTrackTransform = true //4
@@ -76,9 +76,7 @@ final class ViralManager {
         
     }
     
-    // MARK: - Private functions
-    
-    private func createViralData(caption caption: String, uploadedVideoPath: String, completion: @escaping([String : Any]?, Error?) -> Void) {
+    private func createViralData(caption: String, uploadedVideoPath: String, completion: @escaping([String : Any]?, Error?) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
