@@ -78,7 +78,9 @@ final class StorageManager {
     }
     
     public func downloadThumbnail(withContainerId folderId: String, withImageId imageId: String, completion: @escaping(Result<UIImage, Error>) -> Void) {
-        let thumbnailId = imageId.replacingOccurrences(of: ".", with: "_thumbnail.")
+        let thumbnailId = imageId
+            .replacingOccurrences(of: ".", with: "_thumbnail.")
+            .replacingOccurrences(of: ".mov", with: ".jpeg")
         downloadImage(withContainerId: folderId, withImageId: thumbnailId, completion: completion)
     }
     

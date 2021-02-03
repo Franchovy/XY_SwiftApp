@@ -58,6 +58,20 @@ final class ViralManager {
         }
     }
     
+    public func getViral(forId viralId: String, completion: @escaping (Result<ViralModel, Error>) -> Void) {
+        let document = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document(viralId)
+        
+        document.getDocument { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot, let data = snapshot.data() {
+                let viralModel = ViralModel.init(from: data, id: document.documentID)
+                
+                completion(.success(viralModel))
+            }
+        }
+    }
+    
     // MARK: - Private functions
     
     private func generateVideoThumbnail(url: URL, completion: @escaping ((_ image: UIImage?) -> Void)) {
