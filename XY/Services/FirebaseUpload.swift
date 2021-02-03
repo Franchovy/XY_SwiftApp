@@ -6,12 +6,8 @@
 //
 
 import Foundation
-
-import Firebase
 import FirebaseStorage
-import FirebaseAuth
-
-var TESTMODE = false
+import Firebase
 
 class FirebaseUpload {
     
@@ -49,8 +45,9 @@ class FirebaseUpload {
     }
     
     static func editProfileInfo(profileData: ProfileModel, completion: @escaping(Result<Void, Error>) -> Void) {
-        let uid = Auth.auth().currentUser!.uid
-        let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
+        guard let userId = AuthManager.shared.userId else { return }
+        
+        let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
         userDocument.getDocument() { snapshot, error in
             if let error = error {
                 completion(.failure(error))
@@ -83,8 +80,9 @@ class FirebaseUpload {
     }
     
     static func sendSwipeTransaction(postId: String, transactionXP: Int, completion: @escaping(Result<Void, Error>) -> Void) {
+        guard let userId = AuthManager.shared.userId else { return }
         
-        let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(Auth.auth().currentUser!.uid)
+        let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
         
         let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document(postId)
         let updatePostData = [ FirebaseKeys.PostKeys.swipeRight : FieldValue.increment(Int64(1)), FirebaseKeys.PostKeys.xp : FieldValue.increment(Int64(transactionXP)) ]
@@ -170,17 +168,15 @@ class FirebaseUpload {
     }
     
     static func deleteAllNotifications() {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
+        guard let userId = AuthManager.shared.userId else { return }
         
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).getDocuments { (querySnapshot, error) in
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(userId).collection(FirebaseKeys.NotificationKeys.notificationsCollection).getDocuments { (querySnapshot, error) in
             if let error = error {
                 print("Error fetching notification documents: \(error)")
             }
             if let documents = querySnapshot?.documents {
                 for document in documents {
-                    FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).document(document.documentID).delete { (error) in
+                    FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(userId).collection(FirebaseKeys.NotificationKeys.notificationsCollection).document(document.documentID).delete { (error) in
                         if let error = error {
                             print("Error deleting document with id \(document.documentID): \(error)")
                         }
@@ -200,7 +196,9 @@ class FirebaseUpload {
     static func sendMessage(conversationId: String, message: String, completion: @escaping(Result<Void, Error>) -> Void) {
         let messagesCollection = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationId).collection(FirebaseKeys.CollectionPath.messages)
         
-        let messageData = MessageModel(senderId: Auth.auth().currentUser!.uid, message: message).toNewMessageData()
+        guard let userId = AuthManager.shared.userId else { return }
+        
+        let messageData = MessageModel(senderId: userId, message: message).toNewMessageData()
         messagesCollection.addDocument(data: messageData) { error in
             if let error = error { completion(.failure(error)) }
             else {
@@ -228,9 +226,7 @@ class FirebaseUpload {
     }
     
     static func deleteNotification(notificationId: String) {
-        guard let userId = Auth.auth().currentUser?.uid else {
-            return
-        }
+        guard let userId = AuthManager.shared.userId else { return }
         
         let notificationDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(userId).collection(FirebaseKeys.NotificationKeys.notificationsCollection).document(notificationId)
         
@@ -241,9 +237,7 @@ class FirebaseUpload {
     // MARK: - Moments
     
     static func createMoment(caption: String, videoPath: String, completion: @escaping(Result<String, Error>) -> Void) {
-        guard let userId = Auth.auth().currentUser?.uid else {
-            return
-        }
+        guard let userId = AuthManager.shared.userId else { return }
         
         let momentData: [String: Any] = [
             FirebaseKeys.MomentsKeys.videoRef: videoPath,
@@ -258,31 +252,6 @@ class FirebaseUpload {
                 completion(.failure(error))
             }
             completion(.success(momentDocument.documentID))
-        }
-    }
-    
-    enum ChangePasswordError: Error {
-        case invalidOldPassword
-        case otherError
-    }
-    static func changePassword(oldPassword: String, newPassword: String, completion: @escaping(Result<Void,Error>) -> Void) {
-        guard let email = Auth.auth().currentUser?.email else {
-            return
-        }
-        
-        Auth.auth().signIn(withEmail: email, password: oldPassword) { (result, error) in
-            if let error = error {
-                print("Error resetting password: \(error)")
-                completion(.failure(error))
-            }
-            if result != nil {
-                Auth.auth().currentUser?.updatePassword(to: newPassword, completion: { (error) in
-                    if let error = error {
-                        completion(.failure(error))
-                    }
-                    completion(.success(()))
-                })
-            }
         }
     }
 }

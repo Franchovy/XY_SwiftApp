@@ -6,8 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
-
 
 class ProfileViewController: UIViewController {
     
@@ -84,9 +82,10 @@ class ProfileViewController: UIViewController {
                 profileHeader.configure(with: strongSelf.profileHeaderViewModel!)
                 strongSelf.profileHeaderViewModel?.delegate = profileVC
                 
+                guard let ownUserId = AuthManager.shared.userId else { return }
                 
                 profileHeader.setIsOwnProfile(
-                    isOwn: userId == Auth.auth().currentUser?.uid
+                    isOwn: userId == ownUserId
                 )
                 
             case .failure(let error):
@@ -354,8 +353,10 @@ extension ProfileViewController : UICollectionViewDataSource {
         headerView.configure(with: profileHeaderViewModel)
         profileHeaderViewModel.delegate = headerView.getProfileDelegate()
         
+        guard let userId = AuthManager.shared.userId else { return headerView }
+        
         headerView.setIsOwnProfile(
-            isOwn: profileHeaderViewModel.userId == Auth.auth().currentUser?.uid
+            isOwn: profileHeaderViewModel.userId == userId
         )
         
         return headerView

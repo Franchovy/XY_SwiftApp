@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import FirebaseAuth
 import Firebase
 
 class NotificationsVC: UIViewController {
@@ -56,11 +55,11 @@ class NotificationsVC: UIViewController {
     }
     
     private func subscribeToNotifications() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let userId = AuthManager.shared.userId else { return }
         
         var initializing = true
         
-        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true)
+        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(userId).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true)
         
         notificationsListener = notificationsDocument.addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let querySnapshot = querySnapshot, error == nil else {

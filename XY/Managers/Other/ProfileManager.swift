@@ -6,11 +6,43 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 final class ProfileManager {
     static let shared = ProfileManager()
     private init () { }
+    
+    var profileId: String?
 
+    func initialiseForCurrentUser() {
+        if let userData = UserDefaults.standard.dictionary(forKey: "userData"),
+           let profileId = userData["profileId"] as? String {
+            self.profileId = profileId
+        } else {
+            // Fetch profileID from Firestore
+            guard let userId = AuthManager.shared.userId else {
+                fatalError("Authentication must be done before profile can be accessed.")
+            }
+            
+            FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId).getDocument { (snapshot, error) in
+                if let error = error {
+                    print("Error fetching user data: \(error)")
+                }
+                if let userData = snapshot?.data() {
+                    let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
+                    
+                    UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
+                    self.profileId = profileId
+                }
+            }
+        }
+    }
+    
+    func newProfileCreated(withId profileId: String) {
+        UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
+        self.profileId = profileId
+    }
+    
     func fetchProfile(profileId: String, completion: @escaping(Result<ProfileModel, Error>) -> Void) {
         fatalError("Please implement this")
     }

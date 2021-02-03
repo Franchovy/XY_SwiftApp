@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseAuth
 import FirebaseDatabase
 
 final class OnlineStatusManager {
@@ -14,12 +13,12 @@ final class OnlineStatusManager {
     private init() { }
     
     public func setupOnlineStatus() {
-        guard let user = Auth.auth().currentUser else { return }
+        guard let userId = AuthManager.shared.userId else { return }
 
         // get user branch of database
         let ref = Database.database().reference()
         let usersRef = ref.child("OnlineNow")
-        let userRef = usersRef.child(user.uid)
+        let userRef = usersRef.child(userId)
 
         
         // set "isOnline" branch to true when app launches

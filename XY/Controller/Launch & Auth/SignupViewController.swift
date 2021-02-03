@@ -63,7 +63,7 @@ class SignupViewController: UIViewController {
             loadingIcon.startAnimating()
             
             if let xyname = self.xyNameTextField.text {
-                CreateXYUserService.createUser(xyname: xyname, email: email, phoneNumber: nil, password: password) { result in
+                AuthManager.shared.signUp(xyname: xyname, email: email, phoneNumber: nil, password: password) { result in
                     switch result {
                     case .success(_):
                         self.signupErrorLabel.isHidden = true

@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseAuth
 import FirebaseFunctions
 
 final class FirebaseFunctionsManager {
@@ -20,9 +19,11 @@ final class FirebaseFunctionsManager {
     
     
     public func swipeRight(viralId: String) {
+        guard let userId = AuthManager.shared.userId else { return }
+        
         let swipeRightData = [
             "viralId": viralId,
-            "swipeUserId": Auth.auth().currentUser!.uid
+            "swipeUserId": userId
         ]
         
         functions.httpsCallable("swipeRightViral").call(swipeRightData) { (result, error) in
@@ -36,9 +37,11 @@ final class FirebaseFunctionsManager {
     }
     
     public func swipeLeft(viralId: String) {
+        guard let userId = AuthManager.shared.userId else { return }
+        
         let swipeLeftData = [
             "viralId": viralId,
-            "swipeUserId": Auth.auth().currentUser!.uid
+            "swipeUserId": userId
         ]
         
         functions.httpsCallable("swipeLeftViral").call(swipeLeftData) { (result, error) in
@@ -52,9 +55,11 @@ final class FirebaseFunctionsManager {
     }
     
     public func swipeRight(postId: String) {
+        guard let userId = AuthManager.shared.userId else { return }
+        
         let swipeRightData = [
             "postId": postId,
-            "swipeUserId": Auth.auth().currentUser!.uid
+            "swipeUserId": userId
         ]
         
         functions.httpsCallable("swipeRightPost").call(swipeRightData) { (result, error) in
@@ -74,9 +79,11 @@ final class FirebaseFunctionsManager {
     }
     
     public func swipeLeft(postId: String) {
+        guard let userId = AuthManager.shared.userId else { return }
+        
         let swipeLeftData = [
             "postId": postId,
-            "swipeUserId": Auth.auth().currentUser!.uid
+            "swipeUserId": userId
         ]
         
         functions.httpsCallable("swipeLeftPost").call(swipeLeftData) { (result, error) in
@@ -102,7 +109,7 @@ final class FirebaseFunctionsManager {
     }
     
     public func checkUserLevelUp() {
-        guard let userId = Auth.auth().currentUser?.uid else { return }
+        guard let userId = AuthManager.shared.userId else { return }
         
         functions.httpsCallable("checkUserLevelUp").call(["userId": userId]) { (_, error) in
             if let error = error {

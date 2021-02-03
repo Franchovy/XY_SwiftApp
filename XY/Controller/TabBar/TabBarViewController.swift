@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class TabBarViewController: UITabBarController {
     
@@ -36,10 +35,9 @@ class TabBarViewController: UITabBarController {
         setCreatePostIcon()
         
         // TAB 5: PROFILE VC
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
-        let profileVC = ProfileViewController(userId: uid)
+        guard let userId = AuthManager.shared.userId else { return }
+        
+        let profileVC = ProfileViewController(userId: userId)
         let profileTabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile_item"), tag: 5)
         profileTabBarItem.badgeColor = UIColor(named: "tintColor")
 

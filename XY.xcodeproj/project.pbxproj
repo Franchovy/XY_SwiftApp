@@ -42,9 +42,6 @@
 		B95E6DE425C311EA00FBEDF9 /* ProfileHeaderReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95E6DE325C311EA00FBEDF9 /* ProfileHeaderReusableView.swift */; };
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
-		B95FF50625A71FB000CFCA9E /* EditProfileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF50525A71FB000CFCA9E /* EditProfileTests.swift */; };
-		B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */; };
-		B95FF51625A72DA900CFCA9E /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */; };
 		B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */; };
 		B979F68025C078370040AE5B /* ViralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F67F25C078370040AE5B /* ViralModel.swift */; };
 		B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F68B25C0799F0040AE5B /* ViralViewController.swift */; };
@@ -135,9 +132,6 @@
 		B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownload.swift; sourceTree = "<group>"; };
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
 		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
-		B95FF50525A71FB000CFCA9E /* EditProfileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileTests.swift; sourceTree = "<group>"; };
-		B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateXYUserService.swift; sourceTree = "<group>"; };
-		B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B979F67F25C078370040AE5B /* ViralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralModel.swift; sourceTree = "<group>"; };
 		B979F68B25C0799F0040AE5B /* ViralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralViewController.swift; sourceTree = "<group>"; };
@@ -283,8 +277,6 @@
 			isa = PBXGroup;
 			children = (
 				B93D1BEF2597E9C6009ADBFC /* Info.plist */,
-				B95FF51525A72DA900CFCA9E /* CreateUserTests.swift */,
-				B95FF50525A71FB000CFCA9E /* EditProfileTests.swift */,
 				B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */,
 			);
 			path = XYTests;
@@ -314,7 +306,6 @@
 				B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */,
 				B990917525B759010047526B /* FirebaseFunctions.swift */,
 				B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */,
-				B95FF50925A72CBA00CFCA9E /* CreateXYUserService.swift */,
 				B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */,
 				B9E73B5725B1E1A800042134 /* FlowHandler.swift */,
 				B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */,
@@ -624,8 +615,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B95FF51625A72DA900CFCA9E /* CreateUserTests.swift in Sources */,
-				B95FF50625A71FB000CFCA9E /* EditProfileTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,7 +624,6 @@
 			files = (
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B979F68025C078370040AE5B /* ViralModel.swift in Sources */,
-				B95FF50A25A72CBA00CFCA9E /* CreateXYUserService.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
