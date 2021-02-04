@@ -23,6 +23,8 @@ class FlowVC : UITableViewController {
     override func viewDidLoad() {
         view.backgroundColor = UIColor(named: "Black")
         
+        tableView.showsVerticalScrollIndicator = false
+        
         barXPCircle.setProgress(level: 0, progress: 0.0)
         barXPCircle.setupFinished()
         barXPCircle.setLevelLabelFontSize(size: 24)
