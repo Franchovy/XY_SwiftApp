@@ -518,7 +518,6 @@ class ProfileHeaderViewController: UIViewController {
         }
     }
     
-    
     public func getScrollPosition() -> CGFloat {
         return profilePicture.top + 10
     }
@@ -531,7 +530,6 @@ class ProfileHeaderViewController: UIViewController {
         if viewModel.userId == userId {
             editButton.isHidden = false
         }
-
         
         nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption

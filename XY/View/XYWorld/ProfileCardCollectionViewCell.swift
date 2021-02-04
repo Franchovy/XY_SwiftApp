@@ -42,7 +42,6 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
     
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .blue
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
         return imageView
@@ -57,7 +56,6 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .white
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
-        label.text = "Elon Musk"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.layer.shadowOffset = CGSize(width: 0.0, height: 1.0)
         label.layer.shadowRadius = 2.0
@@ -65,6 +63,10 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         label.layer.shadowOpacity = 1.0
         return label
     }()
+    
+    var viewModel: ProfileViewModel?
+    
+    // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -79,11 +81,16 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         
         nameLabel.centerXAnchor.constraint(equalTo: gradientView.centerXAnchor).isActive = true
         nameLabel.centerYAnchor.constraint(equalTo: gradientView.centerYAnchor, constant: 10).isActive = true
+        
+        xpCircle.setProgress(level: 0, progress: 0)
+        xpCircle.setupFinished()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Lifecycle
     
     override func layoutSubviews() {
         let profileImageSize:CGFloat = 50
@@ -121,7 +128,14 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         profileImageContainer.layer.shadowColor = UIColor.green.cgColor
         
         nameLabel.sizeToFit()
-
+        
+        let xpCircleSize:CGFloat = 25
+        xpCircle.frame = CGRect(
+            x: width - 10 - xpCircleSize,
+            y: 10,
+            width: xpCircleSize,
+            height: xpCircleSize
+        )
     }
     
     public func configure(with viewModel: ProfileViewModel) {
@@ -131,6 +145,13 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         nameLabel.text = viewModel.nickname
         
         // Register XP Updates
+        if let userId = viewModel.userId {
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: userId, ofType: .user) { [weak self] (xpModel) in
+                viewModel.updateXP(xpModel)
+            }
+        }
+        
+        self.viewModel = viewModel
     }
     
     override func prepareForReuse() {
@@ -139,6 +160,9 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         nameLabel.text = nil
         
         // Deregister XP Updates
+        if let userId = viewModel?.userId {
+            FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: userId)
+        }
     }
 }
 
@@ -149,6 +173,13 @@ extension ProfileCardCollectionViewCell : ProfileViewModelDelegate {
     
     func onProfileDataFetched(_ viewModel: ProfileViewModel) {
         nameLabel.text = viewModel.nickname
+        
+        // Register XP Updates
+        if let userId = viewModel.userId {
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: userId, ofType: .user) { [weak self] (xpModel) in
+                viewModel.updateXP(xpModel)
+            }
+        }
     }
     
     func onProfileImageFetched(_ image: UIImage) {
@@ -160,7 +191,9 @@ extension ProfileCardCollectionViewCell : ProfileViewModelDelegate {
     }
     
     func onXpUpdate(_ model: XPModel) {
+        let xpToNextLevel = Float(XPModel.LEVELS[.user]![model.level])
         
+        xpCircle.onProgress(level: model.level, progress: Float(model.xp) / xpToNextLevel)
     }
     
     func setCoverPictureOpacity(_ opacity: CGFloat) {

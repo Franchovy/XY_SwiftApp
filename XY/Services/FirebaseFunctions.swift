@@ -63,18 +63,18 @@ final class FirebaseFunctionsManager {
         ]
         
         functions.httpsCallable("swipeRightPost").call(swipeRightData) { (result, error) in
-          if let error = error as NSError? {
-            if error.domain == FunctionsErrorDomain {
-              let code = FunctionsErrorCode(rawValue: error.code)
-              let message = error.localizedDescription
-              let details = error.userInfo[FunctionsErrorDetailsKey]
+            if let error = error as NSError? {
+                if error.domain == FunctionsErrorDomain {
+                    let code = FunctionsErrorCode(rawValue: error.code)
+                    let message = error.localizedDescription
+                    let details = error.userInfo[FunctionsErrorDetailsKey]
+                }
+                print("Error in swipe Right response: \(error)")
+            } else if let result = result {
+                print(result)
+                // On success
+                self.checkPostLevelUp(postId: postId)
             }
-            print("Error in swipe Right response: \(error)")
-          } else if let result = result {
-            print(result)
-            // On success
-            self.checkPostLevelUp(postId: postId)
-          }
         }
     }
     
