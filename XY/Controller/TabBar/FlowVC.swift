@@ -21,6 +21,8 @@ class FlowVC : UITableViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        view.backgroundColor = UIColor(named: "XYBlack")
+        tableView.backgroundColor = .clear
         
         barXPCircle.setProgress(level: 0, progress: 0.0)
         barXPCircle.setupFinished()
