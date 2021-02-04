@@ -222,19 +222,22 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
         
-        reportButtonImage.frame = CGRect(
-            x: width/2 + 25,
-            y: 49,
-            width: 30,
-            height: 30
-        )
-        reportButtonTitle.sizeToFit()
-        reportButtonTitle.frame = CGRect(
-            x: reportButtonImage.left + (reportButtonImage.width - reportButtonTitle.width)/2,
-            y: reportButtonImage.bottom + 5,
-            width: reportButtonTitle.width,
-            height: reportButtonTitle.height
-        )
+        
+        if isSwiping {
+            reportButtonImage.frame = CGRect(
+                x: width/2 + 25,
+                y: postCard.bottom - height/3,
+                width: 30,
+                height: 30
+            )
+            reportButtonTitle.sizeToFit()
+            reportButtonTitle.frame = CGRect(
+                x: reportButtonImage.left + (reportButtonImage.width - reportButtonTitle.width)/2,
+                y: reportButtonImage.bottom + 5,
+                width: reportButtonTitle.width,
+                height: reportButtonTitle.height
+            )
+        }
     }
     
     override func prepareForReuse() {
@@ -310,7 +313,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         currentTranslationX = translationX
         
-        if abs(velocityX) < 50 {
+        // timer on
+        if abs(velocityX) < 50, translationX < -200 {
             // Pause
             tappedBackToCenterGesture.isEnabled = true
             return
@@ -372,11 +376,11 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         currentTranslationX = 0
         tappedBackToCenterGesture.isEnabled = false
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut) {
             self.postCard.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
-            self.postShadowLayer.shadowOpacity = 0
             self.reportButtonImage.alpha = 0.0
             self.reportButtonTitle.alpha = 0.0
+            self.postShadowLayer.shadowOpacity = 0
             self.isSwiping = false
         }
     }
