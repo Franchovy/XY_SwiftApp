@@ -186,6 +186,17 @@ class FirebaseUpload {
         }
     }
     
+    static func sendReport(message: String, postId: String) {
+        FirestoreReferenceManager.root.collection("reports").addDocument(data:
+                [
+                    "postId" : postId,
+                    "message" : message,
+                    "timestamp" : FieldValue.serverTimestamp()
+                ]
+            )
+        
+    }
+    
     /// Returns map of userIds -> xp given
     static func getXPContributors(postId: String, completion: @escaping([String: Int]?, Error?) -> Void) {
         // Get timestamp of previous level up from action script

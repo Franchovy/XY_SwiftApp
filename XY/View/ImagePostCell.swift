@@ -17,6 +17,7 @@ protocol ImagePostCellDelegate {
     func imagePostCellDelegate(willSwipeRight cell: ImagePostCell)
     func imagePostCellDelegate(didSwipeLeft postId: String)
     func imagePostCellDelegate(didSwipeRight postId: String)
+    func imagePostCellDelegate(reportPressed postId: String)
 }
 
 
@@ -74,18 +75,36 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         caption.clipsToBounds = true
         return caption
     }()
-        
+    
+    private let reportButtonImage: UIButton = {
+        let button = UIButton()
+        button.setBackgroundImage(UIImage(systemName: "exclamationmark.octagon.fill"), for: .normal)
+        button.tintColor = .red
+        button.alpha = 0
+        return button
+    }()
+    
+    private let reportButtonTitle: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(.red, for: .normal)
+        button.setTitle("Report", for: .normal)
+        button.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
+        button.alpha = 0
+        return button
+    }()
+    
     var isSwipedRightXPView = false
     static let defaultPanSensitivity = 0.05
     var panSensitivity = defaultPanSensitivity
     var isSwiping = false
     
-    // deprecate
     var delegate: ImagePostCellDelegate?
     
     var images: [UIImage]?
     
     var panGesture:UIPanGestureRecognizer!
+    
+    var tappedBackToCenterGesture = UITapGestureRecognizer()
     
     // MARK: Initializers
     
@@ -95,6 +114,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         backgroundColor = UIColor(named: "Black")
         
         selectionStyle = .none
+        
+        addSubview(reportButtonImage)
+        addSubview(reportButtonTitle)
         
         addSubview(postCard)
         postCard.addSubview(contentImageView)
@@ -129,7 +151,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         tapProfileImage.delegate = self
         profileImageContainer.addGestureRecognizer(tapProfileImage)
         
+        tappedBackToCenterGesture = UITapGestureRecognizer(target: self, action: #selector(animateBackToCenter))
+        tappedBackToCenterGesture.isEnabled = false
+        postCard.addGestureRecognizer(tappedBackToCenterGesture)
         
+        reportButtonImage.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
+        reportButtonTitle.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -194,7 +221,20 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
-
+        
+        reportButtonImage.frame = CGRect(
+            x: width/2 + 25,
+            y: 49,
+            width: 30,
+            height: 30
+        )
+        reportButtonTitle.sizeToFit()
+        reportButtonTitle.frame = CGRect(
+            x: reportButtonImage.left + (reportButtonImage.width - reportButtonTitle.width)/2,
+            y: reportButtonImage.bottom + 5,
+            width: reportButtonTitle.width,
+            height: reportButtonTitle.height
+        )
     }
     
     override func prepareForReuse() {
@@ -233,8 +273,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         delegate?.imagePostCellDelegate(didTapProfilePictureForProfile: profileId)
     }
     
+    var currentTranslationX:CGFloat = 0
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
-        let translationX = panGestureRecognizer.translation(in: contentView).x
+        let translationX = panGestureRecognizer.translation(in: contentView).x + currentTranslationX
         let velocityX = panGestureRecognizer.velocity(in: contentView).x
         
         let transform = CGAffineTransform(
@@ -255,13 +296,28 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         postShadowLayer.shadowOpacity = Float(abs(translationX) / 50)
         
+        let alphaRangeLeft = max(0, min(50, -translationX-150))
+        
+        UIView.animate(withDuration: 0.6) {
+            self.reportButtonImage.alpha = alphaRangeLeft / 50
+            self.reportButtonTitle.alpha = alphaRangeLeft / 50
+        }
+        
         // On gesture finish
         guard panGestureRecognizer.state == .ended else {
           return
         }
         
+        currentTranslationX = translationX
+        
+        if abs(velocityX) < 50 {
+            // Pause
+            tappedBackToCenterGesture.isEnabled = true
+            return
+        }
+        
         // Animate if needed
-        if translationX > 50, velocityX > 10 {
+        if translationX > 50, velocityX > 50 {
             
             guard let delegate = self.delegate, let viewModel = self.viewModel else {
                 return
@@ -274,11 +330,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 if done {
                     // Swipe Right
                     delegate.imagePostCellDelegate(didSwipeRight: viewModel.postId)
-                    
+                    self.reportButtonImage.alpha = 0.0
+                    self.reportButtonTitle.alpha = 0.0
                     self.isSwiping = false
                 }
             }
-        } else if translationX < -50, velocityX < -10 {
+        } else if translationX < -50, velocityX < -50 {
             
             guard let delegate = self.delegate, let viewModel = self.viewModel else {
                 return
@@ -292,15 +349,35 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                 if done {
                     // Swipe Left
                     delegate.imagePostCellDelegate(didSwipeLeft: viewModel.postId)
+                    self.reportButtonImage.alpha = 0.0
+                    self.reportButtonTitle.alpha = 0.0
                     self.isSwiping = false
                 }
             }
         } else {
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
-                self.postCard.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
-                self.postShadowLayer.shadowOpacity = 0
-                self.isSwiping = false
-            }
+            animateBackToCenter()
+        }
+    }
+    
+    // MARK: - Private functions
+    
+    @objc private func reportPressed() {
+        guard let postId = viewModel?.postId else {
+            return
+        }
+        delegate?.imagePostCellDelegate(reportPressed: postId)
+    }
+    
+    @objc private func animateBackToCenter() {
+        currentTranslationX = 0
+        tappedBackToCenterGesture.isEnabled = false
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseOut) {
+            self.postCard.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
+            self.postShadowLayer.shadowOpacity = 0
+            self.reportButtonImage.alpha = 0.0
+            self.reportButtonTitle.alpha = 0.0
+            self.isSwiping = false
         }
     }
     
