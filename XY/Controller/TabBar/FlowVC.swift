@@ -21,8 +21,7 @@ class FlowVC : UITableViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
-        view.backgroundColor = UIColor(named: "XYBlack")
-        tableView.backgroundColor = .clear
+        view.backgroundColor = UIColor(named: "Black")
         
         barXPCircle.setProgress(level: 0, progress: 0.0)
         barXPCircle.setupFinished()
@@ -88,7 +87,6 @@ class FlowVC : UITableViewController {
     // MARK: - Public Functions
     
     public func insertPost(_ postData: PostViewModel) {
-        
         guard let indexPathToInsert = tableView.indexPathsForVisibleRows?.first else {
             return
         }
@@ -152,7 +150,7 @@ class FlowVC : UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
-        cell.configure(with: postViewModels[indexPath.row])
+        
         cell.delegate = self
         return cell
     }
@@ -167,8 +165,7 @@ class FlowVC : UITableViewController {
         guard let postCell = cell as? ImagePostCell else {
             return
         }
-        
-//        postCell.viewModel.fetch()
+        postCell.configure(with: postViewModels[indexPath.row])
     }
 }
 

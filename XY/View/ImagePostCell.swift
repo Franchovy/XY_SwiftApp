@@ -91,8 +91,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        backgroundColor = .clear
+        
+        backgroundColor = UIColor(named: "Black")
+        
         selectionStyle = .none
         
         addSubview(postCard)
@@ -110,7 +111,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
-
+        
         postShadowLayer.shadowRadius = 6
         postShadowLayer.shadowOffset = CGSize(width: 0, height: 8)
         
