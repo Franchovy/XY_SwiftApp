@@ -44,7 +44,13 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
 
     private var previewVC: PreviewViewController?
     
-    private var pickerController: UIImagePickerController?
+    private var pickerController: UIImagePickerController = {
+        let pickerController = UIImagePickerController()
+        pickerController.mediaTypes = ["public.image", "public.movie"]
+        pickerController.videoQuality = .typeHigh
+        pickerController.allowsEditing = true
+        return pickerController
+    }()
     
     // MARK: - Lifecycle
     
@@ -54,12 +60,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         pinchToZoom = true
         maximumVideoDuration = 10.0
         
-        pickerController = UIImagePickerController()
-        
         super.viewDidLoad()
-        
-        self.pickerController!.delegate = self
-        self.pickerController!.allowsEditing = true
     
         view.addSubview(recordButton)
         view.addSubview(openCameraRollButton)
@@ -68,6 +69,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         openCameraRollButton.addTarget(self, action: #selector(didTapCameraRoll), for: .touchUpInside)
         closeCameraVCButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         
+        pickerController.delegate = self
         recordButton.delegate = self
         cameraDelegate = self
         
@@ -206,8 +208,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     @objc private func didTapCameraRoll() {
-        pickerController?.sourceType = .photoLibrary
-        present(pickerController!, animated: true)
+        pickerController.sourceType = .photoLibrary
+        present(pickerController, animated: true)
     }
     
     
@@ -271,15 +273,18 @@ extension CameraViewController : PreviewViewControllerDelegate {
 
 extension CameraViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        pickerController?.dismiss(animated: true, completion: nil)
+        pickerController.dismiss(animated: true, completion: nil)
         
-        guard let image = info[.editedImage] as? UIImage else {
-            return
+        if let image = info[.editedImage] as? UIImage {
+            previewVC = PreviewViewController(previewImage: image, delegate: self)
+            
+            previewVC?.modalPresentationStyle = .fullScreen
+            present(previewVC!, animated: true, completion: nil)
+        } else if let videoUrl = info[.mediaURL] as? URL {
+            previewVC = PreviewViewController(previewVideoUrl: videoUrl, delegate: self)
+            
+            previewVC?.modalPresentationStyle = .fullScreen
+            present(previewVC!, animated: true, completion: nil)
         }
-        
-        previewVC = PreviewViewController(previewImage: image, delegate: self)
-        
-        previewVC?.modalPresentationStyle = .fullScreen
-        present(previewVC!, animated: true, completion: nil)
     }
 }

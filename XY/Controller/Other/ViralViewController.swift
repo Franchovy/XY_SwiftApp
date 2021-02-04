@@ -239,8 +239,9 @@ class ViralViewController: UIViewController {
     }
     
     public func configureVideo() {
-        FirebaseDownload.getVideo(videoRef: model.videoRef) { [weak self] result in
-            
+        
+        StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: model.id) { [weak self] result in
+
             guard let strongSelf = self else { return }
             strongSelf.spinner.stopAnimating()
             strongSelf.spinner.removeFromSuperview()

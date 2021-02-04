@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 protocol ProfileHeaderSettingsViewControllerDelegate {
     func didLogOut()
@@ -303,14 +302,8 @@ class ProfileHeaderSettingsViewController: UIViewController {
     // MARK: - Obj-C Private Functions
     
     @objc private func logout() {
-        do {
-            try Auth.auth().signOut()
-            
-            delegate?.didLogOut()
-        } catch let error {
-            print("Error logging out: \(error)")
-        }
-        
+        AuthManager.shared.logout()
+        delegate?.didLogOut()
     }
     
     @objc private func changePasswordPressed() {
@@ -331,15 +324,6 @@ class ProfileHeaderSettingsViewController: UIViewController {
                 self.oldPasswordField.becomeFirstResponder()
             }
         }
-        
-        // Animate the button to the left
-        // make visible the text field, animate it from the right
-        // old password entered, click next
-        // animate it to left, make next visible and animate it
-        // confirm
-        // Send firebase request
-        // bring button back
-        
     }
     
     @objc private func oldPasswordSubmitted() {

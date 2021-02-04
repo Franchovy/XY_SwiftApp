@@ -21,6 +21,9 @@ class FlowVC : UITableViewController {
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
+        view.backgroundColor = UIColor(named: "Black")
+        
+        tableView.showsVerticalScrollIndicator = false
         
         barXPCircle.setProgress(level: 0, progress: 0.0)
         barXPCircle.setupFinished()
@@ -61,7 +64,6 @@ class FlowVC : UITableViewController {
     }
     
     // MARK: - Obj-C Functions
-    
     @objc func xpButtonPressed() {
         // Level up check
         FirebaseFunctionsManager.shared.checkUserLevelUp()
@@ -86,7 +88,6 @@ class FlowVC : UITableViewController {
     // MARK: - Public Functions
     
     public func insertPost(_ postData: PostViewModel) {
-        
         guard let indexPathToInsert = tableView.indexPathsForVisibleRows?.first else {
             return
         }
@@ -150,7 +151,7 @@ class FlowVC : UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
-        cell.configure(with: postViewModels[indexPath.row])
+        
         cell.delegate = self
         return cell
     }
@@ -165,8 +166,7 @@ class FlowVC : UITableViewController {
         guard let postCell = cell as? ImagePostCell else {
             return
         }
-        
-//        postCell.viewModel.fetch()
+        postCell.configure(with: postViewModels[indexPath.row])
     }
 }
 
@@ -187,6 +187,34 @@ extension FlowVC : ImagePostCellDelegate {
             
             self.present(profileVC, animated: true) { }
         }
+    }
+    
+    func imagePostCellDelegate(reportPressed postId: String) {
+        let alert = UIAlertController(title: "Report", message: "Why are you reporting this post?", preferredStyle: .alert)
+        
+        alert.addTextField { (textfield) in
+            textfield.placeholder = "Report details"
+            textfield.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
+        }
+        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) in
+            let textfield = alert.textFields![0]
+            
+            guard let text = textfield.text else {
+                return
+            }
+            
+            FirebaseUpload.sendReport(message: text, postId: postId)
+            
+            if let index = self.postViewModels.firstIndex(where: { $0.postId == postId }) {
+                self.postViewModels.remove(at: index)
+                self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .left)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+            
+        }))
+        
+        present(alert, animated: true, completion: nil)
     }
     
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {

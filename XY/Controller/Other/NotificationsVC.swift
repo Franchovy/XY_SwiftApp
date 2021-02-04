@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import FirebaseAuth
 import Firebase
 
 class NotificationsVC: UIViewController {
@@ -56,11 +55,11 @@ class NotificationsVC: UIViewController {
     }
     
     private func subscribeToNotifications() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let userId = AuthManager.shared.userId else { return }
         
         var initializing = true
         
-        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(uid).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true)
+        let notificationsDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.notifications).document(userId).collection(FirebaseKeys.NotificationKeys.notificationsCollection).order(by: FirebaseKeys.NotificationKeys.notifications.timestamp, descending: true)
         
         notificationsListener = notificationsDocument.addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let querySnapshot = querySnapshot, error == nil else {
@@ -73,6 +72,7 @@ class NotificationsVC: UIViewController {
             }
             
             if initializing {
+                strongSelf.notifications = []
                 print("Initializing notifications")
                 // Append post
                 for notificationDocument in querySnapshot.documents {
@@ -84,7 +84,7 @@ class NotificationsVC: UIViewController {
                     var notificationViewModel = NotificationViewModel(from: notificationModel)
                     notificationViewModel.delegate = strongSelf
                     
-                    print("Appending notification")
+                    print("Appending notification of type: \(notificationModel.objectType)")
                     strongSelf.notifications.append(notificationViewModel)
                     
                 }
@@ -183,6 +183,15 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
             // Remove notification from backend
             FirebaseUpload.deleteNotification(notificationId: notificationToDelete.notificationId)
             
+            if notificationToDelete.type == .lifeOut {
+                // Delete viral from backend
+                ViralManager.shared.deleteViral(withId: notificationToDelete.model.objectId) { error in
+                    if let error = error {
+                        print("Error deleting viral: \(error)")
+                    }
+                }
+            }
+            
             notifications.remove(at: indexPath.row)
             
             tableView.deleteRows(at:[indexPath]  , with: .fade)
@@ -243,7 +252,6 @@ extension NotificationsVC : NotificationViewModelDelegate {
     }
     
     func didFetchDisplayImage(index: Int, image: UIImage) {
-        print("Fetched profile image: \(image)")
         guard let containsCell = tableView.indexPathsForVisibleRows?.contains(IndexPath.init(row: index, section: 0)),
               containsCell,
               let cell = tableView.visibleCells.filter({ (cell) -> Bool in
@@ -261,7 +269,6 @@ extension NotificationsVC : NotificationViewModelDelegate {
     }
     
     func didFetchPreviewImage(index: Int, image: UIImage) {
-        print("Fetched preview image: \(image)")
         guard let cell = tableView.cellForRow(
                 at: IndexPath(row: index, section: 0)
         ) as? NotificationCell else {

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 protocol ProfileHeaderViewControllerDelegate: AnyObject {
     func didEnterEditMode()
@@ -519,7 +518,6 @@ class ProfileHeaderViewController: UIViewController {
         }
     }
     
-    
     public func getScrollPosition() -> CGFloat {
         return profilePicture.top + 10
     }
@@ -527,10 +525,11 @@ class ProfileHeaderViewController: UIViewController {
     public func configure(with viewModel: ProfileViewModel) {
         self.viewModel = viewModel
         
-        if viewModel.userId == Auth.auth().currentUser?.uid {
+        guard let userId = AuthManager.shared.userId else { return }
+        
+        if viewModel.userId == userId {
             editButton.isHidden = false
         }
-
         
         nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption

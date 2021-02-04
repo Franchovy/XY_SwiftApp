@@ -47,16 +47,15 @@ class NotificationViewModel {
     
     func fetch(index: Int) {
         
-        if type == .levelUp {
+        if type == .levelUp || type == .lifeOut {
             if objectType == .user {
-                // Fetch User profile
                 fetchProfile(for: index, id: model.objectId)
             } else if objectType == .post {
-                // Fetch Post data
                 fetchPost(for: index, postId: model.objectId)
+            } else if objectType == .viral {
+                fetchViralData(for: index, viralId: model.objectId)
             }
         } else if type == .swipeLeft || type == .swipeRight {
-            // Fetch User profile
             if let senderId = model.senderId {
                 fetchProfile(for: index, id: senderId)
             }
@@ -81,6 +80,27 @@ class NotificationViewModel {
     
     //MARK: - Fetch methods
     
+    private func fetchViralData(for index: Int, viralId: String) {
+        ViralManager.shared.getViral(forId: viralId) { result in
+            switch result {
+            case .success(let viralData):
+                // Fetch thumbnail
+                StorageManager.shared.downloadThumbnail(withContainerId: viralId, withImageId: viralData.videoRef) { (result) in
+                    switch result {
+                    case .success(let image):
+                        self.previewImage = image
+                        self.delegate?.didFetchPreviewImage(index: index, image: image)
+                    case .failure(let error):
+                        print("Error fetching thumbnail for viral: \(error)")
+                    }
+                }
+            case .failure(let error):
+                print("Error fetching data for viral: \(error)")
+            }
+            
+        }
+    }
+    
     private func fetchPost(for index: Int, postId: String) {
         // Fetch swiped post
         FirebaseDownload.getPost(for: model.objectId) { postData, error in
@@ -100,27 +120,27 @@ class NotificationViewModel {
                 return
             }
             
-            ImageDownloaderHelper.shared.getFullURL(imageId: imageId) { imageUrl, error in
-                guard let imageUrl = imageUrl, error == nil else {
-                    print(error ?? "Error fetching post preview image for post: \(self.model.objectId)")
-                    return
-                }
-                
-                KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
-                    // Update download progress
-                }, downloadTaskUpdated: { task in
-                    // Download task update
-                }, completionHandler: { result in
-                    do {
-                        let image = try result.get().image
-                        DispatchQueue.main.async {
-                            self.previewImage = image
-                            self.delegate?.didFetchPreviewImage(index: index, image: image)
-                        }
-                    } catch let error {
-                        print("Error fetching profile image: \(error)")
+            StorageManager.shared.downloadThumbnail(withContainerId: postId, withImageId: imageId) { (result) in
+                switch result {
+                case .success(let image):
+                    DispatchQueue.main.async {
+                        self.previewImage = image
+                        self.delegate?.didFetchPreviewImage(index: index, image: image)
                     }
-                })
+                case .failure(let error):
+                    // Backup: get image using normal imageId
+                    StorageManager.shared.downloadImage(withContainerId: postId, withImageId: imageId) { (result) in
+                        switch result {
+                        case .success(let image):
+                            DispatchQueue.main.async {
+                                self.previewImage = image
+                                self.delegate?.didFetchPreviewImage(index: index, image: image)
+                            }
+                        case .failure(let error):
+                            print("Error fetching image for imageId: \(imageId) and postId: \(postId): \(error)")
+                        }
+                    }
+                }
             }
         }
     }

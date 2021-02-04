@@ -12,12 +12,14 @@ enum NotificationType: String {
     case swipeRight
     case swipeLeft
     case levelUp
+    case lifeOut
     
     var text: String {
         switch self {
         case .swipeRight: return "Swiped Right on your _"
         case .swipeLeft: return "Swipe Left on your _"
         case .levelUp: return "_ Leveled Up"
+        case .lifeOut: return "Your _ ran out of life"
         }
     }
 }

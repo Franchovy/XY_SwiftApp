@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class LaunchVC: UIViewController {
     
@@ -39,7 +38,7 @@ class LaunchVC: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         
         // Check for login
-        if let user = Auth.auth().currentUser {
+        if AuthManager.shared.isLoggedIn() {
             self.segueToPerformOnAnimationFinished = "segueToMain"
         } else {
             if let notFirstTimeUse = UserDefaults.standard.value(forKeyPath: "notFirstTimeUse") as? Bool, notFirstTimeUse {

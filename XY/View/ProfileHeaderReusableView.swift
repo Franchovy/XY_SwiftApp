@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import FirebaseAuth
 
 class ProfileHeaderReusableView: UICollectionReusableView {
     
@@ -400,10 +399,10 @@ class ProfileHeaderReusableView: UICollectionReusableView {
     public func configure(with viewModel: ProfileViewModel) {
         self.viewModel = viewModel
         
-        if viewModel.userId == Auth.auth().currentUser?.uid {
+        guard let userId = AuthManager.shared.userId else { return }
+        if viewModel.userId == userId {
             editButton.isHidden = false
         }
-
         
         nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption

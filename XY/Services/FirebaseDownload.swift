@@ -183,21 +183,6 @@ class FirebaseDownload {
         }
     }
     
-    static func getVideo(videoRef: String, completion: @escaping(Result<URL, Error>) -> Void) {
-        let storage = Storage.storage()
-        
-        let videoDownloadRef = storage.reference().child(videoRef)
-        
-        videoDownloadRef.downloadURL { (url, error) in
-            if let error = error {
-              completion(.failure(error))
-            }
-            if let url = url {
-              completion(.success(url))
-            }
-        }
-    }
-    
     static func getProfileId(userId: String, completion: @escaping(String?, Error?) -> Void) {
         let userRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
         

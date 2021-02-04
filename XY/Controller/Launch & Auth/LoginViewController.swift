@@ -76,49 +76,24 @@ class LoginViewController: UIViewController {
             loadingIcon.isHidden = false
             loadingIcon.startAnimating()
 
-            
-            Firebase.Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
+            AuthManager.shared.login(withEmail: email, password: password) { result in
                 self.loadingIcon.isHidden = true
                 self.loadingIcon.stopAnimating()
                 
-                if let error = error {
-                    print(error)
+                switch result {
+                case .success(let _):
+                    // Segue to main
+                    self.performSegue(withIdentifier: "LoginToProfile", sender: self)
+                case .failure(let error):
+                    print("Error logging in: \(error)")
+                    
                     if let errCode = AuthErrorCode(rawValue: error._code) {
-                        // HANDLE ERRORS
+                        // Error handling
                         if errCode == .userNotFound || errCode == .wrongPassword {
                             self.displayError(errorText: "Login incorrect!")
                         } else {
                             self.displayError(errorText: "Login failed")
                         }
-                    }
-                    return
-                }
-                // Successful login
-                guard let uid = Auth.auth().currentUser?.uid else { fatalError() }
-                
-                // Load profile data
-                let userDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
-                
-                userDocument.getDocument { documentSnapshot, error in
-                    if let error = error {
-                        print(error.localizedDescription)
-                        return
-                    }
-                    
-                    if let documentSnapshot = documentSnapshot {
-                        
-                        // Fetch and save profile data in background thread
-                        DispatchQueue.global(qos: .background).async {
-                            let profileId = documentSnapshot[FirebaseKeys.UserKeys.profile] as? String
-                            if let profileId = profileId {
-                                let userDefaults = UserDefaults.standard
-                                //TODO: SAVE PROFILE ID INTO USERDEFAULTS
-                            }
-                        }
-                        
-                        
-                        // Segue to main
-                        self.performSegue(withIdentifier: "LoginToProfile", sender: self)
                     }
                 }
             }

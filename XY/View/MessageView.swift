@@ -187,6 +187,10 @@ class MessageView: UIView, UITextFieldDelegate {
         gradientLayer.colors = color.gradient
     }
     
+    func isEditing() -> Bool {
+        return label.isHidden
+    }
+    
     func toggleInputMode(inputMode: Bool) {
         guard isEditable == true else { return }
         

@@ -192,7 +192,11 @@ class PreviewViewController: UIViewController {
     }
     
     private func viralUploadComplete(_ viralModel: ViralModel) {
-        
+        guard let videoUrl = recordedVideoUrl else {
+            return
+        }
+        dismiss(animated: true, completion: nil)
+        delegate.didFinishUploadingViral(videoUrl: videoUrl, viralModel: viralModel)
     }
     
     // MARK: - Obj-C Functions
@@ -212,7 +216,7 @@ class PreviewViewController: UIViewController {
         
         if let image = previewImageView?.image {
             // Upload post
-            FirebaseUpload.createPost(caption: caption.text, image: image) { (result) in
+            PostManager.shared.createPost(caption: caption.text, image: image) { (result) in
                 activityIndicator.stopAnimating()
                 
                 switch result {
@@ -220,29 +224,21 @@ class PreviewViewController: UIViewController {
                     
                     self.postUploadComplete(postModel)
                 case .failure(let error):
-                    print("Error creating post.")
+                    print("Error creating post: \(error)")
                 }
             }
         } else if let recordedVideoUrl = recordedVideoUrl {
             previewLayer?.player?.pause()
+            
+            let caption = self.caption.text
+            
             // Upload video
-            FirebaseUpload.uploadVideo(with: recordedVideoUrl) { [weak self] (result) in
-                activityIndicator.stopAnimating()
-                
+            ViralManager.shared.createViral(caption: caption, videoUrl: recordedVideoUrl) { (result) in
                 switch result {
-                case .success(let uploadedPath):
-                    print("Uploaded video with path: \(uploadedPath)")
-                    FirebaseUpload.createViral(caption: self?.caption.text ?? "", videoPath: uploadedPath) { result in
-                        switch result {
-                        case .success(let viralModel):
-                            
-                            self?.viralUploadComplete(viralModel)
-                        case .failure(let error):
-                            print("Error uploading moment document: \(error)")
-                        }
-                    }
+                case .success(let viralModel):
+                    self.viralUploadComplete(viralModel)
                 case .failure(let error):
-                    print(error)
+                    print("Error uploading viral: \(error)")
                 }
             }
         }
@@ -267,10 +263,18 @@ class PreviewViewController: UIViewController {
     }
     
     @objc private func didTapAnywhere() {
-        let captionText = caption.text
-        print("Caption: \(captionText)")
-        caption.toggleInputMode(inputMode: false)
-        
-        view.setNeedsLayout()
+        if caption.isEditing() {
+            caption.toggleInputMode(inputMode: false)
+            
+            view.setNeedsLayout()
+        } else {
+            if let player = previewLayer?.player {
+                if player.timeControlStatus == .playing {
+                    player.pause()
+                } else if player.timeControlStatus == .paused {
+                    player.play()
+                }
+            }
+        }
     }
 }
