@@ -117,6 +117,7 @@ class ProfileHeaderViewController: UIViewController {
         button.setImage(UIImage(named: "edit")?.withTintColor(.white), for: .normal)
         button.contentMode = .scaleAspectFill
         button.isHidden = true
+        button.contentEdgeInsets = UIEdgeInsets(top: 12.5, left: 12.5, bottom: 12.5, right: 12.5)
         return button
     }()
     
@@ -300,7 +301,7 @@ class ProfileHeaderViewController: UIViewController {
         )
         
         if editable {
-            let editButtonIconSize:CGFloat = 11
+            let editButtonIconSize:CGFloat = 40
             editButton.frame = CGRect(
                 x: profileCard.width - editButtonIconSize - 11,
                 y: 6,
