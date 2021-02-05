@@ -69,49 +69,7 @@ class FirebaseDownload {
         }
     }
 
-    static func getFlow(completion: @escaping([PostModel]?, Error?) -> Void) {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
-                    .getDocuments() { snapshot, error in
-            if let error = error {
-                completion(nil, error)
-            }
-            if let documents = snapshot?.documents {
-                var posts: [PostModel] = []
-                for doc in documents {
-                    
-                    var newPost = PostModel(from: doc.data(), id: doc.documentID)
 
-                    posts.append(newPost)
-                }
-                completion(posts, nil)
-            }
-        }
-    }
-    
-    static func getFlowUpdates(completion: @escaping([PostModel]?, Error?) -> Void) {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
-            .addSnapshotListener() { snapshotDocuments, error in
-            if let error = error { completion(nil, error) }
-            
-            guard let snapshotDocuments = snapshotDocuments else { return }
-            
-            var postDataArray: [PostModel] = []
-            
-            for documentChanges in snapshotDocuments.documentChanges {
-                if documentChanges.type == .added {
-                    // Append post
-                    let postDocumentData = documentChanges.document.data()
-                    let postData = PostModel(from: postDocumentData, id: documentChanges.document.documentID)
-                    postDataArray.append(postData)
-                }
-            }
-            
-            completion(postDataArray, nil)
-            
-        }
-    }
     
     static func getFlowForProfile(userId: String, completion: @escaping([PostModel]?, Error?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)

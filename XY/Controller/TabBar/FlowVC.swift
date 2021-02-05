@@ -106,35 +106,44 @@ class FlowVC : UITableViewController {
     
     private func prefetchData() {
         
-        var initializingFlow = true
-        FirebaseDownload.getFlowUpdates() { newPosts, error in
-            if let error = error { print("Error fetching posts: \(error)") }
-            print("Flow update")
-            if let posts = newPosts {
+        // Initialise flow
+        PostManager.shared.getFlow { (result) in
+            switch result {
+            case .success(let posts):
                 for newPost in posts {
                     if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
                     {
-                        if initializingFlow {
+                        let postViewModel = PostViewModel(from: newPost)
+                        self.postViewModels.append(postViewModel)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("Error fetching flow!")
+            }
+        }
+        
+        // Listen for updates
+        PostManager.shared.getFlowUpdates { (result) in
+            switch result {
+            case .success(let posts):
+                for newPost in posts {
+                    if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
+                    {
+                        // Insert into visible row
+                        let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.last ?? IndexPath(row: 0, section: 0)
+                        // Automatically updates tableview
+                        DispatchQueue.main.async {
                             let postViewModel = PostViewModel(from: newPost)
-                            self.postViewModels.append(postViewModel)
-                        } else {
-                            // Insert into visible row
-                            let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
-                            // Automatically updates tableview
-                            DispatchQueue.main.async {
-                                let postViewModel = PostViewModel(from: newPost)
-                                self.postViewModels.insert(postViewModel, at: firstVisibleRowIndex.row)
-                                self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
-                            }
+                            self.postViewModels.insert(postViewModel, at: firstVisibleRowIndex.row)
+                            self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
                         }
                     }
                 }
-                if initializingFlow {
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        initializingFlow = false
-                    }
-                }
+            case .failure(let error):
+                print("Error fetching posts in update!")
             }
         }
     }

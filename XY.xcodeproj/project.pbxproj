@@ -61,6 +61,7 @@
 		B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DDF25644A41005D9B86 /* Assets.xcassets */; };
 		B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */; };
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
+		B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BCABFA25CD58C000155F37 /* ActionsManager.swift */; };
 		B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE33F25C9413A00B00656 /* AuthManager.swift */; };
 		B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37925C9AD8C00B00656 /* PostManager.swift */; };
 		B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37D25C9AE1000B00656 /* StorageManager.swift */; };
@@ -156,6 +157,7 @@
 		B9B92DE225644A41005D9B86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9B92DE425644A41005D9B86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		B9BCABFA25CD58C000155F37 /* ActionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsManager.swift; sourceTree = "<group>"; };
 		B9BDE33F25C9413A00B00656 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		B9BDE34325C96BFD00B00656 /* XY.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XY.entitlements; sourceTree = "<group>"; };
 		B9BDE37925C9AD8C00B00656 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
@@ -423,6 +425,7 @@
 				B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */,
 				B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */,
 				B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */,
+				B9BCABFA25CD58C000155F37 /* ActionsManager.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -679,6 +682,7 @@
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */,
+				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
