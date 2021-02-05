@@ -10,7 +10,6 @@ import FirebaseStorage
 import AVFoundation
 
 protocol ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureForProfile profileId: String)
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell)
     //TODO: swipe right, swipe left from flow.
     func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell)
@@ -271,7 +270,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         guard let profileId = viewModel?.profileId else {
             return
         }
-        delegate?.imagePostCellDelegate(didTapProfilePictureForProfile: profileId)
+        ProfileManager.shared.openProfileForId(profileId)
     }
     
     var currentTranslationX:CGFloat = 0

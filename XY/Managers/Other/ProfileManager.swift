@@ -8,11 +8,22 @@
 import Foundation
 import FirebaseFirestore
 
+
+protocol ProfileManagerDelegate {
+    func profileManager(openProfileFor profileId: String)
+}
+
 final class ProfileManager {
     static let shared = ProfileManager()
     private init () { }
     
+    var delegate: ProfileManagerDelegate?
+    
     var profileId: String?
+    
+    public func openProfileForId(_ profileId: String) {
+        delegate?.profileManager(openProfileFor: profileId)
+    }
 
     func initialiseForCurrentUser(completion: @escaping(Error?) -> Void) {
 //        if let userData = UserDefaults.standard.dictionary(forKey: "userData"),

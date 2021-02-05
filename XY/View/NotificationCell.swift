@@ -165,7 +165,10 @@ class NotificationCell: UITableViewCell {
     }
     
     @objc func profilePictureTapped() {
-        viewModel?.openProfile()
+        guard let profileId = viewModel?.profileData?.profileId else {
+            return
+        }
+        ProfileManager.shared.openProfileForId(profileId)
     }
     
     @objc func postTapped() {

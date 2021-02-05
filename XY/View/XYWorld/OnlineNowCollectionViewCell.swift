@@ -59,6 +59,10 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
         
         xpCircle.setProgress(level: 0, progress: 0)
         xpCircle.setupFinished()
+        
+        let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        profileImage.isUserInteractionEnabled = true
+        profileImage.addGestureRecognizer(tapProfileGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -120,6 +124,15 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
         if let userId = viewModel?.userId {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: userId)
         }
+    }
+    
+    // MARK: - Obj-C functions
+    
+    @objc private func imageTapped() {
+        guard let profileId = viewModel?.profileId else {
+            return
+        }
+        ProfileManager.shared.openProfileForId(profileId)
     }
 }
 

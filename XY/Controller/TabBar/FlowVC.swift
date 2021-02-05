@@ -182,22 +182,6 @@ class FlowVC : UITableViewController {
 // MARK: - ImagePostCell Delegate functions
 
 extension FlowVC : ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureForProfile profileId: String) {
-        
-        FirebaseDownload.getOwnerUser(forProfileId: profileId) { userId, error in
-            guard let userId = userId, error == nil else {
-                print("Error fetching profile with id: \(profileId)")
-                print(error)
-                return
-            }
-            
-            let profileVC = ProfileViewController(userId: userId)
-            profileVC.modalPresentationStyle = .popover
-            
-            self.present(profileVC, animated: true) { }
-        }
-    }
-    
     func imagePostCellDelegate(reportPressed postId: String) {
         let alert = UIAlertController(title: "Report", message: "Why are you reporting this post?", preferredStyle: .alert)
         
