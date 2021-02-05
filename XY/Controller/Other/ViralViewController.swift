@@ -97,6 +97,9 @@ class ViralViewController: UIViewController {
         
         profileButton.addTarget(self, action: #selector(profileImageTapped), for: .touchUpInside)
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoTapped))
+        view.addGestureRecognizer(tapGesture)
+        
         // Request nickname for this user
         fetchProfileData()
     }
@@ -182,7 +185,7 @@ class ViralViewController: UIViewController {
     
     private func getHealthBarPercentage(forLives currentLives: Int, forLevel currentLevel: Int) -> CGFloat {
         
-        let maxLife = XPModelManager.shared.getXpForNextLevelOfType(currentLevel, .viral)
+        let maxLife = XPModelManager.shared.getLivesLeftForLevel(currentLevel)
         
         return CGFloat(currentLives) / CGFloat(maxLife)
     }
@@ -207,6 +210,24 @@ class ViralViewController: UIViewController {
         
         animationPlayed = true
     }
+    
+    
+    func pauseAnimation(){
+        
+        let pausedTime = healthBar.convertTime(CACurrentMediaTime(), from: nil)
+        healthBar.speed = 0.0
+        healthBar.timeOffset = pausedTime
+    }
+    
+    func resumeAnimation(){
+        let pausedTime = healthBar.timeOffset
+        healthBar.speed = 1.0
+        healthBar.timeOffset = 0.0
+        healthBar.beginTime = 0.0
+        let timeSincePause = healthBar.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
+        healthBar.beginTime = timeSincePause
+    }
+
     
     private func onPlay() {
         beginHealthBarAnimation()
@@ -305,6 +326,21 @@ class ViralViewController: UIViewController {
     }
     
     // MARK: - Obj-C functions
+    
+    var stoppedAnimationFrame: CGRect?
+    @objc private func videoTapped() {
+        if playState == .pause {
+            player?.play()
+            playState = .play
+            
+            resumeAnimation()
+        } else {
+            player?.pause()
+            playState = .pause
+            
+            pauseAnimation()
+        }
+    }
     
     @objc private func profileImageTapped() {
         player?.pause()
