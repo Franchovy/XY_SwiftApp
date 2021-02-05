@@ -416,9 +416,11 @@ class ProfileHeaderReusableView: UICollectionReusableView {
 
         setNeedsLayout()
         
-        guard let level = viewModel.level, let xp = viewModel.xp, let nextLevelXp = XPModel.LEVELS[.user]?[level] else {
+        guard let level = viewModel.level, let xp = viewModel.xp else {
             return
         }
+        let nextLevelXp = XPModelManager.shared.getXpForNextLevelOfType(level, .user)
+        
         xpCircle.setProgress(level: level, progress: Float(xp) / Float(nextLevelXp))
     }
 }
@@ -431,11 +433,9 @@ extension ProfileHeaderReusableView: ProfileViewModelDelegate {
     }
     
     func onXpUpdate(_ model: XPModel) {
-        guard let nextLevelXp = XPModel.LEVELS[.user]?[model.level] else {
-            return
-        }
+        let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(model.level, .post)
         
-        self.xpCircle.setProgress(level: model.level, progress: Float(model.xp) / Float(nextLevelXp))
+        xpCircle.setProgress(level: model.level, progress: Float(model.xp) / Float(nextLevelXP))
     }
     
     func onXYNameFetched(_ xyname: String) {

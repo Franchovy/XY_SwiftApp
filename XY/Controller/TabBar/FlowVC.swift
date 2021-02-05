@@ -48,7 +48,7 @@ class FlowVC : UITableViewController {
         
         if let uid = Auth.auth().currentUser?.uid {
             FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
-                guard let nextLevelXP = XPModel.LEVELS[.user]?[xpModel.level] else { return }
+                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
                 self?.barXPCircle.setProgress(
                     level: xpModel.level,
                     progress: Float(xpModel.xp) / Float(nextLevelXP)

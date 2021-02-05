@@ -111,8 +111,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = UIColor(named: "Black")
-        
         selectionStyle = .none
         
         addSubview(reportButtonImage)
@@ -404,9 +402,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
             
-            guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
+            guard let strongSelf = self else {
                 return
             }
+            let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .post)
             
             strongSelf.xpCircle.onProgress(
                 level: xpModel.level,

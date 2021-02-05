@@ -195,10 +195,7 @@ class ViralViewController: UIViewController {
     
     private func getHealthBarPercentage(forLives currentLives: Int, forLevel currentLevel: Int) -> CGFloat {
         
-        guard let maxLife = XPModel.LIVES[.viral]?[model.level] else {
-            print("Error! Level out of bounds!")
-            return CGFloat()
-        }
+        let maxLife = XPModelManager.shared.getXpForNextLevelOfType(currentLevel, .viral)
         
         return CGFloat(currentLives) / CGFloat(maxLife)
     }

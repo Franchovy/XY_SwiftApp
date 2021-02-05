@@ -148,7 +148,7 @@ extension OnlineNowCollectionViewCell : ProfileViewModelDelegate {
     }
     
     func onXpUpdate(_ model: XPModel) {
-        let xpToNextLevel = Float(XPModel.LEVELS[.user]![model.level])
+        let xpToNextLevel = Float(XPModelManager.shared.getXpForNextLevelOfType(model.level, .user))
         
         xpCircle.onProgress(level: model.level, progress: Float(model.xp) / xpToNextLevel)
     }
