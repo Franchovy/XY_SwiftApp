@@ -101,13 +101,19 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        guard let ownUserId = AuthManager.shared.userId else {
+            return
+        }
+        
         // Subscribe to Online Now in RT DB
         DatabaseManager.shared.subscribeToOnlineNow() { ids in
             if let ids = ids {
                 self.onlineNowUsers = []
                 
                 for (userId, profileId) in ids {
-                    print("User id: \(userId), profile id: \(profileId)")
+                    if userId == ownUserId {
+                        continue
+                    }
                     let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
                     self.onlineNowUsers.append(viewModel)
                 }

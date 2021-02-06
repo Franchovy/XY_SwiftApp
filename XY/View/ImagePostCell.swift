@@ -112,6 +112,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         selectionStyle = .none
         
+        backgroundColor = .clear
+        
         addSubview(reportButtonImage)
         addSubview(reportButtonTitle)
         
