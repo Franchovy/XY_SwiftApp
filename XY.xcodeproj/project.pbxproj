@@ -21,6 +21,7 @@
 		14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDAF8325A37DD800D19282 /* MessageModel.swift */; };
 		14C96787258E455B00E072EA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C96786258E455B00E072EA /* Constants.swift */; };
 		24588F4C5DC3B75A80D2A8E4 /* Pods_XYTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */; };
+		B90BFA3025CD6D7100575598 /* XPModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90BFA2F25CD6D7100575598 /* XPModelManager.swift */; };
 		B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C163725BB0ADA003811B2 /* TabBarViewController.swift */; };
 		B90C164425BC6474003811B2 /* MomentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C164325BC6474003811B2 /* MomentModel.swift */; };
 		B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */; };
@@ -61,6 +62,7 @@
 		B9B92DE025644A41005D9B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DDF25644A41005D9B86 /* Assets.xcassets */; };
 		B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */; };
 		B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DF125644F9B005D9B86 /* SignupViewController.swift */; };
+		B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BCABFA25CD58C000155F37 /* ActionsManager.swift */; };
 		B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE33F25C9413A00B00656 /* AuthManager.swift */; };
 		B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37925C9AD8C00B00656 /* PostManager.swift */; };
 		B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37D25C9AE1000B00656 /* StorageManager.swift */; };
@@ -110,6 +112,7 @@
 		6F0373FB5BA276797DEC4E08 /* Pods-XY.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY.debug.xcconfig"; path = "Target Support Files/Pods-XY/Pods-XY.debug.xcconfig"; sourceTree = "<group>"; };
 		6F94382B0FE020F753BC9A88 /* Pods-XY_APPTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APPTests.release.xcconfig"; path = "Target Support Files/Pods-XY_APPTests/Pods-XY_APPTests.release.xcconfig"; sourceTree = "<group>"; };
 		7E73620E1B0026B3D4968CEB /* Pods-XY.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY.release.xcconfig"; path = "Target Support Files/Pods-XY/Pods-XY.release.xcconfig"; sourceTree = "<group>"; };
+		B90BFA2F25CD6D7100575598 /* XPModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModelManager.swift; sourceTree = "<group>"; };
 		B90C163725BB0ADA003811B2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		B90C164325BC6474003811B2 /* MomentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentModel.swift; sourceTree = "<group>"; };
 		B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSubscriptionManager.swift; sourceTree = "<group>"; };
@@ -156,6 +159,7 @@
 		B9B92DE225644A41005D9B86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B9B92DE425644A41005D9B86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B9B92DF125644F9B005D9B86 /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
+		B9BCABFA25CD58C000155F37 /* ActionsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionsManager.swift; sourceTree = "<group>"; };
 		B9BDE33F25C9413A00B00656 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		B9BDE34325C96BFD00B00656 /* XY.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XY.entitlements; sourceTree = "<group>"; };
 		B9BDE37925C9AD8C00B00656 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
@@ -423,6 +427,8 @@
 				B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */,
 				B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */,
 				B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */,
+				B9BCABFA25CD58C000155F37 /* ActionsManager.swift */,
+				B90BFA2F25CD6D7100575598 /* XPModelManager.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -679,10 +685,12 @@
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */,
+				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
+				B90BFA3025CD6D7100575598 /* XPModelManager.swift in Sources */,
 				B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */,
 				B9B053C025AE4691006962DD /* ConversationsViewModel.swift in Sources */,
 				B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */,

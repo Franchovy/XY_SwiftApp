@@ -48,7 +48,7 @@ class FlowVC : UITableViewController {
         
         if let uid = Auth.auth().currentUser?.uid {
             FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
-                guard let nextLevelXP = XPModel.LEVELS[.user]?[xpModel.level] else { return }
+                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
                 self?.barXPCircle.setProgress(
                     level: xpModel.level,
                     progress: Float(xpModel.xp) / Float(nextLevelXP)
@@ -106,35 +106,44 @@ class FlowVC : UITableViewController {
     
     private func prefetchData() {
         
-        var initializingFlow = true
-        FirebaseDownload.getFlowUpdates() { newPosts, error in
-            if let error = error { print("Error fetching posts: \(error)") }
-            print("Flow update")
-            if let posts = newPosts {
+        // Initialise flow
+        PostManager.shared.getFlow { (result) in
+            switch result {
+            case .success(let posts):
                 for newPost in posts {
                     if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
                     {
-                        if initializingFlow {
+                        let postViewModel = PostViewModel(from: newPost)
+                        self.postViewModels.append(postViewModel)
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            case .failure(let error):
+                print("Error fetching flow!")
+            }
+        }
+        
+        // Listen for updates
+        PostManager.shared.getFlowUpdates { (result) in
+            switch result {
+            case .success(let posts):
+                for newPost in posts {
+                    if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
+                    {
+                        // Insert into visible row
+                        let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.last ?? IndexPath(row: 0, section: 0)
+                        // Automatically updates tableview
+                        DispatchQueue.main.async {
                             let postViewModel = PostViewModel(from: newPost)
-                            self.postViewModels.append(postViewModel)
-                        } else {
-                            // Insert into visible row
-                            let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.first ?? IndexPath(row: 0, section: 0)
-                            // Automatically updates tableview
-                            DispatchQueue.main.async {
-                                let postViewModel = PostViewModel(from: newPost)
-                                self.postViewModels.insert(postViewModel, at: firstVisibleRowIndex.row)
-                                self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
-                            }
+                            self.postViewModels.insert(postViewModel, at: firstVisibleRowIndex.row)
+                            self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
                         }
                     }
                 }
-                if initializingFlow {
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        initializingFlow = false
-                    }
-                }
+            case .failure(let error):
+                print("Error fetching posts in update!")
             }
         }
     }
@@ -173,22 +182,6 @@ class FlowVC : UITableViewController {
 // MARK: - ImagePostCell Delegate functions
 
 extension FlowVC : ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureForProfile profileId: String) {
-        
-        FirebaseDownload.getOwnerUser(forProfileId: profileId) { userId, error in
-            guard let userId = userId, error == nil else {
-                print("Error fetching profile with id: \(profileId)")
-                print(error)
-                return
-            }
-            
-            let profileVC = ProfileViewController(userId: userId)
-            profileVC.modalPresentationStyle = .popover
-            
-            self.present(profileVC, animated: true) { }
-        }
-    }
-    
     func imagePostCellDelegate(reportPressed postId: String) {
         let alert = UIAlertController(title: "Report", message: "Why are you reporting this post?", preferredStyle: .alert)
         

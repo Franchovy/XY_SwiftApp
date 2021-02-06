@@ -119,7 +119,7 @@ final class ViralManager {
                     FirebaseKeys.ViralKeys.videoRef: uploadedVideoPath,
                     FirebaseKeys.ViralKeys.profileId: profileId,
                     FirebaseKeys.ViralKeys.caption: caption,
-                    FirebaseKeys.ViralKeys.livesLeft: XPModel.LIVES[.viral]![0],
+                    FirebaseKeys.ViralKeys.livesLeft: XPModelManager.shared.getLivesLeftForLevel(0),
                     FirebaseKeys.ViralKeys.xp: 0,
                     FirebaseKeys.ViralKeys.level: 0
                 ]

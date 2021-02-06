@@ -95,23 +95,13 @@ class ViralViewController: UIViewController {
         captionLabel.text = model.caption
         super.init(nibName: nil, bundle: nil)
         
+        profileButton.addTarget(self, action: #selector(profileImageTapped), for: .touchUpInside)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoTapped))
+        view.addGestureRecognizer(tapGesture)
+        
         // Request nickname for this user
-        FirebaseDownload.getProfile(profileId: model.profileId) { [weak self] (profileModel, error) in
-            guard let strongSelf = self, let profileModel = profileModel, error == nil else {
-                return
-            }
-            
-            strongSelf.userLabel.text = profileModel.nickname
-            strongSelf.userLabel.sizeToFit()
-            
-            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { [weak self] (image, error) in
-                guard let strongSelf = self, let image = image, error == nil else {
-                    return
-                }
-                
-                strongSelf.profileButton.setBackgroundImage(image, for: .normal)
-            }
-        }
+        fetchProfileData()
     }
     
     required init?(coder: NSCoder) {
@@ -195,10 +185,7 @@ class ViralViewController: UIViewController {
     
     private func getHealthBarPercentage(forLives currentLives: Int, forLevel currentLevel: Int) -> CGFloat {
         
-        guard let maxLife = XPModel.LIVES[.viral]?[model.level] else {
-            print("Error! Level out of bounds!")
-            return CGFloat()
-        }
+        let maxLife = XPModelManager.shared.getLivesLeftForLevel(currentLevel)
         
         return CGFloat(currentLives) / CGFloat(maxLife)
     }
@@ -223,6 +210,24 @@ class ViralViewController: UIViewController {
         
         animationPlayed = true
     }
+    
+    
+    func pauseAnimation(){
+        
+        let pausedTime = healthBar.convertTime(CACurrentMediaTime(), from: nil)
+        healthBar.speed = 0.0
+        healthBar.timeOffset = pausedTime
+    }
+    
+    func resumeAnimation(){
+        let pausedTime = healthBar.timeOffset
+        healthBar.speed = 1.0
+        healthBar.timeOffset = 0.0
+        healthBar.beginTime = 0.0
+        let timeSincePause = healthBar.convertTime(CACurrentMediaTime(), from: nil) - pausedTime
+        healthBar.beginTime = timeSincePause
+    }
+
     
     private func onPlay() {
         beginHealthBarAnimation()
@@ -297,5 +302,48 @@ class ViralViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - Private functions
+    
+    private func fetchProfileData() {
+        FirebaseDownload.getProfile(profileId: model.profileId) { [weak self] (profileModel, error) in
+            guard let strongSelf = self, let profileModel = profileModel, error == nil else {
+                return
+            }
+            
+            strongSelf.userLabel.text = profileModel.nickname
+            strongSelf.userLabel.sizeToFit()
+            
+            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { [weak self] (image, error) in
+                guard let strongSelf = self, let image = image, error == nil else {
+                    return
+                }
+                
+                strongSelf.profileButton.setBackgroundImage(image, for: .normal)
+            }
+        }
+    }
+    
+    // MARK: - Obj-C functions
+    
+    var stoppedAnimationFrame: CGRect?
+    @objc private func videoTapped() {
+        if playState == .pause {
+            player?.play()
+            playState = .play
+            
+            resumeAnimation()
+        } else {
+            player?.pause()
+            playState = .pause
+            
+            pauseAnimation()
+        }
+    }
+    
+    @objc private func profileImageTapped() {
+        player?.pause()
+        ProfileManager.shared.openProfileForId(model.profileId)
     }
 }

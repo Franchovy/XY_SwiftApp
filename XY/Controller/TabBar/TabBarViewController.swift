@@ -16,6 +16,8 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        ProfileManager.shared.delegate = self
+        
         // TAB 2: EXPLORE VC
         let exploreVC = ExploreVC()
         let tabBarItem = UITabBarItem(title: "Viral", image: UIImage(named: "viral_item"), tag: 2)
@@ -84,6 +86,23 @@ class TabBarViewController: UITabBarController {
         let vc = mainStoryboard.instantiateViewController(identifier: "LaunchVC")
         vc.modalPresentationStyle = .fullScreen
         show(vc, sender: self)
+    }
+}
+
+extension TabBarViewController: ProfileManagerDelegate {
+    func profileManager(openProfileFor profileId: String) {
+        FirebaseDownload.getOwnerUser(forProfileId: profileId) { userId, error in
+            guard let userId = userId, error == nil else {
+                print("Error fetching profile with id: \(profileId)")
+                print(error)
+                return
+            }
+            
+            let profileVC = ProfileViewController(userId: userId)
+            profileVC.modalPresentationStyle = .popover
+            
+            self.present(profileVC, animated: true) { }
+        }
     }
 }
 

@@ -24,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if AuthManager.shared.isLoggedIn() {
             OnlineStatusManager.shared.setupOnlineStatus()
+            
+            ActionManager.shared.getActions()
         }
 
         return true

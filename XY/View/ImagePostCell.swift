@@ -10,7 +10,6 @@ import FirebaseStorage
 import AVFoundation
 
 protocol ImagePostCellDelegate {
-    func imagePostCellDelegate(didTapProfilePictureForProfile profileId: String)
     func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell)
     //TODO: swipe right, swipe left from flow.
     func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell)
@@ -111,9 +110,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = UIColor(named: "Black")
-        
         selectionStyle = .none
+        
+        backgroundColor = .clear
         
         addSubview(reportButtonImage)
         addSubview(reportButtonTitle)
@@ -273,7 +272,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         guard let profileId = viewModel?.profileId else {
             return
         }
-        delegate?.imagePostCellDelegate(didTapProfilePictureForProfile: profileId)
+        ProfileManager.shared.openProfileForId(profileId)
     }
     
     var currentTranslationX:CGFloat = 0
@@ -404,9 +403,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
             
-            guard let strongSelf = self, let nextLevelXP = XPModel.LEVELS[.post]?[xpModel.level] else {
+            guard let strongSelf = self else {
                 return
             }
+            let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .post)
             
             strongSelf.xpCircle.onProgress(
                 level: xpModel.level,

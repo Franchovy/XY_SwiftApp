@@ -117,6 +117,7 @@ class ProfileHeaderViewController: UIViewController {
         button.setImage(UIImage(named: "edit")?.withTintColor(.white), for: .normal)
         button.contentMode = .scaleAspectFill
         button.isHidden = true
+        button.contentEdgeInsets = UIEdgeInsets(top: 12.5, left: 12.5, bottom: 12.5, right: 12.5)
         return button
     }()
     
@@ -300,7 +301,7 @@ class ProfileHeaderViewController: UIViewController {
         )
         
         if editable {
-            let editButtonIconSize:CGFloat = 11
+            let editButtonIconSize:CGFloat = 40
             editButton.frame = CGRect(
                 x: profileCard.width - editButtonIconSize - 11,
                 y: 6,
@@ -543,9 +544,11 @@ class ProfileHeaderViewController: UIViewController {
 
         view.setNeedsLayout()
         
-        guard let level = viewModel.level, let xp = viewModel.xp, let nextLevelXp = XPModel.LEVELS[.user]?[level] else {
+        guard let level = viewModel.level, let xp = viewModel.xp else {
             return
         }
+        let nextLevelXp = XPModelManager.shared.getXpForNextLevelOfType(level, .user)
+        
         xpCircle.setProgress(level: level, progress: Float(xp) / Float(nextLevelXp))
         xpCircle.layoutSubviews()
     }
@@ -559,9 +562,7 @@ extension ProfileHeaderViewController: ProfileViewModelDelegate {
     }
     
     func onXpUpdate(_ model: XPModel) {
-        guard let nextLevelXp = XPModel.LEVELS[.user]?[model.level] else {
-            return
-        }
+        let nextLevelXp = XPModelManager.shared.getXpForNextLevelOfType(model.level, .user)
         
         self.xpCircle.setProgress(level: model.level, progress: Float(model.xp) / Float(nextLevelXp))
     }

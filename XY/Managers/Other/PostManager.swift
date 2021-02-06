@@ -13,6 +13,8 @@ final class PostManager {
     static let shared = PostManager()
     private init() { }
     
+    var flow = [PostModel]()
+    
     public func createPost(caption: String, image: UIImage, completion: @escaping(Result<PostModel, Error>) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else {
             return
@@ -48,5 +50,64 @@ final class PostManager {
         }
     }
     
+    func getFlow(completion: @escaping(Result<[PostModel], Error>) -> Void) {
+        let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: false)
+                    .getDocuments() { snapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            if let documents = snapshot?.documents {
+                
+                for doc in documents {
+                    var newPost = PostModel(from: doc.data(), id: doc.documentID)
+                    
+                    // Apply Filters to the flow
+                    if previousSwipeLefts.contains(where: { $0 == newPost.id }) {
+                        continue
+                    }
+                    //
+                    self.flow.append(newPost)
+                }
+                completion(.success(self.flow))
+            }
+        }
+    }
     
+    func getFlowUpdates(completion: @escaping(Result<[PostModel], Error>) -> Void) {
+        let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: false)
+            .addSnapshotListener() { snapshotDocuments, error in
+                if let error = error { completion(.failure(error)) }
+            
+            guard let snapshotDocuments = snapshotDocuments else { return }
+            
+            var postDataArray: [PostModel] = []
+            
+            for documentChanges in snapshotDocuments.documentChanges {
+                if documentChanges.type == .added {
+                    if self.flow.contains(where: { $0.id == documentChanges.document.documentID }) {
+                        continue
+                    }
+                    
+                    let postDocumentData = documentChanges.document.data()
+                    let newPost = PostModel(from: postDocumentData, id: documentChanges.document.documentID)
+                    
+                    // Filter
+                    if previousSwipeLefts.contains(where: { $0 == newPost.id }) {
+                        continue
+                    }
+                    
+                    // Append
+                    postDataArray.append(newPost)
+                }
+            }
+            
+            completion(.success(postDataArray))
+        }
+    }
 }

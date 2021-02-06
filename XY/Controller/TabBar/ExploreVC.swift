@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-
+import AVFoundation
 
 class ExploreVC: UIViewController {
     
@@ -49,6 +49,9 @@ class ExploreVC: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+        try? AVAudioSession.sharedInstance().setActive(true)
         
         view.addSubview(noViralsLeftLabel)
         view.addSubview(whyNotUploadLabel)
