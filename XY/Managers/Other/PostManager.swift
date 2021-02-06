@@ -54,7 +54,7 @@ final class PostManager {
         let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: FirebaseKeys.PostKeys.timestamp, descending: false)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
                     .getDocuments() { snapshot, error in
             if let error = error {
                 completion(.failure(error))
@@ -80,7 +80,7 @@ final class PostManager {
         let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: FirebaseKeys.PostKeys.timestamp, descending: false)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
             .addSnapshotListener() { snapshotDocuments, error in
                 if let error = error { completion(.failure(error)) }
             
