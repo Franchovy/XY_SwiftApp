@@ -90,6 +90,9 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         view.addSubview(collectionView)
         
+        sections.append(XYworldSection(type: .onlineNow, cells: []))
+        sections.append(XYworldSection(type: .userRanking, cells: []))
+        
         // Search bar
         xyworldSearchBar.delegate = self
         navigationItem.titleView = xyworldSearchBar
@@ -135,9 +138,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
                         print(userRankingCells)
                         if !userRankingCells.contains(where: { $0 == nil }) {
                             // Finished loading
-                            var userRankingSection = XYworldSection.init(type: .userRanking, cells: userRankingCells.compactMap({ $0! }))
-                            self.sections.append(userRankingSection)
-                            self.collectionView?.reloadData()
+                            self.loadUserRanking(cells: userRankingCells.compactMap({ $0! }))
                         }
                     }
                 }
@@ -171,11 +172,49 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
                     self.onlineNowUsers.append(viewModel)
                     cells.append(XYworldCell.onlineNow(viewModel: viewModel))
                 }
-                var userRankingSection = XYworldSection.init(type: .onlineNow, cells: cells)
-                self.sections.append(userRankingSection)
-                self.collectionView?.reloadData()
+                self.loadOnlineNowSection(cells: cells)
             }
         }
+    }
+    
+    private func loadUserRanking(cells: [XYworldCell]) {
+        
+        if cells.count == 0 {
+            sections.removeAll { $0.type == .userRanking }
+            return
+        }
+        
+        let userRankingSection = XYworldSection.init(type: .userRanking, cells: cells)
+        
+        if sections.count > 1 {
+          if sections[1].type == .userRanking {
+            sections[1] = userRankingSection
+          }
+        } else if sections[0].type == .userRanking {
+            sections[0] = userRankingSection
+        }
+        
+        collectionView?.reloadData()
+    }
+    
+    private func loadOnlineNowSection(cells: [XYworldCell]) {
+        if cells.count == 0 {
+            sections.removeAll { $0.type == .onlineNow }
+        } else {
+            let newSection = XYworldSection.init(type: .onlineNow, cells: cells)
+            
+            if sections[0].type != .onlineNow {
+                if sections[0].type == .userRanking {
+                    sections.insert(newSection, at: 0)
+                } else {
+                    sections.append(newSection)
+                }
+            } else {
+                sections[0] = newSection
+            }
+        }
+        
+        collectionView?.reloadData()
     }
     
     @objc private func tappedAnywhereGesture() {
