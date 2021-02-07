@@ -69,7 +69,20 @@ class FirebaseDownload {
         }
     }
 
-
+    static func getRanking(completion: @escaping(Result<[String], Error>)->Void) {
+        var userRanking = [String]()
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users)
+            .order(by: FirebaseKeys.UserKeys.level, descending: true).limit(to: 5)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(.failure(error))
+                }
+                if let querySnapshot = querySnapshot {
+                    userRanking = querySnapshot.documents.map({ $0.documentID })
+                    completion(.success(userRanking))
+                }
+            }
+    }
     
     static func getFlowForProfile(userId: String, completion: @escaping([PostModel]?, Error?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
