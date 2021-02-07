@@ -13,10 +13,18 @@ final class ActionManager {
     private init() { }
     
     var previousActions = [Action]()
+    var swipeLeftUserIds = [String]()
+    
+    var forceUpdate = true
     
     /// Donwloads actions for this user, to be used for applications like posts or virals
     func getActions() {
         guard let userId = AuthManager.shared.userId else {
+            return
+        }
+        
+        if forceUpdate == false, let previousSwipeLeftUserIds = UserDefaults.standard.stringArray(forKey: "previousActions") {
+            swipeLeftUserIds = previousSwipeLeftUserIds
             return
         }
         
@@ -33,8 +41,33 @@ final class ActionManager {
                         let action = Action(fromData: document.data())
                         print("Action: \(action)")
                         self.previousActions.append(action)
+                        
+                        if action.type == .swipeLeft {
+                            // Get owner of post
+                            let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document(action.objectId)
+                            postDocument.getDocument() { snapshot, error in
+                                if let error = error {
+                                    print(error)
+                                }
+                                if let snapshot = snapshot, let postData = snapshot.data() {
+                                    let postModel = PostModel(from: postData, id: snapshot.documentID)
+                                    self.swipeLeftUserIds.append(postModel.userId)
+                                    self.savePreviousSwipeLeftUser(userId: postModel.userId)
+                                }
+                            }
+                        }
                     }
                 }
             }
+    }
+    
+    private func savePreviousSwipeLeftUser(userId: String) {
+        
+        if var previousSwipeLeftUsers = UserDefaults.standard.stringArray(forKey: "previousActions") {
+            previousSwipeLeftUsers.append(userId)
+            UserDefaults.standard.setValue(previousSwipeLeftUsers, forKey: "previousActions")
+        } else {
+            UserDefaults.standard.setValue([userId], forKey: "previousActions")
+        }
     }
 }

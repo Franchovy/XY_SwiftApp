@@ -69,7 +69,7 @@ class ViralViewController: UIViewController {
     }
     var playState:PlayState = .pause
     
-    var player: AVPlayer?
+    var player: AVPlayer!
     
     private var playerDidFinishObserver: NSObjectProtocol?
     
@@ -93,6 +93,8 @@ class ViralViewController: UIViewController {
     init(model: ViralModel) {
         self.model = model
         captionLabel.text = model.caption
+//        player = AVPlayer(url: model.vid)
+        
         super.init(nibName: nil, bundle: nil)
         
         profileButton.addTarget(self, action: #selector(profileImageTapped), for: .touchUpInside)
@@ -238,7 +240,7 @@ class ViralViewController: UIViewController {
     public func play() {
         playState = .play
         
-        if let player = self.player {
+        if let player = self.player, player.status == .readyToPlay {
             player.play()
         }
     }
@@ -273,7 +275,7 @@ class ViralViewController: UIViewController {
                 
                 player.addObserver(strongSelf, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
                 
-                if strongSelf.playState == .play {
+                if strongSelf.playState == .play && strongSelf.player.status == .readyToPlay {
                     strongSelf.player?.play()
                 }
                 
@@ -329,7 +331,7 @@ class ViralViewController: UIViewController {
     
     var stoppedAnimationFrame: CGRect?
     @objc private func videoTapped() {
-        if playState == .pause {
+        if playState == .pause && player.status == .readyToPlay {
             player?.play()
             playState = .play
             

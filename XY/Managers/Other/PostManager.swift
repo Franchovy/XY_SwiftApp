@@ -13,7 +13,11 @@ final class PostManager {
     static let shared = PostManager()
     private init() { }
     
-    var flow = [PostModel]()
+    var currentFlow = [PostModel]()
+    var allPosts = [PostModel]()
+    var userPostIndex = 0
+    
+    var listeners = [ListenerRegistration]()
     
     public func createPost(caption: String, image: UIImage, completion: @escaping(Result<PostModel, Error>) -> Void){
         guard let uid = Auth.auth().currentUser?.uid else {
@@ -50,8 +54,15 @@ final class PostManager {
         }
     }
     
+    func refreshIncrementIndex() {
+        userPostIndex += 1
+        
+        UserDefaults.standard.setValue(userPostIndex, forKey: "flowRefreshIndex")
+    }
+    
     func getFlow(completion: @escaping(Result<[PostModel], Error>) -> Void) {
-        let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
+        let previousSwipeLeftActions = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft })
+        let previousSwipeLefts = previousSwipeLeftActions.map { $0.objectId }
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
             .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
@@ -60,18 +71,48 @@ final class PostManager {
                 completion(.failure(error))
             }
             if let documents = snapshot?.documents {
+                self.currentFlow = []
                 
+                var postsByUsers = [String : [PostModel]]()
                 for doc in documents {
-                    var newPost = PostModel(from: doc.data(), id: doc.documentID)
+                    let newPost = PostModel(from: doc.data(), id: doc.documentID)
+                    
+                    if !self.allPosts.contains(where: { $0.id == newPost.id }) {
+                        self.allPosts.append(newPost)
+                    }
                     
                     // Apply Filters to the flow
                     if previousSwipeLefts.contains(where: { $0 == newPost.id }) {
                         continue
                     }
-                    //
-                    self.flow.append(newPost)
+                    
+                    if postsByUsers.keys.contains(where: { $0 == newPost.userId }) {
+                        postsByUsers[newPost.userId]?.append(newPost)
+                    } else {
+                        postsByUsers[newPost.userId] = [newPost]
+                    }
                 }
-                completion(.success(self.flow))
+                
+                for keyValue in postsByUsers {
+                    guard let postsByUser = postsByUsers[keyValue.key] else {
+                        continue
+                    }
+                    let numPostsByUser = postsByUser.count
+                    let postToAppend = postsByUser[self.userPostIndex % numPostsByUser]
+                    
+                    // Filter users on random chance if swiped left before
+                    if ActionManager.shared.swipeLeftUserIds.contains(postToAppend.userId) {
+                        // % chance to skip this user based on number of swipe lefts on their stuff before
+                        let numSwipeLefts = ActionManager.shared.swipeLeftUserIds.filter({ $0 == postToAppend.userId }).count
+                        guard Int.random(in: 0...numSwipeLefts) == 0  else {
+                            continue
+                        }
+                    }
+                    
+                    self.currentFlow.append(postToAppend)
+                }
+                
+                completion(.success(self.currentFlow))
             }
         }
     }
@@ -79,8 +120,8 @@ final class PostManager {
     func getFlowUpdates(completion: @escaping(Result<[PostModel], Error>) -> Void) {
         let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
         
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
+        let listener = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: false)
             .addSnapshotListener() { snapshotDocuments, error in
                 if let error = error { completion(.failure(error)) }
             
@@ -90,7 +131,7 @@ final class PostManager {
             
             for documentChanges in snapshotDocuments.documentChanges {
                 if documentChanges.type == .added {
-                    if self.flow.contains(where: { $0.id == documentChanges.document.documentID }) {
+                    if self.allPosts.contains(where: { $0.id == documentChanges.document.documentID }) {
                         continue
                     }
                     
@@ -109,5 +150,14 @@ final class PostManager {
             
             completion(.success(postDataArray))
         }
+        
+        self.listeners.append(listener)
+    }
+    
+    func deactivateFlowListeners() {
+        for listener in listeners {
+            listener.remove()
+        }
+        listeners = []
     }
 }

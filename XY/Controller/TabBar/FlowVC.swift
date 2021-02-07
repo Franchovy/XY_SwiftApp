@@ -18,6 +18,11 @@ class FlowVC : UITableViewController {
     
     @IBOutlet weak var barXPCircle: CircleView!
     
+    /// Index of fetch, for loading posts that come from the same user
+    var currentFlowIndex: Int = 0
+    
+    var canRefresh = true
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -36,12 +41,19 @@ class FlowVC : UITableViewController {
         tableView.backgroundColor = UIColor(named: "Black") // This is necessary to scroll touching outside of the cell, lol.
         tableView.separatorStyle = .none
         
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(flowRefreshed(_:)), for: .valueChanged)
+        self.refreshControl = refreshControl
+        
         let logo = UIImage(named: "XYnavbarlogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         
         tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
-        prefetchData()
+        
+        loadFlow() {
+            self.activateListenerFlowUpdates()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -69,6 +81,14 @@ class FlowVC : UITableViewController {
         FirebaseFunctionsManager.shared.checkUserLevelUp()
         //
         performSegue(withIdentifier: "segueToNotifications", sender: self)
+    }
+    
+    @objc func flowRefreshed(_ sender: UIRefreshControl) {
+        PostManager.shared.refreshIncrementIndex()
+        
+        loadFlow() {
+            sender.endRefreshing()
+        }
     }
     
     // MARK: - IBActions
@@ -104,12 +124,16 @@ class FlowVC : UITableViewController {
     
     // MARK: - Private Functions
     
-    private func prefetchData() {
+    private func loadFlow(completion: (() -> Void)? = nil) {
+        // Deactivate listeners
+        PostManager.shared.deactivateFlowListeners()
         
         // Initialise flow
         PostManager.shared.getFlow { (result) in
             switch result {
             case .success(let posts):
+                self.postViewModels = []
+                
                 for newPost in posts {
                     if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
                     {
@@ -117,6 +141,8 @@ class FlowVC : UITableViewController {
                         self.postViewModels.append(postViewModel)
                     }
                 }
+                completion?()
+                
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -124,7 +150,9 @@ class FlowVC : UITableViewController {
                 print("Error fetching flow!")
             }
         }
-        
+    }
+     
+    private func activateListenerFlowUpdates() {
         // Listen for updates
         PostManager.shared.getFlowUpdates { (result) in
             switch result {
@@ -177,6 +205,7 @@ class FlowVC : UITableViewController {
         }
         postCell.configure(with: postViewModels[indexPath.row])
     }
+
 }
 
 // MARK: - ImagePostCell Delegate functions
