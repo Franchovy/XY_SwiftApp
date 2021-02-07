@@ -26,6 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             OnlineStatusManager.shared.setupOnlineStatus()
             
             ActionManager.shared.getActions()
+            
+            if UserDefaults.standard.object(forKey: "flowRefreshIndex") != nil {
+                let index = UserDefaults.standard.integer(forKey: "flowRefreshIndex")
+                PostManager.shared.userPostIndex = index
+            }
         }
 
         return true
