@@ -61,7 +61,8 @@ final class PostManager {
     }
     
     func getFlow(completion: @escaping(Result<[PostModel], Error>) -> Void) {
-        let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
+        let previousSwipeLeftActions = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft })
+        let previousSwipeLefts = previousSwipeLeftActions.map { $0.objectId }
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
             .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
@@ -84,6 +85,7 @@ final class PostManager {
                     if previousSwipeLefts.contains(where: { $0 == newPost.id }) {
                         continue
                     }
+                    
                     if postsByUsers.keys.contains(where: { $0 == newPost.userId }) {
                         postsByUsers[newPost.userId]?.append(newPost)
                     } else {
@@ -97,6 +99,16 @@ final class PostManager {
                     }
                     let numPostsByUser = postsByUser.count
                     let postToAppend = postsByUser[self.userPostIndex % numPostsByUser]
+                    
+                    // Filter users on random chance if swiped left before
+                    if ActionManager.shared.swipeLeftUserIds.contains(postToAppend.userId) {
+                        // % chance to skip this user based on number of swipe lefts on their stuff before
+                        let numSwipeLefts = ActionManager.shared.swipeLeftUserIds.filter({ $0 == postToAppend.userId }).count
+                        guard Int.random(in: 0...numSwipeLefts) == 0  else {
+                            continue
+                        }
+                    }
+                    
                     self.currentFlow.append(postToAppend)
                 }
                 
