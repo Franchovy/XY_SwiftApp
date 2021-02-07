@@ -149,7 +149,12 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     override func viewDidLayoutSubviews() {
-        collectionView?.frame = view.bounds
+        collectionView?.frame = CGRect(
+            x: 0,
+            y: 10,
+            width: view.width,
+            height: view.height - 10
+        )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -288,11 +293,11 @@ extension XYworldVC {
         let sectionType = sections[section].type
         
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(widthDimension: .absolute(200), heightDimension: .absolute(40)),
+            layoutSize: .init(widthDimension: .absolute(200), heightDimension: .absolute(55)),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
+//        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
         
         switch sectionType {
         case .onlineNow:
@@ -326,7 +331,7 @@ extension XYworldVC {
             // Item
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(180),
+                    widthDimension: .absolute(140),
                     heightDimension: .absolute(210)
                 )
             )
@@ -336,7 +341,7 @@ extension XYworldVC {
             // Group
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.5),
+                    widthDimension: .absolute((140) * 2),
                     heightDimension: .fractionalHeight(1)
                 ),
                 subitems: [item]

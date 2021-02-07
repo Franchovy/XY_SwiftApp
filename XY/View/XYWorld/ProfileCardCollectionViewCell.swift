@@ -12,7 +12,6 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
     
     private let coverImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .red
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
@@ -123,9 +122,8 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
             containerView: profileImageContainer,
             cornerRadious: profileImageSize/2,
             shadowOffset: CGSize(width: 0, height: 2),
-            shadowRadius: 9
+            shadowRadius: 3
         )
-        profileImageContainer.layer.shadowColor = UIColor.green.cgColor
         
         nameLabel.sizeToFit()
         
