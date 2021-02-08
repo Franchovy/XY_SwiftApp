@@ -90,7 +90,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         view.addSubview(collectionView)
         
-        sections.append(XYworldSection(type: .onlineNow, cells: []))
+//        sections.append(XYworldSection(type: .onlineNow, cells: []))
         sections.append(XYworldSection(type: .userRanking, cells: []))
         
         // Search bar
@@ -127,13 +127,13 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
                         }
                         if let profileId = profileId {
                             let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
+                            
                             print("Inserting at index: \(index)")
                             if userRankingCells.count < index {
                                 userRankingCells.insert(XYworldCell.userRanking(viewModel: viewModel), at: index)
                             } else {
                                 userRankingCells[index] = XYworldCell.userRanking(viewModel: viewModel)
                             }
-                            
                         }
                         print(userRankingCells)
                         if !userRankingCells.contains(where: { $0 == nil }) {

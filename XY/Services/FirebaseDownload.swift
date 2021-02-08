@@ -72,13 +72,17 @@ class FirebaseDownload {
     static func getRanking(completion: @escaping(Result<[String], Error>)->Void) {
         var userRanking = [String]()
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users)
-            .order(by: FirebaseKeys.UserKeys.level, descending: true).limit(to: 5)
+            .order(by: FirebaseKeys.UserKeys.level, descending: true)
+            .order(by: FirebaseKeys.UserKeys.xp, descending: true)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     completion(.failure(error))
                 }
                 if let querySnapshot = querySnapshot {
-                    userRanking = querySnapshot.documents.map({ $0.documentID })
+                    
+                    userRanking = querySnapshot.documents
+                        .filter( { !($0.data().keys.contains("hidden") && $0.data()["hidden"] as! Bool) } )
+                        .map({ $0.documentID })
                     completion(.success(userRanking))
                 }
             }

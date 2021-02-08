@@ -83,6 +83,12 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         
         xpCircle.setProgress(level: 0, progress: 0)
         xpCircle.setupFinished()
+        
+        let tappedImageGesture = UITapGestureRecognizer(target: self, action: #selector(openProfile))
+        coverImage.isUserInteractionEnabled = true
+        profileImage.isUserInteractionEnabled = true
+        coverImage.addGestureRecognizer(tappedImageGesture)
+        profileImage.addGestureRecognizer(tappedImageGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -161,6 +167,13 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         if let userId = viewModel?.userId {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: userId)
         }
+    }
+    
+    @objc private func openProfile() {
+        guard let profileId = viewModel?.profileId else {
+            return
+        }
+        ProfileManager.shared.openProfileForId(profileId)
     }
 }
 

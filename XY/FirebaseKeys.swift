@@ -71,6 +71,7 @@ struct FirebaseKeys {
         static let xp = "xp"
         static let level = "level"
         static let profile = "profile"
+        static let hidden = "hidden"
     }
     
     struct ProfileKeys {
