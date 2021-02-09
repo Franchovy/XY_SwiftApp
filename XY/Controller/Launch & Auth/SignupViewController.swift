@@ -58,20 +58,32 @@ class SignupViewController: UIViewController {
     @IBAction func signupButtonPressed(_ sender: UIButton) {
         tappedAnywhere()
         
-        guard xyNameTextField.text != "" else {
+        guard xyNameTextField.text != "", xyNameTextField.text != nil else {
             xyNameTextField.shake()
             presentError(errorText: "Please fill in the XYName field")
             return
         }
         
-        guard emailTextField.text != "" else {
+        guard emailTextField.text != "", emailTextField.text != nil else {
             emailTextField.shake()
             presentError(errorText: "Please fill in the email field")
             return
         }
         
-        guard passwordTextField.text != "" else {
+        guard emailTextField.text!.contains("@"), emailTextField.text!.contains(".") else {
+            emailTextField.shake()
+            presentError(errorText: "Please enter a valid email")
+            return
+        }
+        
+        guard passwordTextField.text != "", passwordTextField.text != nil else {
             passwordTextField.shake()
+            presentError(errorText: "Please fill in the password field")
+            return
+        }
+        
+        guard repeatPasswordTextField.text != "", repeatPasswordTextField.text != nil else {
+            repeatPasswordTextField.shake()
             presentError(errorText: "Please fill in the password field")
             return
         }
