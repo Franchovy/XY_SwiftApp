@@ -12,7 +12,7 @@ struct FirebaseKeys {
     struct CollectionPath {
         ///Defining the collection path for each of these
         
-        static let users = "users"
+        static let users = "Users"
         static let posts = "Posts"
         static let profile = "Profiles"
         static let actions = "Actions"
