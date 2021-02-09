@@ -24,25 +24,26 @@ class SignupViewController: UIViewController {
         
         loadingIcon.isHidden = true
         
-        passwordTextField.addTarget(self, action: #selector(securePassword), for: .editingDidBegin)
+        xyNameTextField.delegate = self
+        emailTextField.delegate = self
+        passwordTextField.delegate = self
+        repeatPasswordTextField.delegate = self
         
+        passwordTextField.addTarget(self, action: #selector(securePassword), for: .editingDidBegin)
         repeatPasswordTextField.addTarget(self, action: #selector(secureRepeatPassword), for: .editingDidBegin)
 
         let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapAnywhereGesture)
         
         xyNameTextField.addTarget(self, action: #selector(xyNameDidPressReturn), for: .primaryActionTriggered)
-        
-        emailPhoneTextField.addTarget(self, action: #selector(emailPhoneDidPressReturn), for: .primaryActionTriggered)
-        
+        emailTextField.addTarget(self, action: #selector(emailPhoneDidPressReturn), for: .primaryActionTriggered)
         passwordTextField.addTarget(self, action: #selector(passwordDidPressReturn), for: .primaryActionTriggered)
-        
         repeatPasswordTextField.addTarget(self, action: #selector(repeatPasswordDidPressReturn), for: .primaryActionTriggered)
     }
     
     // UI Textfield reference outlets
 
-    @IBOutlet weak var emailPhoneTextField: UITextField!
+    @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var xyNameTextField: UITextField!
     @IBOutlet weak var repeatPasswordTextField: UITextField!
@@ -57,13 +58,40 @@ class SignupViewController: UIViewController {
     @IBAction func signupButtonPressed(_ sender: UIButton) {
         tappedAnywhere()
         
-        if let email = emailPhoneTextField.text, let password = passwordTextField.text {
+        guard xyNameTextField.text != "" else {
+            xyNameTextField.shake()
+            presentError(errorText: "Please fill in the XYName field")
+            return
+        }
+        
+        guard emailTextField.text != "" else {
+            emailTextField.shake()
+            presentError(errorText: "Please fill in the email field")
+            return
+        }
+        
+        guard passwordTextField.text != "" else {
+            passwordTextField.shake()
+            presentError(errorText: "Please fill in the password field")
+            return
+        }
+        
+        guard passwordTextField.text == repeatPasswordTextField.text else {
+            passwordTextField.clear(self)
+            repeatPasswordTextField.clear(self)
+            passwordTextField.shake()
+            repeatPasswordTextField.shake()
+            presentError(errorText: "Passwords do not match.")
+            return
+        }
+        
+        if let email = emailTextField.text, let password = passwordTextField.text {
             
             loadingIcon.isHidden = false
             loadingIcon.startAnimating()
             
             if let xyname = self.xyNameTextField.text {
-                AuthManager.shared.signUp(xyname: xyname, email: email, phoneNumber: nil, password: password) { result in
+                AuthManager.shared.signUp(xyname: xyname, email: email, password: password) { result in
                     switch result {
                     case .success(_):
                         self.signupErrorLabel.isHidden = true
@@ -80,10 +108,15 @@ class SignupViewController: UIViewController {
         }
     }
     
+    private func presentError(errorText: String) {
+        signupErrorLabel.isHidden = false
+        signupErrorLabel.text = "⚠️ " + errorText
+    }
+    
     @objc private func tappedAnywhere() {
         for view in [
             view,
-            emailPhoneTextField,
+            emailTextField,
             xyNameTextField,
             passwordTextField,
             repeatPasswordTextField
@@ -93,7 +126,7 @@ class SignupViewController: UIViewController {
     }
     
     @objc private func xyNameDidPressReturn() {
-        emailPhoneTextField.becomeFirstResponder()
+        emailTextField.becomeFirstResponder()
     }
     
     @objc private func emailPhoneDidPressReturn() {
@@ -116,6 +149,14 @@ class SignupViewController: UIViewController {
         repeatPasswordTextField.isSecureTextEntry = true
     }
 }
+
+extension SignupViewController : UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        signupErrorLabel.isHidden = true
+        signupErrorLabel.text = "⚠️ Signup failed!"
+    }
+}
+
 
 @IBDesignable
 class GradientView: UIView {
