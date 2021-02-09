@@ -56,7 +56,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textField>
-                                    <textField opaque="NO" contentMode="scaleToFill" semanticContentAttribute="playback" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email or Phone number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SEL-7g-Kqn">
+                                    <textField opaque="NO" contentMode="scaleToFill" semanticContentAttribute="playback" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="SEL-7g-Kqn">
                                         <rect key="frame" x="39.333333333333329" y="128.00000000000003" width="229.33333333333337" height="34"/>
                                         <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.062745098039215685" alpha="0.84705882352941175" colorSpace="calibratedRGB"/>
                                         <constraints>
@@ -200,7 +200,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="RRw-UE-9Eg"/>
                     <connections>
-                        <outlet property="emailPhoneTextField" destination="SEL-7g-Kqn" id="MFB-f4-NVQ"/>
+                        <outlet property="emailTextField" destination="SEL-7g-Kqn" id="MFB-f4-NVQ"/>
                         <outlet property="gradientView" destination="hMe-m3-Ruz" id="3YV-U2-Psg"/>
                         <outlet property="loadingIcon" destination="KbB-Bu-f5a" id="Rss-3M-PvY"/>
                         <outlet property="passwordTextField" destination="SzZ-mm-Gvz" id="o88-Fg-SLV"/>
@@ -795,7 +795,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="b1T-I2-o1c">
-                                <rect key="frame" x="10" y="10" width="355" height="621"/>
+                                <rect key="frame" x="10" y="10" width="355" height="599"/>
                                 <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CreatePostReusable" id="ENB-wk-pm0">
@@ -836,7 +836,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="w5A-SH-LSA">
-                                <rect key="frame" x="10" y="10" width="355" height="621"/>
+                                <rect key="frame" x="10" y="10" width="355" height="599"/>
                                 <color key="backgroundColor" red="0.14115959410000001" green="0.145100534" blue="0.14916285870000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableView>
                         </subviews>
@@ -867,7 +867,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="K10-Gt-ZOD">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
                                 <color key="backgroundColor" name="XYblack"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ProfileUpperReusable" id="gBa-cK-Srz">
@@ -939,7 +939,7 @@
                     <tabBarItem key="tabBarItem" title="XYworld" image="Game_icon" id="Cfr-tf-ZUi"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" alpha="0.90000000000000002" contentMode="scaleToFill" translucent="NO" id="FPU-sZ-2vD">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -963,7 +963,7 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="6nv-ni-tgo"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="oK5-Yw-nGI">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1261,7 +1261,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bi6-n5-qvb">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="641"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
                                 <color key="backgroundColor" name="XYblack"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="tableviewcellid" id="uE2-8A-NlG">
@@ -1324,7 +1324,7 @@
                     <tabBarItem key="tabBarItem" title="Viral" image="viral_item" id="AoW-p4-9P8"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="YAv-Xg-1GP">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1344,7 +1344,7 @@
                     <tabBarItem key="tabBarItem" title="" image="createPost_newIcon" id="WKl-gG-KN0"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="pUY-qo-uiO">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1381,7 +1381,7 @@
                     <tabBarItem key="tabBarItem" title="Flow" image="flow_icon black" id="EA2-V9-J19"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="K7y-8W-hhe">
-                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" name="XYblack"/>
                     </navigationBar>
@@ -1396,8 +1396,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="2MM-wg-D9t"/>
-        <segue reference="1zk-I2-DTg"/>
+        <segue reference="Nb8-bw-Gcu"/>
+        <segue reference="r0x-sS-rGY"/>
         <segue reference="FOq-U0-2Ct"/>
     </inferredMetricsTieBreakers>
     <resources>

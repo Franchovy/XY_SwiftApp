@@ -12,11 +12,27 @@ final class FirebaseFunctionsManager {
     static let shared = FirebaseFunctionsManager()
     
     private init() {
-//        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
+        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
     }
     
     lazy var functions = Functions.functions()
     
+    public func register(email: String, xyname: String, password: String, completion: @escaping(Result<HTTPSCallableResult, Error>) -> Void) {
+        let registerData = [
+            "email": email,
+            "xyname": xyname,
+            "password": password
+        ]
+                            
+        functions.httpsCallable("register").call(registerData) { result, error in
+            if let error = error {
+                completion(.failure(error))
+            } else if let result = result {
+                completion(.success(result))
+            }
+            
+        }
+    }
     
     public func swipeRight(viralId: String) {
         guard let userId = AuthManager.shared.userId else { return }

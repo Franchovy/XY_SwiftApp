@@ -48,8 +48,6 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var xyNameTextField: UITextField!
     @IBOutlet weak var repeatPasswordTextField: UITextField!
     
-    
-    
     // Error notification reference outlets
     @IBOutlet weak var signupErrorLabel: UILabel!
     
@@ -104,16 +102,22 @@ class SignupViewController: UIViewController {
             
             if let xyname = self.xyNameTextField.text {
                 AuthManager.shared.signUp(xyname: xyname, email: email, password: password) { result in
+                    self.loadingIcon.isHidden = true
+                    self.loadingIcon.stopAnimating()
+                    
                     switch result {
                     case .success(_):
                         self.signupErrorLabel.isHidden = true
-                        self.loadingIcon.isHidden = true
-                        self.loadingIcon.stopAnimating()
                         self.performSegue(withIdentifier: "fromSignupToFlow", sender: self)
                         
                     case .failure(let error):
                         print("Error creating profile: \(error)")
-                        self.signupErrorLabel.isHidden = false
+                        
+                        if let signupErrorMessage = error as? AuthManager.CreateUserError {
+                            self.presentError(errorText: signupErrorMessage.message)
+                        } else {
+                            self.signupErrorLabel.isHidden = false
+                        }
                     }
                 }
             }
