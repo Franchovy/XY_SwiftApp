@@ -254,6 +254,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
         }
         xpCircle.reset()
+        
+        viewModel = nil
     }
 
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -429,14 +431,26 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
 
 extension ImagePostCell : PostViewModelDelegate {
     func didFetchProfileData(viewModel: PostViewModel) {
+        guard viewModel.postId == self.viewModel?.postId else {
+            return
+        }
+        
         caption.name = viewModel.nickname
     }
     
     func didFetchProfileImage(viewModel: PostViewModel) {
+        guard viewModel.postId == self.viewModel?.postId else {
+            return
+        }
+        
         profileImageView.image = viewModel.profileImage
     }
     
     func didFetchPostImages(viewModel: PostViewModel) {
+        guard viewModel.postId == self.viewModel?.postId else {
+            return
+        }
+        
         contentImageView.image = viewModel.images.first
     }
 }

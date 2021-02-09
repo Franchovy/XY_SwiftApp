@@ -167,6 +167,8 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         if let userId = viewModel?.userId {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: userId)
         }
+        
+        viewModel = nil
     }
     
     @objc private func openProfile() {
@@ -183,6 +185,10 @@ extension ProfileCardCollectionViewCell : ProfileViewModelDelegate {
     }
     
     func onProfileDataFetched(_ viewModel: ProfileViewModel) {
+        guard viewModel.profileId == self.viewModel?.profileId else {
+            return
+        }
+        
         nameLabel.text = viewModel.nickname
         
         // Register XP Updates

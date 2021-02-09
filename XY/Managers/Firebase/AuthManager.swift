@@ -133,6 +133,9 @@ final class AuthManager {
                             completion(.failure(CreateUserError.unknownError))
                             return
                         }
+                        self.userId = uid
+                        self.email = email
+                        
                         // Set user data in user firestore table after signup
                         let newUserDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
                         
