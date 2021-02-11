@@ -43,11 +43,11 @@ class ProfileViewController: UIViewController {
         guard let profileHeader = collectionView.supplementaryView(
             forElementKind: UICollectionView.elementKindSectionHeader,
             at: IndexPath(row: 0, section: 0)
-        ) as? ProfileHeaderReusableView else {
+        ) as? ProfileScrollerReusableView else {
             return nil
         }
         
-        return profileHeader.getScrollPosition() - 70 - view.safeAreaInsets.top
+        return profileHeader.height - 50 - 70 - view.safeAreaInsets.top
     }()
     
     // MARK: - Lifecycle
@@ -131,13 +131,12 @@ class ProfileViewController: UIViewController {
                     guard let profileHeader = self.collectionView.supplementaryView(
                         forElementKind: UICollectionView.elementKindSectionHeader,
                         at: IndexPath(row: 0, section: 0)
-                    ) as? ProfileHeaderReusableView else {
+                    ) as? ProfileScrollerReusableView else {
                         tempLvlStore = level
                         tempXPStore = xp
                         return
                     }
-                    
-                    profileHeader.onXpUpdate(xpModel)
+                    profileHeader.getProfileDelegate().onXpUpdate(xpModel)
                 }
             }
         }
@@ -290,14 +289,6 @@ class ProfileViewController: UIViewController {
     
     @objc private func didTapAnywhere() {
         // Send a message to header to stop editing
-        guard let profileHeader = self.collectionView.supplementaryView(
-            forElementKind: UICollectionView.elementKindSectionHeader,
-            at: IndexPath(row: 0, section: 0)
-        ) as? ProfileHeaderReusableView else {
-            return
-        }
-        
-        profileHeader.endEditing(true)
     }
 }
 
