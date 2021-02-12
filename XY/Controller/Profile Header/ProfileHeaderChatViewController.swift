@@ -194,6 +194,15 @@ class ProfileHeaderChatViewController: UIViewController {
     @objc func tappedAnywhere() {
         typeTextField.resignFirstResponder()
     }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        if #available(iOS 13.0, *) {
+            if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
+                // ColorUtils.loadCGColorFromAsset returns cgcolor for color name
+                typeTextField.layer.borderColor = UIColor(named: "tintColor")?.cgColor
+            }
+        }
+    }
 }
 
 extension ProfileHeaderChatViewController : UITableViewDataSource, UITableViewDelegate {

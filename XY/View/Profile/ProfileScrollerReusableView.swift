@@ -166,8 +166,8 @@ extension ProfileScrollerReusableView: UIScrollViewDelegate {
         var selectedIndexColor = UIColor()
         var unselectedIndexColor = UIColor()
         
-        selectedIndexColor = UIColor(0xF6F6F6)
-        unselectedIndexColor = UIColor(0xB6B6B6)
+        selectedIndexColor = UIColor(named: "Light")!
+        unselectedIndexColor = UIColor(named: "Dark")!
         
         for index in 0...control.numberOfSegments-1 {
             let image = control.imageForSegment(at: index)
