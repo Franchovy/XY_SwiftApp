@@ -73,9 +73,11 @@ class ChatBubbleTableViewCell: UITableViewCell {
             width: timestampLabel.width,
             height: timestampLabel.height
         )
+        
+        layoutChatBubble()
     }
     
-    func setupMessage(text: String, outgoing: Bool) {
+    func setupMessage(text: String) {
         
         messageLabel.numberOfLines = 0
         messageLabel.text = text
@@ -89,6 +91,11 @@ class ChatBubbleTableViewCell: UITableViewCell {
         messageLabel.frame.size = CGSize(width: ceil(boundingBox.width),
                                   height: ceil(boundingBox.height))
 
+
+        layoutChatBubble()
+    }
+    
+    private func layoutChatBubble() {
         let bubbleSize = CGSize(width: messageLabel.frame.width + 28,
                                      height: messageLabel.frame.height + 27)
 
@@ -97,8 +104,12 @@ class ChatBubbleTableViewCell: UITableViewCell {
 
         chatBubbleView.layer.cornerRadius = 15
         
+        guard let outgoing = viewModel?.senderIsSelf else {
+            return
+        }
+        
         if outgoing {
-            chatBubbleView.frame = CGRect(x: width - bubbleWidth - 25,
+            chatBubbleView.frame = CGRect(x: width - bubbleWidth - 21,
                                                 y: 5,
                                                 width: bubbleWidth,
                                                 height: bubbleHeight)
@@ -106,7 +117,7 @@ class ChatBubbleTableViewCell: UITableViewCell {
             chatBubbleView.backgroundColor = .systemPink
             
         } else {
-            chatBubbleView.frame = CGRect(x: 25,
+            chatBubbleView.frame = CGRect(x: 21,
                                     y: 5,
                                     width: bubbleWidth,
                                     height: bubbleHeight)
@@ -120,8 +131,8 @@ class ChatBubbleTableViewCell: UITableViewCell {
         print("Configuring message: \(viewModel)")
         nameLabel.text = viewModel.nickname
         timestampLabel.text = viewModel.timestamp.shortTimestamp()
-        setupMessage(text: viewModel.text, outgoing: viewModel.senderIsSelf)
         
         self.viewModel = viewModel
+        setupMessage(text: viewModel.text)
     }
 }

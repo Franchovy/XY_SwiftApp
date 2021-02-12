@@ -155,23 +155,19 @@ class ProfileScrollerReusableView: UICollectionReusableView {
 
 extension ProfileScrollerReusableView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.x == 0 || scrollView.contentOffset.x <= (width/2) {
+        if scrollView.contentOffset.x <= (width/2) {
             control.selectedSegmentIndex = 0
-            
-        } else if scrollView.contentOffset.x > (width/2) {
+        } else if scrollView.contentOffset.x > (width/2) && scrollView.contentOffset.x < (3 * width/2){
             control.selectedSegmentIndex = 1
+        } else if scrollView.contentOffset.x > (3 * width/2) {
+            control.selectedSegmentIndex = 2
         }
         
         var selectedIndexColor = UIColor()
         var unselectedIndexColor = UIColor()
         
-        if control.selectedSegmentIndex == 0 {
-            selectedIndexColor = UIColor(0xF6F6F6)
-            unselectedIndexColor = UIColor(0xB6B6B6)
-        } else {
-            selectedIndexColor = UIColor(named:"Light")!
-            unselectedIndexColor = UIColor(named: "Dark")!
-        }
+        selectedIndexColor = UIColor(0xF6F6F6)
+        unselectedIndexColor = UIColor(0xB6B6B6)
         
         for index in 0...control.numberOfSegments-1 {
             let image = control.imageForSegment(at: index)
