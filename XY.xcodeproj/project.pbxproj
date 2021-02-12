@@ -32,6 +32,7 @@
 		B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC6E25D5843A00542A58 /* ConversationViewModel.swift */; };
 		B925CC7325D5844200542A58 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC7225D5844200542A58 /* MessageViewModel.swift */; };
 		B925CC7725D5854600542A58 /* ConversationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC7625D5854600542A58 /* ConversationsManager.swift */; };
+		B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */; };
@@ -128,6 +129,7 @@
 		B925CC6E25D5843A00542A58 /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		B925CC7225D5844200542A58 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		B925CC7625D5854600542A58 /* ConversationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsManager.swift; sourceTree = "<group>"; };
+		B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
@@ -215,6 +217,7 @@
 		14175C792570F5D600C88051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B925CC8925D58B2300542A58 /* ChatBubbles */,
 				B9AD3B8925CBE3DC00BF74C3 /* XYWorld */,
 				B9E2807425BEB224005389CF /* MessageView.swift */,
 				B925CC7E25D5864C00542A58 /* Profile */,
@@ -308,6 +311,14 @@
 				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		B925CC8925D58B2300542A58 /* ChatBubbles */ = {
+			isa = PBXGroup;
+			children = (
+				B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */,
+			);
+			path = ChatBubbles;
 			sourceTree = "<group>";
 		};
 		B93CF23325C566C4003CB3DB /* Profile Header */ = {
@@ -727,6 +738,7 @@
 				B925CC7325D5844200542A58 /* MessageViewModel.swift in Sources */,
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
+				B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */,
 				B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */,
 				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,

@@ -5,9 +5,12 @@
 //  Created by Maxime Franchot on 11/02/2021.
 //
 
-import Foundation
+import UIKit
 
-//struct ConversationViewModel {
-//    let image: UIImage?
-//    let name: String
-//}
+struct ConversationViewModel {
+    let image: UIImage?
+    let name: String
+    let lastMessageText: String
+    let lastMessageTimestamp: Date
+    let unread: Bool
+}
