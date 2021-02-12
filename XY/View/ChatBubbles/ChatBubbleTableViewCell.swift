@@ -129,7 +129,6 @@ class ChatBubbleTableViewCell: UITableViewCell {
     }
     
     public func configure(with viewModel: MessageViewModel) {
-        print("Configuring message: \(viewModel)")
         nameLabel.text = viewModel.nickname
         timestampLabel.text = viewModel.timestamp.shortTimestamp()
         

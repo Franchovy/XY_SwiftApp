@@ -220,7 +220,6 @@ class ProfileViewController: UIViewController {
         
         if scrollY < 480 {
             if scrollY < previousScrollY {
-                print("Scroll up")
                 // Scroll up
                 scrollView.scrollRectToVisible(
                     CGRect(
@@ -230,7 +229,6 @@ class ProfileViewController: UIViewController {
                         height: view.height
                     ), animated: true)
             } else {
-                print("Scroll down")
                 // Scroll down
                 scrollView.scrollRectToVisible(
                     CGRect(
@@ -252,7 +250,6 @@ class ProfileViewController: UIViewController {
         
         if scrollY < 480 {
             if scrollY < previousScrollY {
-                print("Scroll up")
                 // Scroll up
                 scrollView.scrollRectToVisible(
                     CGRect(
@@ -263,7 +260,6 @@ class ProfileViewController: UIViewController {
                     ), animated: true)
             } else {
                 // Scroll down
-                print("Scroll down")
                 scrollView.scrollRectToVisible(
                     CGRect(
                         x: 0,
