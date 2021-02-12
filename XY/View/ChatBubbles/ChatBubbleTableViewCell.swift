@@ -58,34 +58,6 @@ class ChatBubbleTableViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-//        let bubbleSize = CGSize(width: messageLabel.frame.width + 14,
-//                                     height: messageLabel.frame.height + 26)
-//
-//        let bubbleWidth = bubbleSize.width
-//        let bubbleHeight = bubbleSize.height
-//
-//        guard let senderIsSelf = viewModel?.senderIsSelf else {
-//            return
-//        }
-//
-//        if senderIsSelf {
-//            chatBubbleView.frame = CGRect(x: width - bubbleWidth - 10,
-//                                                y: 9,
-//                                                width: bubbleWidth,
-//                                                height: bubbleHeight)
-//
-//            chatBubbleView.backgroundColor = .lightGray
-//
-//        } else {
-//            chatBubbleView.frame = CGRect(x: 10,
-//                                    y: 9,
-//                                    width: bubbleWidth,
-//                                    height: bubbleHeight)
-//            chatBubbleView.backgroundColor = .blue
-//        }
-//
-//        messageLabel.frame = chatBubbleView.bounds.inset(by: UIEdgeInsets(top: 11, left: 7, bottom: 15, right: 7))
-//
         nameLabel.sizeToFit()
         nameLabel.frame = CGRect(
             x: 10,
@@ -102,23 +74,6 @@ class ChatBubbleTableViewCell: UITableViewCell {
             height: timestampLabel.height
         )
     }
-    
-//    func setupMessage(text: String, outgoing: Bool) {
-//
-//        messageLabel.text = text
-//
-//        let constraintRect = CGSize(width: 0.66 * width,
-//                                    height: .greatestFiniteMagnitude)
-//        let boundingBox = text.boundingRect(with: constraintRect,
-//                                            options: .usesLineFragmentOrigin,
-//                                            attributes: [.font: messageLabel.font!],
-//                                            context: nil)
-//        messageLabel.frame.size = CGSize(width: ceil(boundingBox.width),
-//                                  height: ceil(boundingBox.height))
-//
-//
-//        setNeedsLayout()
-//    }
     
     func setupMessage(text: String, outgoing: Bool) {
         
