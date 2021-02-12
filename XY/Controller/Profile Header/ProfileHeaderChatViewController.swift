@@ -14,6 +14,7 @@ class ProfileHeaderChatViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 40
         tableView.allowsMultipleSelection = true
+        tableView.separatorStyle = .none
         tableView.register(ChatBubbleTableViewCell.self, forCellReuseIdentifier: ChatBubbleTableViewCell.identifier)
         return tableView
     }()

@@ -28,7 +28,8 @@ class ChatBubbleTableViewCell: UITableViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "HelveticaNeue-Bold", size: 10)
-        label.textColor = .lightGray
+        label.textColor = .white
+        label.alpha = 0.9
         return label
     }()
     
@@ -68,7 +69,7 @@ class ChatBubbleTableViewCell: UITableViewCell {
         
         timestampLabel.sizeToFit()
         timestampLabel.frame = CGRect(
-            x: chatBubbleView.width - timestampLabel.width - 6,
+            x: chatBubbleView.width - timestampLabel.width - 10,
             y: chatBubbleView.height - timestampLabel.height - 1,
             width: timestampLabel.width,
             height: timestampLabel.height
@@ -114,14 +115,14 @@ class ChatBubbleTableViewCell: UITableViewCell {
                                                 width: bubbleWidth,
                                                 height: bubbleHeight)
             
-            chatBubbleView.backgroundColor = .systemPink
+            chatBubbleView.backgroundColor = UIColor(named: "XYpink")
             
         } else {
             chatBubbleView.frame = CGRect(x: 21,
                                     y: 5,
                                     width: bubbleWidth,
                                     height: bubbleHeight)
-            chatBubbleView.backgroundColor = .blue
+            chatBubbleView.backgroundColor = UIColor(named: "XYblue")
         }
 
         messageLabel.frame.origin = CGPoint(x: 12.5, y: 14.5)
