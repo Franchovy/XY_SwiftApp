@@ -112,7 +112,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         selectionStyle = .none
         
-        backgroundColor = .clear
+        contentView.backgroundColor = UIColor(named: "Black")
         
         addSubview(reportButtonImage)
         addSubview(reportButtonTitle)
@@ -286,6 +286,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             translationX: translationX,
             y: 0
         )
+        
+        superview?.bringSubviewToFront(self)
         
         isSwiping = true
         
