@@ -25,13 +25,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     }()
     
     let control: UISegmentedControl = {
-        let titles = ["Profile", "For You"]
-        let icons = [
-            UIImage(named: "profile_profile_icon")?.withTintColor(UIColor(0xF6F6F6), renderingMode: .alwaysOriginal),
-            UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6), renderingMode: .alwaysOriginal),
-            UIImage(named: "profile_settings_icon")?.withTintColor(UIColor(0xB6B6B6), renderingMode: .alwaysOriginal)
-        ]
-        let control = UISegmentedControl(items: icons)
+        let control = UISegmentedControl()
         
         control.selectedSegmentIndex = 0
         control.setBackgroundImage(UIImage(), for: .normal, barMetrics: .default)
@@ -45,26 +39,45 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     private var viewControllers = [UIViewController]()
     
+    private var previousYScrollOffset:CGFloat = 0
+    
+    //MARK: - Initializers
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         backgroundColor = .clear
         layer.cornerRadius = 15
-
+        
         let profileViewController = ProfileHeaderViewController()
         profileViewController.delegate = self
         horizontalScrollView.addSubview(profileViewController.view)
         viewControllers.append(profileViewController)
-        
-        let chatViewController = ProfileHeaderChatViewController()
-        horizontalScrollView.addSubview(chatViewController.view)
-        viewControllers.append(chatViewController)
+        control.insertSegment(
+            with: UIImage(named: "profile_profile_icon")?.withTintColor(UIColor(0xF6F6F6)),
+            at: 0,
+            animated: false
+        )
+
+//        let chatViewController = ProfileHeaderChatViewController()
+//        horizontalScrollView.addSubview(chatViewController.view)
+//        viewControllers.append(chatViewController)
+//        control.insertSegment(
+//            with: UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6),
+//            at: viewControllers.count - 1,
+//            animated: false
+//        )
         
         let settingsViewController = ProfileHeaderSettingsViewController()
         settingsViewController.delegate = self
         horizontalScrollView.addSubview(settingsViewController.view)
         viewControllers.append(settingsViewController)
-        
+        control.insertSegment(
+            with: UIImage(named: "profile_settings_icon")?.withTintColor(UIColor(0xB6B6B6)),
+            at: viewControllers.count - 1,
+            animated: false
+        )
+            
         addSubview(horizontalScrollView)
         addSubview(topBar)
         topBar.addSubview(control)
@@ -78,11 +91,14 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         horizontalScrollView.delegate = self
     
         setUpHeaderButtons()
+        setControlSegmentColor(forIndex: 0)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Lifecycle
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -115,6 +131,8 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         }
     }
     
+    //MARK: - Obj-C Functions
+    
     @objc private func didChangeSegmentControl(_ sender: UISegmentedControl) {
         horizontalScrollView.setContentOffset(CGPoint(x: width * CGFloat(sender.selectedSegmentIndex),
                                                       y: 0),
@@ -127,6 +145,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         }
         profileViewController.didTapAnywhere()
     }
+    //MARK: - Public functions
     
     func setUpHeaderButtons() {
         control.addTarget(self, action: #selector(didChangeSegmentControl(_:)), for: .valueChanged)
@@ -135,7 +154,8 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     public func setIsOwnProfile(isOwn: Bool) {
 //        control.isHidden = !isOwn
-//        horizontalScrollView.isScrollEnabled = isOwn
+        control.removeSegment(at: 1, animated: false)
+        horizontalScrollView.isScrollEnabled = isOwn
     }
     
     public func configure(with viewModel: ProfileViewModel) {
@@ -151,17 +171,10 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         }
         return profileViewController
     }
-}
-
-extension ProfileScrollerReusableView: UIScrollViewDelegate {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.x <= (width/2) {
-            control.selectedSegmentIndex = 0
-        } else if scrollView.contentOffset.x > (width/2) && scrollView.contentOffset.x < (3 * width/2){
-            control.selectedSegmentIndex = 1
-        } else if scrollView.contentOffset.x > (3 * width/2) {
-            control.selectedSegmentIndex = 2
-        }
+    
+    //MARK: - Private functions
+    
+    private func setControlSegmentColor(forIndex index: Int) {
         
         var selectedIndexColor = UIColor()
         var unselectedIndexColor = UIColor()
@@ -173,10 +186,30 @@ extension ProfileScrollerReusableView: UIScrollViewDelegate {
             let image = control.imageForSegment(at: index)
             control.setImage(image?.withTintColor(unselectedIndexColor, renderingMode: .alwaysOriginal), forSegmentAt: index)
         }
-        let selectedImage = control.imageForSegment(at: control.selectedSegmentIndex)?.withTintColor(selectedIndexColor, renderingMode: .alwaysOriginal)
-        control.setImage(selectedImage, forSegmentAt: control.selectedSegmentIndex)
+        let selectedImage = control.imageForSegment(at: index)?.withTintColor(selectedIndexColor, renderingMode: .alwaysOriginal)
+        control.setImage(selectedImage, forSegmentAt: index)
     }
 }
+
+//MARK: - ScrollView Delegate
+
+extension ProfileScrollerReusableView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        scrollView.contentOffset.y = 0
+        
+        if scrollView.contentOffset.x == 0 || scrollView.contentOffset.x <= (width/2) {
+            setControlSegmentColor(forIndex: 0)
+        } else if scrollView.contentOffset.x > (width/2) && scrollView.contentOffset.x < (3 * width/2){
+            setControlSegmentColor(forIndex: 1)
+        } else if scrollView.contentOffset.x > (3 * width/2) {
+            setControlSegmentColor(forIndex: 2)
+        }
+        
+    }
+}
+
+//MARK: - Profile Header Delegate
 
 extension ProfileScrollerReusableView : ProfileHeaderViewControllerDelegate {
     func didEnterEditMode() {
@@ -187,6 +220,8 @@ extension ProfileScrollerReusableView : ProfileHeaderViewControllerDelegate {
         horizontalScrollView.isScrollEnabled = true
     }
 }
+
+//MARK: - Profile Settings Delegate
 
 extension ProfileScrollerReusableView : ProfileHeaderSettingsViewControllerDelegate {
     func didLogOut() {
