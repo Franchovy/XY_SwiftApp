@@ -44,20 +44,19 @@ class ViralViewController: UIViewController {
     private let userLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.textColor = .white
+        label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 0
-        label.alpha  = 0.7
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 26)
+        label.font = UIFont(name: "HelveticaNeue-Bold", size: 25)
         return label
     }()
     
     private let captionLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.textColor = .white
+        label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 0
         label.alpha  = 0.7
-        label.font = UIFont(name: "HelveticaNeue", size: 24)
+        label.font = UIFont(name: "HelveticaNeue", size: 18)
         return label
     }()
     
@@ -134,7 +133,7 @@ class ViralViewController: UIViewController {
         configureVideo()
 
         videoView.layer.insertSublayer(healthBar, above: nil)
-
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -164,17 +163,26 @@ class ViralViewController: UIViewController {
         spinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         spinner.center = videoView.center
         
-        let size: CGFloat = 40
+        if let captionText = captionLabel.text {
+            let constraintRect = CGSize(
+                width: 300,
+                height: 100
+            )
+            
+            let boundingRect = captionText.boundingRect(with: constraintRect,
+                                                         options: .usesLineFragmentOrigin,
+                                                         attributes: [.font: captionLabel.font],
+                                                         context: nil)
+            
+            captionLabel.frame = CGRect(
+                x: 5,
+                y: videoView.bottom - 31 - boundingRect.height,
+                width: boundingRect.width,
+                height: boundingRect.height
+            )
+        }
         
-//        captionLabel.sizeToFit()
-        let labelHeight = captionLabel.sizeThatFits(CGSize(width: videoView.width - size - 12, height: videoView.height))
-        captionLabel.frame = CGRect(
-            x: 5,
-            y: videoView.bottom - 10 - labelHeight.height,
-            width: videoView.width - size - 12,
-            height: labelHeight.height
-        )
-
+        let size: CGFloat = 40
         profileButton.frame = CGRect(
             x: 5,
             y: captionLabel.top - 5 - size,
@@ -321,7 +329,7 @@ class ViralViewController: UIViewController {
                 player.addObserver(strongSelf, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
                 strongSelf.timeControlObserverSet = true
                 
-                if strongSelf.playState == .play && strongSelf.player.status == .readyToPlay {
+                if strongSelf.playState == .play {
                     strongSelf.player?.play()
                 }
                 

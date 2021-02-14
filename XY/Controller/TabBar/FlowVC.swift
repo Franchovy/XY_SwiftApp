@@ -62,6 +62,8 @@ class FlowVC : UITableViewController {
         tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
         
         getFlow()
+        
+        registerXPUpdates()
 //        loadFlow() {
 //            self.activateListenerFlowUpdates()
 //        }
@@ -76,15 +78,7 @@ class FlowVC : UITableViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if let uid = Auth.auth().currentUser?.uid {
-            FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
-                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
-                self?.barXPCircle.setProgress(
-                    level: xpModel.level,
-                    progress: Float(xpModel.xp) / Float(nextLevelXP)
-                )
-            }
-        }
+        registerXPUpdates()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -184,6 +178,18 @@ class FlowVC : UITableViewController {
     }
     
     // MARK: - Private Functions
+    
+    private func registerXPUpdates() {
+        if let uid = Auth.auth().currentUser?.uid {
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
+                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
+                self?.barXPCircle.setProgress(
+                    level: xpModel.level,
+                    progress: Float(xpModel.xp) / Float(nextLevelXP)
+                )
+            }
+        }
+    }
     
     private func loadFlow(completion: (() -> Void)? = nil) {
         // Deactivate listeners

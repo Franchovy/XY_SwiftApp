@@ -146,14 +146,19 @@ class FirebaseDownload {
                 
                 for doc in querySnapshot.documents {
                     
-                    virals.append(
-                        ViralModel(
-                            from: doc.data(),
-                            id: doc.documentID
-                        )
+                    let viralModel = ViralModel(
+                        from: doc.data(),
+                        id: doc.documentID
                     )
+                    if viralModel.lives <= 0 {
+                        continue
+                    }
+                    
+                    virals.append(viralModel)
                 }
-                completion(.success(virals))
+                
+                // Reorder to random and return
+                completion(.success(virals.shuffled()))
             }
         }
     }
