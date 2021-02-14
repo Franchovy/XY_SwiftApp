@@ -157,7 +157,7 @@ final class FirebaseFunctionsManager {
                             userId: postData[FirebaseKeys.PostKeys.author] as! String,
                             timestamp: TimestampDecoder.decode(data: (postData[FirebaseKeys.PostKeys.timestamp] as! [String: Any])),
                             content: postDataData[FirebaseKeys.PostKeys.PostData.caption] as? String ?? "",
-                            images: [postDataData[FirebaseKeys.PostKeys.PostData.caption] as! String],
+                            images: [postDataData[FirebaseKeys.PostKeys.PostData.imageRef] as! String],
                             level: postData[FirebaseKeys.PostKeys.level] as! Int,
                             xp: postData[FirebaseKeys.PostKeys.xp] as! Int
                         )
