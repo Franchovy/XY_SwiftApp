@@ -116,12 +116,13 @@ class FlowVC : UITableViewController {
     }
     
     @objc func flowRefreshed(_ sender: UIRefreshControl) {
-//        PostManager.shared.refreshIncrementIndex()
+        
+        FlowAlgorithmManager.shared.algorithmIndex += 1
         getFlow()
         
-//        loadFlow() {
-//            sender.endRefreshing()
-//        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+3.0) {
+            self.refreshControl?.endRefreshing()
+        }
     }
     
     // MARK: - IBActions
@@ -142,6 +143,9 @@ class FlowVC : UITableViewController {
     
     public func getFlow() {
         self.errorLabel.isHidden = true
+        
+        postViewModels = []
+        
         FlowAlgorithmManager.shared.getFlow() { posts in
             guard let posts = posts else {
                 // Error fetching posts

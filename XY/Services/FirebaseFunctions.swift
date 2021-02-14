@@ -135,12 +135,13 @@ final class FirebaseFunctionsManager {
         }
     }
     
-    public func getFlow(swipeLeftIds: [String], completion: @escaping([PostModel]?) -> Void) {
+    public func getFlow(swipeLeftIds: [String], algorithmIndex: Int, completion: @escaping([PostModel]?) -> Void) {
         guard let userId = AuthManager.shared.userId else { return }
 
         let data:[String: Any] = [
             "userId": userId,
-            "swipeLeftItems": swipeLeftIds
+            "swipeLeftItems": swipeLeftIds,
+            "algorithmIndex": algorithmIndex
         ]
         
         functions.httpsCallable("getFlow").call(data) { result, error in

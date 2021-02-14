@@ -15,11 +15,13 @@ final class FlowAlgorithmManager {
         
     }
     
+    var algorithmIndex = 1
+    
     public func getFlow(completion: @escaping([PostModel]?) -> Void) {
         let previousSwipeLeftActions = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft })
         let previousSwipeLefts = previousSwipeLeftActions.map { $0.objectId }
         
-        FirebaseFunctionsManager.shared.getFlow(swipeLeftIds: previousSwipeLefts) { postModels in
+        FirebaseFunctionsManager.shared.getFlow(swipeLeftIds: previousSwipeLefts, algorithmIndex: algorithmIndex) { postModels in
             completion(postModels)
         }
     }
