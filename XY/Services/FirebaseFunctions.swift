@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseFunctions
+import Firebase
 
 final class FirebaseFunctionsManager {
     static let shared = FirebaseFunctionsManager()
@@ -134,5 +135,48 @@ final class FirebaseFunctionsManager {
         }
     }
     
-    
+    public func getFlow(swipeLeftIds: [String], completion: @escaping([PostModel]?) -> Void) {
+        guard let userId = AuthManager.shared.userId else { return }
+
+        let data:[String: Any] = [
+            "userId": userId,
+            "swipeLeftItems": swipeLeftIds
+        ]
+        
+        functions.httpsCallable("getFlow").call(data) { result, error in
+            if let error = error {
+                print("Error fetching flow: \(error)")
+                completion(nil)
+            } else if let data = result?.data as? [String: Any] {
+                if let postsData = data["postModels"] as? [[String: Any]] {
+                    let postModels:[PostModel] = postsData.compactMap({ postData in
+                        let postDataData = postData[FirebaseKeys.PostKeys.postData] as! [String: Any]
+                        
+                        return PostModel(
+                            id: postData["id"] as! String,
+                            userId: postData[FirebaseKeys.PostKeys.author] as! String,
+                            timestamp: TimestampDecoder.decode(data: (postData[FirebaseKeys.PostKeys.timestamp] as! [String: Any])),
+                            content: postDataData[FirebaseKeys.PostKeys.PostData.caption] as? String ?? "",
+                            images: [postDataData[FirebaseKeys.PostKeys.PostData.caption] as! String],
+                            level: postData[FirebaseKeys.PostKeys.level] as! Int,
+                            xp: postData[FirebaseKeys.PostKeys.xp] as! Int
+                        )
+                    })
+                    
+                    completion(postModels)
+                }
+                
+            }
+        }
+    }
+}
+
+class TimestampDecoder {
+    static func decode(data: [String: Any]) -> Date {
+        if let numSeconds = data["_seconds"] as? Int {
+            return Date(timeIntervalSince1970: Double(numSeconds))
+        } else {
+            fatalError()
+        }
+    }
 }

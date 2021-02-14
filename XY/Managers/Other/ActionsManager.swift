@@ -39,7 +39,6 @@ final class ActionManager {
                 if let documents = querySnapshot?.documents {
                     for document in documents {
                         let action = Action(fromData: document.data())
-                        print("Action: \(action)")
                         self.previousActions.append(action)
                         
                         if action.type == .swipeLeft {

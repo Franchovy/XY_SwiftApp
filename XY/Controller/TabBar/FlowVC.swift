@@ -51,9 +51,10 @@ class FlowVC : UITableViewController {
         
         tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
         
-        loadFlow() {
-            self.activateListenerFlowUpdates()
-        }
+        FlowAlgorithmManager.shared.getFlow()
+//        loadFlow() {
+//            self.activateListenerFlowUpdates()
+//        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
