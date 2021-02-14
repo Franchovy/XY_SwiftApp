@@ -154,7 +154,10 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     public func setIsOwnProfile(isOwn: Bool) {
 //        control.isHidden = !isOwn
-        control.removeSegment(at: 1, animated: false)
+        
+        if !isOwn {
+            control.removeSegment(at: 1, animated: false)
+        }
         horizontalScrollView.isScrollEnabled = isOwn
     }
     
