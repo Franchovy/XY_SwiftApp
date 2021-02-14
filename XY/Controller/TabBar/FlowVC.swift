@@ -143,15 +143,15 @@ class FlowVC : UITableViewController {
     
     public func getFlow() {
         self.errorLabel.isHidden = true
-        
-        postViewModels = []
-        
+                
         FlowAlgorithmManager.shared.getFlow() { posts in
             guard let posts = posts else {
                 // Error fetching posts
                 self.errorLabel.isHidden = false
                 return
             }
+            
+            self.postViewModels = []
             
             for newPost in posts {
                 if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else

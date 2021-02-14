@@ -244,6 +244,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postShadowLayer.shadowOpacity = 0.0
         postCard.transform = CGAffineTransform.identity
         
+        currentTranslationX = 0
+        
         contentImageView.image = nil
         profileImageView.image = nil
         caption.text = ""
