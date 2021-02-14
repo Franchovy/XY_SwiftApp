@@ -19,10 +19,16 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         return scrollView
     }()
 
+    let topBar: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     let control: UISegmentedControl = {
         let titles = ["Profile", "For You"]
         let icons = [
             UIImage(named: "profile_profile_icon")?.withTintColor(UIColor(0xF6F6F6), renderingMode: .alwaysOriginal),
+            UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6), renderingMode: .alwaysOriginal),
             UIImage(named: "profile_settings_icon")?.withTintColor(UIColor(0xB6B6B6), renderingMode: .alwaysOriginal)
         ]
         let control = UISegmentedControl(items: icons)
@@ -50,19 +56,27 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         horizontalScrollView.addSubview(profileViewController.view)
         viewControllers.append(profileViewController)
         
+        let chatViewController = ProfileHeaderChatViewController()
+        horizontalScrollView.addSubview(chatViewController.view)
+        viewControllers.append(chatViewController)
+        
         let settingsViewController = ProfileHeaderSettingsViewController()
         settingsViewController.delegate = self
         horizontalScrollView.addSubview(settingsViewController.view)
         viewControllers.append(settingsViewController)
         
         addSubview(horizontalScrollView)
-        addSubview(control)
-        
-        horizontalScrollView.contentSize = CGSize(width: width * 2, height: height)
+        addSubview(topBar)
+        topBar.addSubview(control)
+
+        horizontalScrollView.contentSize = CGSize(
+            width: width * CGFloat(viewControllers.count),
+            height: height
+        )
         
         horizontalScrollView.contentInsetAdjustmentBehavior = .never
         horizontalScrollView.delegate = self
-        
+    
         setUpHeaderButtons()
     }
     
@@ -75,20 +89,28 @@ class ProfileScrollerReusableView: UICollectionReusableView {
 
         horizontalScrollView.frame = bounds
 
+        var topBarHeight: CGFloat = 30
+        topBar.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: width,
+            height: topBarHeight
+        )
+        
         control.frame = CGRect(
             x: 0,
             y: 0,
             width: width,
-            height: 30
+            height: topBarHeight
         )
         
         for i in 0...viewControllers.count-1 {
             let viewController = viewControllers[i]
             viewController.view.frame = CGRect(
                 x: horizontalScrollView.width * CGFloat(i),
-                y: 0,
+                y: topBarHeight,
                 width: horizontalScrollView.width,
-                height: horizontalScrollView.height
+                height: horizontalScrollView.height - topBarHeight
             )
         }
     }
@@ -112,8 +134,8 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     }
     
     public func setIsOwnProfile(isOwn: Bool) {
-        control.isHidden = !isOwn
-        horizontalScrollView.isScrollEnabled = isOwn
+//        control.isHidden = !isOwn
+//        horizontalScrollView.isScrollEnabled = isOwn
     }
     
     public func configure(with viewModel: ProfileViewModel) {
@@ -133,23 +155,19 @@ class ProfileScrollerReusableView: UICollectionReusableView {
 
 extension ProfileScrollerReusableView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.x == 0 || scrollView.contentOffset.x <= (width/2) {
+        if scrollView.contentOffset.x <= (width/2) {
             control.selectedSegmentIndex = 0
-            
-        } else if scrollView.contentOffset.x > (width/2) {
+        } else if scrollView.contentOffset.x > (width/2) && scrollView.contentOffset.x < (3 * width/2){
             control.selectedSegmentIndex = 1
+        } else if scrollView.contentOffset.x > (3 * width/2) {
+            control.selectedSegmentIndex = 2
         }
         
         var selectedIndexColor = UIColor()
         var unselectedIndexColor = UIColor()
         
-        if control.selectedSegmentIndex == 0 {
-            selectedIndexColor = UIColor(0xF6F6F6)
-            unselectedIndexColor = UIColor(0xB6B6B6)
-        } else {
-            selectedIndexColor = UIColor(named:"Light")!
-            unselectedIndexColor = UIColor(named: "Dark")!
-        }
+        selectedIndexColor = UIColor(named: "Light")!
+        unselectedIndexColor = UIColor(named: "Dark")!
         
         for index in 0...control.numberOfSegments-1 {
             let image = control.imageForSegment(at: index)

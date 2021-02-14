@@ -22,7 +22,7 @@ class ProfileViewController: UIViewController {
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
         let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                      heightDimension: .fractionalWidth(605 / 375))
+                                                      heightDimension: .fractionalWidth(635 / 375))
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: headerFooterSize,
             elementKind: UICollectionView.elementKindSectionHeader, alignment: .top)
@@ -32,6 +32,18 @@ class ProfileViewController: UIViewController {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         collection.decelerationRate = UIScrollView.DecelerationRate.fast
+        collection.layer.cornerRadius = 15
+        
+        collection.register(
+            ProfileFlowCollectionViewCell.self,
+            forCellWithReuseIdentifier: ProfileFlowCollectionViewCell.identifier
+        )
+        
+        collection.register(
+            ProfileScrollerReusableView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: ProfileScrollerReusableView.identifier
+        )
         
         return collection
     }()
@@ -43,11 +55,11 @@ class ProfileViewController: UIViewController {
         guard let profileHeader = collectionView.supplementaryView(
             forElementKind: UICollectionView.elementKindSectionHeader,
             at: IndexPath(row: 0, section: 0)
-        ) as? ProfileHeaderReusableView else {
+        ) as? ProfileScrollerReusableView else {
             return nil
         }
         
-        return profileHeader.getScrollPosition() - 70 - view.safeAreaInsets.top
+        return profileHeader.height + 140 + view.safeAreaInsets.top
     }()
     
     // MARK: - Lifecycle
@@ -131,13 +143,12 @@ class ProfileViewController: UIViewController {
                     guard let profileHeader = self.collectionView.supplementaryView(
                         forElementKind: UICollectionView.elementKindSectionHeader,
                         at: IndexPath(row: 0, section: 0)
-                    ) as? ProfileHeaderReusableView else {
+                    ) as? ProfileScrollerReusableView else {
                         tempLvlStore = level
                         tempXPStore = xp
                         return
                     }
-                    
-                    profileHeader.onXpUpdate(xpModel)
+                    profileHeader.getProfileDelegate().onXpUpdate(xpModel)
                 }
             }
         }
@@ -156,41 +167,30 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.layer.cornerRadius = 15
+        
         collectionView.dataSource = self
         collectionView.delegate = self
-        
-        view.layer.cornerRadius = 15
-        collectionView.layer.cornerRadius = 15
-        
-        collectionView.register(
-            ProfileFlowCollectionViewCell.self,
-            forCellWithReuseIdentifier: ProfileFlowCollectionViewCell.identifier
-        )
-        
-        additionalSafeAreaInsets.top = .zero
-        
-        collectionView.register(
-            ProfileScrollerReusableView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: ProfileScrollerReusableView.identifier
-        )
         
         view.addSubview(collectionView)
         
         view.backgroundColor = UIColor(named: "Black")
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+    
         collectionView.frame = CGRect(
             x: 0,
-            y: 0,
+            y: view.safeAreaInsets.top,
             width: view.width,
-            height: view.height
+            height: view.safeAreaLayoutGuide.layoutFrame.height
         )
-        
-        view.frame.size.height = min(collectionView.bottom, 1081)
     }
     
     // MARK: - Private functions
@@ -224,7 +224,7 @@ class ProfileViewController: UIViewController {
                 scrollView.scrollRectToVisible(
                     CGRect(
                         x: 0,
-                        y: 0,
+                        y: -50,
                         width: view.width,
                         height: view.height
                     ), animated: true)
@@ -254,7 +254,7 @@ class ProfileViewController: UIViewController {
                 scrollView.scrollRectToVisible(
                     CGRect(
                         x: 0,
-                        y: 0,
+                        y: -50,
                         width: view.width,
                         height: view.height
                     ), animated: true)
@@ -290,14 +290,6 @@ class ProfileViewController: UIViewController {
     
     @objc private func didTapAnywhere() {
         // Send a message to header to stop editing
-        guard let profileHeader = self.collectionView.supplementaryView(
-            forElementKind: UICollectionView.elementKindSectionHeader,
-            at: IndexPath(row: 0, section: 0)
-        ) as? ProfileHeaderReusableView else {
-            return
-        }
-        
-        profileHeader.endEditing(true)
     }
 }
 
@@ -339,7 +331,7 @@ extension ProfileViewController : UICollectionViewDataSource {
             x: 0,
             y: 0,
             width: view.width,
-            height: view.width * aspectRatio
+            height: view.width * aspectRatio + 30
         )
         
         let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))

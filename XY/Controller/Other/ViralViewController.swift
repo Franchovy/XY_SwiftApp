@@ -88,6 +88,9 @@ class ViralViewController: UIViewController {
         return spinner
     }()
     
+    private var timeControlObserverSet = false
+    private var repeatObserverSet = false
+    
     // MARK: - Initializers
 
     init(model: ViralModel) {
@@ -108,6 +111,10 @@ class ViralViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        self.teardown()
     }
     
     // MARK: - Lifecycle
@@ -185,6 +192,25 @@ class ViralViewController: UIViewController {
         )
     }
     
+    // MARK: - Private Functions
+    
+    private func teardown() {
+        self.player?.pause()
+
+        if timeControlObserverSet {
+
+            self.player?.removeObserver(self, forKeyPath: "timeControlStatus")
+        }
+        if repeatObserverSet {
+            NotificationCenter.default.removeObserver(self,
+                                                      name: .AVPlayerItemDidPlayToEndTime,
+                                                      object: self.player?.currentItem)
+        }
+        self.player = nil
+    }
+
+
+    
     private func getHealthBarPercentage(forLives currentLives: Int, forLevel currentLevel: Int) -> CGFloat {
         
         let maxLife = XPModelManager.shared.getLivesLeftForLevel(currentLevel)
@@ -234,6 +260,25 @@ class ViralViewController: UIViewController {
     private func onPlay() {
         beginHealthBarAnimation()
     }
+    
+    private func fetchProfileData() {
+        FirebaseDownload.getProfile(profileId: model.profileId) { [weak self] (profileModel, error) in
+            guard let strongSelf = self, let profileModel = profileModel, error == nil else {
+                return
+            }
+            
+            strongSelf.userLabel.text = profileModel.nickname
+            strongSelf.userLabel.sizeToFit()
+            
+            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { [weak self] (image, error) in
+                guard let strongSelf = self, let image = image, error == nil else {
+                    return
+                }
+                
+                strongSelf.profileButton.setBackgroundImage(image, for: .normal)
+            }
+        }
+    }
 
     // MARK: - Public Functions
     
@@ -274,6 +319,7 @@ class ViralViewController: UIViewController {
                 }
                 
                 player.addObserver(strongSelf, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+                strongSelf.timeControlObserverSet = true
                 
                 if strongSelf.playState == .play && strongSelf.player.status == .readyToPlay {
                     strongSelf.player?.play()
@@ -286,6 +332,7 @@ class ViralViewController: UIViewController {
                     player.seek(to: .zero)
                     player.play()
                 }
+                strongSelf.repeatObserverSet = true
             }
         }
     }
@@ -302,27 +349,6 @@ class ViralViewController: UIViewController {
                 if player.timeControlStatus == .playing {
                     onPlay()
                 }
-            }
-        }
-    }
-    
-    // MARK: - Private functions
-    
-    private func fetchProfileData() {
-        FirebaseDownload.getProfile(profileId: model.profileId) { [weak self] (profileModel, error) in
-            guard let strongSelf = self, let profileModel = profileModel, error == nil else {
-                return
-            }
-            
-            strongSelf.userLabel.text = profileModel.nickname
-            strongSelf.userLabel.sizeToFit()
-            
-            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { [weak self] (image, error) in
-                guard let strongSelf = self, let image = image, error == nil else {
-                    return
-                }
-                
-                strongSelf.profileButton.setBackgroundImage(image, for: .normal)
             }
         }
     }

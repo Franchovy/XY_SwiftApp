@@ -15,6 +15,11 @@ final class OnlineStatusManager {
     public func setupOnlineStatus() {
         guard let userId = AuthManager.shared.userId else { fatalError() }
 
+        // BLOCK ONLINE NOW ON THE DEV DB
+        if FirestoreReferenceManager.environment == "dev" {
+            return
+        }
+        
         // get user branch of database
         let ref = Database.database().reference()
         let usersRef = ref.child("OnlineNow")

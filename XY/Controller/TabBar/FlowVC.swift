@@ -18,6 +18,14 @@ class FlowVC : UITableViewController {
     
     @IBOutlet weak var barXPCircle: CircleView!
     
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "HelveticaNeue", size: 21)
+        label.textColor = UIColor(named: "tintColor")
+        label.text = "Error fetching Flow!"
+        return label
+    }()
+    
     /// Index of fetch, for loading posts that come from the same user
     var currentFlowIndex: Int = 0
     
@@ -37,6 +45,8 @@ class FlowVC : UITableViewController {
         let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
         barXPCircle.addGestureRecognizer(tap)
         
+        view.addSubview(errorLabel)
+        
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = UIColor(named: "Black") // This is necessary to scroll touching outside of the cell, lol.
         tableView.separatorStyle = .none
@@ -51,12 +61,20 @@ class FlowVC : UITableViewController {
         
         tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
         
-        loadFlow() {
-            self.activateListenerFlowUpdates()
-        }
+        getFlow()
+//        loadFlow() {
+//            self.activateListenerFlowUpdates()
+//        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        errorLabel.isHidden = true
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         if let uid = Auth.auth().currentUser?.uid {
             FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
@@ -70,9 +88,23 @@ class FlowVC : UITableViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
         if let uid = Auth.auth().currentUser?.uid {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: uid)
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        errorLabel.sizeToFit()
+        errorLabel.frame = CGRect(
+            x: (view.width - errorLabel.width)/2,
+            y: view.top + 35,
+            width: errorLabel.width,
+            height: errorLabel.height
+        )
     }
     
     // MARK: - Obj-C Functions
@@ -84,10 +116,12 @@ class FlowVC : UITableViewController {
     }
     
     @objc func flowRefreshed(_ sender: UIRefreshControl) {
-        PostManager.shared.refreshIncrementIndex()
         
-        loadFlow() {
-            sender.endRefreshing()
+        FlowAlgorithmManager.shared.algorithmIndex += 1
+        getFlow()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+3.0) {
+            self.refreshControl?.endRefreshing()
         }
     }
     
@@ -106,6 +140,33 @@ class FlowVC : UITableViewController {
     }
     
     // MARK: - Public Functions
+    
+    public func getFlow() {
+        self.errorLabel.isHidden = true
+        
+        postViewModels = []
+        
+        FlowAlgorithmManager.shared.getFlow() { posts in
+            guard let posts = posts else {
+                // Error fetching posts
+                self.errorLabel.isHidden = false
+                return
+            }
+            
+            for newPost in posts {
+                if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
+                {
+                    let postViewModel = PostViewModel(from: newPost)
+                    self.postViewModels.append(postViewModel)
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            }
+        }
+    }
     
     public func insertPost(_ postData: PostViewModel) {
         guard let indexPathToInsert = tableView.indexPathsForVisibleRows?.first else {
