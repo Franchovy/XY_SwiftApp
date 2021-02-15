@@ -204,20 +204,6 @@ class FirebaseUpload {
         completion(nil,nil)
     }
     
-    static func sendMessage(conversationId: String, message: String, completion: @escaping(Result<Void, Error>) -> Void) {
-        let messagesCollection = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationId).collection(FirebaseKeys.CollectionPath.messages)
-        
-        guard let userId = AuthManager.shared.userId else { return }
-        
-        let messageData = MessageModel(senderId: userId, message: message).toNewMessageData()
-        messagesCollection.addDocument(data: messageData) { error in
-            if let error = error { completion(.failure(error)) }
-            else {
-                completion(.success(()))
-            }
-        }
-    }
-    
     /// Returns conversation id
     static func createConversation(otherMemberId: String, newMessage: String, completion: @escaping(Result<String, Error>) -> Void) {
         

@@ -17,6 +17,8 @@ final class ProfileManager {
     static let shared = ProfileManager()
     private init () { }
     
+    var profilesCache = [String: [String: Any]?]()
+    
     var delegate: ProfileManagerDelegate?
     
     var profileId: String?

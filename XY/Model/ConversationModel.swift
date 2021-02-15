@@ -20,7 +20,7 @@ struct ConversationPreview {
 }
 
 struct ConversationModel {
-    var latestMessageTimestamp: Date?
+    var id: String
     var timestamp: Date
     var members: [String]
     var level: Int
@@ -29,10 +29,10 @@ struct ConversationModel {
 }
 
 extension ConversationModel {
-    init(_ data: [String: Any]) {
-        latestMessageTimestamp = (data[FirebaseKeys.ConversationKeys.mostRecentMessageTimestamp] as! Firebase.Timestamp).dateValue()
+    init(_ data: [String: Any], id: String) {
+        self.id = id
         timestamp = (data[FirebaseKeys.ConversationKeys.timestamp] as! Firebase.Timestamp).dateValue()
-        members = data[FirebaseKeys.ConversationKeys.members] as! [String]
+        members = (data[FirebaseKeys.ConversationKeys.members] as! [String:Bool]).map({ $0.key })
         level = data[FirebaseKeys.ConversationKeys.level] as! Int
         xp = data[FirebaseKeys.ConversationKeys.xp] as! Int
     }
@@ -43,7 +43,6 @@ extension ConversationModel {
             FirebaseKeys.ConversationKeys.xp : 0,
             FirebaseKeys.ConversationKeys.members : members,
             FirebaseKeys.ConversationKeys.timestamp : Firebase.FieldValue.serverTimestamp(),
-            FirebaseKeys.ConversationKeys.mostRecentMessageTimestamp : Firebase.FieldValue.serverTimestamp()
         ]
     }
 }

@@ -35,6 +35,11 @@
 		B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */; };
+		B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263525DA818D0063AAD6 /* ChatEventHandler.swift */; };
+		B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263B25DA81C10063AAD6 /* ChatEvent.swift */; };
+		B936264025DA824C0063AAD6 /* ChatEventRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263F25DA824C0063AAD6 /* ChatEventRouter.swift */; };
+		B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936264325DA83AC0063AAD6 /* ChatViewModelBuilder.swift */; };
+		B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936264925DA86100063AAD6 /* ChatFirestoreManager.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
@@ -132,6 +137,11 @@
 		B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowAlgorithmManager.swift; sourceTree = "<group>"; };
+		B936263525DA818D0063AAD6 /* ChatEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEventHandler.swift; sourceTree = "<group>"; };
+		B936263B25DA81C10063AAD6 /* ChatEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEvent.swift; sourceTree = "<group>"; };
+		B936263F25DA824C0063AAD6 /* ChatEventRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEventRouter.swift; sourceTree = "<group>"; };
+		B936264325DA83AC0063AAD6 /* ChatViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModelBuilder.swift; sourceTree = "<group>"; };
+		B936264925DA86100063AAD6 /* ChatFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFirestoreManager.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
 		B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScrollerReusableView.swift; sourceTree = "<group>"; };
@@ -330,6 +340,18 @@
 			path = Flow;
 			sourceTree = "<group>";
 		};
+		B936263425DA81800063AAD6 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				B936263B25DA81C10063AAD6 /* ChatEvent.swift */,
+				B936263F25DA824C0063AAD6 /* ChatEventRouter.swift */,
+				B936263525DA818D0063AAD6 /* ChatEventHandler.swift */,
+				B936264325DA83AC0063AAD6 /* ChatViewModelBuilder.swift */,
+				B936264925DA86100063AAD6 /* ChatFirestoreManager.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		B93CF23325C566C4003CB3DB /* Profile Header */ = {
 			isa = PBXGroup;
 			children = (
@@ -506,6 +528,7 @@
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B936263425DA81800063AAD6 /* Chat */,
 				B9BDE38325C9AE1700B00656 /* Firebase */,
 				B936262125D963BF0063AAD6 /* Flow */,
 				B9BDE38425C9AE2200B00656 /* Other */,
@@ -706,10 +729,12 @@
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
+				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */,
+				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
@@ -738,6 +763,8 @@
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */,
 				B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */,
+				B936264025DA824C0063AAD6 /* ChatEventRouter.swift in Sources */,
+				B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */,
 				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
@@ -765,6 +792,7 @@
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
+				B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */,
 				B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
