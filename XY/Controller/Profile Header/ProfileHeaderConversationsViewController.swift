@@ -39,6 +39,10 @@ class ProfileHeaderConversationsViewController: UIViewController {
         
     }
     
+    func configure(with viewModel: ConversationViewModel) {
+        
+    }
+    
 }
 //
 //extension ProfileHeaderConversationsViewController : UITableViewDataSource, UITableViewDelegate {

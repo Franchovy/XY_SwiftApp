@@ -122,6 +122,7 @@ class ProfileHeaderChatViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapGesture)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -174,6 +175,11 @@ class ProfileHeaderChatViewController: UIViewController {
             width: sendButtonSize,
             height: sendButtonSize
         )
+    }
+    
+    func configure(with conversationViewModel: ConversationViewModel, chatViewModels: [MessageViewModel]) {
+        viewModels = chatViewModels
+        tableView.reloadData()
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {

@@ -17,6 +17,7 @@ final class ChatFirestoreManager {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations)
             .document(conversationID)
             .collection(FirebaseKeys.CollectionPath.messages)
+            .order(by: FirebaseKeys.ConversationKeys.MessagesKeys.timestamp, descending: false)
             .getDocuments() { messageDocuments, error in
             if let error = error {
                 completion(.failure(error))
@@ -37,27 +38,21 @@ final class ChatFirestoreManager {
         }
     }
     
-    func sendChat(conversationID: String, chatMessage: Message, completion: @escaping(Result<String, Error>) -> Void){
+    func sendChat(conversationID: String, chatMessage: Message, completion: @escaping(Result<String, Error>) -> Void) {
         let newMessageDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationID).collection(FirebaseKeys.CollectionPath.messages).document()
-        
-        // ADD CHECK FOR CONVERSATION -> CREATE CONVERSATION
-        
-        guard let userId = AuthManager.shared.userId else {
-            return
-        }
         
         let messageData: [String: Any] = [
             FirebaseKeys.ConversationKeys.MessagesKeys.sender: chatMessage.senderId,
             FirebaseKeys.ConversationKeys.MessagesKeys.message: chatMessage.messageText,
             FirebaseKeys.ConversationKeys.MessagesKeys.timestamp: FieldValue.serverTimestamp()
         ]
+        
         newMessageDocument.setData(messageData) { error in
             if let error = error {
                 completion(.failure(error))
             } else {
                 completion(.success(newMessageDocument.documentID))
             }
-            
         }
     }
 }

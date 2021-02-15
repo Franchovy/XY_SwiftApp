@@ -24,7 +24,6 @@ final class ChatEventHandler {
     }
     
     class func remove(listener: ChatsListening) {
-        
         for chatListener in chatListeners {
             if chatListener.value.contains(where: { $0 === listener }) {
                 if chatListener.value.count == 1 {

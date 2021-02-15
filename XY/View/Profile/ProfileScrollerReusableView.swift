@@ -41,6 +41,8 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     private var previousYScrollOffset:CGFloat = 0
     
+    private var isOwn = false
+    
     //MARK: - Initializers
     
     override init(frame: CGRect) {
@@ -59,14 +61,14 @@ class ProfileScrollerReusableView: UICollectionReusableView {
             animated: false
         )
 
-//        let chatViewController = ProfileHeaderChatViewController()
-//        horizontalScrollView.addSubview(chatViewController.view)
-//        viewControllers.append(chatViewController)
-//        control.insertSegment(
-//            with: UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6),
-//            at: viewControllers.count - 1,
-//            animated: false
-//        )
+        let chatViewController = ProfileHeaderChatViewController()
+        horizontalScrollView.addSubview(chatViewController.view)
+        viewControllers.append(chatViewController)
+        control.insertSegment(
+            with: UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6)),
+            at: viewControllers.count - 1,
+            animated: false
+        )
         
         let settingsViewController = ProfileHeaderSettingsViewController()
         settingsViewController.delegate = self
@@ -154,11 +156,13 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     public func setIsOwnProfile(isOwn: Bool) {
 //        control.isHidden = !isOwn
+        self.isOwn = isOwn
         
         if !isOwn {
-            control.removeSegment(at: 1, animated: false)
+            // Remove settings segment
+            control.removeSegment(at: control.numberOfSegments-1, animated: false)
         }
-        horizontalScrollView.isScrollEnabled = isOwn
+//        horizontalScrollView.isScrollEnabled = isOwn
     }
     
     public func configure(with viewModel: ProfileViewModel) {
@@ -166,6 +170,60 @@ class ProfileScrollerReusableView: UICollectionReusableView {
             return
         }
         profileViewController.configure(with: viewModel)
+        
+        if isOwn {
+            guard let conversationsViewController = viewControllers[1] as? ProfileHeaderConversationsViewController else {
+                return
+            }
+            // Fetch all of this user's conversations
+            
+        } else {
+            guard let chatViewController = viewControllers[1] as? ProfileHeaderChatViewController,
+                  let userId = viewModel.userId else {
+                return
+            }
+            // Fetch conversation
+            FirebaseDownload.getConversationWithUser(
+                otherUserId: userId) { (result) in
+                switch result {
+                case .success(let conversationModel):
+                    if let conversationModel = conversationModel {
+                        ChatFirestoreManager.shared.getMessagesForConversation(
+                            withId: conversationModel.id) { (result) in
+                            switch result {
+                            case .success(let messageModels):
+                                let messageViewModels: [MessageViewModel] = messageModels.map({ (model) in
+                                    return MessageViewModel(
+                                        text: model.messageText,
+                                        timestamp: model.timestamp,
+                                        nickname: viewModel.nickname,
+                                        senderIsSelf: model.senderId == AuthManager.shared.userId
+                                    )
+                                })
+                                let conversationViewModel = ConversationViewModel(
+                                    image: viewModel.profileImage,
+                                    name: viewModel.nickname,
+                                    lastMessageText: messageModels.last!.messageText,
+                                    lastMessageTimestamp: messageModels.last!.timestamp,
+                                    unread: false
+                                )
+                                
+                                chatViewController.configure(
+                                    with: conversationViewModel,
+                                    chatViewModels: messageViewModels
+                                )
+                            case .failure(let error):
+                                print(error)
+                            }
+                        }
+                    } else {
+                        
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
     
     public func getProfileDelegate() -> ProfileViewModelDelegate {
