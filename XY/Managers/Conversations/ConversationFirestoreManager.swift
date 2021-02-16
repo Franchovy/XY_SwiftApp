@@ -29,6 +29,10 @@ final class ConversationFirestoreManager {
                         conversationModels.append(model)
                     }
                     
+                    conversationModels.sort { (convModel1, convModel2) -> Bool in
+                        convModel1.timestamp < convModel2.timestamp
+                    }
+                    
                     completion(.success(conversationModels))
                 }
             }

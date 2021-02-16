@@ -71,12 +71,11 @@ class ConversationPreviewTableViewCell: UITableViewCell {
             height: nameLabel.height
         )
         
-        previewMessageLabel.sizeToFit()
         previewMessageLabel.frame = CGRect(
             x: profileImageView.right + 16.46,
             y: height/2 + 10,
-            width: previewMessageLabel.width,
-            height: previewMessageLabel.height
+            width: 250,
+            height: 25
         )
         
         timestampLabel.sizeToFit()

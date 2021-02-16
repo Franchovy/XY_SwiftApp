@@ -57,7 +57,9 @@ final class ConversationViewModelBuilder {
             }
             switch result {
             case .success(let message):
-                lastMessageText = message.messageText
+                let messagePrefix = message.senderId == AuthManager.shared.userId ? "You: " : ""
+                lastMessageText = messagePrefix + message.messageText
+                
                 lastMessageTimestamp = message.timestamp
             case .failure(let error):
                 print(error)

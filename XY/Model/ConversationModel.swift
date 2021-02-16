@@ -25,7 +25,7 @@ struct ConversationModel {
     var members: [String]
     var level: Int
     var xp: Int
-    var messagesRef: Firebase.CollectionReference?
+    var mostRecentTimestamp: Date
 }
 
 extension ConversationModel {
@@ -35,6 +35,7 @@ extension ConversationModel {
         members = (data[FirebaseKeys.ConversationKeys.members] as! [String:Bool]).map({ $0.key })
         level = data[FirebaseKeys.ConversationKeys.level] as! Int
         xp = data[FirebaseKeys.ConversationKeys.xp] as! Int
+        mostRecentTimestamp = (data[FirebaseKeys.ConversationKeys.mostRecentMessageTimestamp] as! Firebase.Timestamp).dateValue()
     }
     
     static func newConversationData(members: [String]) -> [String: Any] {
