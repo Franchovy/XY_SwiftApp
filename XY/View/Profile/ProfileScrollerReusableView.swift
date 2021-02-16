@@ -246,7 +246,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                             }
                         }
                     } else {
-                        
+                        chatViewController.configureForNewConversation(with: userId)
                     }
                 case .failure(let error):
                     print(error)

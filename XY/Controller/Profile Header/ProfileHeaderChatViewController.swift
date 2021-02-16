@@ -94,7 +94,11 @@ class ProfileHeaderChatViewController: UIViewController {
     
     var delegate: ProfileChatViewControllerDelegate?
     
+    var conversationViewModel: ConversationViewModel?
     var viewModels = [MessageViewModel]()
+    
+    var newConversation = false
+    var otherUserId: String?
     
     // MARK: - Initialisers
     
@@ -123,6 +127,8 @@ class ProfileHeaderChatViewController: UIViewController {
         view.addGestureRecognizer(tappedAnywhereGesture)
         
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
+        
+        sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -136,7 +142,10 @@ class ProfileHeaderChatViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        tableView.frame = view.bounds
+        
+        let typeViewHeight:CGFloat = 40
+        
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: 25, left: 0, bottom: 40, right: 0))
         
         closeButton.frame = CGRect(
             x: 5,
@@ -145,7 +154,6 @@ class ProfileHeaderChatViewController: UIViewController {
             height: 25
         )
         
-        let typeViewHeight:CGFloat = 40
         typeView.frame = CGRect(
             x: 0,
             y: view.height - typeViewHeight,
@@ -194,7 +202,14 @@ class ProfileHeaderChatViewController: UIViewController {
     
     func configure(with conversationViewModel: ConversationViewModel, chatViewModels: [MessageViewModel]) {
         viewModels = chatViewModels
+        self.conversationViewModel = conversationViewModel
         tableView.reloadData()
+    }
+    
+    func configureForNewConversation(with userId: String) {
+        // Show color choice
+        otherUserId = userId
+        newConversation = true
     }
     
     // MARK: - Obj-C Functions
@@ -224,6 +239,70 @@ class ProfileHeaderChatViewController: UIViewController {
     
     @objc func closeButtonPressed() {
         delegate?.didTapClose(vc: self)
+    }
+    
+    @objc func sendButtonPressed() {
+        guard let messageText = typeTextField.text, messageText != "" else {
+            return
+        }
+        
+        typeTextField.text = ""
+        
+        if newConversation {
+            guard let otherUserId = otherUserId else {
+                fatalError("other User ID not set!")
+            }
+            
+            ConversationFirestoreManager.shared.startConversation(
+                withUser: otherUserId,
+                message: messageText) { (result) in
+                switch result {
+                case .success(let conversationModel):
+                    
+                    ConversationViewModelBuilder.build(from: conversationModel) { (conversationViewModel) in
+                        if let conversationViewModel = conversationViewModel {
+                            // Subscribe to messages
+                            ChatFirestoreManager.shared.getMessagesForConversation(withId: conversationModel.id) { (result) in
+                                switch result {
+                                case .success(let messages):
+                                    let messageViewModels = ChatViewModelBuilder.build(
+                                        for: messages,
+                                        conversationViewModel: conversationViewModel
+                                    )
+                                    self.conversationViewModel = conversationViewModel
+                                    self.viewModels = messageViewModels
+                                    self.tableView.reloadData()
+                                case .failure(let error):
+                                    print(error)
+                                }
+                            }
+                        }
+                    }
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        } else {
+            guard let conversationViewModel = conversationViewModel else {
+                fatalError("Conversation ViewModel not configured correctly")
+            }
+            // Send message normally
+            ChatFirestoreManager.shared.sendChat(
+                conversationID: conversationViewModel.id,
+                messageText: messageText) { (result) in
+                switch result {
+                case .success(let messageID):
+                    let newMessageModel = Message(senderId: AuthManager.shared.userId ?? "", messageText: messageText, timestamp: Date())
+                    let newMessageViewModel = ChatViewModelBuilder.build(for: [newMessageModel], conversationViewModel: conversationViewModel)
+                    
+                    self.viewModels.append(contentsOf: newMessageViewModel)
+                    self.tableView.reloadData()
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
     
     // MARK: - Private Functions

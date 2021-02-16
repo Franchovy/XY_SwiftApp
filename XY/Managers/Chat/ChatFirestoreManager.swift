@@ -61,12 +61,16 @@ final class ChatFirestoreManager {
         }
     }
     
-    func sendChat(conversationID: String, chatMessage: Message, completion: @escaping(Result<String, Error>) -> Void) {
+    func sendChat(conversationID: String, messageText: String, completion: @escaping(Result<String, Error>) -> Void) {
+        guard let userId = AuthManager.shared.userId else {
+            return
+        }
+        
         let newMessageDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document(conversationID).collection(FirebaseKeys.CollectionPath.messages).document()
         
         let messageData: [String: Any] = [
-            FirebaseKeys.ConversationKeys.MessagesKeys.sender: chatMessage.senderId,
-            FirebaseKeys.ConversationKeys.MessagesKeys.message: chatMessage.messageText,
+            FirebaseKeys.ConversationKeys.MessagesKeys.sender: userId,
+            FirebaseKeys.ConversationKeys.MessagesKeys.message: messageText,
             FirebaseKeys.ConversationKeys.MessagesKeys.timestamp: FieldValue.serverTimestamp()
         ]
         

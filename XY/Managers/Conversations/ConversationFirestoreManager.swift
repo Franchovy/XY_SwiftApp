@@ -72,7 +72,15 @@ final class ConversationFirestoreManager {
                     if let error = error {
                         completion(.failure(error))
                     } else {
-                        completion(.success(ConversationModel(newConversationData, id: newConversationDocument.documentID)))
+                        let newConversationModel = ConversationModel(
+                            id: newConversationDocument.documentID,
+                            timestamp: Date(),
+                            members: [ userId, otherUserId ],
+                            level: 0,
+                            xp: 0,
+                            mostRecentTimestamp: Date()
+                        )
+                        completion(.success(newConversationModel))
                     }
                 }
             }
