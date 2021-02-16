@@ -7,12 +7,18 @@
 
 import UIKit
 
+protocol ProfileConversationsViewControllerDelegate {
+    func openConversation(with viewModel: ConversationViewModel)
+}
+
 class ProfileHeaderConversationsViewController: UIViewController {
 
+    var delegate: ProfileConversationsViewControllerDelegate?
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.rowHeight = 90
-        tableView.allowsMultipleSelection = true
+        tableView.allowsSelection = true
         tableView.register(ConversationPreviewTableViewCell.self, forCellReuseIdentifier: ConversationPreviewTableViewCell.identifier)
         return tableView
     }()
@@ -65,5 +71,8 @@ extension ProfileHeaderConversationsViewController : UITableViewDataSource, UITa
         return cell
     }
 
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewModel = viewModels[indexPath.row]
+        delegate?.openConversation(with: viewModel)
+    }
 }

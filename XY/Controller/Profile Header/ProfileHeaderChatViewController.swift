@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ProfileChatViewControllerDelegate {
+    func didTapClose(vc: ProfileHeaderChatViewController)
+}
+
 class ProfileHeaderChatViewController: UIViewController {
     
     private let tableView: UITableView = {
@@ -22,6 +26,13 @@ class ProfileHeaderChatViewController: UIViewController {
     private let typeView: UIView = {
         let view = UIView()
         return view
+    }()
+    
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark.circle"), for: .normal)
+        button.isHidden = true
+        return button
     }()
     
     private let emojiButtonGradient: CAGradientLayer = {
@@ -79,26 +90,13 @@ class ProfileHeaderChatViewController: UIViewController {
         return textView
     }()
     
-    var viewModels:[MessageViewModel] = [
-        MessageViewModel(
-            text: "Yo man, ready for China?",
-            timestamp: Date(),
-            nickname: "CEO",
-            senderIsSelf: false
-        ),
-        MessageViewModel(
-            text: "Hey dude, give me two minutes, I got problems with the new viewcontroller again.",
-            timestamp: Date(),
-            nickname: "CTO",
-            senderIsSelf: true
-        ),
-        MessageViewModel(
-            text: "Wow, you really still developing the app yourself? God damn.",
-            timestamp: Date(),
-            nickname: "CEO",
-            senderIsSelf: false
-        )
-    ]
+    private var tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
+    
+    var delegate: ProfileChatViewControllerDelegate?
+    
+    var viewModels = [MessageViewModel]()
+    
+    // MARK: - Initialisers
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -113,6 +111,7 @@ class ProfileHeaderChatViewController: UIViewController {
         typeView.addSubview(sendButton)
         
         view.addSubview(typeView)
+        view.addSubview(closeButton)
         
         tableView.dataSource = self
         tableView.delegate = self
@@ -120,13 +119,17 @@ class ProfileHeaderChatViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
-        view.addGestureRecognizer(tapGesture)
+        tappedAnywhereGesture.isEnabled = false
+        view.addGestureRecognizer(tappedAnywhereGesture)
+        
+        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -134,6 +137,13 @@ class ProfileHeaderChatViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         tableView.frame = view.bounds
+        
+        closeButton.frame = CGRect(
+            x: 5,
+            y: 5,
+            width: 25,
+            height: 25
+        )
         
         let typeViewHeight:CGFloat = 40
         typeView.frame = CGRect(
@@ -176,10 +186,18 @@ class ProfileHeaderChatViewController: UIViewController {
         )
     }
     
+    // MARK: - Public functions
+    
+    func showCloseButton() {
+        closeButton.isHidden = false
+    }
+    
     func configure(with conversationViewModel: ConversationViewModel, chatViewModels: [MessageViewModel]) {
         viewModels = chatViewModels
         tableView.reloadData()
     }
+    
+    // MARK: - Obj-C Functions
     
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
@@ -188,17 +206,27 @@ class ProfileHeaderChatViewController: UIViewController {
         }
         
         tableView.frame.origin.y = keyboardSize.height
+        
+        tappedAnywhereGesture.isEnabled = true
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-
+        tappedAnywhereGesture.isEnabled = false
         
         tableView.frame.origin.y = 0
     }
     
     @objc func tappedAnywhere() {
+        tappedAnywhereGesture.isEnabled = false
+        
         typeTextField.resignFirstResponder()
     }
+    
+    @objc func closeButtonPressed() {
+        delegate?.didTapClose(vc: self)
+    }
+    
+    // MARK: - Private Functions
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if #available(iOS 13.0, *) {

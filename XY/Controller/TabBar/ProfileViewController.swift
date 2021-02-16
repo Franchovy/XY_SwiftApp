@@ -315,9 +315,6 @@ class ProfileViewController: UIViewController {
         
     }
     
-    @objc private func didTapAnywhere() {
-        // Send a message to header to stop editing
-    }
 }
 
 // MARK: - CollectionView Extension
@@ -360,10 +357,6 @@ extension ProfileViewController : UICollectionViewDataSource {
             width: view.width,
             height: view.width * aspectRatio + 30
         )
-        
-        let tappedAnywhereExitEditingGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
-        headerView.isUserInteractionEnabled = true
-        headerView.addGestureRecognizer(tappedAnywhereExitEditingGesture)
         
         guard let profileHeaderViewModel = profileHeaderViewModel else {
             return headerView

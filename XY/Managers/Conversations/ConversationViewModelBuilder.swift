@@ -20,6 +20,7 @@ final class ConversationViewModelBuilder {
         var lastMessageText: String?
         var lastMessageTimestamp: Date?
         var unread: Bool?
+        var messageViewModels: [MessageViewModel]
         
         let group = DispatchGroup()
         group.enter()
@@ -50,17 +51,19 @@ final class ConversationViewModelBuilder {
         }
         
         // Fetch first message
-        ChatFirestoreManager.shared.getLastMessageForConversation(
+        ChatFirestoreManager.shared.getMessagesForConversation(
             withId: model.id) { (result) in
             defer {
                 group.leave()
             }
             switch result {
-            case .success(let message):
-                let messagePrefix = message.senderId == AuthManager.shared.userId ? "You: " : ""
-                lastMessageText = messagePrefix + message.messageText
-                
-                lastMessageTimestamp = message.timestamp
+            case .success(let messages):
+                if let message = messages.last {
+                    let messagePrefix = message.senderId == AuthManager.shared.userId ? "You: " : ""
+                    lastMessageText = messagePrefix + message.messageText
+                    
+                    lastMessageTimestamp = message.timestamp
+                }
             case .failure(let error):
                 print(error)
             }
@@ -74,6 +77,7 @@ final class ConversationViewModelBuilder {
             }
             
             let conversationViewModel = ConversationViewModel(
+                id: model.id,
                 image: profileImage,
                 name: nickname,
                 lastMessageText: lastMessageText,

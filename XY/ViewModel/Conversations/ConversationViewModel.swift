@@ -8,6 +8,7 @@
 import UIKit
 
 struct ConversationViewModel {
+    let id: String
     let image: UIImage?
     let name: String
     let lastMessageText: String

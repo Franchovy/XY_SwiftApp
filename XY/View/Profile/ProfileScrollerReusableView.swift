@@ -75,10 +75,6 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         addSubview(topBar)
         topBar.addSubview(control)
 
-        horizontalScrollView.contentSize = CGSize(
-            width: width * CGFloat(viewControllers.count),
-            height: height
-        )
         
         horizontalScrollView.contentInsetAdjustmentBehavior = .never
         horizontalScrollView.delegate = self
@@ -113,6 +109,11 @@ class ProfileScrollerReusableView: UICollectionReusableView {
             height: topBarHeight
         )
         
+        horizontalScrollView.contentSize = CGSize(
+            width: width * CGFloat(viewControllers.count),
+            height: height
+        )
+        
         for i in 0...viewControllers.count-1 {
             let viewController = viewControllers[i]
             viewController.view.frame = CGRect(
@@ -142,7 +143,6 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     func setUpHeaderButtons() {
         control.addTarget(self, action: #selector(didChangeSegmentControl(_:)), for: .valueChanged)
-        
     }
     
     public func setIsOwnProfile(isOwn: Bool) {
@@ -195,6 +195,8 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                 }
             }
             
+            conversationsViewController.delegate = self
+            
         } else {
             let chatViewController = ProfileHeaderChatViewController()
             horizontalScrollView.addSubview(chatViewController.view)
@@ -227,6 +229,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                                     )
                                 })
                                 let conversationViewModel = ConversationViewModel(
+                                    id: conversationModel.id,
                                     image: viewModel.profileImage,
                                     name: viewModel.nickname,
                                     lastMessageText: messageModels.last!.messageText,
@@ -265,6 +268,45 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     
     //MARK: - Private functions
     
+    private func insertViewController(atIndex index: Int, vc: UIViewController, withIcon icon: UIImage, navigateToNewVC: Bool) {
+        horizontalScrollView.addSubview(vc.view)
+        viewControllers.insert(vc, at: index)
+        
+        control.insertSegment(
+            with: icon.withTintColor(UIColor(0xB6B6B6)),
+            at: index,
+            animated: true
+        )
+        
+        setNeedsLayout()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            UIView.animate(withDuration: 0.2) {
+                self.horizontalScrollView.contentOffset = CGPoint(x: vc.view.frame.origin.x, y: 0)
+            }
+        }
+    }
+    
+    private func removeViewController(atIndex index: Int, vc: UIViewController) {
+        
+        if control.selectedSegmentIndex == index {
+            control.selectedSegmentIndex = index - 1
+        }
+        
+        UIView.animate(withDuration: 0.2) {
+            self.horizontalScrollView.contentOffset = CGPoint(x: self.viewControllers[index - 1].view.frame.origin.x, y: 0)
+            
+            self.setNeedsLayout()
+        } completion: { (done) in
+            if done {
+                self.viewControllers.remove(at: index)
+                vc.view.removeFromSuperview()
+                
+                self.control.removeSegment(at: index, animated: true)
+            }
+        }
+    }
+    
     private func setControlSegmentColor(forIndex index: Int) {
         
         var selectedIndexColor = UIColor()
@@ -288,12 +330,13 @@ extension ProfileScrollerReusableView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         scrollView.contentOffset.y = 0
+        let x = scrollView.contentOffset.x
         
-        if scrollView.contentOffset.x == 0 || scrollView.contentOffset.x <= (width/2) {
+        if x <= (width/2) {
             setControlSegmentColor(forIndex: 0)
-        } else if scrollView.contentOffset.x > (width/2) && scrollView.contentOffset.x < (3 * width/2){
+        } else if x > (width/2), x < (3 * width/2){
             setControlSegmentColor(forIndex: 1)
-        } else if scrollView.contentOffset.x > (3 * width/2) {
+        } else if x > (3 * width/2) {
             setControlSegmentColor(forIndex: 2)
         }
         
@@ -326,5 +369,37 @@ extension ProfileScrollerReusableView : ProfileHeaderSettingsViewControllerDeleg
         print(superviewController)
         
         superviewController.backToLaunch()
+    }
+}
+
+extension ProfileScrollerReusableView : ProfileConversationsViewControllerDelegate {
+    func openConversation(with viewModel: ConversationViewModel) {
+        let vc = ProfileHeaderChatViewController()
+        vc.delegate = self
+        vc.showCloseButton()
+        
+        ChatFirestoreManager.shared.getMessagesForConversation(
+            withId: viewModel.id) { (result) in
+            switch result {
+            case .success(let messages):
+                let chatViewModels = ChatViewModelBuilder.build(for: messages, conversationViewModel: viewModel)
+                vc.configure(with: viewModel, chatViewModels: chatViewModels)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        insertViewController(atIndex: 2, vc: vc, withIcon: UIImage(named: "profile_conversations_icon")!, navigateToNewVC: true
+        )
+    }
+}
+
+extension ProfileScrollerReusableView: ProfileChatViewControllerDelegate {
+    func didTapClose(vc: ProfileHeaderChatViewController) {
+        guard let viewControllerIndex = viewControllers.firstIndex(of: vc) else {
+            return
+        }
+        removeViewController(atIndex: viewControllerIndex, vc: vc)
+        
     }
 }
