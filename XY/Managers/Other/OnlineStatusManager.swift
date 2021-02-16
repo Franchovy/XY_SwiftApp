@@ -14,11 +14,6 @@ final class OnlineStatusManager {
     
     public func setupOnlineStatus() {
         guard let userId = AuthManager.shared.userId else { fatalError() }
-
-        // BLOCK ONLINE NOW ON THE DEV DB
-        if FirestoreReferenceManager.environment == "dev" {
-            return
-        }
         
         // get user branch of database
         let ref = Database.database().reference()
@@ -31,6 +26,12 @@ final class OnlineStatusManager {
                 return
             }
             if let profileId = ProfileManager.shared.profileId {
+                
+                // BLOCK ONLINE NOW ON THE DEV DB
+                if FirestoreReferenceManager.environment == "dev" {
+                    return
+                }
+                
                 userRef.child("profile").setValue(profileId) { error, databaseReference in
                     if let error = error {
                         print("Error setting online value: \(error)")

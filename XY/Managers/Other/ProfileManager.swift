@@ -17,6 +17,8 @@ final class ProfileManager {
     static let shared = ProfileManager()
     private init () { }
     
+    var ownProfile: ProfileModel?
+    
     var profilesCache = [String: [String: Any]?]()
     
     var delegate: ProfileManagerDelegate?
@@ -28,29 +30,36 @@ final class ProfileManager {
     }
 
     func initialiseForCurrentUser(completion: @escaping(Error?) -> Void) {
-//        if let userData = UserDefaults.standard.dictionary(forKey: "userData"),
-//           let profileId = userData["profileId"] as? String {
-//            self.profileId = profileId
-//        } else {
-            // Fetch profileID from Firestore
-            guard let userId = AuthManager.shared.userId else {
-                fatalError("Authentication must be done before profile can be accessed.")
+
+        // Fetch profileID from Firestore
+        guard let userId = AuthManager.shared.userId else {
+            fatalError("Authentication must be done before profile can be accessed.")
+        }
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId).getDocument { (snapshot, error) in
+            if let error = error {
+                completion(error)
             }
-            
-            FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId).getDocument { (snapshot, error) in
-                if let error = error {
-                    completion(error)
-                }
-                if let userData = snapshot?.data() {
-                    let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
-                    
-                    UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
-                    self.profileId = profileId
-                    
-                    completion(nil)
-                }
+            if let userData = snapshot?.data() {
+                let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
+                
+                UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
+                
+                self.profileId = profileId
+                
+                completion(nil)
             }
-//        }
+        }
+        
+        fetchProfile(userId: userId) { (result) in
+            switch result {
+            case .success(let profileModel):
+                self.ownProfile = profileModel
+            case .failure(let error):
+                print("Error fetching own profile at initialisation!")
+            }
+        }
+
     }
     
     func newProfileCreated(withId profileId: String) {

@@ -202,6 +202,7 @@ class ProfileHeaderChatViewController: UIViewController {
     
     func configure(with conversationViewModel: ConversationViewModel, chatViewModels: [MessageViewModel]) {
         viewModels = chatViewModels
+        self.otherUserId = conversationViewModel.otherUserId
         self.conversationViewModel = conversationViewModel
         tableView.reloadData()
     }
@@ -272,6 +273,9 @@ class ProfileHeaderChatViewController: UIViewController {
                                     self.conversationViewModel = conversationViewModel
                                     self.viewModels = messageViewModels
                                     self.tableView.reloadData()
+                                    
+                                    
+                                    
                                 case .failure(let error):
                                     print(error)
                                 }
@@ -296,6 +300,8 @@ class ProfileHeaderChatViewController: UIViewController {
                     let newMessageModel = Message(senderId: AuthManager.shared.userId ?? "", messageText: messageText, timestamp: Date())
                     let newMessageViewModel = ChatViewModelBuilder.build(for: [newMessageModel], conversationViewModel: conversationViewModel)
                     
+                    self.sendPushNotificationForMessage(message: newMessageModel)
+                    
                     self.viewModels.append(contentsOf: newMessageViewModel)
                     self.tableView.reloadData()
                 case .failure(let error):
@@ -306,6 +312,17 @@ class ProfileHeaderChatViewController: UIViewController {
     }
     
     // MARK: - Private Functions
+    
+    private func sendPushNotificationForMessage(message: Message) {
+        
+        guard let otherUserId = otherUserId else {
+            fatalError("Please set other user id")
+        }
+        // Send push notification
+        let pushNotificationSender = PushNotificationSender()
+        pushNotificationSender.sendPushNotification(to: otherUserId, title: ProfileManager.shared.ownProfile!.nickname, body: message.messageText)
+        
+    }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         if #available(iOS 13.0, *) {

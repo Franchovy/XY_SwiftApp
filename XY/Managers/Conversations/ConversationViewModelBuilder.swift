@@ -78,6 +78,7 @@ final class ConversationViewModelBuilder {
             
             let conversationViewModel = ConversationViewModel(
                 id: model.id,
+                otherUserId: otherUserId,
                 image: profileImage,
                 name: nickname,
                 lastMessageText: lastMessageText,

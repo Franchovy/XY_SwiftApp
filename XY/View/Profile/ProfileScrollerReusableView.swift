@@ -230,6 +230,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                                 })
                                 let conversationViewModel = ConversationViewModel(
                                     id: conversationModel.id,
+                                    otherUserId: userId,
                                     image: viewModel.profileImage,
                                     name: viewModel.nickname,
                                     lastMessageText: messageModels.last!.messageText,

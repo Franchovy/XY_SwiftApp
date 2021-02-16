@@ -31,7 +31,6 @@
 		B925CC6B25D5842E00542A58 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC6A25D5842E00542A58 /* Message.swift */; };
 		B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC6E25D5843A00542A58 /* ConversationViewModel.swift */; };
 		B925CC7325D5844200542A58 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC7225D5844200542A58 /* MessageViewModel.swift */; };
-		B925CC7725D5854600542A58 /* ConversationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC7625D5854600542A58 /* ConversationsManager.swift */; };
 		B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */; };
@@ -43,6 +42,8 @@
 		B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265025DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift */; };
 		B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265525DADF250063AAD6 /* ConversationFirestoreManager.swift */; };
 		B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */; };
+		B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */; };
+		B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936266325DC23630063AAD6 /* PushNotificationSender.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
@@ -136,7 +137,6 @@
 		B925CC6A25D5842E00542A58 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		B925CC6E25D5843A00542A58 /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		B925CC7225D5844200542A58 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
-		B925CC7625D5854600542A58 /* ConversationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsManager.swift; sourceTree = "<group>"; };
 		B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowAlgorithmManager.swift; sourceTree = "<group>"; };
@@ -148,6 +148,8 @@
 		B936265025DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationPreviewTableViewCell.swift; sourceTree = "<group>"; };
 		B936265525DADF250063AAD6 /* ConversationFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationFirestoreManager.swift; sourceTree = "<group>"; };
 		B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModelBuilder.swift; sourceTree = "<group>"; };
+		B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
+		B936266325DC23630063AAD6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
 		B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScrollerReusableView.swift; sourceTree = "<group>"; };
@@ -515,7 +517,6 @@
 				B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */,
 				B9BCABFA25CD58C000155F37 /* ActionsManager.swift */,
 				B90BFA2F25CD6D7100575598 /* XPModelManager.swift */,
-				B925CC7625D5854600542A58 /* ConversationsManager.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -549,6 +550,8 @@
 				B9BDE38325C9AE1700B00656 /* Firebase */,
 				B936262125D963BF0063AAD6 /* Flow */,
 				B9BDE38425C9AE2200B00656 /* Other */,
+				B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */,
+				B936266325DC23630063AAD6 /* PushNotificationSender.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -754,6 +757,7 @@
 				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,
 				B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
+				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
@@ -762,6 +766,7 @@
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
+				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
@@ -798,7 +803,6 @@
 				B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
 				B925CC6B25D5842E00542A58 /* Message.swift in Sources */,
-				B925CC7725D5854600542A58 /* ConversationsManager.swift in Sources */,
 				B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */,

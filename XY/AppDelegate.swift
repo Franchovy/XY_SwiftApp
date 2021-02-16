@@ -22,30 +22,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
                 
         FirebaseApp.configure()
-
-        
-//        UNUserNotificationCenter.current().delegate = self
-//        Messaging.messaging().delegate = self
-        
-        // Register for Notifications
-//        if #available(iOS 10.0, *) {
-//            // For iOS 10 display notification (sent via APNS)
-//
-//
-//            let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-//            UNUserNotificationCenter.current().requestAuthorization(
-//                options: authOptions,
-//                completionHandler: {_, _ in })
-//        } else {
-//            let settings: UIUserNotificationSettings =
-//                UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
-//            application.registerUserNotificationSettings(settings)
-//        }
-//
-//        application.registerForRemoteNotifications()
                 
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
+            let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
+            pushNotificationsManager.registerForPushNotifications()
+            
             OnlineStatusManager.shared.setupOnlineStatus()
             
             ActionManager.shared.getActions()
@@ -132,15 +114,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
-    }
-}
-
-extension AppDelegate: MessagingDelegate, UNUserNotificationCenterDelegate {
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        let dataDict:[String: String] = ["token": fcmToken ?? ""]
-        print("Notification token: \(fcmToken)")
-//        NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
-        // TODO: If necessary send token to application server.
-        // Note: This callback is fired at each app startup and whenever a new token is generated.
     }
 }

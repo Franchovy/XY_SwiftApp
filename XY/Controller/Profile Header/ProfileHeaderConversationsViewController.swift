@@ -23,6 +23,19 @@ class ProfileHeaderConversationsViewController: UIViewController {
         return tableView
     }()
     
+    private let notificationsImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    private let notificationsToggle: UISwitch = {
+        let toggle = UISwitch()
+        toggle.isOn = false
+        return toggle
+    }()
+    
     var viewModels = [ConversationViewModel]()
     
     init() {
@@ -32,6 +45,16 @@ class ProfileHeaderConversationsViewController: UIViewController {
         tableView.delegate = self
         
         view.addSubview(tableView)
+        view.addSubview(notificationsImage)
+        view.addSubview(notificationsToggle)
+        
+        if let value = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool {
+            setNotificationState(to: value)
+        } else {
+            setNotificationState(to: false)
+        }
+        
+        notificationsToggle.addTarget(self, action: #selector(notificationsToggled), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -45,13 +68,46 @@ class ProfileHeaderConversationsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tableView.frame = view.bounds
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0))
+        
+        notificationsToggle.frame = CGRect(
+            x: view.width - 50 - 5,
+            y: 5,
+            width: 50,
+            height: 30
+        )
+        
+        notificationsImage.frame = CGRect(
+            x: notificationsToggle.left - 30 - 5,
+            y: 5,
+            width: 30,
+            height: 30
+        )
     }
     
     func configure(with viewModels: [ConversationViewModel]) {
         self.viewModels = viewModels
         
         tableView.reloadData()
+    }
+    
+    private func setNotificationState(to value: Bool) {
+        notificationsToggle.isOn = value
+        
+        UserDefaults.standard.setValue(value, forKey: "pushNotificationsEnabled")
+        
+        notificationsImage.image = value ? UIImage(systemName: "bell.fill") : UIImage(systemName: "bell.slash.fill")
+    }
+    
+    @objc private func notificationsToggled() {
+        if notificationsToggle.isOn {
+            guard let userId = AuthManager.shared.userId else {
+                return
+            }
+            let pushNotificationManager = PushNotificationManager.init(userID: userId)
+            pushNotificationManager.registerForPushNotifications()
+        }
+        setNotificationState(to: notificationsToggle.isOn)
     }
     
 }
