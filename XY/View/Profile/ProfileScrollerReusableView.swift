@@ -60,15 +60,6 @@ class ProfileScrollerReusableView: UICollectionReusableView {
             at: 0,
             animated: false
         )
-
-        let chatViewController = ProfileHeaderChatViewController()
-        horizontalScrollView.addSubview(chatViewController.view)
-        viewControllers.append(chatViewController)
-        control.insertSegment(
-            with: UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6)),
-            at: viewControllers.count - 1,
-            animated: false
-        )
         
         let settingsViewController = ProfileHeaderSettingsViewController()
         settingsViewController.delegate = self
@@ -155,14 +146,12 @@ class ProfileScrollerReusableView: UICollectionReusableView {
     }
     
     public func setIsOwnProfile(isOwn: Bool) {
-//        control.isHidden = !isOwn
         self.isOwn = isOwn
         
         if !isOwn {
             // Remove settings segment
             control.removeSegment(at: control.numberOfSegments-1, animated: false)
         }
-//        horizontalScrollView.isScrollEnabled = isOwn
     }
     
     public func configure(with viewModel: ProfileViewModel) {
@@ -170,16 +159,53 @@ class ProfileScrollerReusableView: UICollectionReusableView {
             return
         }
         profileViewController.configure(with: viewModel)
+                
+        isOwn = viewModel.userId == AuthManager.shared.userId
         
         if isOwn {
-            guard let conversationsViewController = viewControllers[1] as? ProfileHeaderConversationsViewController else {
-                return
-            }
+            let conversationsViewController = ProfileHeaderConversationsViewController()
+            horizontalScrollView.addSubview(conversationsViewController.view)
+            viewControllers.insert(conversationsViewController, at: 1)
+
+            control.insertSegment(
+                with: UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6)),
+                at: 1,
+                animated: false
+            )
+            
             // Fetch all of this user's conversations
+            ConversationFirestoreManager.shared.getConversations { (result) in
+                switch result {
+                case .success(let conversationModels):
+                    var conversations = [ConversationViewModel]()
+                    
+                    for model in conversationModels {
+                        ConversationViewModelBuilder.build(from: model) { (viewModel) in
+                            
+                            if let viewModel = viewModel {
+                                conversations.append(viewModel)
+                            }
+                            if conversations.count == conversationModels.count {
+                                conversationsViewController.configure(with: conversations)
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    print(error)
+                }
+            }
             
         } else {
-            guard let chatViewController = viewControllers[1] as? ProfileHeaderChatViewController,
-                  let userId = viewModel.userId else {
+            let chatViewController = ProfileHeaderChatViewController()
+            horizontalScrollView.addSubview(chatViewController.view)
+            viewControllers.insert(chatViewController, at: 1)
+            control.insertSegment(
+                with: UIImage(named: "profile_conversations_icon")?.withTintColor(UIColor(0xB6B6B6)),
+                at: 1,
+                animated: false
+            )
+            
+            guard let userId = viewModel.userId else {
                 return
             }
             // Fetch conversation
@@ -224,6 +250,10 @@ class ProfileScrollerReusableView: UICollectionReusableView {
                 }
             }
         }
+        
+        setNeedsLayout()
+        
+        setControlSegmentColor(forIndex: 0)
     }
     
     public func getProfileDelegate() -> ProfileViewModelDelegate {

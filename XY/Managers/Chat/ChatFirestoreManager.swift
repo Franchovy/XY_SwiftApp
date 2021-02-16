@@ -12,6 +12,29 @@ final class ChatFirestoreManager {
     static let shared = ChatFirestoreManager()
     private init() { }
     
+    func getLastMessageForConversation(withId conversationID: String, completion: @escaping(Result<Message, Error>) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations)
+            .document(conversationID)
+            .collection(FirebaseKeys.CollectionPath.messages)
+            .order(by: FirebaseKeys.ConversationKeys.MessagesKeys.timestamp, descending: false)
+            .limit(toLast: 1)
+            .getDocuments() { querySnapshot, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let querySnapshot = querySnapshot {
+                    for doc in querySnapshot.documents {
+                        let data = doc.data()
+                        let message = Message(
+                            senderId: data[FirebaseKeys.ConversationKeys.MessagesKeys.sender] as! String,
+                            messageText: data[FirebaseKeys.ConversationKeys.MessagesKeys.message] as! String,
+                            timestamp: (data[FirebaseKeys.ConversationKeys.MessagesKeys.timestamp] as! Firebase.Timestamp).dateValue()
+                        )
+                        completion(.success(message))
+                        return
+                    }
+                }
+            }
+    }
     
     func getMessagesForConversation(withId conversationID: String, completion: @escaping(Result<[Message], Error>) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations)

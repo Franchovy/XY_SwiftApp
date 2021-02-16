@@ -40,6 +40,9 @@
 		B936264025DA824C0063AAD6 /* ChatEventRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263F25DA824C0063AAD6 /* ChatEventRouter.swift */; };
 		B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936264325DA83AC0063AAD6 /* ChatViewModelBuilder.swift */; };
 		B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936264925DA86100063AAD6 /* ChatFirestoreManager.swift */; };
+		B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265025DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift */; };
+		B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265525DADF250063AAD6 /* ConversationFirestoreManager.swift */; };
+		B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
@@ -142,6 +145,9 @@
 		B936263F25DA824C0063AAD6 /* ChatEventRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEventRouter.swift; sourceTree = "<group>"; };
 		B936264325DA83AC0063AAD6 /* ChatViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModelBuilder.swift; sourceTree = "<group>"; };
 		B936264925DA86100063AAD6 /* ChatFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFirestoreManager.swift; sourceTree = "<group>"; };
+		B936265025DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationPreviewTableViewCell.swift; sourceTree = "<group>"; };
+		B936265525DADF250063AAD6 /* ConversationFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationFirestoreManager.swift; sourceTree = "<group>"; };
+		B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModelBuilder.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
 		B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScrollerReusableView.swift; sourceTree = "<group>"; };
@@ -328,6 +334,7 @@
 			isa = PBXGroup;
 			children = (
 				B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */,
+				B936265025DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift */,
 			);
 			path = ChatBubbles;
 			sourceTree = "<group>";
@@ -350,6 +357,15 @@
 				B936264925DA86100063AAD6 /* ChatFirestoreManager.swift */,
 			);
 			path = Chat;
+			sourceTree = "<group>";
+		};
+		B936265425DADEE10063AAD6 /* Conversations */ = {
+			isa = PBXGroup;
+			children = (
+				B936265525DADF250063AAD6 /* ConversationFirestoreManager.swift */,
+				B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */,
+			);
+			path = Conversations;
 			sourceTree = "<group>";
 		};
 		B93CF23325C566C4003CB3DB /* Profile Header */ = {
@@ -528,6 +544,7 @@
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B936265425DADEE10063AAD6 /* Conversations */,
 				B936263425DA81800063AAD6 /* Chat */,
 				B9BDE38325C9AE1700B00656 /* Firebase */,
 				B936262125D963BF0063AAD6 /* Flow */,
@@ -724,6 +741,7 @@
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
+				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
@@ -733,6 +751,7 @@
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
+				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,
 				B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
@@ -786,6 +805,7 @@
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 				1425137C259F8C0100DC08BB /* NotificationViewModel.swift in Sources */,
+				B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */,
 				B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,

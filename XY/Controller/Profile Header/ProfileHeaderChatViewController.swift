@@ -122,7 +122,6 @@ class ProfileHeaderChatViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapGesture)
-        
     }
     
     required init?(coder: NSCoder) {

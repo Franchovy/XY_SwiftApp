@@ -11,19 +11,21 @@ class ProfileHeaderConversationsViewController: UIViewController {
 
     private let tableView: UITableView = {
         let tableView = UITableView()
-        tableView.rowHeight = 45
+        tableView.rowHeight = 90
         tableView.allowsMultipleSelection = true
-//        tableView.register(ChatBubbleTableViewCell.self, forCellReuseIdentifier: ChatBubbleTableViewCell.identifier)
+        tableView.register(ConversationPreviewTableViewCell.self, forCellReuseIdentifier: ConversationPreviewTableViewCell.identifier)
         return tableView
     }()
     
-//    var viewModels = [MessageViewModel]()
+    var viewModels = [ConversationViewModel]()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
-//        tableView.dataSource = self
-//        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        view.addSubview(tableView)
     }
     
     required init?(coder: NSCoder) {
@@ -32,27 +34,36 @@ class ProfileHeaderConversationsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
     }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
+        tableView.frame = view.bounds
     }
     
-    func configure(with viewModel: ConversationViewModel) {
+    func configure(with viewModels: [ConversationViewModel]) {
+        self.viewModels = viewModels
         
+        tableView.reloadData()
     }
     
 }
-//
-//extension ProfileHeaderConversationsViewController : UITableViewDataSource, UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return 0
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//    }
-//
-//
-//}
+
+extension ProfileHeaderConversationsViewController : UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModels.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ConversationPreviewTableViewCell.identifier) as? ConversationPreviewTableViewCell else {
+            fatalError()
+        }
+        
+        cell.configure(with: viewModels[indexPath.row])
+        
+        return cell
+    }
+
+
+}
