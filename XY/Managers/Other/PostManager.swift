@@ -171,7 +171,7 @@ final class PostManager {
     }
     
     func uploadComment(forPost postID: String, comment text: String, completion: @escaping(Result<Comment, Error>) -> Void) {
-        let newCommentDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(postID).collection(FirebaseKeys.CollectionPath.messages).document()
+        let newCommentDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document(postID).collection(FirebaseKeys.CollectionPath.comments).document()
         
         guard let userId = AuthManager.shared.userId else {
             return

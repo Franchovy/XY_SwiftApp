@@ -79,8 +79,9 @@ class PostViewController: UIViewController {
                 for commentModel in commentModels {
                     PostManager.shared.buildComment(from: commentModel) { (commentViewModel) in
                         if let commentViewModel = commentViewModel {
-                            self.commentViewModels.append(commentViewModel)
-                            self.tableView.reloadData()
+//                            self.commentViewModels.append(commentViewModel)
+                            self.commentViewModels.insert(commentViewModel, at: 1)
+                            self.tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .top)
                         }
                     }
                 }
