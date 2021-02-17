@@ -204,10 +204,6 @@ class ProfileViewController: UIViewController {
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

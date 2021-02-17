@@ -28,6 +28,15 @@ class PostViewController: UIViewController {
         return button
     }()
     
+    private let writeCommentButton: UIButton = {
+        let button = UIButton()
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 10
+        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
+        button.setBackgroundColor(color: UIColor(0x333333), forState: .normal)
+        return button
+    }()
+    
     var onDismiss: (() -> Void)?
     
     var postViewModel: PostViewModel?
@@ -46,7 +55,9 @@ class PostViewController: UIViewController {
         
         view.addSubview(tableView)
         view.addSubview(closeButton)
+        view.addSubview(writeCommentButton)
         
+        writeCommentButton.addTarget(self, action: #selector(writeCommentButtonPressed), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         
         postViewModel = viewModel
@@ -104,11 +115,23 @@ class PostViewController: UIViewController {
             height: 35
         )
         
+        writeCommentButton.frame = CGRect(
+            x: view.width - 35 - 12.75,
+            y: view.height - 35 - 12.75,
+            width: 35,
+            height: 35
+        )
+        
         tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: closeButton.bottom + 5, left: 0, bottom: 0, right: 0))
     }
     
     @objc private func closeButtonPressed() {
         dismiss(animated: true, completion: { self.onDismiss?() })
+    }
+    
+    @objc private func writeCommentButtonPressed() {
+        // open comment view
+        
     }
 }
 

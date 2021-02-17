@@ -20,12 +20,10 @@ class ProfileHeaderChatViewController: UIViewController {
         tableView.allowsMultipleSelection = true
         tableView.separatorStyle = .none
         tableView.register(ChatBubbleTableViewCell.self, forCellReuseIdentifier: ChatBubbleTableViewCell.identifier)
+        tableView.keyboardDismissMode = .onDrag
+        tableView.alwaysBounceVertical = true
+        tableView.bounces = true
         return tableView
-    }()
-    
-    private let typeView: UIView = {
-        let view = UIView()
-        return view
     }()
     
     private let closeButton: UIButton = {
@@ -35,62 +33,7 @@ class ProfileHeaderChatViewController: UIViewController {
         return button
     }()
     
-    private let emojiButtonGradient: CAGradientLayer = {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            UIColor(0x3F63F7).cgColor,
-            UIColor(0x58A5FF).cgColor
-        ]
-        gradientLayer.type = .axial
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.2)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 1.0)
-        gradientLayer.locations = [0, 1]
-        return gradientLayer
-    }()
-    
-    private let cameraImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "camera.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    
-    private let cameraButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 10
-        button.layer.masksToBounds = true
-        return button
-    }()
-    
-    private let emojiButton: UIButton = {
-        let button = UIButton()
-        button.setBackgroundColor(color: UIColor(0x3F63F7), forState: .normal)
-        button.setImage(UIImage(systemName: "face.smiling")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
-        button.layer.cornerRadius = 10
-        button.layer.masksToBounds = true
-        return button
-    }()
-    
-    private let sendButton: UIButton = {
-        let button = UIButton()
-        button.setBackgroundColor(color: UIColor(0x3F63F7), forState: .normal)
-        button.setImage(UIImage(systemName: "paperplane.fill")?.withTintColor(.white, renderingMode: .alwaysOriginal), for: .normal)
-        button.layer.cornerRadius = 5
-        button.layer.masksToBounds = true
-        return button
-    }()
-    
-    private let typeTextField: UITextView = {
-        let textView = UITextView()
-        textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor(named: "tintColor")!.cgColor
-        textView.layer.cornerRadius = 15
-        textView.font = UIFont(name: "HelveticaNeue", size: 14)
-        textView.textContainerInset = UIEdgeInsets(top: 9, left: 4, bottom: 7, right: 27)
-        return textView
-    }()
-    
-    private var tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
+    private let typeView = TypeView()
     
     var delegate: ProfileChatViewControllerDelegate?
     
@@ -105,15 +48,10 @@ class ProfileHeaderChatViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        typeView.delegate = self
+        
         view.addSubview(tableView)
-        
-        cameraButton.layer.insertSublayer(emojiButtonGradient, at: 0)
-        cameraButton.layer.insertSublayer(cameraImageView.layer, above: nil)
-        typeView.addSubview(cameraButton)
-        typeView.addSubview(emojiButton)
-        typeView.addSubview(typeTextField)
-        typeView.addSubview(sendButton)
-        
+                
         view.addSubview(typeView)
         view.addSubview(closeButton)
         
@@ -122,13 +60,8 @@ class ProfileHeaderChatViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        tappedAnywhereGesture.isEnabled = false
-        view.addGestureRecognizer(tappedAnywhereGesture)
-        
+
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
-        
-        sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -136,10 +69,6 @@ class ProfileHeaderChatViewController: UIViewController {
     }
     
     // MARK: - Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
     
     override func viewDidLayoutSubviews() {
         
@@ -159,38 +88,6 @@ class ProfileHeaderChatViewController: UIViewController {
             y: view.height - typeViewHeight,
             width: view.width,
             height: typeViewHeight
-        )
-        
-        let buttonSize:CGFloat = 38
-        cameraButton.frame = CGRect(
-            x: 15,
-            y: (typeView.height-buttonSize)/2,
-            width: buttonSize,
-            height: buttonSize
-        )
-        emojiButtonGradient.frame = cameraButton.bounds
-        cameraImageView.frame = cameraButton.bounds.insetBy(dx: 5, dy: 5)
-        
-        emojiButton.frame = CGRect(
-            x: cameraButton.right + 5,
-            y: (typeView.height-buttonSize)/2,
-            width: buttonSize,
-            height: buttonSize
-        )
-        
-        typeTextField.frame = CGRect(
-            x: emojiButton.right + 5,
-            y: (typeView.height-buttonSize)/2,
-            width: view.width - (emojiButton.right + 5) - 15,
-            height: buttonSize
-        )
-        
-        let sendButtonSize: CGFloat = 22.5
-        sendButton.frame = CGRect(
-            x: typeTextField.right - sendButtonSize - 10.5,
-            y: 8,
-            width: sendButtonSize,
-            height: sendButtonSize
         )
     }
     
@@ -221,34 +118,68 @@ class ProfileHeaderChatViewController: UIViewController {
             return
         }
         
-        tableView.frame.origin.y = keyboardSize.height
+        typeView.frame.origin.y -= keyboardSize.height - 40 - view.top
+//        tableView.frame.size.height -= tableView.bottom - typeView.top
         
-        tappedAnywhereGesture.isEnabled = true
+//        tappedAnywhereGesture.isEnabled = true
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        tappedAnywhereGesture.isEnabled = false
+//        tappedAnywhereGesture.isEnabled = false
         
-        tableView.frame.origin.y = 0
-    }
-    
-    @objc func tappedAnywhere() {
-        tappedAnywhereGesture.isEnabled = false
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            // if keyboard size is not available for some reason, dont do anything
+            return
+        }
         
-        typeTextField.resignFirstResponder()
+        typeView.frame.origin.y = view.height - 40
     }
     
     @objc func closeButtonPressed() {
         delegate?.didTapClose(vc: self)
     }
     
-    @objc func sendButtonPressed() {
-        guard let messageText = typeTextField.text, messageText != "" else {
-            return
+    // MARK: - Private Functions
+    
+    private func sendPushNotificationForMessage(message: Message) {
+        
+        guard let otherUserId = otherUserId else {
+            fatalError("Please set other user id")
         }
+        // Send push notification
+        let pushNotificationSender = PushNotificationSender()
+        pushNotificationSender.sendPushNotification(to: otherUserId, title: ProfileManager.shared.ownProfile!.nickname, body: message.messageText)
         
-        typeTextField.text = ""
+    }
+
+}
+
+extension ProfileHeaderChatViewController : UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatBubbleTableViewCell.identifier) as? ChatBubbleTableViewCell else {
+            fatalError()
+        }
+        cell.configure(with: viewModels[indexPath.row])
+        return cell
+    }
+    
+    
+}
+
+extension ProfileHeaderChatViewController : TypeViewDelegate {
+    func emojiButtonPressed() {
         
+    }
+    
+    func imageButtonPressed() {
+        
+    }
+    
+    func sendButtonPressed(text: String) {
         if newConversation {
             guard let otherUserId = otherUserId else {
                 fatalError("other User ID not set!")
@@ -256,7 +187,7 @@ class ProfileHeaderChatViewController: UIViewController {
             
             ConversationFirestoreManager.shared.startConversation(
                 withUser: otherUserId,
-                message: messageText) { (result) in
+                message: text) { (result) in
                 switch result {
                 case .success(let conversationModel):
                     
@@ -294,10 +225,10 @@ class ProfileHeaderChatViewController: UIViewController {
             // Send message normally
             ChatFirestoreManager.shared.sendChat(
                 conversationID: conversationViewModel.id,
-                messageText: messageText) { (result) in
+                messageText: text) { (result) in
                 switch result {
                 case .success(let messageID):
-                    let newMessageModel = Message(senderId: AuthManager.shared.userId ?? "", messageText: messageText, timestamp: Date())
+                    let newMessageModel = Message(senderId: AuthManager.shared.userId ?? "", messageText: text, timestamp: Date())
                     let newMessageViewModel = ChatViewModelBuilder.build(for: [newMessageModel], conversationViewModel: conversationViewModel)
                     
                     self.sendPushNotificationForMessage(message: newMessageModel)
@@ -310,42 +241,4 @@ class ProfileHeaderChatViewController: UIViewController {
             }
         }
     }
-    
-    // MARK: - Private Functions
-    
-    private func sendPushNotificationForMessage(message: Message) {
-        
-        guard let otherUserId = otherUserId else {
-            fatalError("Please set other user id")
-        }
-        // Send push notification
-        let pushNotificationSender = PushNotificationSender()
-        pushNotificationSender.sendPushNotification(to: otherUserId, title: ProfileManager.shared.ownProfile!.nickname, body: message.messageText)
-        
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        if #available(iOS 13.0, *) {
-            if (traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection)) {
-                // ColorUtils.loadCGColorFromAsset returns cgcolor for color name
-                typeTextField.layer.borderColor = UIColor(named: "tintColor")?.cgColor
-            }
-        }
-    }
-}
-
-extension ProfileHeaderChatViewController : UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewModels.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ChatBubbleTableViewCell.identifier) as? ChatBubbleTableViewCell else {
-            fatalError()
-        }
-        cell.configure(with: viewModels[indexPath.row])
-        return cell
-    }
-    
-    
 }
