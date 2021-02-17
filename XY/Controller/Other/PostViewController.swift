@@ -16,6 +16,7 @@ class PostViewController: UIViewController {
         tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.sectionHeaderHeight = 375
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -28,14 +29,7 @@ class PostViewController: UIViewController {
         return button
     }()
     
-    private let writeCommentButton: UIButton = {
-        let button = UIButton()
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 10
-        button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
-        button.setBackgroundColor(color: UIColor(0x333333), forState: .normal)
-        return button
-    }()
+    private let typeView = TypeView()
     
     var onDismiss: (() -> Void)?
     
@@ -44,6 +38,8 @@ class PostViewController: UIViewController {
     var commentViewModels = [CommentViewModel]()
     
     var transitionId = "post"
+    
+    var tappedAnywhereGesture: UITapGestureRecognizer?
     
     init(with viewModel: PostViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -55,9 +51,8 @@ class PostViewController: UIViewController {
         
         view.addSubview(tableView)
         view.addSubview(closeButton)
-        view.addSubview(writeCommentButton)
+        view.addSubview(typeView)
         
-        writeCommentButton.addTarget(self, action: #selector(writeCommentButtonPressed), for: .touchUpInside)
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         
         postViewModel = viewModel
@@ -94,6 +89,7 @@ class PostViewController: UIViewController {
                 print("Error fetching comments for post: \(error)")
             }
         }
+                
     }
     
     required init?(coder: NSCoder) {
@@ -103,6 +99,13 @@ class PostViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        typeView.delegate = self
+        
+        tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
+        view.addGestureRecognizer(tappedAnywhereGesture!)
     }
     
     override func viewDidLayoutSubviews() {
@@ -115,24 +118,73 @@ class PostViewController: UIViewController {
             height: 35
         )
         
-        writeCommentButton.frame = CGRect(
-            x: view.width - 35 - 12.75,
-            y: view.height - 35 - 12.75,
-            width: 35,
-            height: 35
+        typeView.frame = CGRect(
+            x: 0,
+            y: view.height - 40 - view.safeAreaInsets.bottom,
+            width: view.width,
+            height: 40
         )
         
-        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: closeButton.bottom + 5, left: 0, bottom: 0, right: 0))
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: closeButton.bottom + 5, left: 0, bottom: 40, right: 0))
     }
     
     @objc private func closeButtonPressed() {
         dismiss(animated: true, completion: { self.onDismiss?() })
     }
     
-    @objc private func writeCommentButtonPressed() {
-        // open comment view
+    @objc func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            // if keyboard size is not available for some reason, dont do anything
+            return
+        }
+        
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        typeView.frame.origin.y -= keyboardSize.height - view.safeAreaInsets.bottom
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            // if keyboard size is not available for some reason, dont do anything
+            return
+        }
+        
+        tableView.contentInset = .zero
+        typeView.frame.origin.y = view.height - 40 - view.safeAreaInsets.bottom
+    }
+    
+    @objc func tappedAnywhere() {
+        typeView.resignFirstResponder()
+    }
+}
+
+extension PostViewController : TypeViewDelegate {
+    func sendButtonPressed(text: String) {
+        // Upload comment
+        PostManager.shared.uploadComment(forPost: postViewModel!.postId, comment: text) { (result) in
+            switch result {
+            case .success(let comment):
+                PostManager.shared.buildComment(from: comment) { (commentViewModel) in
+                    if let commentViewModel = commentViewModel {
+                        self.commentViewModels.append(commentViewModel)
+                        self.tableView.reloadData()
+                    }
+                }
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func emojiButtonPressed() {
         
     }
+    
+    func imageButtonPressed() {
+        
+    }
+    
+    
 }
 
 extension PostViewController : UITableViewDelegate, UITableViewDataSource {

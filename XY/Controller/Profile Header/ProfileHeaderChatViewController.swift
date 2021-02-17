@@ -118,20 +118,18 @@ class ProfileHeaderChatViewController: UIViewController {
             return
         }
         
+        tableView.contentInset.bottom = keyboardSize.height
         typeView.frame.origin.y -= keyboardSize.height - 40 - view.top
-//        tableView.frame.size.height -= tableView.bottom - typeView.top
-        
-//        tappedAnywhereGesture.isEnabled = true
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-//        tappedAnywhereGesture.isEnabled = false
         
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             // if keyboard size is not available for some reason, dont do anything
             return
         }
         
+        tableView.contentInset.bottom = 0
         typeView.frame.origin.y = view.height - 40
     }
     
@@ -151,7 +149,6 @@ class ProfileHeaderChatViewController: UIViewController {
         pushNotificationSender.sendPushNotification(to: otherUserId, title: ProfileManager.shared.ownProfile!.nickname, body: message.messageText)
         
     }
-
 }
 
 extension ProfileHeaderChatViewController : UITableViewDataSource, UITableViewDelegate {
@@ -166,8 +163,6 @@ extension ProfileHeaderChatViewController : UITableViewDataSource, UITableViewDe
         cell.configure(with: viewModels[indexPath.row])
         return cell
     }
-    
-    
 }
 
 extension ProfileHeaderChatViewController : TypeViewDelegate {

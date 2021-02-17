@@ -76,8 +76,8 @@ class TypeView: UIView {
     init() {
         super.init(frame: .zero)
         
-        cameraButton.layer.insertSublayer(emojiButtonGradient, at: 0)
-        cameraButton.layer.insertSublayer(cameraImageView.layer, above: nil)
+//        cameraButton.layer.insertSublayer(emojiButtonGradient, at: 0)
+//        cameraButton.layer.insertSublayer(cameraImageView.layer, above: nil)
         addSubview(cameraButton)
         addSubview(emojiButton)
         addSubview(typeTextField)
@@ -133,6 +133,7 @@ class TypeView: UIView {
         }
         
         delegate?.sendButtonPressed(text: text)
+        typeTextField.text = ""
     }
     
     override func resignFirstResponder() -> Bool {

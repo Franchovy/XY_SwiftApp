@@ -170,6 +170,32 @@ final class PostManager {
         }
     }
     
+    func uploadComment(forPost postID: String, comment text: String, completion: @escaping(Result<Comment, Error>) -> Void) {
+        let newCommentDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(postID).collection(FirebaseKeys.CollectionPath.messages).document()
+        
+        guard let userId = AuthManager.shared.userId else {
+            return
+        }
+        
+        let data: [String: Any] = [
+            FirebaseKeys.PostKeys.Comments.author : userId,
+            FirebaseKeys.PostKeys.Comments.comment : text,
+            FirebaseKeys.PostKeys.Comments.level : 0,
+            FirebaseKeys.PostKeys.Comments.xp : 0,
+            FirebaseKeys.PostKeys.Comments.timestamp : FieldValue.serverTimestamp()
+        ]
+        
+        newCommentDocument.setData(data) { (error) in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                let comment = Comment(author: userId, timestamp: Date(), level: 0, xp: 0, comment: text)
+                
+                completion(.success(comment))
+            }
+        }
+    }
+    
     func getFlowUpdates(completion: @escaping(Result<[PostModel], Error>) -> Void) {
         let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
         
