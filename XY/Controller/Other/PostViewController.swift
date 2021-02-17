@@ -17,6 +17,7 @@ class PostViewController: UIViewController {
         tableView.rowHeight = UITableView.automaticDimension
         tableView.sectionHeaderHeight = 375
         tableView.separatorStyle = .none
+        tableView.backgroundColor = UIColor(named: "Black")
         return tableView
     }()
     

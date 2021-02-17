@@ -25,8 +25,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
-            let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
-            pushNotificationsManager.registerForPushNotifications()
+//            let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
+//            pushNotificationsManager.registerForPushNotifications()
             
             OnlineStatusManager.shared.setupOnlineStatus()
             
