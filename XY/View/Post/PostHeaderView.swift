@@ -79,4 +79,10 @@ class PostHeaderView: UITableViewHeaderFooterView {
         contentImageView.image = viewModel.images.first
     }
 
+    
+    public func setHeroID(id: String) {
+        isHeroEnabled = true
+        postCard.heroID = id
+    }
+
 }

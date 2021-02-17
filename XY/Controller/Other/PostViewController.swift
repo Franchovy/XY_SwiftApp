@@ -6,11 +6,12 @@
 //
 
 import UIKit
+import Hero
 
 class PostViewController: UIViewController {
     
     private let tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(PostHeaderView.self, forHeaderFooterViewReuseIdentifier: PostHeaderView.identifier)
         tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
         tableView.rowHeight = UITableView.automaticDimension
@@ -18,31 +19,22 @@ class PostViewController: UIViewController {
         return tableView
     }()
     
+    private let closeButton: UIButton = {
+        let button = UIButton()
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 10
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.setBackgroundColor(color: UIColor(0x333333), forState: .normal)
+        return button
+    }()
+    
+    var onDismiss: (() -> Void)?
+    
     var postViewModel: PostViewModel?
     
-    var commentViewModels: [CommentViewModel] = [
-        CommentViewModel(
-            profileImage: UIImage(named: "testface"),
-            text: "Wow, this is super cool",
-            nickname: "Spongebob",
-            timestamp: Date(),
-            isLeft: false
-        ),
-        CommentViewModel(
-            profileImage: UIImage(named: "testface"),
-            text: "Wow, this is epic",
-            nickname: "Spongebob",
-            timestamp: Date(),
-            isLeft: false
-        ),
-        CommentViewModel(
-            profileImage: UIImage(named: "testface"),
-            text: "I love this post",
-            nickname: "Spongebob",
-            timestamp: Date(),
-            isLeft: false
-        )
-    ]
+    var commentViewModels = [CommentViewModel]()
+    
+    var transitionId = "post"
     
     init(with viewModel: PostViewModel) {
         super.init(nibName: nil, bundle: nil)
@@ -50,7 +42,12 @@ class PostViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         
+        view.backgroundColor = UIColor(named: "Black")
+        
         view.addSubview(tableView)
+        view.addSubview(closeButton)
+        
+        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         
         postViewModel = viewModel
         
@@ -100,7 +97,18 @@ class PostViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tableView.frame = view.bounds
+        closeButton.frame = CGRect(
+            x: 12.75,
+            y: view.safeAreaInsets.top - 5,
+            width: 35,
+            height: 35
+        )
+        
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: closeButton.bottom + 5, left: 0, bottom: 0, right: 0))
+    }
+    
+    @objc private func closeButtonPressed() {
+        dismiss(animated: true, completion: { self.onDismiss?() })
     }
 }
 
@@ -115,6 +123,10 @@ extension PostViewController : UITableViewDelegate, UITableViewDataSource {
         }
         cell.configure(with: commentViewModels[indexPath.row])
         
+        if indexPath.row == 0 {
+            cell.setHeroIDs(forCaption: "caption", forImage: "image")
+        }
+        
         return cell
     }
     
@@ -126,6 +138,8 @@ extension PostViewController : UITableViewDelegate, UITableViewDataSource {
         guard let postViewModel = postViewModel, let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostHeaderView.identifier) as? PostHeaderView else {
             return UIView()
         }
+        
+        headerView.setHeroID(id: transitionId)
         
         headerView.configure(with: postViewModel)
         

@@ -64,9 +64,8 @@ class FlowVC : UITableViewController {
         getFlow()
         
         registerXPUpdates()
-//        loadFlow() {
-//            self.activateListenerFlowUpdates()
-//        }
+        
+        isHeroEnabled = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -274,9 +273,14 @@ class FlowVC : UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
+        cell.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
         let vc = PostViewController(with: postViewModels[indexPath.row])
         
+        vc.isHeroEnabled = true
         vc.modalPresentationStyle = .fullScreen
+        vc.onDismiss = { cell.setHeroIDs(forPost: "", forCaption: "", forImage: "") }
+        
         present(vc, animated: true, completion: nil)
     }
 }

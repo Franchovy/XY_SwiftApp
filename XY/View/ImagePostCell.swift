@@ -457,4 +457,11 @@ extension ImagePostCell : PostViewModelDelegate {
         
         contentImageView.image = viewModel.images.first
     }
+    
+    func setHeroIDs(forPost postID: String, forCaption captionID: String, forImage imageID: String) {
+        isHeroEnabled = true
+        postCard.heroID = postID
+        caption.heroID = captionID
+        profileImageView.heroID = imageID
+    }
 }

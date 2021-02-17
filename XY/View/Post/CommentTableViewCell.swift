@@ -20,6 +20,7 @@ class CommentTableViewCell: UITableViewCell {
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -161,5 +162,11 @@ class CommentTableViewCell: UITableViewCell {
         
         self.viewModel = viewModel
         setupMessage(text: viewModel.text)
+    }
+    
+    func setHeroIDs(forCaption captionID: String, forImage imageID: String) {
+        isHeroEnabled = true
+        chatBubbleView.heroID = captionID
+        profileImage.heroID = imageID
     }
 }
