@@ -272,7 +272,13 @@ class FlowVC : UITableViewController {
         }
         postCell.configure(with: postViewModels[indexPath.row])
     }
-
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = PostViewController(with: postViewModels[indexPath.row])
+        
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
+    }
 }
 
 // MARK: - ImagePostCell Delegate functions

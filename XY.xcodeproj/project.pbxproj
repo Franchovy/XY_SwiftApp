@@ -63,6 +63,11 @@
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
 		B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */; };
+		B972A2AF25DD06E6006A0476 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2AE25DD06E6006A0476 /* PostViewController.swift */; };
+		B972A2BA25DD169E006A0476 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2B925DD169E006A0476 /* CommentViewModel.swift */; };
+		B972A2BE25DD1739006A0476 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2BD25DD1739006A0476 /* CommentTableViewCell.swift */; };
+		B972A2C225DD2697006A0476 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2C125DD2697006A0476 /* PostHeaderView.swift */; };
+		B972A2C625DD4282006A0476 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2C525DD4282006A0476 /* Comment.swift */; };
 		B979F68025C078370040AE5B /* ViralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F67F25C078370040AE5B /* ViralModel.swift */; };
 		B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F68B25C0799F0040AE5B /* ViralViewController.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
@@ -173,6 +178,11 @@
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
 		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		B972A2AE25DD06E6006A0476 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		B972A2B925DD169E006A0476 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		B972A2BD25DD1739006A0476 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
+		B972A2C125DD2697006A0476 /* PostHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderView.swift; sourceTree = "<group>"; };
+		B972A2C525DD4282006A0476 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		B979F67F25C078370040AE5B /* ViralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralModel.swift; sourceTree = "<group>"; };
 		B979F68B25C0799F0040AE5B /* ViralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralViewController.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -235,6 +245,7 @@
 		14175C792570F5D600C88051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B972A2B225DD1522006A0476 /* Post */,
 				B925CC8925D58B2300542A58 /* ChatBubbles */,
 				B9AD3B8925CBE3DC00BF74C3 /* XYWorld */,
 				B9E2807425BEB224005389CF /* MessageView.swift */,
@@ -397,6 +408,7 @@
 				B9520FF325ADCC41008E9B57 /* Action.swift */,
 				B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */,
 				B94D46F0257253BA00A21355 /* PostModel.swift */,
+				B972A2C525DD4282006A0476 /* Comment.swift */,
 				B979F67F25C078370040AE5B /* ViralModel.swift */,
 				14607A7B25A0DDE5009B3B50 /* ProfileModel.swift */,
 				B90C164325BC6474003811B2 /* MomentModel.swift */,
@@ -423,6 +435,15 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		B972A2B225DD1522006A0476 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				B972A2BD25DD1739006A0476 /* CommentTableViewCell.swift */,
+				B972A2C125DD2697006A0476 /* PostHeaderView.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
 		B981338425C5AFEE00FE857D /* Launch & Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -439,6 +460,7 @@
 			children = (
 				B95C2C3C25BE91620001FA23 /* PreviewViewController.swift */,
 				14251377259F89F800DC08BB /* NotificationsVC.swift */,
+				B972A2AE25DD06E6006A0476 /* PostViewController.swift */,
 				B979F68B25C0799F0040AE5B /* ViralViewController.swift */,
 			);
 			path = Other;
@@ -536,6 +558,7 @@
 			children = (
 				B925CC6325D5841A00542A58 /* Conversations */,
 				B9D5E56025A5F362001859EA /* PostViewModel.swift */,
+				B972A2B925DD169E006A0476 /* CommentViewModel.swift */,
 				B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */,
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
 			);
@@ -783,6 +806,7 @@
 				B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */,
 				14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */,
 				B925CC7325D5844200542A58 /* MessageViewModel.swift in Sources */,
+				B972A2AF25DD06E6006A0476 /* PostViewController.swift in Sources */,
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */,
@@ -797,13 +821,17 @@
 				B90BFA3025CD6D7100575598 /* XPModelManager.swift in Sources */,
 				B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */,
 				B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */,
+				B972A2BA25DD169E006A0476 /* CommentViewModel.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,
 				B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */,
 				B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */,
+				B972A2C225DD2697006A0476 /* PostHeaderView.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
+				B972A2BE25DD1739006A0476 /* CommentTableViewCell.swift in Sources */,
 				B925CC6B25D5842E00542A58 /* Message.swift in Sources */,
 				B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */,
+				B972A2C625DD4282006A0476 /* Comment.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,

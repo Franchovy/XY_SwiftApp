@@ -21,6 +21,9 @@ struct FirebaseKeys {
         static let conversations = "Conversations"
         static let virals = "Viral"
         
+        static let comments = "comments"
+        
+        // deprecate
         static let messages = "messages"
         static let senderField = "senderField"
         static let bodyField = "bodyField"
@@ -100,6 +103,14 @@ struct FirebaseKeys {
         struct PostData {
             static let caption = "caption"
             static let imageRef = "imageRef"
+        }
+        
+        struct Comments {
+            static let author = "author"
+            static let comment = "comment"
+            static let timestamp = "timestamp"
+            static let level = "level"
+            static let xp = "xp"
         }
     }
     

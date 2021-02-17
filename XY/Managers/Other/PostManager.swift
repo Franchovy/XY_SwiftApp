@@ -117,6 +117,59 @@ final class PostManager {
         }
     }
     
+    func getComments(for postId: String, completion: @escaping(Result<[Comment], Error>) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .document(postId).collection(FirebaseKeys.CollectionPath.comments).getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let querySnapshot = querySnapshot {
+                    var commentModels = [Comment]()
+                    
+                    for document in querySnapshot.documents {
+                        let documentData = document.data()
+                        
+                        let commentModel = Comment(
+                            author: documentData[FirebaseKeys.PostKeys.Comments.author] as! String,
+                            timestamp: (documentData[FirebaseKeys.PostKeys.Comments.timestamp] as! Firebase.Timestamp).dateValue(),
+                            level: documentData[FirebaseKeys.PostKeys.Comments.level] as! Int,
+                            xp: documentData[FirebaseKeys.PostKeys.Comments.xp] as! Int,
+                            comment: documentData[FirebaseKeys.PostKeys.Comments.comment] as! String
+                        )
+                        
+                        commentModels.append(commentModel)
+                    }
+                    completion(.success(commentModels))
+                }
+            }
+    }
+    
+    func buildComment(from commentModel: Comment, completion: @escaping(CommentViewModel?) -> Void) {
+        ProfileManager.shared.fetchProfile(userId: commentModel.author) { (result) in
+            switch result {
+            case .success(let profileModel):
+                FirebaseDownload.getImage(imageId: profileModel.profileImageId) { (image, error) in
+                    if let error = error {
+                        print("Error fetching profileImage: \(error)")
+                    } else if let image = image {
+                        
+                        let commentViewModel = CommentViewModel(
+                            profileImage: image,
+                            text: commentModel.comment,
+                            nickname: profileModel.nickname,
+                            timestamp: commentModel.timestamp,
+                            isLeft: false
+                        )
+                        
+                        completion(commentViewModel)
+                    }
+                }
+            case .failure(let error):
+                print("Error fetching profile for comment: \(error)")
+                completion(nil)
+            }
+        }
+    }
+    
     func getFlowUpdates(completion: @escaping(Result<[PostModel], Error>) -> Void) {
         let previousSwipeLefts = ActionManager.shared.previousActions.filter({ $0.type == .swipeLeft }).map { $0.objectId }
         
