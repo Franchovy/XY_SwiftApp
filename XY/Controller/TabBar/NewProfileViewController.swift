@@ -25,7 +25,7 @@ class NewProfileViewController: UIViewController {
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(named: "Black")
         
         view.addSubview(pageViewController.view)
         addChild(pageViewController)
@@ -75,7 +75,7 @@ class NewProfileViewController: UIViewController {
         
         bottomScrollIndicator.frame = CGRect(
             x: 0,
-            y: pageViewController.view.bottom - 67,
+            y: view.bottom - 67,
             width: view.width,
             height: 67
         )
@@ -86,47 +86,80 @@ class NewProfileViewController: UIViewController {
             return
         }
         
-        if let navBar = navigationController?.navigationBar {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "profile_conversations_icon"),
+            style: .done,
+            target: self,
+            action: #selector(openChatButtonPressed)
+        )
             
-            let titleView = UIView()
-            let titleLabel = UILabel()
-            titleLabel.font = UIFont(name: "Raleway-ExtraBold", size: 30)
-            titleLabel.text = viewModel.nickname
-            titleLabel.textColor = .white
-            titleView.addSubview(titleLabel)
+        let titleView = UIView()
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont(name: "Raleway-ExtraBold", size: 30)
+        titleLabel.text = viewModel.nickname
+        titleLabel.textColor = .white
+        titleView.addSubview(titleLabel)
+        
+        
+        let xpCircle = CircleView()
+        let xpToNextLevel = Float(XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user))
+        xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / xpToNextLevel)
+        xpCircle.setupFinished()
+        titleView.addSubview(xpCircle)
+        
+        titleView.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: 400,
+            height: 45
+        )
+        let xpCircleSize:CGFloat = 25
+        
+        titleLabel.sizeToFit()
+        titleLabel.frame = CGRect(
+            x: (titleView.width - titleLabel.width)/2 - 8 - xpCircleSize,
+            y: (titleView.height - titleLabel.height)/2,
+            width: titleLabel.width,
+            height: titleLabel.height
+        )
+        
+        xpCircle.frame = CGRect(
+            x: titleLabel.right + 8,
+            y: titleLabel.top + (titleView.height - xpCircleSize)/2 - 5,
+            width: xpCircleSize,
+            height: xpCircleSize
+        )
+        
+        navigationItem.titleView = titleView
             
+        
+    }
+    
+    @objc private func openChatButtonPressed() {
+        guard let selfId = AuthManager.shared.userId, let viewModel = viewModel else {
+            return
+        }
+        if viewModel.userId == selfId {
+            let vc = ProfileHeaderConversationsViewController()
+            vc.modalPresentationStyle = .fullScreen
             
-            let xpCircle = CircleView()
-            let xpToNextLevel = Float(XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user))
-            xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / xpToNextLevel)
-            xpCircle.setupFinished()
-            titleView.addSubview(xpCircle)
+            ConversationManager.shared.getConversations() { conversationViewModels in
+                if let conversationViewModels = conversationViewModels {
+                    vc.configure(with: conversationViewModels)
+                }
+                self.present(vc, animated: true)
+            }
             
-            titleView.frame = CGRect(
-                x: 0,
-                y: 0,
-                width: 400,
-                height: 45
-            )
-            let xpCircleSize:CGFloat = 25
+        } else {
+            let vc = ProfileHeaderChatViewController()
+            vc.modalPresentationStyle = .fullScreen
             
-            titleLabel.sizeToFit()
-            titleLabel.frame = CGRect(
-                x: (titleView.width - titleLabel.width)/2 - 8 - xpCircleSize,
-                y: (titleView.height - titleLabel.height)/2,
-                width: titleLabel.width,
-                height: titleLabel.height
-            )
-            
-            xpCircle.frame = CGRect(
-                x: titleLabel.right + 8,
-                y: titleLabel.top + (titleView.height - xpCircleSize)/2 - 5,
-                width: xpCircleSize,
-                height: xpCircleSize
-            )
-            
-            navigationItem.titleView = titleView
-            
+            ConversationManager.shared.getConversation(with: viewModel.userId) { conversationViewModel, messageViewModels in
+                if let conversationViewModel = conversationViewModel, let messageViewModels = messageViewModels {
+                    vc.configure(with: conversationViewModel, chatViewModels: messageViewModels)
+                }
+                self.present(vc, animated: true, completion: nil)
+            }
         }
     }
     
@@ -152,31 +185,30 @@ class NewProfileViewController: UIViewController {
             animated: false,
             completion: nil
         )
+        
         transitionedToViewController(vc: profileHeaderVC)
         
         pageViewController.dataSource = self
         pageViewController.delegate = self
     }
     
-    func configure(with viewModel: NewProfileViewModel) {
+    public func configure(with viewModel: NewProfileViewModel) {
         self.viewModel = viewModel
         
         setUpPageViewController()
         setUpNavBar()
     }
     
-    func willTransitiontoViewController(vc: UIViewController) {
+    private func willTransitiontoViewController(vc: UIViewController) {
         UIView.animate(withDuration: 0.2) {
             self.topScrollIndicator.alpha = 0.0
             self.bottomScrollIndicator.alpha = 0.0
         }
     }
     
-    func transitionedToViewController(vc: UIViewController) {
+    private func transitionedToViewController(vc: UIViewController) {
         if let vc = vc as? ProfileHeaderViewController {
             bottomScrollIndicator.setText(text: "Live Posts")
-            
-            vc.view.frame = view.bounds
             
             UIView.animate(withDuration: 0.2) {
                 self.bottomScrollIndicator.alpha = 1.0
@@ -184,9 +216,6 @@ class NewProfileViewController: UIViewController {
         } else if let vc = vc as? ProfileLivePostsViewController {
             topScrollIndicator.setText(text: "Profile")
             bottomScrollIndicator.setText(text: "Collection")
-            
-            vc.view.frame.origin.y = topScrollIndicator.bottom
-            vc.view.frame.size.height = 575 - topScrollIndicator.height
             
             UIView.animate(withDuration: 0.2) {
                 self.topScrollIndicator.alpha = 1.0
@@ -290,6 +319,7 @@ class ScrollIndicator : UIView {
         let label =  UILabel()
         label.textColor = .white
         label.font = UIFont(name: "Raleway-ExtraBold", size: 20)
+        label.textColor = UIColor(named: "tintColor")
         return label
     }()
     let image: UIImageView = {
@@ -318,7 +348,7 @@ class ScrollIndicator : UIView {
         super.init(frame: .zero)
         
         icon.contentMode = .scaleAspectFit
-        icon.tintColor = .white
+        icon.tintColor = UIColor(named: "tintColor")
         
         addSubview(icon)
         addSubview(label)

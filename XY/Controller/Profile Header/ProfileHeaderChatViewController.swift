@@ -130,7 +130,7 @@ class ProfileHeaderChatViewController: UIViewController {
         }
         
         tableView.contentInset.bottom = 0
-        typeView.frame.origin.y = view.height - 40
+        typeView.frame.origin.y = view.height - view.safeAreaInsets.bottom - 40
     }
     
     @objc func closeButtonPressed() {

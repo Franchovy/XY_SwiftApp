@@ -39,9 +39,9 @@ class ProfileHeaderViewController: UIViewController {
         gradientLayer.colors = [
             UIColor(0x141516).withAlphaComponent(0.8).cgColor,
             UIColor(0x1C1D1E).withAlphaComponent(0.6).cgColor,
-            UIColor(0x2F2F2F).withAlphaComponent(0.4).cgColor
+            UIColor(0x2F2F2F).withAlphaComponent(0.0).cgColor
         ]
-        gradientLayer.locations = [0.0, 0.7, 1.0]
+        gradientLayer.locations = [0.0, 0.4, 1.0]
         gradientLayer.type = .axial
         return gradientLayer
     }()

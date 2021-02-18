@@ -101,7 +101,7 @@ extension TabBarViewController: ProfileManagerDelegate {
                 return
             }
             
-            let profileVC = ProfileViewController(userId: userId)
+            let profileVC = NewProfileViewController(userId: userId)
             profileVC.modalPresentationStyle = .popover
             
             self.present(profileVC, animated: true) { }

@@ -66,14 +66,20 @@ class ProfileHeaderConversationsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: 30, left: 0, bottom: 0, right: 0))
-        
         notificationsImage.frame = CGRect(
             x: view.width - 25 - 5,
-            y: 5,
+            y: 35,
             width: 25,
             height: 25
         )
+        
+        tableView.frame = CGRect(
+            x: 0,
+            y: notificationsImage.bottom + 5,
+            width: view.width,
+            height: view.height - notificationsImage.bottom - 5
+        )
+        
     }
     
     func configure(with viewModels: [ConversationViewModel]) {
@@ -118,6 +124,15 @@ extension ProfileHeaderConversationsViewController : UITableViewDataSource, UITa
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewModel = viewModels[indexPath.row]
-        delegate?.openConversation(with: viewModel)
+        
+        let vc = ProfileHeaderChatViewController()
+        vc.modalPresentationStyle = .fullScreen
+        
+        ConversationManager.shared.getConversationMessages(fromConversationModel: viewModel) { (messageViewModels) in
+            if let messageViewModels = messageViewModels {
+                vc.configure(with: viewModel, chatViewModels: messageViewModels)
+            }
+            self.present(vc, animated: true, completion: nil)
+        }
     }
 }
