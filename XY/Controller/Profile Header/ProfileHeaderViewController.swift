@@ -237,11 +237,11 @@ class ProfileHeaderViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        coverImage.frame = view.bounds
+        coverImage.frame = view.bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 67, right: 0))
         
         profileCard.frame = CGRect(
             x: 0,
-            y: view.height - 136,
+            y: view.height - 136 - 67,
             width: view.width,
             height: 136
         )
@@ -565,7 +565,7 @@ class ProfileHeaderViewController: UIViewController {
         
         nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption
-        xynameLabel.text = viewModel.xyname
+        xynameLabel.text = "@\(viewModel.xyname)"
         websiteLabel.text = viewModel.website
         
         profilePicture.image = viewModel.profileImage

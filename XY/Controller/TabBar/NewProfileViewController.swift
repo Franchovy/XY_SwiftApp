@@ -15,11 +15,8 @@ class NewProfileViewController: UIViewController {
         options: [:]
     )
     
-    private var topScrollIndicator: UIView?
-    private var topScrollIndicatorIcon: UIImageView?
-    private var bottomScrollIndicator: UIView?
-    private var bottomScrollIndicatorLabel: UILabel?
-    private var bottomScrollIndicatorIcon: UIImageView?
+    private var topScrollIndicator = ScrollIndicator(direction: .up)
+    private var bottomScrollIndicator = ScrollIndicator(direction: .down)
     
     private var viewControllers = [UIViewController]()
     
@@ -33,6 +30,13 @@ class NewProfileViewController: UIViewController {
         view.addSubview(pageViewController.view)
         addChild(pageViewController)
         //pageViewController.didMove(to: self)
+        
+        view.addSubview(topScrollIndicator)
+        view.addSubview(bottomScrollIndicator)
+        topScrollIndicator.alpha = 0.0
+        bottomScrollIndicator.alpha = 0.0
+        topScrollIndicator.delegate = self
+        bottomScrollIndicator.delegate = self
         
         ProfileManager.shared.fetchProfile(userId: userId) { result in
             switch result {
@@ -55,61 +59,26 @@ class NewProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupBottomScrollIndicator()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        if let topScrollIndicator = topScrollIndicator {
-            topScrollIndicator.frame = CGRect(
-                x: 0,
-                y: 0,
-                width: view.width,
-                height: 67
-            )
-            let iconSize: CGFloat = 20
-            topScrollIndicatorIcon?.frame = CGRect(
-                x: (topScrollIndicator.width - iconSize)/2,
-                y: 40,
-                width: iconSize,
-                height: iconSize
-            )
-        }
-        
-        pageViewController.view.frame = CGRect(
+
+        topScrollIndicator.frame = CGRect(
             x: 0,
-            y: topScrollIndicator?.bottom ?? 88,
+            y: view.safeAreaInsets.top,
             width: view.width,
-            height: 575
+            height: 67
         )
         
-        if let bottomScrollIndicator = bottomScrollIndicator,
-           let bottomScrollIndicatorLabel = bottomScrollIndicatorLabel,
-           let bottomScrollIndicatorIcon = bottomScrollIndicatorIcon {
-            bottomScrollIndicator.frame = CGRect(
-                x: 0,
-                y: pageViewController.view.bottom,
-                width: view.width,
-                height: 67
-            )
-            
-            bottomScrollIndicatorLabel.sizeToFit()
-            bottomScrollIndicatorLabel.frame = CGRect(
-                x: (bottomScrollIndicator.width - bottomScrollIndicatorLabel.width)/2,
-                y: 0,
-                width: bottomScrollIndicatorLabel.width,
-                height: bottomScrollIndicatorLabel.height
-            )
-            
-            let iconSize: CGFloat = 20
-            bottomScrollIndicatorIcon.frame = CGRect(
-                x: (bottomScrollIndicator.width - iconSize)/2,
-                y: bottomScrollIndicatorLabel.bottom + 3,
-                width: iconSize,
-                height: iconSize
-            )
-        }
+        pageViewController.view.frame = view.bounds
+        
+        bottomScrollIndicator.frame = CGRect(
+            x: 0,
+            y: pageViewController.view.bottom - 67,
+            width: view.width,
+            height: 67
+        )
     }
     
     private func setUpNavBar() {
@@ -161,37 +130,6 @@ class NewProfileViewController: UIViewController {
         }
     }
     
-    private func setupTopScrollIndicator() {
-        let topScrollIndicator = UIView()
-        
-        let icon = UIImageView(image: UIImage(systemName: "arrowtriangle.up.fill"))
-        icon.contentMode = .scaleAspectFit
-        topScrollIndicator.addSubview(icon)
-        topScrollIndicatorIcon = icon
-        
-        self.topScrollIndicator = topScrollIndicator
-    }
-    
-    private func setupBottomScrollIndicator() {
-        let bottomScrollIndicator = UIView()
-        
-        let label = UILabel()
-        label.text = "Live Posts"
-        label.textColor = .white
-        label.font = UIFont(name: "Raleway-ExtraBold", size: 20)
-        bottomScrollIndicator.addSubview(label)
-        bottomScrollIndicatorLabel = label
-        
-        let icon = UIImageView(image: UIImage(systemName: "arrowtriangle.down.fill"))
-        icon.contentMode = .scaleAspectFit
-        icon.tintColor = .white
-        bottomScrollIndicator.addSubview(icon)
-        bottomScrollIndicatorIcon = icon
-        
-        view.addSubview(bottomScrollIndicator)
-        self.bottomScrollIndicator = bottomScrollIndicator
-    }
-    
     private func setUpPageViewController() {
         
         guard let profileViewModel = viewModel else {
@@ -214,8 +152,10 @@ class NewProfileViewController: UIViewController {
             animated: false,
             completion: nil
         )
+        transitionedToViewController(vc: profileHeaderVC)
         
         pageViewController.dataSource = self
+        pageViewController.delegate = self
     }
     
     func configure(with viewModel: NewProfileViewModel) {
@@ -224,13 +164,108 @@ class NewProfileViewController: UIViewController {
         setUpPageViewController()
         setUpNavBar()
     }
+    
+    func willTransitiontoViewController(vc: UIViewController) {
+        UIView.animate(withDuration: 0.2) {
+            self.topScrollIndicator.alpha = 0.0
+            self.bottomScrollIndicator.alpha = 0.0
+        }
+    }
+    
+    func transitionedToViewController(vc: UIViewController) {
+        if let vc = vc as? ProfileHeaderViewController {
+            bottomScrollIndicator.setText(text: "Live Posts")
+            
+            vc.view.frame = view.bounds
+            
+            UIView.animate(withDuration: 0.2) {
+                self.bottomScrollIndicator.alpha = 1.0
+            }
+        } else if let vc = vc as? ProfileLivePostsViewController {
+            topScrollIndicator.setText(text: "Profile")
+            bottomScrollIndicator.setText(text: "Collection")
+            
+            vc.view.frame.origin.y = topScrollIndicator.bottom
+            vc.view.frame.size.height = 575 - topScrollIndicator.height
+            
+            UIView.animate(withDuration: 0.2) {
+                self.topScrollIndicator.alpha = 1.0
+                self.bottomScrollIndicator.alpha = 1.0
+            }
+        } else if let vc = vc as? ProfileCollectionViewController {
+            topScrollIndicator.setText(text: "Live Posts")
+            
+            vc.view.frame.size = vc.preferredContentSize
+            
+            UIView.animate(withDuration: 0.2) {
+                self.topScrollIndicator.alpha = 1.0
+            }
+        }
+    }
+}
+
+extension NewProfileViewController : ScrollIndicatorDelegate {
+    func pressedDownDirection() {
+        guard let vc = pageViewController.viewControllers?.first,
+              let currentIndex = viewControllers.firstIndex(of: vc) else {
+            return
+        }
+        let nextViewController = viewControllers[currentIndex + 1]
+        willTransitiontoViewController(vc: nextViewController)
+        pageViewController.setViewControllers(
+            [nextViewController],
+            direction: .forward,
+            animated: true,
+            completion: { _ in
+                self.transitionedToViewController(vc: nextViewController)
+            }
+        )
+        
+    }
+    
+    func pressedUpDirection() {
+        guard let vc = pageViewController.viewControllers?.first,
+              let currentIndex = viewControllers.firstIndex(of: vc) else {
+            return
+        }
+        let nextViewController = viewControllers[currentIndex - 1]
+        willTransitiontoViewController(vc: nextViewController)
+        pageViewController.setViewControllers(
+            [nextViewController],
+            direction: .reverse,
+            animated: true,
+            completion: { _ in
+                self.transitionedToViewController(vc: nextViewController)
+            }
+        )
+        
+    }
 }
 
 extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        if finished {
+            let pageContentViewController = pageViewController.viewControllers![0]
+            
+            let index = viewControllers.firstIndex(of: pageContentViewController)
+            
+            transitionedToViewController(vc: pageContentViewController)
+        }
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        UIView.animate(withDuration: 0.2) {
+            self.topScrollIndicator.alpha = 0.0
+            self.bottomScrollIndicator.alpha = 0.0
+        }
+    }
+    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         guard let index = viewControllers.firstIndex(of: viewController), index != 0 else {
             return nil
         }
+        transitionedToViewController(vc: viewControllers[index])
+
         return viewControllers[index - 1]
     }
     
@@ -238,6 +273,116 @@ extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewCon
         guard let index = viewControllers.firstIndex(of: viewController), index < viewControllers.count - 1 else {
             return nil
         }
+        
+        transitionedToViewController(vc: viewControllers[index])
+        
         return viewControllers[index + 1]
+    }
+}
+
+protocol ScrollIndicatorDelegate {
+    func pressedDownDirection()
+    func pressedUpDirection()
+}
+
+class ScrollIndicator : UIView {
+    let label: UILabel = {
+        let label =  UILabel()
+        label.textColor = .white
+        label.font = UIFont(name: "Raleway-ExtraBold", size: 20)
+        return label
+    }()
+    let image: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    
+    let icon: UIImageView
+    
+    enum Direction {
+        case up
+        case down
+    }
+    let direction: Direction
+    
+    var delegate: ScrollIndicatorDelegate?
+    
+    init(direction: Direction) {
+        if direction == .down {
+            icon = UIImageView(image: UIImage(systemName: "arrowtriangle.down.fill"))
+        } else {
+            icon = UIImageView(image: UIImage(systemName: "arrowtriangle.up.fill"))
+        }
+        self.direction = direction
+        
+        super.init(frame: .zero)
+        
+        icon.contentMode = .scaleAspectFit
+        icon.tintColor = .white
+        
+        addSubview(icon)
+        addSubview(label)
+        
+        isUserInteractionEnabled = true
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onPress))
+        addGestureRecognizer(tapGesture)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        let iconSize:CGFloat = 25
+        
+        if direction == .down {
+            icon.frame = CGRect(
+                x: (width - iconSize)/2,
+                y: 0,
+                width: iconSize,
+                height: iconSize
+            )
+            
+            label.sizeToFit()
+            label.frame = CGRect(
+                x: (width - label.width)/2,
+                y: icon.bottom + 4,
+                width: label.width,
+                height: label.height
+            )
+        } else if direction == .up {
+            
+            label.sizeToFit()
+            label.frame = CGRect(
+                x: (width - label.width)/2,
+                y: 0,
+                width: label.width,
+                height: label.height
+            )
+            
+            icon.frame = CGRect(
+                x: (width - iconSize)/2,
+                y: label.bottom + 4,
+                width: iconSize,
+                height: iconSize
+            )
+
+        }
+    }
+    
+    func setText(text: String) {
+        label.text = text
+        
+        label.sizeToFit()
+    }
+    
+    @objc private func onPress() {
+        if direction == .down {
+            delegate?.pressedDownDirection()
+        } else {
+            delegate?.pressedUpDirection()
+        }
     }
 }
