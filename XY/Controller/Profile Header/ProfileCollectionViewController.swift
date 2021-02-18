@@ -42,10 +42,12 @@ class ProfileCollectionViewController: UIViewController {
     }()
     
     
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = .green
+        
     }
     
     required init?(coder: NSCoder) {

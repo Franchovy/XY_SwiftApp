@@ -40,14 +40,16 @@ class TabBarViewController: UITabBarController {
         guard let userId = AuthManager.shared.userId else { return }
         
 //        let profileVC = ProfileViewController(userId: userId)
-        let profileVC = NewProfileViewController(userId: userId)
+        let profilevc = NewProfileViewController(userId: userId)
+        let profileVC = UINavigationController(rootViewController: profilevc)
+        
         let profileTabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile_item"), tag: 5)
         profileTabBarItem.badgeColor = UIColor(named: "tintColor")
 
         profileVC.tabBarItem = profileTabBarItem
         viewControllers?[4] = profileVC
         
-        self.profileVC = profileVC
+        self.profileVC = profilevc
     }
     
     override func viewDidAppear(_ animated: Bool) {

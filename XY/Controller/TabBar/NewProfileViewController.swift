@@ -16,7 +16,10 @@ class NewProfileViewController: UIViewController {
     )
     
     private var topScrollIndicator: UIView?
+    private var topScrollIndicatorIcon: UIImageView?
     private var bottomScrollIndicator: UIView?
+    private var bottomScrollIndicatorLabel: UILabel?
+    private var bottomScrollIndicatorIcon: UIImageView?
     
     private var viewControllers = [UIViewController]()
     
@@ -52,14 +55,143 @@ class NewProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupBottomScrollIndicator()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        pageViewController.view.frame = view.bounds
+        if let topScrollIndicator = topScrollIndicator {
+            topScrollIndicator.frame = CGRect(
+                x: 0,
+                y: 0,
+                width: view.width,
+                height: 67
+            )
+            let iconSize: CGFloat = 20
+            topScrollIndicatorIcon?.frame = CGRect(
+                x: (topScrollIndicator.width - iconSize)/2,
+                y: 40,
+                width: iconSize,
+                height: iconSize
+            )
+        }
+        
+        pageViewController.view.frame = CGRect(
+            x: 0,
+            y: topScrollIndicator?.bottom ?? 88,
+            width: view.width,
+            height: 575
+        )
+        
+        if let bottomScrollIndicator = bottomScrollIndicator,
+           let bottomScrollIndicatorLabel = bottomScrollIndicatorLabel,
+           let bottomScrollIndicatorIcon = bottomScrollIndicatorIcon {
+            bottomScrollIndicator.frame = CGRect(
+                x: 0,
+                y: pageViewController.view.bottom,
+                width: view.width,
+                height: 67
+            )
+            
+            bottomScrollIndicatorLabel.sizeToFit()
+            bottomScrollIndicatorLabel.frame = CGRect(
+                x: (bottomScrollIndicator.width - bottomScrollIndicatorLabel.width)/2,
+                y: 0,
+                width: bottomScrollIndicatorLabel.width,
+                height: bottomScrollIndicatorLabel.height
+            )
+            
+            let iconSize: CGFloat = 20
+            bottomScrollIndicatorIcon.frame = CGRect(
+                x: (bottomScrollIndicator.width - iconSize)/2,
+                y: bottomScrollIndicatorLabel.bottom + 3,
+                width: iconSize,
+                height: iconSize
+            )
+        }
     }
-
+    
+    private func setUpNavBar() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        if let navBar = navigationController?.navigationBar {
+            
+            let titleView = UIView()
+            let titleLabel = UILabel()
+            titleLabel.font = UIFont(name: "Raleway-ExtraBold", size: 30)
+            titleLabel.text = viewModel.nickname
+            titleLabel.textColor = .white
+            titleView.addSubview(titleLabel)
+            
+            
+            let xpCircle = CircleView()
+            let xpToNextLevel = Float(XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user))
+            xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / xpToNextLevel)
+            xpCircle.setupFinished()
+            titleView.addSubview(xpCircle)
+            
+            titleView.frame = CGRect(
+                x: 0,
+                y: 0,
+                width: 400,
+                height: 45
+            )
+            let xpCircleSize:CGFloat = 25
+            
+            titleLabel.sizeToFit()
+            titleLabel.frame = CGRect(
+                x: (titleView.width - titleLabel.width)/2 - 8 - xpCircleSize,
+                y: (titleView.height - titleLabel.height)/2,
+                width: titleLabel.width,
+                height: titleLabel.height
+            )
+            
+            xpCircle.frame = CGRect(
+                x: titleLabel.right + 8,
+                y: titleLabel.top + (titleView.height - xpCircleSize)/2 - 5,
+                width: xpCircleSize,
+                height: xpCircleSize
+            )
+            
+            navigationItem.titleView = titleView
+            
+        }
+    }
+    
+    private func setupTopScrollIndicator() {
+        let topScrollIndicator = UIView()
+        
+        let icon = UIImageView(image: UIImage(systemName: "arrowtriangle.up.fill"))
+        icon.contentMode = .scaleAspectFit
+        topScrollIndicator.addSubview(icon)
+        topScrollIndicatorIcon = icon
+        
+        self.topScrollIndicator = topScrollIndicator
+    }
+    
+    private func setupBottomScrollIndicator() {
+        let bottomScrollIndicator = UIView()
+        
+        let label = UILabel()
+        label.text = "Live Posts"
+        label.textColor = .white
+        label.font = UIFont(name: "Raleway-ExtraBold", size: 20)
+        bottomScrollIndicator.addSubview(label)
+        bottomScrollIndicatorLabel = label
+        
+        let icon = UIImageView(image: UIImage(systemName: "arrowtriangle.down.fill"))
+        icon.contentMode = .scaleAspectFit
+        icon.tintColor = .white
+        bottomScrollIndicator.addSubview(icon)
+        bottomScrollIndicatorIcon = icon
+        
+        view.addSubview(bottomScrollIndicator)
+        self.bottomScrollIndicator = bottomScrollIndicator
+    }
+    
     private func setUpPageViewController() {
         
         guard let profileViewModel = viewModel else {
@@ -90,6 +222,7 @@ class NewProfileViewController: UIViewController {
         self.viewModel = viewModel
         
         setUpPageViewController()
+        setUpNavBar()
     }
 }
 
