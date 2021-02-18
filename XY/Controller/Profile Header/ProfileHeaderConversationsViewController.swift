@@ -132,7 +132,7 @@ extension ProfileHeaderConversationsViewController : UITableViewDataSource, UITa
             if let messageViewModels = messageViewModels {
                 vc.configure(with: viewModel, chatViewModels: messageViewModels)
             }
-            self.present(vc, animated: true, completion: nil)
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
 }

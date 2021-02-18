@@ -147,7 +147,7 @@ class NewProfileViewController: UIViewController {
                 if let conversationViewModels = conversationViewModels {
                     vc.configure(with: conversationViewModels)
                 }
-                self.present(vc, animated: true)
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             
         } else {
@@ -158,7 +158,7 @@ class NewProfileViewController: UIViewController {
                 if let conversationViewModel = conversationViewModel, let messageViewModels = messageViewModels {
                     vc.configure(with: conversationViewModel, chatViewModels: messageViewModels)
                 }
-                self.present(vc, animated: true, completion: nil)
+                self.navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
