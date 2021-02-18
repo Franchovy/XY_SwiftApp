@@ -42,9 +42,9 @@ class FirebaseDownload {
                 let userData = doc.data()
                 if let profileId = userData[FirebaseKeys.UserKeys.profile] as? String {
                     completion(doc.documentID, nil)
-                } else {
-                    fatalError()
                 }
+            } else {
+                completion(nil, nil)
             }
         }
     }

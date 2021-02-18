@@ -69,6 +69,13 @@
 		B972A2C225DD2697006A0476 /* PostHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2C125DD2697006A0476 /* PostHeaderView.swift */; };
 		B972A2C625DD4282006A0476 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2C525DD4282006A0476 /* Comment.swift */; };
 		B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2C925DD96E2006A0476 /* TypeView.swift */; };
+		B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */; };
+		B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */; };
+		B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */; };
+		B9781DC525DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DC425DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift */; };
+		B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DC925DE70C600A2FE2D /* UserFirestoreManager.swift */; };
+		B9781DD025DE70FA00A2FE2D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DCF25DE70FA00A2FE2D /* UserModel.swift */; };
+		B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */; };
 		B979F68025C078370040AE5B /* ViralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F67F25C078370040AE5B /* ViralModel.swift */; };
 		B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F68B25C0799F0040AE5B /* ViralViewController.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
@@ -185,6 +192,13 @@
 		B972A2C125DD2697006A0476 /* PostHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostHeaderView.swift; sourceTree = "<group>"; };
 		B972A2C525DD4282006A0476 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		B972A2C925DD96E2006A0476 /* TypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeView.swift; sourceTree = "<group>"; };
+		B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
+		B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLivePostsViewController.swift; sourceTree = "<group>"; };
+		B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewController.swift; sourceTree = "<group>"; };
+		B9781DC425DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModelBuilder.swift; sourceTree = "<group>"; };
+		B9781DC925DE70C600A2FE2D /* UserFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFirestoreManager.swift; sourceTree = "<group>"; };
+		B9781DCF25DE70FA00A2FE2D /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileViewModel.swift; sourceTree = "<group>"; };
 		B979F67F25C078370040AE5B /* ViralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralModel.swift; sourceTree = "<group>"; };
 		B979F68B25C0799F0040AE5B /* ViralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralViewController.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -290,6 +304,7 @@
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				B981F91C25C307BD00A123BC /* ProfileViewController.swift */,
+				B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */,
 				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
 			);
 			path = TabBar;
@@ -391,6 +406,8 @@
 				B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */,
 				B925CC5425D5823000542A58 /* ProfileHeaderConversationsViewController.swift */,
 				B925CC5025D5821D00542A58 /* ProfileHeaderChatViewController.swift */,
+				B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */,
+				B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */,
 			);
 			path = "Profile Header";
 			sourceTree = "<group>";
@@ -420,6 +437,7 @@
 				B95482B725AAF1E00058D8B4 /* XPModel.swift */,
 				B9DFBA6225B7495D0084E79D /* Notification.swift */,
 				B9D1AB3025A3A591009B428E /* FlowDataCell.swift */,
+				B9781DCF25DE70FA00A2FE2D /* UserModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -445,6 +463,22 @@
 				B972A2C125DD2697006A0476 /* PostHeaderView.swift */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		B9781DC325DE6FA300A2FE2D /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B9781DC425DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		B9781DC825DE70BA00A2FE2D /* User */ = {
+			isa = PBXGroup;
+			children = (
+				B9781DC925DE70C600A2FE2D /* UserFirestoreManager.swift */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		B981338425C5AFEE00FE857D /* Launch & Auth */ = {
@@ -563,6 +597,7 @@
 				B9D5E56025A5F362001859EA /* PostViewModel.swift */,
 				B972A2B925DD169E006A0476 /* CommentViewModel.swift */,
 				B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */,
+				B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */,
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
@@ -571,6 +606,8 @@
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B9781DC825DE70BA00A2FE2D /* User */,
+				B9781DC325DE6FA300A2FE2D /* Profile */,
 				B936265425DADEE10063AAD6 /* Conversations */,
 				B936263425DA81800063AAD6 /* Chat */,
 				B9BDE38325C9AE1700B00656 /* Firebase */,
@@ -773,6 +810,7 @@
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
+				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
@@ -784,12 +822,15 @@
 				B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
 				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
+				B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */,
+				B9781DC525DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift in Sources */,
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
+				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
@@ -801,6 +842,7 @@
 				B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */,
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				B95C2C3D25BE91620001FA23 /* PreviewViewController.swift in Sources */,
+				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				B981F91D25C307BD00A123BC /* ProfileViewController.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
@@ -840,12 +882,14 @@
 				B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
+				B9781DD025DE70FA00A2FE2D /* UserModel.swift in Sources */,
 				1425137C259F8C0100DC08BB /* NotificationViewModel.swift in Sources */,
 				B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */,
 				B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
+				B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */,
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
 				B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */,
@@ -1061,7 +1105,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 8.1;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1087,7 +1131,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 8.1;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

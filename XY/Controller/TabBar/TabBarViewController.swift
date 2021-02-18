@@ -11,7 +11,7 @@ class TabBarViewController: UITabBarController {
     
     private var exploreVC: ExploreVC?
     private var cameraVC: CameraViewController?
-    private var profileVC: ProfileViewController?
+    private var profileVC: NewProfileViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,8 @@ class TabBarViewController: UITabBarController {
         // TAB 5: PROFILE VC
         guard let userId = AuthManager.shared.userId else { return }
         
-        let profileVC = ProfileViewController(userId: userId)
+//        let profileVC = ProfileViewController(userId: userId)
+        let profileVC = NewProfileViewController(userId: userId)
         let profileTabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile_item"), tag: 5)
         profileTabBarItem.badgeColor = UIColor(named: "tintColor")
 

@@ -61,8 +61,8 @@ class ProfileViewController: UIViewController {
         
         return profileHeader.height + 140 + view.safeAreaInsets.top
     }()
-    
-    // MARK: - Lifecycle
+        
+    // MARK: - Initialisers
     
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
@@ -153,41 +153,17 @@ class ProfileViewController: UIViewController {
             }
         }
         
-        // Fetch conversations for this user
-//        if userId != AuthManager.shared.userId {
-//            FirebaseDownload.getConversationWithUser(otherUserId: userId) { (result) in
-//                switch result {
-//                case .success(let conversationModel):
-//                    if let conversationModel = conversationModel {
-//                        ChatFirestoreManager.shared.getMessagesForConversation(
-//                            withId: conversationModel.id) { (result) in
-//                            switch result {
-//                            case .success(let messages):
-//                                print("Fetched messages: \(messages)")
-//                            case .failure(let error):
-//                                print("Error fetching messages: \(error)")
-//                            }
-//                        }
-//                    } else {
-//                        // No existing conversation
-//                        print("No existing conversation with user")
-//                    }
-//                case .failure(let error):
-//                    print("Error fetching conversation with user: \(error)")
-//                }
-//            }
-//        }
-        
         // Register for XP Updates
         FirebaseSubscriptionManager.shared.registerXPUpdates(for: userId, ofType: .user) { [weak self] (xpModel) in
             self?.profileHeaderViewModel?.updateXP(xpModel)
         }
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -200,8 +176,6 @@ class ProfileViewController: UIViewController {
         view.addSubview(collectionView)
         
         view.backgroundColor = UIColor(named: "Black")
-        
-        
     }
     
     override func viewDidLayoutSubviews() {

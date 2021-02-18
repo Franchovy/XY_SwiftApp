@@ -552,6 +552,32 @@ class ProfileHeaderViewController: UIViewController {
         xpCircle.setProgress(level: level, progress: Float(xp) / Float(nextLevelXp))
         xpCircle.layoutSubviews()
     }
+    
+    
+    public func configure(with viewModel: NewProfileViewModel) {
+//        self.viewModel = viewModel
+        
+        guard let userId = AuthManager.shared.userId else { return }
+        
+        if viewModel.userId == userId {
+            editButton.isHidden = false
+        }
+        
+        nicknameLabel.text = viewModel.nickname
+        descriptionLabel.text = viewModel.caption
+        xynameLabel.text = viewModel.xyname
+        websiteLabel.text = viewModel.website
+        
+        profilePicture.image = viewModel.profileImage
+        coverImage.image = viewModel.coverImage
+
+        view.setNeedsLayout()
+        
+        let nextLevelXp = XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user)
+        
+        xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / Float(nextLevelXp))
+        xpCircle.layoutSubviews()
+    }
 }
 
 // MARK: - ProfileViewModel delegate functions
