@@ -232,9 +232,7 @@ class NewProfileViewController: UIViewController {
             }
         } else if let vc = vc as? ProfileCollectionViewController {
             topScrollIndicator.setText(text: "Live Posts")
-            
-//            vc.view.frame.size = vc.preferredContentSize
-            
+                        
             UIView.animate(withDuration: 0.2) {
                 self.topScrollIndicator.alpha = 1.0
             }
@@ -355,9 +353,7 @@ class ScrollIndicator : UIView {
         self.direction = direction
         
         super.init(frame: .zero)
-        
-        backgroundColor = direction == .up ? .green : .red
-        
+            
         icon.contentMode = .scaleAspectFit
         icon.tintColor = UIColor(named: "tintColor")
         

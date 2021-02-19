@@ -71,7 +71,6 @@ class FlowVC : UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-//        navigationController?.isNavigationBarHidden = false
         errorLabel.isHidden = true
     }
     
@@ -84,7 +83,6 @@ class FlowVC : UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-//        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
