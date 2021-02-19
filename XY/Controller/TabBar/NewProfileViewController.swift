@@ -190,6 +190,15 @@ class NewProfileViewController: UIViewController {
         
         pageViewController.dataSource = self
         pageViewController.delegate = self
+        
+        // Configure posts collection
+        FirebaseDownload.getFlowForProfile(userId: profileViewModel.userId) { (postModels, error) in
+            if let error = error {
+                print(error)
+            } else if let postModels = postModels {
+                profileCollectionPostsVC.configure(with: postModels)
+            }
+        }
     }
     
     public func configure(with viewModel: NewProfileViewModel) {
@@ -224,7 +233,7 @@ class NewProfileViewController: UIViewController {
         } else if let vc = vc as? ProfileCollectionViewController {
             topScrollIndicator.setText(text: "Live Posts")
             
-            vc.view.frame.size = vc.preferredContentSize
+//            vc.view.frame.size = vc.preferredContentSize
             
             UIView.animate(withDuration: 0.2) {
                 self.topScrollIndicator.alpha = 1.0
@@ -235,38 +244,38 @@ class NewProfileViewController: UIViewController {
 
 extension NewProfileViewController : ScrollIndicatorDelegate {
     func pressedDownDirection() {
-        guard let vc = pageViewController.viewControllers?.first,
-              let currentIndex = viewControllers.firstIndex(of: vc) else {
-            return
-        }
-        let nextViewController = viewControllers[currentIndex + 1]
-        willTransitiontoViewController(vc: nextViewController)
-        pageViewController.setViewControllers(
-            [nextViewController],
-            direction: .forward,
-            animated: true,
-            completion: { _ in
-                self.transitionedToViewController(vc: nextViewController)
-            }
-        )
+//        guard let vc = pageViewController.viewControllers?.first,
+//              let currentIndex = viewControllers.firstIndex(of: vc) else {
+//            return
+//        }
+//        let nextViewController = viewControllers[currentIndex + 1]
+//        willTransitiontoViewController(vc: nextViewController)
+//        pageViewController.setViewControllers(
+//            [nextViewController],
+//            direction: .forward,
+//            animated: true,
+//            completion: { _ in
+//                self.transitionedToViewController(vc: nextViewController)
+//            }
+//        )
         
     }
     
     func pressedUpDirection() {
-        guard let vc = pageViewController.viewControllers?.first,
-              let currentIndex = viewControllers.firstIndex(of: vc) else {
-            return
-        }
-        let nextViewController = viewControllers[currentIndex - 1]
-        willTransitiontoViewController(vc: nextViewController)
-        pageViewController.setViewControllers(
-            [nextViewController],
-            direction: .reverse,
-            animated: true,
-            completion: { _ in
-                self.transitionedToViewController(vc: nextViewController)
-            }
-        )
+//        guard let vc = pageViewController.viewControllers?.first,
+//              let currentIndex = viewControllers.firstIndex(of: vc) else {
+//            return
+//        }
+//        let nextViewController = viewControllers[currentIndex - 1]
+//        willTransitiontoViewController(vc: nextViewController)
+//        pageViewController.setViewControllers(
+//            [nextViewController],
+//            direction: .reverse,
+//            animated: true,
+//            completion: { _ in
+//                self.transitionedToViewController(vc: nextViewController)
+//            }
+//        )
         
     }
 }
@@ -346,6 +355,8 @@ class ScrollIndicator : UIView {
         self.direction = direction
         
         super.init(frame: .zero)
+        
+        backgroundColor = direction == .up ? .green : .red
         
         icon.contentMode = .scaleAspectFit
         icon.tintColor = UIColor(named: "tintColor")

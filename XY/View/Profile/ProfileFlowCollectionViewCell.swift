@@ -38,6 +38,10 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
         image.image = viewModel.images.first
         viewModel.delegate = self
     }
+    
+    public func configure(viewModel: NewPostViewModel) {
+        image.image = viewModel.image
+    }
 }
 
 extension ProfileFlowCollectionViewCell : PostViewModelDelegate {

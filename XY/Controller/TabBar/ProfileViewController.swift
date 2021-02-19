@@ -174,8 +174,6 @@ class ProfileViewController: UIViewController {
         collectionView.delegate = self
         
         view.addSubview(collectionView)
-        
-        view.backgroundColor = UIColor(named: "Black")
     }
     
     override func viewDidLayoutSubviews() {

@@ -24,6 +24,8 @@
 		B90BFA3025CD6D7100575598 /* XPModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90BFA2F25CD6D7100575598 /* XPModelManager.swift */; };
 		B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C163725BB0ADA003811B2 /* TabBarViewController.swift */; };
 		B90C164425BC6474003811B2 /* MomentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C164325BC6474003811B2 /* MomentModel.swift */; };
+		B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90EBA4125DFEA5B005DE0A0 /* PostViewModelBuilder.swift */; };
+		B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */; };
 		B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */; };
 		B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC5025D5821D00542A58 /* ProfileHeaderChatViewController.swift */; };
 		B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC5425D5823000542A58 /* ProfileHeaderConversationsViewController.swift */; };
@@ -166,6 +168,8 @@
 		B90BFA2F25CD6D7100575598 /* XPModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModelManager.swift; sourceTree = "<group>"; };
 		B90C163725BB0ADA003811B2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		B90C164325BC6474003811B2 /* MomentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentModel.swift; sourceTree = "<group>"; };
+		B90EBA4125DFEA5B005DE0A0 /* PostViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModelBuilder.swift; sourceTree = "<group>"; };
+		B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSubscriptionManager.swift; sourceTree = "<group>"; };
 		B925CC5025D5821D00542A58 /* ProfileHeaderChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderChatViewController.swift; sourceTree = "<group>"; };
 		B925CC5425D5823000542A58 /* ProfileHeaderConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderConversationsViewController.swift; sourceTree = "<group>"; };
@@ -378,6 +382,14 @@
 				B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B90EBA4025DFEA4A005DE0A0 /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				B90EBA4125DFEA5B005DE0A0 /* PostViewModelBuilder.swift */,
+			);
+			path = Post;
 			sourceTree = "<group>";
 		};
 		B925CC6225D5841000542A58 /* Conversations */ = {
@@ -690,6 +702,7 @@
 				B9D5E56025A5F362001859EA /* PostViewModel.swift */,
 				B972A2B925DD169E006A0476 /* CommentViewModel.swift */,
 				B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */,
+				B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */,
 				B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */,
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
 			);
@@ -699,6 +712,7 @@
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B90EBA4025DFEA4A005DE0A0 /* Post */,
 				B9781DC825DE70BA00A2FE2D /* User */,
 				B9781DC325DE6FA300A2FE2D /* Profile */,
 				B936265425DADEE10063AAD6 /* Conversations */,
@@ -929,8 +943,10 @@
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
+				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
+				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,

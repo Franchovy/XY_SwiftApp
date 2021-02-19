@@ -52,7 +52,13 @@ class TabBarViewController: UITabBarController {
         self.profileVC = profilevc
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.isNavigationBarHidden = true
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         tabBar.isHidden = false
         view.layoutSubviews()
     }
@@ -102,9 +108,10 @@ extension TabBarViewController: ProfileManagerDelegate {
             }
             
             let profileVC = NewProfileViewController(userId: userId)
-            profileVC.modalPresentationStyle = .popover
+            profileVC.modalPresentationStyle = .fullScreen
+            self.navigationController?.isNavigationBarHidden = false
             
-            self.present(profileVC, animated: true) { }
+            self.navigationController?.pushViewController(profileVC, animated: true)
         }
     }
 }
