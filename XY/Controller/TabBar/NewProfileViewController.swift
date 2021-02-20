@@ -65,6 +65,14 @@ class NewProfileViewController: UIViewController {
 
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.bottomScrollIndicator.animate()
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
@@ -158,7 +166,7 @@ class NewProfileViewController: UIViewController {
         let titleLabel = UILabel()
         titleLabel.font = UIFont(name: "Raleway-ExtraBold", size: 30)
         titleLabel.text = viewModel.nickname
-        titleLabel.textColor = .white
+        titleLabel.textColor = UIColor(named: "tintColor")
         titleView.addSubview(titleLabel)
         
         
@@ -168,17 +176,13 @@ class NewProfileViewController: UIViewController {
         xpCircle.setupFinished()
         titleView.addSubview(xpCircle)
         
-        titleView.frame = CGRect(
-            x: 0,
-            y: 0,
-            width: 400,
-            height: 45
-        )
+        navigationItem.titleView = titleView
+
         let xpCircleSize:CGFloat = 25
         
         titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
-            x: (titleView.width - titleLabel.width)/2 - 8 - xpCircleSize,
+            x: (titleView.width - titleLabel.width)/2 - (5 + xpCircleSize)/2,
             y: (titleView.height - titleLabel.height)/2,
             width: titleLabel.width,
             height: titleLabel.height
@@ -186,13 +190,12 @@ class NewProfileViewController: UIViewController {
         
         xpCircle.frame = CGRect(
             x: titleLabel.right + 8,
-            y: titleLabel.top + (titleView.height - xpCircleSize)/2 - 5,
+            y: titleLabel.top + 4,
             width: xpCircleSize,
             height: xpCircleSize
         )
         
-        navigationItem.titleView = titleView
-            
+        titleView.center.x = view.center.x
         
     }
     
@@ -380,9 +383,11 @@ class ScrollIndicator : UIView {
     
     init(direction: Direction) {
         if direction == .down {
-            icon = UIImageView(image: UIImage(systemName: "arrowtriangle.down.fill"))
+            icon = UIImageView(image: UIImage(named: "profile_scroll_down_icon")?
+                                .withTintColor(UIColor(named: "tintColor")!, renderingMode: .alwaysOriginal))
         } else {
-            icon = UIImageView(image: UIImage(systemName: "arrowtriangle.up.fill"))
+            icon = UIImageView(image: UIImage(named: "profile_scroll_up_icon")?
+                                .withTintColor(UIColor(named: "tintColor")!, renderingMode: .alwaysOriginal))
         }
         self.direction = direction
         
@@ -397,6 +402,7 @@ class ScrollIndicator : UIView {
         isUserInteractionEnabled = true
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onPress))
         addGestureRecognizer(tapGesture)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -411,41 +417,62 @@ class ScrollIndicator : UIView {
         let iconSize:CGFloat = 25
         
         if direction == .down {
-            icon.frame = CGRect(
-                x: (width - iconSize)/2,
-                y: 0,
-                width: iconSize,
-                height: iconSize
-            )
             
             label.sizeToFit()
             label.frame = CGRect(
                 x: (width - label.width)/2,
-                y: icon.bottom + 4,
+                y: 5,
                 width: label.width,
                 height: label.height
+            )
+            
+            icon.frame = CGRect(
+                x: (width - iconSize)/2,
+                y: label.bottom + 5,
+                width: iconSize,
+                height: iconSize
             )
         } else if direction == .up {
             
+            icon.frame = CGRect(
+                x: (width - iconSize)/2,
+                y: 5,
+                width: iconSize,
+                height: iconSize
+            )
+            
             label.sizeToFit()
             label.frame = CGRect(
                 x: (width - label.width)/2,
-                y: 0,
+                y: icon.bottom + 5,
                 width: label.width,
                 height: label.height
-            )
-            
-            icon.frame = CGRect(
-                x: (width - iconSize)/2,
-                y: label.bottom + 4,
-                width: iconSize,
-                height: iconSize
             )
 
         }
     }
     
     // MARK: - Public functions
+    
+    func animate() {
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                self.icon.frame.origin.y += 5.0
+            }) { _ in
+                UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+                    self.icon.frame.origin.y -= 5.0
+                }) { _ in
+                    UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                    self.icon.frame.origin.y += 5.0
+                    }) { _ in
+                        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseIn, animations: {
+                            self.icon.frame.origin.y -= 5.0
+                        })
+                    }
+                }
+            }
+        }
+    }
     
     func setText(text: String) {
         label.text = text
