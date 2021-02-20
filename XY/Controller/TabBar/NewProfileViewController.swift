@@ -22,6 +22,8 @@ class NewProfileViewController: UIViewController {
     
     private var viewModel: NewProfileViewModel?
     
+    // MARK: - Initialisers
+    
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
@@ -56,6 +58,8 @@ class NewProfileViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -80,6 +84,49 @@ class NewProfileViewController: UIViewController {
             height: 67
         )
     }
+    
+    // MARK: - Public Functions
+    
+    public func configure(with viewModel: NewProfileViewModel) {
+        self.viewModel = viewModel
+        
+        setUpPageViewController()
+        setUpNavBar()
+    }
+    
+    // MARK: - Obj-C Functions
+    
+    @objc private func openChatButtonPressed() {
+        guard let selfId = AuthManager.shared.userId, let viewModel = viewModel else {
+            return
+        }
+        if viewModel.userId == selfId {
+            let vc = ProfileHeaderConversationsViewController()
+            vc.modalPresentationStyle = .fullScreen
+            
+            ConversationManager.shared.getConversations() { conversationViewModels in
+                if let conversationViewModels = conversationViewModels {
+                    vc.configure(with: conversationViewModels)
+                }
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
+        } else {
+            let vc = ProfileHeaderChatViewController()
+            vc.modalPresentationStyle = .fullScreen
+            
+            ConversationManager.shared.getConversation(with: viewModel.userId) { conversationViewModel, messageViewModels in
+                if let conversationViewModel = conversationViewModel, let messageViewModels = messageViewModels {
+                    vc.configure(with: conversationViewModel, chatViewModels: messageViewModels)
+                } else if conversationViewModel == nil, messageViewModels?.count == 0 {
+                    vc.configureForNewConversation(with: viewModel.userId)
+                }
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
+    // MARK: - Private Functions
     
     private func setUpNavBar() {
         guard let viewModel = viewModel else {
@@ -135,34 +182,6 @@ class NewProfileViewController: UIViewController {
         
     }
     
-    @objc private func openChatButtonPressed() {
-        guard let selfId = AuthManager.shared.userId, let viewModel = viewModel else {
-            return
-        }
-        if viewModel.userId == selfId {
-            let vc = ProfileHeaderConversationsViewController()
-            vc.modalPresentationStyle = .fullScreen
-            
-            ConversationManager.shared.getConversations() { conversationViewModels in
-                if let conversationViewModels = conversationViewModels {
-                    vc.configure(with: conversationViewModels)
-                }
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-            
-        } else {
-            let vc = ProfileHeaderChatViewController()
-            vc.modalPresentationStyle = .fullScreen
-            
-            ConversationManager.shared.getConversation(with: viewModel.userId) { conversationViewModel, messageViewModels in
-                if let conversationViewModel = conversationViewModel, let messageViewModels = messageViewModels {
-                    vc.configure(with: conversationViewModel, chatViewModels: messageViewModels)
-                }
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        }
-    }
-    
     private func setUpPageViewController() {
         
         guard let profileViewModel = viewModel else {
@@ -201,13 +220,6 @@ class NewProfileViewController: UIViewController {
         }
     }
     
-    public func configure(with viewModel: NewProfileViewModel) {
-        self.viewModel = viewModel
-        
-        setUpPageViewController()
-        setUpNavBar()
-    }
-    
     private func willTransitiontoViewController(vc: UIViewController) {
         UIView.animate(withDuration: 0.2) {
             self.topScrollIndicator.alpha = 0.0
@@ -239,6 +251,8 @@ class NewProfileViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Scroll Indicator Extension
 
 extension NewProfileViewController : ScrollIndicatorDelegate {
     func pressedDownDirection() {
@@ -278,6 +292,8 @@ extension NewProfileViewController : ScrollIndicatorDelegate {
     }
 }
 
+// MARK: - Page VC Extension
+
 extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished {
@@ -316,6 +332,8 @@ extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewCon
     }
 }
 
+// MARK: - Scroll Indicator Class
+
 protocol ScrollIndicatorDelegate {
     func pressedDownDirection()
     func pressedUpDirection()
@@ -344,6 +362,8 @@ class ScrollIndicator : UIView {
     
     var delegate: ScrollIndicatorDelegate?
     
+    // MARK: - Initialisers
+    
     init(direction: Direction) {
         if direction == .down {
             icon = UIImageView(image: UIImage(systemName: "arrowtriangle.down.fill"))
@@ -368,6 +388,8 @@ class ScrollIndicator : UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Lifecycle
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -409,11 +431,15 @@ class ScrollIndicator : UIView {
         }
     }
     
+    // MARK: - Public functions
+    
     func setText(text: String) {
         label.text = text
         
         label.sizeToFit()
     }
+    
+    // MARK: - Obj-C Functions
     
     @objc private func onPress() {
         if direction == .down {

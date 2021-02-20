@@ -30,14 +30,14 @@ final class ConversationManager {
                             conversationViewModels.append(conversationViewModel)
                         }
                     }
-                    
-                    dispatchGroup.notify(queue: .main, work: DispatchWorkItem(block: {
-                        conversationViewModels.sort(by: { viewModel1, viewModel2 in
-                            return viewModel1.lastMessageTimestamp < viewModel2.lastMessageTimestamp
-                        })
-                        completion(conversationViewModels)
-                    }))
                 }
+                
+                dispatchGroup.notify(queue: .main, work: DispatchWorkItem(block: {
+                    conversationViewModels.sort(by: { viewModel1, viewModel2 in
+                        return viewModel1.lastMessageTimestamp < viewModel2.lastMessageTimestamp
+                    })
+                    completion(conversationViewModels)
+                }))
             case .failure(let error):
                 print(error)
             }
@@ -71,7 +71,7 @@ final class ConversationManager {
                     }
                 } else {
                     // New conversation!
-                    
+                    completion(nil, [])
                 }
             case .failure(let error):
                 print(error)

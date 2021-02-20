@@ -41,7 +41,8 @@ class ProfileHeaderConversationsViewController: UIViewController {
         tableView.delegate = self
         
         view.addSubview(tableView)
-        view.addSubview(notificationsImage)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: notificationsImage)
         
         if let value = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool {
             setNotificationState(to: value)
@@ -66,19 +67,7 @@ class ProfileHeaderConversationsViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        notificationsImage.frame = CGRect(
-            x: view.width - 25 - 5,
-            y: 35,
-            width: 25,
-            height: 25
-        )
-        
-        tableView.frame = CGRect(
-            x: 0,
-            y: notificationsImage.bottom + 5,
-            width: view.width,
-            height: view.height - notificationsImage.bottom - 5
-        )
+        tableView.frame = view.bounds
         
     }
     
