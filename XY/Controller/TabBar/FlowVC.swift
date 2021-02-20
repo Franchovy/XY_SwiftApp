@@ -359,22 +359,36 @@ extension FlowVC : ImagePostCellDelegate {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-            self.postViewModels.remove(at: cellIndex.row)
             
-            self.tableView.deleteRows(at: [cellIndex], with: .bottom)
-            
-            guard self.postViewModels.count > cellIndex.row else {
-                return
-            }
-            self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
         }
     }
     
-    func imagePostCellDelegate(didSwipeLeft postId: String) {
+    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
+        guard let postId = cell.viewModel?.postId else {
+            return
+        }
         FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
     }
     
-    func imagePostCellDelegate(didSwipeRight postId: String) {
+    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              postViewModels.count > cellIndex.row else {
+            return
+        }
+        
+        self.postViewModels.remove(at: cellIndex.row)
+        
+        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+        
+        guard self.postViewModels.count > cellIndex.row else {
+            return
+        }
+        self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
+        
+        guard let postId = cell.viewModel?.postId else {
+            return
+        }
+        
         FirebaseFunctionsManager.shared.swipeRight(postId: postId)
     }
 }

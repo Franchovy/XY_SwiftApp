@@ -14,8 +14,8 @@ protocol ImagePostCellDelegate {
     //TODO: swipe right, swipe left from flow.
     func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell)
     func imagePostCellDelegate(willSwipeRight cell: ImagePostCell)
-    func imagePostCellDelegate(didSwipeLeft postId: String)
-    func imagePostCellDelegate(didSwipeRight postId: String)
+    func imagePostCellDelegate(didSwipeLeft  cell: ImagePostCell)
+    func imagePostCellDelegate(didSwipeRight  cell: ImagePostCell)
     func imagePostCellDelegate(reportPressed postId: String)
 }
 
@@ -169,7 +169,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         let postCardSize = contentView.width - 34
 
-        if !isSwiping {
+        if postCard.transform == CGAffineTransform.identity {
             postCard.frame = CGRect(
                 x: (contentView.width/2 - postCardSize/2),
                 y: 10,
@@ -243,8 +243,11 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         // Load from data for this cell
         postShadowLayer.shadowOpacity = 0.0
         postCard.transform = CGAffineTransform.identity
+        caption.alpha = 1.0
+        postCard.alpha = 1.0
         
-        currentTranslationX = 0
+        pauseTranslationX = 0
+        didEndSwiping = false
         
         contentImageView.image = nil
         profileImageView.image = nil
@@ -279,92 +282,118 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         ProfileManager.shared.openProfileForId(profileId)
     }
     
-    var currentTranslationX:CGFloat = 0
+    var pauseTranslationX:CGFloat = 0
+    var startPoint: CGFloat = 0
+    var endPoint: CGFloat = 400
+    var didBeginSwiping = false
+    var didEndSwiping = false
+    
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
-        let translationX = panGestureRecognizer.translation(in: contentView).x + currentTranslationX
+        if didEndSwiping { return }
+        
+        // Swipe Begin
+        if !didBeginSwiping {
+            didBeginSwiping = true
+            isSwiping = true
+            
+            startPoint = panGestureRecognizer.location(in: contentView).x
+            print("Start point: \(startPoint)")
+            onBeginSwiping()
+        }
+        
+        var distance:CGFloat!
+        var swipeProgress:CGFloat!
+        
+        let translationX = panGestureRecognizer.translation(in: contentView).x + pauseTranslationX
         let velocityX = panGestureRecognizer.velocity(in: contentView).x
         
-        let transform = CGAffineTransform(
-            translationX: translationX,
-            y: 0
-        )
-        
-        superview?.bringSubviewToFront(self)
-        
-        isSwiping = true
-        
-        postCard.transform = transform.rotated(by: translationX / 500)
-        
-        // Color for swipe
         if translationX > 0 {
-            postShadowLayer.shadowColor = UIColor.green.cgColor
+            // Rightward Movement
+            endPoint = width - 70
+            distance = endPoint - startPoint
+            swipeProgress = translationX / distance
         } else {
-            postShadowLayer.shadowColor = UIColor.red.cgColor
+            // Leftward Movement
+            endPoint = 70
+            distance = endPoint - startPoint
+            swipeProgress = translationX / distance
         }
         
-        postShadowLayer.shadowOpacity = Float(abs(translationX) / 50)
-        
-        let alphaRangeLeft = max(0, min(50, -translationX-150))
-        
-        UIView.animate(withDuration: 0.6) {
-            self.reportButtonImage.alpha = alphaRangeLeft / 50
-            self.reportButtonTitle.alpha = alphaRangeLeft / 50
+        // During Swipe Translate
+        let directionMultiplier:CGFloat = translationX > 0 ? 1 : -1
+        postCard.transform = CGAffineTransform(translationX: distance * (sqrt(swipeProgress)), y: 0).rotated(by: directionMultiplier * sqrt(swipeProgress)/5)
+        if translationX > 0 {
+            postCard.layer.shadowColor = UIColor.green.cgColor
+        } else {
+            postCard.layer.shadowColor = UIColor.red.cgColor
         }
+        postCard.layer.shadowOpacity = Float(swipeProgress)
         
-        // On gesture finish
-        guard panGestureRecognizer.state == .ended else {
-          return
+        // On Swipe Finish
+        if swipeProgress > 1 {
+            onEndSwiping()
+            if translationX > 0 {
+                animateSwipeRight()
+            } else {
+                animateSwipeLeft()
+            }
+        } else if panGestureRecognizer.state == .ended {
+            animateBackToCenter()
+            
+            onEndSwiping(canceled: true)
         }
-        
-        currentTranslationX = translationX
-        
-        // timer on
-        if abs(velocityX) < 50, translationX < -200 {
-            // Pause
-            tappedBackToCenterGesture.isEnabled = true
+    }
+    
+    private func onBeginSwiping() {
+        isSwiping = true
+        superview?.bringSubviewToFront(self)
+    }
+    
+    private func onEndSwiping(canceled: Bool = false) {
+        isSwiping = false
+        didBeginSwiping = false
+        didEndSwiping = !canceled
+    }
+    
+    private func animateSwipeRight() {
+        guard let delegate = self.delegate, let viewModel = self.viewModel else {
             return
         }
+        delegate.imagePostCellDelegate(willSwipeRight: self)
         
-        // Animate if needed
-        if translationX > 50, velocityX > 50 {
-            
-            guard let delegate = self.delegate, let viewModel = self.viewModel else {
-                return
+        let currentTransform = postCard.transform
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
+            self.postCard.transform = currentTransform.translatedBy(x: 100, y: 100).rotated(by: 1)
+        } completion: { (done) in
+            if done {
+                // Swipe Right
+                self.postCard.alpha = 0.0
+                delegate.imagePostCellDelegate(didSwipeRight: self)
+                self.reportButtonImage.alpha = 0.0
+                self.reportButtonTitle.alpha = 0.0
+                self.isSwiping = false
             }
-            delegate.imagePostCellDelegate(willSwipeRight: self)
+        }
+    }
+    
+    private func animateSwipeLeft() {
+        guard let delegate = self.delegate, let viewModel = self.viewModel else {
+            return
+        }
+        delegate.imagePostCellDelegate(willSwipeLeft: self)
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
+            self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-                self.postCard.transform = CGAffineTransform(translationX: 700, y: 0).rotated(by: 1)
-            } completion: { (done) in
-                if done {
-                    // Swipe Right
-                    delegate.imagePostCellDelegate(didSwipeRight: viewModel.postId)
-                    self.reportButtonImage.alpha = 0.0
-                    self.reportButtonTitle.alpha = 0.0
-                    self.isSwiping = false
-                }
+        } completion: { (done) in
+            if done {
+                // Swipe Left
+                delegate.imagePostCellDelegate(didSwipeLeft: self)
+                self.reportButtonImage.alpha = 0.0
+                self.reportButtonTitle.alpha = 0.0
+                self.isSwiping = false
             }
-        } else if translationX < -50, velocityX < -50 {
-            
-            guard let delegate = self.delegate, let viewModel = self.viewModel else {
-                return
-            }
-            delegate.imagePostCellDelegate(willSwipeLeft: self)
-            
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-                self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
-                
-            } completion: { (done) in
-                if done {
-                    // Swipe Left
-                    delegate.imagePostCellDelegate(didSwipeLeft: viewModel.postId)
-                    self.reportButtonImage.alpha = 0.0
-                    self.reportButtonTitle.alpha = 0.0
-                    self.isSwiping = false
-                }
-            }
-        } else {
-            animateBackToCenter()
         }
     }
     
@@ -378,7 +407,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     }
     
     @objc private func animateBackToCenter() {
-        currentTranslationX = 0
+        pauseTranslationX = 0
         tappedBackToCenterGesture.isEnabled = false
         
         UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveEaseOut) {
