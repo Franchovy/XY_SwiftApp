@@ -138,6 +138,7 @@ class NewProfileViewController: UIViewController {
     
     @objc private func openSettingsButtonPressed() {
         let vc = ProfileHeaderSettingsViewController()
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -266,6 +267,18 @@ class NewProfileViewController: UIViewController {
                 self.topScrollIndicator.alpha = 1.0
             }
         }
+    }
+}
+
+// MARK: - Settings extension
+
+extension NewProfileViewController : ProfileHeaderSettingsViewControllerDelegate {
+    func didLogOut() {
+        guard let superviewController = view.superview?.parentContainerViewController() as? TabBarViewController else {
+            return
+        }
+        
+        superviewController.backToLaunch()
     }
 }
 

@@ -9,11 +9,12 @@ import UIKit
 
 class ProfileLivePostsViewController: UIViewController {
 
-    
+    let xpcircleTest = XPCircleView()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        view.addSubview(xpcircleTest)
     }
     
     required init?(coder: NSCoder) {
@@ -22,10 +23,13 @@ class ProfileLivePostsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        xpcircleTest.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
+        xpcircleTest.center = view.center
     }
 }
