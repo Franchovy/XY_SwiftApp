@@ -26,7 +26,7 @@ class PushNotificationSender {
                     request.httpMethod = "POST"
                     request.httpBody = try? JSONSerialization.data(withJSONObject:paramString, options: [.prettyPrinted])
                     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-                    request.setValue("key=AAAAQF-Aw8o:APA91bHlwU_2aOIPFDCeFWwsKlFDW11aOyASrLO0MG3V_cogCbuIgOc6CzQqG6g1yQnG6095PehRWC-DlW1Vwg3eiqWvZgIyakvYA5JbLJi-W-BTKA1-0lPVO-sljv98DS8GdvS1Z89c", forHTTPHeaderField: "Authorization")
+                    request.setValue("key=AAAAQF-Aw8o:APA91bH6ZkEZHaiSGf1nhyYi5H_GUMypmOXeMAcaO66XX662dS1EjH0HoR9bSnJmblWhp6YdcYvpW7O2NBj4V3GmGfa_YdSGyCAAXnshrAdD4LfNx7Kl0zpADzvPCrnfuPef_RE-gKtj", forHTTPHeaderField: "Authorization")
                     let task =  URLSession.shared.dataTask(with: request as URLRequest)  { (data, response, error) in
                         do {
                             if let jsonData = data {

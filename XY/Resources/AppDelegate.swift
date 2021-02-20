@@ -22,11 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
                 
         FirebaseApp.configure()
-                
+                        
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
-//            let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
-//            pushNotificationsManager.registerForPushNotifications()
+            
+            let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
+            pushNotificationsManager.checkPermissions()
+            pushNotificationsManager.registerForPushNotifications()
             
             OnlineStatusManager.shared.setupOnlineStatus()
             
@@ -50,6 +52,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         completionHandler(UIBackgroundFetchResult.newData)
         
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        var readableToken: String = ""
+          for i in 0..<deviceToken.count {
+            readableToken += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+          }
+          print("Received an APNs device token: \(readableToken)")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for remote notifications: \(error)")
     }
     
     // MARK: UISceneSession Lifecycle

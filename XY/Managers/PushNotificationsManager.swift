@@ -18,6 +18,13 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
         super.init()
     }
 
+    func checkPermissions() {
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+          print("Alert setting is \(settings.alertSetting == UNNotificationSetting.enabled ? "enabled" : "disabled")")
+          print("Sound setting is \(settings.soundSetting == UNNotificationSetting.enabled ? "enabled" : "disabled")")
+        }
+    }
+    
     func registerForPushNotifications() {
         
         if #available(iOS 10.0, *) {
@@ -41,6 +48,8 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
 
     func updateFirestorePushTokenIfNeeded() {
         if let token = Messaging.messaging().fcmToken {
+            
+            print("FCM Token: \(String(describing: token))")
             let usersRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userID)
             usersRef.setData([FirebaseKeys.UserKeys.fcmToken: token], merge: true)
         }
@@ -52,5 +61,9 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print("User Notification Center: ", response)
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        print("Notification will show: \(notification)")
     }
 }
