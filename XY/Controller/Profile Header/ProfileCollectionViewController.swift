@@ -42,7 +42,6 @@ class ProfileCollectionViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = .green
         collectionView.backgroundColor = UIColor(named: "Black")
         
         collectionView.dataSource = self

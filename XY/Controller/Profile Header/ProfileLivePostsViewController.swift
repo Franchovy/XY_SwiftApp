@@ -14,7 +14,6 @@ class ProfileLivePostsViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        view.backgroundColor = .red
     }
     
     required init?(coder: NSCoder) {

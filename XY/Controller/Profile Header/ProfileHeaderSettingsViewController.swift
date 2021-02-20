@@ -194,10 +194,12 @@ class ProfileHeaderSettingsViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         
+        let topY: CGFloat = view.safeAreaInsets.top
+        
         settingsLabel.sizeToFit()
         settingsLabel.frame = CGRect(
             x: 10,
-            y: 30,
+            y: topY + 30,
             width: settingsLabel.width,
             height: settingsLabel.height
         )

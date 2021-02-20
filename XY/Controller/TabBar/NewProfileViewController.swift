@@ -128,9 +128,23 @@ class NewProfileViewController: UIViewController {
     
     // MARK: - Private Functions
     
+    @objc private func openSettingsButtonPressed() {
+        let vc = ProfileHeaderSettingsViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     private func setUpNavBar() {
         guard let viewModel = viewModel else {
             return
+        }
+
+        if viewModel.userId == AuthManager.shared.userId {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: "gearshape.fill"),
+                style: .done,
+                target: self,
+                action: #selector(openSettingsButtonPressed)
+            )
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
