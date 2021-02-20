@@ -12,10 +12,18 @@ import UIKit
 import UserNotifications
 
 class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCenterDelegate {
+    
+    static var shared: PushNotificationManager?
+    
+    var tabBarController: TabBarViewController?
+    
     let userID: String
     init(userID: String) {
         self.userID = userID
+        
         super.init()
+        
+        PushNotificationManager.shared = self
     }
 
     func checkPermissions() {
@@ -61,6 +69,30 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
 
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         print("User Notification Center: ", response)
+        
+        let userName = response.notification.request.content.title
+        print("Notification from: ", userName)
+       
+        ConversationManager.shared.getConversations { (conversationViewModels) in
+            if let conversationViewModels = conversationViewModels,
+               let conversationViewModel = conversationViewModels.first(where: { $0.name == userName })
+            {
+                ChatFirestoreManager.shared.getMessagesForConversation(withId: conversationViewModel.id) { (result) in
+                    switch result {
+                    case .success(let messageModels):
+                        let messageViewModels = ChatViewModelBuilder.build(for: messageModels, conversationViewModel: conversationViewModel)
+                            
+                        let vc = ProfileHeaderChatViewController()
+                        
+                        vc.configure(with: conversationViewModel, chatViewModels: messageViewModels)
+                        
+                        self.tabBarController?.pushChatVC(chatVC: vc)
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
+        }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {

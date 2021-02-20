@@ -8,7 +8,7 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-    
+        
     private var exploreVC: ExploreVC?
     private var cameraVC: CameraViewController?
     private var profileVC: NewProfileViewController?
@@ -16,6 +16,7 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        PushNotificationManager.shared?.tabBarController = self
         ProfileManager.shared.delegate = self
         
         // TAB 2: EXPLORE VC
@@ -95,6 +96,13 @@ class TabBarViewController: UITabBarController {
         let vc = mainStoryboard.instantiateViewController(identifier: "LaunchVC")
         vc.modalPresentationStyle = .fullScreen
         show(vc, sender: self)
+    }
+}
+
+extension TabBarViewController {
+    func pushChatVC(chatVC: ProfileHeaderChatViewController) {
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.pushViewController(chatVC, animated: true)
     }
 }
 
