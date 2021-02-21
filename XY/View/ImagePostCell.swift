@@ -309,12 +309,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         if translationX > 0 {
             // Rightward Movement
-            endPoint = width - 70
+            endPoint = width - 40
             distance = endPoint - startPoint
             swipeProgress = translationX / distance
         } else {
             // Leftward Movement
-            endPoint = 70
+            endPoint = 40
             distance = endPoint - startPoint
             swipeProgress = translationX / distance
         }
@@ -323,11 +323,11 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         let directionMultiplier:CGFloat = translationX > 0 ? 1 : -1
         postCard.transform = CGAffineTransform(translationX: distance * (sqrt(swipeProgress)), y: 0).rotated(by: directionMultiplier * sqrt(swipeProgress)/5)
         if translationX > 0 {
-            postCard.layer.shadowColor = UIColor.green.cgColor
+            postShadowLayer.shadowColor = UIColor.green.cgColor
         } else {
-            postCard.layer.shadowColor = UIColor.red.cgColor
+            postShadowLayer.shadowColor = UIColor.red.cgColor
         }
-        postCard.layer.shadowOpacity = Float(swipeProgress)
+        postShadowLayer.shadowOpacity = Float(swipeProgress)
         
         // On Swipe Finish
         if swipeProgress > 1 {
