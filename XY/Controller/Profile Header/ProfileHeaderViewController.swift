@@ -476,7 +476,7 @@ class ProfileHeaderViewController: UIViewController {
         }
         websiteLabel.text = viewModel.website
         
-        profileBubble.configure(with: viewModel)
+//        profileBubble.configure(with: viewModel)
         
         coverImage.image = viewModel.coverImage
 
@@ -508,6 +508,11 @@ class ProfileHeaderViewController: UIViewController {
         coverImage.image = viewModel.coverImage
 
         view.setNeedsLayout()
+    }
+    
+    public func setHeroID(forProfileImage id: String) {
+        isHeroEnabled = true
+        profileBubble.setHeroID(id: id)
     }
 }
 
@@ -595,7 +600,7 @@ extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINaviga
                 return
             }
             viewModel.profileImage = image
-            profileBubble.configure(with: viewModel)
+//            profileBubble.configure(with: viewModel)
             
         }
     }

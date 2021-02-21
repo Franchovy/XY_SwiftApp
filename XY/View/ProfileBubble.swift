@@ -28,6 +28,8 @@ class ProfileBubble: UIView {
         button.layer.cornerRadius = 11
         button.setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
         button.setTitleColor(.white, for: .normal)
+        button.setBackgroundColor(color: .darkGray, forState: .disabled)
+        button.setTitleColor(.lightGray, for: .disabled)
         button.setTitle("Follow", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 16)
         button.layer.borderWidth = 0.7
@@ -47,6 +49,8 @@ class ProfileBubble: UIView {
         return button
     }()
     
+    var viewModel: NewProfileViewModel?
+    
     init() {
         super.init(frame: .zero)
         
@@ -60,6 +64,8 @@ class ProfileBubble: UIView {
         layer.shadowOpacity = 0.68
         layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowRadius = 6
+        
+        followButton.addTarget(self, action: #selector(followButtonPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -93,12 +99,13 @@ class ProfileBubble: UIView {
         addButton.layer.cornerRadius = 12
     }
     
-    public func configure(with viewModel: ProfileViewModel) {
+    public func configure(with viewModel: NewProfileViewModel) {
+        self.viewModel = viewModel
         profileImageView.image = viewModel.profileImage
     }
     
-    public func configure(with viewModel: NewProfileViewModel) {
-        profileImageView.image = viewModel.profileImage
+    public func setHeroID(id: String) {
+        profileImageView.heroID = id
     }
     
     enum ButtonMode {
@@ -112,6 +119,25 @@ class ProfileBubble: UIView {
             followButton.isHidden = false
         case .add:
             addButton.isHidden = false
+        }
+    }
+    
+    @objc private func followButtonPressed() {
+        guard let otherUserId = viewModel?.userId else {
+            return
+        }
+        
+        followButton.isEnabled = false
+        
+        RelationshipFirestoreManager.shared.follow(otherId: otherUserId) { (relationshipModel) in
+            if let relationshipModel = relationshipModel {
+                switch relationshipModel.type {
+                case .follow:
+                    self.followButton.setTitle("Following", for: .normal)
+                case .friends:
+                    self.followButton.setTitle("Friends", for: .normal)
+                }
+            }
         }
     }
 }

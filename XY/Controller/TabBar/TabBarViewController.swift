@@ -117,8 +117,8 @@ extension TabBarViewController: ProfileManagerDelegate {
             
             let profileVC = NewProfileViewController(userId: userId)
             profileVC.modalPresentationStyle = .fullScreen
-            self.navigationController?.isNavigationBarHidden = false
             
+            self.navigationController?.isNavigationBarHidden = false
             self.navigationController?.pushViewController(profileVC, animated: true)
         }
     }

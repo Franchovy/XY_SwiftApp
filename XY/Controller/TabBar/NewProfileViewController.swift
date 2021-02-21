@@ -102,6 +102,13 @@ class NewProfileViewController: UIViewController {
         setUpNavBar()
     }
     
+    public func setHeroID(forProfileImage id: String) {
+        isHeroEnabled = true
+        if let headerVC = viewControllers.first as? ProfileHeaderViewController {
+            headerVC.setHeroID(forProfileImage: id)
+        }
+    }
+    
     // MARK: - Obj-C Functions
     
     @objc private func openChatButtonPressed() {
