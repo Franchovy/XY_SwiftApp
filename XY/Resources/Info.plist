@@ -53,6 +53,7 @@
 	<string>This app wants to use your photo &amp; video library.</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>Raleway-SemiBold.ttf</string>
 		<string>Raleway-ExtraBold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>

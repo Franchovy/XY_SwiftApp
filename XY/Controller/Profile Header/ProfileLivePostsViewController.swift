@@ -10,11 +10,17 @@ import UIKit
 class ProfileLivePostsViewController: UIViewController {
 
     let xpcircleTest = XPCircleView()
+    let profileBubble = ProfileBubble()
+    let profileBubble2 = ProfileBubble()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
         view.addSubview(xpcircleTest)
+        view.addSubview(profileBubble)
+        profileBubble.setButtonMode(mode: .follow)
+        view.addSubview(profileBubble2)
+        profileBubble2.setButtonMode(mode: .add)
     }
     
     required init?(coder: NSCoder) {
@@ -31,5 +37,11 @@ class ProfileLivePostsViewController: UIViewController {
         
         xpcircleTest.frame = CGRect(x: 0, y: 0, width: 50, height: 50)
         xpcircleTest.center = view.center
+        
+        profileBubble.frame = CGRect(x: 0, y: 0, width: 200, height: 80)
+        profileBubble.center = view.center.applying(CGAffineTransform(translationX: -100, y: -100))
+        
+        profileBubble2.frame = CGRect(x: 0, y: 0, width: 200, height: 80)
+        profileBubble2.center = profileBubble.center.applying(CGAffineTransform(translationX: 100, y: -60))
     }
 }
