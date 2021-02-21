@@ -332,10 +332,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         // On Swipe Finish
         if swipeProgress > 1 {
             onEndSwiping()
-            if translationX > 0 {
-                animateSwipeRight()
-            } else {
-                animateSwipeLeft()
+            animateConfirm() {
+                if translationX > 0 {
+                    self.animateSwipeRight()
+                } else {
+                    self.animateSwipeLeft()
+                }
             }
         } else if panGestureRecognizer.state == .ended {
             animateBackToCenter()
@@ -355,6 +357,24 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         didEndSwiping = !canceled
     }
     
+    private func animateConfirm(completion: @escaping(() -> Void)) {
+        let originalTransform = postCard.transform
+
+        UIView.animate(withDuration: 0.05, delay: 0, options: .curveEaseIn) {
+            self.postCard.transform = originalTransform.scaledBy(x: 1.2, y: 1.2)
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.05, delay: 0, options: .curveEaseOut) {
+                    self.postCard.transform = originalTransform
+                } completion: { (done) in
+                    if done {
+                        completion()
+                    }
+                }
+            }
+        }
+    }
+    
     private func animateSwipeRight() {
         guard let delegate = self.delegate, let viewModel = self.viewModel else {
             return
@@ -363,11 +383,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         let currentTransform = postCard.transform
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
-            self.postCard.transform = currentTransform.translatedBy(x: 100, y: 100).rotated(by: 1)
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+            self.postCard.transform = currentTransform.translatedBy(x: 400, y: 200)
+            self.postCard.rotate(numRotations: 3)
         } completion: { (done) in
             if done {
                 // Swipe Right
+                self.postCard.stopRotating()
                 self.postCard.alpha = 0.0
                 delegate.imagePostCellDelegate(didSwipeRight: self)
                 self.reportButtonImage.alpha = 0.0
@@ -385,7 +407,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
             self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
-            
+            self.postCard.alpha = 0.0
         } completion: { (done) in
             if done {
                 // Swipe Left

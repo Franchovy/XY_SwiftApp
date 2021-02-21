@@ -354,10 +354,6 @@ extension FlowVC : ImagePostCellDelegate {
             return
         }
         
-        UIView.animate(withDuration: 0.2) {
-            cell.alpha = 0.0
-        }
-        
         DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
             
         }

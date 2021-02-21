@@ -76,6 +76,21 @@ extension UIView {
     }
 }
 
+extension UIView{
+    func rotate(numRotations: Int) {
+        let rotation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotation.toValue = NSNumber(value: Double.pi * 2 * Double(numRotations))
+        rotation.duration = 1
+        rotation.isCumulative = true
+        rotation.repeatCount = Float.greatestFiniteMagnitude
+        self.layer.add(rotation, forKey: "rotationAnimation")
+    }
+    
+    func stopRotating() {
+        self.layer.removeAnimation(forKey: "rotationAnimation")
+    }
+}
+
 extension UIColor {
    convenience init(red: Int, green: Int, blue: Int) {
        assert(red >= 0 && red <= 255, "Invalid red component")
