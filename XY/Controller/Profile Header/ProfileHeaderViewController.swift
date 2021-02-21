@@ -201,7 +201,7 @@ class ProfileHeaderViewController: UIViewController {
         
         profileCard.frame = CGRect(
             x: 0,
-            y: view.height - 136 - 67,
+            y: view.height - 134 - 67,
             width: view.width,
             height: 134
         )
@@ -503,6 +503,7 @@ class ProfileHeaderViewController: UIViewController {
         
         numFollowers.text = String(viewModel.numFollowers)
         numFollowing.text = String(viewModel.numFollowing)
+        numSwipeRights.text = String(viewModel.numSwipeRights)
 
         coverImage.image = viewModel.coverImage
 

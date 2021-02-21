@@ -68,6 +68,7 @@ final class ProfileViewModelBuilder {
                 nickname: profileModel.nickname,
                 numFollowers: profileModel.followers,
                 numFollowing: profileModel.following,
+                numSwipeRights: profileModel.swipeRights,
                 website: profileModel.website,
                 caption: profileModel.caption,
                 profileImage: profileImage,

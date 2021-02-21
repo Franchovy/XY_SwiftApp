@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
                 
         FirebaseApp.configure()
-                        
+                   
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
             if let pushNotificationsEnabled = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool,
