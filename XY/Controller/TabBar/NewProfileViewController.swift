@@ -177,7 +177,6 @@ class NewProfileViewController: UIViewController {
         titleLabel.textColor = UIColor(named: "tintColor")
         titleView.addSubview(titleLabel)
         
-        
         let xpCircle = CircleView()
         let xpToNextLevel = Float(XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user))
         xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / xpToNextLevel)

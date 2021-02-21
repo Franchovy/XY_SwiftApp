@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum RelationshipTypeForSelf {
+    case following
+    case follower
+    case none
+    case friends
+}
+
 enum RelationshipType: String {
     case follow
     case friends
@@ -17,6 +24,9 @@ struct Relationship {
     var type: RelationshipType
     let user1ID: String
     let user2ID: String
+}
+
+extension Relationship {
     
     /// New relationship
     init(user1ID: String, user2ID: String, type: RelationshipType, id: String) {
@@ -71,6 +81,27 @@ struct Relationship {
                 ]
             ]
         }
+    }
+    
+    func toRelationshipToSelfType() -> RelationshipTypeForSelf {
+        guard let userId = AuthManager.shared.userId,
+              user1ID == userId || user2ID == userId
+              else {
+            return .none
+        }
+        
+        if type == .friends { return .friends }
+        
+        if user1ID == userId {
+            if type == .follow {
+                return .following
+            }
+        } else if user2ID == userId {
+            if type == .follow {
+                return .follower
+            }
+        }
+        return .none
     }
 }
 

@@ -101,7 +101,10 @@ class ProfileBubble: UIView {
     
     public func configure(with viewModel: NewProfileViewModel) {
         self.viewModel = viewModel
+        
         profileImageView.image = viewModel.profileImage
+        
+        updateFollowButton(for: viewModel.relationshipType)
     }
     
     public func setHeroID(id: String) {
@@ -123,21 +126,60 @@ class ProfileBubble: UIView {
     }
     
     @objc private func followButtonPressed() {
-        guard let otherUserId = viewModel?.userId else {
+        guard let viewModel = viewModel else {
             return
         }
-        
         followButton.isEnabled = false
         
-        RelationshipFirestoreManager.shared.follow(otherId: otherUserId) { (relationshipModel) in
-            if let relationshipModel = relationshipModel {
-                switch relationshipModel.type {
-                case .follow:
-                    self.followButton.setTitle("Following", for: .normal)
-                case .friends:
-                    self.followButton.setTitle("Friends", for: .normal)
+        switch viewModel.relationshipType {
+        case .follower, .none:
+            RelationshipFirestoreManager.shared.follow(otherId: viewModel.userId) { (relationshipModel) in
+                if let relationshipModel = relationshipModel {
+                    self.followButton.isEnabled = true
+                    self.viewModel?.relationshipType = relationshipModel.toRelationshipToSelfType()
+                    
+                    self.updateFollowButton(for: relationshipModel.toRelationshipToSelfType())
                 }
             }
+        case .friends, .following:
+            RelationshipFirestoreManager.shared.unfollow(otherId: viewModel.userId) { (result) in
+                switch result {
+                case .success(let relationshipModel):
+                    self.followButton.isEnabled = true
+                    
+                    let type = relationshipModel?.toRelationshipToSelfType() ?? .none
+                    self.viewModel?.relationshipType = type
+                    
+                    self.updateFollowButton(for: type)
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
+    
+    private func updateFollowButton(for relationshipType: RelationshipTypeForSelf) {
+        switch relationshipType {
+        case .following:
+            followButton.setTitle("Following", for: .normal)
+            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 14)
+            followButton.setBackgroundColor(color: .gray, forState: .normal)
+            followButton.setAnimationsEnabled(enabled: false)
+        case .follower:
+            followButton.setTitle("Follow back", for: .normal)
+            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 12)
+            followButton.setBackgroundColor(color: .gray, forState: .normal)
+            followButton.setAnimationsEnabled(enabled: true)
+        case .friends:
+            followButton.setTitle("Friends", for: .normal)
+            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 16)
+            followButton.setBackgroundColor(color: UIColor(named: "XYpink")!, forState: .normal)
+            followButton.setAnimationsEnabled(enabled: false)
+        case .none:
+            followButton.setTitle("Follow", for: .normal)
+            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 16)
+            followButton.setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
+            followButton.setAnimationsEnabled(enabled: true)
         }
     }
 }

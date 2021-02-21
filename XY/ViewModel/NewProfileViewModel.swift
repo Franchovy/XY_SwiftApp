@@ -9,6 +9,7 @@ import UIKit
 
 struct NewProfileViewModel {
     var nickname: String
+    var relationshipType: RelationshipTypeForSelf
     var numFollowers: Int
     var numFollowing: Int
     var numSwipeRights: Int

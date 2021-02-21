@@ -12,8 +12,10 @@ final class ProfileViewModelBuilder {
         var profileImage: UIImage?
         var coverImage: UIImage?
         var userModel: UserModel?
+        var relationship: Relationship?
         
         let group = DispatchGroup()
+        group.enter()
         group.enter()
         group.enter()
         group.enter()
@@ -40,12 +42,28 @@ final class ProfileViewModelBuilder {
                 coverImage = image
             }
         }
-        
+        // Get user model from profile
         FirebaseDownload.getOwnerUser(forProfileId: profileModel.profileId) { (userId, error) in
             if let error = error {
                 print(error)
                 group.leave()
+                group.leave()
             } else if let userId = userId {
+                
+                // Get relationship type
+                RelationshipFirestoreManager.shared.getRelationship(with: userId) { (result) in
+                    defer {
+                        group.leave()
+                    }
+                    switch result {
+                    case .success(let model):
+                        relationship = model
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+                
+                // Get user model
                 UserFirestoreManager.getUser(with: userId) { (result) in
                     defer {
                         group.leave()
@@ -59,6 +77,7 @@ final class ProfileViewModelBuilder {
                 }
             } else {
                 group.leave()
+                group.leave()
             }
         }
         
@@ -66,6 +85,7 @@ final class ProfileViewModelBuilder {
             
             let viewModel = NewProfileViewModel(
                 nickname: profileModel.nickname,
+                relationshipType: relationship?.toRelationshipToSelfType() ?? .none,
                 numFollowers: profileModel.followers,
                 numFollowing: profileModel.following,
                 numSwipeRights: profileModel.swipeRights,
