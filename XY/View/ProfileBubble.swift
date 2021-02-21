@@ -131,6 +131,8 @@ class ProfileBubble: UIView {
         }
         followButton.isEnabled = false
         
+        HapticsManager.shared.vibrate(for: .success)
+        
         switch viewModel.relationshipType {
         case .follower, .none:
             RelationshipFirestoreManager.shared.follow(otherId: viewModel.userId) { (relationshipModel) in
