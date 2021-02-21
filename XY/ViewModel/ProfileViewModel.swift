@@ -53,6 +53,7 @@ class ProfileViewModel {
     var nickname: String!
     var numFollowers: Int!
     var numFollowing: Int!
+    var numSwipeRights: Int!
     var website: String!
     var caption: String!
     var profileImage: UIImage?

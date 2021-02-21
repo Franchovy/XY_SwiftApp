@@ -10,9 +10,8 @@ import UIKit
 final class PostViewModelBuilder {
     static func build(from model: PostModel, completion: @escaping(NewPostViewModel?) -> Void) {
         
-        var profileId: String?
+        var profileModel: ProfileModel?
         var profileImage: UIImage?
-        var nickname: String?
         var postImage: UIImage?
         
         let group = DispatchGroup()
@@ -25,12 +24,11 @@ final class PostViewModelBuilder {
             }
             
             switch result {
-            case .success(let profileModel):
-                nickname = profileModel.nickname
-                profileId = profileModel.profileId
+            case .success(let model):
+                profileModel = model
                 group.enter()
                 
-                ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
+                ProfileViewModelBuilder.build(with: model) { (profileViewModel) in
                     defer {
                         group.leave()
                     }
@@ -56,14 +54,22 @@ final class PostViewModelBuilder {
         }
         
         group.notify(queue: .main, work: DispatchWorkItem(block: {
+            guard let profileModel = profileModel else {
+                completion(nil)
+                return
+            }
+            
             let postViewModel = NewPostViewModel(
                 id: model.id,
-                nickname: nickname ?? "",
+                nickname: profileModel.nickname,
                 timestamp: model.timestamp,
                 content: model.content,
-                profileId: profileId ?? "",
+                profileId: profileModel.profileId,
                 profileImage: profileImage,
-                image: postImage
+                image: postImage,
+                numFollowing: profileModel.following,
+                numFollowers: profileModel.followers,
+                numSwipeRights: profileModel.swipeRights
             )
             completion(postViewModel)
         }))

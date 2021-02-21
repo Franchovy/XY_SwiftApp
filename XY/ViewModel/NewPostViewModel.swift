@@ -15,4 +15,8 @@ struct NewPostViewModel {
     var profileId: String
     var profileImage: UIImage?
     var image: UIImage?
+
+    var numFollowing: Int
+    var numFollowers: Int
+    var numSwipeRights: Int
 }

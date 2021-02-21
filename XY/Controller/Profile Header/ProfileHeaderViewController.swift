@@ -71,11 +71,11 @@ class ProfileHeaderViewController: UIViewController {
     private let numFollowers = XYLabel(fontSize: 20, fontStyle: .bold, tintStyle: .white, shadowEnabled: true)
     private let numFollowing = XYLabel(fontSize: 20, fontStyle: .bold, tintStyle: .white, shadowEnabled: true)
     private let numSwipeRights = XYLabel(fontSize: 20, fontStyle: .bold, tintStyle: .white, shadowEnabled: true)
-    private let numFollowersLabel = XYLabel(text: "Followers", fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
-    private let numFollowingLabel = XYLabel(text: "Following", fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
-    private let numSwipeRightsLabel = XYLabel(text: "Swipe Rights", fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
+    private let numFollowersLabel = XYLabel(text: "Followers", fontSize: 12, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
+    private let numFollowingLabel = XYLabel(text: "Following", fontSize: 12, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
+    private let numSwipeRightsLabel = XYLabel(text: "Swipe Rights", fontSize: 12, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
     
-    private let descriptionLabel = XYLabel(fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
+    private let descriptionLabel = XYLabel(fontSize: 14, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
     private let websiteLabel = XYLabel(fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
     
     private let websiteIcon: UIImageView = {

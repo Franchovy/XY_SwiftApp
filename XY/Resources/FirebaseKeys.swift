@@ -83,6 +83,7 @@ struct FirebaseKeys {
         static let caption = "caption"
         static let followers = "followers"
         static let following = "following"
+        static let swipeRights = "swipeRights"
         static let profileImage = "profileImage"
         static let coverImage = "coverImage"
         static let level = "level"

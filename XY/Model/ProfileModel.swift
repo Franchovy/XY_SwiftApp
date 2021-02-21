@@ -17,10 +17,10 @@ struct ProfileModel : Encodable {
     var website: String
     var followers: Int
     var following: Int
+    var swipeRights: Int
     var xp: Int
     var level: Int
     var caption: String
-    
 }
 
 extension ProfileModel {
@@ -33,6 +33,7 @@ extension ProfileModel {
         website = data[FirebaseKeys.ProfileKeys.website] as! String
         followers = data[FirebaseKeys.ProfileKeys.followers] as! Int
         following = data[FirebaseKeys.ProfileKeys.following] as! Int
+        swipeRights = data[FirebaseKeys.ProfileKeys.swipeRights] as! Int
         xp = data[FirebaseKeys.ProfileKeys.xp] as! Int
         level = data[FirebaseKeys.ProfileKeys.level] as! Int
     }
@@ -62,6 +63,7 @@ extension ProfileModel {
                 FirebaseKeys.ProfileKeys.website: "xy.com",
                 FirebaseKeys.ProfileKeys.followers: 0,
                 FirebaseKeys.ProfileKeys.following: 0,
+                FirebaseKeys.ProfileKeys.swipeRights: 0,
                 FirebaseKeys.ProfileKeys.xp: 0,
                 FirebaseKeys.ProfileKeys.level: 0,
                 FirebaseKeys.ProfileKeys.caption: "I'm new on XY!"
