@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FaveButton
 
 class ProfileBubble: UIView {
 
@@ -18,10 +19,13 @@ class ProfileBubble: UIView {
         return imageView
     }()
     
-    private let followButton: UIButton = {
-        let button = UIButton()
+    private let followButton: FaveButton = {
+        let button = FaveButton(
+            frame: .zero,
+            faveIconNormal: UIImage()
+        )
         button.layer.cornerRadius = 11
-        button.backgroundColor = UIColor(0x007BF5)
+        button.setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
         button.setTitleColor(.white, for: .normal)
         button.setTitle("Follow", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 16)
