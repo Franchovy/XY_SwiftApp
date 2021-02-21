@@ -8,6 +8,10 @@
 import UIKit
 import FaveButton
 
+protocol ProfileBubbleDelegate {
+    func plusButtonPressed()
+}
+
 class ProfileBubble: UIView {
 
     private let profileImageView: UIImageView = {
@@ -49,6 +53,7 @@ class ProfileBubble: UIView {
         return button
     }()
     
+    var delegate: ProfileBubbleDelegate?
     var viewModel: NewProfileViewModel?
     
     init() {
@@ -158,6 +163,10 @@ class ProfileBubble: UIView {
                 }
             }
         }
+    }
+    
+    @objc private func addButtonPressed() {
+        delegate?.plusButtonPressed()
     }
     
     private func updateFollowButton(for relationshipType: RelationshipTypeForSelf) {

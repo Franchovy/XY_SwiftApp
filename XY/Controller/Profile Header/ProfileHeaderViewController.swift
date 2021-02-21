@@ -15,7 +15,7 @@ protocol ProfileHeaderViewControllerDelegate: AnyObject {
 class ProfileHeaderViewController: UIViewController {
     
     var delegate: ProfileHeaderViewControllerDelegate?
-    var viewModel: ProfileViewModel?
+    var viewModel: NewProfileViewModel?
     
     var imagePicker: UIImagePickerController?
     
@@ -145,6 +145,7 @@ class ProfileHeaderViewController: UIViewController {
         view.addSubview(coverImage)
         view.addSubview(profileCard)
         view.addSubview(profileBubble)
+        profileBubble.delegate = self
         
         profileCard.layer.addSublayer(gradientLayer)
         
@@ -169,8 +170,8 @@ class ProfileHeaderViewController: UIViewController {
             view.addSubview(editCoverImageButton)
             editCoverImageButton.addTarget(self, action: #selector(editCoverImage), for: .touchUpInside)
             
-            let tapProfilePictureGesture = UITapGestureRecognizer(target: self, action: #selector(editProfilePicture))
-            profileBubble.addGestureRecognizer(tapProfilePictureGesture)
+//            let tapProfilePictureGesture = UITapGestureRecognizer(target: self, action: #selector(editProfilePicture))
+//            profileBubble.addGestureRecognizer(tapProfilePictureGesture)
             
             editButton.addTarget(self, action: #selector(onEnterEditMode), for: .touchUpInside)
             
@@ -379,12 +380,12 @@ class ProfileHeaderViewController: UIViewController {
             return
         }
         
-        viewModel?.profileData.caption = descriptionText
-        viewModel?.profileData.website = website
+//        viewModel?.profileData.caption = descriptionText
+//        viewModel?.profileData.website = website
         
         delegate?.didExitEditMode()
         // Send update to backend
-        viewModel?.sendEditUpdate()
+//        viewModel?.sendEditUpdate()
     }
     
     @objc private func editProfilePicture() {
@@ -458,34 +459,8 @@ class ProfileHeaderViewController: UIViewController {
         }
     }
     
-    public func configure(with viewModel: ProfileViewModel) {
-        self.viewModel = viewModel
-        
-        guard let userId = AuthManager.shared.userId else { return }
-        
-        if viewModel.userId == userId {
-            editButton.isHidden = false
-            profileBubble.setButtonMode(mode: .add)
-        } else {
-            profileBubble.setButtonMode(mode: .follow)
-        }
-        
-        descriptionLabel.text = viewModel.caption
-        if let xyname = viewModel.xyname {
-            xynameLabel.text = viewModel.xyname
-        }
-        websiteLabel.text = viewModel.website
-        
-//        profileBubble.configure(with: viewModel)
-        
-        coverImage.image = viewModel.coverImage
-
-        view.setNeedsLayout()
-    }
-    
-    
     public func configure(with viewModel: NewProfileViewModel) {
-//        self.viewModel = viewModel
+        self.viewModel = viewModel
         
         guard let userId = AuthManager.shared.userId else { return }
         
@@ -516,6 +491,12 @@ class ProfileHeaderViewController: UIViewController {
     }
 }
 
+extension ProfileHeaderViewController : ProfileBubbleDelegate {
+    func plusButtonPressed() {
+        editProfilePicture()
+    }
+}
+
 // MARK: - ProfileViewModel delegate functions
 
 extension ProfileHeaderViewController: ProfileViewModelDelegate {
@@ -536,7 +517,7 @@ extension ProfileHeaderViewController: ProfileViewModelDelegate {
     }
     
     func onProfileDataFetched(_ viewModel: ProfileViewModel) {
-        configure(with: viewModel)
+//        configure(with: viewModel)
     }
     
     func onProfileImageFetched(_ image: UIImage) {
@@ -575,8 +556,8 @@ extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINaviga
                     print(error)
                     return
                 } else if let imageId = imageId, let viewModel = self.viewModel {
-                    viewModel.profileData.coverImageId = imageId
-                    viewModel.sendEditUpdate()
+//                    viewModel.profileData.coverImageId = imageId
+//                    viewModel.sendEditUpdate()
                 }
             }
             break
@@ -591,17 +572,16 @@ extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINaviga
                     print(error)
                     return
                 } else if let imageId = imageId, let viewModel = self.viewModel {
-                    viewModel.profileData.profileImageId = imageId
-                    viewModel.sendEditUpdate()
+//                    viewModel.profileData.profileImageId = imageId
+//                    viewModel.sendEditUpdate()
                 }
             }
             
-            guard let viewModel = viewModel else {
+            guard var viewModel = viewModel else {
                 return
             }
             viewModel.profileImage = image
-//            profileBubble.configure(with: viewModel)
-            
+            profileBubble.configure(with: viewModel)
         }
     }
 }

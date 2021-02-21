@@ -8,7 +8,7 @@
 import Firebase
 
 struct FirestoreReferenceManager {
-    static let environment = "dev"
+    static let environment = "prod"
     
     static let db = Firestore.firestore()
     static let root = db.collection(environment).document(environment)

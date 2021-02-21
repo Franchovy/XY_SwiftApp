@@ -158,7 +158,7 @@ class ProfileScrollerReusableView: UICollectionReusableView {
         guard let profileViewController = viewControllers[0] as? ProfileHeaderViewController else {
             return
         }
-        profileViewController.configure(with: viewModel)
+//        profileViewController.configure(with: viewModel)
                 
         isOwn = viewModel.userId == AuthManager.shared.userId
         
