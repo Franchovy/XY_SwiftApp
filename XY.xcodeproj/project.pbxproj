@@ -29,6 +29,7 @@
 		B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */; };
 		B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161BA25E25940001BE793 /* ProfileBubble.swift */; };
 		B92161E125E272E6001BE793 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161E025E272E6001BE793 /* HapticsManager.swift */; };
+		B92161E525E279BE001BE793 /* XYClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161E425E279BE001BE793 /* XYClasses.swift */; };
 		B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC5025D5821D00542A58 /* ProfileHeaderChatViewController.swift */; };
 		B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC5425D5823000542A58 /* ProfileHeaderConversationsViewController.swift */; };
 		B925CC6525D5842700542A58 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC6425D5842700542A58 /* Conversation.swift */; };
@@ -176,6 +177,7 @@
 		B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSubscriptionManager.swift; sourceTree = "<group>"; };
 		B92161BA25E25940001BE793 /* ProfileBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBubble.swift; sourceTree = "<group>"; };
 		B92161E025E272E6001BE793 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
+		B92161E425E279BE001BE793 /* XYClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYClasses.swift; sourceTree = "<group>"; };
 		B925CC5025D5821D00542A58 /* ProfileHeaderChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderChatViewController.swift; sourceTree = "<group>"; };
 		B925CC5425D5823000542A58 /* ProfileHeaderConversationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderConversationsViewController.swift; sourceTree = "<group>"; };
 		B925CC6425D5842700542A58 /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
@@ -700,6 +702,7 @@
 				B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */,
 				B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */,
 				B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */,
+				B92161E425E279BE001BE793 /* XYClasses.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -953,6 +956,7 @@
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
+				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,

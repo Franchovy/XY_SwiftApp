@@ -16,6 +16,7 @@ class ProfileBubble: UIView {
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.backgroundColor = .gray
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
@@ -93,6 +94,10 @@ class ProfileBubble: UIView {
     }
     
     public func configure(with viewModel: ProfileViewModel) {
+        profileImageView.image = viewModel.profileImage
+    }
+    
+    public func configure(with viewModel: NewProfileViewModel) {
         profileImageView.image = viewModel.profileImage
     }
     

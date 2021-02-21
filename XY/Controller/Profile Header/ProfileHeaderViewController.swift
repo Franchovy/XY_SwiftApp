@@ -36,8 +36,8 @@ class ProfileHeaderViewController: UIViewController {
     
     private let gradientLayer: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.startPoint = CGPoint(x: 0.6, y: 1.0)
-        gradientLayer.endPoint = CGPoint(x: 0.4, y: 0)
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.9)
+        gradientLayer.endPoint = CGPoint(x: 0.8, y: 0.0)
         gradientLayer.colors = [
             UIColor(0x141516).withAlphaComponent(0.8).cgColor,
             UIColor(0x1C1D1E).withAlphaComponent(0.6).cgColor,
@@ -55,57 +55,28 @@ class ProfileHeaderViewController: UIViewController {
         return view
     }()
     
-    private let profilePicture: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = 15
-        imageView.layer.masksToBounds = true
-        
-        let shadowLayer = CAShapeLayer()
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        shadowLayer.shadowRadius = 6
-        imageView.layer.addSublayer(shadowLayer)
-        // Probably needs to mask differently to work
-        
-        return imageView
-    }()
-    
-    private let xpCircle: CircleView = {
-        let xpCircle = CircleView()
-        return xpCircle
-    }()
-    
-    private let nicknameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 28)
-        label.textColor = .white
-        
-        return label
-    }()
+    private let profileBubble = ProfileBubble()
     
     private let xynameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue", size: 15)
+        label.font = UIFont(name: "Raleway-Bold", size: 15)
         label.textColor = .white
-        
+        label.layer.shadowOffset = CGSize(width: 0, height: 3)
+        label.layer.shadowRadius = 6
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.layer.shadowOpacity = 0.86
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue", size: 15)
-        label.textColor = .white
-        
-        return label
-    }()
+    private let numFollowers = XYLabel(fontSize: 20, fontStyle: .bold, tintStyle: .white, shadowEnabled: true)
+    private let numFollowing = XYLabel(fontSize: 20, fontStyle: .bold, tintStyle: .white, shadowEnabled: true)
+    private let numSwipeRights = XYLabel(fontSize: 20, fontStyle: .bold, tintStyle: .white, shadowEnabled: true)
+    private let numFollowersLabel = XYLabel(text: "Followers", fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
+    private let numFollowingLabel = XYLabel(text: "Following", fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
+    private let numSwipeRightsLabel = XYLabel(text: "Swipe Rights", fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
     
-    private let websiteLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue", size: 13)
-        label.textColor = .white
-        
-        return label
-    }()
+    private let descriptionLabel = XYLabel(fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
+    private let websiteLabel = XYLabel(fontSize: 13, fontStyle: .medium, tintStyle: .white, shadowEnabled: true)
     
     private let websiteIcon: UIImageView = {
         let imageView = UIImageView()
@@ -125,19 +96,6 @@ class ProfileHeaderViewController: UIViewController {
     
     // MARK: - Edit Profile properties
     
-    private lazy var editNicknameTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .clear
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.layer.cornerRadius = 5
-        textField.layer.masksToBounds = true
-        textField.font = UIFont(name: "HelveticaNeue-Bold", size: 28)
-        textField.textColor = .white
-        textField.isHidden = true
-        return textField
-    }()
-    
     private lazy var editCaptionTextField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .clear
@@ -145,7 +103,7 @@ class ProfileHeaderViewController: UIViewController {
         textField.layer.borderColor = UIColor.white.cgColor
         textField.layer.cornerRadius = 5
         textField.layer.masksToBounds = true
-        textField.font = UIFont(name: "HelveticaNeue", size: 15)
+        textField.font = UIFont(name: "Raleway-Medium", size: 15)
         textField.textColor = .white
         textField.isHidden = true
         return textField
@@ -158,7 +116,7 @@ class ProfileHeaderViewController: UIViewController {
         textField.layer.borderColor = UIColor.white.cgColor
         textField.layer.cornerRadius = 5
         textField.layer.masksToBounds = true
-        textField.font = UIFont(name: "HelveticaNeue", size: 13)
+        textField.font = UIFont(name: "Raleway-Medium", size: 13)
         textField.textColor = .white
         textField.isHidden = true
         return textField
@@ -186,21 +144,25 @@ class ProfileHeaderViewController: UIViewController {
         
         view.addSubview(coverImage)
         view.addSubview(profileCard)
-        view.addSubview(profilePicture)
+        view.addSubview(profileBubble)
         
         profileCard.layer.addSublayer(gradientLayer)
         
-        profileCard.addSubview(xpCircle)
+        profileCard.addSubview(numFollowers)
+        profileCard.addSubview(numFollowing)
+        profileCard.addSubview(numSwipeRights)
+        profileCard.addSubview(numFollowersLabel)
+        profileCard.addSubview(numFollowingLabel)
+        profileCard.addSubview(numSwipeRightsLabel)
+        
         profileCard.addSubview(xynameLabel)
         profileCard.addSubview(websiteLabel)
         profileCard.addSubview(websiteIcon)
-        profileCard.addSubview(nicknameLabel)
         profileCard.addSubview(descriptionLabel)
         
         if editable {
             profileCard.addSubview(editButton)
             
-            profileCard.addSubview(editNicknameTextField)
             profileCard.addSubview(editWebsiteTextField)
             profileCard.addSubview(editCaptionTextField)
             
@@ -208,22 +170,18 @@ class ProfileHeaderViewController: UIViewController {
             editCoverImageButton.addTarget(self, action: #selector(editCoverImage), for: .touchUpInside)
             
             let tapProfilePictureGesture = UITapGestureRecognizer(target: self, action: #selector(editProfilePicture))
-            profilePicture.addGestureRecognizer(tapProfilePictureGesture)
+            profileBubble.addGestureRecognizer(tapProfilePictureGesture)
             
             editButton.addTarget(self, action: #selector(onEnterEditMode), for: .touchUpInside)
             
-            editNicknameTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
             editWebsiteTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
             editCaptionTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
             
-            editNicknameTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
             editWebsiteTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
             editCaptionTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
             
-            editNicknameTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             editCaptionTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             editWebsiteTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
-            
             
             let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
             view.addGestureRecognizer(tappedAnywhereGesture)
@@ -245,45 +203,53 @@ class ProfileHeaderViewController: UIViewController {
             x: 0,
             y: view.height - 136 - 67,
             width: view.width,
-            height: 136
+            height: 134
         )
         
         gradientLayer.frame = profileCard.bounds
         
         let profilePictureSize:CGFloat = 60
-        profilePicture.frame = CGRect(
+        profileBubble.frame = CGRect(
             x: 11,
-            y: profileCard.top - profilePictureSize/2,
-            width: profilePictureSize,
-            height: profilePictureSize
-        )
-        profilePicture.layer.cornerRadius = profilePictureSize/2
-        
-        nicknameLabel.sizeToFit()
-        nicknameLabel.frame = CGRect(
-            x: 10.9,
-            y: 27.59,
-            width: nicknameLabel.width,
-            height: nicknameLabel.height
-        )
-        xpCircle.frame = CGRect(
-            x: nicknameLabel.right + 9,
-            y: nicknameLabel.bottom - 25,
-            width: 25,
-            height: 25
+            y: profileCard.top - profilePictureSize,
+            width: 200,
+            height: 70
         )
         
         xynameLabel.sizeToFit()
         xynameLabel.frame = CGRect(
-            x: 11,
-            y: nicknameLabel.bottom + 5,
+            x: 10,
+            y: 3,
             width: xynameLabel.width,
             height: xynameLabel.height
         )
+        
+        for index in 0...2 {
+            let centerX:CGFloat = [40, 130, 210][index]
+            let numLabel = [numFollowers, numFollowing, numSwipeRights][index]
+            let label = [numFollowersLabel, numFollowingLabel, numSwipeRightsLabel][index]
+            
+            numLabel.sizeToFit()
+            numLabel.frame = CGRect(
+                x: centerX - numLabel.width/2,
+                y: xynameLabel.bottom + 6,
+                width: numLabel.width,
+                height: numLabel.height
+            )
+            
+            label.sizeToFit()
+            label.frame = CGRect(
+                x: centerX - label.width/2,
+                y: numLabel.bottom,
+                width: label.width,
+                height: label.height
+            )
+        }
+        
         descriptionLabel.sizeToFit()
         descriptionLabel.frame = CGRect(
             x: 11,
-            y: xynameLabel.bottom + 5,
+            y: numFollowersLabel.bottom + 9,
             width: descriptionLabel.width,
             height: descriptionLabel.height
         )
@@ -310,15 +276,6 @@ class ProfileHeaderViewController: UIViewController {
                 width: editButtonIconSize,
                 height: editButtonIconSize
             )
-            
-            editNicknameTextField.sizeToFit()
-            editNicknameTextField.frame = CGRect(
-                x: nicknameLabel.left,
-                y: nicknameLabel.top,
-                width: editNicknameTextField.width,
-                height: editNicknameTextField.height
-            )
-            xpCircle.frame.origin.x = max(nicknameLabel.right, editNicknameTextField.right) + 9
             
             editCaptionTextField.sizeToFit()
             editCaptionTextField.frame = CGRect(
@@ -356,10 +313,6 @@ class ProfileHeaderViewController: UIViewController {
         
         editMode = true
         
-        editNicknameTextField.text = nicknameLabel.text
-        nicknameLabel.isHidden = true
-        editNicknameTextField.isHidden = false
-        
         editCaptionTextField.text = descriptionLabel.text
         editCaptionTextField.isHidden = false
         descriptionLabel.isHidden = true
@@ -368,10 +321,7 @@ class ProfileHeaderViewController: UIViewController {
         editWebsiteTextField.isHidden = false
         websiteLabel.isHidden = true
         
-        profilePicture.layer.borderColor = UIColor.white.cgColor
-        profilePicture.layer.borderWidth = 2
         
-        profilePicture.isUserInteractionEnabled = true
         
         UIView.animate(withDuration: 0.1) {
             self.editCoverImageButton.alpha = 1.0
@@ -384,8 +334,6 @@ class ProfileHeaderViewController: UIViewController {
         
     @objc private func onTextFieldTapped(_ sender: UITextField) {
         switch sender {
-        case editNicknameTextField:
-            editNicknameTextField.becomeFirstResponder()
         case editCaptionTextField:
             editCaptionTextField.becomeFirstResponder()
         case editWebsiteTextField:
@@ -409,12 +357,6 @@ class ProfileHeaderViewController: UIViewController {
     private func exitEditMode() {
         editMode = false
         
-        editNicknameTextField.isHidden = true
-        nicknameLabel.isHidden = false
-        if editNicknameTextField.text != "" {
-            nicknameLabel.text = editNicknameTextField.text
-        }
-    
         editCaptionTextField.isHidden = true
         descriptionLabel.isHidden = false
         if descriptionLabel.text != "" {
@@ -427,20 +369,16 @@ class ProfileHeaderViewController: UIViewController {
             websiteLabel.text = editWebsiteTextField.text
         }
         
-        profilePicture.layer.borderColor = UIColor.clear.cgColor
-        profilePicture.isUserInteractionEnabled = false
-        
         UIView.animate(withDuration: 0.1) {
             self.editCoverImageButton.alpha = 0.0
         }
         
         view.setNeedsLayout()
         
-        guard let nickname = nicknameLabel.text, let descriptionText = descriptionLabel.text, let website = websiteLabel.text else {
+        guard let descriptionText = descriptionLabel.text, let website = websiteLabel.text else {
             return
         }
         
-        viewModel?.profileData.nickname = nickname
         viewModel?.profileData.caption = descriptionText
         viewModel?.profileData.website = website
         
@@ -513,16 +451,11 @@ class ProfileHeaderViewController: UIViewController {
     @objc public func didTapAnywhere() {
         for view in [
             view,
-            editNicknameTextField,
             editCaptionTextField,
             editWebsiteTextField
         ] {
             view?.resignFirstResponder()
         }
-    }
-    
-    public func getScrollPosition() -> CGFloat {
-        return profilePicture.top + 10
     }
     
     public func configure(with viewModel: ProfileViewModel) {
@@ -532,27 +465,22 @@ class ProfileHeaderViewController: UIViewController {
         
         if viewModel.userId == userId {
             editButton.isHidden = false
+            profileBubble.setButtonMode(mode: .add)
+        } else {
+            profileBubble.setButtonMode(mode: .follow)
         }
         
-        nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption
         if let xyname = viewModel.xyname {
             xynameLabel.text = viewModel.xyname
         }
         websiteLabel.text = viewModel.website
         
-        profilePicture.image = viewModel.profileImage
+        profileBubble.configure(with: viewModel)
+        
         coverImage.image = viewModel.coverImage
 
         view.setNeedsLayout()
-        
-        guard let level = viewModel.level, let xp = viewModel.xp else {
-            return
-        }
-        let nextLevelXp = XPModelManager.shared.getXpForNextLevelOfType(level, .user)
-        
-        xpCircle.setProgress(level: level, progress: Float(xp) / Float(nextLevelXp))
-        xpCircle.layoutSubviews()
     }
     
     
@@ -563,22 +491,22 @@ class ProfileHeaderViewController: UIViewController {
         
         if viewModel.userId == userId {
             editButton.isHidden = false
+            profileBubble.setButtonMode(mode: .add)
+        } else {
+            profileBubble.setButtonMode(mode: .follow)
         }
         
-        nicknameLabel.text = viewModel.nickname
         descriptionLabel.text = viewModel.caption
         xynameLabel.text = "@\(viewModel.xyname)"
         websiteLabel.text = viewModel.website
+        profileBubble.configure(with: viewModel)
         
-        profilePicture.image = viewModel.profileImage
+        numFollowers.text = String(viewModel.numFollowers)
+        numFollowing.text = String(viewModel.numFollowing)
+
         coverImage.image = viewModel.coverImage
 
         view.setNeedsLayout()
-        
-        let nextLevelXp = XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user)
-        
-        xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / Float(nextLevelXp))
-        xpCircle.layoutSubviews()
     }
 }
 
@@ -592,7 +520,7 @@ extension ProfileHeaderViewController: ProfileViewModelDelegate {
     func onXpUpdate(_ model: XPModel) {
         let nextLevelXp = XPModelManager.shared.getXpForNextLevelOfType(model.level, .user)
         
-        self.xpCircle.setProgress(level: model.level, progress: Float(model.xp) / Float(nextLevelXp))
+//        self.xpCircle.setProgress(level: model.level, progress: Float(model.xp) / Float(nextLevelXp))
     }
     
     func onXYNameFetched(_ xyname: String) {
@@ -606,7 +534,7 @@ extension ProfileHeaderViewController: ProfileViewModelDelegate {
     }
     
     func onProfileImageFetched(_ image: UIImage) {
-        profilePicture.image = image
+//        profileBubble.configure(with: <#T##ProfileViewModel#>)
     }
     
     func onCoverImageFetched(_ image: UIImage) {
@@ -648,7 +576,6 @@ extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINaviga
             break
         case .profilePicture:
             // Update profile picture
-            profilePicture.image = image
             exitEditMode()
             
             FirebaseUpload.uploadImage(image: image!) { (imageId, error) in
@@ -662,6 +589,13 @@ extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINaviga
                     viewModel.sendEditUpdate()
                 }
             }
+            
+            guard let viewModel = viewModel else {
+                return
+            }
+            viewModel.profileImage = image
+            profileBubble.configure(with: viewModel)
+            
         }
     }
 }
