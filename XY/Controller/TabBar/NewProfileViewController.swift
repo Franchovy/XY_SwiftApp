@@ -22,6 +22,8 @@ class NewProfileViewController: UIViewController {
     
     private var viewModel: NewProfileViewModel?
     
+    private var controllerIndex = 0
+    
     // MARK: - Initialisers
     
     init(userId: String) {
@@ -213,13 +215,13 @@ class NewProfileViewController: UIViewController {
         }
         
         let profileHeaderVC = ProfileHeaderViewController()
-        let profileLivePostsVC = ProfileLivePostsViewController()
+//        let profileLivePostsVC = ProfileLivePostsViewController()
         let profileCollectionPostsVC = ProfileCollectionViewController()
         
         profileHeaderVC.configure(with: profileViewModel)
         
         viewControllers.append(profileHeaderVC)
-        viewControllers.append(profileLivePostsVC)
+//        viewControllers.append(profileLivePostsVC)
         viewControllers.append(profileCollectionPostsVC)
         
         pageViewController.setViewControllers(
@@ -234,14 +236,6 @@ class NewProfileViewController: UIViewController {
         pageViewController.dataSource = self
         pageViewController.delegate = self
         
-        // Configure posts collection
-        FirebaseDownload.getFlowForProfile(userId: profileViewModel.userId) { (postModels, error) in
-            if let error = error {
-                print(error)
-            } else if let postModels = postModels {
-                profileCollectionPostsVC.configure(with: postModels)
-            }
-        }
     }
     
     private func willTransitiontoViewController(vc: UIViewController) {
@@ -249,16 +243,29 @@ class NewProfileViewController: UIViewController {
             self.topScrollIndicator.alpha = 0.0
             self.bottomScrollIndicator.alpha = 0.0
         }
+        
+        if let collectionVC = vc as? ProfileCollectionViewController, let userId = viewModel?.userId {
+            // Configure posts collection
+            FirebaseDownload.getFlowForProfile(userId: userId) { (postModels, error) in
+                if let error = error {
+                    print(error)
+                } else if let postModels = postModels {
+                    collectionVC.configure(with: postModels)
+                }
+            }
+        }
     }
     
     private func transitionedToViewController(vc: UIViewController) {
-        if let vc = vc as? ProfileHeaderViewController {
-            bottomScrollIndicator.setText(text: "Live Posts")
+        controllerIndex = viewControllers.firstIndex(of: vc) ?? 0
+        
+        if vc is ProfileHeaderViewController {
+            bottomScrollIndicator.setText(text: "Collection")
             
             UIView.animate(withDuration: 0.2) {
                 self.bottomScrollIndicator.alpha = 1.0
             }
-        } else if let vc = vc as? ProfileLivePostsViewController {
+        } else if vc is ProfileLivePostsViewController {
             topScrollIndicator.setText(text: "Profile")
             bottomScrollIndicator.setText(text: "Collection")
             
@@ -266,8 +273,8 @@ class NewProfileViewController: UIViewController {
                 self.topScrollIndicator.alpha = 1.0
                 self.bottomScrollIndicator.alpha = 1.0
             }
-        } else if let vc = vc as? ProfileCollectionViewController {
-            topScrollIndicator.setText(text: "Live Posts")
+        } else if vc is ProfileCollectionViewController {
+            topScrollIndicator.setText(text: "Profile")
                         
             UIView.animate(withDuration: 0.2) {
                 self.topScrollIndicator.alpha = 1.0
@@ -292,38 +299,33 @@ extension NewProfileViewController : ProfileHeaderSettingsViewControllerDelegate
 
 extension NewProfileViewController : ScrollIndicatorDelegate {
     func pressedDownDirection() {
-//        guard let vc = pageViewController.viewControllers?.first,
-//              let currentIndex = viewControllers.firstIndex(of: vc) else {
-//            return
-//        }
-//        let nextViewController = viewControllers[currentIndex + 1]
-//        willTransitiontoViewController(vc: nextViewController)
-//        pageViewController.setViewControllers(
-//            [nextViewController],
-//            direction: .forward,
-//            animated: true,
-//            completion: { _ in
-//                self.transitionedToViewController(vc: nextViewController)
-//            }
-//        )
+        let nextViewController = viewControllers[controllerIndex + 1]
+        
+        willTransitiontoViewController(vc: nextViewController)
+        pageViewController.setViewControllers(
+            [nextViewController],
+            direction: .forward,
+            animated: true,
+            completion: { _ in
+                self.transitionedToViewController(vc: nextViewController)
+            }
+        )
         
     }
     
     func pressedUpDirection() {
-//        guard let vc = pageViewController.viewControllers?.first,
-//              let currentIndex = viewControllers.firstIndex(of: vc) else {
-//            return
-//        }
-//        let nextViewController = viewControllers[currentIndex - 1]
-//        willTransitiontoViewController(vc: nextViewController)
-//        pageViewController.setViewControllers(
-//            [nextViewController],
-//            direction: .reverse,
-//            animated: true,
-//            completion: { _ in
-//                self.transitionedToViewController(vc: nextViewController)
-//            }
-//        )
+        
+        let nextViewController = viewControllers[controllerIndex - 1]
+        
+        willTransitiontoViewController(vc: nextViewController)
+        pageViewController.setViewControllers(
+            [nextViewController],
+            direction: .reverse,
+            animated: true,
+            completion: { _ in
+                self.transitionedToViewController(vc: nextViewController)
+            }
+        )
         
     }
 }
@@ -333,7 +335,9 @@ extension NewProfileViewController : ScrollIndicatorDelegate {
 extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished {
-            let pageContentViewController = pageViewController.viewControllers![0]
+            guard let pageContentViewController = pageViewController.viewControllers?.filter({ !previousViewControllers.contains($0) })[0] else {
+                return
+            }
             
             let index = viewControllers.firstIndex(of: pageContentViewController)
             
@@ -346,6 +350,11 @@ extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewCon
             self.topScrollIndicator.alpha = 0.0
             self.bottomScrollIndicator.alpha = 0.0
         }
+        
+        pendingViewControllers.forEach({print($0)})
+        let pageContentViewController = pendingViewControllers[0]
+        
+        willTransitiontoViewController(vc: pageContentViewController)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {

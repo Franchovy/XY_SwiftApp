@@ -8,7 +8,11 @@
 import UIKit
 
 final class PostViewModelBuilder {
-    static func build(from model: PostModel, completion: @escaping(NewPostViewModel?) -> Void) {
+    
+    
+    
+    /// Returns loading ViewModel for post or with local data, and calls completion when post is loaded from remote.
+    static func build(from model: PostModel, completion: @escaping(NewPostViewModel?) -> Void) -> NewPostViewModel {
         
         var profileModel: ProfileModel?
         var profileImage: UIImage?
@@ -53,25 +57,30 @@ final class PostViewModelBuilder {
             }
         }
         
+        var postViewModel = NewPostViewModel(
+            id: model.id,
+            nickname: "",
+            timestamp: model.timestamp,
+            content: model.content,
+            profileId: "",
+            profileImage: nil,
+            image: nil,
+            loading: true
+        )
+        
         group.notify(queue: .main, work: DispatchWorkItem(block: {
             guard let profileModel = profileModel else {
                 completion(nil)
                 return
             }
+            postViewModel.nickname = profileModel.nickname
+            postViewModel.profileId = profileModel.profileId
+            postViewModel.profileImage = profileImage
+            postViewModel.image = postImage
             
-            let postViewModel = NewPostViewModel(
-                id: model.id,
-                nickname: profileModel.nickname,
-                timestamp: model.timestamp,
-                content: model.content,
-                profileId: profileModel.profileId,
-                profileImage: profileImage,
-                image: postImage,
-                numFollowing: profileModel.following,
-                numFollowers: profileModel.followers,
-                numSwipeRights: profileModel.swipeRights
-            )
             completion(postViewModel)
         }))
+        
+        return postViewModel
     }
 }

@@ -92,6 +92,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         return button
     }()
     
+    private let loadingIcon = UIActivityIndicatorView()
+    
     var isSwipedRightXPView = false
     static let defaultPanSensitivity = 0.05
     var panSensitivity = defaultPanSensitivity
@@ -118,6 +120,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         addSubview(reportButtonTitle)
         
         addSubview(postCard)
+        postCard.addSubview(loadingIcon)
+        loadingIcon.startAnimating()
+        
         postCard.addSubview(contentImageView)
         postCard.layer.insertSublayer(postShadowLayer, at: 0)
         
@@ -187,6 +192,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         contentImageView.frame = postCard.bounds
     
         let postCardPos = postCardSize + 10
+        
+        loadingIcon.frame.size = CGSize(width: 35, height: 35)
+        loadingIcon.center = postCard.center
         
         profileImageContainer.frame = CGRect(
             x: (contentView.width/2 - postCardSize/2),
@@ -451,9 +459,13 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         viewModel.delegate = self
         self.viewModel = viewModel
         
-        contentImageView.image = viewModel.images.first
-        profileImageView.image = viewModel.profileImage
-        
+        if viewModel.images.first == nil {
+            loadingIcon.startAnimating()
+        } else {
+            loadingIcon.stopAnimating()
+            contentImageView.image = viewModel.images.first
+            profileImageView.image = viewModel.profileImage
+        }
         caption.text = viewModel.content
         caption.name = viewModel.nickname ?? ""
         caption.timestamp = viewModel.getTimestampString()

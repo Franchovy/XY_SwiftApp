@@ -15,7 +15,7 @@ class ProfileCollectionViewController: UIViewController {
             widthDimension: .fractionalWidth(1/3),
             heightDimension: .fractionalHeight(1.0))
         let fullPhotoItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        //2
+        
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
             heightDimension: .fractionalWidth(1/3))
@@ -23,7 +23,7 @@ class ProfileCollectionViewController: UIViewController {
             layoutSize: groupSize,
             subitem: fullPhotoItem,
             count: 3)
-        //3
+        
         let section = NSCollectionLayoutSection(group: group)
         let layout = UICollectionViewCompositionalLayout(section: section)
         
@@ -77,23 +77,21 @@ class ProfileCollectionViewController: UIViewController {
     }
     
     public func configure(with models: [PostModel]) {
-        let group = DispatchGroup()
+        
         for postModel in models {
-            group.enter()
-            PostViewModelBuilder.build(from: postModel) { (postViewModel) in
-                defer {
-                    group.leave()
-                }
+            let loadingViewModel = PostViewModelBuilder.build(from: postModel) { (postViewModel) in
+
                 if let postViewModel = postViewModel {
-                    self.postViewModels.append(postViewModel)
+                    let index = self.postViewModels.firstIndex(where: { $0.id == postViewModel.id })!
+                    self.postViewModels[index] = postViewModel
+                    self.collectionView.reloadItems(at: [IndexPath(row: index, section: 0)])
+                    
                 }
             }
+            self.postViewModels.append(loadingViewModel)
         }
-        group.notify(queue: .main, work: DispatchWorkItem(block: {
-            self.collectionView.reloadData()
-        }))
+        self.collectionView.reloadData()
     }
-    
 }
 
 

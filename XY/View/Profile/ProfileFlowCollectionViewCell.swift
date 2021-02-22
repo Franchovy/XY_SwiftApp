@@ -20,10 +20,16 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private let loadingIcon = UIActivityIndicatorView()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        image.backgroundColor = UIColor(named: "Dark")
+        
         addSubview(image)
+        addSubview(loadingIcon)
+//        loadingIcon.startAnimating()
     }
     
     required init?(coder: NSCoder) {
@@ -32,15 +38,34 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         image.frame = bounds.insetBy(dx: 5, dy: 5)
+        
+        let size: CGFloat = 25
+        loadingIcon.frame = CGRect(
+            x: (width - size)/2,
+            y: (height - size)/2,
+            width: size,
+            height: size
+        )
     }
     
     public func configure(viewModel: PostViewModel) {
-        image.image = viewModel.images.first
+        if viewModel.images.first != nil {
+            image.image = viewModel.images.first
+            loadingIcon.stopAnimating()
+        } else {
+            loadingIcon.startAnimating()
+        }
         viewModel.delegate = self
     }
     
     public func configure(viewModel: NewPostViewModel) {
-        image.image = viewModel.image
+        if viewModel.image != nil {
+            image.image = viewModel.image
+            loadingIcon.stopAnimating()
+        } else if viewModel.loading {
+            loadingIcon.startAnimating()
+        }
+        
     }
 }
 
