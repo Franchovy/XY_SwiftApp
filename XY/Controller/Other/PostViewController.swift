@@ -16,8 +16,8 @@ class PostViewController: UIViewController {
         tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
         tableView.estimatedRowHeight = 40
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.sectionHeaderHeight = 410
-        tableView.estimatedSectionHeaderHeight = UITableView.automaticDimension
+        tableView.sectionHeaderHeight = UITableView.automaticDimension
+        tableView.estimatedSectionHeaderHeight = 410
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(named: "Black")
         return tableView
@@ -31,13 +31,53 @@ class PostViewController: UIViewController {
     
     var commentViewModels = [CommentViewModel]()
     
-    var transitionId = "post"
+    var postHeroID: String?
+    var captionHeroID: String?
+    var imageHeroID: String?
     
     var tappedAnywhereGesture: UITapGestureRecognizer?
     
-    init(with viewModel: NewPostViewModel) {
+    init() {
         super.init(nibName: nil, bundle: nil)
         
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+
+        typeView.delegate = self
+        
+        tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
+        view.addGestureRecognizer(tappedAnywhereGesture!)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        onDismiss?()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        typeView.frame = CGRect(
+            x: 0,
+            y: view.height - 40 - view.safeAreaInsets.bottom,
+            width: view.width,
+            height: 40
+        )
+        
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top + 5, left: 0, bottom: 40, right: 0))
+    }
+    
+    public func configure(with viewModel: NewPostViewModel) {
         postViewModel = viewModel
         
         let captionCommentViewModel = CommentViewModel(
@@ -83,33 +123,17 @@ class PostViewController: UIViewController {
         }
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    public func setHeroIDs(forPost postID: String, forCaption captionID: String, forImage imageID: String) {
+        if let caption = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? CommentTableViewCell {
+            caption.setHeroIDs(forCaption: captionID, forImage: imageID)
+        }
+        if let post = tableView.headerView(forSection: 0) as? PostHeaderView {
+            post.setHeroID(id: postID)
+        }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-
-        typeView.delegate = self
-        
-        tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
-        view.addGestureRecognizer(tappedAnywhereGesture!)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        typeView.frame = CGRect(
-            x: 0,
-            y: view.height - 40 - view.safeAreaInsets.bottom,
-            width: view.width,
-            height: 40
-        )
-        
-        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top + 5, left: 0, bottom: 40, right: 0))
+        postHeroID = postID
+        captionHeroID = captionID
+        imageHeroID = imageID
     }
     
     @objc private func closeButtonPressed() {
@@ -167,8 +191,6 @@ extension PostViewController : TypeViewDelegate {
     func imageButtonPressed() {
         
     }
-    
-    
 }
 
 extension PostViewController : UITableViewDelegate, UITableViewDataSource {
@@ -181,9 +203,8 @@ extension PostViewController : UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         cell.configure(with: commentViewModels[indexPath.row])
-        
-        if indexPath.row == 0 {
-            cell.setHeroIDs(forCaption: "caption", forImage: "image")
+        if let captionHeroID = captionHeroID, let imageHeroID = imageHeroID {
+            cell.setHeroIDs(forCaption: captionHeroID, forImage: imageHeroID)
         }
         
         return cell
@@ -197,8 +218,9 @@ extension PostViewController : UITableViewDelegate, UITableViewDataSource {
         guard let postViewModel = postViewModel, let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PostHeaderView.identifier) as? PostHeaderView else {
             return UIView()
         }
-        
-        headerView.setHeroID(id: transitionId)
+        if let postHeroID = postHeroID {
+            headerView.setHeroID(id: postHeroID)
+        }
         
         headerView.configure(with: postViewModel)
         

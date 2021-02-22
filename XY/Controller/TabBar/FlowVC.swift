@@ -205,7 +205,6 @@ class FlowVC : UITableViewController {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
         
         cell.delegate = self
-        cell.frame.size.height = cell.getHeight()
         return cell
     }
     
@@ -224,14 +223,34 @@ class FlowVC : UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
-        cell.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
-        let vc = PostViewController(with: postViewModels[indexPath.row])
         
-        vc.isHeroEnabled = true
+        let originalTransform = cell.transform
+        let shrinkTransform = cell.transform.scaledBy(x: 0.95, y: 0.95)
         
-        vc.onDismiss = { cell.setHeroIDs(forPost: "", forCaption: "", forImage: "") }
-        
-        navigationController?.pushViewController(vc, animated: true)
+        UIView.animate(withDuration: 0.2) {
+            cell.transform = shrinkTransform
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.2) {
+                    cell.transform = originalTransform
+                }
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            cell.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
+            
+            let vc = PostViewController()
+            vc.configure(with: self.postViewModels[indexPath.row])
+            vc.isHeroEnabled = true
+            
+            vc.onDismiss = { cell.setHeroIDs(forPost: "", forCaption: "", forImage: "") }
+            
+            vc.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
+            
+            self.navigationController?.isHeroEnabled = true
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }
     }
 }
 

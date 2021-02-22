@@ -22,7 +22,7 @@ protocol ImagePostCellDelegate {
 
 class ImagePostCell: UITableViewCell, FlowDataCell {
     
-    // MARK: - PROPERTIES
+    // MARK: - Properties
     
     static let identifier = "imagePostCell"
     static var type: FlowDataType = .post
@@ -66,11 +66,41 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         return imageView
     }()
     
-    private let captionContainer = UIView()
-    private let caption: MessageView = {
-        let caption = MessageView()
-        caption.clipsToBounds = true
-        return caption
+    private let caption: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 15
+        return view
+    }()
+    
+    private let profileImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        return imageView
+    }()
+    
+    private let messageLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.font = UIFont(name: "Raleway-Medium", size: 13)
+        label.textColor = .white
+        return label
+    }()
+    
+    private let nameLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Bold", size: 20)
+        label.textColor = .white
+        label.alpha = 1
+        return label
+    }()
+    
+    private let timestampLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Bold", size: 14)
+        label.textColor = .white
+        label.alpha = 0.5
+        return label
     }()
     
     private let reportButtonImage: UIButton = {
@@ -128,9 +158,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         postCard.addSubview(xpCircle)
         
-        caption.setColor(.blue)
-        captionContainer.addSubview(caption)
-        addSubview(captionContainer)
+        addSubview(caption)
+        caption.addSubview(messageLabel)
+        caption.addSubview(nameLabel)
+        caption.addSubview(timestampLabel)
         
         profileImageContainer.addSubview(profileImageView)
         addSubview(profileImageContainer)
@@ -164,7 +195,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         reportButtonTitle.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
         
         postCard.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        captionContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        caption.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        
+        heightAnchor.constraint(greaterThanOrEqualToConstant: 415).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -218,21 +251,30 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             shadowRadius: 2
         )
         
-        let captionSize = caption.getSize()
-        captionContainer.frame = CGRect(
-            x: profileImageContainer.right + 14 ,
-            y: postCardPos + 6,
-            width: captionSize.width,
-            height: captionSize.height
+        caption.frame = CGRect(
+            x: profileImageContainer.right + 12,
+            y: postCard.bottom + 5,
+            width: caption.width,
+            height: caption.height
         )
-        caption.layoutSubviews()
-        caption.applyshadowWithCorner(
-            containerView: captionContainer,
-            cornerRadious: caption.layer.cornerRadius,
-            shadowOffset: CGSize(width: 0.5, height: 0.5),
-            shadowRadius: 1
+        
+        nameLabel.sizeToFit()
+        nameLabel.frame = CGRect(
+            x: 10,
+            y: 4,
+            width: nameLabel.width,
+            height: nameLabel.height
         )
-        caption.frame = captionContainer.bounds
+        
+        timestampLabel.sizeToFit()
+        timestampLabel.frame = CGRect(
+            x: caption.width - timestampLabel.width - 10,
+            y: 4,
+            width: timestampLabel.width,
+            height: timestampLabel.height
+        )
+        
+        layoutChatBubble()
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
@@ -262,16 +304,17 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postCard.alpha = 1.0
         profileImageView.alpha = 1.0
         profileImageContainer.alpha = 1.0
-        captionContainer.alpha = 1.0
+        caption.alpha = 1.0
         
         pauseTranslationX = 0
         didEndSwiping = false
         
         contentImageView.image = nil
         profileImageView.image = nil
-        caption.text = ""
-        caption.name = ""
-        caption.timestamp = ""
+        
+        nameLabel.text = ""
+        timestampLabel.text = ""
+        setupMessage(text: "", colour: UIColor(0x287AFC))
         
         if let viewModel = viewModel {
             FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.id)
@@ -423,7 +466,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn) {
             self.postCard.transform = currentTransform.translatedBy(x: 100, y: -100)
             self.postCard.alpha = 0.0
-            self.captionContainer.alpha = 0.0
+            self.caption.alpha = 0.0
             self.profileImageContainer.alpha = 0.0
             
         } completion: { (done) in
@@ -447,7 +490,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
             self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             self.postCard.alpha = 0.0
-            self.captionContainer.alpha = 0.0
+            self.caption.alpha = 0.0
             self.profileImageContainer.alpha = 0.0
         } completion: { (done) in
             if done {
@@ -483,6 +526,44 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         }
     }
     
+    private func setupMessage(text: String, colour: UIColor) {
+        
+        messageLabel.numberOfLines = 0
+        messageLabel.text = text
+
+        let constraintRect = CGSize(width: 0.66 * width,
+                                    height: .greatestFiniteMagnitude)
+        let boundingBox = text.boundingRect(with: constraintRect,
+                                            options: .usesLineFragmentOrigin,
+                                            attributes: [.font: messageLabel.font],
+                                            context: nil)
+        messageLabel.frame.size = CGSize(width: ceil(boundingBox.width),
+                                  height: ceil(boundingBox.height))
+
+
+        caption.backgroundColor = UIColor(named: "XYblue")
+        layoutChatBubble()
+    }
+    
+    private func layoutChatBubble() {
+        let bubbleSize = CGSize(
+            width: max(messageLabel.frame.width + 32, nameLabel.width + timestampLabel.width + 20),
+            height: max(messageLabel.frame.height + 37, 58)
+        )
+
+        let bubbleWidth = bubbleSize.width
+        let bubbleHeight = bubbleSize.height
+
+        caption.layer.cornerRadius = 15
+    
+        caption.frame = CGRect(x: profileImageContainer.right + 10,
+                               y: postCard.bottom + 5,
+                                width: bubbleWidth,
+                                height: bubbleHeight)
+        
+        messageLabel.frame.origin = CGPoint(x: 12, y: 31)
+    }
+    
     // MARK: - Public functions
     
     
@@ -497,11 +578,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             contentImageView.image = viewModel.image
         }
         profileImageView.image = viewModel.profileImage
+        nameLabel.text = viewModel.nickname
+        timestampLabel.text = viewModel.timestamp.shortTimestamp()
+        setupMessage(text: viewModel.content, colour: UIColor(0x287AFC))
         
-        caption.text = viewModel.content
-        caption.name = viewModel.nickname
-        caption.timestamp = viewModel.timestamp.shortTimestamp()
-
         guard viewModel.id != "" else {
             return
         }
@@ -529,9 +609,5 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postCard.heroID = postID
         caption.heroID = captionID
         profileImageView.heroID = imageID
-    }
-    
-    public func getHeight() -> CGFloat {
-        return captionContainer.bottom
     }
 }
