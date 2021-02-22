@@ -47,6 +47,9 @@ class FlowVC : UITableViewController {
         
         view.addSubview(errorLabel)
         
+        tableView.estimatedRowHeight = 475
+        tableView.rowHeight = UITableView.automaticDimension
+        
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = UIColor(named: "Black") // This is necessary to scroll touching outside of the cell, lol.
         tableView.separatorStyle = .none
@@ -198,14 +201,11 @@ class FlowVC : UITableViewController {
         return postViewModels.count
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 465
-    }
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier) as! ImagePostCell
         
         cell.delegate = self
+        cell.frame.size.height = cell.getHeight()
         return cell
     }
     

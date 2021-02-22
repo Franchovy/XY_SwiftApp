@@ -162,6 +162,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         reportButtonImage.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
         reportButtonTitle.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
+        
+        postCard.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        captionContainer.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -233,7 +236,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         postShadowLayer.path = UIBezierPath(roundedRect: postCard.bounds, cornerRadius: 15).cgPath
         postShadowLayer.shadowPath = postShadowLayer.path
-        
         
         if isSwiping {
             reportButtonImage.frame = CGRect(
@@ -526,5 +528,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postCard.heroID = postID
         caption.heroID = captionID
         profileImageView.heroID = imageID
+    }
+    
+    public func getHeight() -> CGFloat {
+        return captionContainer.bottom
     }
 }
