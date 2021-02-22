@@ -15,6 +15,7 @@ struct NewPostViewModel {
     var profileId: String
     var profileImage: UIImage?
     var image: UIImage?
-    
+    var level: Int
+    var xp: Int
     var loading: Bool = false
 }

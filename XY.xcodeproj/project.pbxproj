@@ -112,6 +112,7 @@
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */; };
 		B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAB16C25E13239005B3903 /* XPCircleView.swift */; };
+		B9ABA1FA25E454580039280B /* XPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABA1F925E454580039280B /* XPManager.swift */; };
 		B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */; };
 		B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */; };
 		B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */; };
@@ -266,6 +267,7 @@
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9AAB16C25E13239005B3903 /* XPCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
+		B9ABA1F925E454580039280B /* XPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPManager.swift; sourceTree = "<group>"; };
 		B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralManager.swift; sourceTree = "<group>"; };
 		B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusManager.swift; sourceTree = "<group>"; };
 		B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -638,6 +640,14 @@
 			path = Other;
 			sourceTree = "<group>";
 		};
+		B9ABA1F825E4544F0039280B /* XP */ = {
+			isa = PBXGroup;
+			children = (
+				B9ABA1F925E454580039280B /* XPManager.swift */,
+			);
+			path = XP;
+			sourceTree = "<group>";
+		};
 		B9AD3B8925CBE3DC00BF74C3 /* XYWorld */ = {
 			isa = PBXGroup;
 			children = (
@@ -737,6 +747,7 @@
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B9ABA1F825E4544F0039280B /* XP */,
 				B92161E825E2C8DD001BE793 /* Relationship */,
 				B90EBA4025DFEA4A005DE0A0 /* Post */,
 				B9781DC825DE70BA00A2FE2D /* User */,
@@ -1056,6 +1067,7 @@
 				B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */,
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
+				B9ABA1FA25E454580039280B /* XPManager.swift in Sources */,
 				B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */,
 				B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */,
 			);

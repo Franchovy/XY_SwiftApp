@@ -519,7 +519,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             )
         }
         
-        xpCircle.setProgress(level: 0, progress: 0.0)
+        let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .post)
+        xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / Float(nextLevelXP))
         xpCircle.setupFinished()
     }
     

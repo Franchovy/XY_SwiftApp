@@ -10,8 +10,6 @@ import UIKit
 class PostHeaderView: UITableViewHeaderFooterView {
 
     static let identifier = "PostHeaderView"
-    
-    var viewModel: PostViewModel?
         
     private var postCard: UIView = {
         let postCard = UIView()
@@ -43,11 +41,19 @@ class PostHeaderView: UITableViewHeaderFooterView {
         return imageView
     }()
     
+    
+    var viewModel: NewPostViewModel?
+    
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         
         addSubview(postCard)
+        postCard.addSubview(xpCircle)
         postCard.addSubview(contentImageView)
+        
+        postCard.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        postCard.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -75,15 +81,32 @@ class PostHeaderView: UITableViewHeaderFooterView {
         contentImageView.frame = postCard.bounds
     }
     
-    func configure(with viewModel: PostViewModel) {
-        contentImageView.image = viewModel.images.first
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        guard let viewModel = viewModel else {
+            return
+        }
+        XPManager.shared.unsubscribeToID(docID: viewModel.id)
     }
-
-    func configure(with viewModel: NewPostViewModel) {
-        contentImageView.image = viewModel.image
-    }
-
     
+    public func configure(with viewModel: NewPostViewModel) {
+        self.viewModel = viewModel
+        contentImageView.image = viewModel.image
+        
+        let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .post)
+        self.xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / Float(nextLevelXP))
+        
+        XPManager.shared.subscribeToDocument(
+            collectionName: FirebaseKeys.CollectionPath.posts,
+            docID: viewModel.id) { (level, xp) in
+            if let level = level, let xp = xp {
+                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(level, .post)
+                self.xpCircle.setProgress(level: level, progress: Float(xp) / Float(nextLevelXP))
+            }
+        }
+    }
+
     public func setHeroID(id: String) {
         isHeroEnabled = true
         postCard.heroID = id

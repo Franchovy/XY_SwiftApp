@@ -23,15 +23,6 @@ class PostViewController: UIViewController {
         return tableView
     }()
     
-    private let closeButton: UIButton = {
-        let button = UIButton()
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 10
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.setBackgroundColor(color: UIColor(0x333333), forState: .normal)
-        return button
-    }()
-    
     private let typeView = TypeView()
     
     var onDismiss: (() -> Void)?
@@ -65,11 +56,7 @@ class PostViewController: UIViewController {
         view.backgroundColor = UIColor(named: "Black")
         
         view.addSubview(tableView)
-        view.addSubview(closeButton)
         view.addSubview(typeView)
-        
-        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
-        
         
         tableView.reloadData()
         
@@ -115,13 +102,6 @@ class PostViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        closeButton.frame = CGRect(
-            x: 12.75,
-            y: view.safeAreaInsets.top - 5,
-            width: 35,
-            height: 35
-        )
-        
         typeView.frame = CGRect(
             x: 0,
             y: view.height - 40 - view.safeAreaInsets.bottom,
@@ -129,7 +109,7 @@ class PostViewController: UIViewController {
             height: 40
         )
         
-        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: closeButton.bottom + 5, left: 0, bottom: 40, right: 0))
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top + 5, left: 0, bottom: 40, right: 0))
     }
     
     @objc private func closeButtonPressed() {

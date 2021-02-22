@@ -228,10 +228,10 @@ class FlowVC : UITableViewController {
         let vc = PostViewController(with: postViewModels[indexPath.row])
         
         vc.isHeroEnabled = true
-        vc.modalPresentationStyle = .fullScreen
+        
         vc.onDismiss = { cell.setHeroIDs(forPost: "", forCaption: "", forImage: "") }
         
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -61,9 +61,15 @@ class CircleView: UIView {
     
     override func layoutSubviews() {
         
-        levelLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
+        levelLabel.font = UIFont(name: "Raleway-Bold", size: 15)
+        
         levelLabel.sizeToFit()
-        levelLabel.center = contentView.center
+        levelLabel.frame = CGRect(
+            x: (width - levelLabel.width)/2,
+            y: (height - levelLabel.height)/2,
+            width: levelLabel.width,
+            height: levelLabel.height
+        )
         
         let shadowLayer = CAShapeLayer()
         shadowLayer.path = progressBarCircle.getPath()

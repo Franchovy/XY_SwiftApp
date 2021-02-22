@@ -65,6 +65,8 @@ final class PostViewModelBuilder {
             profileId: "",
             profileImage: nil,
             image: nil,
+            level: model.level,
+            xp: model.xp,
             loading: true
         )
         
