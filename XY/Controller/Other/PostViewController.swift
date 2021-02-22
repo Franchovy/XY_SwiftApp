@@ -108,9 +108,9 @@ class PostViewController: UIViewController {
             switch result {
             case .success(let commentModels):
                 for commentModel in commentModels {
-                    PostManager.shared.buildComment(from: commentModel) { (commentViewModel) in
+                    PostManager.shared.buildComment(from: commentModel, ownId: viewModel.userId) { (commentViewModel) in
                         if let commentViewModel = commentViewModel {
-//                            self.commentViewModels.append(commentViewModel)
+
                             self.commentViewModels.insert(commentViewModel, at: 1)
                             self.tableView.insertRows(at: [IndexPath(row: 1, section: 0)], with: .top)
                         }
@@ -168,11 +168,15 @@ class PostViewController: UIViewController {
 
 extension PostViewController : TypeViewDelegate {
     func sendButtonPressed(text: String) {
+        guard let userId = AuthManager.shared.userId else {
+            return
+        }
+        
         // Upload comment
         PostManager.shared.uploadComment(forPost: postViewModel!.id, comment: text) { (result) in
             switch result {
             case .success(let comment):
-                PostManager.shared.buildComment(from: comment) { (commentViewModel) in
+                PostManager.shared.buildComment(from: comment, ownId: userId) { (commentViewModel) in
                     if let commentViewModel = commentViewModel {
                         self.commentViewModels.append(commentViewModel)
                         self.tableView.reloadData()

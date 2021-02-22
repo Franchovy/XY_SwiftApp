@@ -82,7 +82,7 @@ class CircleView: UIView {
         shadowLayer.strokeColor = UIColor.white.cgColor
         shadowLayer.lineWidth = 2.0
         shadowLayer.shadowOpacity = 1.0
-        shadowLayer.shadowRadius = 2
+        shadowLayer.shadowRadius = 1
         shadowLayer.shadowColor = UIColor(named: "xp_blue")!.cgColor
         shadowLayer.shadowOffset = .zero
         

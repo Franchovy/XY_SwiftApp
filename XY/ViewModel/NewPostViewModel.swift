@@ -12,6 +12,7 @@ struct NewPostViewModel {
     var nickname: String
     var timestamp: Date
     var content: String
+    var userId: String
     var profileId: String
     var profileImage: UIImage?
     var image: UIImage?

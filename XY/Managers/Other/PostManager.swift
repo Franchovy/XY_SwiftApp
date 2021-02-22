@@ -143,7 +143,7 @@ final class PostManager {
             }
     }
     
-    func buildComment(from commentModel: Comment, completion: @escaping(CommentViewModel?) -> Void) {
+    func buildComment(from commentModel: Comment, ownId: String, completion: @escaping(CommentViewModel?) -> Void) {
         ProfileManager.shared.fetchProfile(userId: commentModel.author) { (result) in
             switch result {
             case .success(let profileModel):
@@ -157,7 +157,7 @@ final class PostManager {
                             text: commentModel.comment,
                             nickname: profileModel.nickname,
                             timestamp: commentModel.timestamp,
-                            isLeft: false
+                            isLeft: commentModel.author == ownId
                         )
                         
                         completion(commentViewModel)

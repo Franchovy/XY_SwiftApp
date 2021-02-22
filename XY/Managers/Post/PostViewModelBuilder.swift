@@ -62,6 +62,7 @@ final class PostViewModelBuilder {
             nickname: "",
             timestamp: model.timestamp,
             content: model.content,
+            userId: model.userId,
             profileId: "",
             profileImage: nil,
             image: nil,
