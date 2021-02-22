@@ -27,23 +27,24 @@ class CommentTableViewCell: UITableViewCell {
     private let messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "HelveticaNeue", size: 14)
+        label.font = UIFont(name: "Raleway-Medium", size: 13)
         label.textColor = .white
         return label
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 10)
+        label.font = UIFont(name: "Raleway-Bold", size: 20)
         label.textColor = .white
-        label.alpha = 0.9
+        label.alpha = 1
         return label
     }()
     
     private let timestampLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Thin", size: 12)
+        label.font = UIFont(name: "Raleway-Bold", size: 14)
         label.textColor = .white
+        label.alpha = 0.5
         return label
     }()
     
@@ -72,7 +73,7 @@ class CommentTableViewCell: UITableViewCell {
         nameLabel.sizeToFit()
         nameLabel.frame = CGRect(
             x: 10,
-            y: 1,
+            y: 4,
             width: nameLabel.width,
             height: nameLabel.height
         )
@@ -80,7 +81,7 @@ class CommentTableViewCell: UITableViewCell {
         timestampLabel.sizeToFit()
         timestampLabel.frame = CGRect(
             x: chatBubbleView.width - timestampLabel.width - 10,
-            y: chatBubbleView.height - timestampLabel.height - 1,
+            y: 4,
             width: timestampLabel.width,
             height: timestampLabel.height
         )
@@ -107,8 +108,10 @@ class CommentTableViewCell: UITableViewCell {
     }
     
     private func layoutChatBubble() {
-        let bubbleSize = CGSize(width: messageLabel.frame.width + 28,
-                                     height: messageLabel.frame.height + 27)
+        let bubbleSize = CGSize(
+            width: max(messageLabel.frame.width + 32, nameLabel.width + timestampLabel.width + 20),
+            height: max(messageLabel.frame.height + 37, 58)
+        )
 
         let bubbleWidth = bubbleSize.width
         let bubbleHeight = bubbleSize.height
@@ -152,7 +155,7 @@ class CommentTableViewCell: UITableViewCell {
         }
         profileImage.layer.cornerRadius = profileImage.height / 2
         
-        messageLabel.frame.origin = CGPoint(x: 12.5, y: 14.5)
+        messageLabel.frame.origin = CGPoint(x: 12, y: 31)
     }
     
     public func configure(with viewModel: CommentViewModel) {
