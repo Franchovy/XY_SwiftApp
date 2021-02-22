@@ -14,7 +14,7 @@ class FlowVC : UITableViewController {
     
     // MARK: - Properties
     
-    var postViewModels = [PostViewModel]()
+    var postViewModels = [NewPostViewModel]()
     
     @IBOutlet weak var barXPCircle: CircleView!
     
@@ -155,10 +155,17 @@ class FlowVC : UITableViewController {
             self.postViewModels = []
             
             for newPost in posts {
-                if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
+                if self.postViewModels.contains(where: { $0.id == newPost.id }) { continue } else
                 {
-                    let postViewModel = PostViewModel(from: newPost)
-                    self.postViewModels.append(postViewModel)
+                    let loadingViewModel = PostViewModelBuilder.build(from: newPost) { (viewModel) in
+                        if let viewModel = viewModel,
+                           let index = self.postViewModels.firstIndex(where: { $0.id == viewModel.id }) {
+                            self.postViewModels[index] = viewModel
+                            self.tableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .fade)
+                        }
+                    }
+                    
+                    self.postViewModels.append(loadingViewModel)
                 }
             }
             
@@ -168,22 +175,7 @@ class FlowVC : UITableViewController {
             }
         }
     }
-    
-    public func insertPost(_ postData: PostViewModel) {
-        guard let indexPathToInsert = tableView.indexPathsForVisibleRows?.first else {
-            return
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
-            self.postViewModels.insert(postData, at: indexPathToInsert.row)
-            self.tableView.insertRows(at: [indexPathToInsert], with: .top)
-            
-            guard let newPostCell = self.tableView.cellForRow(at: indexPathToInsert) as? ImagePostCell else {
-                return
-            }
-        }
-    }
-    
+
     // MARK: - Private Functions
     
     private func registerXPUpdates() {
@@ -194,58 +186,6 @@ class FlowVC : UITableViewController {
                     level: xpModel.level,
                     progress: Float(xpModel.xp) / Float(nextLevelXP)
                 )
-            }
-        }
-    }
-    
-    private func loadFlow(completion: (() -> Void)? = nil) {
-        // Deactivate listeners
-        PostManager.shared.deactivateFlowListeners()
-        
-        // Initialise flow
-        PostManager.shared.getFlow { (result) in
-            switch result {
-            case .success(let posts):
-                self.postViewModels = []
-                
-                for newPost in posts {
-                    if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
-                    {
-                        let postViewModel = PostViewModel(from: newPost)
-                        self.postViewModels.append(postViewModel)
-                    }
-                }
-                completion?()
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-            case .failure(let error):
-                print("Error fetching flow!")
-            }
-        }
-    }
-     
-    private func activateListenerFlowUpdates() {
-        // Listen for updates
-        PostManager.shared.getFlowUpdates { (result) in
-            switch result {
-            case .success(let posts):
-                for newPost in posts {
-                    if self.postViewModels.contains(where: { $0.postId == newPost.id }) { continue } else
-                    {
-                        // Insert into visible row
-                        let firstVisibleRowIndex = self.tableView.indexPathsForVisibleRows?.last ?? IndexPath(row: 0, section: 0)
-                        // Automatically updates tableview
-                        DispatchQueue.main.async {
-                            let postViewModel = PostViewModel(from: newPost)
-                            self.postViewModels.insert(postViewModel, at: firstVisibleRowIndex.row)
-                            self.tableView.insertRows(at: [firstVisibleRowIndex], with: .bottom)
-                        }
-                    }
-                }
-            case .failure(let error):
-                print("Error fetching posts in update!")
             }
         }
     }
@@ -312,7 +252,7 @@ extension FlowVC : ImagePostCellDelegate {
             
             FirebaseUpload.sendReport(message: text, postId: postId)
             
-            if let index = self.postViewModels.firstIndex(where: { $0.postId == postId }) {
+            if let index = self.postViewModels.firstIndex(where: { $0.id == postId }) {
                 self.postViewModels.remove(at: index)
                 self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .left)
             }

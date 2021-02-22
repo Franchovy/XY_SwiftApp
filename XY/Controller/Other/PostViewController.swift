@@ -14,8 +14,10 @@ class PostViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(PostHeaderView.self, forHeaderFooterViewReuseIdentifier: PostHeaderView.identifier)
         tableView.register(CommentTableViewCell.self, forCellReuseIdentifier: CommentTableViewCell.identifier)
+        tableView.estimatedRowHeight = 40
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.sectionHeaderHeight = 375
+        tableView.sectionHeaderHeight = 410
+        tableView.estimatedSectionHeaderHeight = UITableView.automaticDimension
         tableView.separatorStyle = .none
         tableView.backgroundColor = UIColor(named: "Black")
         return tableView
@@ -34,7 +36,7 @@ class PostViewController: UIViewController {
     
     var onDismiss: (() -> Void)?
     
-    var postViewModel: PostViewModel?
+    var postViewModel: NewPostViewModel?
     
     var commentViewModels = [CommentViewModel]()
     
@@ -42,19 +44,8 @@ class PostViewController: UIViewController {
     
     var tappedAnywhereGesture: UITapGestureRecognizer?
     
-    init(with viewModel: PostViewModel) {
+    init(with viewModel: NewPostViewModel) {
         super.init(nibName: nil, bundle: nil)
-        
-        tableView.delegate = self
-        tableView.dataSource = self
-        
-        view.backgroundColor = UIColor(named: "Black")
-        
-        view.addSubview(tableView)
-        view.addSubview(closeButton)
-        view.addSubview(typeView)
-        
-        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         
         postViewModel = viewModel
         
@@ -68,10 +59,22 @@ class PostViewController: UIViewController {
         
         commentViewModels.insert(captionCommentViewModel, at: 0)
         
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        view.backgroundColor = UIColor(named: "Black")
+        
+        view.addSubview(tableView)
+        view.addSubview(closeButton)
+        view.addSubview(typeView)
+        
+        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
+        
+        
         tableView.reloadData()
         
         // Fetch comments
-        guard let postId = postViewModel?.postId else {
+        guard let postId = postViewModel?.id else {
             return
         }
         PostManager.shared.getComments(for: postId) { (result) in
@@ -91,7 +94,6 @@ class PostViewController: UIViewController {
                 print("Error fetching comments for post: \(error)")
             }
         }
-                
     }
     
     required init?(coder: NSCoder) {
@@ -163,7 +165,7 @@ class PostViewController: UIViewController {
 extension PostViewController : TypeViewDelegate {
     func sendButtonPressed(text: String) {
         // Upload comment
-        PostManager.shared.uploadComment(forPost: postViewModel!.postId, comment: text) { (result) in
+        PostManager.shared.uploadComment(forPost: postViewModel!.id, comment: text) { (result) in
             switch result {
             case .success(let comment):
                 PostManager.shared.buildComment(from: comment) { (commentViewModel) in
@@ -222,5 +224,5 @@ extension PostViewController : UITableViewDelegate, UITableViewDataSource {
         
         return headerView
     }
-    
+
 }

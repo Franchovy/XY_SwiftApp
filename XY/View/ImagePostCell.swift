@@ -193,8 +193,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
         let postCardPos = postCardSize + 10
         
-        loadingIcon.frame.size = CGSize(width: 35, height: 35)
-        loadingIcon.center = postCard.center
+        loadingIcon.frame = CGRect(
+            x: (postCard.width - 35)/2,
+            y: (postCard.height - 35)/2,
+            width: 35,
+            height: 35
+        )
         
         profileImageContainer.frame = CGRect(
             x: (contentView.width/2 - postCardSize/2),
@@ -483,8 +487,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         } else {
             loadingIcon.stopAnimating()
             contentImageView.image = viewModel.images.first
-            profileImageView.image = viewModel.profileImage
         }
+        profileImageView.image = viewModel.profileImage
+        
         caption.text = viewModel.content
         caption.name = viewModel.nickname ?? ""
         caption.timestamp = viewModel.getTimestampString()
@@ -510,8 +515,39 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         xpCircle.setupFinished()
     }
     
-    func setHeroId(_ id: String) {
-//        contentImageView.heroID = "batman"
+    public func configure(with viewModel: NewPostViewModel) {
+        
+        if viewModel.image == nil {
+            loadingIcon.startAnimating()
+        } else {
+            loadingIcon.stopAnimating()
+            contentImageView.image = viewModel.image
+        }
+        profileImageView.image = viewModel.profileImage
+        
+        caption.text = viewModel.content
+        caption.name = viewModel.nickname
+        caption.timestamp = viewModel.timestamp.shortTimestamp()
+
+        guard viewModel.id != "" else {
+            return
+        }
+        
+        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.id, ofType: .post) { [weak self] (xpModel) in
+            
+            guard let strongSelf = self else {
+                return
+            }
+            let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .post)
+            
+            strongSelf.xpCircle.onProgress(
+                level: xpModel.level,
+                progress: Float(xpModel.xp) / Float(nextLevelXP)
+            )
+        }
+        
+        xpCircle.setProgress(level: 0, progress: 0.0)
+        xpCircle.setupFinished()
     }
     
     override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -544,6 +580,7 @@ extension ImagePostCell : PostViewModelDelegate {
             return
         }
         
+        loadingIcon.stopAnimating()
         contentImageView.image = viewModel.images.first
     }
     

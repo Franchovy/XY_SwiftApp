@@ -79,6 +79,10 @@ class PostHeaderView: UITableViewHeaderFooterView {
         contentImageView.image = viewModel.images.first
     }
 
+    func configure(with viewModel: NewPostViewModel) {
+        contentImageView.image = viewModel.image
+    }
+
     
     public func setHeroID(id: String) {
         isHeroEnabled = true
