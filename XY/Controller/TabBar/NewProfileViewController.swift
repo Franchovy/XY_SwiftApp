@@ -259,6 +259,9 @@ class NewProfileViewController: UIViewController {
     private func transitionedToViewController(vc: UIViewController) {
         controllerIndex = viewControllers.firstIndex(of: vc) ?? 0
         
+        self.topScrollIndicator.alpha = 0.0
+        self.bottomScrollIndicator.alpha = 0.0
+        
         if vc is ProfileHeaderViewController {
             bottomScrollIndicator.setText(text: "Collection")
             
@@ -335,10 +338,12 @@ extension NewProfileViewController : ScrollIndicatorDelegate {
 extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if finished {
-            guard let pageContentViewController = pageViewController.viewControllers?.filter({ !previousViewControllers.contains($0) })[0] else {
+            guard let viewControllers = pageViewController.viewControllers?.filter({ !previousViewControllers.contains($0) }),
+                  viewControllers.count > 0 else {
                 return
             }
             
+            let pageContentViewController = viewControllers[0]
             let index = viewControllers.firstIndex(of: pageContentViewController)
             
             transitionedToViewController(vc: pageContentViewController)

@@ -40,6 +40,7 @@ class ProfileCollectionViewController: UIViewController {
         return collection
     }()
     
+    private var configured = false
     private var postViewModels = [NewPostViewModel]()
     
     init() {
@@ -77,6 +78,11 @@ class ProfileCollectionViewController: UIViewController {
     }
     
     public func configure(with models: [PostModel]) {
+        guard configured == false else {
+            return
+        }
+        
+        postViewModels = []
         
         for postModel in models {
             let loadingViewModel = PostViewModelBuilder.build(from: postModel) { (postViewModel) in
@@ -90,7 +96,9 @@ class ProfileCollectionViewController: UIViewController {
             }
             self.postViewModels.append(loadingViewModel)
         }
+        
         self.collectionView.reloadData()
+        configured = true
     }
 }
 

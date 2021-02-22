@@ -65,7 +65,11 @@ class ProfileFlowCollectionViewCell: UICollectionViewCell {
         } else if viewModel.loading {
             loadingIcon.startAnimating()
         }
-        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        image.image = nil
     }
 }
 
@@ -75,7 +79,7 @@ extension ProfileFlowCollectionViewCell : PostViewModelDelegate {
     }
     
     func didFetchPostImages(viewModel: PostViewModel) {
-        image.image = viewModel.images.first
+//        image.image = viewModel.images.first
     }
     
     func didFetchProfileData(viewModel: PostViewModel) {
