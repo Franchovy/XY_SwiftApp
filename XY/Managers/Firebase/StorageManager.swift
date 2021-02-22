@@ -203,7 +203,6 @@ final class StorageManager {
     // MARK: - Private functions
     
     private func downloadImageWithKingfisher(imageUrl: URL, completion: @escaping(UIImage?, Error?) -> Void) {
-        print("Num download tasks: \(downloadTasks.count), pending: \(pendingDownloadTaskURLs.count)")
         if downloadTasks.count < maxConcurrentDownloadTasks {
             let downloadTask = KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
                 // Update download progress
@@ -230,8 +229,6 @@ final class StorageManager {
     }
     
     private func continuePendingDownloadTasks() {
-        print("Num download tasks: \(downloadTasks.count), pending: \(pendingDownloadTaskURLs.count)")
-        
         if downloadTasks.count < maxConcurrentDownloadTasks,
            let entry = pendingDownloadTaskURLs.popFirst() {
             let completion = entry.value
