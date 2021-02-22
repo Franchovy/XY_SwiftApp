@@ -169,14 +169,22 @@ class NewProfileViewController: UIViewController {
                 target: self,
                 action: #selector(openSettingsButtonPressed)
             )
+            
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(named: "profile_conversations_icon")?.withRenderingMode(.alwaysOriginal),
+                style: .done,
+                target: self,
+                action: #selector(openChatButtonPressed)
+            )
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(named: "profile_chat_icon")?.withRenderingMode(.alwaysOriginal),
+                style: .done,
+                target: self,
+                action: #selector(openChatButtonPressed)
+            )
         }
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "profile_conversations_icon"),
-            style: .done,
-            target: self,
-            action: #selector(openChatButtonPressed)
-        )
             
         let titleView = UIView()
         let titleLabel = UILabel()
