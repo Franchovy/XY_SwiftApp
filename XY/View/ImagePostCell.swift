@@ -27,8 +27,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     static let identifier = "imagePostCell"
     static var type: FlowDataType = .post
     var type: FlowDataType = .post
-
-    var viewModel: PostViewModel?
         
     private var postCard: UIView = {
         let postCard = UIView()
@@ -99,6 +97,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     var panSensitivity = defaultPanSensitivity
     var isSwiping = false
     
+    var viewModel: NewPostViewModel?
+    
     var delegate: ImagePostCellDelegate?
     
     var images: [UIImage]?
@@ -142,6 +142,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postShadowLayer.shadowOffset = CGSize(width: 0, height: 8)
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(panGestureRecognizer:)))
+        panGesture.maximumNumberOfTouches = 1
         panGesture.delegate = self
         panGesture.isEnabled = true
         addGestureRecognizer(panGesture)
@@ -271,7 +272,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         caption.timestamp = ""
         
         if let viewModel = viewModel {
-            FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.postId)
+            FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: viewModel.id)
         }
         xpCircle.reset()
         
@@ -305,6 +306,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     var didEndSwiping = false
     
     @objc func panGesture(panGestureRecognizer: UIPanGestureRecognizer) {
+        if panGestureRecognizer.state == .cancelled {
+            animateBackToCenter()
+        }
+        
         if didEndSwiping { return }
         
         // Swipe Begin
@@ -456,7 +461,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     // MARK: - Private functions
     
     @objc private func reportPressed() {
-        guard let postId = viewModel?.postId else {
+        guard let postId = viewModel?.id else {
             return
         }
         delegate?.imagePostCellDelegate(reportPressed: postId)
@@ -478,44 +483,10 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     // MARK: - Public functions
     
-    public func configure(with viewModel: PostViewModel) {
-        viewModel.delegate = self
-        self.viewModel = viewModel
-        
-        if viewModel.images.first == nil {
-            loadingIcon.startAnimating()
-        } else {
-            loadingIcon.stopAnimating()
-            contentImageView.image = viewModel.images.first
-        }
-        profileImageView.image = viewModel.profileImage
-        
-        caption.text = viewModel.content
-        caption.name = viewModel.nickname ?? ""
-        caption.timestamp = viewModel.getTimestampString()
-
-        guard viewModel.postId != "" else {
-            return
-        }
-        
-        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.postId, ofType: .post) { [weak self] (xpModel) in
-            
-            guard let strongSelf = self else {
-                return
-            }
-            let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .post)
-            
-            strongSelf.xpCircle.onProgress(
-                level: xpModel.level,
-                progress: Float(xpModel.xp) / Float(nextLevelXP)
-            )
-        }
-        
-        xpCircle.setProgress(level: 0, progress: 0.0)
-        xpCircle.setupFinished()
-    }
     
     public func configure(with viewModel: NewPostViewModel) {
+        
+        self.viewModel = viewModel
         
         if viewModel.image == nil {
             loadingIcon.startAnimating()
@@ -550,41 +521,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         xpCircle.setupFinished()
     }
     
-    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return false
-    }
-}
-
-
-// MARK: - PostViewModel Delegate
-
-extension ImagePostCell : PostViewModelDelegate {
-    func didFetchProfileData(viewModel: PostViewModel) {
-        guard viewModel.postId == self.viewModel?.postId else {
-            return
-        }
-        
-        caption.name = viewModel.nickname
-    }
-    
-    func didFetchProfileImage(viewModel: PostViewModel) {
-        guard viewModel.postId == self.viewModel?.postId else {
-            return
-        }
-        
-        profileImageView.image = viewModel.profileImage
-    }
-    
-    func didFetchPostImages(viewModel: PostViewModel) {
-        guard viewModel.postId == self.viewModel?.postId else {
-            return
-        }
-        
-        loadingIcon.stopAnimating()
-        contentImageView.image = viewModel.images.first
-    }
-    
-    func setHeroIDs(forPost postID: String, forCaption captionID: String, forImage imageID: String) {
+    public func setHeroIDs(forPost postID: String, forCaption captionID: String, forImage imageID: String) {
         isHeroEnabled = true
         postCard.heroID = postID
         caption.heroID = captionID

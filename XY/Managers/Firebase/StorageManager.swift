@@ -21,6 +21,10 @@ final class StorageManager {
         case failedToCreatePNG
     }
     
+    var downloadTasks = [URL: DownloadTask?]()
+    var pendingDownloadTaskURLs = [URL: (UIImage?, Error?) -> Void]()
+    let maxConcurrentDownloadTasks = 5
+    
     // MARK: - Public functions
     
     public func deleteContainer(withPath path: String, completion: @escaping(Error?) -> Void) {
@@ -187,22 +191,80 @@ final class StorageManager {
         }
     }
     
+    public func cancelCurrentDownloadTasks() {
+        for task in downloadTasks {
+            task.value?.cancel()
+        }
+        
+        pendingDownloadTaskURLs.removeAll()
+    }
+    
     // MARK: - Private functions
     
     private func downloadImageWithKingfisher(imageUrl: URL, completion: @escaping(UIImage?, Error?) -> Void) {
-        KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
-            // Update download progress
-        }, downloadTaskUpdated: { task in
-            // Download task update
+        print("New Task")
+        if downloadTasks.count < maxConcurrentDownloadTasks {
             
-        }, completionHandler: { result in
-            do {
-                let image = try result.get().image
-                completion(image, nil)
-            } catch let error {
-                completion(nil, error)
-            }
-        })
+            print("Starting download task..")
+            let downloadTask = KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
+                // Update download progress
+            }, downloadTaskUpdated: { task in
+                // Download task update
+                
+            }, completionHandler: { result in
+                defer {
+                    self.downloadTasks.removeValue(forKey: imageUrl)
+                    self.continuePendingDownloadTasks()
+                    print("Finished download task.")
+                }
+                do {
+                    let image = try result.get().image
+                    completion(image, nil)
+                } catch let error {
+                    completion(nil, error)
+                }
+            })
+            
+            downloadTasks[imageUrl] = downloadTask
+        } else {
+            pendingDownloadTaskURLs[imageUrl] = completion
+            print("Max concurrent download tasks... Appending download task pending.")
+        }
+    }
+    
+    private func continuePendingDownloadTasks() {
+        print("Continuing with pending download tasks...")
+        
+        if downloadTasks.count < maxConcurrentDownloadTasks,
+           let entry = pendingDownloadTaskURLs.popFirst() {
+            let completion = entry.value
+            let url = entry.key
+            print("Starting previously pending download task..")
+            let downloadTask = KingfisherManager.shared.retrieveImage(with: url, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
+                // Update download progress
+            }, downloadTaskUpdated: { task in
+                // Download task update
+                
+            }, completionHandler: { result in
+                defer {
+                    self.downloadTasks.removeValue(forKey: url)
+                    self.continuePendingDownloadTasks()
+                    print("Finished previously pending download task.")
+                }
+                do {
+                    let image = try result.get().image
+                    completion(image, nil)
+                } catch let error {
+                    completion(nil, error)
+                }
+            })
+            
+            downloadTasks[url] = downloadTask
+        } else if downloadTasks.count < maxConcurrentDownloadTasks {
+            print("No pending download tasks.")
+        } else {
+            print("Download tasks full")
+        }
     }
     
     private func uploadThumbnail(forImage image: UIImage, withPath path: String, withId imageId: String, completion: @escaping(Result<Bool, Error>) -> Void) {

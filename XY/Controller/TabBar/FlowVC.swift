@@ -85,6 +85,8 @@ class FlowVC : UITableViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        StorageManager.shared.cancelCurrentDownloadTasks()
+        
 //        navigationController?.isNavigationBarHidden = true
     }
     
@@ -303,7 +305,7 @@ extension FlowVC : ImagePostCellDelegate {
     }
     
     func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
-        guard let postId = cell.viewModel?.postId else {
+        guard let postId = cell.viewModel?.id else {
             return
         }
         FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
@@ -324,7 +326,7 @@ extension FlowVC : ImagePostCellDelegate {
         }
         self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
         
-        guard let postId = cell.viewModel?.postId else {
+        guard let postId = cell.viewModel?.id else {
             return
         }
         
