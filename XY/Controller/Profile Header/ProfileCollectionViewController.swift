@@ -13,17 +13,20 @@ class ProfileCollectionViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1/3),
-            heightDimension: .fractionalHeight(1.0)
-        )
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1/3))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            heightDimension: .fractionalHeight(1.0))
+        let fullPhotoItem = NSCollectionLayoutItem(layoutSize: itemSize)
+        //2
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(1/3))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize,
+            subitem: fullPhotoItem,
+            count: 3)
+        //3
         let section = NSCollectionLayoutSection(group: group)
+        let layout = UICollectionViewCompositionalLayout(section: section)
         
-        let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 118.33, height: 118.33)
-//        let layout = UICollectionViewCompositionalLayout(section: section)
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
         collection.decelerationRate = UIScrollView.DecelerationRate.fast
@@ -110,7 +113,7 @@ extension ProfileCollectionViewController : UICollectionViewDataSource, UICollec
         
         cell.layer.cornerRadius = 15
         
-        cell.frame.size = CGSize(width: view.width * 1/3, height: view.width * 1/3)
+//        cell.frame.size = CGSize(width: view.width * 1/3, height: view.width * 1/3)
         
         return cell
     }
