@@ -194,18 +194,17 @@ final class StorageManager {
     public func cancelCurrentDownloadTasks() {
         for task in downloadTasks {
             task.value?.cancel()
+            
         }
-        
+        downloadTasks.removeAll()
         pendingDownloadTaskURLs.removeAll()
     }
     
     // MARK: - Private functions
     
     private func downloadImageWithKingfisher(imageUrl: URL, completion: @escaping(UIImage?, Error?) -> Void) {
-        print("New Task")
+        print("Num download tasks: \(downloadTasks.count), pending: \(pendingDownloadTaskURLs.count)")
         if downloadTasks.count < maxConcurrentDownloadTasks {
-            
-            print("Starting download task..")
             let downloadTask = KingfisherManager.shared.retrieveImage(with: imageUrl, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
                 // Update download progress
             }, downloadTaskUpdated: { task in
@@ -215,7 +214,6 @@ final class StorageManager {
                 defer {
                     self.downloadTasks.removeValue(forKey: imageUrl)
                     self.continuePendingDownloadTasks()
-                    print("Finished download task.")
                 }
                 do {
                     let image = try result.get().image
@@ -228,18 +226,16 @@ final class StorageManager {
             downloadTasks[imageUrl] = downloadTask
         } else {
             pendingDownloadTaskURLs[imageUrl] = completion
-            print("Max concurrent download tasks... Appending download task pending.")
         }
     }
     
     private func continuePendingDownloadTasks() {
-        print("Continuing with pending download tasks...")
+        print("Num download tasks: \(downloadTasks.count), pending: \(pendingDownloadTaskURLs.count)")
         
         if downloadTasks.count < maxConcurrentDownloadTasks,
            let entry = pendingDownloadTaskURLs.popFirst() {
             let completion = entry.value
             let url = entry.key
-            print("Starting previously pending download task..")
             let downloadTask = KingfisherManager.shared.retrieveImage(with: url, options: [.cacheOriginalImage], progressBlock: { receivedSize, totalSize in
                 // Update download progress
             }, downloadTaskUpdated: { task in
@@ -249,7 +245,6 @@ final class StorageManager {
                 defer {
                     self.downloadTasks.removeValue(forKey: url)
                     self.continuePendingDownloadTasks()
-                    print("Finished previously pending download task.")
                 }
                 do {
                     let image = try result.get().image
@@ -260,10 +255,6 @@ final class StorageManager {
             })
             
             downloadTasks[url] = downloadTask
-        } else if downloadTasks.count < maxConcurrentDownloadTasks {
-            print("No pending download tasks.")
-        } else {
-            print("Download tasks full")
         }
     }
     
