@@ -404,9 +404,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         let currentTransform = postCard.transform
         
-        self.postCard.scaleAnimate(2, duration: 0.5)
+        self.postCard.scaleAnimate(2, duration: 0.3)
         
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn) {
             self.postCard.transform = currentTransform.translatedBy(x: 100, y: -100)
             self.postCard.alpha = 0.0
         } completion: { (done) in
