@@ -164,7 +164,7 @@ class NewProfileViewController: UIViewController {
 
         if viewModel.userId == AuthManager.shared.userId {
             navigationItem.leftBarButtonItem = UIBarButtonItem(
-                image: UIImage(systemName: "gearshape.fill"),
+                image: UIImage(systemName: "gearshape.fill")?.withTintColor(UIColor(named: "tintColor")!, renderingMode: .alwaysOriginal),
                 style: .done,
                 target: self,
                 action: #selector(openSettingsButtonPressed)

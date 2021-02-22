@@ -251,12 +251,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             shadowRadius: 2
         )
         
-        caption.frame = CGRect(
-            x: profileImageContainer.right + 12,
-            y: postCard.bottom + 5,
-            width: caption.width,
-            height: caption.height
-        )
+//        caption.frame = CGRect(
+//            x: profileImageContainer.right + 12,
+//            y: isSwiping ? caption.top : postCard.bottom + 5,
+//            width: caption.width,
+//            height: caption.height
+//        )
         
         nameLabel.sizeToFit()
         nameLabel.frame = CGRect(
@@ -556,11 +556,12 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
 
         caption.layer.cornerRadius = 15
     
-        caption.frame = CGRect(x: profileImageContainer.right + 10,
-                               y: postCard.bottom + 5,
-                                width: bubbleWidth,
-                                height: bubbleHeight)
-        
+        if !isSwiping && !didEndSwiping {
+            caption.frame = CGRect(x: profileImageContainer.right + 10,
+                                   y: postCard.bottom + 5,
+                                   width: bubbleWidth,
+                                   height: bubbleHeight)
+        }
         messageLabel.frame.origin = CGPoint(x: 12, y: 31)
     }
     

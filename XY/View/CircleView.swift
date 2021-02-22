@@ -12,12 +12,14 @@ class CircleView: UIView {
     func onProgress(level: Int, progress: Float) {
         self.progressBarCircle.progress = CGFloat(progress)
         self.levelLabel.text = String(describing: level)
+        setNeedsLayout()
     }
     
     func setProgress(level: Int, progress: Float) {
         self.progressBarCircle.progress = CGFloat(progress)
         self.levelLabel.text = String(describing: level)
         setupFinished()
+        setNeedsLayout()
     }
     
     // MARK: - IBOutlets

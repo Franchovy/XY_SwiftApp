@@ -18,7 +18,6 @@ class TabBarViewController: UITabBarController {
         
         isHeroEnabled = true
         heroModalAnimationType = .zoomSlide(direction: .right)
-        
 
         PushNotificationManager.shared?.tabBarController = self
         ProfileManager.shared.delegate = self
