@@ -25,7 +25,7 @@ final class OnlineStatusManager {
                 print("Error initializing profile data: \(error)")
                 return
             }
-            if let profileId = ProfileManager.shared.profileId {
+            if let profileId = ProfileManager.shared.ownProfileId {
                 
                 // BLOCK ONLINE NOW ON THE DEV DB
                 if FirestoreReferenceManager.environment == "dev" {

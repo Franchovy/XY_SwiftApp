@@ -17,13 +17,12 @@ final class ProfileManager {
     static let shared = ProfileManager()
     private init () { }
     
-    var ownProfile: ProfileModel?
-    
     var profilesCache = [String: [String: Any]?]()
     
     var delegate: ProfileManagerDelegate?
     
-    var profileId: String?
+    var ownProfile: ProfileModel?
+    var ownProfileId: String?
     
     public func openProfileForId(_ profileId: String) {
         delegate?.profileManager(openProfileFor: profileId)
@@ -45,9 +44,11 @@ final class ProfileManager {
                 
                 UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
                 
-                self.profileId = profileId
+                self.ownProfileId = profileId
                 
                 completion(nil)
+            } else {
+                try? AuthManager.shared.logout()
             }
         }
         
@@ -64,7 +65,7 @@ final class ProfileManager {
     
     func newProfileCreated(withId profileId: String) {
         UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
-        self.profileId = profileId
+        self.ownProfileId = profileId
     }
     
     func fetchProfile(profileId: String, completion: @escaping(Result<ProfileModel, Error>) -> Void) {

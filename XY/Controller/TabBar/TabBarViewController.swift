@@ -15,6 +15,10 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        isHeroEnabled = true
+        heroModalAnimationType = .zoomSlide(direction: .right)
+        
 
         PushNotificationManager.shared?.tabBarController = self
         ProfileManager.shared.delegate = self
@@ -108,18 +112,23 @@ extension TabBarViewController {
 
 extension TabBarViewController: ProfileManagerDelegate {
     func profileManager(openProfileFor profileId: String) {
-        FirebaseDownload.getOwnerUser(forProfileId: profileId) { userId, error in
-            guard let userId = userId, error == nil else {
-                print("Error fetching profile with id: \(profileId)")
-                print(error)
-                return
+        
+        if profileId == ProfileManager.shared.ownProfileId {
+            selectedIndex = 4
+        } else {
+            FirebaseDownload.getOwnerUser(forProfileId: profileId) { userId, error in
+                guard let userId = userId, error == nil else {
+                    print("Error fetching profile with id: \(profileId)")
+                    print(error)
+                    return
+                }
+                
+                let profileVC = NewProfileViewController(userId: userId)
+                profileVC.modalPresentationStyle = .fullScreen
+                
+                self.navigationController?.isNavigationBarHidden = false
+                self.navigationController?.pushViewController(profileVC, animated: true)
             }
-            
-            let profileVC = NewProfileViewController(userId: userId)
-            profileVC.modalPresentationStyle = .fullScreen
-            
-            self.navigationController?.isNavigationBarHidden = false
-            self.navigationController?.pushViewController(profileVC, animated: true)
         }
     }
 }
