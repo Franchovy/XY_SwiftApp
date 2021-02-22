@@ -505,6 +505,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
 //        contentImageView.heroID = "batman"
     }
     
+    override func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return false
+    }
 }
 
 
