@@ -330,7 +330,16 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         // During Swipe Translate
         let directionMultiplier:CGFloat = translationX > 0 ? 1 : -1
-        postCard.transform = CGAffineTransform(translationX: distance * (sqrt(swipeProgress)), y: 0).rotated(by: directionMultiplier * sqrt(swipeProgress)/5)
+        postCard.transform = CGAffineTransform(
+                translationX: distance * (sqrt(swipeProgress)),
+                y: 0
+            ).rotated(
+                by: directionMultiplier * sqrt(swipeProgress)/5
+            ).scaledBy(
+                x: (1-sqrt(swipeProgress)/10),
+                y: (1-sqrt(swipeProgress)/10)
+            )
+        
         if translationX > 0 {
             postShadowLayer.shadowColor = UIColor.green.cgColor
         } else {
@@ -395,14 +404,15 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         let currentTransform = postCard.transform
         
+        self.postCard.scaleAnimate(2, duration: 0.5)
+        
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn) {
-            self.postCard.transform = currentTransform.translatedBy(x: 400, y: 200)
-            self.postCard.rotate(numRotations: 3)
+            self.postCard.transform = currentTransform.translatedBy(x: 100, y: -100)
+            self.postCard.alpha = 0.0
         } completion: { (done) in
             if done {
                 // Swipe Right
-                self.postCard.stopRotating()
-                self.postCard.alpha = 0.0
+                self.postCard.stopScaleAnimate()
                 delegate.imagePostCellDelegate(didSwipeRight: self)
                 self.reportButtonImage.alpha = 0.0
                 self.reportButtonTitle.alpha = 0.0

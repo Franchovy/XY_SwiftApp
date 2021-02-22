@@ -89,6 +89,25 @@ extension UIView{
     func stopRotating() {
         self.layer.removeAnimation(forKey: "rotationAnimation")
     }
+    
+    func scaleAnimate(_ scaleFactor: Float, duration: Double) {
+        let scaleX : CABasicAnimation = CABasicAnimation(keyPath: "transform.scale.x")
+        let scaleY : CABasicAnimation = CABasicAnimation(keyPath: "transform.scale.y")
+        scaleX.toValue = NSNumber(value: scaleFactor)
+        scaleY.toValue = NSNumber(value: scaleFactor)
+        scaleX.duration = duration
+        scaleY.duration = duration
+        scaleX.isCumulative = true
+        scaleY.isCumulative = true
+        
+        self.layer.add(scaleX, forKey: "scaleXAnimation")
+        self.layer.add(scaleY, forKey: "scaleYAnimation")
+    }
+    
+    func stopScaleAnimate() {
+        self.layer.removeAnimation(forKey: "scaleYAnimation")
+        self.layer.removeAnimation(forKey: "scaleXAnimation")
+    }
 }
 
 extension UIColor {
