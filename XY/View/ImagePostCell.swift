@@ -253,6 +253,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postCard.transform = CGAffineTransform.identity
         caption.alpha = 1.0
         postCard.alpha = 1.0
+        profileImageView.alpha = 1.0
+        profileImageContainer.alpha = 1.0
+        captionContainer.alpha = 1.0
         
         pauseTranslationX = 0
         didEndSwiping = false
@@ -409,6 +412,9 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn) {
             self.postCard.transform = currentTransform.translatedBy(x: 100, y: -100)
             self.postCard.alpha = 0.0
+            self.captionContainer.alpha = 0.0
+            self.profileImageContainer.alpha = 0.0
+            
         } completion: { (done) in
             if done {
                 // Swipe Right
@@ -430,6 +436,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveLinear) {
             self.postCard.transform = CGAffineTransform(translationX: -700, y: 0).rotated(by: -1)
             self.postCard.alpha = 0.0
+            self.captionContainer.alpha = 0.0
+            self.profileImageContainer.alpha = 0.0
         } completion: { (done) in
             if done {
                 // Swipe Left
@@ -458,6 +466,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
             self.postCard.transform = CGAffineTransform(translationX: 0, y: 0).rotated(by: 0)
             self.reportButtonImage.alpha = 0.0
             self.reportButtonTitle.alpha = 0.0
+            
             self.postShadowLayer.shadowOpacity = 0
             self.isSwiping = false
         }
