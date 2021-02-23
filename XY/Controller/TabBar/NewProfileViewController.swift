@@ -142,7 +142,8 @@ class NewProfileViewController: UIViewController {
                 if let conversationViewModel = conversationViewModel, let messageViewModels = messageViewModels {
                     vc.configure(with: conversationViewModel, chatViewModels: messageViewModels)
                 } else if conversationViewModel == nil, messageViewModels?.count == 0 {
-                    vc.configureForNewConversation(with: viewModel.userId)
+                    let newConversationViewModel = ConversationViewModelBuilder.new(with: viewModel)
+                    vc.configureForNewConversation(with: newConversationViewModel)
                 }
                 self.navigationController?.pushViewController(vc, animated: true)
             }

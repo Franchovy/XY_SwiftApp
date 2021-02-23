@@ -49,10 +49,11 @@ final class ChatFirestoreManager {
             if let messageDocuments = messageDocuments {
                 var messages : [Message] = []
                 for messageDoc in messageDocuments.documents {
+                    let data = messageDoc.data()
                     let message = Message(
-                        senderId: messageDoc[FirebaseKeys.ConversationKeys.MessagesKeys.sender] as! String,
-                        messageText: messageDoc[FirebaseKeys.ConversationKeys.MessagesKeys.message] as! String,
-                        timestamp: (messageDoc[FirebaseKeys.ConversationKeys.MessagesKeys.timestamp] as! Firebase.Timestamp).dateValue()
+                        senderId: data[FirebaseKeys.ConversationKeys.MessagesKeys.sender] as! String,
+                        messageText: data[FirebaseKeys.ConversationKeys.MessagesKeys.message] as! String,
+                        timestamp: (data[FirebaseKeys.ConversationKeys.MessagesKeys.timestamp] as! Firebase.Timestamp).dateValue()
                     )
                     messages.append(message)
                 }

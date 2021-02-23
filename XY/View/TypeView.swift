@@ -115,7 +115,7 @@ class TypeView: UIView {
         typeTextField.frame = CGRect(
             x: 15,
             y: (height-buttonSize)/2,
-            width: width - 15,
+            width: width - 30,
             height: buttonSize
         )
         

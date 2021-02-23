@@ -91,7 +91,7 @@ class ConversationPreviewTableViewCell: UITableViewCell {
         profileImageView.image = viewModel.image
         nameLabel.text = viewModel.name
         previewMessageLabel.text = viewModel.lastMessageText
-        timestampLabel.text = viewModel.lastMessageTimestamp.shortTimestamp()
+        timestampLabel.text = viewModel.lastMessageTimestamp!.shortTimestamp()
     }
     
 }

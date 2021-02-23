@@ -34,7 +34,7 @@ final class ConversationManager {
                 
                 dispatchGroup.notify(queue: .main, work: DispatchWorkItem(block: {
                     conversationViewModels.sort(by: { viewModel1, viewModel2 in
-                        return viewModel1.lastMessageTimestamp < viewModel2.lastMessageTimestamp
+                        return viewModel1.lastMessageTimestamp! < viewModel2.lastMessageTimestamp!
                     })
                     completion(conversationViewModels)
                 }))

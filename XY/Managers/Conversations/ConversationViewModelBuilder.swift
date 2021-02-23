@@ -9,6 +9,38 @@ import UIKit
 
 final class ConversationViewModelBuilder {
     
+    static func new(with profileViewModel: NewProfileViewModel) -> ConversationViewModel {
+        let newDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document()
+        
+        let viewModel = ConversationViewModel(
+            id: newDocument.documentID,
+            otherUserId: profileViewModel.userId,
+            image: profileViewModel.profileImage,
+            name: profileViewModel.nickname,
+            lastMessageText: nil,
+            lastMessageTimestamp: nil,
+            unread: nil,
+            new: true
+        )
+        
+        return viewModel
+    }
+    
+    static func begin(with originalViewModel: ConversationViewModel, message: String) -> ConversationViewModel {
+        let viewModel = ConversationViewModel(
+            id: originalViewModel.id,
+            otherUserId: originalViewModel.otherUserId,
+            image: originalViewModel.image,
+            name: originalViewModel.name,
+            lastMessageText: message,
+            lastMessageTimestamp: Date(),
+            unread: true,
+            new: false
+        )
+        
+        return viewModel
+    }
+    
     static func build(from model: ConversationModel, completion: @escaping(ConversationViewModel?) -> Void) {
         
         guard let otherUserId = model.members.filter( { $0 != AuthManager.shared.userId }).first else {
@@ -83,7 +115,8 @@ final class ConversationViewModelBuilder {
                 name: nickname,
                 lastMessageText: lastMessageText,
                 lastMessageTimestamp: lastMessageTimestamp,
-                unread: false
+                unread: false,
+                new: false
             )
             completion(conversationViewModel)
         }))

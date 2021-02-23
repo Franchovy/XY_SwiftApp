@@ -33,6 +33,14 @@ class ProfileHeaderChatViewController: UIViewController {
         return button
     }()
     
+    private let startConversationLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Bold", size: 19)
+        label.textColor = UIColor(named: "tintColor")
+        label.alpha = 0.7
+        return label
+    }()
+    
     private let typeView = TypeView()
     
     var delegate: ProfileChatViewControllerDelegate?
@@ -49,6 +57,8 @@ class ProfileHeaderChatViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         typeView.delegate = self
+        
+        view.backgroundColor = UIColor(named:"Black")
         
         view.addSubview(tableView)
                 
@@ -73,14 +83,16 @@ class ProfileHeaderChatViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        tableView.scrollToRow(at: IndexPath(row: viewModels.count-1, section: 0), at: .bottom, animated: true)
+        if viewModels.count > 0 {
+            tableView.scrollToRow(at: IndexPath(row: viewModels.count-1, section: 0), at: .bottom, animated: true)
+        }
     }
     
     override func viewDidLayoutSubviews() {
         
         let typeViewHeight:CGFloat = 60
         
-        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: 25, left: 0, bottom: 60 + view.safeAreaInsets.bottom, right: 0))
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: 60 + view.safeAreaInsets.bottom, right: 0))
         
         closeButton.frame = CGRect(
             x: 5,
@@ -110,16 +122,33 @@ class ProfileHeaderChatViewController: UIViewController {
         tableView.reloadData()
     }
     
-    func configureForNewConversation(with userId: String) {
+    func configureForNewConversation(with viewModel: ConversationViewModel) {
         // Show color choice
-        otherUserId = userId
-        newConversation = true
+        otherUserId = viewModel.otherUserId
+        self.conversationViewModel = viewModel
+        
+        view.addSubview(startConversationLabel)
+        startConversationLabel.text = "Start a conversation with \(viewModel.name)!"
+        startConversationLabel.sizeToFit()
+        startConversationLabel.frame = CGRect(
+            x: (view.width - startConversationLabel.width)/2,
+            y: view.height/3,
+            width: startConversationLabel.width,
+            height: startConversationLabel.height
+        )
+        startConversationLabel.alpha = 0.0
+        UIView.animate(withDuration: 0.5) {
+            self.startConversationLabel.alpha = 0.7
+        }
+        
     }
     
     // MARK: - Obj-C Functions
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue,
+              typeView.frame.origin.y == view.height - view.safeAreaInsets.bottom - 60
+              else {
             // if keyboard size is not available for some reason, dont do anything
             return
         }
@@ -153,7 +182,6 @@ class ProfileHeaderChatViewController: UIViewController {
         // Send push notification
         let pushNotificationSender = PushNotificationSender()
         pushNotificationSender.sendPushNotification(to: otherUserId, title: ProfileManager.shared.ownProfile!.nickname, body: message.messageText)
-        
     }
 }
 
@@ -181,48 +209,41 @@ extension ProfileHeaderChatViewController : TypeViewDelegate {
     }
     
     func sendButtonPressed(text: String) {
-        if newConversation {
-            guard let otherUserId = otherUserId else {
-                fatalError("other User ID not set!")
-            }
+        guard let conversationViewModel = conversationViewModel else {
+            return
+        }
+        
+        if conversationViewModel.new {
+            let newConversationViewModel = ConversationViewModelBuilder.begin(with: conversationViewModel, message: text)
+            self.conversationViewModel = newConversationViewModel
             
             ConversationFirestoreManager.shared.startConversation(
-                withUser: otherUserId,
-                message: text) { (result) in
+                with: newConversationViewModel) { (result) in
                 switch result {
                 case .success(let conversationModel):
-                    
-                    ConversationViewModelBuilder.build(from: conversationModel) { (conversationViewModel) in
-                        if let conversationViewModel = conversationViewModel {
-                            // Subscribe to messages
-                            ChatFirestoreManager.shared.getMessagesForConversation(withId: conversationModel.id) { (result) in
-                                switch result {
-                                case .success(let messages):
-                                    let messageViewModels = ChatViewModelBuilder.build(
-                                        for: messages,
-                                        conversationViewModel: conversationViewModel
-                                    )
-                                    self.conversationViewModel = conversationViewModel
-                                    self.viewModels = messageViewModels
-                                    self.tableView.reloadData()
-                                    
-                                    
-                                    
-                                case .failure(let error):
-                                    print(error)
-                                }
+                        // Subscribe to messages
+                        ChatFirestoreManager.shared.getMessagesForConversation(withId: conversationModel.id) { (result) in
+                            switch result {
+                            case .success(let messages):
+                                let messageViewModels = ChatViewModelBuilder.build(
+                                    for: messages,
+                                    conversationViewModel: conversationViewModel
+                                )
+                                self.conversationViewModel = conversationViewModel
+                                self.viewModels = messageViewModels
+                                self.tableView.reloadData()
+                                
+                            case .failure(let error):
+                                print(error)
                             }
                         }
-                    }
+                    
                     
                 case .failure(let error):
                     print(error)
                 }
             }
         } else {
-            guard let conversationViewModel = conversationViewModel else {
-                fatalError("Conversation ViewModel not configured correctly")
-            }
             // Send message normally
             ChatFirestoreManager.shared.sendChat(
                 conversationID: conversationViewModel.id,

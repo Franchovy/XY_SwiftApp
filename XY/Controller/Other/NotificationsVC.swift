@@ -210,8 +210,9 @@ extension NotificationsVC : NotificationViewModelDelegate {
                 print(error ?? "Error loading profile: \(profile)")
                 return
             }
-            let profileVC = ProfileViewController(userId: userId)
-            self.present(profileVC, animated: true, completion: nil)
+            let profileVC = NewProfileViewController(userId: userId)
+            self.navigationController?.pushViewController(profileVC, animated: true)
+            
         }
     }
     

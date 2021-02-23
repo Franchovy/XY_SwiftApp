@@ -52,7 +52,6 @@
 		B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */; };
 		B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936266325DC23630063AAD6 /* PushNotificationSender.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
-		B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
 		B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
@@ -108,7 +107,6 @@
 		B979F68025C078370040AE5B /* ViralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F67F25C078370040AE5B /* ViralModel.swift */; };
 		B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F68B25C0799F0040AE5B /* ViralViewController.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
-		B981F91D25C307BD00A123BC /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B981F91C25C307BD00A123BC /* ProfileViewController.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */; };
 		B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAB16C25E13239005B3903 /* XPCircleView.swift */; };
@@ -204,7 +202,6 @@
 		B936266325DC23630063AAD6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
-		B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScrollerReusableView.swift; sourceTree = "<group>"; };
 		B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSettingsViewController.swift; sourceTree = "<group>"; };
 		B93D1BEB2597E9C6009ADBFC /* XYTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XYTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -263,7 +260,6 @@
 		B979F67F25C078370040AE5B /* ViralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralModel.swift; sourceTree = "<group>"; };
 		B979F68B25C0799F0040AE5B /* ViralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralViewController.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
-		B981F91C25C307BD00A123BC /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9AAB16C25E13239005B3903 /* XPCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
@@ -368,7 +364,6 @@
 				149AD69B259B52A800E81ABC /* ExploreVC.swift */,
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
-				B981F91C25C307BD00A123BC /* ProfileViewController.swift */,
 				B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */,
 				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
 			);
@@ -436,7 +431,6 @@
 		B925CC7E25D5864C00542A58 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				B93CF22F25C53D1E003CB3DB /* ProfileScrollerReusableView.swift */,
 				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
 			);
 			path = Profile;
@@ -1015,7 +1009,6 @@
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */,
-				B981F91D25C307BD00A123BC /* ProfileViewController.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
 				B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */,
 				B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */,
@@ -1027,7 +1020,6 @@
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */,
-				B93CF23025C53D1E003CB3DB /* ProfileScrollerReusableView.swift in Sources */,
 				B936264025DA824C0063AAD6 /* ChatEventRouter.swift in Sources */,
 				B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */,
 				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,

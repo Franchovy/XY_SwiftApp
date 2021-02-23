@@ -39,7 +39,7 @@ final class ConversationFirestoreManager {
             }
     }
     
-    func startConversation(withUser otherUserId: String, message: String, completion: @escaping(Result<ConversationModel, Error>) -> Void) {
+    func startConversation(with viewModel: ConversationViewModel, completion: @escaping(Result<ConversationModel, Error>) -> Void) {
         guard let userId = AuthManager.shared.userId else {
             return
         }
@@ -47,7 +47,7 @@ final class ConversationFirestoreManager {
         let newConversationDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.conversations).document()
         
         let newConversationData : [String: Any] = [
-            FirebaseKeys.ConversationKeys.members : [ userId: true, otherUserId: true ],
+            FirebaseKeys.ConversationKeys.members : [ userId: true, viewModel.otherUserId: true ],
             FirebaseKeys.ConversationKeys.timestamp : FieldValue.serverTimestamp(),
             FirebaseKeys.ConversationKeys.level : 0,
             FirebaseKeys.ConversationKeys.xp : 0,
@@ -63,7 +63,7 @@ final class ConversationFirestoreManager {
                 let firstMessageDocument = newConversationDocument.collection(FirebaseKeys.ConversationKeys.messages).document()
                 
                 let messageData:[String: Any] = [
-                    FirebaseKeys.ConversationKeys.MessagesKeys.message : message,
+                    FirebaseKeys.ConversationKeys.MessagesKeys.message : viewModel.lastMessageText,
                     FirebaseKeys.ConversationKeys.MessagesKeys.sender : userId,
                     FirebaseKeys.ConversationKeys.MessagesKeys.timestamp : FieldValue.serverTimestamp()
                 ]
@@ -75,7 +75,7 @@ final class ConversationFirestoreManager {
                         let newConversationModel = ConversationModel(
                             id: newConversationDocument.documentID,
                             timestamp: Date(),
-                            members: [ userId, otherUserId ],
+                            members: [ userId, viewModel.otherUserId ],
                             level: 0,
                             xp: 0,
                             mostRecentTimestamp: Date()

@@ -12,7 +12,8 @@ struct ConversationViewModel {
     let otherUserId: String
     let image: UIImage?
     let name: String
-    let lastMessageText: String
-    let lastMessageTimestamp: Date
-    let unread: Bool
+    let lastMessageText: String?
+    let lastMessageTimestamp: Date?
+    let unread: Bool?
+    let new: Bool
 }
