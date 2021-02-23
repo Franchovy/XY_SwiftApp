@@ -13,7 +13,6 @@ protocol TypeViewDelegate {
     func imageButtonPressed()
 }
 
-
 class TypeView: UIView {
 
     private let emojiButtonGradient: CAGradientLayer = {
@@ -78,10 +77,12 @@ class TypeView: UIView {
         
 //        cameraButton.layer.insertSublayer(emojiButtonGradient, at: 0)
 //        cameraButton.layer.insertSublayer(cameraImageView.layer, above: nil)
-        addSubview(cameraButton)
-        addSubview(emojiButton)
+//        addSubview(cameraButton)
+//        addSubview(emojiButton)
         addSubview(typeTextField)
         addSubview(sendButton)
+        
+        backgroundColor = UIColor(named: "Black")
         
         sendButton.addTarget(self, action: #selector(sendButtonPressed), for: .touchUpInside)
     }
@@ -105,16 +106,16 @@ class TypeView: UIView {
         cameraImageView.frame = cameraButton.bounds.insetBy(dx: 5, dy: 5)
         
         emojiButton.frame = CGRect(
-            x: cameraButton.right + 5,
+            x: 15,
             y: (height-buttonSize)/2,
             width: buttonSize,
             height: buttonSize
         )
         
         typeTextField.frame = CGRect(
-            x: emojiButton.right + 5,
+            x: 15,
             y: (height-buttonSize)/2,
-            width: width - (emojiButton.right + 5) - 15,
+            width: width - 15,
             height: buttonSize
         )
         

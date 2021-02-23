@@ -70,6 +70,12 @@ class ProfileHeaderChatViewController: UIViewController {
     
     // MARK: - Lifecycle
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        tableView.scrollToRow(at: IndexPath(row: viewModels.count-1, section: 0), at: .bottom, animated: true)
+    }
+    
     override func viewDidLayoutSubviews() {
         
         let typeViewHeight:CGFloat = 40
