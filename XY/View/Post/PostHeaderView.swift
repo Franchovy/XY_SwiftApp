@@ -63,7 +63,7 @@ class PostHeaderView: UITableViewHeaderFooterView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let postCardSize = contentView.width - 34
+        let postCardSize = contentView.width
         postCard.frame = CGRect(
             x: (contentView.width/2 - postCardSize/2),
             y: 10,

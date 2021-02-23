@@ -122,7 +122,7 @@ class TypeView: UIView {
         let sendButtonSize: CGFloat = 22.5
         sendButton.frame = CGRect(
             x: typeTextField.right - sendButtonSize - 10.5,
-            y: 8,
+            y: (height - sendButtonSize)/2,
             width: sendButtonSize,
             height: sendButtonSize
         )

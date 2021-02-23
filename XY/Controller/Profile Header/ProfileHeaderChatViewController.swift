@@ -78,9 +78,9 @@ class ProfileHeaderChatViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         
-        let typeViewHeight:CGFloat = 40
+        let typeViewHeight:CGFloat = 60
         
-        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: 25, left: 0, bottom: 40, right: 0))
+        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: 25, left: 0, bottom: 60 + view.safeAreaInsets.bottom, right: 0))
         
         closeButton.frame = CGRect(
             x: 5,
@@ -91,7 +91,7 @@ class ProfileHeaderChatViewController: UIViewController {
         
         typeView.frame = CGRect(
             x: 0,
-            y: view.height - typeViewHeight,
+            y: view.height - typeViewHeight - view.safeAreaInsets.bottom,
             width: view.width,
             height: typeViewHeight
         )
@@ -124,8 +124,8 @@ class ProfileHeaderChatViewController: UIViewController {
             return
         }
         
-        tableView.contentInset.bottom = keyboardSize.height
-        typeView.frame.origin.y -= keyboardSize.height - 40 - view.top
+        tableView.contentInset.bottom = keyboardSize.height + 60
+        typeView.frame.origin.y -= keyboardSize.height - 60
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -135,8 +135,8 @@ class ProfileHeaderChatViewController: UIViewController {
             return
         }
         
-        tableView.contentInset.bottom = 0
-        typeView.frame.origin.y = view.height - view.safeAreaInsets.bottom - 40
+        tableView.contentInset.bottom = 60
+        typeView.frame.origin.y = view.height - view.safeAreaInsets.bottom - 60
     }
     
     @objc func closeButtonPressed() {

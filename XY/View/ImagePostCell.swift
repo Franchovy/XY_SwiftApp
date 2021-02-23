@@ -195,7 +195,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         reportButtonTitle.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
         
         postCard.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        caption.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        caption.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
         
         heightAnchor.constraint(greaterThanOrEqualToConstant: width + 67 + 15).isActive = true
     }

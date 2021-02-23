@@ -52,6 +52,8 @@ class PostViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
 
+        navigationItem.title = "Comments"
+        
         typeView.delegate = self
         
         tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
@@ -69,9 +71,9 @@ class PostViewController: UIViewController {
         
         typeView.frame = CGRect(
             x: 0,
-            y: view.height - 40 - view.safeAreaInsets.bottom,
+            y: view.height - 60 - view.safeAreaInsets.bottom,
             width: view.width,
-            height: 40
+            height: 60
         )
         
         tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top + 5, left: 0, bottom: 40, right: 0))
@@ -147,7 +149,7 @@ class PostViewController: UIViewController {
         }
         
         tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        typeView.frame.origin.y -= keyboardSize.height - view.safeAreaInsets.bottom
+        typeView.frame.origin.y -= typeView.top - keyboardSize.height - (tabBarController?.tabBar.height ?? 49) - 25
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
@@ -158,7 +160,7 @@ class PostViewController: UIViewController {
         }
         
         tableView.contentInset = .zero
-        typeView.frame.origin.y = view.height - 40 - view.safeAreaInsets.bottom
+        typeView.frame.origin.y = view.height - 60
     }
     
     @objc func tappedAnywhere() {
