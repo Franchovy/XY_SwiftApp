@@ -61,7 +61,6 @@ class ProfileHeaderChatViewController: UIViewController {
         view.backgroundColor = UIColor(named:"Black")
         
         view.addSubview(tableView)
-                
         view.addSubview(typeView)
         view.addSubview(closeButton)
         
@@ -119,6 +118,8 @@ class ProfileHeaderChatViewController: UIViewController {
         viewModels = chatViewModels
         self.otherUserId = conversationViewModel.otherUserId
         self.conversationViewModel = conversationViewModel
+        
+        setUpNavigationTitle()
         tableView.reloadData()
     }
     
@@ -126,6 +127,7 @@ class ProfileHeaderChatViewController: UIViewController {
         // Show color choice
         otherUserId = viewModel.otherUserId
         self.conversationViewModel = viewModel
+        setUpNavigationTitle()
         
         view.addSubview(startConversationLabel)
         startConversationLabel.text = "Start a conversation with \(viewModel.name)!"
@@ -174,6 +176,45 @@ class ProfileHeaderChatViewController: UIViewController {
     
     // MARK: - Private Functions
     
+    private func setUpNavigationTitle() {
+        guard let conversationViewModel = conversationViewModel else {
+            print("Initialise conversationViewModel before setting up navigation title view.")
+            return
+        }
+        
+        let navigationView = UIView()
+        let label = UILabel()
+        label.text = conversationViewModel.name
+        label.font = UIFont(name: "Raleway-ExtraBold", size: 24)
+        label.textColor = UIColor(named: "tintColor")
+        label.sizeToFit()
+        navigationView.addSubview(label)
+        
+        let profileImageView = UIImageView(image: conversationViewModel.image)
+        profileImageView.contentMode = .scaleAspectFill
+        
+        let size:CGFloat = 30
+        profileImageView.layer.masksToBounds = true
+        profileImageView.layer.cornerRadius = size/2
+        navigationView.addSubview(profileImageView)
+        
+        navigationItem.titleView = navigationView
+        
+        label.frame = CGRect(
+            x: (navigationView.width - label.width)/2,
+            y: (navigationView.height - label.height)/2,
+            width: label.width,
+            height: label.height
+        )
+        
+        profileImageView.frame = CGRect(
+            x: label.left - 10 - size,
+            y: label.top,
+            width: size,
+            height: size
+        )
+    }
+    
     private func sendPushNotificationForMessage(message: Message) {
         
         guard let otherUserId = otherUserId else {
@@ -217,6 +258,10 @@ extension ProfileHeaderChatViewController : TypeViewDelegate {
             let newConversationViewModel = ConversationViewModelBuilder.begin(with: conversationViewModel, message: text)
             self.conversationViewModel = newConversationViewModel
             
+            UIView.animate(withDuration: 0.5) {
+                self.startConversationLabel.alpha = 0.0
+            }
+            
             ConversationFirestoreManager.shared.startConversation(
                 with: newConversationViewModel) { (result) in
                 switch result {
@@ -233,6 +278,7 @@ extension ProfileHeaderChatViewController : TypeViewDelegate {
                                 self.viewModels = messageViewModels
                                 self.tableView.reloadData()
                                 
+                                self.tableView.scrollToRow(at: IndexPath(row: self.viewModels.count-1, section: 0), at: .bottom, animated: true)
                             case .failure(let error):
                                 print(error)
                             }
@@ -257,6 +303,8 @@ extension ProfileHeaderChatViewController : TypeViewDelegate {
                     
                     self.viewModels.append(contentsOf: newMessageViewModel)
                     self.tableView.reloadData()
+                    
+                    self.tableView.scrollToRow(at: IndexPath(row: self.viewModels.count-1, section: 0), at: .bottom, animated: true)
                 case .failure(let error):
                     print(error)
                 }

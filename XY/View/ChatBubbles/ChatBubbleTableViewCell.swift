@@ -20,14 +20,14 @@ class ChatBubbleTableViewCell: UITableViewCell {
     private let messageLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: "HelveticaNeue", size: 14)
+        label.font = UIFont(name: "Raleway-Medium", size: 14)
         label.textColor = .white
         return label
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 10)
+        label.font = UIFont(name: "Raleway-Bold", size: 10)
         label.textColor = .white
         label.alpha = 0.9
         return label
@@ -35,7 +35,7 @@ class ChatBubbleTableViewCell: UITableViewCell {
     
     private let timestampLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "HelveticaNeue-Thin", size: 12)
+        label.font = UIFont(name: "Raleway-Bold", size: 12)
         label.textColor = .white
         return label
     }()
