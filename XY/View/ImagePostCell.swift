@@ -197,7 +197,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         postCard.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         caption.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
         
-        heightAnchor.constraint(greaterThanOrEqualToConstant: 415).isActive = true
+        heightAnchor.constraint(greaterThanOrEqualToConstant: width + 67 + 15).isActive = true
     }
     
     required init?(coder: NSCoder) {

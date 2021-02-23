@@ -407,7 +407,7 @@ class ScrollIndicator : UIView {
     let label: UILabel = {
         let label =  UILabel()
         label.textColor = .white
-        label.font = UIFont(name: "Raleway-ExtraBold", size: 20)
+        label.font = UIFont(name: "Raleway-ExtraBold", size: 15)
         label.textColor = UIColor(named: "tintColor")
         return label
     }()
@@ -430,11 +430,9 @@ class ScrollIndicator : UIView {
     
     init(direction: Direction) {
         if direction == .down {
-            icon = UIImageView(image: UIImage(named: "profile_scroll_down_icon")?
-                                .withTintColor(UIColor(named: "tintColor")!, renderingMode: .alwaysOriginal))
+            icon = UIImageView(image: UIImage(named: "profile_arrow_down"))
         } else {
-            icon = UIImageView(image: UIImage(named: "profile_scroll_up_icon")?
-                                .withTintColor(UIColor(named: "tintColor")!, renderingMode: .alwaysOriginal))
+            icon = UIImageView(image: UIImage(named: "profile_arrow_up"))
         }
         self.direction = direction
         
@@ -461,21 +459,21 @@ class ScrollIndicator : UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let iconSize:CGFloat = 25
+        let iconSize:CGFloat = 40
         
         if direction == .down {
             
             label.sizeToFit()
             label.frame = CGRect(
                 x: (width - label.width)/2,
-                y: 5,
+                y: 1,
                 width: label.width,
                 height: label.height
             )
             
             icon.frame = CGRect(
                 x: (width - iconSize)/2,
-                y: label.bottom + 5,
+                y: label.bottom + 4,
                 width: iconSize,
                 height: iconSize
             )
@@ -483,7 +481,7 @@ class ScrollIndicator : UIView {
             
             icon.frame = CGRect(
                 x: (width - iconSize)/2,
-                y: 5,
+                y: 1,
                 width: iconSize,
                 height: iconSize
             )
@@ -491,7 +489,7 @@ class ScrollIndicator : UIView {
             label.sizeToFit()
             label.frame = CGRect(
                 x: (width - label.width)/2,
-                y: icon.bottom + 5,
+                y: icon.bottom + 4,
                 width: label.width,
                 height: label.height
             )
