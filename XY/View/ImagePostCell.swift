@@ -336,7 +336,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     // MARK: - Obj-C Functions
     
     @objc func profileImageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        profileImageView.heroID = "profileImage"
+        profileImageContainer.heroID = "profileImage"
         
         guard let profileId = viewModel?.profileId else {
             return
@@ -609,6 +609,6 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         isHeroEnabled = true
         postCard.heroID = postID
         caption.heroID = captionID
-        profileImageView.heroID = imageID
+        profileImageContainer.heroID = imageID
     }
 }
