@@ -164,6 +164,7 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
         
         viewModel.fetch(index: indexPath.row)
         cell.configure(with: viewModel)
+        cell.delegate = self
         
         return cell
     }
@@ -210,6 +211,13 @@ extension NotificationsVC : UITableViewDataSource, UITableViewDelegate {
         }
     }
     
+}
+
+extension NotificationsVC : NotificationCellDelegate {
+    func pushPostViewController(_ vc: PostViewController) {
+        self.navigationController?.isHeroEnabled = true
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension NotificationsVC : NotificationViewModelDelegate {

@@ -7,7 +7,9 @@
 
 import UIKit
 
-//TODO: Delegate for data fetch
+protocol NotificationCellDelegate {
+    func pushPostViewController(_ vc: PostViewController)
+}
 
 class NotificationCell: UITableViewCell {
 
@@ -59,6 +61,9 @@ class NotificationCell: UITableViewCell {
         view.backgroundColor = UIColor(named: "tintColor2")
         return view
     }()
+    
+    
+    var delegate: NotificationCellDelegate?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -172,7 +177,42 @@ class NotificationCell: UITableViewCell {
     }
     
     @objc func postTapped() {
-        viewModel?.openPost()
+        guard let postData = viewModel?.postData else {
+            return
+        }
+        
+        let originalTransform = postImage.transform
+        let shrinkTransform = postImage.transform.scaledBy(x: 0.95, y: 0.95)
+        
+        UIView.animate(withDuration: 0.2) {
+            self.postImage.transform = shrinkTransform
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.2) {
+                    self.postImage.transform = originalTransform
+                }
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            self.postImage.heroID = "post"
+            
+            let vc = PostViewController()
+            
+            PostViewModelBuilder.build(from: postData) { (postViewModel) in
+                if let postViewModel = postViewModel {
+                    vc.configure(with: postViewModel)
+                }
+            }
+            
+            vc.isHeroEnabled = true
+            
+            vc.onDismiss = { self.postImage.heroID = "" }
+            
+            vc.setHeroIDs(forPost: "post", forCaption: "", forImage: "")
+            
+            self.delegate?.pushPostViewController(vc)
+        }
+        
     }
     
     public func loadPostData(postModel: PostModel) {

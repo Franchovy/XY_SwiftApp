@@ -82,7 +82,7 @@ class ProfileHeaderConversationsViewController: UIViewController {
     private func setNotificationState(to value: Bool) {
         UserDefaults.standard.setValue(value, forKey: "pushNotificationsEnabled")
         notificationsIsOn = value
-        notificationsImage.image = value ? UIImage(systemName: "bell.circle.fill") : UIImage(systemName: "bell.slash.circle.fill")
+        notificationsImage.image = value ? UIImage(systemName: "bell.fill") : UIImage(systemName: "bell.slash.fill")
     }
     
     @objc private func notificationsToggled() {

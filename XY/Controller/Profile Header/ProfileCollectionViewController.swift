@@ -125,6 +125,38 @@ extension ProfileCollectionViewController : UICollectionViewDataSource, UICollec
     }
     
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ProfileFlowCollectionViewCell else {
+            return
+        }
+        
+        let originalTransform = cell.transform
+        let shrinkTransform = cell.transform.scaledBy(x: 0.95, y: 0.95)
+        
+        UIView.animate(withDuration: 0.2) {
+            cell.transform = shrinkTransform
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.2) {
+                    cell.transform = originalTransform
+                }
+            }
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+            cell.heroID = "post"
+            
+            let vc = PostViewController()
+            vc.configure(with: self.postViewModels[indexPath.row])
+            vc.isHeroEnabled = true
+            
+            vc.onDismiss = { cell.heroID = "" }
+            
+            vc.setHeroIDs(forPost: "post", forCaption: "", forImage: "")
+            
+            self.navigationController?.isHeroEnabled = true
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }
+    }
 }
 
