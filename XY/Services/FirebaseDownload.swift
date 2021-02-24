@@ -187,8 +187,7 @@ class FirebaseDownload {
                 completion(nil, error)
             }
             
-            if let snapshot = snapshot, let profileData = snapshot.data() as? [String: Any] {
-                
+            if let snapshot = snapshot, let profileData = snapshot.data() {
                 let profile = ProfileModel(data: profileData, id: snapshot.documentID)
                 
                 completion(profile, nil)

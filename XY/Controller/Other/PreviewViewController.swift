@@ -33,7 +33,14 @@ class PreviewViewController: UIViewController {
         return button
     }()
     
-    private let caption = CaptionView()
+    private let caption: MessageView = {
+        let caption = MessageView()
+        caption.text = "Write your caption here"
+        caption.frame.size.width = 200
+        caption.setColor(.blue)
+        caption.isEditable = true
+        return caption
+    }()
     
     private var playerDidFinishObserver: NSObjectProtocol?
     private var previewLayerView = UIView()
@@ -209,7 +216,7 @@ class PreviewViewController: UIViewController {
         
         if let image = previewImageView?.image {
             // Upload post
-            PostManager.shared.createPost(caption: caption.getText(), image: image) { (result) in
+            PostManager.shared.createPost(caption: caption.text, image: image) { (result) in
                 activityIndicator.stopAnimating()
                 
                 switch result {
@@ -223,7 +230,7 @@ class PreviewViewController: UIViewController {
         } else if let recordedVideoUrl = recordedVideoUrl {
             previewLayer?.player?.pause()
             
-            let caption = self.caption.getText()
+            let caption = self.caption.text
             
             // Upload video
             ViralManager.shared.createViral(caption: caption, videoUrl: recordedVideoUrl) { (result) in
