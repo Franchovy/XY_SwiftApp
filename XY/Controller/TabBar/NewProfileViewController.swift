@@ -127,16 +127,19 @@ class NewProfileViewController: UIViewController {
             let vc = ProfileHeaderConversationsViewController()
             vc.modalPresentationStyle = .fullScreen
             
+            self.navigationController?.pushViewController(vc, animated: true)
+            
             ConversationManager.shared.getConversations() { conversationViewModels in
                 if let conversationViewModels = conversationViewModels {
                     vc.configure(with: conversationViewModels)
                 }
-                self.navigationController?.pushViewController(vc, animated: true)
             }
             
         } else {
             let vc = ProfileHeaderChatViewController()
             vc.modalPresentationStyle = .fullScreen
+            
+            self.navigationController?.pushViewController(vc, animated: true)
             
             ConversationManager.shared.getConversation(with: viewModel.userId) { conversationViewModel, messageViewModels in
                 if let conversationViewModel = conversationViewModel, let messageViewModels = messageViewModels {
@@ -145,7 +148,7 @@ class NewProfileViewController: UIViewController {
                     let newConversationViewModel = ConversationViewModelBuilder.new(with: viewModel)
                     vc.configureForNewConversation(with: newConversationViewModel)
                 }
-                self.navigationController?.pushViewController(vc, animated: true)
+                
             }
         }
     }

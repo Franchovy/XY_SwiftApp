@@ -119,7 +119,9 @@ final class PostManager {
     
     func getComments(for postId: String, completion: @escaping(Result<[Comment], Error>) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .document(postId).collection(FirebaseKeys.CollectionPath.comments).getDocuments { (querySnapshot, error) in
+            .document(postId).collection(FirebaseKeys.CollectionPath.comments)
+            .order(by: FirebaseKeys.PostKeys.Comments.timestamp, descending: false)
+            .getDocuments { (querySnapshot, error) in
                 if let error = error {
                     completion(.failure(error))
                 } else if let querySnapshot = querySnapshot {

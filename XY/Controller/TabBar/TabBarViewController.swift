@@ -63,7 +63,7 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        tabBar.isHidden = false
+//        tabBar.isHidden = false
         view.layoutSubviews()
     }
     
@@ -148,6 +148,6 @@ extension TabBarViewController: CameraViewControllerDelegate {
     
     func cameraViewDidTapCloseButton() {
         selectedIndex = 0
-        setTabBarVisible(visible: true, duration: 0.1, animated: true)
+//        setTabBarVisible(visible: true, duration: 0.1, animated: true)
     }
 }

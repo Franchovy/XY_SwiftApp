@@ -40,6 +40,7 @@ class PostViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {
@@ -76,7 +77,14 @@ class PostViewController: UIViewController {
             height: 60
         )
         
-        tableView.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top + 5, left: 0, bottom: 40, right: 0))
+        tableView.frame = view.bounds.inset(
+            by: UIEdgeInsets(
+                top: view.safeAreaInsets.top + 5,
+                left: 0,
+                bottom: view.height - typeView.top,
+                right: 0
+            )
+        )
     }
     
     public func configure(with viewModel: NewPostViewModel) {

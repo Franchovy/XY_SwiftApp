@@ -115,9 +115,7 @@ class FlowVC : UITableViewController {
     
     // MARK: - Obj-C Functions
     @objc func xpButtonPressed() {
-        // Level up check
-        FirebaseFunctionsManager.shared.checkUserLevelUp()
-        //
+        
         performSegue(withIdentifier: "segueToNotifications", sender: self)
     }
     

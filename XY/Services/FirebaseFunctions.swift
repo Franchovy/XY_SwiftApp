@@ -89,8 +89,6 @@ final class FirebaseFunctionsManager {
                 print("Error in swipe Right response: \(error)")
             } else if let result = result {
                 print(result)
-                // On success
-                self.checkPostLevelUp(postId: postId)
             }
         }
     }
@@ -114,14 +112,6 @@ final class FirebaseFunctionsManager {
           } else if let result = result {
             print(result)
           }
-        }
-    }
-    
-    public func checkPostLevelUp(postId: String) {
-        functions.httpsCallable("checkPostLevelUp").call(["postId": postId]) { (_, error) in
-            if let error = error {
-                print("Error in checkLevelUp function call: \(error)")
-            }
         }
     }
     

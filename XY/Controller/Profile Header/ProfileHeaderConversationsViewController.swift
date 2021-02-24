@@ -37,6 +37,8 @@ class ProfileHeaderConversationsViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        hidesBottomBarWhenPushed = true
+        
         tableView.dataSource = self
         tableView.delegate = self
         

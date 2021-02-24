@@ -54,6 +54,18 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     // MARK: - Lifecycle
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
+        hidesBottomBarWhenPushed = true
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        hidesBottomBarWhenPushed = true
+    }
+    
     override func viewDidLoad() {
         videoGravity = .resizeAspectFill
         swipeToZoom = false
@@ -82,7 +94,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
+//        self.tabBarController?.tabBar.isHidden = true
 
         view.setNeedsLayout()
         
