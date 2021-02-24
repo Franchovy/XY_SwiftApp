@@ -14,7 +14,7 @@ enum CaptionColor {
     var gradient: [CGColor] {
         switch self {
         case .blue: return [
-            UIColor(0x466AFF).cgColor,
+            UIColor(0x287AFC).cgColor,
             UIColor(0x629EFF).cgColor
         ]
         case .pink: return [
@@ -60,7 +60,6 @@ class MessageView: UIView, UITextFieldDelegate {
         return textField
     }()
     
-    private var gradientLayer = CAGradientLayer()
     
     public var name: String {
         get {
@@ -116,10 +115,7 @@ class MessageView: UIView, UITextFieldDelegate {
     init() {
         super.init(frame: .zero)
         
-        gradientLayer.startPoint = CGPoint(x: 0, y: 0.95)
-        gradientLayer.endPoint = CGPoint(x: 0, y: 0.15)
-        
-        layer.addSublayer(gradientLayer)
+        backgroundColor = UIColor(0x287AFC)
         layer.masksToBounds = true
         
         addSubview(label)
@@ -180,11 +176,10 @@ class MessageView: UIView, UITextFieldDelegate {
             height: dateLabel.height
         )
         
-        gradientLayer.frame = bounds
     }
     
     func setColor(_ color: CaptionColor) {
-        gradientLayer.colors = color.gradient
+        
     }
     
     func isEditing() -> Bool {
