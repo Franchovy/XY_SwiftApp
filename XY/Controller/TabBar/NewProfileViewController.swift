@@ -195,6 +195,7 @@ class NewProfileViewController: UIViewController {
         titleLabel.font = UIFont(name: "Raleway-ExtraBold", size: 30)
         titleLabel.text = viewModel.nickname
         titleLabel.textColor = UIColor(named: "tintColor")
+        titleLabel.adjustsFontSizeToFitWidth = true
         titleView.addSubview(titleLabel)
         
         let xpCircle = CircleView()
@@ -208,10 +209,11 @@ class NewProfileViewController: UIViewController {
         let xpCircleSize:CGFloat = 25
         
         titleLabel.sizeToFit()
+        let titleLabelWidth:CGFloat = min(titleLabel.width, view.width - 200)
         titleLabel.frame = CGRect(
-            x: (titleView.width - titleLabel.width)/2 - (5 + xpCircleSize)/2,
+            x: (titleView.width - titleLabelWidth)/2 - (5 + xpCircleSize)/2,
             y: (titleView.height - titleLabel.height)/2,
-            width: titleLabel.width,
+            width: titleLabelWidth,
             height: titleLabel.height
         )
         
