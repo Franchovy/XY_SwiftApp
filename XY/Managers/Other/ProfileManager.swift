@@ -19,6 +19,8 @@ final class ProfileManager {
     
     var profilesCache = [String: [String: Any]?]()
     
+    var listeners = [String: ListenerRegistration]()
+    
     var delegate: ProfileManagerDelegate?
     
     var ownProfile: ProfileModel?
@@ -61,6 +63,37 @@ final class ProfileManager {
             }
         }
 
+    }
+    
+    func cancelListenerFor(userId: String) {
+        if let listener = listeners[userId] {
+            listener.remove()
+            listeners.removeValue(forKey: userId)
+        }
+    }
+    
+    func listenToProfileUpdatesFor(userId: String, callback: @escaping(NewProfileViewModel?) -> Void) {
+        FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
+            guard let profileId = profileId, error == nil else {
+                return
+            }
+            
+            let listener = FirestoreReferenceManager.root.collection("Profiles").document(profileId).addSnapshotListener { (snapshot, error) in
+                if let error = error {
+                    print(error)
+                } else if let snapshot = snapshot, let data = snapshot.data() {
+                    let model = ProfileModel(data: data, id: snapshot.documentID)
+                    
+                    ProfileViewModelBuilder.build(with: model) { (viewModel) in
+                        if let viewModel = viewModel {
+                            callback(viewModel)
+                        }
+                    }
+                }
+            }
+            
+            self.listeners[userId] = listener
+        }
     }
     
     func newProfileCreated(withId profileId: String) {

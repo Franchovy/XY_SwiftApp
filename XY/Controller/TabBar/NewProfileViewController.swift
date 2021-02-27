@@ -54,6 +54,12 @@ class NewProfileViewController: UIViewController {
                 print(error)
             }
         }
+        
+        ProfileManager.shared.listenToProfileUpdatesFor(userId: userId) { viewModel in
+            if let viewModel = viewModel {
+                self.configure(with: viewModel)
+            }
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -77,7 +83,9 @@ class NewProfileViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        if let viewModel = viewModel {
+            ProfileManager.shared.cancelListenerFor(userId: viewModel.userId)
+        }
         StorageManager.shared.cancelCurrentDownloadTasks()
     }
     
@@ -188,7 +196,6 @@ class NewProfileViewController: UIViewController {
                 action: #selector(openChatButtonPressed)
             )
         }
-        
             
         let titleView = UIView()
         let titleLabel = UILabel()
