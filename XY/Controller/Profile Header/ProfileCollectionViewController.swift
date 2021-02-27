@@ -149,7 +149,11 @@ extension ProfileCollectionViewController : UICollectionViewDataSource, UICollec
             vc.configure(with: self.postViewModels[indexPath.row])
             vc.isHeroEnabled = true
             
-            vc.onDismiss = { cell.heroID = "" }
+            vc.onDismiss = {
+                cell.isHeroEnabled = false
+                cell.heroID = ""
+                vc.setHeroIDs(forPost: "", forCaption: "", forImage: "")
+            }
             
             vc.setHeroIDs(forPost: "post", forCaption: "", forImage: "")
             
