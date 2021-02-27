@@ -24,7 +24,7 @@ class TabBarViewController: UITabBarController {
         
         // TAB 2: EXPLORE VC
         let exploreVC = ExploreVC()
-        let tabBarItem = UITabBarItem(title: "Viral", image: UIImage(named: "viral_item"), tag: 2)
+        let tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(systemName: "questionmark.circle"), tag: 2)
         tabBarItem.badgeColor = UIColor(named: "tintColor")
         exploreVC.tabBarItem = tabBarItem
         

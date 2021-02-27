@@ -11,21 +11,19 @@ import AVFoundation
 
 class ExploreVC: UIViewController {
     
-    private let noViralsLeftLabel: UILabel = {
+    private let oopsLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "tintColor_grey")
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        label.alpha = 0.0
-        label.text = "No virals left!"
+        label.textColor = UIColor(named: "tintColor")
+        label.font = UIFont(name: "Raleway-Bold", size: 24)
+        label.text = "Ooops!"
         return label
     }()
     
-    private let whyNotUploadLabel: UILabel = {
+    private let challengesComingSoonLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "tintColor_grey")
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 16)
-        label.alpha = 0.0
-        label.text = "Why not upload one?"
+        label.textColor = UIColor(named: "tintColor")
+        label.font = UIFont(name: "Raleway-Bold", size: 16)
+        label.text = "Challenges coming soon."
         return label
     }()
     
@@ -53,14 +51,14 @@ class ExploreVC: UIViewController {
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
         try? AVAudioSession.sharedInstance().setActive(true)
         
-        view.addSubview(noViralsLeftLabel)
-        view.addSubview(whyNotUploadLabel)
+        view.addSubview(oopsLabel)
+        view.addSubview(challengesComingSoonLabel)
         
         view.backgroundColor = UIColor(named: "Black")
         
         navigationController?.navigationBar.isHidden = false
                 
-        fetchVirals()
+//        fetchVirals()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -80,20 +78,20 @@ class ExploreVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        noViralsLeftLabel.sizeToFit()
-        noViralsLeftLabel.frame = CGRect(
-            x: (view.width - noViralsLeftLabel.width)/2,
+        oopsLabel.sizeToFit()
+        oopsLabel.frame = CGRect(
+            x: (view.width - oopsLabel.width)/2,
             y: view.center.y - 15,
-            width: noViralsLeftLabel.width,
-            height: noViralsLeftLabel.height
+            width: oopsLabel.width,
+            height: oopsLabel.height
         )
         
-        whyNotUploadLabel.sizeToFit()
-        whyNotUploadLabel.frame = CGRect(
-            x: (view.width - whyNotUploadLabel.width)/2,
-            y: noViralsLeftLabel.bottom + 30,
-            width: whyNotUploadLabel.width,
-            height: whyNotUploadLabel.height
+        challengesComingSoonLabel.sizeToFit()
+        challengesComingSoonLabel.frame = CGRect(
+            x: (view.width - challengesComingSoonLabel.width)/2,
+            y: oopsLabel.bottom + 30,
+            width: challengesComingSoonLabel.width,
+            height: challengesComingSoonLabel.height
         )
     }
     
@@ -104,7 +102,7 @@ class ExploreVC: UIViewController {
             switch result {
             case .success(let viralModels):
                 guard viralModels.count > 0 else {
-                    self.noViralsLeftLabel.isHidden = false
+                    
                     return
                 }
                 
@@ -146,11 +144,11 @@ class ExploreVC: UIViewController {
                 }
                 
                 UIView.animate(withDuration: 0.4, delay: 0.5) {
-                    self.noViralsLeftLabel.alpha = 1.0
+//                    self.noViralsLeftLabel.alpha = 1.0
                 } completion: { done in
                     if done {
                         UIView.animate(withDuration: 0.4, delay: 1.0) {
-                            self.whyNotUploadLabel.alpha = 1.0
+//                            self.whyNotUploadLabel.alpha = 1.0
                         }
                     }
                 }
