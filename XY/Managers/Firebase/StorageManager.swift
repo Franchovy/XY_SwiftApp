@@ -215,7 +215,6 @@ final class StorageManager {
                     self.continuePendingDownloadTasks()
                 }
                 do {
-                    print("Download task complete: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
                     let image = try result.get().image
                     completion(image, nil)
                 } catch let error {
@@ -224,10 +223,8 @@ final class StorageManager {
             })
             
             downloadTasks[imageUrl] = downloadTask
-            print("Adding task: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
         } else {
             pendingDownloadTaskURLs[imageUrl] = completion
-            print("Adding pending task: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
         }
     }
     
@@ -248,7 +245,6 @@ final class StorageManager {
                     self.continuePendingDownloadTasks()
                 }
                 do {
-                    print("Download task complete: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
                     let image = try result.get().image
                     completion(image, nil)
                 } catch let error {
@@ -257,7 +253,6 @@ final class StorageManager {
             })
             
             downloadTasks[url] = downloadTask
-            print("Adding task: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
         }
         
         refreshDownloadTasks()
