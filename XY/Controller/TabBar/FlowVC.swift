@@ -121,6 +121,8 @@ class FlowVC : UITableViewController {
     
     @objc func flowRefreshed(_ sender: UIRefreshControl) {
         
+//        StorageManager.shared.cancelCurrentDownloadTasks()
+        
         FlowAlgorithmManager.shared.algorithmIndex += 1
         getFlow()
         

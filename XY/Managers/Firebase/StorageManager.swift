@@ -194,9 +194,9 @@ final class StorageManager {
     public func cancelCurrentDownloadTasks() {
         for task in downloadTasks {
             task.value?.cancel()
-            
         }
         downloadTasks.removeAll()
+        
         pendingDownloadTaskURLs.removeAll()
     }
     
@@ -215,6 +215,7 @@ final class StorageManager {
                     self.continuePendingDownloadTasks()
                 }
                 do {
+                    print("Download task complete: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
                     let image = try result.get().image
                     completion(image, nil)
                 } catch let error {
@@ -223,13 +224,16 @@ final class StorageManager {
             })
             
             downloadTasks[imageUrl] = downloadTask
+            print("Adding task: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
         } else {
             pendingDownloadTaskURLs[imageUrl] = completion
+            print("Adding pending task: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
         }
     }
     
     private func continuePendingDownloadTasks() {
-        if downloadTasks.count < maxConcurrentDownloadTasks,
+        
+        if downloadTasks.count <= maxConcurrentDownloadTasks,
            let entry = pendingDownloadTaskURLs.popFirst() {
             let completion = entry.value
             let url = entry.key
@@ -244,6 +248,7 @@ final class StorageManager {
                     self.continuePendingDownloadTasks()
                 }
                 do {
+                    print("Download task complete: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
                     let image = try result.get().image
                     completion(image, nil)
                 } catch let error {
@@ -252,6 +257,17 @@ final class StorageManager {
             })
             
             downloadTasks[url] = downloadTask
+            print("Adding task: [\(self.downloadTasks.count),\(self.pendingDownloadTaskURLs.count)]")
+        }
+        
+        refreshDownloadTasks()
+    }
+    
+    private func refreshDownloadTasks() {
+        for entry in downloadTasks {
+            if entry.value == nil {
+                downloadTasks.removeValue(forKey: entry.key)
+            }
         }
     }
     
