@@ -108,6 +108,11 @@
 		B979F68025C078370040AE5B /* ViralModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F67F25C078370040AE5B /* ViralModel.swift */; };
 		B979F68C25C0799F0040AE5B /* ViralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979F68B25C0799F0040AE5B /* ViralViewController.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
+		B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */; };
+		B99020C025ED37CF004AC25C /* AuthTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020BF25ED37CF004AC25C /* AuthTextField.swift */; };
+		B99020C425ED3817004AC25C /* AuthChoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020C325ED3817004AC25C /* AuthChoiceViewController.swift */; };
+		B99020D325ED4441004AC25C /* Raleway-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */; };
+		B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020D625ED4B15004AC25C /* GradientBorderButtonWithShadow.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */; };
 		B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAB16C25E13239005B3903 /* XPCircleView.swift */; };
@@ -262,6 +267,11 @@
 		B979F67F25C078370040AE5B /* ViralModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralModel.swift; sourceTree = "<group>"; };
 		B979F68B25C0799F0040AE5B /* ViralViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralViewController.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
+		B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
+		B99020BF25ED37CF004AC25C /* AuthTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTextField.swift; sourceTree = "<group>"; };
+		B99020C325ED3817004AC25C /* AuthChoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthChoiceViewController.swift; sourceTree = "<group>"; };
+		B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Heavy.ttf"; sourceTree = "<group>"; };
+		B99020D625ED4B15004AC25C /* GradientBorderButtonWithShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderButtonWithShadow.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9AAB16C25E13239005B3903 /* XPCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
@@ -338,6 +348,7 @@
 				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
 				B952AD7325D6C193008CC229 /* GradientButton.swift */,
 				B972A2C925DD96E2006A0476 /* TypeView.swift */,
+				B99020D625ED4B15004AC25C /* GradientBorderButtonWithShadow.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -607,6 +618,7 @@
 				B9781DEC25DE8E3900A2FE2D /* Raleway-Light.ttf */,
 				B9781DED25DE8E3900A2FE2D /* Raleway-Black.ttf */,
 				B9781DEE25DE8E3900A2FE2D /* Raleway-BlackItalic.ttf */,
+				B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */,
 				B9781DEF25DE8E3900A2FE2D /* Raleway-LightItalic.ttf */,
 				B9781DF025DE8E3900A2FE2D /* Raleway-Thin.ttf */,
 				B9781DF125DE8E3900A2FE2D /* Raleway-Italic.ttf */,
@@ -622,6 +634,9 @@
 				1456020F25724DEE0093FDA7 /* InterestsViewController.swift */,
 				B9599A3B25711D810057B7D9 /* LoginViewController.swift */,
 				B9B92DF125644F9B005D9B86 /* SignupViewController.swift */,
+				B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */,
+				B99020C325ED3817004AC25C /* AuthChoiceViewController.swift */,
+				B99020BF25ED37CF004AC25C /* AuthTextField.swift */,
 			);
 			path = "Launch & Auth";
 			sourceTree = "<group>";
@@ -863,6 +878,7 @@
 				B9781DFA25DE8E3900A2FE2D /* Raleway-ExtraLight.ttf in Resources */,
 				B9781E0825DE8E3900A2FE2D /* Raleway-Bold.ttf in Resources */,
 				B9781DF725DE8E3900A2FE2D /* Raleway-BoldItalic.ttf in Resources */,
+				B99020D325ED4441004AC25C /* Raleway-Heavy.ttf in Resources */,
 				B9781E0425DE8E3900A2FE2D /* Raleway-BlackItalic.ttf in Resources */,
 				B9781E0B25DE8E3900A2FE2D /* README.txt in Resources */,
 				B9781DFD25DE8E3900A2FE2D /* Raleway-ExtraBold.ttf in Resources */,
@@ -966,12 +982,14 @@
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */,
 				B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */,
+				B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */,
 				B979F68025C078370040AE5B /* ViralModel.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
+				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
@@ -987,6 +1005,7 @@
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,
 				B92161EE25E2CC1B001BE793 /* Relationship.swift in Sources */,
+				B99020C425ED3817004AC25C /* AuthChoiceViewController.swift in Sources */,
 				B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
 				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
@@ -1013,6 +1032,7 @@
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
+				B99020C025ED37CF004AC25C /* AuthTextField.swift in Sources */,
 				B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */,
 				B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */,
 				B952AD7425D6C193008CC229 /* GradientButton.swift in Sources */,
@@ -1277,7 +1297,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1303,7 +1323,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

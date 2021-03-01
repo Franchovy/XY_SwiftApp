@@ -30,23 +30,14 @@ class AuthChoiceViewController: UIViewController {
         return button
     }()
     
-    private let loginShape: CAShapeLayer = {
-        let shape = CAShapeLayer()
-        shape.lineWidth = 2
-        shape.masksToBounds = false
-        shape.strokeColor = UIColor.red.cgColor
-        shape.fillColor = UIColor.clear.cgColor
-        return shape
-    }()
-    private let loginButtonGradient = CAGradientLayer()
-    private let loginButton: UIButton = {
-        let button = UIButton()
+    private let loginButton: GradientBorderButtonWithShadow = {
+        let button = GradientBorderButtonWithShadow()
         button.setTitle("Log In", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
         button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
-        button.setBackgroundColor(color: UIColor(named:"tintColor")!, forState: .normal)
+//        button.setBackgroundColor(color: UIColor(named:"tintColor")!, forState: .normal)
 //        button.setBackgroundColor(color: .lightGray, forState: .highlighted)
-        button.layer.masksToBounds = true
+//        button.layer.masksToBounds = true
         return button
     }()
     
@@ -57,10 +48,9 @@ class AuthChoiceViewController: UIViewController {
         
         view.backgroundColor = UIColor(named: "Black")
         
-        loginButtonGradient.colors = xyGradient.map({ $0.cgColor })
+        loginButton.setGradient(xyGradient)
         signupButtonGradient.colors = xyGradient.map({ $0.cgColor })
         
-        loginButton.layer.addSublayer(loginButtonGradient)
         signupButton.layer.insertSublayer(signupButtonGradient, at: 0)
         
         view.addSubview(loginButton)
@@ -102,12 +92,8 @@ class AuthChoiceViewController: UIViewController {
         loginButton.layer.cornerRadius = buttonHeight/2
         
         signupButtonGradient.frame = signupButton.bounds
-        loginButtonGradient.frame = loginButton.bounds
         
-        loginShape.path = UIBezierPath(roundedRect: self.loginButton.bounds.insetBy(dx: 1, dy: 1), cornerRadius: buttonHeight/2).cgPath
-        loginButtonGradient.mask = loginShape
-        
-        loginButton.applyshadowWithCorner(containerView: loginButton, cornerRadious: buttonHeight/2, shadowOffset: CGSize(width: 0, height: 3), shadowRadius: 6)
+//        loginButton.applyshadowWithCorner(containerView: loginButton, cornerRadious: buttonHeight/2, shadowOffset: CGSize(width: 0, height: 3), shadowRadius: 6)
         signupButton.applyshadowWithCorner(containerView: signupButton, cornerRadious: buttonHeight/2, shadowOffset: CGSize(width: 0, height: 3), shadowRadius: 6)
     }
     
