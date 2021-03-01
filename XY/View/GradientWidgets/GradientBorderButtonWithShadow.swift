@@ -9,7 +9,7 @@ import UIKit
 
 class GradientBorderButtonWithShadow: UIButton {
 
-    private let loginButtonGradient: CAGradientLayer = {
+    private let gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
         layer.startPoint = CGPoint(x: 0.0, y: 0.0)
         layer.endPoint = CGPoint(x: 1.0, y: 0.0)
@@ -17,7 +17,7 @@ class GradientBorderButtonWithShadow: UIButton {
         return layer
     }()
 
-    private let loginShape: CAShapeLayer = {
+    private let borderShape: CAShapeLayer = {
         let shape = CAShapeLayer()
         shape.lineWidth = 2
         shape.borderColor = UIColor.black.cgColor
@@ -30,7 +30,7 @@ class GradientBorderButtonWithShadow: UIButton {
     
     init() {
         super.init(frame: .zero)
-        layer.addSublayer(loginButtonGradient)
+        layer.addSublayer(gradientLayer)
     }
     
     required init?(coder: NSCoder) {
@@ -40,18 +40,18 @@ class GradientBorderButtonWithShadow: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        loginButtonGradient.frame = bounds
+        gradientLayer.frame = bounds
         let shape = CAShapeLayer()
         shape.lineWidth = 2
         shape.path = UIBezierPath(roundedRect: bounds.insetBy(dx: 1, dy: 1), cornerRadius: height/2).cgPath
         shape.strokeColor = UIColor.black.cgColor
         shape.fillColor = UIColor.clear.cgColor
-        loginButtonGradient.mask = shape
+        gradientLayer.mask = shape
         
     }
     
     public func setGradient(_ colours: [UIColor]) {
-        loginButtonGradient.colors = colours.map({ $0.cgColor })
+        gradientLayer.colors = colours.map({ $0.cgColor })
         
         gradientColors = colours
     }
@@ -65,7 +65,7 @@ class GradientBorderButtonWithShadow: UIButton {
         super.touchesBegan(touches, with: event)
         
         backgroundColor = bgColor?.withAlphaComponent(0.7)
-        loginButtonGradient.colors = gradientColors.map({ $0.withAlphaComponent(0.5).cgColor })
+        gradientLayer.colors = gradientColors.map({ $0.withAlphaComponent(0.5).cgColor })
         tintColor = tintColor.withAlphaComponent(0.5)
     }
     
@@ -73,7 +73,7 @@ class GradientBorderButtonWithShadow: UIButton {
         super.touchesEnded(touches, with: event)
         
         backgroundColor = bgColor
-        loginButtonGradient.colors = gradientColors.map({ $0.cgColor })
+        gradientLayer.colors = gradientColors.map({ $0.cgColor })
         tintColor = tintColor.withAlphaComponent(1.0)
     }
     

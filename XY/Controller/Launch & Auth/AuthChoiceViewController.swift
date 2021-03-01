@@ -32,18 +32,17 @@ class AuthChoiceViewController: UIViewController {
         return button
     }()
     
-    private let xyGradient:[UIColor] = [UIColor(0xFF0062), UIColor(0x0C98F6)]
-    
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        isHeroEnabled = true
+        
+        view.layer.cornerRadius = 15
+        
         view.backgroundColor = UIColor(named: "Black")
         
-        loginButton.setGradient(xyGradient)
-        signupButton.setGradient(xyGradient)
-        
-        view.addSubview(loginButton)
-        view.addSubview(signupButton)
+        loginButton.setGradient(Global.xyGradient)
+        signupButton.setGradient(Global.xyGradient)
     }
     
     required init?(coder: NSCoder) {
@@ -53,6 +52,11 @@ class AuthChoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(loginButton)
+        view.addSubview(signupButton)
+        
+        loginButton.addTarget(self, action: #selector(loginChoicePressed), for: .touchUpInside)
+        signupButton.addTarget(self, action: #selector(signupChoicePressed), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -79,4 +83,17 @@ class AuthChoiceViewController: UIViewController {
         loginButton.layer.cornerRadius = buttonHeight/2
     }
 
+    @objc private func loginChoicePressed() {
+        let vc = NewLoginViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .pageIn(direction: .left)
+        present(vc, animated: true, completion: nil)
+    }
+    
+    @objc private func signupChoicePressed() {
+        let vc = NewLoginViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .pageIn(direction: .left)
+        present(vc, animated: true, completion: nil)
+    }
 }

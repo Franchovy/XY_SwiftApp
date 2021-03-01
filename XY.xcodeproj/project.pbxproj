@@ -142,6 +142,7 @@
 		B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56025A5F362001859EA /* PostViewModel.swift */; };
 		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
 		B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* Notification.swift */; };
+		B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9B25ED746500C4FF9F /* Global.swift */; };
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
@@ -305,6 +306,7 @@
 		B9D5E56025A5F362001859EA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
 		B9DFBA6225B7495D0084E79D /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B9E55D9B25ED746500C4FF9F /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
@@ -586,6 +588,7 @@
 				14C96786258E455B00E072EA /* Constants.swift */,
 				B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */,
 				B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */,
+				B9E55D9B25ED746500C4FF9F /* Global.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1042,6 +1045,7 @@
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */,
+				B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
 				B99020C025ED37CF004AC25C /* AuthTextField.swift in Sources */,
 				B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */,

@@ -16,17 +16,20 @@ class NewLoginViewController : UIViewController {
     
     private let identifierTextField: GradientBorderTextField = {
         let textField = GradientBorderTextField()
-        textField.textColor = UIColor(white: 1.0, alpha: 0.5)
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
         textField.font = UIFont(name: "Raleway-Heavy", size: 26)
-        textField.text = "XYName or email"
+        textField.placeholder = "XYName or email"
+        textField.textAlignment = .center
         return textField
     }()
     
     private let passwordTextField: GradientBorderTextField = {
         let textField = GradientBorderTextField()
-        textField.textColor = UIColor(white: 1.0, alpha: 0.5)
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
         textField.font = UIFont(name: "Raleway-Heavy", size: 26)
-        textField.text = "XYName or email"
+        textField.placeholder = "XYName or email"
+        textField.isSecureTextEntry = true
+        textField.textAlignment = .center
         return textField
     }()
     
@@ -37,7 +40,17 @@ class NewLoginViewController : UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        view.backgroundColor = UIColor(named: "Black")
+        isHeroEnabled = true
+        
+        view.layer.cornerRadius = 15
+        
         loadingIcon.color = .white
+        
+        identifierTextField.setGradient(Global.xyGradient)
+        identifierTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        passwordTextField.setGradient(Global.xyGradient)
+        passwordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
     }
     
     required init?(coder: NSCoder) {
