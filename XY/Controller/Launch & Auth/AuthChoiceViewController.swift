@@ -15,14 +15,8 @@ class AuthChoiceViewController: UIViewController {
         return label
     }()
     
-    private let signupButtonGradient:CAGradientLayer = {
-        let l = CAGradientLayer()
-        l.startPoint = CGPoint(x: 0, y: 0.5)
-        l.endPoint = CGPoint(x: 1, y: 0.5)
-        return l
-    }()
-    private let signupButton: UIButton = {
-        let button = UIButton()
+    private let signupButton: GradientButton = {
+        let button = GradientButton()
         button.setTitle("Sign Up", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
         button.setTitleColor(.white, for: .normal)
@@ -35,9 +29,6 @@ class AuthChoiceViewController: UIViewController {
         button.setTitle("Log In", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
         button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
-//        button.setBackgroundColor(color: UIColor(named:"tintColor")!, forState: .normal)
-//        button.setBackgroundColor(color: .lightGray, forState: .highlighted)
-//        button.layer.masksToBounds = true
         return button
     }()
     
@@ -49,9 +40,7 @@ class AuthChoiceViewController: UIViewController {
         view.backgroundColor = UIColor(named: "Black")
         
         loginButton.setGradient(xyGradient)
-        signupButtonGradient.colors = xyGradient.map({ $0.cgColor })
-        
-        signupButton.layer.insertSublayer(signupButtonGradient, at: 0)
+        signupButton.setGradient(xyGradient)
         
         view.addSubview(loginButton)
         view.addSubview(signupButton)
@@ -64,8 +53,6 @@ class AuthChoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        signupButton.addTarget(self, action: #selector(signUpGradientButtonTouchDown), for: .touchDown)
-        signupButton.addTarget(self, action: #selector(signUpGradientButtonTouchUp), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -90,20 +77,6 @@ class AuthChoiceViewController: UIViewController {
             height: buttonHeight
         )
         loginButton.layer.cornerRadius = buttonHeight/2
-        
-        signupButtonGradient.frame = signupButton.bounds
-        
-//        loginButton.applyshadowWithCorner(containerView: loginButton, cornerRadious: buttonHeight/2, shadowOffset: CGSize(width: 0, height: 3), shadowRadius: 6)
-        signupButton.applyshadowWithCorner(containerView: signupButton, cornerRadious: buttonHeight/2, shadowOffset: CGSize(width: 0, height: 3), shadowRadius: 6)
     }
-    
-    @objc private func signUpGradientButtonTouchDown() {
-        signupButtonGradient.colors = xyGradient.map({
-            $0.withAlphaComponent(0.5).cgColor
-        })
-    }
-    
-    @objc private func signUpGradientButtonTouchUp() {
-        signupButtonGradient.colors = xyGradient.map({ $0.cgColor })
-    }
+
 }

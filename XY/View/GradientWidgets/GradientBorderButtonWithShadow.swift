@@ -66,6 +66,7 @@ class GradientBorderButtonWithShadow: UIButton {
         
         backgroundColor = bgColor?.withAlphaComponent(0.7)
         loginButtonGradient.colors = gradientColors.map({ $0.withAlphaComponent(0.5).cgColor })
+        tintColor = tintColor.withAlphaComponent(0.5)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -73,6 +74,7 @@ class GradientBorderButtonWithShadow: UIButton {
         
         backgroundColor = bgColor
         loginButtonGradient.colors = gradientColors.map({ $0.cgColor })
+        tintColor = tintColor.withAlphaComponent(1.0)
     }
     
 }

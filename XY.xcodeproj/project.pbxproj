@@ -113,6 +113,7 @@
 		B99020C425ED3817004AC25C /* AuthChoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020C325ED3817004AC25C /* AuthChoiceViewController.swift */; };
 		B99020D325ED4441004AC25C /* Raleway-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */; };
 		B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020D625ED4B15004AC25C /* GradientBorderButtonWithShadow.swift */; };
+		B99020DB25ED64F1004AC25C /* GradientBorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020DA25ED64F1004AC25C /* GradientBorderTextField.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */; };
 		B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAB16C25E13239005B3903 /* XPCircleView.swift */; };
@@ -272,6 +273,7 @@
 		B99020C325ED3817004AC25C /* AuthChoiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthChoiceViewController.swift; sourceTree = "<group>"; };
 		B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Heavy.ttf"; sourceTree = "<group>"; };
 		B99020D625ED4B15004AC25C /* GradientBorderButtonWithShadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderButtonWithShadow.swift; sourceTree = "<group>"; };
+		B99020DA25ED64F1004AC25C /* GradientBorderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderTextField.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9AAB16C25E13239005B3903 /* XPCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
@@ -346,9 +348,8 @@
 				140826B725867EC400DC055D /* ImagePostCell.swift */,
 				B9B92DD925644A3F005D9B86 /* Main.storyboard */,
 				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
-				B952AD7325D6C193008CC229 /* GradientButton.swift */,
+				B99020DE25ED68FA004AC25C /* GradientWidgets */,
 				B972A2C925DD96E2006A0476 /* TypeView.swift */,
-				B99020D625ED4B15004AC25C /* GradientBorderButtonWithShadow.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -650,6 +651,16 @@
 				B979F68B25C0799F0040AE5B /* ViralViewController.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		B99020DE25ED68FA004AC25C /* GradientWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				B952AD7325D6C193008CC229 /* GradientButton.swift */,
+				B99020DA25ED64F1004AC25C /* GradientBorderTextField.swift */,
+				B99020D625ED4B15004AC25C /* GradientBorderButtonWithShadow.swift */,
+			);
+			path = GradientWidgets;
 			sourceTree = "<group>";
 		};
 		B9ABA1F825E4544F0039280B /* XP */ = {
@@ -1064,6 +1075,7 @@
 				B92161E125E272E6001BE793 /* HapticsManager.swift in Sources */,
 				B972A2BE25DD1739006A0476 /* CommentTableViewCell.swift in Sources */,
 				B925CC6B25D5842E00542A58 /* Message.swift in Sources */,
+				B99020DB25ED64F1004AC25C /* GradientBorderTextField.swift in Sources */,
 				B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */,
 				B972A2C625DD4282006A0476 /* Comment.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
