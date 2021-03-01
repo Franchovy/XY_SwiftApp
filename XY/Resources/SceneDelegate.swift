@@ -15,7 +15,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = AuthChoiceViewController()
+        
+        if AuthManager.shared.userId != nil {
+            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            window?.rootViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
+        } else {
+            window?.rootViewController = AuthChoiceViewController()
+        }
         
         window?.makeKeyAndVisible()
     }
