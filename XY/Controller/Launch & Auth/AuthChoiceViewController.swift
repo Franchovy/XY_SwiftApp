@@ -91,7 +91,7 @@ class AuthChoiceViewController: UIViewController {
     }
     
     @objc private func signupChoicePressed() {
-        let vc = NewLoginViewController()
+        let vc = NewSignupViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .pageIn(direction: .left)
         present(vc, animated: true, completion: nil)

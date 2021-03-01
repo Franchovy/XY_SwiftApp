@@ -1,5 +1,5 @@
 //
-//  NewLoginViewController.swift
+//  NewSignupViewController.swift
 //  XY
 //
 //  Created by Maxime Franchot on 01/03/2021.
@@ -8,14 +8,26 @@
 import UIKit
 import Firebase
 
-
-class NewLoginViewController : UIViewController {
+class NewSignupViewController: UIViewController {
     
     private let titleHeader: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Heavy", size: 35)
-        label.text = "Welcome back!"
+        label.text = "Create account"
+        label.alpha = 0.5
         return label
+    }()
+    
+    private let xynameTextField: GradientBorderTextField = {
+        let textField = GradientBorderTextField()
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
+        textField.font = UIFont(name: "Raleway-Heavy", size: 20)
+        let attributes = [
+            NSAttributedString.Key.font : UIFont(name: "Raleway-Heavy", size: 26)!
+        ]
+        textField.attributedPlaceholder = NSAttributedString(string: "XYName", attributes:attributes)
+        textField.textAlignment = .center
+        return textField
     }()
     
     private let emailTextField: GradientBorderTextField = {
@@ -35,7 +47,17 @@ class NewLoginViewController : UIViewController {
         textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
         textField.font = UIFont(name: "Raleway-Heavy", size: 26)
         textField.placeholder = "Password"
-        textField.isSecureTextEntry = true
+        textField.setManualSecureEntry()
+        textField.textAlignment = .center
+        return textField
+    }()
+    
+    private let checkPasswordTextField: GradientBorderTextField = {
+        let textField = GradientBorderTextField()
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
+        textField.font = UIFont(name: "Raleway-Heavy", size: 26)
+        textField.placeholder = "Repeat Password"
+        textField.setManualSecureEntry()
         textField.textAlignment = .center
         return textField
     }()
@@ -68,10 +90,14 @@ class NewLoginViewController : UIViewController {
         
         loadingIcon.color = UIColor(named: "tintColor")
         
+        xynameTextField.setGradient(Global.xyGradient)
+        xynameTextField.setBackgroundColor(color: UIColor(named:"Black")!)
         emailTextField.setGradient(Global.xyGradient)
         emailTextField.setBackgroundColor(color: UIColor(named:"Black")!)
         passwordTextField.setGradient(Global.xyGradient)
         passwordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        checkPasswordTextField.setGradient(Global.xyGradient)
+        checkPasswordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
     }
     
     required init?(coder: NSCoder) {
@@ -82,13 +108,15 @@ class NewLoginViewController : UIViewController {
         super.viewDidLoad()
         
         view.addSubview(titleHeader)
+        view.addSubview(xynameTextField)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
+        view.addSubview(checkPasswordTextField)
         view.addSubview(loadingIcon)
         view.addSubview(errorLabel)
         view.addSubview(loginButton)
         
-        loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
+        loginButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
         
         let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapAnywhereGesture)
@@ -116,9 +144,23 @@ class NewLoginViewController : UIViewController {
             height: textFieldHeight
         )
         
+        xynameTextField.frame = CGRect(
+            x: (view.width - textFieldWidth)/2,
+            y: emailTextField.top - textFieldHeight - 2*marginFromCenter,
+            width: textFieldWidth,
+            height: textFieldHeight
+        )
+        
         passwordTextField.frame = CGRect(
             x: (view.width - textFieldWidth)/2,
             y: view.height/2 + marginFromCenter,
+            width: textFieldWidth,
+            height: textFieldHeight
+        )
+        
+        checkPasswordTextField.frame = CGRect(
+            x: (view.width - textFieldWidth)/2,
+            y: passwordTextField.bottom + 2*marginFromCenter,
             width: textFieldWidth,
             height: textFieldHeight
         )
@@ -151,11 +193,16 @@ class NewLoginViewController : UIViewController {
         emailTextField.resignFirstResponder()
     }
     
-    @objc private func loginPressed() {
+    @objc private func signUpPressed() {
         tappedAnywhere()
-    
-        guard let identifier = emailTextField.text, identifier != "" else {
+        
+        guard let email = emailTextField.text, email != "" else {
             displayError(errorText: "Please enter an email")
+            return
+        }
+        
+        guard let xyname = xynameTextField.text, xyname != "" else {
+            displayError(errorText: "Please enter a XYName")
             return
         }
         
@@ -164,10 +211,15 @@ class NewLoginViewController : UIViewController {
             return
         }
         
+        guard let repeatPassword = checkPasswordTextField.text, repeatPassword != password else {
+            displayError(errorText: "Passwords don't match")
+            return
+        }
+        
         loadingIcon.isHidden = false
         loadingIcon.startAnimating()
         
-        AuthManager.shared.login(withEmail: identifier, password: password) { result in
+        AuthManager.shared.login(withEmail: email, password: password) { result in
             self.loadingIcon.isHidden = true
             self.loadingIcon.stopAnimating()
             
@@ -191,9 +243,9 @@ class NewLoginViewController : UIViewController {
                 }
             }
         }
-    
+        
     }
-
+    
     private func displayError(errorText: String) {
         errorLabel.isHidden = false
         errorLabel.text = "⚠️ " + errorText

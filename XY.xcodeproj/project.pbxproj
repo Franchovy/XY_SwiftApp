@@ -143,6 +143,7 @@
 		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
 		B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* Notification.swift */; };
 		B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9B25ED746500C4FF9F /* Global.swift */; };
+		B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */; };
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
@@ -307,6 +308,7 @@
 		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
 		B9DFBA6225B7495D0084E79D /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		B9E55D9B25ED746500C4FF9F /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignupViewController.swift; sourceTree = "<group>"; };
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				B9599A3B25711D810057B7D9 /* LoginViewController.swift */,
 				B9B92DF125644F9B005D9B86 /* SignupViewController.swift */,
 				B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */,
+				B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */,
 				B99020C325ED3817004AC25C /* AuthChoiceViewController.swift */,
 				B99020BF25ED37CF004AC25C /* AuthTextField.swift */,
 			);
@@ -998,6 +1001,7 @@
 				B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */,
 				B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */,
 				B979F68025C078370040AE5B /* ViralModel.swift in Sources */,
+				B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,

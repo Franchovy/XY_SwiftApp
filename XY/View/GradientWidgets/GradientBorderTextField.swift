@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GradientBorderTextField: UITextField {
+class GradientBorderTextField: UITextField, UITextFieldDelegate {
 
     private let gradientLayer: CAGradientLayer = {
         let layer = CAGradientLayer()
@@ -28,9 +28,13 @@ class GradientBorderTextField: UITextField {
     private var bgColor: UIColor?
     private var gradientColors = [UIColor]()
     
+    private var isManualSecureTextEntry = false
+    
     init() {
         super.init(frame: .zero)
         layer.addSublayer(gradientLayer)
+        
+        delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -47,7 +51,6 @@ class GradientBorderTextField: UITextField {
         shape.strokeColor = UIColor.black.cgColor
         shape.fillColor = UIColor.clear.cgColor
         gradientLayer.mask = shape
-        
     }
     
     public func setGradient(_ colours: [UIColor]) {
@@ -60,5 +63,14 @@ class GradientBorderTextField: UITextField {
         bgColor = color
         backgroundColor = bgColor
     }
+    
+    public func setManualSecureEntry() {
+        isManualSecureTextEntry = true
+    }
 
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if isManualSecureTextEntry {
+            isSecureTextEntry = true
+        }
+    }
 }
