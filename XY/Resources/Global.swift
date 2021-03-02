@@ -20,4 +20,24 @@ class Global {
             }
         }
     }
+    static var darkModeBackgroundGradient:[UIColor] {
+        get {
+            if !isLightMode {
+                return [UIColor(0xD9D9D9), UIColor(0xCBCBCB), UIColor(0xF2F2F2)]
+            } else {
+                return [UIColor(0x141516), UIColor(0x1C1D1E), UIColor(0x333333)]
+            }
+        }
+    }
+    
+    static var darkModeGradient: [UIColor] {
+        get {
+            if isLightMode {
+                return [UIColor(0x141516), UIColor(0x2A2A2B), UIColor(0x808080)]
+            } else {
+                return [UIColor(0x808080), UIColor(0xFFFFFF)]
+            }
+        }
+    }
+    
 }

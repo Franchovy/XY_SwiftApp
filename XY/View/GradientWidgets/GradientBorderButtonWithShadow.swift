@@ -32,7 +32,7 @@ class GradientBorderButtonWithShadow: UIButton {
     
     init() {
         super.init(frame: .zero)
-        layer.addSublayer(gradientLayer)
+        layer.insertSublayer(gradientLayer, at: 0)
     }
     
     required init?(coder: NSCoder) {
@@ -53,7 +53,7 @@ class GradientBorderButtonWithShadow: UIButton {
         if shadowLayer == nil {
             shadowLayer = CAShapeLayer()
             shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
-            shadowLayer.fillColor = UIColor.white.cgColor
+            shadowLayer.fillColor = bgColor?.cgColor ?? UIColor.clear.cgColor
 
             shadowLayer.shadowColor = UIColor.black.cgColor
             shadowLayer.shadowPath = shadowLayer.path

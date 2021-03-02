@@ -41,6 +41,8 @@ class NewSignupViewController: UIViewController {
         ]
         textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes:attributes)
         textField.textAlignment = .center
+        textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -51,6 +53,7 @@ class NewSignupViewController: UIViewController {
         textField.placeholder = "Password"
         textField.setManualSecureEntry()
         textField.textAlignment = .center
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -61,6 +64,7 @@ class NewSignupViewController: UIViewController {
         textField.placeholder = "Repeat Password"
         textField.setManualSecureEntry()
         textField.textAlignment = .center
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -68,7 +72,7 @@ class NewSignupViewController: UIViewController {
         let button = UIButton()
         button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 32)
-        button.setTitle("Log in", for: .normal)
+        button.setTitle("Sign Up", for: .normal)
         return button
     }()
     
@@ -198,9 +202,9 @@ class NewSignupViewController: UIViewController {
         )
         
         loginButton.frame = CGRect(
-            x: (view.width - 115)/2,
+            x: (view.width - 150)/2,
             y: errorLabel.bottom + 15,
-            width: 115,
+            width: 150,
             height: 38
         )
     }
@@ -243,8 +247,8 @@ class NewSignupViewController: UIViewController {
             switch result {
             case .success(let _):
                 // Segue to main
-                fatalError()
-            //                    self.performSegue(withIdentifier: "LoginToProfile", sender: self)
+                HapticsManager.shared.vibrate(for: .success)
+                
             case .failure(let error):
                 print("Error logging in: \(error)")
                 

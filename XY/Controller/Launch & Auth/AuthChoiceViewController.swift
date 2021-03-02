@@ -11,13 +11,7 @@ class AuthChoiceViewController: UIViewController {
 
     private let logo = UIImageView(image: UIImage(named: "XYnavbarlogo"))
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Ready, Play, XY!"
-        label.font = UIFont(name: "Raleway-Heavy", size: 40)
-        label.textColor = UIColor(named: "tintColor")
-        return label
-    }()
+    private let titleLabel = GradientLabel(text: "Ready, Play, XY!", fontSize: 40, gradientColours: Global.darkModeBackgroundGradient)
     
     private let signupButton: GradientButton = {
         let button = GradientButton()
@@ -46,7 +40,7 @@ class AuthChoiceViewController: UIViewController {
         
         loginButton.setGradient(Global.xyGradient)
         signupButton.setGradient(Global.xyGradient)
-        
+        loginButton.setBackgroundColor(color: UIColor(named: "Black")!)
     }
     
     required init?(coder: NSCoder) {
@@ -75,12 +69,11 @@ class AuthChoiceViewController: UIViewController {
             height: 27
         )
         
-        titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
-            x: (view.width - titleLabel.width)/2,
-            y: view.height / 4 - titleLabel.height,
-            width: titleLabel.width,
-            height: titleLabel.height
+            x: (view.width - 264)/2,
+            y: view.height / 4 - 50,
+            width: 264,
+            height: 50
         )
         
         let buttonWidth:CGFloat = 241
@@ -105,16 +98,22 @@ class AuthChoiceViewController: UIViewController {
     }
 
     @objc private func loginChoicePressed() {
+        HapticsManager.shared.vibrate(for: .success)
+        
         let vc = NewLoginViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .pageIn(direction: .left)
-        navigationController?.pushViewController(vc, animated: true)
+        present(vc, animated: true)
     }
     
     @objc private func signupChoicePressed() {
+        HapticsManager.shared.vibrate(for: .success)
+        
         let vc = NewSignupViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .pageIn(direction: .left)
         present(vc, animated: true)
     }
+    
+    
 }

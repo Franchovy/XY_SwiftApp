@@ -15,7 +15,7 @@ class NewLoginViewController : UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Create account"
+        label.text = "Welcome back!"
         label.font = UIFont(name: "Raleway-Heavy", size: 40)
         label.textColor = UIColor(named: "tintColor")
         return label
@@ -30,6 +30,8 @@ class NewLoginViewController : UIViewController {
         ]
         textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes:attributes)
         textField.textAlignment = .center
+        textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
         return textField
     }()
     
@@ -39,6 +41,7 @@ class NewLoginViewController : UIViewController {
         textField.font = UIFont(name: "Raleway-Heavy", size: 26)
         textField.placeholder = "Password"
         textField.isSecureTextEntry = true
+        textField.autocapitalizationType = .none
         textField.textAlignment = .center
         return textField
     }()
@@ -47,7 +50,7 @@ class NewLoginViewController : UIViewController {
         let button = UIButton()
         button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 32)
-        button.setTitle("Log in", for: .normal)
+        button.setTitle("Log In", for: .normal)
         return button
     }()
     
@@ -159,9 +162,9 @@ class NewLoginViewController : UIViewController {
         )
         
         loginButton.frame = CGRect(
-            x: (view.width - 115)/2,
+            x: (view.width - 150)/2,
             y: errorLabel.bottom + 15,
-            width: 115,
+            width: 150,
             height: 38
         )
     }
@@ -194,8 +197,11 @@ class NewLoginViewController : UIViewController {
             switch result {
             case .success(let _):
                 // Segue to main
-                fatalError()
-            //                    self.performSegue(withIdentifier: "LoginToProfile", sender: self)
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
+                vc.modalPresentationStyle = .fullScreen
+                vc.heroModalAnimationType = .pageIn(direction: .left)
+                self.present(vc, animated: true)
             case .failure(let error):
                 print("Error logging in: \(error)")
                 
