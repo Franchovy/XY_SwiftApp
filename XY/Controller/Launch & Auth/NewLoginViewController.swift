@@ -11,10 +11,13 @@ import Firebase
 
 class NewLoginViewController : UIViewController {
     
-    private let titleHeader: UILabel = {
+    private let logo = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+    
+    private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Heavy", size: 35)
-        label.text = "Welcome back!"
+        label.text = "Create account"
+        label.font = UIFont(name: "Raleway-Heavy", size: 40)
+        label.textColor = UIColor(named: "tintColor")
         return label
     }()
     
@@ -56,12 +59,17 @@ class NewLoginViewController : UIViewController {
         return label
     }()
     
+    private var gradientLayer: CAGradientLayer
     private let loadingIcon = UIActivityIndicatorView()
     
     init() {
+        gradientLayer = Gradient.createGradientLayer(gradientColours: Global.lightModeBackgroundGradient, angle: 270)
+        
         super.init(nibName: nil, bundle: nil)
         
+//        view.layer.insertSublayer(gradientLayer, at: 0)
         view.backgroundColor = UIColor(named: "Black")
+        
         isHeroEnabled = true
         
         view.layer.cornerRadius = 15
@@ -72,6 +80,7 @@ class NewLoginViewController : UIViewController {
         emailTextField.setBackgroundColor(color: UIColor(named:"Black")!)
         passwordTextField.setGradient(Global.xyGradient)
         passwordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -81,7 +90,8 @@ class NewLoginViewController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(titleHeader)
+        view.addSubview(logo)
+        view.addSubview(titleLabel)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
         view.addSubview(loadingIcon)
@@ -92,17 +102,27 @@ class NewLoginViewController : UIViewController {
         
         let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapAnywhereGesture)
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        titleHeader.sizeToFit()
-        titleHeader.frame = CGRect(
-            x: (view.width - titleHeader.width)/2,
-            y: view.safeAreaInsets.top + 75,
-            width: titleHeader.width,
-            height: titleHeader.height
+        gradientLayer.frame = view.bounds
+        
+        logo.frame = CGRect(
+            x: (view.width - 50.95)/2,
+            y: view.safeAreaInsets.top,
+            width: 50.95,
+            height: 27
+        )
+        
+        titleLabel.sizeToFit()
+        titleLabel.frame = CGRect(
+            x: (view.width - titleLabel.width)/2,
+            y: view.height / 4 - titleLabel.height,
+            width: titleLabel.width,
+            height: titleLabel.height
         )
         
         let textFieldWidth:CGFloat = 281

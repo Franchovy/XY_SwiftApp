@@ -10,11 +10,13 @@ import Firebase
 
 class NewSignupViewController: UIViewController {
     
-    private let titleHeader: UILabel = {
+    private let logo = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+    
+    private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Heavy", size: 35)
         label.text = "Create account"
-        label.alpha = 0.5
+        label.font = UIFont(name: "Raleway-Heavy", size: 40)
+        label.textColor = UIColor(named: "tintColor")
         return label
     }()
     
@@ -78,12 +80,17 @@ class NewSignupViewController: UIViewController {
         return label
     }()
     
+    private let gradientLayer: CAGradientLayer
     private let loadingIcon = UIActivityIndicatorView()
     
     init() {
-        super.init(nibName: nil, bundle: nil)
+        gradientLayer = Gradient.createGradientLayer(gradientColours: Global.lightModeBackgroundGradient, angle: 206)
         
+        super.init(nibName: nil, bundle: nil)
+
+//        view.layer.insertSublayer(gradientLayer, at: 0)
         view.backgroundColor = UIColor(named: "Black")
+        
         isHeroEnabled = true
         
         view.layer.cornerRadius = 15
@@ -98,6 +105,7 @@ class NewSignupViewController: UIViewController {
         passwordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
         checkPasswordTextField.setGradient(Global.xyGradient)
         checkPasswordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -107,7 +115,8 @@ class NewSignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(titleHeader)
+        view.addSubview(logo)
+        view.addSubview(titleLabel)
         view.addSubview(xynameTextField)
         view.addSubview(emailTextField)
         view.addSubview(passwordTextField)
@@ -124,13 +133,21 @@ class NewSignupViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        gradientLayer.frame = view.bounds
         
-        titleHeader.sizeToFit()
-        titleHeader.frame = CGRect(
-            x: (view.width - titleHeader.width)/2,
-            y: view.safeAreaInsets.top + 75,
-            width: titleHeader.width,
-            height: titleHeader.height
+        logo.frame = CGRect(
+            x: (view.width - 50.95)/2,
+            y: view.safeAreaInsets.top,
+            width: 50.95,
+            height: 27
+        )
+        
+        titleLabel.sizeToFit()
+        titleLabel.frame = CGRect(
+            x: (view.width - titleLabel.width)/2,
+            y: view.height / 4 - titleLabel.height,
+            width: titleLabel.width,
+            height: titleLabel.height
         )
         
         let textFieldWidth:CGFloat = 281
@@ -167,7 +184,7 @@ class NewSignupViewController: UIViewController {
         
         loadingIcon.frame = CGRect(
             x: view.width/2 - 15,
-            y: passwordTextField.bottom + 10,
+            y: checkPasswordTextField.bottom + 10,
             width: 30,
             height: 30
         )

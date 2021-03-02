@@ -16,12 +16,18 @@ class GradientButton: UIButton {
         return l
     }()
     
+    private var shadowLayer: CAShapeLayer!
+
     private var colours = [UIColor]()
     
     init() {
         super.init(frame: .zero)
         
         layer.insertSublayer(gradientLayer, at: 0)
+        
+        clipsToBounds = false
+        layer.masksToBounds = false
+        gradientLayer.masksToBounds = true
     }
     
     required init(coder: NSCoder) {
@@ -32,6 +38,22 @@ class GradientButton: UIButton {
         super.layoutSubviews()
         
         gradientLayer.frame = bounds
+        gradientLayer.cornerRadius = layer.cornerRadius
+        
+        if shadowLayer == nil {
+            shadowLayer = CAShapeLayer()
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
+            shadowLayer.fillColor = UIColor.white.cgColor
+
+            shadowLayer.shadowColor = UIColor.black.cgColor
+            shadowLayer.shadowPath = shadowLayer.path
+            shadowLayer.shadowOffset = CGSize(width: 0, height: 3.0)
+            shadowLayer.shadowOpacity = 0.8
+            shadowLayer.shadowRadius = 6
+
+            layer.insertSublayer(shadowLayer, at: 0)
+            //layer.insertSublayer(shadowLayer, below: nil) // also works
+        }
     }
     
     public func setGradient(_ colors: [UIColor]) {

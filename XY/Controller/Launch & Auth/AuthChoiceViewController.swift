@@ -9,9 +9,13 @@ import UIKit
 
 class AuthChoiceViewController: UIViewController {
 
+    private let logo = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        
+        label.text = "Ready, Play, XY!"
+        label.font = UIFont(name: "Raleway-Heavy", size: 40)
+        label.textColor = UIColor(named: "tintColor")
         return label
     }()
     
@@ -20,7 +24,6 @@ class AuthChoiceViewController: UIViewController {
         button.setTitle("Sign Up", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
         button.setTitleColor(.white, for: .normal)
-        button.layer.masksToBounds = true
         return button
     }()
     
@@ -43,6 +46,7 @@ class AuthChoiceViewController: UIViewController {
         
         loginButton.setGradient(Global.xyGradient)
         signupButton.setGradient(Global.xyGradient)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -52,6 +56,8 @@ class AuthChoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(logo)
+        view.addSubview(titleLabel)
         view.addSubview(loginButton)
         view.addSubview(signupButton)
         
@@ -61,6 +67,21 @@ class AuthChoiceViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        logo.frame = CGRect(
+            x: (view.width - 50.95)/2,
+            y: view.safeAreaInsets.top,
+            width: 50.95,
+            height: 27
+        )
+        
+        titleLabel.sizeToFit()
+        titleLabel.frame = CGRect(
+            x: (view.width - titleLabel.width)/2,
+            y: view.height / 4 - titleLabel.height,
+            width: titleLabel.width,
+            height: titleLabel.height
+        )
         
         let buttonWidth:CGFloat = 241
         let buttonHeight:CGFloat = 54
@@ -87,13 +108,13 @@ class AuthChoiceViewController: UIViewController {
         let vc = NewLoginViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .pageIn(direction: .left)
-        present(vc, animated: true, completion: nil)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func signupChoicePressed() {
         let vc = NewSignupViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .pageIn(direction: .left)
-        present(vc, animated: true, completion: nil)
+        present(vc, animated: true)
     }
 }

@@ -16,6 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
         
+        // Set Dark or Light Mode
+        if let window = window {
+            Global.isLightMode = window.traitCollection.userInterfaceStyle != .dark
+        }
+        
         if AuthManager.shared.userId != nil {
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             window?.rootViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
