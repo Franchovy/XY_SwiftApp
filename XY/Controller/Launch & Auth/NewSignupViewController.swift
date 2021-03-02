@@ -12,13 +12,7 @@ class NewSignupViewController: UIViewController {
     
     private let logo = UIImageView(image: UIImage(named: "XYnavbarlogo"))
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Create account"
-        label.font = UIFont(name: "Raleway-Heavy", size: 40)
-        label.textColor = UIColor(named: "tintColor")
-        return label
-    }()
+    private let titleLabel = GradientLabel(text: "Create Account", fontSize: 40, gradientColours: Global.darkModeBackgroundGradient)
     
     private let xynameTextField: GradientBorderTextField = {
         let textField = GradientBorderTextField()
@@ -146,12 +140,11 @@ class NewSignupViewController: UIViewController {
             height: 27
         )
         
-        titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
-            x: (view.width - titleLabel.width)/2,
-            y: view.height / 4 - titleLabel.height,
-            width: titleLabel.width,
-            height: titleLabel.height
+            x: (view.width - 279)/2,
+            y: view.height / 4 - 50,
+            width: 279,
+            height: 50
         )
         
         let textFieldWidth:CGFloat = 281
