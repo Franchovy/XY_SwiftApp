@@ -21,6 +21,7 @@ struct FirebaseKeys {
         static let conversations = "Conversations"
         static let virals = "Viral"
         static let relationships = "Relationships"
+        static let challenges = "Challenges"
         
         static let comments = "comments"
         

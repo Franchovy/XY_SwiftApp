@@ -13,7 +13,7 @@ class SectionLabelReusableView: UICollectionReusableView {
     var label: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "tintColor")
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 25)
+        label.font = UIFont(name: "Raleway-Heavy", size: 25)
         label.textAlignment = .left
         label.sizeToFit()
         return label

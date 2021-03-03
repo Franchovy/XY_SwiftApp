@@ -89,7 +89,6 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
             shadowOffset: CGSize(width: 0, height: 2),
             shadowRadius: 3
         )
-        profileImageContainer.layer.shadowColor = UIColor.green.cgColor
         
         
         let xpCircleSize:CGFloat = 25

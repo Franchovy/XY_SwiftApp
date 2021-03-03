@@ -20,6 +20,7 @@ final class FirebaseSubscriptionManager {
             case .post: return FirebaseKeys.CollectionPath.posts
             case .user: return FirebaseKeys.CollectionPath.users
             case .viral: return FirebaseKeys.CollectionPath.virals
+            case .challenge: return FirebaseKeys.CollectionPath.challenges
             }
         }()
         

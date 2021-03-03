@@ -16,13 +16,16 @@ struct XYworldSection {
 enum XYworldSectionType: CaseIterable {
     case onlineNow
     case userRanking
+    case ranking
     
     var title: String {
         switch self {
         case .onlineNow:
-            return "Online Now"
+            return "Online Friends"
         case .userRanking:
-            return "Top Ranking"
+            return ""
+        case .ranking:
+            return ""
         }
     }
 }
@@ -31,6 +34,7 @@ enum XYworldSectionType: CaseIterable {
 enum XYworldCell {
     case onlineNow(viewModel: ProfileViewModel)
     case userRanking(viewModel: ProfileViewModel)
+    case ranking(viewModel: RankingViewModel)
 }
 
 
@@ -42,6 +46,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     @IBOutlet var xyworldTableView: UITableView!
     
     static var onlineNowCellSize = CGSize(width: 95, height: 125)
+    static var rankingBoardCellSize = CGSize(width: 269, height: 173)
 
     private var collectionView: UICollectionView?
     
@@ -85,13 +90,17 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             ProfileCardCollectionViewCell.self,
             forCellWithReuseIdentifier: ProfileCardCollectionViewCell.identifier
         )
+        collectionView.register(
+            RankingBoardCell.self,
+            forCellWithReuseIdentifier: RankingBoardCell.identifier
+        )
         
         self.collectionView = collectionView
         
         view.addSubview(collectionView)
         
 //        sections.append(XYworldSection(type: .onlineNow, cells: []))
-        sections.append(XYworldSection(type: .userRanking, cells: []))
+//        sections.append(XYworldSection(type: .userRanking, cells: []))
         
         // Search bar
         xyworldSearchBar.delegate = self
@@ -113,6 +122,31 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhereGesture))
         view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
         
+        
+        let rankingViewModelBuilder = RankingViewModelBuilder()
+        rankingViewModelBuilder.build(model: RankingModel(
+                                        name: "Top Ranking", rankedUserIDs: ["aaa", "bbb", "ccc", "ddd", "eee", "fff"])) { (rankingVM, error) in
+            if let rankingVM = rankingVM {
+                print("rankingVM recieved")
+            }
+        }
+        
+        ///
+        
+        let rankingdemo = RankingViewModel(
+            name: "Top Ranking",
+            cells: [
+                RankingCellViewModel(userID: "1", image: UIImage(named: "testface"), name: "C3-0", rank: 1, level: 5, xp: 15000),
+                RankingCellViewModel(userID: "2", image: UIImage(named: "testface"), name: "C3-T0", rank: 2, level: 5, xp: 10000),
+                RankingCellViewModel(userID: "3", image: UIImage(named: "testface"), name: "Elon Musk", rank: 3, level: 5, xp: 5000)
+            ]
+        )
+        
+        sections.append(XYworldSection(type: .ranking, cells: [XYworldCell.ranking(viewModel: rankingdemo)]))
+        
+        ///
+        
+        return
         
         FirebaseDownload.getRanking() { result in
             switch result {
@@ -183,7 +217,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     private func loadUserRanking(cells: [XYworldCell]) {
-        
+        return
         if cells.count == 0 {
             sections.removeAll { $0.type == .userRanking }
             return
@@ -266,6 +300,18 @@ extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
             }
             cell.configure(with: viewModel)
             return cell
+        case .ranking(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: RankingBoardCell.identifier,
+                for: indexPath
+            ) as? RankingBoardCell else {
+                return collectionView.dequeueReusableCell(
+                    withReuseIdentifier: "cell",
+                    for: indexPath
+                )
+            }
+            cell.configure(with: viewModel)
+            return cell
         }
     }
     
@@ -301,7 +347,6 @@ extension XYworldVC {
         
         switch sectionType {
         case .onlineNow:
-            // Item
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .absolute(XYworldVC.onlineNowCellSize.width),
@@ -311,7 +356,6 @@ extension XYworldVC {
             
             item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
             
-            // Group
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
                     widthDimension: .fractionalWidth(1),
@@ -320,38 +364,33 @@ extension XYworldVC {
                 subitems: [item]
             )
             
-            // Section layout
             let sectionLayout = NSCollectionLayoutSection(group: group)
             sectionLayout.boundarySupplementaryItems = [sectionHeader]
             sectionLayout.orthogonalScrollingBehavior = .continuous
             
-            // Return
             return sectionLayout
-        case .userRanking:
-            // Item
+        case .userRanking, .ranking:
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(140),
-                    heightDimension: .absolute(210)
+                    widthDimension: .estimated(XYworldVC.rankingBoardCellSize.width),
+                    heightDimension: .estimated(XYworldVC.rankingBoardCellSize.height)
                 )
             )
             
-            item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
             
-            // Group
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute((140) * 2),
-                    heightDimension: .fractionalHeight(1)
+                    widthDimension: .estimated(XYworldVC.rankingBoardCellSize.width),
+                    heightDimension: .estimated(XYworldVC.rankingBoardCellSize.height)
                 ),
                 subitems: [item]
             )
             
-            // Section layout
             let sectionLayout = NSCollectionLayoutSection(group: group)
             sectionLayout.boundarySupplementaryItems = [sectionHeader]
             sectionLayout.orthogonalScrollingBehavior = .continuous
-            // Return
+            
             return sectionLayout
         }
     }

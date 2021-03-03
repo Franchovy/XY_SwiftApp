@@ -125,6 +125,13 @@
 		B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */; };
 		B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */; };
 		B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */; };
+		B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7825F028B90083D69A /* RankingBoardCell.swift */; };
+		B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */; };
+		B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8025F029D50083D69A /* RankingModel.swift */; };
+		B9B74D8625F02B700083D69A /* RankingFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8525F02B700083D69A /* RankingFirestoreManager.swift */; };
+		B9B74D8A25F02B7B0083D69A /* RankingViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8925F02B7B0083D69A /* RankingViewModelBuilder.swift */; };
+		B9B74D8F25F037870083D69A /* RankingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8E25F037870083D69A /* RankingTableViewCell.swift */; };
+		B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D9525F03A230083D69A /* RankingCellViewModel.swift */; };
 		B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD325644A3F005D9B86 /* AppDelegate.swift */; };
 		B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */; };
 		B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9B92DD925644A3F005D9B86 /* Main.storyboard */; };
@@ -289,6 +296,13 @@
 		B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusManager.swift; sourceTree = "<group>"; };
 		B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		B9B74D7825F028B90083D69A /* RankingBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingBoardCell.swift; sourceTree = "<group>"; };
+		B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
+		B9B74D8025F029D50083D69A /* RankingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingModel.swift; sourceTree = "<group>"; };
+		B9B74D8525F02B700083D69A /* RankingFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingFirestoreManager.swift; sourceTree = "<group>"; };
+		B9B74D8925F02B7B0083D69A /* RankingViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModelBuilder.swift; sourceTree = "<group>"; };
+		B9B74D8E25F037870083D69A /* RankingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingTableViewCell.swift; sourceTree = "<group>"; };
+		B9B74D9525F03A230083D69A /* RankingCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCellViewModel.swift; sourceTree = "<group>"; };
 		B9B92DD025644A3F005D9B86 /* XY.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XY.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9B92DD325644A3F005D9B86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B9B92DD525644A3F005D9B86 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -538,6 +552,7 @@
 				B9D1AB3025A3A591009B428E /* FlowDataCell.swift */,
 				B9781DCF25DE70FA00A2FE2D /* UserModel.swift */,
 				B92161ED25E2CC1B001BE793 /* Relationship.swift */,
+				B9B74D8025F029D50083D69A /* RankingModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -678,6 +693,7 @@
 		B9ABA1F825E4544F0039280B /* XP */ = {
 			isa = PBXGroup;
 			children = (
+				B90BFA2F25CD6D7100575598 /* XPModelManager.swift */,
 				B9ABA1F925E454580039280B /* XPManager.swift */,
 			);
 			path = XP;
@@ -686,11 +702,39 @@
 		B9AD3B8925CBE3DC00BF74C3 /* XYWorld */ = {
 			isa = PBXGroup;
 			children = (
+				B9B74D8D25F0376B0083D69A /* Ranking */,
 				B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */,
 				B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */,
 				B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */,
 			);
 			path = XYWorld;
+			sourceTree = "<group>";
+		};
+		B9B74D8425F02B580083D69A /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				B9B74D8525F02B700083D69A /* RankingFirestoreManager.swift */,
+				B9B74D8925F02B7B0083D69A /* RankingViewModelBuilder.swift */,
+			);
+			path = Ranking;
+			sourceTree = "<group>";
+		};
+		B9B74D8D25F0376B0083D69A /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				B9B74D7825F028B90083D69A /* RankingBoardCell.swift */,
+				B9B74D8E25F037870083D69A /* RankingTableViewCell.swift */,
+			);
+			path = Ranking;
+			sourceTree = "<group>";
+		};
+		B9B74D9425F03A170083D69A /* Ranking */ = {
+			isa = PBXGroup;
+			children = (
+				B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */,
+				B9B74D9525F03A230083D69A /* RankingCellViewModel.swift */,
+			);
+			path = Ranking;
 			sourceTree = "<group>";
 		};
 		B9B92DC725644A3F005D9B86 = {
@@ -748,7 +792,6 @@
 				B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */,
 				B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */,
 				B9BCABFA25CD58C000155F37 /* ActionsManager.swift */,
-				B90BFA2F25CD6D7100575598 /* XPModelManager.swift */,
 				B92161E025E272E6001BE793 /* HapticsManager.swift */,
 			);
 			path = Other;
@@ -775,6 +818,7 @@
 				B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */,
 				B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */,
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
+				B9B74D9425F03A170083D69A /* Ranking */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -782,6 +826,7 @@
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B9B74D8425F02B580083D69A /* Ranking */,
 				B9ABA1F825E4544F0039280B /* XP */,
 				B92161E825E2C8DD001BE793 /* Relationship */,
 				B90EBA4025DFEA4A005DE0A0 /* Post */,
@@ -1036,15 +1081,18 @@
 				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
 				B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
+				B9B74D8F25F037870083D69A /* RankingTableViewCell.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */,
 				B9781DC525DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift in Sources */,
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
+				B9B74D8625F02B700083D69A /* RankingFirestoreManager.swift in Sources */,
 				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
+				B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
@@ -1054,6 +1102,8 @@
 				B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */,
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
+				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
+				B9B74D8A25F02B7B0083D69A /* RankingViewModelBuilder.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */,
 				B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */,
@@ -1090,6 +1140,7 @@
 				B92161E125E272E6001BE793 /* HapticsManager.swift in Sources */,
 				B972A2BE25DD1739006A0476 /* CommentTableViewCell.swift in Sources */,
 				B925CC6B25D5842E00542A58 /* Message.swift in Sources */,
+				B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */,
 				B99020DB25ED64F1004AC25C /* GradientBorderTextField.swift in Sources */,
 				B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */,
 				B972A2C625DD4282006A0476 /* Comment.swift in Sources */,
@@ -1112,6 +1163,7 @@
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
 				B9ABA1FA25E454580039280B /* XPManager.swift in Sources */,
+				B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */,
 				B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */,
 				B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */,
 			);

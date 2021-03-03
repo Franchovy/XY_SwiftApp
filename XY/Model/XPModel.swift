@@ -22,4 +22,5 @@ enum XPLevelType {
     case post
     case user
     case viral
+    case challenge
 }
