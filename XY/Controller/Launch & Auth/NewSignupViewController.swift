@@ -90,6 +90,7 @@ class NewSignupViewController: UIViewController {
         view.backgroundColor = UIColor(named: "Black")
         
         isHeroEnabled = true
+        titleLabel.heroID = "titleLabel"
         
         view.layer.cornerRadius = 15
         
@@ -104,6 +105,10 @@ class NewSignupViewController: UIViewController {
         checkPasswordTextField.setGradient(Global.xyGradient)
         checkPasswordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
         
+        xynameTextField.addTarget(self, action: #selector(xynameNext), for: .primaryActionTriggered)
+        emailTextField.addTarget(self, action: #selector(emailNext), for: .primaryActionTriggered)
+        passwordTextField.addTarget(self, action: #selector(passwordNext), for: .primaryActionTriggered)
+        checkPasswordTextField.addTarget(self, action: #selector(checkPasswordNext), for: .primaryActionTriggered)
     }
     
     required init?(coder: NSCoder) {
@@ -127,6 +132,10 @@ class NewSignupViewController: UIViewController {
         
         let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapAnywhereGesture)
+        
+        if #available(iOS 14.0, *) {
+            navigationItem.backButtonDisplayMode = .minimal
+        }
     }
     
     override func viewDidLayoutSubviews() {
@@ -203,8 +212,10 @@ class NewSignupViewController: UIViewController {
     }
     
     @objc private func tappedAnywhere() {
+        xynameTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
         emailTextField.resignFirstResponder()
+        checkPasswordTextField.resignFirstResponder()
     }
     
     @objc private func signUpPressed() {
@@ -225,7 +236,7 @@ class NewSignupViewController: UIViewController {
             return
         }
         
-        guard let repeatPassword = checkPasswordTextField.text, repeatPassword != password else {
+        guard let repeatPassword = checkPasswordTextField.text, repeatPassword == password else {
             displayError(errorText: "Passwords don't match")
             return
         }
@@ -233,7 +244,7 @@ class NewSignupViewController: UIViewController {
         loadingIcon.isHidden = false
         loadingIcon.startAnimating()
         
-        AuthManager.shared.login(withEmail: email, password: password) { result in
+        AuthManager.shared.signUp(xyname: xyname, email: email, password: password) { result in
             self.loadingIcon.isHidden = true
             self.loadingIcon.stopAnimating()
             
@@ -241,19 +252,18 @@ class NewSignupViewController: UIViewController {
             case .success(let _):
                 // Segue to main
                 HapticsManager.shared.vibrate(for: .success)
-                
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let vc = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
+                vc.modalPresentationStyle = .fullScreen
+                vc.heroModalAnimationType = .pageIn(direction: .left)
+                self.present(vc, animated: true)
             case .failure(let error):
                 print("Error logging in: \(error)")
                 
-                if let errCode = AuthErrorCode(rawValue: error._code) {
-                    // Error handling
-                    if errCode == .userNotFound || errCode == .wrongPassword {
-                        self.displayError(errorText: "Please check your username or password.")
-                    } else if errCode == .invalidEmail {
-                        self.displayError(errorText: "Email is invalid.")
-                    } else {
-                        self.displayError(errorText: "Login failed")
-                    }
+                if let signupErrorMessage = error as? AuthManager.CreateUserError {
+                    self.displayError(errorText: signupErrorMessage.message)
+                } else {
+                    self.displayError(errorText: "Error signing up!")
                 }
             }
         }
@@ -264,5 +274,21 @@ class NewSignupViewController: UIViewController {
         errorLabel.isHidden = false
         errorLabel.text = "⚠️ " + errorText
         view.setNeedsLayout()
+    }
+    
+    @objc private func xynameNext() {
+        emailTextField.becomeFirstResponder()
+    }
+    
+    @objc private func emailNext() {
+        passwordTextField.becomeFirstResponder()
+    }
+    
+    @objc private func passwordNext() {
+        checkPasswordTextField.becomeFirstResponder()
+    }
+    
+    @objc private func checkPasswordNext() {
+        signUpPressed()
     }
 }

@@ -68,6 +68,7 @@ class NewLoginViewController : UIViewController {
         view.backgroundColor = UIColor(named: "Black")
         
         isHeroEnabled = true
+        titleLabel.heroID = "titleLabel"
         
         view.layer.cornerRadius = 15
         
@@ -77,7 +78,7 @@ class NewLoginViewController : UIViewController {
         emailTextField.setBackgroundColor(color: UIColor(named:"Black")!)
         passwordTextField.setGradient(Global.xyGradient)
         passwordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
-        
+
     }
     
     required init?(coder: NSCoder) {
@@ -100,6 +101,10 @@ class NewLoginViewController : UIViewController {
         let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapAnywhereGesture)
         
+        navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: self, action: nil)
+        
+        emailTextField.addTarget(self, action: #selector(emailNext), for: .primaryActionTriggered)
+        passwordTextField.addTarget(self, action: #selector(passwordNext), for: .primaryActionTriggered)
     }
     
     override func viewDidLayoutSubviews() {
@@ -190,6 +195,7 @@ class NewLoginViewController : UIViewController {
             switch result {
             case .success(let _):
                 // Segue to main
+                HapticsManager.shared.vibrate(for: .success)
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                 let vc = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
                 vc.modalPresentationStyle = .fullScreen
@@ -218,4 +224,13 @@ class NewLoginViewController : UIViewController {
         errorLabel.text = "⚠️ " + errorText
         view.setNeedsLayout()
     }
+    
+    @objc private func emailNext() {
+        passwordTextField.becomeFirstResponder()
+    }
+    
+    @objc private func passwordNext() {
+        loginPressed()
+    }
+
 }

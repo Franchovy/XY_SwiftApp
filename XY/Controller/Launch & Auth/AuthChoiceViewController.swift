@@ -33,6 +33,7 @@ class AuthChoiceViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         isHeroEnabled = true
+        titleLabel.heroID = "titleLabel"
         
         view.layer.cornerRadius = 15
         
@@ -41,6 +42,8 @@ class AuthChoiceViewController: UIViewController {
         loginButton.setGradient(Global.xyGradient)
         signupButton.setGradient(Global.xyGradient)
         loginButton.setBackgroundColor(color: UIColor(named: "Black")!)
+        
+        navigationItem.hidesBackButton = true
     }
     
     required init?(coder: NSCoder) {
@@ -103,7 +106,7 @@ class AuthChoiceViewController: UIViewController {
         let vc = NewLoginViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .pageIn(direction: .left)
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func signupChoicePressed() {
@@ -112,7 +115,7 @@ class AuthChoiceViewController: UIViewController {
         let vc = NewSignupViewController()
         vc.modalPresentationStyle = .fullScreen
         vc.heroModalAnimationType = .pageIn(direction: .left)
-        present(vc, animated: true)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     

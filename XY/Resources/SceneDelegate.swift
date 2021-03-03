@@ -25,7 +25,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
             window?.rootViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
         } else {
-            window?.rootViewController = AuthChoiceViewController()
+            let navController = UINavigationController(rootViewController: AuthChoiceViewController())
+            navController.navigationBar.backgroundColor = .clear
+            navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navController.navigationBar.shadowImage = UIImage()
+            
+            if #available(iOS 14.0, *) {
+                navController.navigationItem.backButtonDisplayMode = .minimal
+            }
+            
+            navController.navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: self, action: nil)
+            
+            window?.rootViewController = navController
+            
         }
         
         window?.makeKeyAndVisible()
