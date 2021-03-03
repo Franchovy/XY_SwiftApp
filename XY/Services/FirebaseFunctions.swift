@@ -13,7 +13,7 @@ final class FirebaseFunctionsManager {
     static let shared = FirebaseFunctionsManager()
     
     private init() {
-        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
+//        functions.useEmulator(withHost: "http://0.0.0.0", port: 5001)
     }
     
     lazy var functions = Functions.functions()
@@ -32,23 +32,6 @@ final class FirebaseFunctionsManager {
                 completion(.success(result))
             }
             
-        }
-    }
-    
-    public func authenticate(withXYName xyname: String, password: String, completion: @escaping(Result<String, Error>) -> Void) {
-        
-        let data = [
-            "xyname": xyname,
-            "password": password
-        ]
-        
-        functions.httpsCallable("signIn").call(data) { result, error in
-            if let error = error {
-                completion(.failure(error))
-            } else if let result = result {
-                print("Data response: \(result.data)")
-                completion(.success(""))
-            }
         }
     }
     
