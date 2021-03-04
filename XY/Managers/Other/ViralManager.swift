@@ -110,7 +110,7 @@ final class ViralManager {
             return
         }
         
-        FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
+        ProfileFirestoreManager.shared.getProfileID(forUserID: userId) { (profileId, error) in
             if let error = error {
                 completion(nil, error)
             }

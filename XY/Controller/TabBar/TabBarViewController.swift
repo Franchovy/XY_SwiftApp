@@ -22,35 +22,41 @@ class TabBarViewController: UITabBarController {
         PushNotificationManager.shared?.tabBarController = self
         ProfileManager.shared.delegate = self
         
+        let appearance = UITabBarItem.appearance()
+        let attributes = [NSAttributedString.Key.font:UIFont(name: "Raleway-Heavy", size: 15)]
+        appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal)
+        
+        // TAB 1: PLAY VC
+        let flowVC = viewControllers![0]
+        flowVC.tabBarItem = UITabBarItem(title: "Play", image: UIImage(named: "tabbar_play_icon"), tag: 1)
+        
+        
         // TAB 2: EXPLORE VC
         let exploreVC = ExploreVC()
-        let tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(systemName: "questionmark.circle"), tag: 2)
+        let tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
+        tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
         tabBarItem.badgeColor = UIColor(named: "tintColor")
         exploreVC.tabBarItem = tabBarItem
         
         viewControllers?[1] = exploreVC
         self.exploreVC = exploreVC
         
-        
         // TAB 3: CAMERA VC
         let cameraVC = CameraViewController()
+        let cameraTabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "plus.circle.fill"), tag: 3)
+        cameraVC.tabBarItem = cameraTabBarItem
         viewControllers?[2] = cameraVC
         cameraVC.delegate = self
         self.cameraVC = cameraVC
         
-        setCreatePostIcon()
-        
         // TAB 5: PROFILE VC
         guard let userId = AuthManager.shared.userId else { return }
+        setProfileIcon(userID: userId)
         
 //        let profileVC = ProfileViewController(userId: userId)
         let profilevc = NewProfileViewController(userId: userId)
         let profileVC = UINavigationController(rootViewController: profilevc)
         
-        let profileTabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile_item"), tag: 5)
-        profileTabBarItem.badgeColor = UIColor(named: "tintColor")
-
-        profileVC.tabBarItem = profileTabBarItem
         viewControllers?[4] = profileVC
         
         self.profileVC = profilevc
@@ -69,6 +75,39 @@ class TabBarViewController: UITabBarController {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         setCreatePostIcon()
+    }
+    
+    private func setProfileIcon(userID: String) {
+        ProfileFirestoreManager.shared.getProfileID(forUserID: userID) { (profileID, error) in
+            if let error = error {
+                print(error)
+            } else if let profileID = profileID {
+                ProfileFirestoreManager.shared.getProfile(
+                    forProfileID: profileID) { (profileModel) in
+                    if let profileModel = profileModel {
+                        StorageManager.shared.downloadImage(withImageId: profileModel.profileImageId) { (image, error) in
+                            if let error = error {
+                                print(error)
+                            } else if let image = image {
+                                let imageView = UIImageView()
+                                imageView.image = image
+                                imageView.frame.size = CGSize(width: 29, height: 29)
+                                imageView.layer.masksToBounds = true
+                                imageView.layer.borderWidth = 1
+                                imageView.layer.borderColor = UIColor.white.cgColor
+                                imageView.layer.cornerRadius = 29 / 2
+                                let tabbarProfileIcon = imageView.asImage().withRenderingMode(.alwaysOriginal)
+                                
+                                let profileTabBarItem = UITabBarItem(title: "Profile", image: tabbarProfileIcon, tag: 5)
+                                profileTabBarItem.badgeColor = UIColor(named: "tintColor")
+
+                                self.profileVC?.tabBarItem = profileTabBarItem
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private func setCreatePostIcon() {
@@ -150,4 +189,5 @@ extension TabBarViewController: CameraViewControllerDelegate {
         selectedIndex = 0
 //        setTabBarVisible(visible: true, duration: 0.1, animated: true)
     }
+
 }

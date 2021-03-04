@@ -73,7 +73,7 @@ final class ProfileManager {
     }
     
     func listenToProfileUpdatesFor(userId: String, callback: @escaping(NewProfileViewModel?) -> Void) {
-        FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
+        ProfileFirestoreManager.shared.getProfileID(forUserID: userId) { (profileId, error) in
             guard let profileId = profileId, error == nil else {
                 return
             }
@@ -108,7 +108,7 @@ final class ProfileManager {
     func fetchProfile(userId: String, completion: @escaping(Result<ProfileModel, Error>) -> Void) {
     
         // Fetch profileId for userId
-        FirebaseDownload.getProfileId(userId: userId) { [weak self] (profileId, error) in
+        ProfileFirestoreManager.shared.getProfileID(forUserID: userId) { [weak self] (profileId, error) in
             if let error = error {
                 completion(.failure(error))
             }

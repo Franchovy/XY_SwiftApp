@@ -99,9 +99,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         view.addSubview(collectionView)
         
-//        sections.append(XYworldSection(type: .onlineNow, cells: []))
-//        sections.append(XYworldSection(type: .userRanking, cells: []))
-        
         // Search bar
         xyworldSearchBar.delegate = self
         navigationItem.titleView = xyworldSearchBar
@@ -123,63 +120,11 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
         
         
-        let rankingViewModelBuilder = RankingViewModelBuilder()
-        rankingViewModelBuilder.build(model: RankingModel(
-                                        name: "Top Ranking", rankedUserIDs: ["aaa", "bbb", "ccc", "ddd", "eee", "fff"])) { (rankingVM, error) in
-            if let rankingVM = rankingVM {
-                print("rankingVM recieved")
-            }
-        }
+        sections.append(XYworldSection(type: .onlineNow, cells: []))
+        sections.append(XYworldSection(type: .ranking, cells: []))
         
-        ///
-        
-        let rankingdemo = RankingViewModel(
-            name: "Top Ranking",
-            cells: [
-                RankingCellViewModel(userID: "1", image: UIImage(named: "testface"), name: "C3-0", rank: 1, level: 5, xp: 15000),
-                RankingCellViewModel(userID: "2", image: UIImage(named: "testface"), name: "C3-T0", rank: 2, level: 5, xp: 10000),
-                RankingCellViewModel(userID: "3", image: UIImage(named: "testface"), name: "Elon Musk", rank: 3, level: 5, xp: 5000)
-            ]
-        )
-        
-        sections.append(XYworldSection(type: .ranking, cells: [XYworldCell.ranking(viewModel: rankingdemo)]))
-        
-        ///
-        
-        return
-        
-        FirebaseDownload.getRanking() { result in
-            switch result {
-            case .success(let userList):
-                var userRankingCells = [XYworldCell?](repeating: nil, count: userList.count)
-                for userId in userList {
-                    let index = userList.firstIndex(of: userId)!
-                    
-                    FirebaseDownload.getProfileId(userId: userId) { (profileId, error) in
-                        if let error = error {
-                            print("Error fetching profileId: \(error)")
-                        }
-                        if let profileId = profileId {
-                            let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
-                            
-                            print("Inserting at index: \(index)")
-                            if userRankingCells.count < index {
-                                userRankingCells.insert(XYworldCell.userRanking(viewModel: viewModel), at: index)
-                            } else {
-                                userRankingCells[index] = XYworldCell.userRanking(viewModel: viewModel)
-                            }
-                        }
-                        print(userRankingCells)
-                        if !userRankingCells.contains(where: { $0 == nil }) {
-                            // Finished loading
-                            self.loadUserRanking(cells: userRankingCells.compactMap({ $0! }))
-                        }
-                    }
-                }
-            case .failure(let error):
-                print("Error fetching userId rankings: \(error)")
-            }
-        }
+        subscribeToOnlineNow()
+        subscribeToRanking()
     }
     
     override func viewDidLayoutSubviews() {
@@ -192,68 +137,67 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        subscribeToOnlineNow()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        
+    }
+    
+    private func subscribeToOnlineNow() {
+        // Subscribe to Online Now in RT DB
+        DatabaseManager.shared.subscribeToOnlineNow() { ids in
+            if let ids = ids {
+                self.loadOnlineNow(with: ids)
+            }
+        }
+    }
+    
+    private func loadOnlineNow(with userProfileIDPairs: [(String, String)]) {
+        self.onlineNowUsers = []
+        
         guard let ownUserId = AuthManager.shared.userId else {
             return
         }
         
-        // Subscribe to Online Now in RT DB
-        DatabaseManager.shared.subscribeToOnlineNow() { ids in
-            if let ids = ids {
-                self.onlineNowUsers = []
-                
-                var cells = [XYworldCell]()
-                for (userId, profileId) in ids {
-                    if userId == ownUserId {
-                        continue
-                    }
-                    let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
-                    
-                    self.onlineNowUsers.append(viewModel)
-                    cells.append(XYworldCell.onlineNow(viewModel: viewModel))
-                }
-                self.loadOnlineNowSection(cells: cells)
+        var cells = [XYworldCell]()
+        for (userId, profileId) in userProfileIDPairs {
+            if userId == ownUserId {
+                continue
             }
-        }
-    }
-    
-    private func loadUserRanking(cells: [XYworldCell]) {
-        return
-        if cells.count == 0 {
-            sections.removeAll { $0.type == .userRanking }
-            return
-        }
-        
-        let userRankingSection = XYworldSection.init(type: .userRanking, cells: cells)
-        
-        if sections.count > 1 {
-          if sections[1].type == .userRanking {
-            sections[1] = userRankingSection
-          }
-        } else if sections[0].type == .userRanking {
-            sections[0] = userRankingSection
-        }
-        
-        collectionView?.reloadData()
-    }
-    
-    private func loadOnlineNowSection(cells: [XYworldCell]) {
-        if cells.count == 0 {
-            sections.removeAll { $0.type == .onlineNow }
-        } else {
-            let newSection = XYworldSection.init(type: .onlineNow, cells: cells)
+            let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
             
-            if sections[0].type != .onlineNow {
-                if sections[0].type == .userRanking {
-                    sections.insert(newSection, at: 0)
-                } else {
-                    sections.append(newSection)
+            self.onlineNowUsers.append(viewModel)
+            cells.append(XYworldCell.onlineNow(viewModel: viewModel))
+        }
+        self.sections[0] = XYworldSection(type: .onlineNow, cells: cells)
+    }
+    
+    func subscribeToRanking() {
+        
+        RankingFirestoreManager.shared.getTopRanking(rankingLength: 3) { (rankingIDs) in
+            let model = RankingModel(
+                name: "Top Ranking",
+                rankedUserIDs: rankingIDs
+            )
+            
+            print(model)
+            
+            let builder = RankingViewModelBuilder()
+            builder.build(model: model) { (rankingViewModel, error) in
+                if let error = error {
+                    print(error)
+                } else if let rankingViewModel = rankingViewModel {
+                    print(rankingViewModel)
+                    self.sections[1] = XYworldSection(type: .ranking, cells: [XYworldCell.ranking(viewModel: rankingViewModel)])
+                    self.collectionView?.reloadData()
                 }
-            } else {
-                sections[0] = newSection
             }
         }
-        
-        collectionView?.reloadData()
     }
     
     @objc private func tappedAnywhereGesture() {

@@ -9,5 +9,5 @@ import Foundation
 
 struct RankingModel {
     let name: String
-    let rankedUserIDs: [String]
+    let rankedUserIDs: [RankingID]
 }

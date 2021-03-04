@@ -8,7 +8,7 @@
 import UIKit
 
 fileprivate enum RankingFetchTask {
-    case waiting(userID: String)
+    case waiting(userProfileID: RankingID)
     case fetchingProfile
     case fetchingProfileImage
     case complete
@@ -23,46 +23,100 @@ fileprivate enum RankingFetchResult {
 final class RankingViewModelBuilder {
     
     public func build(model: RankingModel, callback: @escaping(RankingViewModel?, Error?) -> Void) {
-        // Load Tasks
-        
-        var tasks = [RankingFetchTask]()
-        
-        model.rankedUserIDs.forEach { (userID) in
-            tasks.append(RankingFetchTask.waiting(userID: userID))
-        }
-        
         // Dispatch Profile Data Fetch tasks
-        
         let dispatchGroup1 = DispatchGroup()
         
-        tasks.forEach { (fetchTask) in
+        var cellViewModels = [RankingCellViewModel?](repeating: nil, count: model.rankedUserIDs.count)
+        var profileImageIDs = [String?](repeating: nil, count: model.rankedUserIDs.count)
+        
+        model.rankedUserIDs.enumerated().forEach { (index, rankingIDs) in
             dispatchGroup1.enter()
-            DispatchQueue.global(qos: .default).asyncAfter(deadline: .now()+0.2) {
-                // Fetch op
-                print("Fetched Profile Data!")
-                
-                dispatchGroup1.leave()
+            let dispatchGroup = DispatchGroup()
+            
+            dispatchGroup.enter()
+            dispatchGroup.enter()
+            
+            var name: String?
+            var level: Int?
+            var xp: Int?
+            
+            ProfileFirestoreManager.shared.getProfile(forProfileID: rankingIDs.profileID) { (profileModel) in
+                defer {
+                    dispatchGroup.leave()
+                }
+                if let profileModel = profileModel {
+                    name = profileModel.nickname
+                    profileImageIDs[index] = profileModel.profileImageId
+                }
             }
+            UserFirestoreManager.getUser(with: rankingIDs.userID) { (result) in
+                defer {
+                    dispatchGroup.leave()
+                }
+                switch result {
+                case .success(let userModel):
+                    level = userModel.level
+                    xp = userModel.xp
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            
+            dispatchGroup.notify(queue: .global(qos: .background), work: DispatchWorkItem(block: {
+                defer {
+                    dispatchGroup1.leave()
+                }
+                
+                guard let name = name, let level = level, let xp = xp else { return }
+                
+                cellViewModels[index] = RankingCellViewModel(
+                    userID: rankingIDs.userID,
+                    image: nil,
+                    name: name,
+                    rank: index,
+                    level: level,
+                    xp: xp
+                )
+            }))
         }
         
-        dispatchGroup1.notify(queue: .global(qos: .default), work: DispatchWorkItem(block: {
-            callback(nil, nil)
+        dispatchGroup1.notify(queue: .main, work: DispatchWorkItem(block: {
+            // Initial images-not-loaded callback
+            var rankingViewModel = RankingViewModel(name: model.name, cells: cellViewModels.flatMap { $0 } )
+            
+            callback(rankingViewModel, nil)
             
             // Dispatch Profile Image Fetch tasks
-            let dispatchGroup2 = DispatchGroup()
             let semaphore = DispatchSemaphore(value: 1)
             
-            tasks.forEach { (fetchTask) in
-                dispatchGroup2.enter()
-                semaphore.wait()
+            cellViewModels.enumerated().forEach { (index, rankingCellViewModel) in
+//                semaphore.wait()
+                print("Enter")
                 
-                DispatchQueue.global(qos: .default).asyncAfter(deadline: .now()+0.7) {
-                    // Fetch op
-                    print("Fetched profile Image!")
-                    callback(nil, nil)
-                    
-                    semaphore.signal()
-                    dispatchGroup2.leave()
+                guard let imageID = profileImageIDs[index] else {
+                    print("Found Null image ID Fetching ranking images")
+                    return
+                }
+                
+                let downloadTask = StorageManager.shared.downloadImage(withImageId: imageID) { (image, error) in
+                    defer {
+                        print("End")
+                        semaphore.signal()
+                    }
+                    if let error = error {
+                        print(error)
+                    } else if let image = image {
+                        rankingViewModel.cells[index].image = image
+                        
+                        DispatchQueue.main.async {
+                            callback(rankingViewModel, nil)
+                        }
+                    } else {
+                        print("image null")
+                    }
+                }
+                downloadTask.observe(.progress) { (snapshot) in
+                    print("Download progress: \(snapshot.progress)")
                 }
             }
         }))

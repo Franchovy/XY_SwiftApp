@@ -58,7 +58,7 @@ class GradientBorderTextField: UITextField, UITextFieldDelegate {
         if shadowLayer == nil {
             shadowLayer = CAShapeLayer()
             shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
-            shadowLayer.fillColor = UIColor.white.cgColor
+            shadowLayer.fillColor = UIColor.clear.cgColor
 
             shadowLayer.shadowColor = UIColor.black.cgColor
             shadowLayer.shadowPath = shadowLayer.path
@@ -78,8 +78,8 @@ class GradientBorderTextField: UITextField, UITextFieldDelegate {
     }
     
     func setBackgroundColor(color: UIColor) {
-        bgColor = color
-        backgroundColor = bgColor
+//        bgColor = color
+//        backgroundColor = bgColor
     }
     
     public func setManualSecureEntry() {

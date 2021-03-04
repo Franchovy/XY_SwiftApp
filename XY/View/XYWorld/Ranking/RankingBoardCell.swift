@@ -47,6 +47,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         tableView.register(RankingTableViewCell.self, forCellReuseIdentifier: RankingTableViewCell.identifier)
         tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
+        tableView.allowsSelection = false
         return tableView
     }()
     
@@ -102,7 +103,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         
         rankLabel.sizeToFit()
         rankLabel.frame = CGRect(
-            x: 12.66,
+            x: 16.66,
             y: title.bottom + 12.54,
             width: rankLabel.width,
             height: rankLabel.height
@@ -110,7 +111,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         
         playerLabel.sizeToFit()
         playerLabel.frame = CGRect(
-            x: rankLabel.right + 88.84,
+            x: rankLabel.right + 84.84,
             y: title.bottom + 12.54,
             width: playerLabel.width,
             height: playerLabel.height
@@ -118,7 +119,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         
         levelLabel.sizeToFit()
         levelLabel.frame = CGRect(
-            x: playerLabel.right + 66.28,
+            x: playerLabel.right + 134.28,
             y: title.bottom + 12.54,
             width: levelLabel.width,
             height: levelLabel.height

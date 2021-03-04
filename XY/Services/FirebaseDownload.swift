@@ -68,25 +68,6 @@ class FirebaseDownload {
             }
         }
     }
-
-    static func getRanking(completion: @escaping(Result<[String], Error>)->Void) {
-        var userRanking = [String]()
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users)
-            .order(by: FirebaseKeys.UserKeys.level, descending: true)
-            .order(by: FirebaseKeys.UserKeys.xp, descending: true)
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    completion(.failure(error))
-                }
-                if let querySnapshot = querySnapshot {
-                    
-                    userRanking = querySnapshot.documents
-                        .filter( { !($0.data().keys.contains("hidden") && $0.data()["hidden"] as! Bool) } )
-                        .map({ $0.documentID })
-                    completion(.success(userRanking))
-                }
-            }
-    }
     
     static func getFlowForProfile(userId: String, completion: @escaping([PostModel]?, Error?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
@@ -163,22 +144,6 @@ class FirebaseDownload {
         }
     }
     
-    static func getProfileId(userId: String, completion: @escaping(String?, Error?) -> Void) {
-        let userRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
-        
-        userRef.getDocument() { snapshot, error in
-            guard let snapshot = snapshot, error == nil else {
-                completion(nil, error)
-                return
-            }
-            
-            if let userData = snapshot.data() as? [String: Any] {
-                let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
-                completion(profileId, nil)
-            }
-        }
-    }
-    
     static func getProfile(profileId: String, completion: @escaping(ProfileModel?, Error?) -> Void) {
 
         let profileRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileId)
@@ -200,7 +165,7 @@ class FirebaseDownload {
         
         let imageRef = storage.reference(withPath: imageId)
         
-        imageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+        imageRef.getData(maxSize: 5 * 1024 * 1024) { data, error in
             if let error = error {
                 completion(nil, error)
             }

@@ -71,20 +71,25 @@ class RankingTableViewCell: UITableViewCell {
         )
         profileImageView.layer.cornerRadius = imageSize/2
         
-        nameLabel.sizeToFit()
-        nameLabel.frame = CGRect(
-            x: profileImageView.right + 9.92,
-            y: 4.92,
-            width: nameLabel.width,
-            height: nameLabel.height
-        )
-        
         let xpCircleSize: CGFloat = 20
         xpCircle.frame = CGRect(
             x: width - xpCircleSize - 33.58,
             y: (height - xpCircleSize)/2,
             width: xpCircleSize,
             height: xpCircleSize
+        )
+        
+        let nameLabelSize = nameLabel.sizeThatFits(
+            CGSize(
+                width: xpCircle.left - profileImageView.right - 15,
+                height: height - 5
+            )
+        )
+        nameLabel.frame = CGRect(
+            x: profileImageView.right + 9.92,
+            y: 8,
+            width: nameLabelSize.width,
+            height: nameLabelSize.height
         )
     }
     

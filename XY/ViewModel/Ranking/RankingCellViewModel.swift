@@ -9,7 +9,7 @@ import UIKit
 
 struct RankingCellViewModel {
     let userID: String
-    let image: UIImage?
+    var image: UIImage?
     let name: String
     let rank: Int
     let level: Int

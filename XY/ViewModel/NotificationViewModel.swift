@@ -147,7 +147,7 @@ class NotificationViewModel {
     
     private func fetchProfile(for index: Int, id: String) {
         // Fetch swipe user profile
-        FirebaseDownload.getProfileId(userId: id) { (profileId, error) in
+        ProfileFirestoreManager.shared.getProfileID(forUserID: id) { (profileId, error) in
             guard let profileId = profileId, error == nil else {
                 print(error ?? "Error fetching profileId for user: \(self.model.senderId)")
                 return

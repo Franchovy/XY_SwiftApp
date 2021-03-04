@@ -41,7 +41,6 @@ final class StorageManager {
         }
     }
     
-    
     /// Uses storageId as folder, containing image (original), and thumbnail image. Id should match PostId, ViralId, etc.
     public func uploadPhoto(_ image: UIImage, storageId: String, completion: @escaping(Result<String, Error>) -> Void) {
         var uuid: String!
@@ -135,6 +134,31 @@ final class StorageManager {
                 }
             }
         }
+    }
+    
+    public func downloadImage(withImageId imageId: String, completion: @escaping(UIImage?, Error?) -> Void) -> StorageDownloadTask {
+        let storageRef = storage.reference()
+        
+        let imageRef = storageRef.child(imageId)
+        
+        let downloadUrl = documentsUrl.appendingPathComponent(imageId)
+        return imageRef.write(toFile: downloadUrl) { url, error in
+            if let error = error {
+                completion(nil, error)
+            } else if url != nil {
+                let image = UIImage(contentsOfFile: downloadUrl.path)
+                completion(image, nil)
+            }
+        }
+    }
+    
+    var documentsUrl: URL {
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    }
+    
+    private func newDownloadFilePath(directory: FileManager.SearchPathDirectory, fileName: String) -> URL {
+        let documentDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        return URL(fileURLWithPath: fileName, relativeTo: documentDirectory)
     }
     
     public func uploadVideo(from url: URL, withThumbnail image: UIImage, withContainer containerId: String, completion: @escaping(Result<String,Error>) -> Void) {
