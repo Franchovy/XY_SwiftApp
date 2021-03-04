@@ -46,7 +46,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     @IBOutlet var xyworldTableView: UITableView!
     
     static var onlineNowCellSize = CGSize(width: 95, height: 125)
-    static var rankingBoardCellSize = CGSize(width: 269, height: 173)
+    static var rankingBoardCellSize = CGSize(width: 365, height: 230)
 
     private var collectionView: UICollectionView?
     
@@ -372,8 +372,8 @@ extension XYworldVC {
         case .userRanking, .ranking:
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .estimated(XYworldVC.rankingBoardCellSize.width),
-                    heightDimension: .estimated(XYworldVC.rankingBoardCellSize.height)
+                    widthDimension: .absolute(XYworldVC.rankingBoardCellSize.width),
+                    heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
                 )
             )
             
@@ -381,8 +381,8 @@ extension XYworldVC {
             
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .estimated(XYworldVC.rankingBoardCellSize.width),
-                    heightDimension: .estimated(XYworldVC.rankingBoardCellSize.height)
+                    widthDimension: .absolute(XYworldVC.rankingBoardCellSize.width),
+                    heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
                 ),
                 subitems: [item]
             )

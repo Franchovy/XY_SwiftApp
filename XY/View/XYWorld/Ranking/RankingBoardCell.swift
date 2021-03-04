@@ -45,6 +45,8 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(RankingTableViewCell.self, forCellReuseIdentifier: RankingTableViewCell.identifier)
+        tableView.isScrollEnabled = false
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -62,6 +64,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         clipsToBounds = false
         
         tableView.dataSource = self
+        tableView.backgroundColor = .clear
         
         addSubview(title)
         addSubview(rankLabel)
@@ -78,7 +81,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         super.layoutSubviews()
         
         backgroundLayer.frame = bounds
-        backgroundLayer.fillColor = UIColor(named: "Dark")!.cgColor
+        backgroundLayer.fillColor = UIColor(named: "XYCard")!.cgColor
         backgroundLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 15).cgPath
         shadowLayer.frame = bounds
         shadowLayer.masksToBounds = false
