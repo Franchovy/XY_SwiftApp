@@ -308,7 +308,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         profileImageContainer.alpha = 1.0
         caption.alpha = 1.0
         
-        self.contentView.transform = CGAffineTransform.identity
+        postCard.transform = CGAffineTransform.identity
         
         pauseTranslationX = 0
         didEndSwiping = false
