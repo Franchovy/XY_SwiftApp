@@ -184,6 +184,8 @@ class ProfileHeaderViewController: UIViewController {
             editCaptionTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             editWebsiteTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
             
+            
+            
             let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
             view.addGestureRecognizer(tappedAnywhereGesture)
         }
@@ -198,7 +200,14 @@ class ProfileHeaderViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        coverImage.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: 67, right: 0))
+        coverImage.frame = view.bounds.inset(
+            by: UIEdgeInsets(
+                top: view.safeAreaInsets.top,
+                left: 0,
+                bottom: view.safeAreaInsets.bottom,
+                right: 0
+            )
+        )
         
         profileCard.frame = CGRect(
             x: 0,

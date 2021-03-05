@@ -71,6 +71,7 @@ class ProfileBubble: UIView {
         layer.shadowRadius = 6
         
         followButton.addTarget(self, action: #selector(followButtonPressed), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addButtonPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {

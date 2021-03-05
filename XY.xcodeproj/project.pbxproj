@@ -177,7 +177,7 @@
 		14251381259F936500DC08BB /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
 		14607A7B25A0DDE5009B3B50 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
-		1462BB0D257E47C30096FD23 /* XYworldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYworldVC.swift; sourceTree = "<group>"; };
+		1462BB0D257E47C30096FD23 /* XYworldVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYworldVC.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		148935BE25A2686F00CB60C3 /* ConversationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationModel.swift; sourceTree = "<group>"; };
 		149AD69B259B52A800E81ABC /* ExploreVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreVC.swift; sourceTree = "<group>"; };
 		14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFlowCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1377,7 +1377,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1403,7 +1403,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

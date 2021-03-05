@@ -339,7 +339,7 @@ extension XYworldVC {
         case .ranking:
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.9),
+                    widthDimension: .fractionalWidth(0.95),
                     heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
                 )
             )
@@ -348,13 +348,14 @@ extension XYworldVC {
             
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.9),
+                    widthDimension: .fractionalWidth(0.95),
                     heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
                 ),
                 subitems: [item]
             )
             
             let sectionLayout = NSCollectionLayoutSection(group: group)
+            sectionLayout.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
             sectionLayout.boundarySupplementaryItems = [sectionHeader]
             sectionLayout.orthogonalScrollingBehavior = .continuous
             

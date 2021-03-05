@@ -91,8 +91,7 @@ final class RankingViewModelBuilder {
             
             cellViewModels.enumerated().forEach { (index, rankingCellViewModel) in
 //                semaphore.wait()
-                print("Enter")
-                
+
                 guard let imageID = profileImageIDs[index] else {
                     print("Found Null image ID Fetching ranking images")
                     return
@@ -100,7 +99,6 @@ final class RankingViewModelBuilder {
                 
                 let downloadTask = StorageManager.shared.downloadImage(withImageId: imageID) { (image, error) in
                     defer {
-                        print("End")
                         semaphore.signal()
                     }
                     if let error = error {
@@ -111,12 +109,10 @@ final class RankingViewModelBuilder {
                         DispatchQueue.main.async {
                             callback(rankingViewModel, nil)
                         }
-                    } else {
-                        print("image null")
                     }
                 }
                 downloadTask.observe(.progress) { (snapshot) in
-                    print("Download progress: \(snapshot.progress)")
+//                    print("Download progress: \(snapshot.progress)")
                 }
             }
         }))
