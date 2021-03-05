@@ -16,7 +16,7 @@ class FlowVC : UITableViewController {
     
     var postViewModels = [NewPostViewModel]()
     
-    @IBOutlet weak var barXPCircle: CircleView!
+    let barXPCircle = CircleView()
     
     private let errorLabel: UILabel = {
         let label = UILabel()
@@ -31,6 +31,17 @@ class FlowVC : UITableViewController {
     
     var canRefresh = true
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: barXPCircle)
+        navigationItem.titleView = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -41,6 +52,7 @@ class FlowVC : UITableViewController {
         barXPCircle.setProgress(level: 0, progress: 0.0)
         barXPCircle.setupFinished()
         barXPCircle.setLevelLabelFontSize(size: 24)
+        barXPCircle.registerXPUpdates(for: .ownUser)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
         barXPCircle.addGestureRecognizer(tap)
@@ -58,16 +70,10 @@ class FlowVC : UITableViewController {
         refreshControl.addTarget(self, action: #selector(flowRefreshed(_:)), for: .valueChanged)
         self.refreshControl = refreshControl
         
-        let logo = UIImage(named: "XYnavbarlogo")
-        let imageView = UIImageView(image:logo)
-        self.navigationItem.titleView = imageView
-        
         tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
         
         getFlow()
-        
-        registerXPUpdates()
-        
+                
         isHeroEnabled = true
     }
     
@@ -76,13 +82,12 @@ class FlowVC : UITableViewController {
         
         errorLabel.isHidden = true
         
-//        navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        registerXPUpdates()
+        barXPCircle.registerXPUpdates(for: .ownUser)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -90,7 +95,7 @@ class FlowVC : UITableViewController {
         
         StorageManager.shared.cancelCurrentDownloadTasks()
         
-//        navigationController?.isNavigationBarHidden = true
+        barXPCircle.deregisterUpdates()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -104,6 +109,8 @@ class FlowVC : UITableViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        barXPCircle.frame.size = CGSize(width: 25, height: 25)
+        
         errorLabel.sizeToFit()
         errorLabel.frame = CGRect(
             x: (view.width - errorLabel.width)/2,
@@ -115,8 +122,11 @@ class FlowVC : UITableViewController {
     
     // MARK: - Obj-C Functions
     @objc func xpButtonPressed() {
-        
-        performSegue(withIdentifier: "segueToNotifications", sender: self)
+        let vc = NotificationsVC()
+        vc.isHeroEnabled = true
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .pageIn(direction: .left)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func flowRefreshed(_ sender: UIRefreshControl) {
@@ -181,19 +191,6 @@ class FlowVC : UITableViewController {
         }
     }
 
-    // MARK: - Private Functions
-    
-    private func registerXPUpdates() {
-        if let uid = Auth.auth().currentUser?.uid {
-            FirebaseSubscriptionManager.shared.registerXPUpdates(for: uid, ofType: .user) { [weak self] (xpModel) in
-                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
-                self?.barXPCircle.setProgress(
-                    level: xpModel.level,
-                    progress: Float(xpModel.xp) / Float(nextLevelXP)
-                )
-            }
-        }
-    }
     
     // MARK: - TableView Overrides
     
@@ -295,20 +292,8 @@ extension FlowVC : ImagePostCellDelegate {
             return
         }
         
-        UIView.animate(withDuration: 0.2) {
-            cell.alpha = 0.0
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-            self.postViewModels.remove(at: cellIndex.row)
-            
-            self.tableView.deleteRows(at: [cellIndex], with: .bottom)
-            
-            guard self.postViewModels.count > cellIndex.row else {
-                return
-            }
-            
-            self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
+        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
+            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
         }
     }
     
@@ -318,12 +303,21 @@ extension FlowVC : ImagePostCellDelegate {
             return
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-            
+        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
+            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
         }
     }
     
     func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              postViewModels.count > cellIndex.row else {
+            return
+        }
+        
+        self.postViewModels.remove(at: cellIndex.row)
+        
+        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+        
         guard let postId = cell.viewModel?.id else {
             return
         }
@@ -343,7 +337,6 @@ extension FlowVC : ImagePostCellDelegate {
         guard self.postViewModels.count > cellIndex.row else {
             return
         }
-        self.tableView.scrollToRow(at: cellIndex, at: .middle, animated: true)
         
         guard let postId = cell.viewModel?.id else {
             return

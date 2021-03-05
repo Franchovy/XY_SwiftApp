@@ -8,16 +8,17 @@
 import UIKit
 
 class TabBarViewController: UITabBarController {
-        
-    private var exploreVC: ExploreVC?
-    private var cameraVC: CameraViewController?
-    private var profileVC: NewProfileViewController?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    var onInitFinished: (() -> Void)?
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        guard let userId = AuthManager.shared.userId else { return }
+        setProfileIcon(userID: userId)
         
         isHeroEnabled = true
-        heroModalAnimationType = .zoomSlide(direction: .right)
+        heroTabBarAnimationType = .auto
 
         PushNotificationManager.shared?.tabBarController = self
         ProfileManager.shared.delegate = self
@@ -26,40 +27,43 @@ class TabBarViewController: UITabBarController {
         let attributes = [NSAttributedString.Key.font:UIFont(name: "Raleway-Heavy", size: 15)]
         appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal)
         
-        // TAB 1: PLAY VC
-        let flowVC = viewControllers![0]
-        flowVC.tabBarItem = UITabBarItem(title: "Play", image: UIImage(named: "tabbar_play_icon"), tag: 1)
+        let nav1 = UINavigationController(
+            rootViewController: FlowVC()
+        )
+        let nav2 = UINavigationController(
+            rootViewController: ExploreVC()
+        )
+        let nav3 = UINavigationController(
+            rootViewController: CameraViewController()
+        )
+        let nav4 = UINavigationController(
+            rootViewController: XYworldVC()
+        )
+        let nav5 = UINavigationController(
+            rootViewController: NewProfileViewController(userId: userId)
+        )
+        setViewControllers([nav1, nav2, nav3, nav4, nav5], animated: false)
         
+        nav1.tabBarItem = UITabBarItem(title: "Play", image: UIImage(named: "tabbar_play_icon"), tag: 1)
+        nav2.tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
+        nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "plus.circle.fill"), tag: 3)
+        nav4.tabBarItem = UITabBarItem(title: "XYWorld", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
         
-        // TAB 2: EXPLORE VC
-        let exploreVC = ExploreVC()
-        let tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
-        tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: 0, bottom: 0, right: 0)
-        tabBarItem.badgeColor = UIColor(named: "tintColor")
-        exploreVC.tabBarItem = tabBarItem
+        nav2.tabBarItem.imageInsets.top = 5
         
-        viewControllers?[1] = exploreVC
-        self.exploreVC = exploreVC
-        
-        // TAB 3: CAMERA VC
-        let cameraVC = CameraViewController()
-        let cameraTabBarItem = UITabBarItem(title: nil, image: UIImage(systemName: "plus.circle.fill"), tag: 3)
-        cameraVC.tabBarItem = cameraTabBarItem
-        viewControllers?[2] = cameraVC
+        guard let cameraVC = viewControllers?[2] as? CameraViewController else {
+            return
+        }
         cameraVC.delegate = self
-        self.cameraVC = cameraVC
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
         
-        // TAB 5: PROFILE VC
-        guard let userId = AuthManager.shared.userId else { return }
-        setProfileIcon(userID: userId)
-        
-//        let profileVC = ProfileViewController(userId: userId)
-        let profilevc = NewProfileViewController(userId: userId)
-        let profileVC = UINavigationController(rootViewController: profilevc)
-        
-        viewControllers?[4] = profileVC
-        
-        self.profileVC = profilevc
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -78,34 +82,44 @@ class TabBarViewController: UITabBarController {
     }
     
     private func setProfileIcon(userID: String) {
-        ProfileFirestoreManager.shared.getProfileID(forUserID: userID) { (profileID, error) in
+        guard let ownProfile = ProfileManager.shared.ownProfile else {
+            ProfileManager.shared.onInitFinished = {
+                self.setUpProfileTabBarItem()
+            }
+            return
+        }
+        
+        setUpProfileTabBarItem()
+    }
+    
+    private func setUpProfileTabBarItem() {
+        guard let ownProfile = ProfileManager.shared.ownProfile else {
+            fatalError()
+        }
+        
+        StorageManager.shared.downloadImage(withImageId: ownProfile.profileImageId) { (image, error) in
             if let error = error {
                 print(error)
-            } else if let profileID = profileID {
-                ProfileFirestoreManager.shared.getProfile(
-                    forProfileID: profileID) { (profileModel) in
-                    if let profileModel = profileModel {
-                        StorageManager.shared.downloadImage(withImageId: profileModel.profileImageId) { (image, error) in
-                            if let error = error {
-                                print(error)
-                            } else if let image = image {
-                                let imageView = UIImageView()
-                                imageView.image = image
-                                imageView.frame.size = CGSize(width: 29, height: 29)
-                                imageView.layer.masksToBounds = true
-                                imageView.layer.borderWidth = 1
-                                imageView.layer.borderColor = UIColor.white.cgColor
-                                imageView.layer.cornerRadius = 29 / 2
-                                let tabbarProfileIcon = imageView.asImage().withRenderingMode(.alwaysOriginal)
-                                
-                                let profileTabBarItem = UITabBarItem(title: "Profile", image: tabbarProfileIcon, tag: 5)
-                                profileTabBarItem.badgeColor = UIColor(named: "tintColor")
-
-                                self.profileVC?.tabBarItem = profileTabBarItem
-                            }
-                        }
-                    }
+            } else if let image = image {
+                let imageView = UIImageView()
+                imageView.image = image
+                imageView.frame.size = CGSize(width: 29, height: 29)
+                imageView.layer.masksToBounds = true
+                imageView.layer.borderWidth = 1
+                imageView.layer.borderColor = UIColor.white.cgColor
+                imageView.layer.cornerRadius = 29 / 2
+                let tabbarProfileIcon = imageView.asImage().withRenderingMode(.alwaysOriginal)
+                
+                let profileTabBarItem = UITabBarItem(title: "Profile", image: tabbarProfileIcon, tag: 5)
+                profileTabBarItem.badgeColor = UIColor(named: "tintColor")
+                
+                guard let profileVC = self.viewControllers?[4] else {
+                    return
                 }
+                
+                profileVC.tabBarItem = profileTabBarItem
+                
+                self.onInitFinished?()
             }
         }
     }

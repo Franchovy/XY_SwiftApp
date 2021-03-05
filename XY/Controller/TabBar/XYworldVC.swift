@@ -42,23 +42,55 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     
     // MARK: - Properties
     
-    @IBOutlet var xyworldSearchBar: UISearchBar!
-    @IBOutlet var xyworldTableView: UITableView!
-    
-    static var onlineNowCellSize = CGSize(width: 95, height: 125)
+    static var onlineNowCellSize = CGSize(width: 60, height: 80)
     static var rankingBoardCellSize = CGSize(width: 365, height: 230)
 
     private var collectionView: UICollectionView?
+    
+    let barXPCircle = CircleView()
     
     private var sections = [XYworldSection]()
     
     private var onlineNowUsers = [ProfileViewModel]()
     private var userRanking = [ProfileViewModel]()
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: barXPCircle)
+        navigationItem.titleView = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: - Lifecycle
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        barXPCircle.registerXPUpdates(for: .ownUser)
+        subscribeToOnlineNow()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        barXPCircle.deregisterUpdates()
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        barXPCircle.setProgress(level: 0, progress: 0.0)
+        barXPCircle.setupFinished()
+        barXPCircle.setLevelLabelFontSize(size: 24)
+        barXPCircle.registerXPUpdates(for: .ownUser)
+        
+        let refreshControl = UIRefreshControl()
+//        refreshControl.addTarget(self, action: #selector(flowRefreshed(_:)), for: .valueChanged)
+        collectionView?.refreshControl = refreshControl
         
         let layout = UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
             return self.layout(for: section)
@@ -99,27 +131,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         view.addSubview(collectionView)
         
-        // Search bar
-        xyworldSearchBar.delegate = self
-        navigationItem.titleView = xyworldSearchBar
-        xyworldSearchBar.placeholder = "Search"
-        
-        let textFieldInsideSearchBar = xyworldSearchBar.value(forKey: "searchField") as? UITextField
-        
-        textFieldInsideSearchBar?.textColor = UIColor.white
-        
-        if let textFieldInsideSearchBar = self.xyworldSearchBar.value(forKey: "searchField") as? UITextField,
-           let glassIconView = textFieldInsideSearchBar.leftView as? UIImageView {
-            
-            //Magnifying glass
-            glassIconView.image = glassIconView.image?.withRenderingMode(.alwaysTemplate)
-            glassIconView.tintColor = .gray
-        }
-        
-        let tappedAnywhereGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhereGesture))
-        view.addGestureRecognizer(tappedAnywhereGestureRecognizer)
-        
-        
         sections.append(XYworldSection(type: .onlineNow, cells: []))
         sections.append(XYworldSection(type: .ranking, cells: []))
         
@@ -128,24 +139,14 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     override func viewDidLayoutSubviews() {
+        barXPCircle.frame.size = CGSize(width: 25, height: 25)
+        
         collectionView?.frame = CGRect(
             x: 0,
             y: 10,
             width: view.width,
             height: view.height - 10
         )
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        subscribeToOnlineNow()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        
     }
     
     private func subscribeToOnlineNow() {
@@ -199,11 +200,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             }
         }
     }
-    
-    @objc private func tappedAnywhereGesture() {
-        xyworldSearchBar.resignFirstResponder()
-    }
-    
 }
 
 extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
@@ -332,7 +328,7 @@ extension XYworldVC {
             )
             
             let sectionLayout = NSCollectionLayoutSection(group: group)
-            sectionLayout.boundarySupplementaryItems = [sectionHeader]
+//            sectionLayout.boundarySupplementaryItems = [sectionHeader]
             sectionLayout.orthogonalScrollingBehavior = .continuous
             
             return sectionLayout

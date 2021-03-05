@@ -19,27 +19,23 @@ final class OnlineStatusManager {
         let ref = Database.database().reference()
         let usersRef = ref.child("OnlineNow")
         let userRef = usersRef.child(userId)
-
-        ProfileManager.shared.initialiseForCurrentUser() { error in
-            guard error == nil else {
-                print("Error initializing profile data: \(error)")
+        
+        
+        if let profileId = ProfileManager.shared.ownProfileId {
+            
+            // BLOCK ONLINE NOW ON THE DEV DB
+            if FirestoreReferenceManager.environment == "dev" {
                 return
             }
-            if let profileId = ProfileManager.shared.ownProfileId {
-                
-                // BLOCK ONLINE NOW ON THE DEV DB
-                if FirestoreReferenceManager.environment == "dev" {
-                    return
-                }
-                
-                userRef.child("profile").setValue(profileId) { error, databaseReference in
-                    if let error = error {
-                        print("Error setting online value: \(error)")
-                    } else {
-                        print(databaseReference)
-                    }
+            
+            userRef.child("profile").setValue(profileId) { error, databaseReference in
+                if let error = error {
+                    print("Error setting online value: \(error)")
+                } else {
+                    print(databaseReference)
                 }
             }
+            
         }
         
         userRef.onDisconnectRemoveValue()

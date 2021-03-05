@@ -33,6 +33,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
             }
     
+            ProfileManager.shared.initialiseForCurrentUser() { error in
+                guard error == nil else {
+                    print("Error initializing profile data: \(error)")
+                    return
+                }
+            }
+            
             OnlineStatusManager.shared.setupOnlineStatus()
             
             ActionManager.shared.getActions()

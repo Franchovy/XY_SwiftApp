@@ -10,6 +10,8 @@ import UIKit
 class LaunchVC: UIViewController {
     
     static let identifier = "LaunchVC"
+    
+    public var onFinishedAnimation: (() -> Void)?
    
     private let imageView: UIImageView = {
         
@@ -33,25 +35,10 @@ class LaunchVC: UIViewController {
 
     }
     
-    var segueToPerformOnAnimationFinished = "segueToLogin"
-    
     override func viewDidAppear(_ animated: Bool) {
-        
-        // Check for login
-        if AuthManager.shared.isLoggedIn() {
-            self.segueToPerformOnAnimationFinished = "segueToMain"
-        } else {
-            if let notFirstTimeUse = UserDefaults.standard.value(forKeyPath: "notFirstTimeUse") as? Bool, notFirstTimeUse {
-                segueToPerformOnAnimationFinished = "segueToLogin"
-            } else {
-                segueToPerformOnAnimationFinished = "segueToSignup"
-            }
-        }
-        
         DispatchQueue.main.async {
             self.animate()
         }
-
     }
     
     private func animate(){
@@ -73,7 +60,7 @@ class LaunchVC: UIViewController {
                 UserDefaults.standard.set(true, forKey: "notFirstTimeUse")
                 
                 let timer = Timer(timeInterval: TimeInterval(1.0), repeats: false, block: { _ in
-                    self.performSegue(withIdentifier: self.segueToPerformOnAnimationFinished, sender: self)
+                    self.onFinishedAnimation?()
                 })
                 timer.fire()
             }

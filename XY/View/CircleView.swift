@@ -7,6 +7,12 @@
 
 import UIKit
 
+enum XPType {
+    case ownUser
+    case post(id: String)
+    case user(id: String)
+}
+
 class CircleView: UIView {
     
     func onProgress(level: Int, progress: Float) {
@@ -95,6 +101,7 @@ class CircleView: UIView {
     // MARK: - Public methods
     func reset() {
         progressBarCircle.reset()
+        deregisterUpdates()
     }
     
     func setupFinished() {
@@ -105,6 +112,44 @@ class CircleView: UIView {
         levelLabel.font = UIFont(name: "HelveticaNeue-Bold", size: size)
         levelLabel.sizeToFit()
         levelLabel.center = contentView.center
+    }
+    
+    
+    var subscribedID : String?
+    func registerXPUpdates(for xpType: XPType) {
+        deregisterUpdates()
+        
+        switch xpType {
+        case .ownUser:
+            guard let userID = AuthManager.shared.userId else {
+                return
+            }
+            subscribedID = userID
+            
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: userID, ofType: .user) { (xpModel) in
+                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
+                self.setProgress(level: xpModel.level, progress: Float(xpModel.xp) / Float(nextLevelXP))
+            }
+        case .post(let id):
+            subscribedID = id
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: id, ofType: .post) { (xpModel) in
+                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
+                self.setProgress(level: xpModel.level, progress: Float(xpModel.xp) / Float(nextLevelXP))
+            }
+        case .user(let id):
+            subscribedID = id
+            FirebaseSubscriptionManager.shared.registerXPUpdates(for: id, ofType: .user) { (xpModel) in
+                let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(xpModel.level, .user)
+                self.setProgress(level: xpModel.level, progress: Float(xpModel.xp) / Float(nextLevelXP))
+            }
+        }
+    }
+    
+    func deregisterUpdates() {
+        if let subscribedID = subscribedID {
+            FirebaseSubscriptionManager.shared.deactivateXPUpdates(for: subscribedID)
+        }
+        subscribedID = nil
     }
 }
 

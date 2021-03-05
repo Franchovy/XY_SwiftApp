@@ -21,9 +21,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             Global.isLightMode = window.traitCollection.userInterfaceStyle != .dark
         }
         
+        
+        
         if AuthManager.shared.userId != nil {
-            let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-            window?.rootViewController = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
+            let launchAnimationController = LaunchVC()
+            self.window?.rootViewController = launchAnimationController
+            let tabBarController = TabBarViewController()
+            tabBarController.heroModalAnimationType = .zoom
+            tabBarController.modalPresentationStyle = .fullScreen
+            
+            launchAnimationController.onFinishedAnimation = {
+                
+                
+                launchAnimationController.present(tabBarController, animated: false, completion: nil)
+            }
+            
+            self.window?.makeKeyAndVisible()
         } else {
             let navController = UINavigationController(rootViewController: AuthChoiceViewController())
             navController.navigationBar.backgroundColor = .clear
@@ -37,10 +50,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             navController.navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: self, action: nil)
             
             window?.rootViewController = navController
-            
+            window?.makeKeyAndVisible()
         }
-        
-        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

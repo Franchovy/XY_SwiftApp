@@ -17,6 +17,8 @@ final class ProfileManager {
     static let shared = ProfileManager()
     private init () { }
     
+    var onInitFinished: (() -> Void)?
+    
     var profilesCache = [String: [String: Any]?]()
     
     var listeners = [String: ListenerRegistration]()
@@ -41,28 +43,25 @@ final class ProfileManager {
             if let error = error {
                 completion(error)
             }
-            if let userData = snapshot?.data() {
+            if let snapshot = snapshot, let userData = snapshot.data() {
                 let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
                 
                 UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
                 
                 self.ownProfileId = profileId
                 
-                completion(nil)
+                ProfileFirestoreManager.shared.getProfile(forProfileID: profileId) { (profileModel) in
+                    if let profileModel = profileModel {
+                        self.ownProfile = profileModel
+                    }
+                    
+                    self.onInitFinished?()
+                    completion(nil)
+                }
             } else {
                 try? AuthManager.shared.logout()
             }
         }
-        
-        fetchProfile(userId: userId) { (result) in
-            switch result {
-            case .success(let profileModel):
-                self.ownProfile = profileModel
-            case .failure(let error):
-                print("Error fetching own profile at initialisation!")
-            }
-        }
-
     }
     
     func cancelListenerFor(userId: String) {

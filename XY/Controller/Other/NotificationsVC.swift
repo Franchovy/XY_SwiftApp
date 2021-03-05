@@ -11,7 +11,11 @@ import Firebase
 
 class NotificationsVC: UIViewController {
     
-    @IBOutlet weak var tableView: UITableView!
+    let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.separatorStyle = .none
+        return tableView
+    }()
     
     var notifications = [NotificationViewModel]()
     
@@ -20,9 +24,17 @@ class NotificationsVC: UIViewController {
     let queryLimit: Int = 30
     var lastFetchedElement: DocumentSnapshot?
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        view.backgroundColor = UIColor(named: "Black")
+        view.addSubview(tableView)
+    }
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        
         hidesBottomBarWhenPushed = true
+        
     }
     
     required init?(coder: NSCoder) {
@@ -57,8 +69,8 @@ class NotificationsVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         tableView.frame = CGRect(
-            x: view.safeAreaInsets.top,
-            y: 0,
+            x: 0,
+            y: view.safeAreaInsets.top,
             width: view.width,
             height: view.height
         )

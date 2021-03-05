@@ -19,11 +19,6 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private let xpCircle: CircleView = {
-        let xpCircle = CircleView()
-        return xpCircle
-    }()
-    
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -49,16 +44,12 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
         
         addSubview(profileImageContainer)
         profileImageContainer.addSubview(profileImage)
-        addSubview(xpCircle)
         addSubview(nameLabel)
         
         nameLabel.widthAnchor.constraint(lessThanOrEqualTo: widthAnchor).isActive = true
         nameLabel.centerXAnchor.constraint(equalTo: profileImageContainer.centerXAnchor).isActive = true
         nameLabel.topAnchor.constraint(equalTo: profileImageContainer.bottomAnchor, constant: 10).isActive = true
         nameLabel.sizeThatFits(CGSize(width: width, height: nameLabel.height))
-        
-        xpCircle.setProgress(level: 0, progress: 0)
-        xpCircle.setupFinished()
         
         let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
         profileImage.isUserInteractionEnabled = true
@@ -72,11 +63,11 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
     // MARK: - Lifecycle
     
     override func layoutSubviews() {
-        let profileImageSize:CGFloat = 85
+        let profileImageSize:CGFloat = 60
         
         profileImageContainer.frame = CGRect(
-            x: (width - profileImageSize)/2,
-            y: 10,
+            x: 0,
+            y: 0,
             width: profileImageSize,
             height: profileImageSize
         )
@@ -88,15 +79,6 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
             cornerRadious: profileImageSize/2,
             shadowOffset: CGSize(width: 0, height: 2),
             shadowRadius: 3
-        )
-        
-        
-        let xpCircleSize:CGFloat = 25
-        xpCircle.frame = CGRect(
-            x: width - 10 - xpCircleSize,
-            y: 10,
-            width: xpCircleSize,
-            height: xpCircleSize
         )
     }
     
@@ -160,9 +142,7 @@ extension OnlineNowCollectionViewCell : ProfileViewModelDelegate {
     }
     
     func onXpUpdate(_ model: XPModel) {
-        let xpToNextLevel = Float(XPModelManager.shared.getXpForNextLevelOfType(model.level, .user))
         
-        xpCircle.onProgress(level: model.level, progress: Float(model.xp) / xpToNextLevel)
     }
     
     func setCoverPictureOpacity(_ opacity: CGFloat) {
