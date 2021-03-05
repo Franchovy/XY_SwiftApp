@@ -26,13 +26,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if AuthManager.shared.userId != nil {
             let launchAnimationController = LaunchVC()
             self.window?.rootViewController = launchAnimationController
-            let tabBarController = TabBarViewController()
+            let tabBarController = UINavigationController(rootViewController: TabBarViewController())
             tabBarController.heroModalAnimationType = .zoom
             tabBarController.modalPresentationStyle = .fullScreen
             
             launchAnimationController.onFinishedAnimation = {
-                
-                
                 launchAnimationController.present(tabBarController, animated: false, completion: nil)
             }
             

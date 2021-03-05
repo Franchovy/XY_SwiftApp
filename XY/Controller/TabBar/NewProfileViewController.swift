@@ -33,6 +33,7 @@ class NewProfileViewController: UIViewController {
         
         view.addSubview(pageViewController.view)
         addChild(pageViewController)
+        
         //pageViewController.didMove(to: self)
         
         view.addSubview(topScrollIndicator)
@@ -237,6 +238,10 @@ class NewProfileViewController: UIViewController {
     
     private func setUpPageViewController() {
         
+        guard viewControllers.count == 0 else {
+            return
+        }
+        
         guard let profileViewModel = viewModel else {
             return
         }
@@ -358,12 +363,16 @@ extension NewProfileViewController : ScrollIndicatorDelegate {
         )
         
     }
+    
+    
 }
+
 
 // MARK: - Page VC Extension
 
 extension NewProfileViewController : UIPageViewControllerDelegate, UIPageViewControllerDataSource {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
         if finished {
             guard let viewControllers = pageViewController.viewControllers?.filter({ !previousViewControllers.contains($0) }),
                   viewControllers.count > 0 else {

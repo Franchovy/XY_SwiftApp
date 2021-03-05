@@ -252,8 +252,8 @@ class NewSignupViewController: UIViewController {
             case .success(let _):
                 // Segue to main
                 HapticsManager.shared.vibrate(for: .success)
-                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let vc = mainStoryboard.instantiateViewController(withIdentifier: "MainViewController")
+                
+                let vc = UINavigationController(rootViewController: TabBarViewController())
                 vc.modalPresentationStyle = .fullScreen
                 vc.heroModalAnimationType = .pageIn(direction: .left)
                 self.present(vc, animated: true)
