@@ -41,6 +41,8 @@ class RankingTableViewCell: UITableViewCell {
         
         backgroundColor = UIColor(named: "XYCard")
         
+        xpCircle.setLevelLabelFontSize(size: 6)
+        
         addSubview(rankLabel)
         addSubview(profileImageView)
         addSubview(nameLabel)

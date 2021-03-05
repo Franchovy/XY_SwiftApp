@@ -15,32 +15,36 @@ struct XYworldSection {
 
 enum XYworldSectionType: CaseIterable {
     case onlineNow
-    case userRanking
     case ranking
     
     var title: String {
         switch self {
         case .onlineNow:
             return "Online Friends"
-        case .userRanking:
-            return ""
         case .ranking:
-            return ""
+            return "Ranking"
         }
     }
 }
 
-
 enum XYworldCell {
     case onlineNow(viewModel: ProfileViewModel)
-    case userRanking(viewModel: ProfileViewModel)
     case ranking(viewModel: RankingViewModel)
 }
-
 
 class XYworldVC: UIViewController, UISearchBarDelegate {
     
     // MARK: - Properties
+    
+    private var noOnlineFriendsLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Medium", size: 18)
+        label.text = "No Friends Online."
+        label.isHidden = true
+        label.textColor = UIColor(named: "tintColor")
+        label.alpha = 0.7
+        return label
+    }()
     
     static var onlineNowCellSize = CGSize(width: 60, height: 80)
     static var rankingBoardCellSize = CGSize(width: 365, height: 230)
@@ -52,7 +56,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     private var sections = [XYworldSection]()
     
     private var onlineNowUsers = [ProfileViewModel]()
-    private var userRanking = [ProfileViewModel]()
+    private var rankingCells = [XYworldCell?]()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -89,6 +93,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         barXPCircle.registerXPUpdates(for: .ownUser)
         
         let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor(named: "tintColor")
 //        refreshControl.addTarget(self, action: #selector(flowRefreshed(_:)), for: .valueChanged)
         collectionView?.refreshControl = refreshControl
         
@@ -105,6 +110,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.allowsSelection = false
         
         collectionView.backgroundColor = UIColor(named: "Black")
         
@@ -130,6 +136,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         self.collectionView = collectionView
         
         view.addSubview(collectionView)
+        collectionView.addSubview(noOnlineFriendsLabel)
         
         sections.append(XYworldSection(type: .onlineNow, cells: []))
         sections.append(XYworldSection(type: .ranking, cells: []))
@@ -140,6 +147,14 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     
     override func viewDidLayoutSubviews() {
         barXPCircle.frame.size = CGSize(width: 25, height: 25)
+        
+        noOnlineFriendsLabel.sizeToFit()
+        noOnlineFriendsLabel.frame = CGRect(
+            x: (view.width - noOnlineFriendsLabel.width)/2,
+            y: 75,
+            width: noOnlineFriendsLabel.width,
+            height: noOnlineFriendsLabel.height
+        )
         
         collectionView?.frame = CGRect(
             x: 0,
@@ -165,6 +180,12 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             return
         }
         
+        if userProfileIDPairs.count > 1 {
+            noOnlineFriendsLabel.isHidden = true
+        } else {
+            noOnlineFriendsLabel.isHidden = false
+        }
+        
         var cells = [XYworldCell]()
         for (userId, profileId) in userProfileIDPairs {
             if userId == ownUserId {
@@ -180,21 +201,39 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     
     func subscribeToRanking() {
         
+        rankingCells = [XYworldCell?](repeating: nil, count: 2)
+        
         RankingFirestoreManager.shared.getTopRanking(rankingLength: 3) { (rankingIDs) in
             let model = RankingModel(
-                name: "Top Ranking",
+                name: "Global",
                 rankedUserIDs: rankingIDs
             )
-            
-            print(model)
             
             let builder = RankingViewModelBuilder()
             builder.build(model: model) { (rankingViewModel, error) in
                 if let error = error {
                     print(error)
                 } else if let rankingViewModel = rankingViewModel {
-                    print(rankingViewModel)
-                    self.sections[1] = XYworldSection(type: .ranking, cells: [XYworldCell.ranking(viewModel: rankingViewModel)])
+                    self.rankingCells[0] = XYworldCell.ranking(viewModel: rankingViewModel)
+                    self.sections[1] = XYworldSection(type: .ranking, cells: self.rankingCells.flatMap{ $0 })
+                    self.collectionView?.reloadData()
+                }
+            }
+        }
+        
+        RankingFirestoreManager.shared.getTopRanking(rankingLength: 3) { (rankingIDs) in
+            let model = RankingModel(
+                name: "Friends",
+                rankedUserIDs: rankingIDs
+            )
+            
+            let builder = RankingViewModelBuilder()
+            builder.build(model: model) { (rankingViewModel, error) in
+                if let error = error {
+                    print(error)
+                } else if let rankingViewModel = rankingViewModel {
+                    self.rankingCells[1] = XYworldCell.ranking(viewModel: rankingViewModel)
+                    self.sections[1] = XYworldSection(type: .ranking, cells: self.rankingCells.flatMap{ $0 })
                     self.collectionView?.reloadData()
                 }
             }
@@ -221,18 +260,6 @@ extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
                 withReuseIdentifier: OnlineNowCollectionViewCell.identifier,
                 for: indexPath
             ) as? OnlineNowCollectionViewCell else {
-                return collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "cell",
-                    for: indexPath
-                )
-            }
-            cell.configure(with: viewModel)
-            return cell
-        case .userRanking(let viewModel):
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ProfileCardCollectionViewCell.identifier,
-                for: indexPath
-            ) as? ProfileCardCollectionViewCell else {
                 return collectionView.dequeueReusableCell(
                     withReuseIdentifier: "cell",
                     for: indexPath
@@ -283,7 +310,7 @@ extension XYworldVC {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
-//        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0)
+        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 15, trailing: 0)
         
         switch sectionType {
         case .onlineNow:
@@ -309,26 +336,26 @@ extension XYworldVC {
             sectionLayout.orthogonalScrollingBehavior = .continuous
             
             return sectionLayout
-        case .userRanking, .ranking:
+        case .ranking:
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(XYworldVC.rankingBoardCellSize.width),
+                    widthDimension: .fractionalWidth(0.9),
                     heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
                 )
             )
             
-            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
             
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(XYworldVC.rankingBoardCellSize.width),
+                    widthDimension: .fractionalWidth(0.9),
                     heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
                 ),
                 subitems: [item]
             )
             
             let sectionLayout = NSCollectionLayoutSection(group: group)
-//            sectionLayout.boundarySupplementaryItems = [sectionHeader]
+            sectionLayout.boundarySupplementaryItems = [sectionHeader]
             sectionLayout.orthogonalScrollingBehavior = .continuous
             
             return sectionLayout

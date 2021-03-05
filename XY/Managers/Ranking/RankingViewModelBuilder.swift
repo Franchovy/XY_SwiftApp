@@ -73,7 +73,7 @@ final class RankingViewModelBuilder {
                     userID: rankingIDs.userID,
                     image: nil,
                     name: name,
-                    rank: index,
+                    rank: index + 1,
                     level: level,
                     xp: xp
                 )

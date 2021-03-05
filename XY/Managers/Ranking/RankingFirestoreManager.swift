@@ -18,7 +18,7 @@ class RankingFirestoreManager {
     
     func getTopRanking(rankingLength: Int, completion: @escaping([RankingID]) -> Void) {
         let dispatchGroup = DispatchGroup()
-        var userRanking = [RankingID]()
+        var userRanking = [RankingID?](repeating: nil, count: rankingLength)
         
         dispatchGroup.enter()
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users)
@@ -34,20 +34,18 @@ class RankingFirestoreManager {
                         .filter( { !($0.data().keys.contains("hidden") && $0.data()["hidden"] as! Bool) } )
                         .map({ $0.documentID })
                     
-                    
-                    userIDs.forEach { (userID) in
+                    userIDs.enumerated().forEach { (index, userID) in
                         dispatchGroup.enter()
                         ProfileFirestoreManager.shared.getProfileID(forUserID: userID) { profileID, error in
                             defer {
                                 dispatchGroup.leave()
                             }
                             if let profileID = profileID {
-                                userRanking.append(
+                                userRanking[index] =
                                     RankingID(
                                         userID: userID,
                                         profileID: profileID
                                     )
-                                )
                             }
                         }
                     }
@@ -55,7 +53,7 @@ class RankingFirestoreManager {
             }
         
         dispatchGroup.notify(queue: .main, work: DispatchWorkItem(block: {
-            completion(userRanking)
+            completion(userRanking.compactMap({ $0 }))
         }))
     }
     

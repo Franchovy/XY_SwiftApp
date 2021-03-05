@@ -13,7 +13,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     
     private let title: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Heavy", size: 23)
+        label.font = UIFont(name: "Raleway-Medium", size: 25)
         label.textColor = UIColor(named: "tintColor")
         return label
     }()
@@ -48,6 +48,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
+        tableView.backgroundColor = UIColor(named: "XYCard")
         return tableView
     }()
     
@@ -119,7 +120,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         
         levelLabel.sizeToFit()
         levelLabel.frame = CGRect(
-            x: playerLabel.right + 134.28,
+            x: width - 37 - levelLabel.width,
             y: title.bottom + 12.54,
             width: levelLabel.width,
             height: levelLabel.height

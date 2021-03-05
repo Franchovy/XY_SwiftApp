@@ -27,6 +27,8 @@ final class DatabaseManager {
                     }
                 }
                 completion(activeUserIds)
+            } else {
+                completion([])
             }
         })
     }
