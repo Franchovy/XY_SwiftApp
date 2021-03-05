@@ -58,7 +58,7 @@ class GradientBorderTextField: UITextField, UITextFieldDelegate {
         if shadowLayer == nil {
             shadowLayer = CAShapeLayer()
             shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
-            shadowLayer.fillColor = UIColor.clear.cgColor
+            shadowLayer.fillColor = UIColor(named: "Black")!.cgColor
 
             shadowLayer.shadowColor = UIColor.black.cgColor
             shadowLayer.shadowPath = shadowLayer.path
