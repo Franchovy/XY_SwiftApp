@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "PlayIcon_TabBar.png",
+      "filename" : "signal-2021-03-06-233303_003.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "PlayIcon_TabBar@2x.png",
+      "filename" : "signal-2021-03-06-233303_002.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "PlayIcon_TabBar@3x.png",
+      "filename" : "signal-2021-03-06-233303_001.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
