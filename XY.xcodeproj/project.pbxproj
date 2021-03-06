@@ -53,6 +53,8 @@
 		B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936266325DC23630063AAD6 /* PushNotificationSender.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
+		B93D7BF525F41A7E005CE74D /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF425F41A7E005CE74D /* PlayViewController.swift */; };
+		B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF825F41AD3005CE74D /* VideoViewController.swift */; };
 		B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DABE25E6C40F0040CEDB /* MessageView.swift */; };
 		B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* PreviewViewController.swift */; };
 		B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */; };
@@ -153,6 +155,8 @@
 		B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* Notification.swift */; };
 		B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9B25ED746500C4FF9F /* Global.swift */; };
 		B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */; };
+		B9E67E5E25F41C31004FA873 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E5D25F41C31004FA873 /* VideoModel.swift */; };
+		B9E67E6425F4220F004FA873 /* VideoFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E6325F4220F004FA873 /* VideoFirestoreManager.swift */; };
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
@@ -223,6 +227,8 @@
 		B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSettingsViewController.swift; sourceTree = "<group>"; };
 		B93D1BEB2597E9C6009ADBFC /* XYTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XYTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B93D7BF425F41A7E005CE74D /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
+		B93D7BF825F41AD3005CE74D /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		B944DABE25E6C40F0040CEDB /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B944DAC425E6C4290040CEDB /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -327,6 +333,8 @@
 		B9DFBA6225B7495D0084E79D /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 		B9E55D9B25ED746500C4FF9F /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignupViewController.swift; sourceTree = "<group>"; };
+		B9E67E5D25F41C31004FA873 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
+		B9E67E6325F4220F004FA873 /* VideoFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFirestoreManager.swift; sourceTree = "<group>"; };
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
@@ -400,6 +408,7 @@
 				B9D5E55C25A5F131001859EA /* FlowVC.swift */,
 				149AD69B259B52A800E81ABC /* ExploreVC.swift */,
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
+				B93D7BFC25F41ADA005CE74D /* PlayVC */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */,
 				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
@@ -534,6 +543,15 @@
 			path = XYTests;
 			sourceTree = "<group>";
 		};
+		B93D7BFC25F41ADA005CE74D /* PlayVC */ = {
+			isa = PBXGroup;
+			children = (
+				B93D7BF825F41AD3005CE74D /* VideoViewController.swift */,
+				B93D7BF425F41A7E005CE74D /* PlayViewController.swift */,
+			);
+			path = PlayVC;
+			sourceTree = "<group>";
+		};
 		B94FA39225710C9D00A44085 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,6 +571,7 @@
 				B9781DCF25DE70FA00A2FE2D /* UserModel.swift */,
 				B92161ED25E2CC1B001BE793 /* Relationship.swift */,
 				B9B74D8025F029D50083D69A /* RankingModel.swift */,
+				B9E67E5D25F41C31004FA873 /* VideoModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -823,9 +842,26 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		B9E67E6125F42200004FA873 /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Challenges;
+			sourceTree = "<group>";
+		};
+		B9E67E6225F42205004FA873 /* Videos */ = {
+			isa = PBXGroup;
+			children = (
+				B9E67E6325F4220F004FA873 /* VideoFirestoreManager.swift */,
+			);
+			path = Videos;
+			sourceTree = "<group>";
+		};
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B9E67E6225F42205004FA873 /* Videos */,
+				B9E67E6125F42200004FA873 /* Challenges */,
 				B9B74D8425F02B580083D69A /* Ranking */,
 				B9ABA1F825E4544F0039280B /* XP */,
 				B92161E825E2C8DD001BE793 /* Relationship */,
@@ -1063,6 +1099,7 @@
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
+				B93D7BF525F41A7E005CE74D /* PlayViewController.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
@@ -1121,10 +1158,12 @@
 				B936264025DA824C0063AAD6 /* ChatEventRouter.swift in Sources */,
 				B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */,
 				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,
+				B9E67E6425F4220F004FA873 /* VideoFirestoreManager.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
+				B9E67E5E25F41C31004FA873 /* VideoModel.swift in Sources */,
 				B90BFA3025CD6D7100575598 /* XPModelManager.swift in Sources */,
 				B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */,
 				B95D07EA25A9B09B00D0517B /* ImageDownloaderHelper.swift in Sources */,
@@ -1151,6 +1190,7 @@
 				B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */,
 				B92161EA25E2C8F2001BE793 /* RelationshipFirestoreManager.swift in Sources */,
 				1425137C259F8C0100DC08BB /* NotificationViewModel.swift in Sources */,
+				B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */,
 				B94EAD6025EEAEA400504A2A /* Gradient.swift in Sources */,
 				B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */,
 				B998621E25F17FF100AE8369 /* ProfileFirestoreManager.swift in Sources */,

@@ -28,7 +28,7 @@ class TabBarViewController: UITabBarController {
         appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal)
         
         let nav1 = UINavigationController(
-            rootViewController: FlowVC()
+            rootViewController: PlayViewController()
         )
         let nav2 = UINavigationController(
             rootViewController: ExploreVC()

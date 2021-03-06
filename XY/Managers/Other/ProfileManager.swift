@@ -43,9 +43,10 @@ final class ProfileManager {
             if let error = error {
                 completion(error)
             }
-            if let snapshot = snapshot, let userData = snapshot.data() {
-                let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
-                
+            if let snapshot = snapshot,
+               let userData = snapshot.data(),
+               let profileId = userData[FirebaseKeys.UserKeys.profile] as? String
+            {
                 UserDefaults.standard.setValue(["profileId": profileId], forKey: "userData")
                 
                 self.ownProfileId = profileId
