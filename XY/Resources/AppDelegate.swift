@@ -25,19 +25,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                    
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
-            if let pushNotificationsEnabled = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool,
-               pushNotificationsEnabled {
-                let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
-                pushNotificationsManager.checkPermissions()
-                pushNotificationsManager.registerForPushNotifications()
-                
-            }
     
             ProfileManager.shared.initialiseForCurrentUser() { error in
                 guard error == nil else {
                     print("Error initializing profile data: \(error)")
                     return
                 }
+            }
+            
+            if let pushNotificationsEnabled = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool,
+               pushNotificationsEnabled {
+                let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
+                pushNotificationsManager.checkPermissions()
+                pushNotificationsManager.registerForPushNotifications()
+                
             }
             
             OnlineStatusManager.shared.setupOnlineStatus()
