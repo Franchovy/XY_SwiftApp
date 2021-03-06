@@ -157,6 +157,9 @@
 		B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */; };
 		B9E67E5E25F41C31004FA873 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E5D25F41C31004FA873 /* VideoModel.swift */; };
 		B9E67E6425F4220F004FA873 /* VideoFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E6325F4220F004FA873 /* VideoFirestoreManager.swift */; };
+		B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E6725F438BF004FA873 /* ChallengeViewController.swift */; };
+		B9E67E6C25F43906004FA873 /* ChallengeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E6B25F43906004FA873 /* ChallengeModel.swift */; };
+		B9E67E7125F441FA004FA873 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E7025F441FA004FA873 /* Comment.swift */; };
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
@@ -335,6 +338,9 @@
 		B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignupViewController.swift; sourceTree = "<group>"; };
 		B9E67E5D25F41C31004FA873 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
 		B9E67E6325F4220F004FA873 /* VideoFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFirestoreManager.swift; sourceTree = "<group>"; };
+		B9E67E6725F438BF004FA873 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
+		B9E67E6B25F43906004FA873 /* ChallengeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModel.swift; sourceTree = "<group>"; };
+		B9E67E7025F441FA004FA873 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
@@ -365,6 +371,7 @@
 		14175C792570F5D600C88051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B9E67E6F25F441E2004FA873 /* Video */,
 				B972A2B225DD1522006A0476 /* Post */,
 				B925CC8925D58B2300542A58 /* ChatBubbles */,
 				B9AD3B8925CBE3DC00BF74C3 /* XYWorld */,
@@ -548,6 +555,7 @@
 			children = (
 				B93D7BF825F41AD3005CE74D /* VideoViewController.swift */,
 				B93D7BF425F41A7E005CE74D /* PlayViewController.swift */,
+				B9E67E6725F438BF004FA873 /* ChallengeViewController.swift */,
 			);
 			path = PlayVC;
 			sourceTree = "<group>";
@@ -560,6 +568,7 @@
 				B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */,
 				B94D46F0257253BA00A21355 /* PostModel.swift */,
 				B972A2C525DD4282006A0476 /* Comment.swift */,
+				B9E67E6B25F43906004FA873 /* ChallengeModel.swift */,
 				B979F67F25C078370040AE5B /* ViralModel.swift */,
 				14607A7B25A0DDE5009B3B50 /* ProfileModel.swift */,
 				B90C164325BC6474003811B2 /* MomentModel.swift */,
@@ -857,6 +866,14 @@
 			path = Videos;
 			sourceTree = "<group>";
 		};
+		B9E67E6F25F441E2004FA873 /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				B9E67E7025F441FA004FA873 /* Comment.swift */,
+			);
+			path = Video;
+			sourceTree = "<group>";
+		};
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1125,6 +1142,7 @@
 				B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */,
 				B9781DC525DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift in Sources */,
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
+				B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */,
 				B9B74D8625F02B700083D69A /* RankingFirestoreManager.swift in Sources */,
 				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
@@ -1156,6 +1174,7 @@
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */,
 				B936264025DA824C0063AAD6 /* ChatEventRouter.swift in Sources */,
+				B9E67E6C25F43906004FA873 /* ChallengeModel.swift in Sources */,
 				B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */,
 				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,
 				B9E67E6425F4220F004FA873 /* VideoFirestoreManager.swift in Sources */,
@@ -1196,6 +1215,7 @@
 				B998621E25F17FF100AE8369 /* ProfileFirestoreManager.swift in Sources */,
 				B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */,
+				B9E67E7125F441FA004FA873 /* Comment.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,

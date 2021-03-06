@@ -9,8 +9,8 @@ import UIKit
 
 class GradientLabel: UIView {
 
-    let gradientLayer = CAGradientLayer()
-    let label = UILabel()
+    var gradientLayer = CAGradientLayer()
+    var label = UILabel()
     
     init(text: String, fontSize: CGFloat, gradientColours: [UIColor]) {
         super.init(frame: .zero)
@@ -27,7 +27,6 @@ class GradientLabel: UIView {
         // add the gradient layer to the views layer for rendering
         layer.addSublayer(gradientLayer)
         
-        label.adjustsFontSizeToFitWidth = true
         label.text = text
         label.font = UIFont(name: "Raleway-Heavy", size: fontSize)
         label.textAlignment = .center
@@ -45,8 +44,15 @@ class GradientLabel: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        label.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        gradientLayer.frame = bounds
+        label.sizeToFit()
+        label.frame = CGRect(x: 0, y: 0, width: label.width, height: label.height)
+        gradientLayer.frame = label.frame
     }
     
+    override func sizeToFit() {
+        label.sizeToFit()
+        label.frame.origin = CGPoint(x:0,y:0)
+        gradientLayer.frame = label.bounds
+        bounds = label.bounds
+    }
 }

@@ -10,12 +10,15 @@ import AVFoundation
 
 class VideoViewController: UIViewController {
     
+    private let profileButtonShadowLayer = CAShapeLayer()
     private let profileButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(named: "test"), for: .normal)
         button.layer.masksToBounds = true
         button.contentMode = .scaleAspectFill
         button.tintColor = .white
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor.white.cgColor
         return button
     }()
     
@@ -24,7 +27,7 @@ class VideoViewController: UIViewController {
         label.textAlignment = .left
         label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 0
-        label.font = UIFont(name: "HelveticaNeue-Bold", size: 25)
+        label.font = UIFont(name: "Raleway-Heavy", size: 25)
         return label
     }()
     
@@ -33,10 +36,11 @@ class VideoViewController: UIViewController {
         label.textAlignment = .left
         label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 0
-        label.alpha  = 0.7
-        label.font = UIFont(name: "HelveticaNeue", size: 18)
+        label.font = UIFont(name: "Raleway-Medium", size: 18)
         return label
     }()
+    
+    private let challengeLabel: GradientLabel
     
     private let videoView: UIView = {
         let view = UIView()
@@ -71,11 +75,32 @@ class VideoViewController: UIViewController {
     private var timeControlObserverSet = false
     private var repeatObserverSet = false
     
+    // MARK: - UI VARIABLES
+    
+    private var commentY:CGFloat = -10
+    
     // MARK: - Initializers
     
     init(model: VideoModel) {
         self.model = model
         captionLabel.text = model.caption
+        
+        challengeLabel = GradientLabel(
+            text: [
+                "#XYCHALLENGE",
+                "#EATCHALLENGE",
+                "#SPORTCHALLENGE",
+                "#LIFECHALLENGE",
+                "#WATCHCHALLENGE",
+                "#PLAYCHALLENGE"
+            ],
+            fontSize: 20,
+            gradientColours: [
+                Global.xyGradient,
+                Global.rastaGradient,
+                Global.metallicGradient]
+            [Int.random(in:0...2)]
+        )
         
         super.init(nibName: nil, bundle: nil)
         
@@ -83,6 +108,9 @@ class VideoViewController: UIViewController {
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoTapped))
         view.addGestureRecognizer(tapGesture)
+        
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(videoPanned(gestureRecognizer:)))
+        videoView.addGestureRecognizer(panGesture)
         
         // Request nickname for this user
         fetchProfileData()
@@ -106,12 +134,13 @@ class VideoViewController: UIViewController {
         view.addSubview(videoView)
         videoView.addSubview(spinner)
         
+        view.addSubview(challengeLabel)
         view.addSubview(captionLabel)
         view.addSubview(userLabel)
         view.addSubview(profileButton)
         
         configureVideo()
-                
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -131,6 +160,8 @@ class VideoViewController: UIViewController {
         spinner.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         spinner.center = videoView.center
         
+        // Bottom Text
+        
         if let captionText = captionLabel.text {
             let constraintRect = CGSize(
                 width: 300,
@@ -143,29 +174,51 @@ class VideoViewController: UIViewController {
                                                         context: nil)
             
             captionLabel.frame = CGRect(
-                x: 5,
+                x: 10,
                 y: videoView.bottom - 31 - boundingRect.height,
                 width: boundingRect.width,
                 height: boundingRect.height
             )
         }
         
-        let size: CGFloat = 40
+        challengeLabel.sizeToFit()
+        challengeLabel.frame = CGRect(
+            x: 10,
+            y: captionLabel.top - 8.85 - challengeLabel.height,
+            width: challengeLabel.width,
+            height: challengeLabel.height
+        )
+        
+        userLabel.sizeToFit()
+        userLabel.frame = CGRect(
+            x: 10,
+            y: challengeLabel.top - userLabel.height - 6.2,
+            width: userLabel.width,
+            height: userLabel.height
+        )
+        
+        // Side buttons
+        
+        let size: CGFloat = 60
         profileButton.frame = CGRect(
-            x: 5,
-            y: captionLabel.top - 5 - size,
+            x: view.width - size - 11,
+            y: view.height/2 - size/3,
             width: size,
             height: size
         )
         profileButton.layer.cornerRadius = size / 2
         
-        userLabel.sizeToFit()
-        userLabel.frame = CGRect(
-            x: profileButton.right + 5,
-            y: captionLabel.top - 5 - userLabel.height,
-            width: userLabel.width,
-            height: userLabel.height
-        )
+        let path = UIBezierPath(roundedRect: profileButton.frame, cornerRadius: size/2).cgPath
+        profileButtonShadowLayer.path = path
+        profileButtonShadowLayer.shadowPath = path
+        profileButtonShadowLayer.fillColor = UIColor.black.cgColor
+        profileButtonShadowLayer.shadowOffset = CGSize(width: 0, height: 3)
+        profileButtonShadowLayer.shadowRadius = 6
+        profileButtonShadowLayer.shadowOpacity = 0.8
+        profileButtonShadowLayer.shadowColor = UIColor.black.cgColor
+        profileButtonShadowLayer.masksToBounds = false
+        
+        view.layer.insertSublayer(profileButtonShadowLayer, below: profileButton.layer)
     }
     
     // MARK: - Private Functions
@@ -275,6 +328,45 @@ class VideoViewController: UIViewController {
     }
     
     // MARK: - Obj-C functions
+    
+    @objc private func captionPanned(gestureRecognizer: UIPanGestureRecognizer) {
+        
+        commentY += gestureRecognizer.location.y
+        
+        let modelText: String!
+        switch 0...5 {
+        case 0:
+            modelText = "Wooahh dude!!!"
+        case 1:
+            modelText = "Bro. That's mad"
+        case 2:
+            modelText = "COVID ISNT REAL"
+        case 3:
+            modelText = "Man you are insane"
+        case 4:
+            modelText = "I love you omg"
+        default:
+            modelText = "I love it omg"
+        }
+        
+        var commentView = CommentView(text: modelText, color: UIColor("XYblue"))
+        
+        commentView.frame = CGRect(
+            x: view.width / 9,
+            y: commentY,
+            width: view.width * 7/9,
+            height: 75
+        )
+    }
+    
+    @objc private func videoPanned(gestureRecognizer: UIPanGestureRecognizer) {
+        let translationX = gestureRecognizer.translation(in: view).x
+        
+        videoView.transform = CGAffineTransform(
+            translationX: translationX,
+            y: 0
+        )
+    }
     
     var stoppedAnimationFrame: CGRect?
     @objc private func videoTapped() {
