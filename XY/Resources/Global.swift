@@ -8,6 +8,9 @@
 import UIKit
 
 class Global {
+    static let rastaGradient:[UIColor] = [UIColor(named: "Green")!, UIColor.black, UIColor(named: "Yellow")!]
+    static let metallicGradient:[UIColor] = [UIColor(named: "Blue")!, UIColor(named:"Silver")!, UIColor(named: "Red")!]
+    
     static let xyGradient:[UIColor] = [UIColor(0xFF0062), UIColor(0x0C98F6)]
     
     static var isLightMode: Bool = false
