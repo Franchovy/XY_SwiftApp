@@ -44,7 +44,7 @@ class TabBarViewController: UITabBarController {
         )
         setViewControllers([nav1, nav2, nav3, nav4, nav5], animated: false)
         
-        nav1.tabBarItem = UITabBarItem(title: "Watch", image: UIImage(systemName: "eyes"), tag: 1)
+        nav1.tabBarItem = UITabBarItem(title: "Watch", image: UIImage(named: "tabbar_watch_icon"), tag: 1)
         nav2.tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
         nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "tabbar_play_icon")!.withRenderingMode(.alwaysOriginal), tag: 3)
         nav4.tabBarItem = UITabBarItem(title: "XYWorld", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)

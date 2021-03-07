@@ -93,13 +93,12 @@ class VideoViewController: UIViewController {
                 "#LIFECHALLENGE",
                 "#WATCHCHALLENGE",
                 "#PLAYCHALLENGE"
-            ],
+            ][Int.random(in: 0...5)],
             fontSize: 20,
             gradientColours: [
                 Global.xyGradient,
                 Global.rastaGradient,
-                Global.metallicGradient]
-            [Int.random(in:0...2)]
+                Global.metallicGradient][Int.random(in: 0...2)]
         )
         
         super.init(nibName: nil, bundle: nil)
@@ -110,6 +109,7 @@ class VideoViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(videoPanned(gestureRecognizer:)))
+        panGesture.delegate = self
         videoView.addGestureRecognizer(panGesture)
         
         // Request nickname for this user
@@ -331,10 +331,10 @@ class VideoViewController: UIViewController {
     
     @objc private func captionPanned(gestureRecognizer: UIPanGestureRecognizer) {
         
-        commentY += gestureRecognizer.location.y
+        commentY += gestureRecognizer.location(in: view).y
         
         let modelText: String!
-        switch 0...5 {
+        switch Int.random(in: 0...5) {
         case 0:
             modelText = "Wooahh dude!!!"
         case 1:
@@ -349,7 +349,7 @@ class VideoViewController: UIViewController {
             modelText = "I love it omg"
         }
         
-        var commentView = CommentView(text: modelText, color: UIColor("XYblue"))
+        var commentView = CommentView(text: modelText, color: UIColor(named: "XYblue")!)
         
         commentView.frame = CGRect(
             x: view.width / 9,
@@ -384,5 +384,16 @@ class VideoViewController: UIViewController {
     @objc private func profileImageTapped() {
         player?.pause()
         ProfileManager.shared.openProfileForId(model.profileId)
+    }
+}
+
+extension VideoViewController : UIGestureRecognizerDelegate {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let gesture = gestureRecognizer as? UIPanGestureRecognizer {
+            let velocity = gesture.velocity(in: nil)
+            return abs(velocity.x) > abs(velocity.y)
+        }
+        else { return true }
+        
     }
 }

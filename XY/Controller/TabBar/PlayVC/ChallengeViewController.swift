@@ -23,7 +23,7 @@ class ChallengeViewController: UIViewController {
     init(model: ChallengeModel) {
         
         let modelChallengeText: String!
-        switch 0...5 {
+        switch Int.random(in: 0...5) {
         case 0:
             modelChallengeText = "Wooahh dude!!!"
         case 1:

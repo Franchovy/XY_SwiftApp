@@ -216,6 +216,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     @objc private func didTapClose() {
         dismiss(animated: true, completion: nil)
         
+        tabBarController?.selectedIndex = 0
         delegate?.cameraViewDidTapCloseButton()
     }
     

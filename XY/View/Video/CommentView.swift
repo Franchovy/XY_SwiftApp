@@ -15,14 +15,18 @@ class CommentView : UIView {
         return label
     }()
     
-    init(text: String, color: UIColor, textColor: UIColor = UIColor(named: "XYWhite")) {
+    init(text: String, color: UIColor, textColor: UIColor = UIColor(named: "XYWhite")!) {
         super.init(frame: .zero)
         
-        commentTextLabel.color = textColor
+        commentTextLabel.textColor = textColor
         commentTextLabel.text = text
         
         backgroundColor = color
         layer.cornerRadius = 15
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {

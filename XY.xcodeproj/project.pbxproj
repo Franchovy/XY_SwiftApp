@@ -159,7 +159,7 @@
 		B9E67E6425F4220F004FA873 /* VideoFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E6325F4220F004FA873 /* VideoFirestoreManager.swift */; };
 		B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E6725F438BF004FA873 /* ChallengeViewController.swift */; };
 		B9E67E6C25F43906004FA873 /* ChallengeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E6B25F43906004FA873 /* ChallengeModel.swift */; };
-		B9E67E7125F441FA004FA873 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E7025F441FA004FA873 /* Comment.swift */; };
+		B9E67E7125F441FA004FA873 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E7025F441FA004FA873 /* CommentView.swift */; };
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
@@ -340,7 +340,7 @@
 		B9E67E6325F4220F004FA873 /* VideoFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFirestoreManager.swift; sourceTree = "<group>"; };
 		B9E67E6725F438BF004FA873 /* ChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewController.swift; sourceTree = "<group>"; };
 		B9E67E6B25F43906004FA873 /* ChallengeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModel.swift; sourceTree = "<group>"; };
-		B9E67E7025F441FA004FA873 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		B9E67E7025F441FA004FA873 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
@@ -869,7 +869,7 @@
 		B9E67E6F25F441E2004FA873 /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				B9E67E7025F441FA004FA873 /* Comment.swift */,
+				B9E67E7025F441FA004FA873 /* CommentView.swift */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -1215,7 +1215,7 @@
 				B998621E25F17FF100AE8369 /* ProfileFirestoreManager.swift in Sources */,
 				B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */,
-				B9E67E7125F441FA004FA873 /* Comment.swift in Sources */,
+				B9E67E7125F441FA004FA873 /* CommentView.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
