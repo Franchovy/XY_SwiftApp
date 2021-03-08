@@ -31,9 +31,9 @@ final class ProfileManager {
     public func openProfileForId(_ profileId: String) {
         delegate?.profileManager(openProfileFor: profileId)
     }
-
+    
     func initialiseForCurrentUser(completion: @escaping(Error?) -> Void) {
-
+        
         // Fetch profileID from Firestore
         guard let userId = AuthManager.shared.userId else {
             fatalError("Authentication must be done before profile can be accessed.")
@@ -63,6 +63,47 @@ final class ProfileManager {
                 try? AuthManager.shared.logout()
             }
         }
+    }
+    
+    func saveProfileImageToFile(image:UIImage) {
+        
+        if ownProfileId != nil {
+            let fileManager = FileManager.default
+            let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let documentPath = documentsUrl.path
+            
+            let filePath = documentsUrl.appendingPathComponent("profileImage.png")
+            
+            do {
+                let files = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
+                
+                for file in files {
+                    if "\(documentPath)/\(file)" == filePath.path {
+                        try fileManager.removeItem(at: filePath)
+                    }
+                }
+            } catch {
+                print("Error saving file!")
+            }
+            
+            do {
+                let pngData = image.pngData()
+                try pngData?.write(to: filePath, options: .atomic)
+                
+            } catch {
+                print("Couldn't write image to file")
+            }
+        }
+    }
+    
+    func loadProfileImageFromFile() -> UIImage? {
+        let fileManager = FileManager.default
+        let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let documentPath = documentsUrl.path
+        
+        let filePath = documentsUrl.appendingPathComponent("profileImage.png")
+        
+        return UIImage(contentsOfFile: filePath.path)
     }
     
     func cancelListenerFor(userId: String) {
@@ -106,7 +147,7 @@ final class ProfileManager {
     }
     
     func fetchProfile(userId: String, completion: @escaping(Result<ProfileModel, Error>) -> Void) {
-    
+        
         // Fetch profileId for userId
         ProfileFirestoreManager.shared.getProfileID(forUserID: userId) { [weak self] (profileId, error) in
             if let error = error {

@@ -222,7 +222,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         present(pickerController, animated: true)
     }
     
-    
     // MARK: - Delegate methods
     
     func swiftyCamNotAuthorized(_ swiftyCam: SwiftyCamViewController) {

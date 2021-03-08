@@ -19,12 +19,12 @@ class TabBarViewController: UITabBarController {
         
         isHeroEnabled = true
         heroTabBarAnimationType = .auto
-
+        
         PushNotificationManager.shared?.tabBarController = self
         ProfileManager.shared.delegate = self
         
         let appearance = UITabBarItem.appearance()
-        let attributes = [NSAttributedString.Key.font:UIFont(name: "Raleway-Heavy", size: 15)]
+        let attributes = [NSAttributedString.Key.font:UIFont(name: "Raleway-Heavy", size: 14)]
         appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal)
         
         let nav1 = UINavigationController(
@@ -49,9 +49,16 @@ class TabBarViewController: UITabBarController {
         nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "tabbar_play_icon")!.withRenderingMode(.alwaysOriginal), tag: 3)
         nav4.tabBarItem = UITabBarItem(title: "XYWorld", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
         
-        nav3.tabBarItem.imageInsets = UIEdgeInsets(top: 4, left: -6, bottom: -6, right: -6)
+        nav1.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
+        nav1.tabBarItem.imageInsets.top = 3
+        nav2.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
+        nav2.tabBarItem.imageInsets.top = 7
+        nav3.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: -18, bottom: -18, right: -18)
+        nav4.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
+        nav4.tabBarItem.imageInsets.top = 3
+        nav5.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
+        nav5.tabBarItem.imageInsets.top = 3
         
-        nav2.tabBarItem.imageInsets.top = 5
         
         guard let cameraVC = viewControllers?[2] as? CameraViewController else {
             return
@@ -75,7 +82,7 @@ class TabBarViewController: UITabBarController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-//        tabBar.isHidden = false
+        //        tabBar.isHidden = false
         view.layoutSubviews()
     }
     
@@ -99,31 +106,44 @@ class TabBarViewController: UITabBarController {
             fatalError()
         }
         
-        StorageManager.shared.downloadImage(withImageId: ownProfile.profileImageId) { (image, error) in
-            if let error = error {
-                print(error)
-            } else if let image = image {
-                let imageView = UIImageView()
-                imageView.image = image
-                imageView.frame.size = CGSize(width: 29, height: 29)
-                imageView.layer.masksToBounds = true
-                imageView.layer.borderWidth = 1
-                imageView.layer.borderColor = UIColor.white.cgColor
-                imageView.layer.cornerRadius = 29 / 2
-                let tabbarProfileIcon = imageView.asImage().withRenderingMode(.alwaysOriginal)
-                
-                let profileTabBarItem = UITabBarItem(title: "Profile", image: tabbarProfileIcon, tag: 5)
-                profileTabBarItem.badgeColor = UIColor(named: "tintColor")
-                
-                guard let profileVC = self.viewControllers?[4] else {
-                    return
+        if let profileImage = ProfileManager.shared.loadProfileImageFromFile() {
+            loadProfileImageToTabBar(image: profileImage)
+        } else {
+            
+            StorageManager.shared.downloadImage(withImageId: ownProfile.profileImageId) { (image, error) in
+                if let error = error {
+                    print(error)
+                } else if let image = image {
+                    self.loadProfileImageToTabBar(image: image)
+                    
+                    ProfileManager.shared.saveProfileImageToFile(image: image)
                 }
-                
-                profileVC.tabBarItem = profileTabBarItem
-                
-                self.onInitFinished?()
             }
         }
+    }
+    
+    private func loadProfileImageToTabBar(image: UIImage) {
+        let imageView = UIImageView()
+        imageView.image = image
+        imageView.frame.size = CGSize(width: 29, height: 29)
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.cornerRadius = 29 / 2
+        let tabbarProfileIcon = imageView.asImage().withRenderingMode(.alwaysOriginal)
+        
+        let profileTabBarItem = UITabBarItem(title: "Profile", image: tabbarProfileIcon, tag: 5)
+        profileTabBarItem.badgeColor = UIColor(named: "tintColor")
+        profileTabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
+        profileTabBarItem.imageInsets.top = 3
+        
+        guard let profileVC = self.viewControllers?[4] else {
+            return
+        }
+        
+        profileVC.tabBarItem = profileTabBarItem
+        
+        self.onInitFinished?()
     }
     
     private func setCreatePostIcon() {
@@ -144,7 +164,8 @@ class TabBarViewController: UITabBarController {
                     tag: 3
                 )
             }
-            cameraView.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: -5, bottom: -5, right: -5)
+            
+            cameraView.tabBarItem.imageInsets = UIEdgeInsets(top: 0, left: -15, bottom: 0, right: 0)
         }
     }
     
@@ -198,12 +219,12 @@ extension TabBarViewController: CameraViewControllerDelegate {
             return
         }
         
-//        flowVC.insertPost(postData)
+        //        flowVC.insertPost(postData)
     }
     
     func cameraViewDidTapCloseButton() {
         selectedIndex = 0
-//        setTabBarVisible(visible: true, duration: 0.1, animated: true)
+        //        setTabBarVisible(visible: true, duration: 0.1, animated: true)
     }
-
+    
 }
