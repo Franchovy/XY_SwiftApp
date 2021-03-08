@@ -93,9 +93,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
 
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-//        self.tabBarController?.tabBar.isHidden = true
-
+    override func viewWillAppear(_ animated: Bool) {
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
+        
         view.setNeedsLayout()
         
         session.sessionPreset = .high
@@ -106,14 +107,12 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     override func viewDidDisappear(_ animated: Bool) {
         self.tabBarController?.tabBar.isHidden = false
-
+        self.navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        tabBarController?.setTabBarVisible(visible: false, duration: 0.1, animated: true)
-
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
             x: (view.width - recordButtonSize)/2,
@@ -135,7 +134,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         let closeButtonSize: CGFloat = 30
         closeCameraVCButton.frame =  CGRect(
             x: 25,
-            y: view.safeAreaInsets.top,
+            y: 50,
             width: closeButtonSize,
             height: closeButtonSize
         )
@@ -214,8 +213,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     @objc private func didTapClose() {
-        dismiss(animated: true, completion: nil)
-        
         tabBarController?.selectedIndex = 0
         delegate?.cameraViewDidTapCloseButton()
     }
