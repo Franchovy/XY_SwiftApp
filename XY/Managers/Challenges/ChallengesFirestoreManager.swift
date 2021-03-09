@@ -34,4 +34,14 @@ final class ChallengesFirestoreManager {
             }
         }
     }
+    
+    func uploadChallenge(videoUrl: URL, completion: @escaping(Bool) -> Void) {
+        let gifPhotos = ThumbnailManager.shared.generateVideoThumbnailImages(
+            url: videoUrl,
+            timestamps: [0,1,2,3]) { (images) in
+            if let images = images {
+                
+            }
+        }
+    }
 }

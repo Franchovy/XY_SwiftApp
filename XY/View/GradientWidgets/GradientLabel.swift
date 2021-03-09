@@ -49,6 +49,11 @@ class GradientLabel: UIView {
         gradientLayer.frame = label.frame
     }
     
+    func setResizesToWidth(width: CGFloat) {
+        label.adjustsFontSizeToFitWidth = true
+        label.frame.size.width = width
+    }
+    
     override func sizeToFit() {
         label.sizeToFit()
         label.frame.origin = CGPoint(x:0,y:0)

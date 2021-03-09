@@ -9,6 +9,8 @@ import Foundation
 import UIKit
 import FirebaseStorage
 import Kingfisher
+import ImageIO
+import MobileCoreServices
 
 final class StorageManager {
     static let shared = StorageManager()
@@ -152,6 +154,23 @@ final class StorageManager {
         }
     }
     
+    public func generateGif(photos: [UIImage], filename: String) -> Bool {
+        let documentsDirectoryPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
+        let path = documentsDirectoryPath.appending(filename)
+        let fileProperties = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFLoopCount as String: 0]]
+        let gifProperties = [kCGImagePropertyGIFDictionary as String: [kCGImagePropertyGIFDelayTime as String: 0.125]]
+        let cfURL = URL(fileURLWithPath: path) as CFURL
+        if let destination = CGImageDestinationCreateWithURL(cfURL, kUTTypeGIF, photos.count, nil) {
+                CGImageDestinationSetProperties(destination, fileProperties as CFDictionary?)
+                for photo in photos {
+                    CGImageDestinationAddImage(destination, photo.cgImage!, gifProperties as CFDictionary?)
+                }
+                return CGImageDestinationFinalize(destination)
+            }
+        return false
+    }
+    
+    
     var documentsUrl: URL {
         return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     }
@@ -222,6 +241,10 @@ final class StorageManager {
         downloadTasks.removeAll()
         
         pendingDownloadTaskURLs.removeAll()
+    }
+    
+    public func getThumbnail(for videoUrl: URL) {
+        
     }
     
     // MARK: - Private functions

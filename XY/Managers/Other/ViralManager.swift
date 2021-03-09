@@ -7,7 +7,6 @@
 
 import Foundation
 import UIKit
-import AVFoundation
 import Firebase
 
 final class ViralManager {
@@ -25,7 +24,7 @@ final class ViralManager {
         // Create document
         let viralDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals).document()
         
-        generateVideoThumbnail(url: videoUrl) { (thumbnail) in
+        ThumbnailManager.shared.generateVideoThumbnail(url: videoUrl) { (thumbnail) in
             guard let thumbnail = thumbnail else {
                 completion(.failure(CreateViralError.errorGeneratingThumbnail))
                 return
@@ -89,21 +88,6 @@ final class ViralManager {
     
     // MARK: - Private functions
     
-    private func generateVideoThumbnail(url: URL, completion: @escaping ((_ image: UIImage?) -> Void)) {
-        let asset = AVAsset(url: url) //2
-        let avAssetImageGenerator = AVAssetImageGenerator(asset: asset) //3
-        avAssetImageGenerator.appliesPreferredTrackTransform = true //4
-        let thumnailTime = CMTimeMake(value: 2, timescale: 1) //5
-        do {
-            let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil) //6
-            let thumbImage = UIImage(cgImage: cgThumbImage) //7
-            completion(thumbImage) //9
-        } catch {
-            print(error.localizedDescription) //10
-            completion(nil) //11
-        }
-        
-    }
     
     private func createViralData(caption: String, uploadedVideoPath: String, completion: @escaping([String : Any]?, Error?) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {

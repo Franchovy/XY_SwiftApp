@@ -21,8 +21,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.3),
-                heightDimension: .absolute(172)
+                widthDimension: .fractionalWidth(0.33),
+                heightDimension: .absolute(215)
             )
         )
         
@@ -89,7 +89,6 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         navigationController?.navigationBar.isHidden = false
         
-        
         ChallengesFirestoreManager.shared.getChallenges { (challengeModels) in
             if let challengeModels = challengeModels {
                 var viewModels = [ChallengeViewModel]()
@@ -101,7 +100,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                         }
                         
                         if viewModels.count == challengeModels.count {
-                            self.sections.append(("XY Challenges", viewModels))
+                            self.sections.append(("XY's Challenges", viewModels))
                             self.collectionView.reloadData()
                         }
                     }

@@ -75,7 +75,7 @@ class GradientBorderButtonWithShadow: UIButton {
     
     func setBackgroundColor(color: UIColor) {
         bgColor = color
-        backgroundColor = bgColor
+//        backgroundColor = bgColor
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
