@@ -8,9 +8,11 @@
 import Foundation
 
 struct ChallengeModel {
+    let id: String
     let title: String
     let description: String
-    let creator: UserModel
+    let creatorID: String
+    let videoRef: String
     let level: Int
     let xp: Int
 }

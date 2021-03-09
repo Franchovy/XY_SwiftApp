@@ -138,10 +138,19 @@ struct FirebaseKeys {
         }
     }
     
+    struct ChallengeKeys {
+        static let title = "title"
+        static let creatorID = "creatorID"
+        static let videoRef = "videoRef"
+        static let description = "description"
+        static let gradient = "gradient"
+        static let xp = "xp"
+        static let level = "level"
+    }
+    
     struct MomentsKeys {
         static let author = "author"
         static let timestamp = "timestamp"
         static let videoRef = "videoRef"
-        
     }
 }

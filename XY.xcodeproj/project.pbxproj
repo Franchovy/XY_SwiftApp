@@ -41,6 +41,8 @@
 		B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B934B66C25F7573800575972 /* ChallengePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934B66B25F7573800575972 /* ChallengePreviewViewController.swift */; };
+		B934B67C25F76E5600575972 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934B67B25F76E5600575972 /* ChallengeCollectionViewCell.swift */; };
+		B934B68225F76EF800575972 /* CategorySectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934B68125F76EF800575972 /* CategorySectionReusableView.swift */; };
 		B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */; };
 		B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263525DA818D0063AAD6 /* ChatEventHandler.swift */; };
 		B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263B25DA81C10063AAD6 /* ChatEvent.swift */; };
@@ -124,6 +126,9 @@
 		B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAB16C25E13239005B3903 /* XPCircleView.swift */; };
 		B9ABA1FA25E454580039280B /* XPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABA1F925E454580039280B /* XPManager.swift */; };
 		B9ABA20225E45F930039280B /* CaptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABA20125E45F930039280B /* CaptionView.swift */; };
+		B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABAA9525F78781009CB966 /* ChallengesFirestoreManager.swift */; };
+		B9ABAA9A25F78859009CB966 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABAA9925F78859009CB966 /* ChallengeViewModel.swift */; };
+		B9ABAA9E25F7974A009CB966 /* ChallengesViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABAA9D25F7974A009CB966 /* ChallengesViewModelBuilder.swift */; };
 		B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */; };
 		B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */; };
 		B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */; };
@@ -216,6 +221,8 @@
 		B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B934B66B25F7573800575972 /* ChallengePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewViewController.swift; sourceTree = "<group>"; };
+		B934B67B25F76E5600575972 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
+		B934B68125F76EF800575972 /* CategorySectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySectionReusableView.swift; sourceTree = "<group>"; };
 		B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowAlgorithmManager.swift; sourceTree = "<group>"; };
 		B936263525DA818D0063AAD6 /* ChatEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEventHandler.swift; sourceTree = "<group>"; };
 		B936263B25DA81C10063AAD6 /* ChatEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEvent.swift; sourceTree = "<group>"; };
@@ -303,6 +310,9 @@
 		B9AAB16C25E13239005B3903 /* XPCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
 		B9ABA1F925E454580039280B /* XPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPManager.swift; sourceTree = "<group>"; };
 		B9ABA20125E45F930039280B /* CaptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptionView.swift; sourceTree = "<group>"; };
+		B9ABAA9525F78781009CB966 /* ChallengesFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesFirestoreManager.swift; sourceTree = "<group>"; };
+		B9ABAA9925F78859009CB966 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
+		B9ABAA9D25F7974A009CB966 /* ChallengesViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesViewModelBuilder.swift; sourceTree = "<group>"; };
 		B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralManager.swift; sourceTree = "<group>"; };
 		B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusManager.swift; sourceTree = "<group>"; };
 		B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -373,6 +383,7 @@
 		14175C792570F5D600C88051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B934B67A25F76E3800575972 /* Challenges */,
 				B9E67E6F25F441E2004FA873 /* Video */,
 				B972A2B225DD1522006A0476 /* Post */,
 				B925CC8925D58B2300542A58 /* ChatBubbles */,
@@ -415,7 +426,7 @@
 			isa = PBXGroup;
 			children = (
 				B9D5E55C25A5F131001859EA /* FlowVC.swift */,
-				149AD69B259B52A800E81ABC /* ExploreVC.swift */,
+				B934B66F25F76CBD00575972 /* Explore */,
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
 				B93D7BFC25F41ADA005CE74D /* PlayVC */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
@@ -498,6 +509,23 @@
 				B936265025DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift */,
 			);
 			path = ChatBubbles;
+			sourceTree = "<group>";
+		};
+		B934B66F25F76CBD00575972 /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				149AD69B259B52A800E81ABC /* ExploreVC.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		B934B67A25F76E3800575972 /* Challenges */ = {
+			isa = PBXGroup;
+			children = (
+				B934B67B25F76E5600575972 /* ChallengeCollectionViewCell.swift */,
+				B934B68125F76EF800575972 /* CategorySectionReusableView.swift */,
+			);
+			path = Challenges;
 			sourceTree = "<group>";
 		};
 		B936262125D963BF0063AAD6 /* Flow */ = {
@@ -850,6 +878,7 @@
 				B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */,
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
 				B9B74D9425F03A170083D69A /* Ranking */,
+				B9ABAA9925F78859009CB966 /* ChallengeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -857,6 +886,8 @@
 		B9E67E6125F42200004FA873 /* Challenges */ = {
 			isa = PBXGroup;
 			children = (
+				B9ABAA9525F78781009CB966 /* ChallengesFirestoreManager.swift */,
+				B9ABAA9D25F7974A009CB966 /* ChallengesViewModelBuilder.swift */,
 			);
 			path = Challenges;
 			sourceTree = "<group>";
@@ -1127,11 +1158,13 @@
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */,
+				B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */,
 				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,
 				B92161EE25E2CC1B001BE793 /* Relationship.swift in Sources */,
+				B934B67C25F76E5600575972 /* ChallengeCollectionViewCell.swift in Sources */,
 				B99020C425ED3817004AC25C /* AuthChoiceViewController.swift in Sources */,
 				B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
@@ -1144,11 +1177,13 @@
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */,
 				B9781DC525DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift in Sources */,
+				B934B68225F76EF800575972 /* CategorySectionReusableView.swift in Sources */,
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
 				B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */,
 				B9B74D8625F02B700083D69A /* RankingFirestoreManager.swift in Sources */,
 				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
+				B9ABAA9A25F78859009CB966 /* ChallengeViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
@@ -1219,6 +1254,7 @@
 				B998621E25F17FF100AE8369 /* ProfileFirestoreManager.swift in Sources */,
 				B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */,
+				B9ABAA9E25F7974A009CB966 /* ChallengesViewModelBuilder.swift in Sources */,
 				B9E67E7125F441FA004FA873 /* CommentView.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
