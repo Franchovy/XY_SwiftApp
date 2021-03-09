@@ -11,23 +11,15 @@ import AVFoundation
 
 class ExploreVC: UIViewController {
     
-    private let oopsLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor(named: "tintColor")
-        label.font = UIFont(name: "Raleway-Bold", size: 24)
-        label.text = "Ooops!"
-        return label
+    private var collectionView: UICollectionView = {
+        let layout = UICollectionViewLayout()
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
+        return collectionView
     }()
     
-    private let challengesComingSoonLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = UIColor(named: "tintColor")
-        label.font = UIFont(name: "Raleway-Bold", size: 16)
-        label.text = "Challenges coming soon."
-        return label
-    }()
-    
-    private var virals = [ViralModel]()
+    private var videos = [ViralModel]()
     
     private var viralView: ViralViewController?
     private var nextViralView: ViralViewController?
@@ -51,14 +43,11 @@ class ExploreVC: UIViewController {
         try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
         try? AVAudioSession.sharedInstance().setActive(true)
         
-        view.addSubview(oopsLabel)
-        view.addSubview(challengesComingSoonLabel)
-        
         view.backgroundColor = UIColor(named: "Black")
         
         navigationController?.navigationBar.isHidden = false
                 
-//        fetchVirals()
+        fetchVirals()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,21 +67,7 @@ class ExploreVC: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        oopsLabel.sizeToFit()
-        oopsLabel.frame = CGRect(
-            x: (view.width - oopsLabel.width)/2,
-            y: view.center.y - 15,
-            width: oopsLabel.width,
-            height: oopsLabel.height
-        )
         
-        challengesComingSoonLabel.sizeToFit()
-        challengesComingSoonLabel.frame = CGRect(
-            x: (view.width - challengesComingSoonLabel.width)/2,
-            y: oopsLabel.bottom + 30,
-            width: challengesComingSoonLabel.width,
-            height: challengesComingSoonLabel.height
-        )
     }
     
     // MARK: - Private functions
@@ -106,7 +81,7 @@ class ExploreVC: UIViewController {
                     return
                 }
                 
-                self.virals = viralModels
+                self.videos = viralModels
                 
                 // Load first viral
                 self.createViralView(index: 0)
@@ -126,7 +101,7 @@ class ExploreVC: UIViewController {
         viralView = nil
             
         if nextViralView == nil {
-            nextViralView = ViralViewController(model: self.virals[currentViralIndex])
+            nextViralView = ViralViewController(model: self.videos[currentViralIndex])
             currentViralIndex += 1
         }
         
@@ -136,7 +111,7 @@ class ExploreVC: UIViewController {
         
         DispatchQueue.main.async {
             
-            guard self.currentViralIndex <= self.virals.count else {
+            guard self.currentViralIndex <= self.videos.count else {
                 
                 DispatchQueue.main.async {
                     self.viralView?.player?.pause()
@@ -174,12 +149,12 @@ class ExploreVC: UIViewController {
             self.viralView = viralView
         }
         
-        if currentViralIndex > self.virals.count-1 {
+        if currentViralIndex > self.videos.count-1 {
             return
         }
         
         // Load next viral
-        let nextViralView = ViralViewController(model: self.virals[currentViralIndex])
+        let nextViralView = ViralViewController(model: self.videos[currentViralIndex])
         
         self.nextViralView = nextViralView
         view.insertSubview(nextViralView.view, belowSubview: viralView.view)

@@ -24,8 +24,10 @@ class TabBarViewController: UITabBarController {
         ProfileManager.shared.delegate = self
         
         let appearance = UITabBarItem.appearance()
-        let attributes = [NSAttributedString.Key.font:UIFont(name: "Raleway-Heavy", size: 14)]
+        let attributes = [NSAttributedString.Key.font:UIFont(name: "Raleway-Heavy", size: 10)]
         appearance.setTitleTextAttributes(attributes as [NSAttributedString.Key : Any], for: .normal)
+        
+        tabBar.isTranslucent = false
         
         let nav1 = UINavigationController(
             rootViewController: PlayViewController()
@@ -44,7 +46,14 @@ class TabBarViewController: UITabBarController {
         )
         setViewControllers([nav1, nav2, nav3, nav4, nav5], animated: false)
         
-        nav1.tabBarItem = UITabBarItem(title: "Watch", image: UIImage(named: "tabbar_watch_icon"), tag: 1)
+        let randomInt = Int.random(in: 0...10)
+        let icon = randomInt == 1 ? UIImage(systemName: "eyes") : UIImage(named: "tabbar_watch_icon")
+        nav1.tabBarItem = UITabBarItem(
+            title: "Watch",
+            image: icon,
+            tag: 1
+        )
+        tabBar.tintColor = UIColor(named: "XYWhite")
         nav2.tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
         nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "tabbar_play_icon")!.withRenderingMode(.alwaysOriginal), tag: 3)
         nav4.tabBarItem = UITabBarItem(title: "XYWorld", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
@@ -87,7 +96,7 @@ class TabBarViewController: UITabBarController {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        setCreatePostIcon()
+//        setCreatePostIcon()
     }
     
     private func setProfileIcon(userID: String) {

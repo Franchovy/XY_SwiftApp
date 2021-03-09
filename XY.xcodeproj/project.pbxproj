@@ -40,6 +40,7 @@
 		B925CC7325D5844200542A58 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC7225D5844200542A58 /* MessageViewModel.swift */; };
 		B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */; };
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
+		B934B66C25F7573800575972 /* ChallengePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934B66B25F7573800575972 /* ChallengePreviewViewController.swift */; };
 		B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */; };
 		B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263525DA818D0063AAD6 /* ChatEventHandler.swift */; };
 		B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936263B25DA81C10063AAD6 /* ChatEvent.swift */; };
@@ -214,6 +215,7 @@
 		B925CC7225D5844200542A58 /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		B925CC9025D58B4F00542A58 /* ChatBubbleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubbleTableViewCell.swift; sourceTree = "<group>"; };
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
+		B934B66B25F7573800575972 /* ChallengePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewViewController.swift; sourceTree = "<group>"; };
 		B936262225D963E10063AAD6 /* FlowAlgorithmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowAlgorithmManager.swift; sourceTree = "<group>"; };
 		B936263525DA818D0063AAD6 /* ChatEventHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEventHandler.swift; sourceTree = "<group>"; };
 		B936263B25DA81C10063AAD6 /* ChatEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatEvent.swift; sourceTree = "<group>"; };
@@ -702,6 +704,7 @@
 				B944DAC425E6C4290040CEDB /* PreviewViewController.swift */,
 				B972A2AE25DD06E6006A0476 /* PostViewController.swift */,
 				B979F68B25C0799F0040AE5B /* ViralViewController.swift */,
+				B934B66B25F7573800575972 /* ChallengePreviewViewController.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -1204,6 +1207,7 @@
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
+				B934B66C25F7573800575972 /* ChallengePreviewViewController.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 				B9781DD025DE70FA00A2FE2D /* UserModel.swift in Sources */,
 				B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */,
