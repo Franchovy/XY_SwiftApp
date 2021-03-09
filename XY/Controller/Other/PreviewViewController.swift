@@ -13,24 +13,35 @@ protocol PreviewViewControllerDelegate: AnyObject {
     func didFinishUploadingViral(videoUrl: URL, viralModel: ViralModel)
 }
 
-class PreviewViewController: UIViewController {
+class PreviewViewController: UIViewController, UITextViewDelegate {
     
     private let delegate: PreviewViewControllerDelegate
     
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.layer.masksToBounds = true
-        button.setBackgroundImage(UIImage(systemName: "chevron.right"), for: .normal)
         button.tintColor = UIColor(named: "tintColor")
+        button.setTitle("Next", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 25)
         return button
     }()
     
     private let closePreviewButton: UIButton = {
         let button = UIButton()
-        button.layer.masksToBounds = true
-        button.setBackgroundImage(UIImage(systemName: "xmark"), for: .normal)
         button.tintColor = UIColor(named: "tintColor")
+        button.setTitle("Close", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 25)
         return button
+    }()
+    
+    var captionTextFieldDidBeginEditing = false
+    private let captionTextField: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = UIColor(named: "Dark")
+        textView.layer.cornerRadius = 5
+        textView.font = UIFont(name: "Raleway-Regular", size: 12)
+        textView.textColor = UIColor(named: "XYTint")
+        textView.text = "Caption your video..."
+        return textView
     }()
     
     private let caption: MessageView = {
@@ -54,11 +65,10 @@ class PreviewViewController: UIViewController {
     init(previewVideoUrl: URL, delegate: PreviewViewControllerDelegate) {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
-                
+        
         let player = AVPlayer(url: previewVideoUrl)
         previewLayer = AVPlayerLayer(player: player)
         previewLayer?.videoGravity = .resizeAspectFill
-        previewLayer?.frame = view.bounds
         
         guard let previewLayer = previewLayer else { return }
         
@@ -80,7 +90,9 @@ class PreviewViewController: UIViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-        self.previewImageView = UIImageView(image: previewImage)
+        previewLayerView.layer.cornerRadius = 5
+        previewLayerView.layer.masksToBounds = true
+        previewImageView = UIImageView(image: previewImage)
     }
     
     required init?(coder: NSCoder) {
@@ -96,14 +108,20 @@ class PreviewViewController: UIViewController {
         
         if let previewImageView = previewImageView {
             view.addSubview(previewImageView)
+            
+            view.addSubview(caption)
+            
+        } else {
+            navigationController?.isNavigationBarHidden = false
+            
+            view.addSubview(captionTextField)
+            captionTextField.delegate = self
+            
+            view.addSubview(previewLayerView)
         }
         
-        view.addSubview(previewLayerView)
         view.addSubview(nextButton)
         view.addSubview(closePreviewButton)
-        
-        view.addSubview(caption)
-
     
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         closePreviewButton.addTarget(self, action: #selector(didTapClosePreview), for: .touchUpInside)
@@ -118,38 +136,58 @@ class PreviewViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        
         layoutPreviewButtons()
         
-        var captionY:CGFloat = 0
         
-        if let previewImageView = previewImageView, let previewImage = previewImageView.image {
-            previewImageView.layer.cornerRadius = 15
-            previewImageView.layer.masksToBounds = true
+        if previewImageView != nil {
+        
+            var captionY:CGFloat = 0
             
-            let imageSize = previewImage.size
-            let aspectRatio = imageSize.height / imageSize.width
-            let imageHeight = imageSize.height / imageSize.width * view.width
-            previewImageView.frame = CGRect(
-                x: view.left,
-                y: (view.height - imageHeight)/2,
-                width: view.width,
-                height: imageHeight
-            )
+            if let previewImageView = previewImageView, let previewImage = previewImageView.image {
+                previewImageView.layer.cornerRadius = 15
+                previewImageView.layer.masksToBounds = true
+                
+                let imageSize = previewImage.size
+                let aspectRatio = imageSize.height / imageSize.width
+                let imageHeight = imageSize.height / imageSize.width * view.width
+                previewImageView.frame = CGRect(
+                    x: view.left,
+                    y: (view.height - imageHeight)/2,
+                    width: view.width,
+                    height: imageHeight
+                )
+                
+                captionY = min(
+                    previewImageView.bottom + 10,
+                    view.height - caption.height - view.safeAreaInsets.bottom - 10
+                )
+            } else {
+                captionY = view.height - caption.height - view.safeAreaInsets.bottom - 10
+            }
             
-            captionY = min(
-                previewImageView.bottom + 10,
-                view.height - caption.height - view.safeAreaInsets.bottom - 10
+            caption.frame = CGRect(
+                x: 10,
+                y: captionY,
+                width: caption.width,
+                height: caption.height
             )
         } else {
-            captionY = view.height - caption.height - view.safeAreaInsets.bottom - 10
+            previewLayerView.frame = CGRect(
+                x: 10,
+                y: nextButton.bottom + 10,
+                width: 100,
+                height: 155
+            )
+            previewLayer?.frame = previewLayerView.bounds
+            
+            captionTextField.frame = CGRect(
+                x: previewLayerView.right + 18,
+                y: nextButton.bottom + 10,
+                width: view.width - previewLayerView.right - 33,
+                height: 73
+            )
         }
-        
-        caption.frame = CGRect(
-            x: 10,
-            y: captionY,
-            width: caption.width,
-            height: caption.height
-        )
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -162,25 +200,27 @@ class PreviewViewController: UIViewController {
     // MARK: - Private functions
     
     private func layoutPreviewButtons() {
-        let size: CGFloat = 25
+        let size = CGSize(width: 150, height: 35)
         
+        nextButton.sizeToFit()
         nextButton.frame = CGRect(
-            x: view.right - 25 - size,
+            x: view.right - 25 - nextButton.width,
             y: view.top + 25 + view.safeAreaInsets.top,
-            width: size,
-            height: size
+            width: nextButton.width,
+            height: nextButton.height
         )
-                
+        
+        closePreviewButton.sizeToFit()
         closePreviewButton.frame = CGRect(
             x: 25,
             y: view.top + 25 + view.safeAreaInsets.top,
-            width: size,
-            height: size
+            width: closePreviewButton.width,
+            height: closePreviewButton.height
         )
     }
     
     private func postUploadComplete(_ postModel: PostModel) {
-
+        
         print("Post upload complete: \(postModel)")
         guard let previewImage = previewImageView?.image else {
             return
@@ -197,6 +237,13 @@ class PreviewViewController: UIViewController {
         }
         dismiss(animated: true, completion: nil)
         delegate.didFinishUploadingViral(videoUrl: videoUrl, viralModel: viralModel)
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if !captionTextFieldDidBeginEditing {
+            textView.text = ""
+            captionTextFieldDidBeginEditing = true
+        }
     }
     
     // MARK: - Obj-C Functions
@@ -259,7 +306,7 @@ class PreviewViewController: UIViewController {
     @objc private func didTapCaptionView() {
         caption.toggleInputMode(inputMode: true)
         view.setNeedsLayout()
-
+        
     }
     
     @objc private func didTapAnywhere() {

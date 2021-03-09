@@ -40,7 +40,7 @@ final class ChallengesViewModelBuilder {
                 creatorProfile = profileModel
             }
         }
-        
+        return;
         dispatchGroup.notify(
             queue: .main,
             work: DispatchWorkItem(block: {
@@ -52,6 +52,7 @@ final class ChallengesViewModelBuilder {
                     id: model.id,
                     videoUrl: videoURL,
                     title: model.title,
+                    description: model.description,
                     gradient: Global.xyGradient,
                     creator: creatorProfile
                 )
