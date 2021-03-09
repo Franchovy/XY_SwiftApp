@@ -94,15 +94,15 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.isNavigationBarHidden = true
-        
         view.setNeedsLayout()
         
         session.sessionPreset = .high
         session.commitConfiguration()
         
         session.startRunning()
+        
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {

@@ -7,9 +7,10 @@
 
 import UIKit
 
-class TabBarViewController: UITabBarController {
+class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     var onInitFinished: (() -> Void)?
+    var eyesMode = false
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -46,14 +47,14 @@ class TabBarViewController: UITabBarController {
         )
         setViewControllers([nav1, nav2, nav3, nav4, nav5], animated: false)
         
-        let randomInt = Int.random(in: 0...10)
-        let icon = randomInt == 1 ? UIImage(systemName: "eyes") : UIImage(named: "tabbar_watch_icon")
+        eyesMode = Int.random(in: 0...15) == 1
+        let icon = eyesMode ? UIImage(systemName: "eyes") : UIImage(named: "tabbar_watch_icon")
         nav1.tabBarItem = UITabBarItem(
             title: "Watch",
             image: icon,
             tag: 1
         )
-        tabBar.tintColor = UIColor(named: "XYWhite")
+        tabBar.tintColor = UIColor(named: "XYTint")
         nav2.tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
         nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "tabbar_play_icon")!.withRenderingMode(.alwaysOriginal), tag: 3)
         nav4.tabBarItem = UITabBarItem(title: "XYWorld", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
@@ -184,6 +185,19 @@ class TabBarViewController: UITabBarController {
         let vc = mainStoryboard.instantiateViewController(identifier: "LaunchVC")
         vc.modalPresentationStyle = .fullScreen
         show(vc, sender: self)
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if eyesMode {
+            if tabBar.items?[0] == item {
+                tabBar.items?[0].image = UIImage(systemName: "eyes")
+            } else {
+                tabBar.items?[0].image = UIImage(cgImage: UIImage(systemName: "eyes")!.cgImage!,
+                                                 scale: 2.0, orientation: UIImage.Orientation.upMirrored)
+                
+                
+            }
+        }
     }
 }
 
