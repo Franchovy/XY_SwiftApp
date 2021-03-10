@@ -7,14 +7,13 @@
 
 import UIKit
 import AVFoundation
-import SwiftyCam
 
 protocol CameraViewControllerDelegate {
     func cameraViewDidTapCloseButton()
     func didFinishUploadingPost(postData: PostViewModel)
 }
 
-class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
 
     var delegate: CameraViewControllerDelegate?
     
@@ -26,11 +25,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         return button
     }()
     
-    private let recordButton: SwiftyCamButton = {
-        let button = SwiftyCamButton()
+    private let recordButton: UIButton = {
+        let button = UIButton()
         button.layer.masksToBounds = true
         button.backgroundColor = UIColor(0xb9b9b9)
-        
         return button
     }()
     
@@ -52,6 +50,20 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         return pickerController
     }()
     
+    var previewLayer: AVCaptureVideoPreviewLayer?
+//    var videoOutput : AVCaptureVideoDataOutput?
+    
+    var backCameraActive = false
+    var isFrontRecording = false
+    var videoInputBack: AVCaptureDeviceInput?
+    var sessionBack: AVCaptureSession?
+
+    var isBackRecording = false
+    var videoInputFront: AVCaptureDeviceInput?
+    var sessionFront: AVCaptureSession?
+    
+    private let movieFileOutput = AVCaptureMovieFileOutput()
+    
     // MARK: - Lifecycle
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -67,11 +79,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     override func viewDidLoad() {
-        videoGravity = .resizeAspectFill
-        swipeToZoom = false
-        pinchToZoom = true
-        maximumVideoDuration = 10.0
-        
         super.viewDidLoad()
     
         view.addSubview(recordButton)
@@ -82,24 +89,82 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         closeCameraVCButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
         
         pickerController.delegate = self
-        recordButton.delegate = self
-        cameraDelegate = self
         
         let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(didDoubleTap))
         doubleTapGesture.numberOfTapsRequired = 2
         view.addGestureRecognizer(doubleTapGesture)
         
+        recordButton.addTarget(self, action: #selector(didTapRecordButton), for: .touchUpInside)
         recordButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+        
+        setupAVCaptureSessions()
+        
+        if let sessionBack = sessionBack {
+            // Set up preview layer and output
+            
+            previewLayer = AVCaptureVideoPreviewLayer(session: sessionBack)
+            view.layer.insertSublayer(previewLayer!, at: 0)
+//            videoOutput = AVCaptureVideoDataOutput()
+            sessionBack.addOutput(movieFileOutput)
+            
+            backCameraActive = true
 
+        }
     }
+
+    func setupAVCaptureSessions() {
+        
+        // Set up back camera
+
+        sessionBack = AVCaptureSession()
+        sessionBack!.sessionPreset = .high
+        sessionBack!.startRunning()
+
+        let backCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,
+                                                 for: .video, position: .back) ??
+            AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                           for: .video, position: .back)
+            
+        if let backCamera = backCamera {
+            do {
+                print("Back camera initialized")
+                videoInputBack = try AVCaptureDeviceInput(device: backCamera)
+                sessionBack!.addInput(videoInputBack!)
+            } catch {
+                print("Error initializing session for back input!")
+            }
+        }
+        
+        // Set up front camera
+        
+        sessionFront = AVCaptureSession()
+        sessionFront!.sessionPreset = .high
+        sessionFront!.startRunning()
+        
+        let frontCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,
+                                                 for: .video, position: .front) ??
+            AVCaptureDevice.default(.builtInWideAngleCamera,
+                                                           for: .video, position: .front)
+            
+        if let frontCamera = frontCamera {
+            do {
+                print("Front camera initialized")
+                videoInputFront = try AVCaptureDeviceInput(device: frontCamera)
+                sessionFront!.addInput(videoInputFront!)
+            } catch {
+                print("Error initializing session for back input!")
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        previewLayer?.frame = view.bounds
+    }
+
     
     override func viewWillAppear(_ animated: Bool) {
         view.setNeedsLayout()
-        
-        session.sessionPreset = .high
-        session.commitConfiguration()
-        
-        session.startRunning()
         
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
@@ -205,11 +270,60 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     // MARK: - Objc functions
     
     @objc private func didDoubleTap() {
-        switchCamera()
+        // Switch cameras
+        
+        let fromSession = backCameraActive ? sessionBack! : sessionFront!
+        let toSession = backCameraActive ? sessionFront! : sessionBack!
+        backCameraActive = !backCameraActive
+        
+        print("Front session: \(sessionFront!)")
+        print("Back session: \(sessionFront!)")
+        
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+        
+        DispatchQueue.main.async {
+            fromSession.beginConfiguration()
+            fromSession.removeOutput(self.movieFileOutput)
+            fromSession.commitConfiguration()
+            
+            toSession.beginConfiguration()
+            if toSession.canAddOutput(self.movieFileOutput) {
+                toSession.addOutput(self.movieFileOutput)
+                print("Output changed")
+            }
+            toSession.commitConfiguration()
+            
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.notify(queue: .main, work: DispatchWorkItem(block: {
+            let newPreviewLayer = AVCaptureVideoPreviewLayer(session: toSession)
+            newPreviewLayer.videoGravity = .resizeAspectFill
+            newPreviewLayer.frame = self.view.bounds
+            self.view.layer.insertSublayer(newPreviewLayer, at: 0)
+            
+            self.previewLayer?.removeFromSuperlayer()
+            self.previewLayer = newPreviewLayer
+        }))
     }
     
     @objc private func didTapRecordButton() {
-        takePhoto()
+        if isBackRecording {
+            didEndRecording()
+            isBackRecording = false
+        } else if isFrontRecording {
+            didEndRecording()
+            isFrontRecording = false
+        } else {
+            if backCameraActive {
+                isBackRecording = true
+                didStartRecording()
+            } else {
+                isFrontRecording = true
+                didStartRecording()
+            }
+        }
     }
     
     @objc private func didTapClose() {
@@ -222,46 +336,38 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         present(pickerController, animated: true)
     }
     
-    // MARK: - Delegate methods
-    
-    func swiftyCamNotAuthorized(_ swiftyCam: SwiftyCamViewController) {
-        // Not Authorized to camera or mic (?)
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didTake photo: UIImage) {
-        // Take Photo
-        previewVC = PreviewViewController(previewImage: photo, delegate: self)
-
-        view.addSubview(previewVC!.view)
-
-        previewVC!.view.frame = view.bounds
-    }
-    
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didBeginRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // Start Recording Video
+    func didStartRecording() {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
+        let filePath = documentsURL.appendingPathComponent("tempMovie.mp4")
+        if FileManager.default.fileExists(atPath: filePath.absoluteString) {
+            do {
+                try FileManager.default.removeItem(at: filePath)
+            }
+            catch {
+                // exception while deleting old cached file
+                // ignore error if any
+            }
+        }
+        
+        movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
         
         UIView.animate(withDuration: 0.3, animations: {
             self.recordButton.backgroundColor = .red
         })
     }
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishRecordingVideo camera: SwiftyCamViewController.CameraSelection) {
-        // End Recording Video
+    func didEndRecording() {
+        movieFileOutput.stopRecording()
         
         UIView.animate(withDuration: 0.5, animations: {
             self.recordButton.backgroundColor = UIColor(0x404040)
         })
     }
     
-    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
-        // End Processing Video
-        print("Finished processing")
+    func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
+        let previewVC = PreviewViewController(previewVideoUrl: outputFileURL, delegate: self)
         
-        previewVC = PreviewViewController(previewVideoUrl: url, delegate: self)
-        
-        view.addSubview(previewVC!.view)
-        
-        previewVC!.view.frame = view.bounds
+        navigationController?.present(previewVC, animated: true, completion: nil)
     }
 }
 
