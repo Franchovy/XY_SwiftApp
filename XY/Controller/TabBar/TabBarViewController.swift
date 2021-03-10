@@ -9,11 +9,17 @@ import UIKit
 
 class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
+    static var instance: TabBarViewController!
+    
     var onInitFinished: (() -> Void)?
     var eyesMode = false
     
+    var cameraVC: CameraViewController!
+    
     init() {
         super.init(nibName: nil, bundle: nil)
+        
+        TabBarViewController.instance = self
         
         guard let userId = AuthManager.shared.userId else { return }
         setProfileIcon(userID: userId)
@@ -30,6 +36,8 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         
         tabBar.isTranslucent = false
         
+        cameraVC = CameraViewController()
+        
         let nav1 = UINavigationController(
             rootViewController: PlayViewController()
         )
@@ -37,7 +45,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
             rootViewController: ExploreVC()
         )
         let nav3 = UINavigationController(
-            rootViewController: CameraViewController()
+            rootViewController: cameraVC
         )
         let nav4 = UINavigationController(
             rootViewController: XYworldVC()
@@ -69,10 +77,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         nav5.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
         nav5.tabBarItem.imageInsets.top = 3
         
-        
-        guard let cameraVC = viewControllers?[2] as? CameraViewController else {
-            return
-        }
         cameraVC.delegate = self
     }
     
@@ -92,12 +96,12 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        //        tabBar.isHidden = false
+        
         view.layoutSubviews()
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-//        setCreatePostIcon()
+
     }
     
     private func setProfileIcon(userID: String) {
@@ -185,6 +189,12 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         let vc = mainStoryboard.instantiateViewController(identifier: "LaunchVC")
         vc.modalPresentationStyle = .fullScreen
         show(vc, sender: self)
+    }
+    
+    public func startChallenge(challenge: ChallengeViewModel) {
+        selectedIndex = 2
+        
+        cameraVC.pressedPlay(challenge: challenge)
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {

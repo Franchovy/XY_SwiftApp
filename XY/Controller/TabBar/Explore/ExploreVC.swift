@@ -45,14 +45,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         layout.configuration.scrollDirection = .vertical
         
-//        layout.scrollDirection = .vertical
-//        layout.headerReferenceSize = CGSize(width: 450, height: 40)
-//        layout.estimatedItemSize = CGSize(width: 116, height: 172)
-//        layout.itemSize = CGSize(width: 116, height: 172)
-//        layout.minimumLineSpacing = 10
-//        layout.minimumInteritemSpacing = 5
-        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        
         collectionView.register(CategorySectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CategorySectionReusableView.identifier)
         collectionView.register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
         return collectionView
@@ -67,10 +61,12 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         super.init(nibName: nil, bundle: nil)
         
         collectionView.dataSource = self
-        collectionView.delegate = self
         
         view.addSubview(collectionView)
         
+//        collectionView.isUserInteractionEnabled = false
+        collectionView.allowsSelection = false
+        collectionView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -107,6 +103,9 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 }
             }
         }
+        
+        let titleView = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+        navigationItem.titleView = titleView
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -139,8 +138,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         ) as? ChallengeCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
         cell.configure(viewModel: sections[indexPath.section].1[indexPath.row])
+        
         return cell
     }
     

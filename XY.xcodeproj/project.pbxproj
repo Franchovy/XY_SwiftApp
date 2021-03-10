@@ -132,7 +132,6 @@
 		B9ABAA9E25F7974A009CB966 /* ChallengesViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABAA9D25F7974A009CB966 /* ChallengesViewModelBuilder.swift */; };
 		B9ABAAA525F7CBB1009CB966 /* ThumbnailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABAAA425F7CBB1009CB966 /* ThumbnailManager.swift */; };
 		B9ABAAA925F7CFB4009CB966 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABAAA825F7CFB4009CB966 /* VideoPlayerView.swift */; };
-		B9ABAAAF25F7EE81009CB966 /* ChallengeCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABAAAE25F7EE81009CB966 /* ChallengeCardCollectionViewCell.swift */; };
 		B9AD3B2D25C9C09100BF74C3 /* ViralManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */; };
 		B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */; };
 		B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */; };
@@ -320,7 +319,6 @@
 		B9ABAA9D25F7974A009CB966 /* ChallengesViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesViewModelBuilder.swift; sourceTree = "<group>"; };
 		B9ABAAA425F7CBB1009CB966 /* ThumbnailManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbnailManager.swift; sourceTree = "<group>"; };
 		B9ABAAA825F7CFB4009CB966 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
-		B9ABAAAE25F7EE81009CB966 /* ChallengeCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B9AD3B2C25C9C09100BF74C3 /* ViralManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViralManager.swift; sourceTree = "<group>"; };
 		B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusManager.swift; sourceTree = "<group>"; };
 		B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -533,7 +531,6 @@
 			children = (
 				B934B67B25F76E5600575972 /* ChallengeCollectionViewCell.swift */,
 				B934B68125F76EF800575972 /* CategorySectionReusableView.swift */,
-				B9ABAAAE25F7EE81009CB966 /* ChallengeCardCollectionViewCell.swift */,
 				B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */,
 			);
 			path = Challenges;
@@ -1199,7 +1196,6 @@
 				B9ABAA9A25F78859009CB966 /* ChallengeViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */,
-				B9ABAAAF25F7EE81009CB966 /* ChallengeCardCollectionViewCell.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,

@@ -29,16 +29,23 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     }()
     
     private var videoView: VideoPlayerView?
+    private var viewModel: ChallengeViewModel?
     
     override init(frame: CGRect) {
         
         super.init(frame: frame)
     
-        addSubview(creatorNameLabel)
-        addSubview(playButton)
-        
+        contentView.addSubview(creatorNameLabel)
+        contentView.addSubview(playButton)
+                
         layer.cornerRadius = 15
         layer.masksToBounds = true
+        
+        isUserInteractionEnabled = false
+        contentView.isUserInteractionEnabled = false
+        
+        playButton.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -65,7 +72,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
                 height: creatorNameLabel.height
             )
         }
-                
+        
         let playButtonSize = CGSize(width: 49, height: 18)
         playButton.frame = CGRect(
             x: (width - playButtonSize.width)/2,
@@ -76,8 +83,10 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(viewModel: ChallengeViewModel) {
+        self.viewModel = viewModel
+        
         let challengeTitleGradientLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 12, gradientColours: Global.xyGradient)
-        addSubview(challengeTitleGradientLabel)
+        contentView.addSubview(challengeTitleGradientLabel)
         
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)
         self.challengeTitleGradientLabel = challengeTitleGradientLabel
@@ -85,12 +94,26 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         creatorNameLabel.text = "@\(viewModel.creator.nickname)"
         
         let videoView = VideoPlayerView()
-        insertSubview(videoView, at: 0)
+        contentView.insertSubview(videoView, at: 0)
         videoView.frame = bounds
         
         videoView.setUpVideo(videoURL: viewModel.videoUrl)
         self.videoView = videoView
         
         layoutSubviews()
+        
+        print("Is user interaction enabled: \(isUserInteractionEnabled), \(contentView.isUserInteractionEnabled)")
+        let gr = UITapGestureRecognizer(target: self, action: #selector(didTapPlay))
+        videoView.addGestureRecognizer(gr)
+        creatorNameLabel.addGestureRecognizer(gr)
+        challengeTitleGradientLabel.addGestureRecognizer(gr)
+    }
+    
+    @objc private func didTapPlay() {
+        print("Play")
+        guard let viewModel = viewModel else {
+            return
+        }
+        TabBarViewController.instance.startChallenge(challenge: viewModel)
     }
 }

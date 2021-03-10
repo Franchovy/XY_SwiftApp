@@ -40,7 +40,7 @@ final class ChallengesViewModelBuilder {
                 creatorProfile = profileModel
             }
         }
-        return;
+        
         dispatchGroup.notify(
             queue: .main,
             work: DispatchWorkItem(block: {

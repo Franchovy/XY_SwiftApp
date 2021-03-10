@@ -86,13 +86,13 @@ class FlowVC : UITableViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        navigationController?.isNavigationBarHidden = true
         barXPCircle.registerXPUpdates(for: .ownUser)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+        navigationController?.isNavigationBarHidden = false
         StorageManager.shared.cancelCurrentDownloadTasks()
         
         barXPCircle.deregisterUpdates()
