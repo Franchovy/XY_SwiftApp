@@ -14,4 +14,5 @@ struct ChallengeViewModel {
     var description: String
     var gradient: [UIColor]
     var creator: ProfileModel
+    var timeInMinutes: Float
 }

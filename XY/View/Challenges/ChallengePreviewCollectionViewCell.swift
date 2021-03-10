@@ -39,6 +39,9 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
         return button
     }()
         
+    var viewModel: ChallengeViewModel?
+    var challengeStartDelegate: StartChallengeDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -50,6 +53,8 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
         
         layer.cornerRadius = 15
         layer.masksToBounds = true
+        
+        playButton.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -70,13 +75,12 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
         }
         
         let boundingRect = CGRect(
-            x: 5,
-            y: (challengeTitleGradientLabel?.bottom ?? 0) + 5,
-            width: width - 10,
+            x: 12,
+            y: (challengeTitleGradientLabel?.bottom ?? 0) + 15,
+            width: width - 24,
             height: 130
         )
         let descriptionBounds = descriptionLabel.textRect(forBounds: boundingRect, limitedToNumberOfLines: 4)
-        print("Bounds: \(descriptionBounds)")
         descriptionLabel.frame = CGRect(
             x: descriptionBounds.origin.x,
             y: (130 - descriptionBounds.height)/2,
@@ -112,6 +116,15 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
         creatorNameLabel.text = "By: \n@\(viewModel.creator.nickname)"
         descriptionLabel.text = viewModel.description
         
+        self.viewModel = viewModel
+        
         layoutSubviews()
+    }
+    
+    @objc private func playButtonPressed() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        challengeStartDelegate?.pressedPlay(challenge: viewModel)
     }
 }

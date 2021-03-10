@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "signal-2021-03-10-205819_003.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "signal-2021-03-10-205819_002.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "signal-2021-03-10-205819_001.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

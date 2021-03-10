@@ -54,7 +54,8 @@ final class ChallengesViewModelBuilder {
                     title: model.title,
                     description: model.description,
                     gradient: Global.xyGradient,
-                    creator: creatorProfile
+                    creator: creatorProfile,
+                    timeInMinutes: 1.0
                 )
                 
                 completion(challengeViewModel)

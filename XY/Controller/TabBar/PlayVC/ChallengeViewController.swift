@@ -42,11 +42,7 @@ class ChallengeViewController: UIViewController {
         challengeDescriptionLabel.text =
             modelChallengeText
         
-        
-        
         super.init(nibName: nil, bundle: nil)
-        
-        
     }
     
     required init?(coder: NSCoder) {
