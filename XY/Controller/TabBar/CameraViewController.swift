@@ -505,6 +505,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         // Start timer
         countDownLabel.isHidden = false
         countDownLabel.text = "3"
+        layoutCountDownLabel()
         var countDown = 3
         UIView.animate(withDuration: 0.3) {
             self.countDownLabel.alpha = 1.0
