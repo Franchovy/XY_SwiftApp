@@ -23,7 +23,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         button.setTitle("Play", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
         button.setTitleColor(.white, for: .normal)
-        button.setBackgroundColor(color: UIColor(named: "Black")!)
+        button.setBackgroundColor(color: .black)
         button.setGradient(Global.xyGradient)
         return button
     }()
@@ -37,9 +37,14 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     
         contentView.addSubview(creatorNameLabel)
         contentView.addSubview(playButton)
+        
+        layer.shadowRadius = 6
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.shadowOpacity = 1.0
+        layer.shadowColor = UIColor.black.cgColor
                 
-        layer.cornerRadius = 15
-        layer.masksToBounds = true
+        layer.masksToBounds = false
+        clipsToBounds = false
         
         isUserInteractionEnabled = false
         contentView.isUserInteractionEnabled = false
@@ -99,6 +104,9 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         
         videoView.setUpVideo(videoURL: viewModel.videoUrl)
         self.videoView = videoView
+        
+        videoView.layer.cornerRadius = 15
+        videoView.layer.masksToBounds = true
         
         layoutSubviews()
         
