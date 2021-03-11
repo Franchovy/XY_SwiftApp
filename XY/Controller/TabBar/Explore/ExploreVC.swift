@@ -159,4 +159,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         headerView.configure(title: sections[indexPath.section].0)
         return headerView
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Did select!")
+    }
 }
