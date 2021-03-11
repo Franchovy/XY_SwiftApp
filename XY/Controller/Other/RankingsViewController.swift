@@ -9,16 +9,9 @@ import UIKit
 
 class RankingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 25)
-        label.textColor = UIColor(named: "tintColor")
-        return label
-    }()
-    
     private let rankLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 9)
+        label.font = UIFont(name: "Raleway-Medium", size: 15)
         label.textColor = UIColor(named: "tintColor")
         label.text = "Rank"
         return label
@@ -26,7 +19,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private let playerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 9)
+        label.font = UIFont(name: "Raleway-Medium", size: 15)
         label.textColor = UIColor(named: "tintColor")
         label.text = "Player"
         return label
@@ -34,7 +27,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     private let levelLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 9)
+        label.font = UIFont(name: "Raleway-Medium", size: 15)
         label.textColor = UIColor(named: "tintColor")
         label.text = "Level"
         return label
@@ -56,6 +49,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        view.backgroundColor = UIColor(named: "Black")
         
         view.layer.insertSublayer(shadowLayer, at: 0)
         view.layer.insertSublayer(backgroundLayer, at: 0)
@@ -65,7 +59,6 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.dataSource = self
         tableView.backgroundColor = .clear
         
-        view.addSubview(titleLabel)
         view.addSubview(rankLabel)
         view.addSubview(playerLabel)
         view.addSubview(levelLabel)
@@ -91,34 +84,26 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
         shadowLayer.shadowRadius = 6
         
-        titleLabel.sizeToFit()
-        titleLabel.frame = CGRect(
-            x: 14.27,
-            y: 7.75,
-            width: titleLabel.width,
-            height: titleLabel.height
-        )
-        
         rankLabel.sizeToFit()
         rankLabel.frame = CGRect(
-            x: 16.66,
-            y: titleLabel.bottom + 12.54,
+            x: 33,
+            y: 98,
             width: rankLabel.width,
             height: rankLabel.height
         )
         
         playerLabel.sizeToFit()
         playerLabel.frame = CGRect(
-            x: rankLabel.right + 84.84,
-            y: titleLabel.bottom + 12.54,
+            x: (view.width - playerLabel.width)/2,
+            y: 98,
             width: playerLabel.width,
             height: playerLabel.height
         )
         
         levelLabel.sizeToFit()
         levelLabel.frame = CGRect(
-            x: view.width - 37 - levelLabel.width,
-            y: titleLabel.bottom + 12.54,
+            x: view.width - 44.5 - levelLabel.width,
+            y: 98,
             width: levelLabel.width,
             height: levelLabel.height
         )
@@ -132,7 +117,14 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     public func configure(with viewModel: RankingViewModel) {
-        titleLabel.text = viewModel.name
+        
+        let titleLabel = UILabel()
+        titleLabel.font = UIFont(name: "Raleway-Bold", size: 25)
+        titleLabel.text = "\(viewModel.name) Ranking"
+        titleLabel.textColor = UIColor(named: "tintColor")
+        titleLabel.sizeToFit()
+        navigationItem.titleView = titleLabel
+        
         cellViewModels = viewModel.cells
         
         tableView.reloadData()
@@ -145,7 +137,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
         
-        cell.configure(with: cellViewModels[indexPath.row], for: .small)
+        cell.configure(with: cellViewModels[indexPath.row], for: .large)
         
         return cell
     }

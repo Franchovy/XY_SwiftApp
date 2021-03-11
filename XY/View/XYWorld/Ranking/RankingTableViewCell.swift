@@ -115,9 +115,11 @@ class RankingTableViewCell: UITableViewCell {
             rankLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
             profileImageView.frame.size = CGSize(width: 30, height: 30)
             nameLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
+            xpCircle.frame.size = CGSize(width: 30, height: 30)
         case .small:
             rankLabel.font = UIFont(name: "Raleway-Heavy", size: 19)
             profileImageView.frame.size = CGSize(width: 40, height: 40)
+            xpCircle.frame.size = CGSize(width: 40, height: 40)
             nameLabel.font = UIFont(name: "Raleway-Heavy", size: 20)
         }
         

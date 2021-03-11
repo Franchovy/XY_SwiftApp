@@ -22,7 +22,7 @@ enum XYworldSectionType: CaseIterable {
         case .onlineNow:
             return "Online Friends"
         case .ranking:
-            return "Ranking"
+            return "Rankings"
         }
     }
 }
@@ -39,7 +39,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     private var noOnlineFriendsLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 18)
-        label.text = "No Friends Online."
+        label.text = Int.random(in: 0...100) == 1 ? "No Friends Online #foreverAlone" : "No Friends Online 😢"
         label.isHidden = true
         label.textColor = UIColor(named: "tintColor")
         label.alpha = 0.7
@@ -309,6 +309,40 @@ extension XYworldVC : RankingBoardCellDelegate {
         vc.configure(with: viewModel)
         
         navigationController?.pushViewController(vc, animated: true)
+        
+        if (viewModel.name == "Global") {
+            RankingFirestoreManager.shared.getTopRanking(rankingLength: 30) { (rankingIDs) in
+                let model = RankingModel(
+                    name: "Global",
+                    rankedUserIDs: rankingIDs
+                )
+                
+                let builder = RankingViewModelBuilder()
+                builder.build(model: model) { (rankingViewModel, error) in
+                    if let error = error {
+                        print(error)
+                    } else if let rankingViewModel = rankingViewModel {
+                        vc.configure(with: rankingViewModel)
+                    }
+                }
+            }
+        } else {
+            RankingFirestoreManager.shared.getTopRanking(rankingLength: 30) { (rankingIDs) in
+                let model = RankingModel(
+                    name: "Global",
+                    rankedUserIDs: rankingIDs
+                )
+                
+                let builder = RankingViewModelBuilder()
+                builder.build(model: model) { (rankingViewModel, error) in
+                    if let error = error {
+                        print(error)
+                    } else if let rankingViewModel = rankingViewModel {
+                        vc.configure(with: rankingViewModel)
+                    }
+                }
+            }
+        }
     }
 }
 
