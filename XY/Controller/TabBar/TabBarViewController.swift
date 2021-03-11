@@ -247,12 +247,6 @@ extension TabBarViewController: CameraViewControllerDelegate {
         
         viewControllers?.forEach({ print($0) })
         
-        guard let flowNavigationVC = self.viewControllers?[0] as? UINavigationController,
-              let flowVC = flowNavigationVC.children.first as? FlowVC else {
-            return
-        }
-        
-        //        flowVC.insertPost(postData)
     }
     
     func cameraViewDidTapCloseButton() {

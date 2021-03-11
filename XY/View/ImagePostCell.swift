@@ -20,7 +20,7 @@ protocol ImagePostCellDelegate {
 }
 
 
-class ImagePostCell: UITableViewCell, FlowDataCell {
+class ImagePostCell: UICollectionViewCell, FlowDataCell {
     
     // MARK: - Properties
     
@@ -140,10 +140,8 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
     
     // MARK: Initializers
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        selectionStyle = .none
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
         contentView.backgroundColor = UIColor(named: "Black")
         
@@ -175,7 +173,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(panGestureRecognizer:)))
         panGesture.maximumNumberOfTouches = 1
-        panGesture.delegate = self
+//        panGesture.delegate = self
         panGesture.isEnabled = true
         addGestureRecognizer(panGesture)
         
@@ -185,7 +183,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         contentView.isUserInteractionEnabled = false
         
         let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
-        tapProfileImage.delegate = self
+//        tapProfileImage.delegate = self
         profileImageContainer.addGestureRecognizer(tapProfileImage)
         
         tappedBackToCenterGesture = UITapGestureRecognizer(target: self, action: #selector(animateBackToCenter))

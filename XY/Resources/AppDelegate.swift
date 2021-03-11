@@ -38,8 +38,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
                 pushNotificationsManager.checkPermissions()
                 pushNotificationsManager.registerForPushNotifications()
-                
             }
+            
+            FlowAlgorithmManager.shared.initialiseFollowing()
             
             OnlineStatusManager.shared.setupOnlineStatus()
             

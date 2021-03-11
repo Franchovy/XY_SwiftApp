@@ -16,6 +16,7 @@ struct XYworldSection {
 enum XYworldSectionType: CaseIterable {
     case onlineNow
     case ranking
+    case flow
     
     var title: String {
         switch self {
@@ -23,6 +24,8 @@ enum XYworldSectionType: CaseIterable {
             return "Online Friends"
         case .ranking:
             return "Rankings"
+        case .flow:
+            return "Flow"
         }
     }
 }
@@ -30,6 +33,7 @@ enum XYworldSectionType: CaseIterable {
 enum XYworldCell {
     case onlineNow(viewModel: ProfileViewModel)
     case ranking(viewModel: RankingViewModel)
+    case post(viewModel: NewPostViewModel)
 }
 
 class XYworldVC: UIViewController, UISearchBarDelegate {
@@ -57,6 +61,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     
     private var onlineNowUsers = [ProfileViewModel]()
     private var rankingCells = [XYworldCell?]()
+    private var postModels = [NewPostViewModel]()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -111,7 +116,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.allowsSelection = false
-        
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = UIColor(named: "Black")
         
         collectionView.register(
@@ -120,18 +125,10 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             withReuseIdentifier: SectionLabelReusableView.identifier
         )
         
-        collectionView.register(
-            OnlineNowCollectionViewCell.self,
-            forCellWithReuseIdentifier: OnlineNowCollectionViewCell.identifier
-        )
-        collectionView.register(
-            ProfileCardCollectionViewCell.self,
-            forCellWithReuseIdentifier: ProfileCardCollectionViewCell.identifier
-        )
-        collectionView.register(
-            RankingBoardCell.self,
-            forCellWithReuseIdentifier: RankingBoardCell.identifier
-        )
+        collectionView.register(OnlineNowCollectionViewCell.self,forCellWithReuseIdentifier: OnlineNowCollectionViewCell.identifier)
+//        collectionView.register(ProfileCardCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCardCollectionViewCell.identifier)
+        collectionView.register(RankingBoardCell.self, forCellWithReuseIdentifier: RankingBoardCell.identifier)
+        collectionView.register(ImagePostCell.self, forCellWithReuseIdentifier: ImagePostCell.identifier)
         
         self.collectionView = collectionView
         
@@ -140,9 +137,11 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         sections.append(XYworldSection(type: .onlineNow, cells: []))
         sections.append(XYworldSection(type: .ranking, cells: []))
+        sections.append(XYworldSection(type: .flow, cells: []))
         
         subscribeToOnlineNow()
         subscribeToRanking()
+        fetchFlow()
     }
     
     override func viewDidLayoutSubviews() {
@@ -239,6 +238,34 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             }
         }
     }
+    
+    public func fetchFlow() {
+        FlowAlgorithmManager.shared.getFlowFromFollowing() { postModels in
+            if let postModels = postModels {
+                let dispatchGroup = DispatchGroup()
+                
+                for model in postModels {
+                    dispatchGroup.enter()
+                    PostViewModelBuilder.build(from: model) { (postViewModel) in
+                        defer {
+                            dispatchGroup.leave()
+                        }
+                        
+                        if let postViewModel = postViewModel {
+                            self.postModels.append(postViewModel)
+                        }
+                    }
+                }
+                
+                dispatchGroup.notify(queue: .main) {
+                    
+                    self.sections[2] = XYworldSection(type: .flow, cells: self.postModels.compactMap({ XYworldCell.post(viewModel: $0) }))
+                    
+                    self.collectionView?.reloadData()
+                }
+            }
+        }
+    }
 }
 
 extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
@@ -256,28 +283,23 @@ extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
 
         switch model {
         case .onlineNow(let viewModel):
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: OnlineNowCollectionViewCell.identifier,
-                for: indexPath
-            ) as? OnlineNowCollectionViewCell else {
-                return collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "cell",
-                    for: indexPath
-                )
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnlineNowCollectionViewCell.identifier, for: indexPath) as? OnlineNowCollectionViewCell else {
+                return UICollectionViewCell()
             }
             cell.configure(with: viewModel)
             return cell
         case .ranking(let viewModel):
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: RankingBoardCell.identifier,
-                for: indexPath
-            ) as? RankingBoardCell else {
-                return collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "cell",
-                    for: indexPath
-                )
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RankingBoardCell.identifier, for: indexPath) as? RankingBoardCell else {
+                return UICollectionViewCell()
             }
             cell.delegate = self
+            cell.configure(with: viewModel)
+            return cell
+        case .post(let viewModel):
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePostCell.identifier, for: indexPath) as? ImagePostCell else {
+                return UICollectionViewCell()
+            }
+//            cell.delegate = self
             cell.configure(with: viewModel)
             return cell
         }
@@ -300,7 +322,6 @@ extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 40)
     }
-    
 }
 
 extension XYworldVC : RankingBoardCellDelegate {
@@ -405,7 +426,158 @@ extension XYworldVC {
             sectionLayout.orthogonalScrollingBehavior = .continuous
             
             return sectionLayout
+        case .flow:
+            let item = NSCollectionLayoutItem(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalWidth(1)
+                )
+            )
+            
+            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
+            
+            let group = NSCollectionLayoutGroup.vertical(
+                layoutSize: NSCollectionLayoutSize(
+                    widthDimension: .fractionalWidth(1),
+                    heightDimension: .fractionalWidth(1)
+                ),
+                subitems: [item]
+            )
+            
+            let sectionLayout = NSCollectionLayoutSection(group: group)
+            
+//            sectionLayout.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
+            sectionLayout.boundarySupplementaryItems = [sectionHeader]
+            sectionLayout.orthogonalScrollingBehavior = .continuous
+            
+            return sectionLayout
+            
+//        case .post:
+//            let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
+//
+//            let originalTransform = cell.transform
+//            let shrinkTransform = cell.transform.scaledBy(x: 0.95, y: 0.95)
+//
+//            UIView.animate(withDuration: 0.2) {
+//                cell.transform = shrinkTransform
+//            } completion: { (done) in
+//                if done {
+//                    UIView.animate(withDuration: 0.2) {
+//                        cell.transform = originalTransform
+//                    }
+//                }
+//            }
+//            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+//                cell.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
+//
+//                let vc = PostViewController()
+//                vc.configure(with: self.postViewModels[indexPath.row])
+//                vc.isHeroEnabled = true
+//
+//                vc.onDismiss = { cell.setHeroIDs(forPost: "", forCaption: "", forImage: "") }
+//
+//                vc.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
+//
+//                self.navigationController?.isHeroEnabled = true
+//                self.navigationController?.pushViewController(vc, animated: true)
+//
+//            }
         }
     }
 }
 
+
+// MARK: - ImagePostCell Delegate functions
+
+//extension XYworldVC : ImagePostCellDelegate {
+//    func imagePostCellDelegate(reportPressed postId: String) {
+//        let alert = UIAlertController(title: "Report", message: "Why are you reporting this post?", preferredStyle: .alert)
+//
+//        alert.addTextField { (textfield) in
+//            textfield.placeholder = "Report details"
+//            textfield.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
+//        }
+//        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) in
+//            let textfield = alert.textFields![0]
+//
+//            guard let text = textfield.text else {
+//                return
+//            }
+//
+//            FirebaseUpload.sendReport(message: text, postId: postId)
+//
+//            if let index = self.postViewModels.firstIndex(where: { $0.id == postId }) {
+//                self.postViewModels.remove(at: index)
+//                self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .left)
+//            }
+//        }))
+//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+//
+//        }))
+//
+//        present(alert, animated: true, completion: nil)
+//    }
+//
+//    func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {
+//
+//    }
+//
+//    func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell) {
+//        guard let cellIndex = tableView.indexPath(for: cell),
+//              postViewModels.count > cellIndex.row else {
+//            return
+//        }
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
+//            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
+//        }
+//    }
+//
+//    func imagePostCellDelegate(willSwipeRight cell: ImagePostCell) {
+//        guard let cellIndex = tableView.indexPath(for: cell),
+//              postViewModels.count > cellIndex.row else {
+//            return
+//        }
+//
+//        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
+//            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
+//        }
+//    }
+//
+//    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
+//        guard let cellIndex = tableView.indexPath(for: cell),
+//              postViewModels.count > cellIndex.row else {
+//            return
+//        }
+//
+//        self.postViewModels.remove(at: cellIndex.row)
+//
+//        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+//
+//        guard let postId = cell.viewModel?.id else {
+//            return
+//        }
+//        FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
+//    }
+//
+//    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell) {
+//        guard let cellIndex = tableView.indexPath(for: cell),
+//              postViewModels.count > cellIndex.row else {
+//            return
+//        }
+//
+//        self.postViewModels.remove(at: cellIndex.row)
+//
+//        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+//
+//        guard self.postViewModels.count > cellIndex.row else {
+//            return
+//        }
+//
+//        guard let postId = cell.viewModel?.id else {
+//            return
+//        }
+//
+//        FirebaseFunctionsManager.shared.swipeRight(postId: postId)
+//    }
+//}
