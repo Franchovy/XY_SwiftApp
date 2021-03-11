@@ -31,6 +31,7 @@ class RankingTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Heavy", size: 20)
         label.textColor = UIColor(named: "tintColor")
+        label.adjustsFontSizeToFitWidth = true
         return label
     }()
 
@@ -66,7 +67,7 @@ class RankingTableViewCell: UITableViewCell {
         
         let imageSize:CGFloat = 30
         profileImageView.frame = CGRect(
-            x: rankLabel.right + 40.29,
+            x: 70,
             y: (height - imageSize)/2,
             width: imageSize,
             height: imageSize
@@ -81,12 +82,10 @@ class RankingTableViewCell: UITableViewCell {
             height: xpCircleSize
         )
         
-        let nameLabelSize = nameLabel.sizeThatFits(
-            CGSize(
-                width: xpCircle.left - profileImageView.right - 15,
+        let nameLabelSize = CGSize(
+                width: xpCircle.left - profileImageView.right - 25,
                 height: height - 5
             )
-        )
         nameLabel.frame = CGRect(
             x: profileImageView.right + 9.92,
             y: 8,

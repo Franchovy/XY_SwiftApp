@@ -92,11 +92,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         barXPCircle.setLevelLabelFontSize(size: 24)
         barXPCircle.registerXPUpdates(for: .ownUser)
         
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor(named: "tintColor")
-//        refreshControl.addTarget(self, action: #selector(flowRefreshed(_:)), for: .valueChanged)
-        collectionView?.refreshControl = refreshControl
-        
         let layout = UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
             return self.layout(for: section)
         }
@@ -107,6 +102,11 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             frame: .zero,
             collectionViewLayout: layout
         )
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = UIColor(named: "tintColor")
+//        refreshControl.addTarget(self, action: #selector(flowRefreshed(_:)), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
         
         collectionView.dataSource = self
         collectionView.delegate = self

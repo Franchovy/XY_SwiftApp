@@ -38,7 +38,6 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.register(RankingTableViewCell.self, forCellReuseIdentifier: RankingTableViewCell.identifier)
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        tableView.backgroundColor = UIColor(named: "XYCard")
         return tableView
     }()
     
@@ -49,6 +48,8 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        
+        
         view.backgroundColor = UIColor(named: "Black")
         
         view.layer.insertSublayer(shadowLayer, at: 0)
@@ -71,18 +72,6 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        backgroundLayer.frame = view.bounds
-        backgroundLayer.fillColor = UIColor(named: "XYCard")!.cgColor
-        backgroundLayer.path = UIBezierPath(roundedRect: view.bounds, cornerRadius: 15).cgPath
-        shadowLayer.frame = view.bounds
-        shadowLayer.masksToBounds = false
-        shadowLayer.shadowOpacity = 0.8
-        shadowLayer.fillColor = backgroundLayer.fillColor
-        shadowLayer.shadowColor = UIColor.black.cgColor
-        shadowLayer.path = backgroundLayer.path
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        shadowLayer.shadowRadius = 6
         
         rankLabel.sizeToFit()
         rankLabel.frame = CGRect(
@@ -138,7 +127,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
         
         cell.configure(with: cellViewModels[indexPath.row], for: .large)
-        
+        cell.backgroundColor = UIColor(named: "Black")
         return cell
     }
 
