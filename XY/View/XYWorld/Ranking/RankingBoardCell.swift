@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol RankingBoardCellDelegate {
+    func didTapRankingBoard(with viewModel: RankingViewModel)
+}
+
 class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     
     static let identifier = "RankingBoardCell"
@@ -48,7 +52,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
-        tableView.backgroundColor = UIColor(named: "XYCard")
+        tableView.backgroundColor = .clear
         return tableView
     }()
     
@@ -57,22 +61,26 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     
     var cellViewModels = [RankingCellViewModel]()
     
+    var delegate: RankingBoardCellDelegate?
+    var viewModel: RankingViewModel?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        layer.insertSublayer(shadowLayer, at: 0)
-        layer.insertSublayer(backgroundLayer, at: 0)
+        contentView.layer.insertSublayer(shadowLayer, at: 0)
+        contentView.layer.insertSublayer(backgroundLayer, at: 0)
         layer.masksToBounds = false
         clipsToBounds = false
         
         tableView.dataSource = self
-        tableView.backgroundColor = .clear
+        contentView.addSubview(title)
+        contentView.addSubview(rankLabel)
+        contentView.addSubview(playerLabel)
+        contentView.addSubview(levelLabel)
+        contentView.addSubview(tableView)
         
-        addSubview(title)
-        addSubview(rankLabel)
-        addSubview(playerLabel)
-        addSubview(levelLabel)
-        addSubview(tableView)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
+        contentView.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -142,6 +150,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     }
     
     public func configure(with viewModel: RankingViewModel) {
+        self.viewModel = viewModel
         title.text = viewModel.name
         cellViewModels = viewModel.cells
         
@@ -158,6 +167,26 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         cell.configure(with: cellViewModels[indexPath.row], for: .small)
         
         return cell
+    }
+    
+    @objc private func didTap() {
+        let originalTransform = transform
+        UIView.animate(withDuration: 0.15) {
+            self.transform = originalTransform.scaledBy(x: 0.9, y: 0.9)
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.15) {
+                    self.transform = originalTransform
+                } completion: { (done) in
+                    
+                    guard let viewModel = self.viewModel else {
+                        return
+                    }
+                    
+                    self.delegate?.didTapRankingBoard(with: viewModel)
+                }
+            }
+        }
     }
 }
 

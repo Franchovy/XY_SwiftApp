@@ -110,7 +110,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.allowsSelection = true
+        collectionView.allowsSelection = false
         
         collectionView.backgroundColor = UIColor(named: "Black")
         
@@ -277,6 +277,7 @@ extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
                     for: indexPath
                 )
             }
+            cell.delegate = self
             cell.configure(with: viewModel)
             return cell
         }
@@ -300,19 +301,14 @@ extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
         return CGSize(width: collectionView.frame.width, height: 40)
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let model = sections[indexPath.section].cells[indexPath.row]
+}
 
-        switch model {
-        case .onlineNow(let _):
-            break
-        case .ranking(let viewModel):
-            let vc = RankingsViewController()
-            vc.configure(with: viewModel)
-            
-            navigationController?.pushViewController(vc, animated: true)
-        }
+extension XYworldVC : RankingBoardCellDelegate {
+    func didTapRankingBoard(with viewModel: RankingViewModel) {
+        let vc = RankingsViewController()
+        vc.configure(with: viewModel)
         
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

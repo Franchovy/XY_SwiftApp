@@ -43,7 +43,6 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(RankingTableViewCell.self, forCellReuseIdentifier: RankingTableViewCell.identifier)
-        tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
         tableView.allowsSelection = false
         tableView.backgroundColor = UIColor(named: "XYCard")
