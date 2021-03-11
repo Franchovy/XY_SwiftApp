@@ -8,7 +8,7 @@
 import Foundation
 
 final class ChallengesViewModelBuilder {
-    static func build(from model: ChallengeModel, completion: @escaping(ChallengeViewModel?) -> Void) {
+    static func build(from model: ChallengeVideoModel, challengeModel: ChallengeModel, completion: @escaping(ChallengeViewModel?) -> Void) {
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
@@ -17,7 +17,7 @@ final class ChallengesViewModelBuilder {
         var videoURL: URL?
         var creatorProfile: ProfileModel?
         
-        StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: model.id) { (result) in
+        StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: model.ID) { (result) in
             defer {
                 dispatchGroup.leave()
             }
@@ -49,10 +49,10 @@ final class ChallengesViewModelBuilder {
                     return
                 }
                 let challengeViewModel = ChallengeViewModel(
-                    id: model.id,
+                    id: model.ID,
                     videoUrl: videoURL,
-                    title: model.title,
-                    description: model.description,
+                    title: challengeModel.title,
+                    description: challengeModel.description,
                     gradient: Global.xyGradient,
                     creator: creatorProfile,
                     timeInMinutes: 1.0

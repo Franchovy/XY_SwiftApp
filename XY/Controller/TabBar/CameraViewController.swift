@@ -185,6 +185,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             view.layer.insertSublayer(previewLayer!, at: 0)
             sessionBack.addOutput(movieFileOutput)
             
+            
             backCameraActive = true
         }
         
@@ -468,7 +469,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         } else {
             isFrontRecording = true
         }
-//        movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
+        movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
         
         UIView.animate(withDuration: 0.3, animations: {
             self.recordButton.backgroundColor = .red
@@ -584,6 +585,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
         
         let previewVC = PreviewViewController(previewVideoUrl: outputVideoURL, delegate: self)
+        
+        if activeChallenge != nil {
+            previewVC.configure(with: activeChallenge!)
+        } else {
+            previewVC.configureWithNewChallenge()
+        }
+        
         navigationController?.present(previewVC, animated: true, completion: nil)
     }
     

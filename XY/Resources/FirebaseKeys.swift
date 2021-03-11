@@ -141,11 +141,23 @@ struct FirebaseKeys {
     struct ChallengeKeys {
         static let title = "title"
         static let creatorID = "creatorID"
-        static let videoRef = "videoRef"
         static let description = "description"
         static let gradient = "gradient"
         static let xp = "xp"
         static let level = "level"
+        
+        struct CollectionPath {
+            static let videos = "videos"
+        }
+        
+        struct VideoKeys {
+            static let challengeID = "challengeID"
+            static let videoRef = "videoRef"
+            static let creatorID = "creatorID"
+            static let xp = "xp"
+            static let level = "level"
+            static let timestamp = "timestamp"
+        }
     }
     
     struct MomentsKeys {

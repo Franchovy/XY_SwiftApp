@@ -19,18 +19,37 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     
     private let nextButton: UIButton = {
         let button = UIButton()
-        button.tintColor = UIColor(named: "tintColor")
-        button.setTitle("Next", for: .normal)
+        button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
+        button.setTitle("Post", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 25)
         return button
     }()
     
     private let closePreviewButton: UIButton = {
         let button = UIButton()
-        button.tintColor = UIColor(named: "tintColor")
+        button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
         button.setTitle("Close", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 25)
         return button
+    }()
+    
+    private var challengeTitleLabel: GradientLabel?
+    private let challengeTitleTextField: UITextView = {
+        let textView = UITextView()
+        textView.backgroundColor = UIColor(named: "Dark")
+        textView.layer.cornerRadius = 5
+        textView.font = UIFont(name: "Raleway-Regular", size: 12)
+        textView.textColor = UIColor(named: "Dark")
+        return textView
+    }()
+    
+    private let challengeDescriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Regular", size: 12)
+        label.textColor = UIColor(named: "XYTint")
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
     }()
     
     var captionTextFieldDidBeginEditing = false
@@ -40,7 +59,6 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         textView.layer.cornerRadius = 5
         textView.font = UIFont(name: "Raleway-Regular", size: 12)
         textView.textColor = UIColor(named: "XYTint")
-        textView.text = "Caption your video..."
         return textView
     }()
     
@@ -52,6 +70,16 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         caption.isEditable = true
         return caption
     }()
+    
+    private let maxCharsLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Regular", size:8)
+        label.textColor = UIColor(named: "XYTint")
+        label.alpha = 0.5
+        return label
+    }()
+    
+    var challengeViewModel: ChallengeViewModel?
     
     private var playerDidFinishObserver: NSObjectProtocol?
     private var previewLayerView = UIView()
@@ -117,6 +145,11 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
             view.addSubview(captionTextField)
             captionTextField.delegate = self
             
+            view.addSubview(challengeTitleTextField)
+            challengeTitleTextField.delegate = self
+            
+            view.addSubview(maxCharsLabel)
+            view.addSubview(challengeDescriptionLabel)
             view.addSubview(previewLayerView)
         }
         
@@ -136,9 +169,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        
         layoutPreviewButtons()
-        
         
         if previewImageView != nil {
         
@@ -181,12 +212,17 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
             )
             previewLayer?.frame = previewLayerView.bounds
             
-            captionTextField.frame = CGRect(
-                x: previewLayerView.right + 18,
-                y: nextButton.bottom + 10,
-                width: view.width - previewLayerView.right - 33,
-                height: 73
-            )
+            guard let challengeTitleLabel = challengeTitleLabel else {
+                return
+            }
+            
+            if challengeViewModel == nil {
+                // Configure for enter challenge name
+                layoutInputFieldsForNewChallenge()
+            } else {
+                // Configure for existing challenge name
+                layoutInputFieldsForExistingChallenge()
+            }
         }
     }
     
@@ -197,7 +233,102 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    // MARK: - Public functions
+    
+    public func configure(with viewModel: ChallengeViewModel) {
+        challengeViewModel = viewModel
+        
+        challengeTitleLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 26, gradientColours: viewModel.gradient)
+        challengeTitleLabel!.label.textAlignment = .center
+        view.addSubview(challengeTitleLabel!)
+        
+        challengeTitleTextField.isHidden = true
+        challengeDescriptionLabel.text = viewModel.description
+        
+        captionTextField.text = "Write your caption here..."
+        
+        layoutInputFieldsForExistingChallenge()
+    }
+
+    public func configureWithNewChallenge() {
+        challengeTitleLabel = GradientLabel(text: "#ChallengeName", fontSize: 26, gradientColours: Global.xyGradient)
+        challengeTitleLabel!.label.textAlignment = .center
+        challengeTitleLabel!.alpha = 0.5
+        view.addSubview(challengeTitleLabel!)
+        maxCharsLabel.text = "max. 15 chars"
+        
+        captionTextField.text = "Write a short description for your challenge here..."
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedToEditChallengeName))
+        maxCharsLabel.addGestureRecognizer(tapGesture)
+        challengeTitleLabel?.addGestureRecognizer(tapGesture)
+        
+        layoutInputFieldsForNewChallenge()
+    }
+    
     // MARK: - Private functions
+    
+    private func layoutInputFieldsForExistingChallenge() {
+        guard let challengeTitleLabel = challengeTitleLabel else {
+            return
+        }
+        
+        challengeTitleLabel.setResizesToWidth(width: view.width - previewLayerView.right - 33)
+        challengeTitleLabel.frame = CGRect(
+            x: previewLayerView.right + 10,
+            y: previewLayerView.top,
+            width: view.width - previewLayerView.right - 33,
+            height: 26
+        )
+        
+        challengeDescriptionLabel.frame = CGRect(
+            x: previewLayerView.right + 10,
+            y: challengeTitleLabel.bottom + 15,
+            width: view.width - previewLayerView.right - 33,
+            height: 80
+        )
+        
+        captionTextField.frame = CGRect(
+            x: previewLayerView.right + 18,
+            y: challengeDescriptionLabel.bottom + 10,
+            width: view.width - previewLayerView.right - 33,
+            height: 73
+        )
+    }
+    
+    private func layoutInputFieldsForNewChallenge() {
+        guard let challengeTitleLabel = challengeTitleLabel else {
+            return
+        }
+        challengeTitleTextField.frame = CGRect(
+            x: previewLayerView.right + 18,
+            y: previewLayerView.top,
+            width: view.width - previewLayerView.right - 33,
+            height: 73
+        )
+        challengeTitleLabel.setResizesToWidth(width: view.width - previewLayerView.right - 33)
+        challengeTitleLabel.frame = CGRect(
+            x: challengeTitleTextField.left,
+            y: challengeTitleTextField.top - 15 + (challengeTitleTextField.height - 26) / 2,
+            width: view.width - previewLayerView.right - 33,
+            height: 26
+        )
+        
+        captionTextField.frame = CGRect(
+            x: previewLayerView.right + 18,
+            y: challengeTitleTextField.bottom + 10,
+            width: view.width - previewLayerView.right - 33,
+            height: 73
+        )
+        
+        maxCharsLabel.sizeToFit()
+        maxCharsLabel.frame = CGRect(
+            x: challengeTitleTextField.left + (challengeTitleTextField.width - maxCharsLabel.width)/2,
+            y: challengeTitleTextField.bottom - 19,
+            width: maxCharsLabel.width,
+            height: maxCharsLabel.height
+        )
+    }
     
     private func layoutPreviewButtons() {
         let size = CGSize(width: 150, height: 35)
@@ -240,13 +371,39 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if !captionTextFieldDidBeginEditing {
-            textView.text = ""
-            captionTextFieldDidBeginEditing = true
+        if textView == captionTextField {
+            if !captionTextFieldDidBeginEditing {
+                textView.text = ""
+                captionTextFieldDidBeginEditing = true
+            }
+        } else if textView == challengeTitleTextField {
+            if textView.text == "" {
+                challengeTitleLabel?.alpha = 1.0
+                challengeTitleLabel?.label.text = "#"
+            }
         }
+        
+        
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard textView == challengeTitleTextField else {
+            return
+        }
+        let trimmedText = String(textView.text.prefix(15))
+        
+        challengeTitleLabel?.label.text = "#\(trimmedText)"
+        textView.text = trimmedText
+        maxCharsLabel.text = "\(trimmedText.count)/15"
+        
+        layoutInputFieldsForNewChallenge()
     }
     
     // MARK: - Obj-C Functions
+    
+    @objc private func tappedToEditChallengeName() {
+        challengeTitleTextField.becomeFirstResponder()
+    }
     
     @objc private func didTapNextButton() {
         nextButton.isEnabled = false
@@ -276,6 +433,15 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
             }
         } else if let recordedVideoUrl = recordedVideoUrl {
             previewLayer?.player?.pause()
+            
+            if challengeViewModel == nil {
+                // Create new challenge
+                
+            }
+            // Upload video to challenge
+                
+            
+            
             
             let caption = self.caption.text
             
