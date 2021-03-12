@@ -156,6 +156,7 @@ struct FirebaseKeys {
             static let creatorID = "creatorID"
             static let xp = "xp"
             static let level = "level"
+            static let caption = "caption"
             static let timestamp = "timestamp"
         }
     }

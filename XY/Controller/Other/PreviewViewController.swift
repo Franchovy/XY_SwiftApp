@@ -406,6 +406,16 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc private func didTapNextButton() {
+        if challengeViewModel == nil {
+            // New Challenge
+            guard let gradientLabel = challengeTitleLabel?.label, gradientLabel.text != "", captionTextField.text != "" else {
+                return
+            }
+        } else {
+            // Existing Challenge
+            
+        }
+        
         nextButton.isEnabled = false
         
         let activityIndicator = UIActivityIndicatorView()
@@ -435,24 +445,77 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
             previewLayer?.player?.pause()
             
             if challengeViewModel == nil {
-                // Create new challenge
-                
-            }
-            // Upload video to challenge
-                
-            
-            
-            
-            let caption = self.caption.text
-            
-            // Upload video
-            ViralManager.shared.createViral(caption: caption, videoUrl: recordedVideoUrl) { (result) in
-                switch result {
-                case .success(let viralModel):
-                    self.viralUploadComplete(viralModel)
-                case .failure(let error):
-                    print("Error uploading viral: \(error)")
+                guard
+                    let challengeTitle = challengeTitleLabel?.label.text,
+                    let description = captionTextField.text,
+                    let userID = AuthManager.shared.userId
+                else {
+                    return
                 }
+                
+                // Create new challenge
+                ChallengesFirestoreManager.shared.createChallenge(
+                    title: challengeTitle,
+                    description: description) { challengeID in
+                    
+                    let challengeModel = ChallengeModel(
+                        id: challengeID,
+                        title: challengeTitle,
+                        description: description,
+                        creatorID: userID,
+                        level: 0,
+                        xp: 0
+                    )
+                    
+                    // Upload video to challenge
+                    ChallengesFirestoreManager.shared.uploadChallengeVideo(
+                        videoUrl: recordedVideoUrl,
+                        challengeID: challengeID) { (ID, videoID) in
+                        
+                        let challengeVideoModel = ChallengeVideoModel(
+                            challengeID: challengeID,
+                            ID: ID,
+                            videoRef: videoID,
+                            caption: description,
+                            creatorID: userID,
+                            xp: 0,
+                            level: 0,
+                            timestamp: Date()
+                        )
+                        
+                        ChallengesViewModelBuilder.build(from: challengeVideoModel, challengeModel: challengeModel) { (challengeViewModel) in
+                            if let challengeViewModel = challengeViewModel {
+                                self.challengeViewModel = challengeViewModel
+                                
+                                let label = UILabel()
+                                label.font = UIFont(name: "Raleway-Heavy", size: 26)
+                                label.textColor = UIColor(named: "XYTint")
+                                label.text = "Challenge Uploaded!"
+                                label.alpha = 0
+                                label.sizeToFit()
+                                self.view.addSubview(label)
+                                label.center = self.view.center
+                                
+                                UIView.animate(withDuration: 0.3) {
+                                    label.alpha = 1.0
+                                } completion: { (done) in
+                                    if done {
+                                        UIView.animate(withDuration: 0.3) {
+                                            label.alpha = 0.0
+                                        } completion: { (done) in
+                                            if done {
+                                                label.removeFromSuperview()
+                                                self.dismiss(animated: true, completion: nil)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                
             }
         }
     }

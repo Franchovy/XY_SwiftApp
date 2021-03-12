@@ -86,17 +86,17 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         navigationController?.navigationBar.isHidden = false
         
-        ChallengesFirestoreManager.shared.getChallenges { (challengeModels) in
-            if let challengeModels = challengeModels {
+        ChallengesFirestoreManager.shared.getChallenges { (pairs) in
+            if let pairs = pairs {
                 var viewModels = [ChallengeViewModel]()
                 
-                for model in challengeModels {
-                    ChallengesViewModelBuilder.build(from: model) { (challengeViewModel) in
+                for (model, videoModel) in pairs {
+                    ChallengesViewModelBuilder.build(from: videoModel, challengeModel: model) { (challengeViewModel) in
                         if let challengeViewModel = challengeViewModel {
                             viewModels.append(challengeViewModel)
                         }
                         
-                        if viewModels.count == challengeModels.count {
+                        if viewModels.count == pairs.count {
                             self.sections.append(("XY's Challenges", viewModels))
                             self.collectionView.reloadData()
                         }

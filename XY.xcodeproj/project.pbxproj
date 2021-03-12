@@ -889,11 +889,11 @@
 				B9D5E56025A5F362001859EA /* PostViewModel.swift */,
 				B972A2B925DD169E006A0476 /* CommentViewModel.swift */,
 				B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */,
+				B9ABAA9925F78859009CB966 /* ChallengeViewModel.swift */,
 				B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */,
 				B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */,
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
 				B9B74D9425F03A170083D69A /* Ranking */,
-				B9ABAA9925F78859009CB966 /* ChallengeViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

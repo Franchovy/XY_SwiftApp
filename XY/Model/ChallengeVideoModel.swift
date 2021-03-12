@@ -11,6 +11,7 @@ struct ChallengeVideoModel {
     let challengeID: String
     let ID: String
     let videoRef: String
+    let caption: String?
     let creatorID: String
     let xp: Int
     let level: Int
