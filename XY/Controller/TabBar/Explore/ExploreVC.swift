@@ -21,12 +21,12 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.33),
-                heightDimension: .absolute(215)
+                widthDimension: .fractionalWidth(0.40),
+                heightDimension: .absolute(240)
             )
         )
         
-        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 2.5, bottom: 10, trailing: 2.5)
+        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5)
         
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
@@ -54,7 +54,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }()
     
     private var currentViralIndex = 0
-    private var sections = [(String, [ChallengeViewModel])]()
+    private var sections = [(String, [(ChallengeViewModel, ChallengeVideoViewModel)])]()
     
     // MARK: - Initializers
 
@@ -86,19 +86,20 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         navigationController?.navigationBar.isHidden = false
         
-        ChallengesFirestoreManager.shared.getChallenges { (pairs) in
+        ChallengesFirestoreManager.shared.getChallengesAndVideos { (pairs) in
             if let pairs = pairs {
-                var viewModels = [ChallengeViewModel]()
+                var viewModels = [(ChallengeViewModel, ChallengeVideoViewModel)]()
                 
                 for (model, videoModel) in pairs {
-                    ChallengesViewModelBuilder.build(from: videoModel, challengeModel: model) { (challengeViewModel) in
-                        if let challengeViewModel = challengeViewModel {
-                            viewModels.append(challengeViewModel)
-                        }
-                        
-                        if viewModels.count == pairs.count {
-                            self.sections.append(("XY's Challenges", viewModels))
-                            self.collectionView.reloadData()
+                    
+                    ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model) { (viewModelPair) in
+                        if let viewModelPair = viewModelPair {
+                            viewModels.append(viewModelPair)
+                            
+                            if viewModels.count == pairs.count {
+                                self.sections.append(("XY's Challenges", viewModels))
+                                self.collectionView.reloadData()
+                            }
                         }
                     }
                 }
@@ -107,15 +108,6 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         let titleView = UIImageView(image: UIImage(named: "XYnavbarlogo"))
         navigationItem.titleView = titleView
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
     }
     
     override func viewDidLayoutSubviews() {
@@ -139,7 +131,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         ) as? ChallengeCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.configure(viewModel: sections[indexPath.section].1[indexPath.row])
+        
+        cell.configure(viewModel: sections[indexPath.section].1[indexPath.row].0, videoViewModel: sections[indexPath.section].1[indexPath.row].1)
         
         return cell
     }
@@ -159,9 +152,5 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         headerView.configure(title: sections[indexPath.section].0)
         return headerView
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Did select!")
     }
 }

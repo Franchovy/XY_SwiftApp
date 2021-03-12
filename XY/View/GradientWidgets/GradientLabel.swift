@@ -32,7 +32,7 @@ class GradientLabel: UIView {
         label.textAlignment = .center
         label.textColor = .black
         addSubview(label)
-
+        
         mask = label
         clipsToBounds = false
     }

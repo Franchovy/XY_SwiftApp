@@ -155,7 +155,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         
         view.addSubview(nextButton)
         view.addSubview(closePreviewButton)
-    
+        
         nextButton.addTarget(self, action: #selector(didTapNextButton), for: .touchUpInside)
         closePreviewButton.addTarget(self, action: #selector(didTapClosePreview), for: .touchUpInside)
         
@@ -172,7 +172,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         layoutPreviewButtons()
         
         if previewImageView != nil {
-        
+            
             var captionY:CGFloat = 0
             
             if let previewImageView = previewImageView, let previewImage = previewImageView.image {
@@ -238,7 +238,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     public func configure(with viewModel: ChallengeViewModel) {
         challengeViewModel = viewModel
         
-        challengeTitleLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 26, gradientColours: viewModel.gradient)
+        challengeTitleLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 26, gradientColours: Global.xyGradient)
         challengeTitleLabel!.label.textAlignment = .center
         view.addSubview(challengeTitleLabel!)
         
@@ -249,7 +249,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         
         layoutInputFieldsForExistingChallenge()
     }
-
+    
     public func configureWithNewChallenge() {
         challengeTitleLabel = GradientLabel(text: "#ChallengeName", fontSize: 26, gradientColours: Global.xyGradient)
         challengeTitleLabel!.label.textAlignment = .center
@@ -273,13 +273,13 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
             return
         }
         
-        challengeTitleLabel.setResizesToWidth(width: view.width - previewLayerView.right - 33)
         challengeTitleLabel.frame = CGRect(
             x: previewLayerView.right + 10,
             y: previewLayerView.top,
             width: view.width - previewLayerView.right - 33,
             height: 26
         )
+        challengeTitleLabel.setResizesToWidth(width: view.width - previewLayerView.right - 33)
         
         challengeDescriptionLabel.frame = CGRect(
             x: previewLayerView.right + 10,
@@ -370,6 +370,42 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         delegate.didFinishUploadingViral(videoUrl: videoUrl, viralModel: viralModel)
     }
     
+    var textToDisplay: String?
+    private func displayTemporaryLabel(text: String) {
+        print(text)
+        
+        guard textToDisplay != nil else {
+            return
+        }
+        
+        textToDisplay = text
+        
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Heavy", size: 26)
+        label.textColor = UIColor(named: "XYTint")
+        label.text = text
+        label.alpha = 0
+        label.sizeToFit()
+        self.view.addSubview(label)
+        label.center = self.view.center
+        
+        UIView.animate(withDuration: 0.3) {
+            label.alpha = 1.0
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.3, delay: 1.0) {
+                    label.alpha = 0.0
+                } completion: { (done) in
+                    if done {
+                        self.textToDisplay = nil
+                        label.removeFromSuperview()
+                        self.dismiss(animated: true, completion: nil)
+                    }
+                }
+            }
+        }
+    }
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView == captionTextField {
             if !captionTextFieldDidBeginEditing {
@@ -382,8 +418,6 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                 challengeTitleLabel?.label.text = "#"
             }
         }
-        
-        
     }
     
     func textViewDidChange(_ textView: UITextView) {
@@ -446,12 +480,15 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
             
             if challengeViewModel == nil {
                 guard
-                    let challengeTitle = challengeTitleLabel?.label.text,
+                    var challengeTitle = challengeTitleLabel?.label.text,
                     let description = captionTextField.text,
                     let userID = AuthManager.shared.userId
                 else {
                     return
                 }
+                
+                self.displayTemporaryLabel(text: "Creating Challenge...")
+                challengeTitle.removeFirst()
                 
                 // Create new challenge
                 ChallengesFirestoreManager.shared.createChallenge(
@@ -466,6 +503,8 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                         level: 0,
                         xp: 0
                     )
+                    
+                    self.displayTemporaryLabel(text: "Uploading video...")
                     
                     // Upload video to challenge
                     ChallengesFirestoreManager.shared.uploadChallengeVideo(
@@ -483,39 +522,66 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                             timestamp: Date()
                         )
                         
-                        ChallengesViewModelBuilder.build(from: challengeVideoModel, challengeModel: challengeModel) { (challengeViewModel) in
+                        self.displayTemporaryLabel(text: "Challenge Uploaded!")
+                        
+                        ChallengesViewModelBuilder.build(from: challengeModel) { (challengeViewModel) in
                             if let challengeViewModel = challengeViewModel {
-                                self.challengeViewModel = challengeViewModel
+                                self.displayTemporaryLabel(text: "Challenge Uploaded!")
                                 
-                                let label = UILabel()
-                                label.font = UIFont(name: "Raleway-Heavy", size: 26)
-                                label.textColor = UIColor(named: "XYTint")
-                                label.text = "Challenge Uploaded!"
-                                label.alpha = 0
-                                label.sizeToFit()
-                                self.view.addSubview(label)
-                                label.center = self.view.center
-                                
-                                UIView.animate(withDuration: 0.3) {
-                                    label.alpha = 1.0
-                                } completion: { (done) in
-                                    if done {
-                                        UIView.animate(withDuration: 0.3) {
-                                            label.alpha = 0.0
-                                        } completion: { (done) in
-                                            if done {
-                                                label.removeFromSuperview()
-                                                self.dismiss(animated: true, completion: nil)
-                                            }
-                                        }
-                                    }
+                                DispatchQueue.main.asyncAfter(deadline: .now()+2) {
+                                    self.challengeViewModel = challengeViewModel
+                                    self.dismiss(animated: true, completion: nil)
                                 }
                             }
                         }
                     }
-                }
+                    }
             } else {
+                // Upload to existing challenge
+                guard
+                    let challengeViewModel = self.challengeViewModel,
+                    let caption = captionTextField.text,
+                    let userID = AuthManager.shared.userId
+                else {
+                    return
+                }
                 
+                self.displayTemporaryLabel(text: "Uploading video...")
+                
+                // Upload video to challenge
+                ChallengesFirestoreManager.shared.uploadChallengeVideo(
+                    videoUrl: recordedVideoUrl,
+                    challengeID: challengeViewModel.id) { (ID, videoID) in
+                    
+                    let challengeVideoModel = ChallengeVideoModel(
+                        challengeID: challengeViewModel.id,
+                        ID: ID,
+                        videoRef: videoID,
+                        caption: caption,
+                        creatorID: userID,
+                        xp: 0,
+                        level: 0,
+                        timestamp: Date()
+                    )
+                    
+                    let challengeModel = ChallengeModel(
+                        id: challengeViewModel.id,
+                        title: challengeViewModel.title,
+                        description: challengeViewModel.description,
+                        creatorID: challengeViewModel.creator.profileId,
+                        level: 0,
+                        xp: 0
+                    )
+                    
+                    ChallengesViewModelBuilder.build(from: challengeModel) { (challengeViewModel) in
+                        if let challengeViewModel = challengeViewModel {
+                            self.challengeViewModel = challengeViewModel
+                            
+                            self.displayTemporaryLabel(text: "Challenge Uploaded!")
+                        }
+                    }
+                    
+                }
             }
         }
     }

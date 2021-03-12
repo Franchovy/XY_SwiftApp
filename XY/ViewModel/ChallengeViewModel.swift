@@ -2,17 +2,17 @@
 //  ChallengeViewModel.swift
 //  XY
 //
-//  Created by Maxime Franchot on 09/03/2021.
+//  Created by Maxime Franchot on 12/03/2021.
 //
 
-import UIKit
+import Foundation
 
 struct ChallengeViewModel {
-    var id: String
-    var videoUrl: URL
-    var title: String
-    var description: String
-    var gradient: [UIColor]
-    var creator: ProfileModel
-    var timeInMinutes: Float
+    let id: String
+    let title: String
+    let description: String
+    let creator: ProfileModel
+    let level: Int
+    let xp: Int
 }
+

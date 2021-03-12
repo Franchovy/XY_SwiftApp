@@ -8,7 +8,32 @@
 import Foundation
 
 final class ChallengesViewModelBuilder {
-    static func build(from model: ChallengeVideoModel, challengeModel: ChallengeModel, completion: @escaping(ChallengeViewModel?) -> Void) {
+    
+    static func build(from challengeModel: ChallengeModel, completion: @escaping(ChallengeViewModel?) -> Void) {
+        ProfileFirestoreManager.shared.getProfileID(forUserID: challengeModel.creatorID) { (profileID, error) in
+            if let error = error {
+                print(error)
+            } else if let profileID = profileID {
+                ProfileFirestoreManager.shared.getProfile(forProfileID: profileID) { (profileModel) in
+                    if let profileModel = profileModel {
+                        let challengeViewModel = ChallengeViewModel(
+                            id: challengeModel.id,
+                            title: challengeModel.title,
+                            description: challengeModel.description,
+                            creator: profileModel,
+                            level: 0,
+                            xp: 0
+                        )
+                        
+                        completion(challengeViewModel)
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    static func buildChallengeAndVideo(from model: ChallengeVideoModel, challengeModel: ChallengeModel, completion: @escaping((ChallengeViewModel, ChallengeVideoViewModel)?) -> Void) {
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
@@ -17,7 +42,7 @@ final class ChallengesViewModelBuilder {
         var videoURL: URL?
         var creatorProfile: ProfileModel?
         
-        StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: model.ID) { (result) in
+        StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: nil) { (result) in
             defer {
                 dispatchGroup.leave()
             }
@@ -30,14 +55,18 @@ final class ChallengesViewModelBuilder {
             }
         }
         
-        ProfileFirestoreManager.shared.getProfile(
-            forProfileID: model.creatorID) { (profileModel) in
-            defer {
-                dispatchGroup.leave()
-            }
-            
-            if let profileModel = profileModel {
-                creatorProfile = profileModel
+        ProfileFirestoreManager.shared.getProfileID(forUserID: model.creatorID) { (profileID, error) in
+            if let error = error {
+                print(error)
+            } else if let profileID = profileID {
+                ProfileFirestoreManager.shared.getProfile(forProfileID: profileID) { (profileModel) in
+                    defer {
+                        dispatchGroup.leave()
+                    }
+                    if let profileModel = profileModel {
+                        creatorProfile = profileModel
+                    }
+                }
             }
         }
         
@@ -49,6 +78,74 @@ final class ChallengesViewModelBuilder {
                     return
                 }
                 let challengeViewModel = ChallengeViewModel(
+                    id: model.ID,
+                    title: challengeModel.title,
+                    description: challengeModel.description,
+                    creator: creatorProfile,
+                    level: 0,
+                    xp: 0
+                )
+                
+                let challengeVideoViewModel = ChallengeVideoViewModel(
+                    id: model.ID,
+                    videoUrl: videoURL,
+                    title: challengeModel.title,
+                    description: challengeModel.description,
+                    gradient: Global.xyGradient,
+                    creator: creatorProfile,
+                    timeInMinutes: 1.0
+                )
+                
+                completion((challengeViewModel, challengeVideoViewModel))
+            })
+        )
+    }
+    
+    static func buildChallengeVideo(from model: ChallengeVideoModel, challengeModel: ChallengeModel, completion: @escaping(ChallengeVideoViewModel?) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
+        dispatchGroup.enter()
+        
+        var videoURL: URL?
+        var creatorProfile: ProfileModel?
+        
+        StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: nil) { (result) in
+            defer {
+                dispatchGroup.leave()
+            }
+            
+            switch result {
+            case .success(let url):
+                videoURL = url
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+        ProfileFirestoreManager.shared.getProfileID(forUserID: model.creatorID) { (profileID, error) in
+            if let error = error {
+                print(error)
+            } else if let profileID = profileID {
+                ProfileFirestoreManager.shared.getProfile(forProfileID: profileID) { (profileModel) in
+                    defer {
+                        dispatchGroup.leave()
+                    }
+                    if let profileModel = profileModel {
+                        creatorProfile = profileModel
+                    }
+                }
+            }
+        }
+        
+        dispatchGroup.notify(
+            queue: .main,
+            work: DispatchWorkItem(block: {
+                guard let creatorProfile = creatorProfile, let videoURL = videoURL else {
+                    completion(nil)
+                    return
+                }
+                let challengeViewModel = ChallengeVideoViewModel(
                     id: model.ID,
                     videoUrl: videoURL,
                     title: challengeModel.title,

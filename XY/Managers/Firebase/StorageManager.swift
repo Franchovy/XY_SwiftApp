@@ -213,8 +213,8 @@ final class StorageManager {
         }
     }
     
-    public func downloadVideo(videoId: String, containerId: String, completion: @escaping(Result<URL, Error>) -> Void) {
-        let videoDownloadRef = storage.reference().child(containerId).child(videoId)
+    public func downloadVideo(videoId: String, containerId: String?, completion: @escaping(Result<URL, Error>) -> Void) {
+        let videoDownloadRef = containerId == nil ? storage.reference().child(videoId) : storage.reference().child(containerId!).child(videoId)
         
         videoDownloadRef.downloadURL { (url, error) in
             if let error = error {

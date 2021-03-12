@@ -11,13 +11,41 @@ import Firebase
 final class ChallengesFirestoreManager {
     static var shared = ChallengesFirestoreManager()
     
-    func getChallenges(completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+    func getChallenges(completion: @escaping([ChallengeModel]?) -> Void) {
         
+        var models = [ChallengeModel]()
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
+            .limit(to: 5)
+            .getDocuments { (querySnapshot, error) in
+            if let querySnapshot = querySnapshot {
+                for challengeDoc in querySnapshot.documents {
+                    let challengeModel = ChallengeModel(
+                        id: challengeDoc.documentID,
+                        title: challengeDoc.data()[FirebaseKeys.ChallengeKeys.title] as! String,
+                        description: challengeDoc.data()[FirebaseKeys.ChallengeKeys.description] as! String,
+                        creatorID: challengeDoc.data()[FirebaseKeys.ChallengeKeys.creatorID] as! String,
+                        level: challengeDoc.data()[FirebaseKeys.ChallengeKeys.level] as! Int,
+                        xp: challengeDoc.data()[FirebaseKeys.ChallengeKeys.xp] as! Int
+                    )
+                    
+                    models.append(challengeModel)
+                }
+                completion(models)
+            }
+        }
+    }
+    
+    func getChallengesAndVideos(completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
         var returnData = [(ChallengeModel, ChallengeVideoModel)]()
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges).getDocuments { (querySnapshot, error) in
+            let dispatchGroup = DispatchGroup()
+            
             if let querySnapshot = querySnapshot {
                 for challengeDoc in querySnapshot.documents {
+                    dispatchGroup.enter()
+                    
                     let challengeModel = ChallengeModel(
                         id: challengeDoc.documentID,
                         title: challengeDoc.data()[FirebaseKeys.ChallengeKeys.title] as! String,
@@ -32,6 +60,10 @@ final class ChallengesFirestoreManager {
                         .order(by: FirebaseKeys.ChallengeKeys.VideoKeys.timestamp)
                         .limit(to: 1)
                         .getDocuments { (querySnapshot, error) in
+                            defer {
+                                dispatchGroup.leave()
+                            }
+                            
                         if let querySnapshot = querySnapshot {
                             if let videoDoc = querySnapshot.documents.first {
                                 let challengeVideoModel = ChallengeVideoModel(
@@ -47,11 +79,13 @@ final class ChallengesFirestoreManager {
                                 
                                 returnData.append((challengeModel, challengeVideoModel))
                             }
-                            
-                            completion(returnData)
                         }
                     }
                 }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                completion(returnData)
             }
         }
     }

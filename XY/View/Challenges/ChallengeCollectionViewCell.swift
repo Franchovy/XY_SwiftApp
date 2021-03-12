@@ -29,7 +29,8 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     }()
     
     private var videoView: VideoPlayerView?
-    private var viewModel: ChallengeViewModel?
+    private var challengeViewModel: ChallengeViewModel?
+    private var challengeVideoViewModel: ChallengeVideoViewModel?
     
     override init(frame: CGRect) {
         
@@ -87,8 +88,9 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    public func configure(viewModel: ChallengeViewModel) {
-        self.viewModel = viewModel
+    public func configure(viewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel) {
+        self.challengeViewModel = viewModel
+        self.challengeVideoViewModel = videoViewModel
         
         let challengeTitleGradientLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 12, gradientColours: Global.xyGradient)
         contentView.addSubview(challengeTitleGradientLabel)
@@ -102,7 +104,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         contentView.insertSubview(videoView, at: 0)
         videoView.frame = bounds
         
-        videoView.setUpVideo(videoURL: viewModel.videoUrl)
+        videoView.setUpVideo(videoURL: videoViewModel.videoUrl)
         self.videoView = videoView
         
         videoView.layer.cornerRadius = 15
@@ -118,10 +120,10 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func didTapPlay() {
-        print("Play")
-        guard let viewModel = viewModel else {
+        
+        guard let challengeViewModel = challengeViewModel else {
             return
         }
-        TabBarViewController.instance.startChallenge(challenge: viewModel)
+        TabBarViewController.instance.startChallenge(challenge: challengeViewModel)
     }
 }

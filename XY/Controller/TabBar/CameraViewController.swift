@@ -284,47 +284,39 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     // MARK: - Private functions
     
     private func fetchChallenges() {
+        viewModels = []
         
-        viewModels = [
-            ChallengeViewModel(
-                id: "",
-                videoUrl: URL(fileURLWithPath: ""),
-                title: "HelpGrandma",
-                description: "Take a grandma by the arm and help her across the street",
-                gradient: Global.xyGradient,
-                creator: ProfileModel(profileId: "", nickname: "Simone", profileImageId: "", coverImageId: "", website: "", followers: 0, following: 0, swipeRights: 0, xp: 0, level: 0, caption: ""),
-                timeInMinutes: 3.0
-            ),
-            ChallengeViewModel(
-                id: "",
-                videoUrl: URL(fileURLWithPath: ""),
-                title: "RunToTheTop",
-                description: "Run to the top of a mountain",
-                gradient: Global.xyGradient,
-                creator: ProfileModel(profileId: "", nickname: "Maxime", profileImageId: "", coverImageId: "", website: "", followers: 0, following: 0, swipeRights: 0, xp: 0, level: 0, caption: ""),
-                timeInMinutes: 4.0
-            ),
-            ChallengeViewModel(
-                id: "",
-                videoUrl: URL(fileURLWithPath: ""),
-                title: "5AM",
-                description: "Be outside your own door at 5AM",
-                gradient: Global.xyGradient,
-                creator: ProfileModel(profileId: "", nickname: "Maxime", profileImageId: "", coverImageId: "", website: "", followers: 0, following: 0, swipeRights: 0, xp: 0, level: 0, caption: ""),
-                timeInMinutes: 1.0
-            ),
-            ChallengeViewModel(
-                id: "",
-                videoUrl: URL(fileURLWithPath: ""),
-                title: "ColorTheFace",
-                description: "Draw on the face of your CTO while he meditates",
-                gradient: Global.xyGradient,
-                creator: ProfileModel(profileId: "", nickname: "Simone", profileImageId: "", coverImageId: "", website: "", followers: 0, following: 0, swipeRights: 0, xp: 0, level: 0, caption: ""),
-                timeInMinutes: 2.0
-            ),
-        ]
-        
+        ChallengesFirestoreManager.shared.getChallenges { (challengeModels) in
+            if let challengeModels = challengeModels {
+                let group = DispatchGroup()
+                
+                for challengeModel in challengeModels {
+                    group.enter()
+                    
+                    ChallengesViewModelBuilder.build(from: challengeModel) { (challengeViewModel) in
+                        defer {
+                            group.leave()
+                        }
+                        if let challengeViewModel = challengeViewModel {
+                            self.viewModels.append(challengeViewModel)
+                        }
+                    }
+                }
+                
+                group.notify(queue: .main) {
+                    self.displaySuggestedChallenges()
+                }
+            }
+        }
+    }
+    
+    private func displaySuggestedChallenges() {
         challengePreviewCollectionView.reloadData()
+        
+        challengePreviewCollectionView.frame.origin.y = view.height
+        UIView.animate(withDuration: 0.3) {
+            self.challengePreviewCollectionView.frame.origin.y = self.view.height/2 + 25
+        }
     }
     
     private func setupAVCaptureSessions() {
@@ -495,7 +487,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     private func setUpForChallenge(challenge: ChallengeViewModel) {
-        
         activeChallenge = challenge
         
         prepareToRecord()
@@ -722,7 +713,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
 
 extension CameraViewController : PreviewViewControllerDelegate {
     func didFinishUploadingViral(videoUrl: URL, viralModel: ViralModel) {
-        
+
         previewVC?.dismiss(animated: true) {
             self.doneAnimation()
         }
@@ -741,7 +732,10 @@ extension CameraViewController : UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengePreviewCollectionViewCell.identifier, for: indexPath) as? ChallengePreviewCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ChallengePreviewCollectionViewCell.identifier,
+                for: indexPath
+        ) as? ChallengePreviewCollectionViewCell else {
             return UICollectionViewCell()
         }
         
