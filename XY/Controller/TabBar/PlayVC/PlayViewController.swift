@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
@@ -15,30 +16,31 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         options: [:]
     )
     
-    private var models = [VideoModel]()
+    private var models = [(ChallengeModel, ChallengeVideoModel)]()
+    private var loadedViewModels = [String: (ChallengeViewModel, ChallengeVideoViewModel)]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
-//        try? AVAudioSession.sharedInstance().setActive(true)
+        try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+        try? AVAudioSession.sharedInstance().setActive(true)
 
         view.addSubview(pageViewController.view)
         
         pageViewController.dataSource = self
         pageViewController.delegate = self
         
+        
         addChild(pageViewController)
         pageViewController.didMove(toParent: self)
         
         print("Init")
         
-        VideoFirestoreManager.shared.fetchVideos() { videoModels in
-            if let videoModels = videoModels {
-                print("Fetched videos")
-                self.models = videoModels
-                self.setUpFirstVideo()
+        ChallengesFirestoreManager.shared.getChallengesAndVideos { (pairs) in
+            if let pairs = pairs {
+                self.models.append(contentsOf: pairs)
             }
+            self.setUpFirstVideo()
         }
     }
     
@@ -53,7 +55,9 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             return
         }
         
-        let vc = VideoViewController(model: model)
+        let vc = VideoViewController()
+
+        buildVideoViewControllerWithPair(vc, model)
         
         pageViewController.setViewControllers(
             [vc],
@@ -64,12 +68,12 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        guard let fromPost = (viewController as? VideoViewController)?.model else {
+        guard let fromPost = (viewController as? VideoViewController)?.videoViewModel else {
             return nil
         }
         
-        guard let index = models.firstIndex(where: {
-            $0.id == fromPost.id
+        guard let index = self.models.firstIndex(where: {
+            $0.1.ID == fromPost.id
         }) else {
             return nil
         }
@@ -80,17 +84,20 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         
         let priorIndex = index - 1
         let model = models[priorIndex]
-        let vc = VideoViewController(model: model)
+        let vc = VideoViewController()
+        
+        buildVideoViewControllerWithPair(vc, model)
+                        
         return vc
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        guard let fromPost = (viewController as? VideoViewController)?.model else {
+        guard let fromPost = (viewController as? VideoViewController)?.videoViewModel else {
             return nil
         }
         
         guard let index = models.firstIndex(where: {
-            $0.id == fromPost.id
+            $0.1.ID == fromPost.id
         }) else {
             return nil
         }
@@ -101,8 +108,36 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         
         let priorIndex = index + 1
         let model = models[priorIndex]
-        let vc = VideoViewController(model: model)
+        let vc = VideoViewController()
+        
+        if let viewModelPair = loadedViewModels[model.1.ID] {
+            vc.configure(challengeVideoViewModel: viewModelPair.1, challengeViewModel: viewModelPair.0)
+        } else {
+            buildVideoViewControllerWithPair(vc, model)
+        }
+                
         return vc
     }
     
+    private func buildVideoViewControllerWithPair(_ vc: VideoViewController, _ pair: (ChallengeModel, ChallengeVideoModel)) {
+        ChallengesViewModelBuilder.buildChallengeAndVideo(from: pair.1, challengeModel: pair.0) { (pair) in
+            if let pair = pair {
+                vc.configure(challengeVideoViewModel: pair.1, challengeViewModel: pair.0)
+            }
+        }
+    }
+    
+    private func prefetchNextVideo(for index: Int) {
+        guard index >= 0, index < models.count else {
+            return
+        }
+        print("Prefetching index: \(index)")
+        let pair = models[index]
+        
+        ChallengesViewModelBuilder.buildChallengeAndVideo(from: pair.1, challengeModel: pair.0) { (pair) in
+            if let pair = pair {
+                self.loadedViewModels[pair.1.id] = pair
+            }
+        }
+    }
 }

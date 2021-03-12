@@ -40,7 +40,7 @@ class VideoViewController: UIViewController {
         return label
     }()
     
-    private let challengeLabel: GradientLabel
+    private let challengeLabel = GradientLabel(text: "", fontSize: 24, gradientColours: Global.xyGradient)
     
     private let videoView: UIView = {
         let view = UIView()
@@ -70,7 +70,8 @@ class VideoViewController: UIViewController {
     
     private var playerDidFinishObserver: NSObjectProtocol?
     
-    var model : VideoModel
+    var challengeModel: ChallengeViewModel?
+    var videoViewModel: ChallengeVideoViewModel?
     
     private var timeControlObserverSet = false
     private var repeatObserverSet = false
@@ -81,26 +82,7 @@ class VideoViewController: UIViewController {
     
     // MARK: - Initializers
     
-    init(model: VideoModel) {
-        self.model = model
-        captionLabel.text = model.caption
-        
-        challengeLabel = GradientLabel(
-            text: [
-                "#XYCHALLENGE",
-                "#EATCHALLENGE",
-                "#SPORTCHALLENGE",
-                "#LIFECHALLENGE",
-                "#WATCHCHALLENGE",
-                "#PLAYCHALLENGE"
-            ][Int.random(in: 0...5)],
-            fontSize: 20,
-            gradientColours: [
-                Global.xyGradient,
-                Global.rastaGradient,
-                Global.metallicGradient][Int.random(in: 0...2)]
-        )
-        
+    init() {
         super.init(nibName: nil, bundle: nil)
         
         profileButton.addTarget(self, action: #selector(profileImageTapped), for: .touchUpInside)
@@ -111,9 +93,6 @@ class VideoViewController: UIViewController {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(videoPanned(gestureRecognizer:)))
         panGesture.delegate = self
         videoView.addGestureRecognizer(panGesture)
-        
-        // Request nickname for this user
-        fetchProfileData()
     }
     
     required init?(coder: NSCoder) {
@@ -138,9 +117,6 @@ class VideoViewController: UIViewController {
         view.addSubview(captionLabel)
         view.addSubview(userLabel)
         view.addSubview(profileButton)
-        
-        configureVideo()
-        
     }
     
     override func viewDidLayoutSubviews() {
@@ -239,21 +215,19 @@ class VideoViewController: UIViewController {
     }
     
     private func fetchProfileData() {
-        FirebaseDownload.getProfile(profileId: model.profileId) { [weak self] (profileModel, error) in
-            guard let strongSelf = self, let profileModel = profileModel, error == nil else {
+        guard let profileModel = videoViewModel?.creator else {
+            return
+        }
+        
+        userLabel.text = profileModel.nickname
+        userLabel.sizeToFit()
+        
+        FirebaseDownload.getImage(imageId: profileModel.profileImageId) { (image, error) in
+            guard let image = image, error == nil else {
                 return
             }
             
-            strongSelf.userLabel.text = profileModel.nickname
-            strongSelf.userLabel.sizeToFit()
-            
-            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { [weak self] (image, error) in
-                guard let strongSelf = self, let image = image, error == nil else {
-                    return
-                }
-                
-                strongSelf.profileButton.setBackgroundImage(image, for: .normal)
-            }
+            self.profileButton.setBackgroundImage(image, for: .normal)
         }
     }
     
@@ -267,48 +241,49 @@ class VideoViewController: UIViewController {
         }
     }
     
-    public func configureVideo() {
+    public func configure(challengeVideoViewModel: ChallengeVideoViewModel, challengeViewModel: ChallengeViewModel) {
+        self.challengeModel = challengeViewModel
+        self.videoViewModel = challengeVideoViewModel
         
-        StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: model.id) { [weak self] result in
-            
-            guard let strongSelf = self else { return }
-            strongSelf.spinner.stopAnimating()
-            strongSelf.spinner.removeFromSuperview()
-            switch result {
-            case .failure(let error):
-                print("Error fetching video: \(error)")
-            case .success(let url):
-                strongSelf.player = AVPlayer(url: url)
-                
-                let playerLayer = AVPlayerLayer(player: strongSelf.player)
-                playerLayer.frame = strongSelf.videoView.bounds
-                playerLayer.videoGravity = .resizeAspectFill
-                
-                strongSelf.videoView.frame = playerLayer.bounds
-                strongSelf.videoView.layer.addSublayer(playerLayer)
-                
-                guard let player = strongSelf.player else {
-                    return
-                }
-                
-                player.volume = 1.0
-                player.addObserver(strongSelf, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
-                strongSelf.timeControlObserverSet = true
-                
-                if strongSelf.playState == .play {
-                    player.play()
-                }
-                
-                strongSelf.playerDidFinishObserver = NotificationCenter.default.addObserver(
-                    forName: .AVPlayerItemDidPlayToEndTime,
-                    object: player.currentItem,
-                    queue: .main) { _ in
-                    player.seek(to: .zero)
-                    player.play()
-                }
-                strongSelf.repeatObserverSet = true
-            }
+        // Request nickname for this user
+        fetchProfileData()
+        
+        captionLabel.text = challengeVideoViewModel.description
+        challengeLabel.label.text = challengeViewModel.title
+        
+        let url = challengeVideoViewModel.videoUrl
+        spinner.stopAnimating()
+        spinner.removeFromSuperview()
+        
+        player = AVPlayer(url: url)
+        
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = videoView.bounds
+        playerLayer.videoGravity = .resizeAspectFill
+        
+        videoView.frame = playerLayer.bounds
+        videoView.layer.addSublayer(playerLayer)
+        
+        guard let player = player else {
+            return
         }
+        
+        player.volume = 1.0
+        player.addObserver(self, forKeyPath: "timeControlStatus", options: [.old, .new], context: nil)
+        timeControlObserverSet = true
+        
+        if playState == .play {
+            player.play()
+        }
+        
+        playerDidFinishObserver = NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem,
+            queue: .main) { _ in
+            player.seek(to: .zero)
+            player.play()
+        }
+        repeatObserverSet = true
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -382,8 +357,11 @@ class VideoViewController: UIViewController {
     }
     
     @objc private func profileImageTapped() {
+        guard let profileModel = videoViewModel?.creator else {
+            return
+        }
         player?.pause()
-        ProfileManager.shared.openProfileForId(model.profileId)
+        ProfileManager.shared.openProfileForId(profileModel.profileId)
     }
 }
 

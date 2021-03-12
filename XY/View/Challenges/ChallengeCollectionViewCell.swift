@@ -112,7 +112,6 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         
         layoutSubviews()
         
-        print("Is user interaction enabled: \(isUserInteractionEnabled), \(contentView.isUserInteractionEnabled)")
         let gr = UITapGestureRecognizer(target: self, action: #selector(didTapPlay))
         videoView.addGestureRecognizer(gr)
         creatorNameLabel.addGestureRecognizer(gr)

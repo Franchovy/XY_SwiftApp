@@ -355,7 +355,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         // Set up back camera
         
         sessionBack = AVCaptureSession()
-        sessionBack!.sessionPreset = .high
+        sessionBack!.sessionPreset = .low
         sessionBack!.startRunning()
         
         let backCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,
@@ -375,7 +375,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         // Set up front camera
         sessionFront = AVCaptureSession()
-        sessionFront!.sessionPreset = .high
+        sessionFront!.sessionPreset = .low
         sessionFront!.startRunning()
         
         let frontCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,

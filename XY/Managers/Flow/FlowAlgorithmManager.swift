@@ -32,8 +32,6 @@ final class FlowAlgorithmManager {
                         let members = doc.data()[FirebaseKeys.RelationshipKeys.users] as! [String:Bool]
                         
                         if let friendID = members.first(where: { $0.key != userId }) {
-                            print(friendID)
-                            print("Assert: \(friendID.value)")
                             self.followingIDs.append(friendID.key)
                         }
                     }
@@ -53,7 +51,6 @@ final class FlowAlgorithmManager {
                 followingIDsCopy.remove(at: Int.random(in: 0...followingIDsCopy.count-1))
             )
         }
-        print("Following IDs: \(getFromFollowing)")
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
             .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
