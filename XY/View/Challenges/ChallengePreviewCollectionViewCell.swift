@@ -38,21 +38,22 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
         button.setGradient(Global.xyGradient)
         return button
     }()
-        
+    
+    var backgroundLayer = CAShapeLayer()
+    var shadowLayer = CAShapeLayer()
+    
     var viewModel: ChallengeViewModel?
     var challengeStartDelegate: StartChallengeDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor(named: "XYBlack-1")
-    
         addSubview(creatorNameLabel)
         addSubview(descriptionLabel)
         addSubview(playButton)
         
-        layer.cornerRadius = 15
-        layer.masksToBounds = true
+        layer.insertSublayer(backgroundLayer, at: 0)
+        layer.insertSublayer(shadowLayer, at: 0)
         
         playButton.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
     }
@@ -63,6 +64,19 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        let roundedRectPath = UIBezierPath(roundedRect: bounds, cornerRadius: 10).cgPath
+        backgroundLayer.path = roundedRectPath
+        shadowLayer.path = roundedRectPath
+        shadowLayer.shadowPath = roundedRectPath
+        shadowLayer.fillColor = UIColor.white.cgColor
+        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
+        shadowLayer.shadowRadius = 6
+        shadowLayer.shadowColor = UIColor(0xFFFFFF).withAlphaComponent(101/255).cgColor
+        shadowLayer.shadowOpacity = 1.0
+        backgroundLayer.fillColor = UIColor(named: "XYBlack-1")!.cgColor
+        backgroundLayer.frame = bounds
+        shadowLayer.frame = bounds
         
         if let challengeTitleGradientLabel = challengeTitleGradientLabel {
             challengeTitleGradientLabel.sizeToFit()

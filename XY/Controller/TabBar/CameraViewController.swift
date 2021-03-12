@@ -108,6 +108,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
+        collectionView.clipsToBounds = false
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView.register(ChallengePreviewCollectionViewCell.self, forCellWithReuseIdentifier: ChallengePreviewCollectionViewCell.identifier)
         collectionView.showsHorizontalScrollIndicator = false
