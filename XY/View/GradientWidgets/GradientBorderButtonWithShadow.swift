@@ -62,7 +62,6 @@ class GradientBorderButtonWithShadow: UIButton {
             shadowLayer.shadowRadius = 6
 
             layer.insertSublayer(shadowLayer, at: 0)
-            //layer.insertSublayer(shadowLayer, below: nil) // also works
         }
         
     }
@@ -75,13 +74,11 @@ class GradientBorderButtonWithShadow: UIButton {
     
     func setBackgroundColor(color: UIColor) {
         bgColor = color
-//        backgroundColor = bgColor
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         
-        backgroundColor = bgColor?.withAlphaComponent(0.7)
         gradientLayer.colors = gradientColors.map({ $0.withAlphaComponent(0.5).cgColor })
         tintColor = tintColor.withAlphaComponent(0.5)
     }
@@ -89,7 +86,6 @@ class GradientBorderButtonWithShadow: UIButton {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         
-        backgroundColor = bgColor
         gradientLayer.colors = gradientColors.map({ $0.cgColor })
         tintColor = tintColor.withAlphaComponent(1.0)
     }
