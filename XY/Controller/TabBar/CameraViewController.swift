@@ -33,6 +33,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         let button = UIButton()
         button.layer.masksToBounds = true
         button.backgroundColor = UIColor(0xb9b9b9)
+        button.isEnabled = false
         return button
     }()
     
@@ -68,6 +69,16 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     private var challengeTitleLabel: GradientLabel?
     static var challengeCardSize = CGSize(width: 118*1.4, height: 170*1.4)
+    
+    private let newChallengeButton: GradientBorderButtonWithShadow = {
+        let button = GradientBorderButtonWithShadow()
+        button.setTitle("Create New", for: .normal)
+        button.setTitleColor(UIColor(named: "XYWhite")!, for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
+        button.setBackgroundColor(color: UIColor(named: "XYBlack-1")!)
+        button.setGradient(Global.xyGradient)
+        return button
+    }()
 
     private let nextButton: GradientButton = {
         let button = GradientButton()
@@ -126,6 +137,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var viewModels = [ChallengeViewModel]()
     var activeChallenge: ChallengeViewModel?
     
+    var collectionViewY: CGFloat!
+    
     weak var timer: Timer?
     var startTime: Double = 0
     var endTime: Date?
@@ -152,9 +165,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         view.addSubview(flashCameraButton)
         view.addSubview(switchCameraButton)
-        
         view.addSubview(recordButton)
         view.addSubview(closeCameraVCButton)
+        
+        view.addSubview(newChallengeButton)
         view.addSubview(challengePreviewCollectionView)
         
         view.addSubview(challengeTimerLabel)
@@ -162,7 +176,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         view.addSubview(nextButton)
         view.addSubview(retakeButton)
-        
+                
+        newChallengeButton.addTarget(self, action: #selector(didTapCreateNewChallenge), for: .touchUpInside)
         switchCameraButton.addTarget(self, action: #selector(didDoubleTap), for: .touchUpInside)
         flashCameraButton.addTarget(self, action: #selector(didTapFlash), for: .touchUpInside)
         closeCameraVCButton.addTarget(self, action: #selector(didTapClose), for: .touchUpInside)
@@ -180,11 +195,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         if let sessionBack = sessionBack {
             // Set up preview layer and output
-            
             previewLayer = AVCaptureVideoPreviewLayer(session: sessionBack)
+            previewLayer?.videoGravity = .resizeAspectFill
             view.layer.insertSublayer(previewLayer!, at: 0)
-            sessionBack.addOutput(movieFileOutput)
             
+            sessionBack.addOutput(movieFileOutput)
             
             backCameraActive = true
         }
@@ -195,13 +210,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        previewLayer?.frame = view.bounds
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        view.setNeedsLayout()
-        
         self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.isNavigationBarHidden = true
     }
@@ -220,6 +234,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        previewLayer?.frame = UIScreen.main.bounds
+        
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
             x: (view.width - recordButtonSize)/2,
@@ -228,9 +244,20 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             height: recordButtonSize
         )
         
+        let newChallengeButtonSize = CGSize(width: 259, height: 54)
+        newChallengeButton.frame = CGRect(
+            x: (view.width - newChallengeButtonSize.width)/2,
+            y: (view.height - newChallengeButtonSize.height)/4,
+            width: newChallengeButtonSize.width,
+            height: newChallengeButtonSize.height
+        )
+        
+        if collectionViewY == nil {
+            collectionViewY = recordButton.top - CameraViewController.challengeCardSize.height - 20
+        }
         challengePreviewCollectionView.frame = CGRect(
             x: 0,
-            y: recordButton.top - CameraViewController.challengeCardSize.height - 20,
+            y: collectionViewY,
             width: view.width,
             height: CameraViewController.challengeCardSize.height
         )
@@ -316,6 +343,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         challengePreviewCollectionView.frame.origin.y = view.height
         UIView.animate(withDuration: 0.3) {
             self.challengePreviewCollectionView.frame.origin.y = self.view.height/2 + 25
+        } completion: { (done) in
+            if done {
+                self.collectionViewY = self.view.height/2 + 25
+            }
         }
     }
     
@@ -443,7 +474,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     private func startRecording() {
-        
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
         let filePath = documentsURL.appendingPathComponent("tempMovie.mp4")
         if FileManager.default.fileExists(atPath: filePath.absoluteString) {
@@ -472,6 +502,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         timer?.invalidate()
         
         movieFileOutput.stopRecording()
+        recordButton.isEnabled = false
         
         UIView.animate(withDuration: 0.5, animations: {
             self.recordButton.backgroundColor = UIColor(0x404040)
@@ -488,12 +519,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     private func setUpForChallenge(challenge: ChallengeViewModel) {
         activeChallenge = challenge
-        
+        recordButton.isEnabled = true
         prepareToRecord()
     }
     
     private func prepareToRecord() {
-        
         // Start timer
         countDownLabel.isHidden = false
         countDownLabel.text = "3"
@@ -588,6 +618,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     // MARK: - Obj-C functions
     
+    @objc private func didTapCreateNewChallenge() {
+        recordButton.isEnabled = true
+        prepareToRecord()
+    }
+    
     @objc private func didTapNext() {
         readyToPresentPreview = true
         
@@ -599,13 +634,16 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @objc private func didTapRetake() {
         self.challengeTimerLabel.isHidden = true
         self.challengePreviewCollectionView.isHidden = false
+        
         self.challengePreviewCollectionView.frame.origin.y = self.view.height
+        
         UIView.animate(withDuration: 0.3) {
             self.challengePreviewCollectionView.frame.origin.y = self.recordButton.top - CameraViewController.challengeCardSize.height - 20
             self.retakeButton.frame.origin.x = -self.view.width
             self.nextButton.frame.origin.x = self.view.width
         } completion: { (done) in
             if done {
+                self.collectionViewY = self.recordButton.top - CameraViewController.challengeCardSize.height - 20
                 self.retakeButton.isHidden = true
                 self.nextButton.isHidden = true
             }
@@ -690,6 +728,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     @objc private func didTapRecordButton() {
+        
         if isBackRecording {
             finishedRecording()
             isBackRecording = false

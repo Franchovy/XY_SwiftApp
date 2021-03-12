@@ -45,7 +45,7 @@ final class FlowAlgorithmManager {
         // Random 10 from following
         var getFromFollowing = [String]()
         var followingIDsCopy = followingIDs
-        for i in 0...10 {
+        for i in 0...9 {
             if followingIDsCopy.count == 0 {
                 break
             }

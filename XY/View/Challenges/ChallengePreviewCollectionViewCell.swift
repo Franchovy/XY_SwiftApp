@@ -13,7 +13,7 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
     private let creatorNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway", size: 14)
-        label.textColor = UIColor(named: "XYTint")
+        label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 2
         label.textAlignment = .center
         return label
@@ -22,7 +22,7 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway", size: 16)
-        label.textColor = UIColor(named: "XYTint")
+        label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 0
         label.textAlignment = .center
         return label
@@ -45,7 +45,7 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor(named: "Black")
+        backgroundColor = UIColor(named: "XYBlack-1")
     
         addSubview(creatorNameLabel)
         addSubview(descriptionLabel)
