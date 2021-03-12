@@ -79,7 +79,7 @@ final class ChallengesViewModelBuilder {
                 }
                 let challengeViewModel = ChallengeViewModel(
                     id: model.ID,
-                    title: challengeModel.title,
+                    title: "#\(challengeModel.title)",
                     description: challengeModel.description,
                     creator: creatorProfile,
                     level: 0,
@@ -89,7 +89,7 @@ final class ChallengesViewModelBuilder {
                 let challengeVideoViewModel = ChallengeVideoViewModel(
                     id: model.ID,
                     videoUrl: videoURL,
-                    title: challengeModel.title,
+                    title: "#\(challengeModel.title)",
                     description: challengeModel.description,
                     gradient: Global.xyGradient,
                     creator: creatorProfile,

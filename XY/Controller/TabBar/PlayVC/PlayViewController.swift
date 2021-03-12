@@ -10,7 +10,7 @@ import AVFoundation
 
 class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
-    private let pageViewController = UIPageViewController(
+    private let pageViewController = SwipingPageViewController(
         transitionStyle: .scroll,
         navigationOrientation: .vertical,
         options: [:]
@@ -30,7 +30,6 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         pageViewController.dataSource = self
         pageViewController.delegate = self
         
-        
         addChild(pageViewController)
         pageViewController.didMove(toParent: self)
         
@@ -42,6 +41,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             }
             self.setUpFirstVideo()
         }
+        
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,7 +58,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         let vc = VideoViewController()
 
         buildVideoViewControllerWithPair(vc, model)
-        
+
         pageViewController.setViewControllers(
             [vc],
             direction: .forward,
