@@ -146,12 +146,12 @@ extension UIView{
         self.layer.removeAnimation(forKey: "scaleXAnimation")
     }
     
-    func springScaleAnimate(_ scaleFactor: Float) {
+    func springScaleAnimate(from startScaleFactor: Float, to scaleFactor: Float) {
         let scaleX = CASpringAnimation(keyPath: "transform.scale.x")
         let scaleY = CASpringAnimation(keyPath: "transform.scale.y")
     
-        scaleX.fromValue = 1
-        scaleY.fromValue = 1
+        scaleX.fromValue = NSNumber(value: startScaleFactor)
+        scaleY.fromValue = NSNumber(value: startScaleFactor)
         
         scaleX.toValue = NSNumber(value: scaleFactor)
         scaleY.toValue = NSNumber(value: scaleFactor)

@@ -124,7 +124,7 @@ class VideoViewController: UIViewController {
         
         shadowLayer.path = UIBezierPath(roundedRect: videoView.bounds, cornerRadius: 15).cgPath
         shadowLayer.shadowPath = shadowLayer.path
-        
+        shadowLayer.shadowOpacity = 1.0
         shadowLayer.shadowRadius = 6
         shadowLayer.shadowOffset = CGSize(width: 0, height: 8)
         view.layer.insertSublayer(shadowLayer, at: 0)
@@ -177,8 +177,8 @@ class VideoViewController: UIViewController {
         
         let size: CGFloat = 60
         profileButton.frame = CGRect(
-            x: view.width - size - 11,
-            y: view.height/2 - size/3,
+            x: videoView.width - size - 11,
+            y: videoView.height/2 - size/3,
             width: size,
             height: size
         )
