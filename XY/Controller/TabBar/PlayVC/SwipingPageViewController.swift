@@ -13,6 +13,8 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
     var clinged = false
     var isSwipeActive = false
     
+    var speedMultiplier: CGFloat = 1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,8 +43,7 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         }
         activeDraggedViewController = videoViewController
         
-        videoViewController.view.transform =
-            CGAffineTransform(translationX: translationX, y: -abs(translationX*1/3)).rotated(by: (translationX/view.width)/13*CGFloat.pi)
+        animateForDrag(translationX)
         
         switch gestureRecognizer.state {
         case .began:
@@ -51,7 +52,7 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
             break
         case .ended, .cancelled:
             // Un-Cling
-            
+            uncling()
             
             returnToCenter()
             
@@ -65,16 +66,41 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         return true
     }
     
-    private func animateForDrag() {
+    private func animateForDrag(_ x: CGFloat) {
+        let translationX = x
         
+        activeDraggedViewController?.view.transform =
+            CGAffineTransform(
+                translationX: translationX,
+                y: -abs(translationX*1/3)
+            ).rotated(
+                by: (translationX/view.width)/13*CGFloat.pi
+            )
+        
+        if abs(x) > view.width/2 {
+            cling()
+        } else if clinged {
+            uncling()
+        }
     }
     
     private func cling() {
+        guard clinged == false, let activeDraggedViewController = activeDraggedViewController else {
+            return
+        }
+        
         clinged = true
+
+        activeDraggedViewController.view.scaleAnimate(0.9, duration: 0.1)
     }
     
     private func uncling() {
+        guard clinged == true else {
+            return
+        }
+        
         clinged = false
+        self.activeDraggedViewController?.view.stopScaleAnimate(0.9, duration: 0.1)
     }
     
     private func returnToCenter() {

@@ -116,14 +116,75 @@ extension UIView{
         scaleY.duration = duration
         scaleX.isCumulative = true
         scaleY.isCumulative = true
-        
+        scaleX.isRemovedOnCompletion = false
+        scaleY.isRemovedOnCompletion = false
+        scaleX.fillMode = .forwards
+        scaleY.fillMode = .forwards
         self.layer.add(scaleX, forKey: "scaleXAnimation")
         self.layer.add(scaleY, forKey: "scaleYAnimation")
     }
     
-    func stopScaleAnimate() {
+    func stopScaleAnimate(_ fromScaleFactor: Float, duration: Double) {
+        let scaleX : CABasicAnimation = CABasicAnimation(keyPath: "transform.scale.x")
+        let scaleY : CABasicAnimation = CABasicAnimation(keyPath: "transform.scale.y")
+        scaleX.fromValue = NSNumber(value: fromScaleFactor)
+        scaleY.fromValue = NSNumber(value: fromScaleFactor)
+        scaleX.toValue = 1
+        scaleY.toValue = 1
+        scaleX.duration = duration
+        scaleY.duration = duration
+        scaleX.isCumulative = true
+        scaleY.isCumulative = true
+        scaleX.isRemovedOnCompletion = true
+        scaleY.isRemovedOnCompletion = true
+        scaleX.fillMode = .both
+        scaleY.fillMode = .both
+        self.layer.add(scaleX, forKey: "endScaleXAnimation")
+        self.layer.add(scaleY, forKey: "endScaleYAnimation")
+        
         self.layer.removeAnimation(forKey: "scaleYAnimation")
         self.layer.removeAnimation(forKey: "scaleXAnimation")
+    }
+    
+    func springScaleAnimate(_ scaleFactor: Float) {
+        let scaleX = CASpringAnimation(keyPath: "transform.scale.x")
+        let scaleY = CASpringAnimation(keyPath: "transform.scale.y")
+    
+        scaleX.fromValue = 1
+        scaleY.fromValue = 1
+        
+        scaleX.toValue = NSNumber(value: scaleFactor)
+        scaleY.toValue = NSNumber(value: scaleFactor)
+        
+        scaleX.initialVelocity = -100.0
+        scaleY.initialVelocity = -100.0
+        
+        scaleY.damping = 1.0
+        scaleX.damping = 1.0
+        
+        scaleX.mass = 0.05
+        scaleY.mass = 0.05
+        scaleX.stiffness = 100
+        scaleY.stiffness = 100
+        
+        scaleX.duration = scaleX.settlingDuration
+        scaleY.duration = scaleY.settlingDuration
+        
+        scaleX.isCumulative = true
+        scaleY.isCumulative = true
+        
+        scaleX.fillMode = .forwards
+        scaleY.fillMode = .forwards
+        scaleX.isRemovedOnCompletion = false
+        scaleY.isRemovedOnCompletion = false
+        
+        self.layer.add(scaleX, forKey: "springScaleXAnimation")
+        self.layer.add(scaleY, forKey: "springScaleYAnimation")
+    }
+    
+    func stopSpringScaleAnimate() {
+        self.layer.removeAnimation(forKey: "springScaleYAnimation")
+        self.layer.removeAnimation(forKey: "springScaleXAnimation")
     }
 }
 
