@@ -137,7 +137,7 @@ class ProfileBubble: UIView {
         }
         followButton.isEnabled = false
         
-        HapticsManager.shared.vibrate(for: .success)
+        HapticsManager.shared?.vibrate(for: .success)
         
         switch viewModel.relationshipType {
         case .follower, .none:

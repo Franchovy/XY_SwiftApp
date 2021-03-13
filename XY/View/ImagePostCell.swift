@@ -437,7 +437,7 @@ class ImagePostCell: UICollectionViewCell, FlowDataCell {
     private func animateConfirm(completion: @escaping(() -> Void)) {
         let originalTransform = postCard.transform
 
-        HapticsManager.shared.vibrate(for: .success)
+        HapticsManager.shared?.vibrate(for: .success)
         
         UIView.animate(withDuration: 0.05, delay: 0, options: .curveEaseIn) {
             self.postCard.transform = originalTransform.scaledBy(x: 1.2, y: 1.2)

@@ -18,9 +18,15 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
     var confirmAnimation = false
     var currentXTranslation: CGFloat = 0
     
+    var hapticsManager: HapticsManager?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        hapticsManager = HapticsManager()
+        print("Haptics manager is \(hapticsManager == nil ? "nil" : "not nil")")
+        
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(didPan))
         panGesture.delegate = self
         view.addGestureRecognizer(panGesture)
@@ -103,7 +109,7 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         confirmAnimation = true
         activeDraggedViewController.view.layer.removeAllAnimations()
         activeDraggedViewController.view.springScaleAnimate(from: 0.9, to: 1.0)
-        HapticsManager.shared.vibrate(for: .success)
+        hapticsManager?.vibrate(for: .success)
         
         UIView.animate(withDuration: 0.2) {
             activeDraggedViewController.shadowLayer.shadowOffset = CGSize(width: 10, height: 10)
@@ -136,6 +142,8 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         }
         
         clinged = true
+        
+        hapticsManager?.playSlowVibrate()
 
         if let activeDraggedViewController = activeDraggedViewController as? VideoViewController {
             activeDraggedViewController.shadowLayer.shadowColor = isTowardsRight ? UIColor.green.cgColor : UIColor.red.cgColor
@@ -148,6 +156,8 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         guard clinged == true else {
             return
         }
+        
+        hapticsManager?.stopSlowVibrate()
         
         if let activeDraggedViewController = activeDraggedViewController as? VideoViewController {
             activeDraggedViewController.shadowLayer.shadowColor = UIColor.black.cgColor

@@ -101,7 +101,7 @@ class AuthChoiceViewController: UIViewController {
     }
 
     @objc private func loginChoicePressed() {
-        HapticsManager.shared.vibrate(for: .success)
+        HapticsManager.shared?.vibrate(for: .success)
         
         let vc = NewLoginViewController()
         vc.modalPresentationStyle = .fullScreen
@@ -110,7 +110,7 @@ class AuthChoiceViewController: UIViewController {
     }
     
     @objc private func signupChoicePressed() {
-        HapticsManager.shared.vibrate(for: .success)
+        HapticsManager.shared?.vibrate(for: .success)
         
         let vc = NewSignupViewController()
         vc.modalPresentationStyle = .fullScreen

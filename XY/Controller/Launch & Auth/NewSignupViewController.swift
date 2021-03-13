@@ -251,7 +251,7 @@ class NewSignupViewController: UIViewController {
             switch result {
             case .success(let _):
                 // Segue to main
-                HapticsManager.shared.vibrate(for: .success)
+                HapticsManager.shared?.vibrate(for: .success)
                 
                 let vc = UINavigationController(rootViewController: TabBarViewController())
                 vc.modalPresentationStyle = .fullScreen
