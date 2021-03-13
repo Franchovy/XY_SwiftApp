@@ -78,7 +78,7 @@ final class ChallengesViewModelBuilder {
                     return
                 }
                 let challengeViewModel = ChallengeViewModel(
-                    id: model.ID,
+                    id: challengeModel.id,
                     title: "#\(challengeModel.title)",
                     description: challengeModel.description,
                     creator: creatorProfile,
@@ -92,8 +92,7 @@ final class ChallengesViewModelBuilder {
                     title: "#\(challengeModel.title)",
                     description: challengeModel.description,
                     gradient: Global.xyGradient,
-                    creator: creatorProfile,
-                    timeInMinutes: 1.0
+                    creator: creatorProfile
                 )
                 
                 completion((challengeViewModel, challengeVideoViewModel))
@@ -101,7 +100,8 @@ final class ChallengesViewModelBuilder {
         )
     }
     
-    static func buildChallengeVideo(from model: ChallengeVideoModel, challengeModel: ChallengeModel, completion: @escaping(ChallengeVideoViewModel?) -> Void) {
+    static func buildChallengeVideo(from model: ChallengeVideoModel, challengeTitle: String, challengeDescription: String, completion: @escaping(ChallengeVideoViewModel?) -> Void) {
+            
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
@@ -148,11 +148,10 @@ final class ChallengesViewModelBuilder {
                 let challengeViewModel = ChallengeVideoViewModel(
                     id: model.ID,
                     videoUrl: videoURL,
-                    title: challengeModel.title,
-                    description: challengeModel.description,
+                    title: challengeTitle,
+                    description: challengeDescription,
                     gradient: Global.xyGradient,
-                    creator: creatorProfile,
-                    timeInMinutes: 1.0
+                    creator: creatorProfile
                 )
                 
                 completion(challengeViewModel)

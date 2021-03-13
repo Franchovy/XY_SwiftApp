@@ -36,6 +36,36 @@ final class ChallengesFirestoreManager {
         }
     }
     
+    func getVideosForChallenge(challenge: ChallengeViewModel, limitTo limit: Int, completion: @escaping([ChallengeVideoModel]?) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
+            .document(challenge.id)
+            .collection(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print(error)
+                } else if let querySnapshot = querySnapshot {
+                    var models = [ChallengeVideoModel]()
+                    
+                    for document in querySnapshot.documents {
+                        let model = ChallengeVideoModel(
+                            challengeID: challenge.id,
+                            ID: document.documentID,
+                            videoRef: document.data()[FirebaseKeys.ChallengeKeys.VideoKeys.videoRef] as! String,
+                            caption: document.data()[FirebaseKeys.ChallengeKeys.VideoKeys.caption] as? String,
+                            creatorID: document.data()[FirebaseKeys.ChallengeKeys.VideoKeys.creatorID] as! String,
+                            xp: document.data()[FirebaseKeys.ChallengeKeys.VideoKeys.xp] as! Int,
+                            level: document.data()[FirebaseKeys.ChallengeKeys.VideoKeys.level] as! Int,
+                            timestamp: (document.data()[FirebaseKeys.ChallengeKeys.VideoKeys.timestamp] as! Firebase.Timestamp).dateValue()
+                        )
+                        
+                        models.append(model)
+                    }
+                    
+                    completion(models)
+                }
+            }
+    }
+    
     func getChallengesAndVideos(limitTo limit: Int = 5, completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
         var returnData = [(ChallengeModel, ChallengeVideoModel)]()
         

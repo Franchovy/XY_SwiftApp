@@ -47,9 +47,6 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = false
         clipsToBounds = false
         
-        isUserInteractionEnabled = false
-        contentView.isUserInteractionEnabled = false
-        
         playButton.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
         
     }
@@ -92,7 +89,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         self.challengeViewModel = viewModel
         self.challengeVideoViewModel = videoViewModel
         
-        let challengeTitleGradientLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 12, gradientColours: Global.xyGradient)
+        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: Global.xyGradient)
         contentView.addSubview(challengeTitleGradientLabel)
         
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)
@@ -104,11 +101,14 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         contentView.insertSubview(videoView, at: 0)
         videoView.frame = bounds
         
-        videoView.setUpVideo(videoURL: videoViewModel.videoUrl)
+        if let videoUrl = videoViewModel.videoUrl {
+            videoView.setUpVideo(videoURL: videoUrl)
+        }
         self.videoView = videoView
         
         videoView.layer.cornerRadius = 15
         videoView.layer.masksToBounds = true
+        
         
         layoutSubviews()
         

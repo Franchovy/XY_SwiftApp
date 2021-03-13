@@ -251,7 +251,9 @@ class VideoViewController: UIViewController {
         captionLabel.text = challengeVideoViewModel.description
         challengeLabel.label.text = challengeViewModel.title
         
-        let url = challengeVideoViewModel.videoUrl
+        guard let url = challengeVideoViewModel.videoUrl else {
+            return
+        }
         spinner.stopAnimating()
         spinner.removeFromSuperview()
         

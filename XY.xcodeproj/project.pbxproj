@@ -139,6 +139,8 @@
 		B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */; };
 		B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */; };
 		B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */; };
+		B9B0C05525FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */; };
+		B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C05825FD5EA3003DA5CB /* ExploreChallengeViewController.swift */; };
 		B9B50F0825FC16AF007B8F9F /* SwipingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */; };
 		B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7825F028B90083D69A /* RankingBoardCell.swift */; };
 		B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */; };
@@ -330,6 +332,8 @@
 		B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStatusManager.swift; sourceTree = "<group>"; };
 		B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoCollectionViewCell.swift; sourceTree = "<group>"; };
+		B9B0C05825FD5EA3003DA5CB /* ExploreChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreChallengeViewController.swift; sourceTree = "<group>"; };
 		B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingPageViewController.swift; sourceTree = "<group>"; };
 		B9B74D7825F028B90083D69A /* RankingBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingBoardCell.swift; sourceTree = "<group>"; };
 		B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
@@ -530,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				149AD69B259B52A800E81ABC /* ExploreVC.swift */,
+				B9B0C05825FD5EA3003DA5CB /* ExploreChallengeViewController.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 				B934B67B25F76E5600575972 /* ChallengeCollectionViewCell.swift */,
 				B934B68125F76EF800575972 /* CategorySectionReusableView.swift */,
 				B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */,
+				B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */,
 			);
 			path = Challenges;
 			sourceTree = "<group>";
@@ -1193,6 +1199,7 @@
 				B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
 				B9B74D8F25F037870083D69A /* RankingTableViewCell.swift in Sources */,
+				B9B0C05525FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
@@ -1218,6 +1225,7 @@
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
+				B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */,
 				B9B74D8A25F02B7B0083D69A /* RankingViewModelBuilder.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */,

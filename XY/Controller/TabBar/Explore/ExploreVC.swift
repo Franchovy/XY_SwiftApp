@@ -62,12 +62,9 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         super.init(nibName: nil, bundle: nil)
         
         collectionView.dataSource = self
+        collectionView.delegate = self
         
         view.addSubview(collectionView)
-        
-//        collectionView.isUserInteractionEnabled = false
-        collectionView.allowsSelection = false
-        collectionView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -152,5 +149,16 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         headerView.configure(title: sections[indexPath.section].0)
         return headerView
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let viewModel = sections[indexPath.section].1[indexPath.row].0
+        guard let cell = collectionView.cellForItem(at: indexPath) else {
+            return
+        }
+        
+        let exploreChallengeVC = ExploreChallengeViewController(challengeViewModel: viewModel)
+        
+        navigationController?.pushViewController(exploreChallengeVC, animated: true)
     }
 }

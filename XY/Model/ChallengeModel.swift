@@ -14,15 +14,5 @@ struct ChallengeModel {
     let creatorID: String
     let level: Int
     let xp: Int
-    
-    static func getDemoChallenges() -> [ChallengeModel] {
-        return [
-            ChallengeModel(id: "N2nJLtKyFRyGUk9ilHNm", title: "RunToTheTop", description: "Run to the top of a mountain", creatorID: "", level: 0, xp: 0),
-            ChallengeModel(id: "N2nJLtKyFRyGUk9ilHNm", title: "ColorTheFace", description: "Draw on the face of your best friend", creatorID: "", level: 0, xp: 0),
-            ChallengeModel(id: "N2nJLtKyFRyGUk9ilHNm", title: "HelpGrandma", description: "Help a grandma cross the street", creatorID: "", level: 0, xp: 0),
-            ChallengeModel(id: "N2nJLtKyFRyGUk9ilHNm", title: "EatABurger", description: "Eat a hamburger in less than 1 minute", creatorID: "", level: 0, xp: 0),
-            ChallengeModel(id: "N2nJLtKyFRyGUk9ilHNm", title: "CloseThePhone", description: "Close your phone and upload the video of it", creatorID: "", level: 0, xp: 0),
-        ]
-    }
 }
 
