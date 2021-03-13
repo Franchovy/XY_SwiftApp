@@ -12,7 +12,7 @@ import UIKit
 class VideoPlayerView: UIView {
     
     var playerLayer: AVPlayerLayer?
-    var player: AVPlayer?
+    weak var player: AVPlayer?
     
     var repeatObserverSet = false
     var timeControlObserverSet = false
@@ -26,6 +26,10 @@ class VideoPlayerView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        teardown()
     }
     
     override func layoutSubviews() {
@@ -44,6 +48,8 @@ class VideoPlayerView: UIView {
                                                       name: .AVPlayerItemDidPlayToEndTime,
                                                       object: player?.currentItem)
         }
+        
+        player?.replaceCurrentItem(with: nil)
         player = nil
     }
     
@@ -72,7 +78,7 @@ class VideoPlayerView: UIView {
         playerDidFinishObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
             object: player.currentItem,
-            queue: .main) { _ in
+            queue: .main) { [weak self] _ in
             player.seek(to: .zero)
             player.playImmediately(atRate: 0.5)
         }

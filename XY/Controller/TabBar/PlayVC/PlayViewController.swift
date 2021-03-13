@@ -44,6 +44,19 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        guard let viewControllers = pageViewController.viewControllers else {
+            return
+        }
+        
+        for vc in viewControllers {
+            if let vc = vc as? VideoViewController {
+                vc.unloadFromMemory()
+            }
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -123,6 +136,14 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         ChallengesViewModelBuilder.buildChallengeAndVideo(from: pair.1, challengeModel: pair.0) { (pair) in
             if let pair = pair {
                 vc.configure(challengeVideoViewModel: pair.1, challengeViewModel: pair.0)
+            }
+        }
+    }
+    
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        for vc in previousViewControllers {
+            if let vc = vc as? VideoViewController {
+                vc.unloadFromMemory()
             }
         }
     }

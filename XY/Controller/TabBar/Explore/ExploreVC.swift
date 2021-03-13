@@ -113,12 +113,18 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         collectionView.frame = view.bounds
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        collectionView.reloadData()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
         for cell in collectionView.visibleCells {
             if let cell = cell as? ChallengeCollectionViewCell {
-                cell.prepareForReuse()
+                cell.stopVideo()
             }
         }
     }

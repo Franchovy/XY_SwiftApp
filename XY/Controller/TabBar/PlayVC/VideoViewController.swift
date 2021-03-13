@@ -204,14 +204,15 @@ class VideoViewController: UIViewController {
         
         if timeControlObserverSet {
             
-            self.player?.removeObserver(self, forKeyPath: "timeControlStatus")
+            player?.removeObserver(self, forKeyPath: "timeControlStatus")
         }
         if repeatObserverSet {
             NotificationCenter.default.removeObserver(self,
                                                       name: .AVPlayerItemDidPlayToEndTime,
                                                       object: self.player?.currentItem)
         }
-        self.player = nil
+        player?.replaceCurrentItem(with: nil)
+        player = nil
     }
     
     private func fetchProfileData() {
@@ -232,6 +233,11 @@ class VideoViewController: UIViewController {
     }
     
     // MARK: - Public Functions
+    
+    public func unloadFromMemory() {
+        player.cancelPendingPrerolls()
+//        teardown()
+    }
     
     public func play() {
         playState = .play
@@ -347,12 +353,16 @@ class VideoViewController: UIViewController {
     
     var stoppedAnimationFrame: CGRect?
     @objc private func videoTapped() {
+        guard let player = player else {
+            return
+        }
+        
         if playState == .pause && player.status == .readyToPlay {
-            player?.play()
+            player.play()
             playState = .play
             
         } else {
-            player?.pause()
+            player.pause()
             playState = .pause
             
         }

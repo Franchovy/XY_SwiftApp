@@ -85,9 +85,13 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         )
     }
     
+    public func stopVideo() {
+        videoView?.removeFromSuperview()
+    }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
-        
+        challengeTitleGradientLabel?.removeFromSuperview()
         videoView?.removeFromSuperview()
     }
     
