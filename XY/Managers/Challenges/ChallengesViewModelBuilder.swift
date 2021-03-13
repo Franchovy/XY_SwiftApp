@@ -21,6 +21,7 @@ final class ChallengesViewModelBuilder {
                             title: challengeModel.title,
                             description: challengeModel.description,
                             creator: profileModel,
+                            gradient: challengeModel.category.getGradient(),
                             level: 0,
                             xp: 0
                         )
@@ -82,6 +83,7 @@ final class ChallengesViewModelBuilder {
                     title: "#\(challengeModel.title)",
                     description: challengeModel.description,
                     creator: creatorProfile,
+                    gradient: challengeModel.category.getGradient(),
                     level: 0,
                     xp: 0
                 )
@@ -91,7 +93,7 @@ final class ChallengesViewModelBuilder {
                     videoUrl: videoURL,
                     title: "#\(challengeModel.title)",
                     description: challengeModel.description,
-                    gradient: Global.xyGradient,
+                    gradient: challengeModel.category.getGradient(),
                     creator: creatorProfile
                 )
                 

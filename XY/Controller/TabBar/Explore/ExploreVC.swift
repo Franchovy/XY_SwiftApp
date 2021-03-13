@@ -83,19 +83,24 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         navigationController?.navigationBar.isHidden = false
         
-        ChallengesFirestoreManager.shared.getChallengesAndVideos(limitTo: 3) { (pairs) in
-            if let pairs = pairs {
-                var viewModels = [(ChallengeViewModel, ChallengeVideoViewModel)]()
-                
-                for (model, videoModel) in pairs {
+        let categories:[ChallengeModel.Categories] = [.xyChallenges, .karmaChallenges, .playerChallenges]
+        
+        for category in categories {
+            
+            ChallengesFirestoreManager.shared.getChallengesAndVideos(limitTo: 3, category: category) { (pairs) in
+                if let pairs = pairs {
+                    var viewModels = [(ChallengeViewModel, ChallengeVideoViewModel)]()
                     
-                    ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model) { (viewModelPair) in
-                        if let viewModelPair = viewModelPair {
-                            viewModels.append(viewModelPair)
-                            
-                            if viewModels.count == pairs.count {
-                                self.sections.append(("XY's Challenges", viewModels))
-                                self.collectionView.reloadData()
+                    for (model, videoModel) in pairs {
+                        
+                        ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model) { (viewModelPair) in
+                            if let viewModelPair = viewModelPair {
+                                viewModels.append(viewModelPair)
+                                
+                                if viewModels.count == pairs.count {
+                                    self.sections.append((category.toString(), viewModels))
+                                    self.collectionView.reloadData()
+                                }
                             }
                         }
                     }

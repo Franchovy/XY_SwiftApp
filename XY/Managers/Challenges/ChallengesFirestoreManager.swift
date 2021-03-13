@@ -18,22 +18,23 @@ final class ChallengesFirestoreManager {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
             .limit(to: 5)
             .getDocuments { (querySnapshot, error) in
-            if let querySnapshot = querySnapshot {
-                for challengeDoc in querySnapshot.documents {
-                    let challengeModel = ChallengeModel(
-                        id: challengeDoc.documentID,
-                        title: challengeDoc.data()[FirebaseKeys.ChallengeKeys.title] as! String,
-                        description: challengeDoc.data()[FirebaseKeys.ChallengeKeys.description] as! String,
-                        creatorID: challengeDoc.data()[FirebaseKeys.ChallengeKeys.creatorID] as! String,
-                        level: challengeDoc.data()[FirebaseKeys.ChallengeKeys.level] as! Int,
-                        xp: challengeDoc.data()[FirebaseKeys.ChallengeKeys.xp] as! Int
-                    )
-                    
-                    models.append(challengeModel)
+                if let querySnapshot = querySnapshot {
+                    for challengeDoc in querySnapshot.documents {
+                        let challengeModel = ChallengeModel(
+                            id: challengeDoc.documentID,
+                            title: challengeDoc.data()[FirebaseKeys.ChallengeKeys.title] as! String,
+                            description: challengeDoc.data()[FirebaseKeys.ChallengeKeys.description] as! String,
+                            creatorID: challengeDoc.data()[FirebaseKeys.ChallengeKeys.creatorID] as! String,
+                            category: ChallengeModel.Categories(rawValue: challengeDoc.data()[FirebaseKeys.ChallengeKeys.category] as! String)!,
+                            level: challengeDoc.data()[FirebaseKeys.ChallengeKeys.level] as! Int,
+                            xp: challengeDoc.data()[FirebaseKeys.ChallengeKeys.xp] as! Int
+                        )
+                        
+                        models.append(challengeModel)
+                    }
+                    completion(models)
                 }
-                completion(models)
             }
-        }
     }
     
     func getVideosForChallenge(challenge: ChallengeViewModel, limitTo limit: Int, completion: @escaping([ChallengeVideoModel]?) -> Void) {
@@ -66,63 +67,125 @@ final class ChallengesFirestoreManager {
             }
     }
     
-    func getChallengesAndVideos(limitTo limit: Int = 5, completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+    func getChallengesAndVideos(completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+        
+        var returnData = [(ChallengeModel, ChallengeVideoModel)]()
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
+            .order(by: FirebaseKeys.ChallengeKeys.level, descending: true)
+            .order(by: FirebaseKeys.ChallengeKeys.xp, descending: true)
+            .getDocuments { (querySnapshot, error) in
+                let dispatchGroup = DispatchGroup()
+                
+                if let querySnapshot = querySnapshot {
+                    for challengeDoc in querySnapshot.documents {
+                        dispatchGroup.enter()
+                        
+                        let challengeModel = ChallengeModel(
+                            id: challengeDoc.documentID,
+                            title: challengeDoc.data()[FirebaseKeys.ChallengeKeys.title] as! String,
+                            description: challengeDoc.data()[FirebaseKeys.ChallengeKeys.description] as! String,
+                            creatorID: challengeDoc.data()[FirebaseKeys.ChallengeKeys.creatorID] as! String,
+                            category: ChallengeModel.Categories(rawValue: challengeDoc.data()[FirebaseKeys.ChallengeKeys.category] as! String)!,
+                            level: challengeDoc.data()[FirebaseKeys.ChallengeKeys.level] as! Int,
+                            xp: challengeDoc.data()[FirebaseKeys.ChallengeKeys.xp] as! Int
+                        )
+                        
+                        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges).document(challengeDoc.documentID)
+                            .collection(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
+                            .order(by: FirebaseKeys.ChallengeKeys.VideoKeys.timestamp)
+                            .limit(to: 1)
+                            .getDocuments { (querySnapshot, error) in
+                                defer {
+                                    dispatchGroup.leave()
+                                }
+                                
+                                if let querySnapshot = querySnapshot {
+                                    if let videoDoc = querySnapshot.documents.first {
+                                        let challengeVideoModel = ChallengeVideoModel(
+                                            challengeID: challengeDoc.documentID,
+                                            ID: videoDoc.documentID,
+                                            videoRef: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.videoRef] as! String,
+                                            caption: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.caption] as? String,
+                                            creatorID: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.creatorID] as! String,
+                                            xp: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.xp] as! Int,
+                                            level: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.level] as! Int,
+                                            timestamp: (videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.timestamp] as! Firebase.Timestamp).dateValue()
+                                        )
+                                        
+                                        returnData.append((challengeModel, challengeVideoModel))
+                                    }
+                                }
+                            }
+                    }
+                }
+                
+                dispatchGroup.notify(queue: .main) {
+                    completion(returnData)
+                }
+            }
+    }
+    
+    func getChallengesAndVideos(limitTo limit: Int, category: ChallengeModel.Categories, completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+        
         var returnData = [(ChallengeModel, ChallengeVideoModel)]()
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
             .limit(to: limit)
+            .whereField(FirebaseKeys.ChallengeKeys.category, isEqualTo: category.rawValue)
             .getDocuments { (querySnapshot, error) in
-            let dispatchGroup = DispatchGroup()
-            
-            if let querySnapshot = querySnapshot {
-                for challengeDoc in querySnapshot.documents {
-                    dispatchGroup.enter()
-                    
-                    let challengeModel = ChallengeModel(
-                        id: challengeDoc.documentID,
-                        title: challengeDoc.data()[FirebaseKeys.ChallengeKeys.title] as! String,
-                        description: challengeDoc.data()[FirebaseKeys.ChallengeKeys.description] as! String,
-                        creatorID: challengeDoc.data()[FirebaseKeys.ChallengeKeys.creatorID] as! String,
-                        level: challengeDoc.data()[FirebaseKeys.ChallengeKeys.level] as! Int,
-                        xp: challengeDoc.data()[FirebaseKeys.ChallengeKeys.xp] as! Int
-                    )
-                    
-                    FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges).document(challengeDoc.documentID)
-                        .collection(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
-                        .order(by: FirebaseKeys.ChallengeKeys.VideoKeys.timestamp)
-                        .limit(to: 1)
-                        .getDocuments { (querySnapshot, error) in
-                            defer {
-                                dispatchGroup.leave()
-                            }
-                            
-                        if let querySnapshot = querySnapshot {
-                            if let videoDoc = querySnapshot.documents.first {
-                                let challengeVideoModel = ChallengeVideoModel(
-                                    challengeID: challengeDoc.documentID,
-                                    ID: videoDoc.documentID,
-                                    videoRef: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.videoRef] as! String,
-                                    caption: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.caption] as? String,
-                                    creatorID: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.creatorID] as! String,
-                                    xp: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.xp] as! Int,
-                                    level: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.level] as! Int,
-                                    timestamp: (videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.timestamp] as! Firebase.Timestamp).dateValue()
-                                )
+                let dispatchGroup = DispatchGroup()
+                
+                if let querySnapshot = querySnapshot {
+                    for challengeDoc in querySnapshot.documents {
+                        dispatchGroup.enter()
+                        
+                        let challengeModel = ChallengeModel(
+                            id: challengeDoc.documentID,
+                            title: challengeDoc.data()[FirebaseKeys.ChallengeKeys.title] as! String,
+                            description: challengeDoc.data()[FirebaseKeys.ChallengeKeys.description] as! String,
+                            creatorID: challengeDoc.data()[FirebaseKeys.ChallengeKeys.creatorID] as! String,
+                            category: ChallengeModel.Categories(rawValue: challengeDoc.data()[FirebaseKeys.ChallengeKeys.category] as! String)!,
+                            level: challengeDoc.data()[FirebaseKeys.ChallengeKeys.level] as! Int,
+                            xp: challengeDoc.data()[FirebaseKeys.ChallengeKeys.xp] as! Int
+                        )
+                        
+                        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges).document(challengeDoc.documentID)
+                            .collection(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
+                            .order(by: FirebaseKeys.ChallengeKeys.VideoKeys.timestamp)
+                            .limit(to: 1)
+                            .getDocuments { (querySnapshot, error) in
+                                defer {
+                                    dispatchGroup.leave()
+                                }
                                 
-                                returnData.append((challengeModel, challengeVideoModel))
+                                if let querySnapshot = querySnapshot {
+                                    if let videoDoc = querySnapshot.documents.first {
+                                        let challengeVideoModel = ChallengeVideoModel(
+                                            challengeID: challengeDoc.documentID,
+                                            ID: videoDoc.documentID,
+                                            videoRef: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.videoRef] as! String,
+                                            caption: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.caption] as? String,
+                                            creatorID: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.creatorID] as! String,
+                                            xp: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.xp] as! Int,
+                                            level: videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.level] as! Int,
+                                            timestamp: (videoDoc.data()[FirebaseKeys.ChallengeKeys.VideoKeys.timestamp] as! Firebase.Timestamp).dateValue()
+                                        )
+                                        
+                                        returnData.append((challengeModel, challengeVideoModel))
+                                    }
+                                }
                             }
-                        }
                     }
                 }
+                
+                dispatchGroup.notify(queue: .main) {
+                    completion(returnData)
+                }
             }
-            
-            dispatchGroup.notify(queue: .main) {
-                completion(returnData)
-            }
-        }
     }
     
-    func createChallenge(title: String, description: String, completion: @escaping(String) -> Void) {
+    func createChallenge(title: String, description: String, category: ChallengeModel.Categories, completion: @escaping(String) -> Void) {
         guard let userID = AuthManager.shared.userId else {
             return
         }
@@ -133,6 +196,7 @@ final class ChallengesFirestoreManager {
             FirebaseKeys.ChallengeKeys.title: title,
             FirebaseKeys.ChallengeKeys.description: description,
             FirebaseKeys.ChallengeKeys.xp: 0,
+            FirebaseKeys.ChallengeKeys.category: category.rawValue,
             FirebaseKeys.ChallengeKeys.level: 0,
             FirebaseKeys.ChallengeKeys.creatorID: userID
         ]

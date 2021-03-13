@@ -145,6 +145,7 @@ struct FirebaseKeys {
         static let gradient = "gradient"
         static let xp = "xp"
         static let level = "level"
+        static let category = "category"
         
         struct CollectionPath {
             static let videos = "videos"

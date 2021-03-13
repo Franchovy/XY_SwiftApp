@@ -99,7 +99,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         self.challengeViewModel = viewModel
         self.challengeVideoViewModel = videoViewModel
         
-        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: Global.xyGradient)
+        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: viewModel.gradient)
         contentView.addSubview(challengeTitleGradientLabel)
         
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)

@@ -493,13 +493,15 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                 // Create new challenge
                 ChallengesFirestoreManager.shared.createChallenge(
                     title: challengeTitle,
-                    description: description) { challengeID in
+                    description: description,
+                    category: .playerChallenges) { challengeID in
                     
                     let challengeModel = ChallengeModel(
                         id: challengeID,
                         title: challengeTitle,
                         description: description,
                         creatorID: userID,
+                        category: .playerChallenges,
                         level: 0,
                         xp: 0
                     )
@@ -569,6 +571,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                         title: challengeViewModel.title,
                         description: challengeViewModel.description,
                         creatorID: challengeViewModel.creator.profileId,
+                        category: .playerChallenges,
                         level: 0,
                         xp: 0
                     )

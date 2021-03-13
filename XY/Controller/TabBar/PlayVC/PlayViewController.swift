@@ -33,15 +33,12 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         addChild(pageViewController)
         pageViewController.didMove(toParent: self)
         
-        print("Init")
-        
         ChallengesFirestoreManager.shared.getChallengesAndVideos { (pairs) in
             if let pairs = pairs {
                 self.models.append(contentsOf: pairs)
             }
             self.setUpFirstVideo()
         }
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

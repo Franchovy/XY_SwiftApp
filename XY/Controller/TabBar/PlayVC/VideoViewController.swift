@@ -40,7 +40,7 @@ class VideoViewController: UIViewController {
         return label
     }()
     
-    private let challengeLabel = GradientLabel(text: "", fontSize: 24, gradientColours: Global.xyGradient)
+    private var challengeLabel = GradientLabel(text: "", fontSize: 24, gradientColours: Global.xyGradient)
     
     private let videoView: UIView = {
         let view = UIView()
@@ -255,7 +255,10 @@ class VideoViewController: UIViewController {
         fetchProfileData()
         
         captionLabel.text = challengeVideoViewModel.description
-        challengeLabel.label.text = challengeViewModel.title
+        
+        challengeLabel.removeFromSuperview()
+        challengeLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.gradient)
+        view.addSubview(challengeLabel)
         
         guard let url = challengeVideoViewModel.videoUrl else {
             return
