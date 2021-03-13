@@ -36,10 +36,12 @@ final class ChallengesFirestoreManager {
         }
     }
     
-    func getChallengesAndVideos(completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+    func getChallengesAndVideos(limitTo limit: Int = 5, completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
         var returnData = [(ChallengeModel, ChallengeVideoModel)]()
         
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges).getDocuments { (querySnapshot, error) in
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
+            .limit(to: limit)
+            .getDocuments { (querySnapshot, error) in
             let dispatchGroup = DispatchGroup()
             
             if let querySnapshot = querySnapshot {
