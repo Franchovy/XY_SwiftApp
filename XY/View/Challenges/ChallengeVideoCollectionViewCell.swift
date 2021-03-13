@@ -36,7 +36,17 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private var videoView: VideoPlayerView?
+    private let playButton: GradientBorderButtonWithShadow = {
+       let button = GradientBorderButtonWithShadow()
+        button.setTitle("Play", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
+        button.setTitleColor(.white, for: .normal)
+        button.setBackgroundColor(color: .black)
+        button.setGradient(Global.xyGradient)
+        return button
+    }()
+    
+    private var videoView: UIView?
     private var challengeViewModel: ChallengeViewModel?
     private var challengeVideoViewModel: ChallengeVideoViewModel?
     
@@ -62,6 +72,11 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        videoView?.frame = bounds
+        videoView?.backgroundColor = .darkGray
+        videoView?.layer.cornerRadius = 15
+        videoView?.layer.masksToBounds = true
+        
         rankNumberLabel.sizeToFit()
         rankNumberLabel.frame = CGRect(
             x: (width - rankNumberLabel.width)/2,
@@ -77,10 +92,33 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
             width: creatorNameLabel.width,
             height: creatorNameLabel.height
         )
+        
+        let playButtonSize = CGSize(width: 180, height: 100)
+        playButton.frame = CGRect(
+            x: (width - playButtonSize.width)/2,
+            y: height*2/3 - 6.1 - playButtonSize.height,
+            width: playButtonSize.width,
+            height: playButtonSize.height
+        )
     }
     
     public func configureEmpty(rankNumber: Int) {
         rankNumberLabel.text = String(describing: rankNumber)
+        contentView.addSubview(playButton)
+        
+        let emptyView = UIView()
+        contentView.insertSubview(emptyView, at: 0)
+        self.videoView = emptyView
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        playButton.removeFromSuperview()
+        
+        videoView?.removeFromSuperview()
+        creatorNameLabel.text = ""
+        rankNumberLabel.text = ""
     }
     
     public func configure(viewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel, rankNumber: Int) {
@@ -92,7 +130,6 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
         
         let videoView = VideoPlayerView()
         contentView.insertSubview(videoView, at: 0)
-        videoView.frame = bounds
         
         if let videoUrl = videoViewModel.videoUrl {
             videoView.setUpVideo(videoURL: videoUrl)
@@ -103,18 +140,6 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
         videoView.layer.masksToBounds = true
         
         layoutSubviews()
-        
-        let gr = UITapGestureRecognizer(target: self, action: #selector(didTapPlay))
-        videoView.addGestureRecognizer(gr)
-        creatorNameLabel.addGestureRecognizer(gr)
-    }
-    
-    @objc private func didTapPlay() {
-        
-        guard let challengeViewModel = challengeViewModel else {
-            return
-        }
-        TabBarViewController.instance.startChallenge(challenge: challengeViewModel)
     }
 }
 

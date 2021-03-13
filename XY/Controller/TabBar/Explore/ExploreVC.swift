@@ -113,6 +113,18 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         collectionView.frame = view.bounds
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        for cell in collectionView.visibleCells {
+            if let cell = cell as? ChallengeCollectionViewCell {
+                cell.prepareForReuse()
+            }
+        }
+    }
+    
+    // MARK: - CollectionView functions
+    
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return sections.count
     }

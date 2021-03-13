@@ -36,13 +36,9 @@ class VideoPlayerView: UIView {
         }
     }
     
-    private func teardown() {
+    public func teardown() {
         player?.pause()
 
-        if timeControlObserverSet {
-
-            player?.removeObserver(self, forKeyPath: "timeControlStatus")
-        }
         if repeatObserverSet {
             NotificationCenter.default.removeObserver(self,
                                                       name: .AVPlayerItemDidPlayToEndTime,
@@ -72,8 +68,6 @@ class VideoPlayerView: UIView {
         
         player.volume = 0.0
         player.rate = 0.5
-
-        timeControlObserverSet = true
         
         playerDidFinishObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,

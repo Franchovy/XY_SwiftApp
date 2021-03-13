@@ -85,6 +85,12 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         )
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        videoView?.removeFromSuperview()
+    }
+    
     public func configure(viewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel) {
         self.challengeViewModel = viewModel
         self.challengeVideoViewModel = videoViewModel
@@ -109,13 +115,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         videoView.layer.cornerRadius = 15
         videoView.layer.masksToBounds = true
         
-        
         layoutSubviews()
-        
-        let gr = UITapGestureRecognizer(target: self, action: #selector(didTapPlay))
-        videoView.addGestureRecognizer(gr)
-        creatorNameLabel.addGestureRecognizer(gr)
-        challengeTitleGradientLabel.addGestureRecognizer(gr)
     }
     
     @objc private func didTapPlay() {
