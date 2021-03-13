@@ -11,7 +11,11 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
 
     var activeDraggedViewController: UIViewController?
     var clinged = false
-    var isSwipeActive = false
+    var isSwipeActive = false {
+        didSet {
+            enableScrolling(isEnabled: !isSwipeActive)
+        }
+    }
     var isTowardsRight = false
     var speedMultiplier: CGFloat = 1
     
@@ -65,11 +69,18 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
                 kaching()
             } else {
                 returnToCenter()
-                
-                isSwipeActive = false
             }
         default:
             break
+        }
+    }
+    
+    private func enableScrolling(isEnabled: Bool) {
+        for subview in view.subviews {
+            if let scrollview = subview as? UIScrollView {
+                scrollview.isScrollEnabled = isEnabled
+                break
+            }
         }
     }
     
@@ -172,7 +183,7 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
             self.activeDraggedViewController?.view.transform = CGAffineTransform.identity
         } completion: { (done) in
             if done {
-                
+                self.isSwipeActive = false
             }
         }
     }
