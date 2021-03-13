@@ -56,7 +56,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         setViewControllers([nav1, nav2, nav3, nav4, nav5], animated: false)
         
         eyesMode = Int.random(in: 0...50) == 1
-        let icon = eyesMode ? UIImage(systemName: "eyes") : UIImage(named: "tabbar_watch_icon")
+        let icon = eyesMode ? UIImage(systemName: "eyes") : UIImage(named: "tabbar_watch_icon-1")
         nav1.tabBarItem = UITabBarItem(
             title: "Watch",
             image: icon,
