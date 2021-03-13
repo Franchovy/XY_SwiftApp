@@ -133,6 +133,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var videoInputFront: AVCaptureDeviceInput?
     var sessionFront: AVCaptureSession?
     
+    var audioInput: AVCaptureInput?
+    
     private let movieFileOutput = AVCaptureMovieFileOutput()
     
     var viewModels = [ChallengeViewModel]()
@@ -388,6 +390,21 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 print("Front camera initialized")
                 videoInputFront = try AVCaptureDeviceInput(device: frontCamera)
                 sessionFront!.addInput(videoInputFront!)
+            } catch {
+                print("Error initializing session for back input!")
+            }
+        }
+        
+        // Set up audio
+        
+        let audioDevice:AVCaptureDevice? = AVCaptureDevice.default(.builtInMicrophone,
+                                                                   for: .audio, position: .unspecified)
+        if let audioDevice = audioDevice {
+            do {
+                print("Front camera initialized")
+                audioInput = try AVCaptureDeviceInput(device: audioDevice)
+                sessionBack?.addInput(audioInput!)
+                sessionFront?.addInput(audioInput!)
             } catch {
                 print("Error initializing session for back input!")
             }
