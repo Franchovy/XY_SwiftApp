@@ -39,6 +39,8 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             }
             self.setUpFirstVideo()
         }
+        
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -57,7 +59,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        pageViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: view.safeAreaInsets.top, left: 0, bottom: view.safeAreaInsets.bottom, right: 0))
+        pageViewController.view.frame = view.bounds.inset(by: UIEdgeInsets.init(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0))
     }
     
     private func setUpFirstVideo() {
