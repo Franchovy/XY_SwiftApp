@@ -17,7 +17,7 @@ class TimerIcon: UIView {
     
     let numberLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Heavy", size: 20)
+        label.font = UIFont(name: "Raleway-Heavy", size: 14)
         label.textColor = UIColor(named: "XYWhite")
         label.adjustsFontSizeToFitWidth = true
         return label
