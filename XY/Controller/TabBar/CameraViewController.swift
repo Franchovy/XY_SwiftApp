@@ -194,17 +194,21 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         recordButton.addTarget(self, action: #selector(didTapRecordButton), for: .touchUpInside)
         recordButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
         
-        setupAVCaptureSessions()
-        
-        if let sessionBack = sessionBack {
-            // Set up preview layer and output
-            previewLayer = AVCaptureVideoPreviewLayer(session: sessionBack)
-            previewLayer?.videoGravity = .resizeAspectFill
-            view.layer.insertSublayer(previewLayer!, at: 0)
+        DispatchQueue.global(qos: .default).async {
+            self.setupAVCaptureSessions()
             
-            sessionBack.addOutput(movieFileOutput)
-            
-            backCameraActive = true
+            if let sessionBack = self.sessionBack {
+                // Set up preview layer and output
+                self.previewLayer = AVCaptureVideoPreviewLayer(session: sessionBack)
+                self.previewLayer?.videoGravity = .resizeAspectFill
+                
+                DispatchQueue.main.async {
+                    self.view.layer.insertSublayer(self.previewLayer!, at: 0)
+                }
+                
+                sessionBack.addOutput(self.movieFileOutput)
+                self.backCameraActive = true
+            }
         }
         
         challengePreviewCollectionView.dataSource = self
