@@ -57,7 +57,7 @@ class CategorySectionReusableView : UICollectionReusableView {
                 size: boundingRect.size
             )
             
-            frame.size.height = descriptionLabel.bottom
+//            frame.size.height = descriptionLabel.bottom
         }
     }
     
