@@ -537,7 +537,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         countDownLabel.text = "3"
         layoutCountDownLabel()
         var countDown = 3
-        UIView.animate(withDuration: 0.3) {
+        collectionViewY = self.view.height
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn) {
             self.countDownLabel.alpha = 1.0
             self.challengePreviewCollectionView.frame.origin.y = self.view.height
         } completion: { (done) in
