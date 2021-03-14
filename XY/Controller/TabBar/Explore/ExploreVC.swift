@@ -13,7 +13,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 
     private var collectionView: UICollectionView = {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(widthDimension: .absolute(200), heightDimension: .absolute(55)),
+            layoutSize: .init(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(90)),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
@@ -55,6 +55,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     private var currentViralIndex = 0
     private var sections = [(String, [(ChallengeViewModel, ChallengeVideoViewModel)])]()
+    private var categories = [ChallengeModel.Categories]()
     
     // MARK: - Initializers
 
@@ -83,7 +84,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         navigationController?.navigationBar.isHidden = false
         
-        let categories:[ChallengeModel.Categories] = [.xyChallenges, .karmaChallenges, .playerChallenges]
+        categories = [.xyChallenges, .karmaChallenges, .playerChallenges]
         
         for category in categories {
             
@@ -115,7 +116,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        collectionView.frame = view.bounds
+        collectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -170,7 +171,12 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return UICollectionReusableView()
         }
         
-        headerView.configure(title: sections[indexPath.section].0)
+        let category = categories[indexPath.section]
+        headerView.configure(
+            title: category.toString(),
+            gradient: category.getGradientAdaptedToLightMode(),
+            description: category.getDescription()
+        )
         return headerView
     }
     

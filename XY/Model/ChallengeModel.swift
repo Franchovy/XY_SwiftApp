@@ -32,6 +32,17 @@ struct ChallengeModel {
             }
         }
         
+        func getGradientAdaptedToLightMode() -> [UIColor] {
+            switch self {
+            case .xyChallenges:
+                return [UIColor(0xFF0062), UIColor(0x0C98F6)]
+            case .karmaChallenges:
+                return [UIColor(0x00FF0D), UIColor(0x00FFFC), UIColor(0x00FF6A)]
+            case .playerChallenges:
+                return [UIColor(named: "tintColor")!, UIColor(named: "XYTint")!]
+            }
+        }
+        
         func toString() -> String {
             switch self {
             case .xyChallenges:
