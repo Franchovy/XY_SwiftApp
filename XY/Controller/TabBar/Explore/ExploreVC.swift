@@ -90,7 +90,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         navigationController?.navigationBar.isHidden = false
         
-        categories = [.xyChallenges, .karmaChallenges, .playerChallenges]
+        categories = [.xyChallenges, .playerChallenges]
         
         for category in categories {
             

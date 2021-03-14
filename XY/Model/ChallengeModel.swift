@@ -50,7 +50,7 @@ struct ChallengeModel {
             case .karmaChallenges:
                 return "Karma Challenges"
             case .playerChallenges:
-                return "Player Challenges"
+                return "Players' Challenges"
             }
         }
         
@@ -61,7 +61,7 @@ struct ChallengeModel {
             case .karmaChallenges:
                 return "Do something good for the world. Increase your karma."
             case .playerChallenges:
-                return "Challenges created by you, the players of XY."
+                return ""
             }
         }
     }
