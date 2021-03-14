@@ -34,6 +34,10 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         pageViewController.didMove(toParent: self)
         
         ChallengesFirestoreManager.shared.getChallengesAndVideos { (pairs) in
+            
+        }
+        
+        ChallengesFirestoreManager.shared.getMostRecentVideos { (pairs) in
             if let pairs = pairs {
                 self.models.append(contentsOf: pairs)
             }

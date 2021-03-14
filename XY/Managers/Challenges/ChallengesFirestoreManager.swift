@@ -209,6 +209,73 @@ final class ChallengesFirestoreManager {
         }
     }
     
+    func getMostRecentVideos(completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+        FirestoreReferenceManager.db.collectionGroup(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
+            .order(by: FirebaseKeys.ChallengeKeys.VideoKeys.timestamp, descending: true)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print(error)
+                } else if let querySnapshot = querySnapshot {
+                    
+                    var pairs = [(ChallengeModel, ChallengeVideoModel)]()
+                    for videoDocument in querySnapshot.documents {
+                        let videoModel = self.videoFromDocument(document: videoDocument)
+                        
+                        videoDocument.reference.parent.parent?.getDocument() { (snapshot, error) in
+                            if let error = error {
+                                print(error)
+                            } else if let snapshot = snapshot {
+                                let challengeModel = self.challengeFromDocument(document: snapshot)
+                                
+                                if let videoModel = videoModel, let challengeModel = challengeModel {
+                                    pairs.append((challengeModel, videoModel))
+                                }
+                                
+                                if pairs.count == querySnapshot.count {
+                                    completion(pairs)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+    }
+    
+    private func videoFromDocument(document: DocumentSnapshot) -> ChallengeVideoModel? {
+        guard let data = document.data() else {
+            return nil
+        }
+        let videoModel = ChallengeVideoModel(
+            challengeID: document.reference.parent.parent!.documentID,
+            ID: document.documentID,
+            videoRef: data[FirebaseKeys.ChallengeKeys.VideoKeys.videoRef] as! String,
+            caption: data[FirebaseKeys.ChallengeKeys.VideoKeys.caption] as? String,
+            creatorID: data[FirebaseKeys.ChallengeKeys.VideoKeys.creatorID] as! String,
+            xp: data[FirebaseKeys.ChallengeKeys.VideoKeys.xp] as! Int,
+            level: data[FirebaseKeys.ChallengeKeys.VideoKeys.level] as! Int,
+            timestamp: (data[FirebaseKeys.ChallengeKeys.VideoKeys.timestamp] as! Firebase.Timestamp).dateValue()
+        )
+        
+        return videoModel
+    }
+    
+    private func challengeFromDocument(document: DocumentSnapshot) -> ChallengeModel? {
+        guard let data = document.data() else {
+            return nil
+        }
+        let challengeModel = ChallengeModel(
+            id: document.documentID,
+            title: data[FirebaseKeys.ChallengeKeys.title] as! String,
+            description: data[FirebaseKeys.ChallengeKeys.description] as! String,
+            creatorID: data[FirebaseKeys.ChallengeKeys.creatorID] as! String,
+            category: ChallengeModel.Categories(rawValue: data[FirebaseKeys.ChallengeKeys.category] as! String)!,
+            level: data[FirebaseKeys.ChallengeKeys.level] as! Int,
+            xp: data[FirebaseKeys.ChallengeKeys.xp] as! Int
+        )
+        
+        return challengeModel
+    }
+    
     func uploadChallengeVideo(videoUrl: URL, challengeID: String, caption: String?, completion: @escaping(String, String) -> Void) {
         guard let userID = AuthManager.shared.userId else {
             return
