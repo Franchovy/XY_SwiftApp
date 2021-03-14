@@ -43,6 +43,7 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
         button.setTitleColor(.white, for: .normal)
         button.setBackgroundColor(color: .black)
         button.setGradient(Global.xyGradient)
+        button.isHidden = true
         return button
     }()
     
@@ -55,6 +56,7 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubview(rankNumberLabel)
         contentView.addSubview(creatorNameLabel)
+        contentView.addSubview(playButton)
         
         layer.shadowRadius = 6
         layer.shadowOffset = CGSize(width: 0, height: 3)
@@ -93,10 +95,10 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
             height: creatorNameLabel.height
         )
         
-        let playButtonSize = CGSize(width: 180, height: 100)
+        let playButtonSize = CGSize(width: 100, height: 40)
         playButton.frame = CGRect(
             x: (width - playButtonSize.width)/2,
-            y: height*2/3 - 6.1 - playButtonSize.height,
+            y: height*2/3 - playButtonSize.height/2,
             width: playButtonSize.width,
             height: playButtonSize.height
         )
@@ -104,7 +106,9 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
     
     public func configureEmpty(rankNumber: Int) {
         rankNumberLabel.text = String(describing: rankNumber)
-        contentView.addSubview(playButton)
+        playButton.isHidden = false
+        
+        playButton.setBackgroundColor(color: .black)
         
         let emptyView = UIView()
         contentView.insertSubview(emptyView, at: 0)
@@ -114,7 +118,7 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        playButton.removeFromSuperview()
+        playButton.isHidden = true
         
         videoView?.removeFromSuperview()
         creatorNameLabel.text = ""
