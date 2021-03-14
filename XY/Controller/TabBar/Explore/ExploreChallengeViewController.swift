@@ -44,6 +44,17 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         return collectionView
     }()
     
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Medium", size: 25)
+        label.textColor = UIColor(named: "XYTint")
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private let timerIcon = TimerIcon(labelText: "1 Min")
+    
     private var currentViralIndex = 0
     private var viewModels = [ChallengeVideoViewModel]()
     private var challengeViewModel: ChallengeViewModel
@@ -58,6 +69,10 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        descriptionLabel.text = challengeViewModel.description
+        
+        view.addSubview(timerIcon)
+        view.addSubview(descriptionLabel)
         view.addSubview(collectionView)
     }
     
@@ -74,7 +89,9 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         try? AVAudioSession.sharedInstance().setActive(true)
         
         view.backgroundColor = UIColor(named: "Black")
-        
+        let gradientLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.gradient)
+        gradientLabel.sizeToFit()
+        navigationItem.titleView = gradientLabel
         navigationController?.navigationBar.isHidden = false
         
         ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel, limitTo: 5) { (videoModels) in
@@ -95,13 +112,45 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
                 }
             }
         }
-        
-        let titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
-        navigationItem.titleView = titleView
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.tabBarController?.tabBar.isHidden = false
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        if let text = descriptionLabel.text {
+            let boundingSize = CGSize(width: view.width - 30, height: .greatestFiniteMagnitude)
+            let textRect = text.boundingRect(
+                with: boundingSize,
+                options: .usesLineFragmentOrigin,
+                attributes: [.font : descriptionLabel.font],
+                context: nil
+            )
+            
+            descriptionLabel.frame = CGRect(
+                x: 15,
+                y: view.safeAreaInsets.top + 15,
+                width: textRect.width,
+                height: textRect.height
+            )
+        }
+        
+        let timerIconSize:CGFloat = 56.94
+        timerIcon.frame = CGRect(
+            x: (view.width - timerIconSize)/2,
+            y: view.safeAreaInsets.top + 87,
+            width: timerIconSize,
+            height: timerIconSize
+        )
         
         collectionView.frame = CGRect(
             x: 0,
