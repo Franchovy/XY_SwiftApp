@@ -234,6 +234,10 @@ class VideoViewController: UIViewController {
     
     // MARK: - Public Functions
     
+    public func reconfigure() {
+        setUpVideo()
+    }
+    
     public func unloadFromMemory() {
         player.cancelPendingPrerolls()
 //        teardown()
@@ -260,7 +264,11 @@ class VideoViewController: UIViewController {
         challengeLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.gradient)
         view.addSubview(challengeLabel)
         
-        guard let url = challengeVideoViewModel.videoUrl else {
+        setUpVideo()
+    }
+    
+    private func setUpVideo() {
+        guard let url = videoViewModel?.videoUrl else {
             return
         }
         spinner.stopAnimating()

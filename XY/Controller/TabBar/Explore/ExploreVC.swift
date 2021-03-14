@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
-
+class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
+    
     private var collectionView: UICollectionView = {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
             layoutSize: .init(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(90)),
@@ -58,12 +58,18 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     private var categories = [ChallengeModel.Categories]()
     
     // MARK: - Initializers
-
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        for view in collectionView.subviews {
+            if let scrollView = view as? UIScrollView {
+                scrollView.delegate = self
+            }
+        }
         
         view.addSubview(collectionView)
     }
@@ -73,7 +79,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     // MARK: - Lifecycle
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,7 +94,10 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         for category in categories {
             
-            ChallengesFirestoreManager.shared.getChallengesAndVideos(limitTo: 3, category: category) { (pairs) in
+            ChallengesFirestoreManager.shared.getChallengesAndVideos(
+                limitTo: 3,
+                category: category
+            ) { (pairs) in
                 if let pairs = pairs {
                     var viewModels = [(ChallengeViewModel, ChallengeVideoViewModel)]()
                     
@@ -132,6 +141,50 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             if let cell = cell as? ChallengeCollectionViewCell {
                 cell.stopVideo()
             }
+        }
+    }
+    
+    // MARK: - Fetch handling
+    
+    func loadMore() {
+        guard sections.count == 3, sections.last?.0 == ChallengeModel.Categories.playerChallenges.toString() else {
+            return
+        }
+        
+        ChallengesFirestoreManager.shared.getChallengesAndVideos(
+            limitTo: 3,
+            category: .playerChallenges
+        ) { (pairs) in
+            if let pairs = pairs {
+                var viewModels = self.sections.last!.1
+                
+                for (model, videoModel) in pairs {
+                    
+                    ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model) { (viewModelPair) in
+                        if let viewModelPair = viewModelPair {
+                            viewModels.append(viewModelPair)
+                            
+                            if viewModels.count == pairs.count {
+                                self.sections[2] = (ChallengeModel.Categories.playerChallenges.rawValue, viewModels)
+                                self.collectionView.reloadData()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if( scrollView.contentSize.height == 0 ) {
+            return;
+        }
+        
+        let buffer = collectionView.bounds.height - collectionView.contentInset.top - collectionView.contentInset.bottom
+        let maxVisibleY = collectionView.contentOffset.y + self.collectionView.bounds.size.height
+        let actualMaxY = collectionView.contentSize.height + collectionView.contentInset.bottom
+        if maxVisibleY + buffer >= actualMaxY {
+            loadMore()
         }
     }
     

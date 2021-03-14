@@ -43,6 +43,20 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         navigationController?.isNavigationBarHidden = true
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        guard let viewControllers = pageViewController.viewControllers else {
+            return
+        }
+        
+        for vc in viewControllers {
+            if let vc = vc as? VideoViewController {
+                vc.reconfigure()
+            }
+        }
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         guard let viewControllers = pageViewController.viewControllers else {
