@@ -240,7 +240,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
         
         let exploreChallengeVC = ExploreChallengeViewController(challengeViewModel: viewModel)
-        
+    
         navigationController?.pushViewController(exploreChallengeVC, animated: true)
     }
 }

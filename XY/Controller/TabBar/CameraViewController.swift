@@ -166,6 +166,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.isNavigationBarHidden = true
+        
         view.addSubview(flashCameraButton)
         view.addSubview(switchCameraButton)
         view.addSubview(recordButton)
@@ -213,29 +215,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         challengePreviewCollectionView.dataSource = self
         fetchChallenges()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.isNavigationBarHidden = true
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-        self.navigationController?.isNavigationBarHidden = true
+        
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         timer?.invalidate()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-        self.navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidLayoutSubviews() {

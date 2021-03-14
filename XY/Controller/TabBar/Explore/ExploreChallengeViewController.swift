@@ -74,6 +74,8 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         view.addSubview(timerIcon)
         view.addSubview(descriptionLabel)
         view.addSubview(collectionView)
+        
+        hidesBottomBarWhenPushed = true
     }
     
     required init?(coder: NSCoder) {
@@ -113,17 +115,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
             }
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        self.tabBarController?.tabBar.isHidden = false
-    }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
