@@ -141,6 +141,7 @@
 		B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */; };
 		B9B0C05525FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */; };
 		B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C05825FD5EA3003DA5CB /* ExploreChallengeViewController.swift */; };
+		B9B0C07425FDE938003DA5CB /* XYWorldAsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C07325FDE938003DA5CB /* XYWorldAsHeader.swift */; };
 		B9B50F0825FC16AF007B8F9F /* SwipingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */; };
 		B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7825F028B90083D69A /* RankingBoardCell.swift */; };
 		B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */; };
@@ -334,6 +335,7 @@
 		B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoCollectionViewCell.swift; sourceTree = "<group>"; };
 		B9B0C05825FD5EA3003DA5CB /* ExploreChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreChallengeViewController.swift; sourceTree = "<group>"; };
+		B9B0C07325FDE938003DA5CB /* XYWorldAsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYWorldAsHeader.swift; sourceTree = "<group>"; };
 		B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingPageViewController.swift; sourceTree = "<group>"; };
 		B9B74D7825F028B90083D69A /* RankingBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingBoardCell.swift; sourceTree = "<group>"; };
 		B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
@@ -790,6 +792,7 @@
 				B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */,
 				B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */,
 				B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */,
+				B9B0C07325FDE938003DA5CB /* XYWorldAsHeader.swift */,
 			);
 			path = XYWorld;
 			sourceTree = "<group>";
@@ -1183,6 +1186,7 @@
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
+				B9B0C07425FDE938003DA5CB /* XYWorldAsHeader.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */,
 				B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */,

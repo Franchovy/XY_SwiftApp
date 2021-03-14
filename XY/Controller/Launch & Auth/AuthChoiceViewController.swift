@@ -9,7 +9,7 @@ import UIKit
 
 class AuthChoiceViewController: UIViewController {
 
-    private let logo = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+    private let logo = UIImageView(image: UIImage(named: "XYNavbarLogo"))
     
     private let titleLabel = GradientLabel(text: "Ready, Play, XY!", fontSize: 40, gradientColours: Global.darkModeBackgroundGradient)
     

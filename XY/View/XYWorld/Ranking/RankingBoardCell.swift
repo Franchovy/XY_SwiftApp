@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol RankingBoardCellDelegate {
+protocol RankingBoardCellDelegate : class {
     func didTapRankingBoard(with viewModel: RankingViewModel)
 }
 

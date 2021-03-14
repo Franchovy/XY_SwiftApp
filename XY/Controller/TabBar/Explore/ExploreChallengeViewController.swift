@@ -96,7 +96,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
             }
         }
         
-        let titleView = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+        let titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
         navigationItem.titleView = titleView
     }
     

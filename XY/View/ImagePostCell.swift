@@ -20,7 +20,7 @@ protocol ImagePostCellDelegate {
 }
 
 
-class ImagePostCell: UICollectionViewCell, FlowDataCell {
+class ImagePostCell: UITableViewCell, FlowDataCell {
     
     // MARK: - Properties
     
@@ -140,8 +140,8 @@ class ImagePostCell: UICollectionViewCell, FlowDataCell {
     
     // MARK: Initializers
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.backgroundColor = UIColor(named: "Black")
         
@@ -173,7 +173,7 @@ class ImagePostCell: UICollectionViewCell, FlowDataCell {
         
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(panGesture(panGestureRecognizer:)))
         panGesture.maximumNumberOfTouches = 1
-//        panGesture.delegate = self
+        panGesture.delegate = self
         panGesture.isEnabled = true
         addGestureRecognizer(panGesture)
         
@@ -183,7 +183,7 @@ class ImagePostCell: UICollectionViewCell, FlowDataCell {
         contentView.isUserInteractionEnabled = false
         
         let tapProfileImage = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped(tapGestureRecognizer:)))
-//        tapProfileImage.delegate = self
+        tapProfileImage.delegate = self
         profileImageContainer.addGestureRecognizer(tapProfileImage)
         
         tappedBackToCenterGesture = UITapGestureRecognizer(target: self, action: #selector(animateBackToCenter))
@@ -193,10 +193,10 @@ class ImagePostCell: UICollectionViewCell, FlowDataCell {
         reportButtonImage.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
         reportButtonTitle.addTarget(self, action: #selector(reportPressed), for: .touchUpInside)
         
-        postCard.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+//        postCard.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
         caption.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10).isActive = true
         
-        heightAnchor.constraint(greaterThanOrEqualToConstant: width + 67 + 15).isActive = true
+//        heightAnchor.constraint(greaterThanOrEqualToConstant: width + 67 + 55).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -329,9 +329,12 @@ class ImagePostCell: UICollectionViewCell, FlowDataCell {
     override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let gesture = gestureRecognizer as? UIPanGestureRecognizer {
             let velocity = gesture.velocity(in: nil)
+            print("Gesture should begin: \(abs(velocity.x) > abs(velocity.y))")
             return abs(velocity.x) > abs(velocity.y)
         }
-        else { return true }
+        else {
+            print("Gesture should begin: \(true)")
+            return true }
         
     }
 
@@ -567,7 +570,11 @@ class ImagePostCell: UICollectionViewCell, FlowDataCell {
     // MARK: - Public functions
     
     
-    public func configure(with viewModel: NewPostViewModel) {
+    public func configure(with viewModel: NewPostViewModel?) {
+        guard let viewModel = viewModel else {
+            loadingIcon.startAnimating()
+            return
+        }
         
         self.viewModel = viewModel
         

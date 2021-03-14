@@ -8,319 +8,129 @@
 import Foundation
 import UIKit
 
-struct XYworldSection {
-    let type: XYworldSectionType
-    let cells: [XYworldCell]
-}
 
-enum XYworldSectionType: CaseIterable {
-    case onlineNow
-    case ranking
-    case flow
-    
-    var title: String {
-        switch self {
-        case .onlineNow:
-            return "Online Friends"
-        case .ranking:
-            return "Rankings"
-        case .flow:
-            return "Flow"
-        }
-    }
-}
-
-enum XYworldCell {
-    case onlineNow(viewModel: ProfileViewModel)
-    case ranking(viewModel: RankingViewModel)
-    case post(viewModel: NewPostViewModel)
-}
 
 class XYworldVC: UIViewController, UISearchBarDelegate {
     
-    // MARK: - Properties
-    
-    private var noOnlineFriendsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 18)
-        label.text = Int.random(in: 0...100) == 1 ? "No Friends Online #foreverAlone" : "No Friends Online 😢"
-        label.isHidden = true
-        label.textColor = UIColor(named: "tintColor")
-        label.alpha = 0.7
-        return label
+    let tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        
+        tableView.sectionHeaderHeight = 450
+        tableView.estimatedRowHeight = 350
+        tableView.backgroundColor = UIColor(named: "XYblack")
+        tableView.showsVerticalScrollIndicator = false
+        tableView.separatorStyle = .none
+        tableView.register(XYWorldAsHeader.self, forHeaderFooterViewReuseIdentifier: XYWorldAsHeader.identifier)
+        tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
+        return tableView
     }()
     
-    static var onlineNowCellSize = CGSize(width: 60, height: 80)
-    static var rankingBoardCellSize = CGSize(width: 365, height: 230)
-
-    private var collectionView: UICollectionView?
+    let barXPCircle: CircleView = {
+        let circleView = CircleView()
+        circleView.setProgress(level: 0, progress: 0.0)
+        circleView.setupFinished()
+        circleView.setLevelLabelFontSize(size: 24)
+        circleView.registerXPUpdates(for: .ownUser)
+        return circleView
+    }()
     
-    let barXPCircle = CircleView()
+    private var postModels = [(PostModel, NewPostViewModel?)]()
     
-    private var sections = [XYworldSection]()
-    
-    private var onlineNowUsers = [ProfileViewModel]()
-    private var rankingCells = [XYworldCell?]()
-    private var postModels = [NewPostViewModel]()
+    // MARK: - Properties
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: barXPCircle)
-        navigationItem.titleView = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
+        barXPCircle.addGestureRecognizer(tap)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+
+        navigationItem.titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Lifecycle
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.addSubview(tableView)
+        
+        fetchFlow()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         barXPCircle.registerXPUpdates(for: .ownUser)
-        subscribeToOnlineNow()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         
         barXPCircle.deregisterUpdates()
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        barXPCircle.setProgress(level: 0, progress: 0.0)
-        barXPCircle.setupFinished()
-        barXPCircle.setLevelLabelFontSize(size: 24)
-        barXPCircle.registerXPUpdates(for: .ownUser)
-        
-        let layout = UICollectionViewCompositionalLayout { section, _ -> NSCollectionLayoutSection? in
-            return self.layout(for: section)
-        }
-        
-        layout.configuration.scrollDirection = .vertical
-        
-        let collectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: layout
-        )
-        
-        let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor(named: "tintColor")
-//        refreshControl.addTarget(self, action: #selector(flowRefreshed(_:)), for: .valueChanged)
-        collectionView.refreshControl = refreshControl
-        
-        collectionView.dataSource = self
-        collectionView.delegate = self
-        collectionView.allowsSelection = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.backgroundColor = UIColor(named: "Black")
-        
-        collectionView.register(
-            SectionLabelReusableView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier: SectionLabelReusableView.identifier
-        )
-        
-        collectionView.register(OnlineNowCollectionViewCell.self,forCellWithReuseIdentifier: OnlineNowCollectionViewCell.identifier)
-//        collectionView.register(ProfileCardCollectionViewCell.self, forCellWithReuseIdentifier: ProfileCardCollectionViewCell.identifier)
-        collectionView.register(RankingBoardCell.self, forCellWithReuseIdentifier: RankingBoardCell.identifier)
-        collectionView.register(ImagePostCell.self, forCellWithReuseIdentifier: ImagePostCell.identifier)
-        
-        self.collectionView = collectionView
-        
-        view.addSubview(collectionView)
-        collectionView.addSubview(noOnlineFriendsLabel)
-        
-        sections.append(XYworldSection(type: .onlineNow, cells: []))
-        sections.append(XYworldSection(type: .ranking, cells: []))
-        sections.append(XYworldSection(type: .flow, cells: []))
-        
-        subscribeToOnlineNow()
-        subscribeToRanking()
-        fetchFlow()
-    }
     
     override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         barXPCircle.frame.size = CGSize(width: 25, height: 25)
-        
-        noOnlineFriendsLabel.sizeToFit()
-        noOnlineFriendsLabel.frame = CGRect(
-            x: (view.width - noOnlineFriendsLabel.width)/2,
-            y: 75,
-            width: noOnlineFriendsLabel.width,
-            height: noOnlineFriendsLabel.height
-        )
-        
-        collectionView?.frame = CGRect(
-            x: 0,
-            y: 10,
-            width: view.width,
-            height: view.height - 10
-        )
+        tableView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
     
-    private func subscribeToOnlineNow() {
-        // Subscribe to Online Now in RT DB
-        DatabaseManager.shared.subscribeToOnlineNow() { ids in
-            if let ids = ids {
-                self.loadOnlineNow(with: ids)
-            }
-        }
-    }
-    
-    private func loadOnlineNow(with userProfileIDPairs: [(String, String)]) {
-        self.onlineNowUsers = []
-        
-        guard let ownUserId = AuthManager.shared.userId else {
-            return
-        }
-        
-        if userProfileIDPairs.count > 1 {
-            noOnlineFriendsLabel.isHidden = true
-        } else {
-            noOnlineFriendsLabel.isHidden = false
-        }
-        
-        var cells = [XYworldCell]()
-        for (userId, profileId) in userProfileIDPairs {
-            if userId == ownUserId {
-                continue
-            }
-            let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
-            
-            self.onlineNowUsers.append(viewModel)
-            cells.append(XYworldCell.onlineNow(viewModel: viewModel))
-        }
-        self.sections[0] = XYworldSection(type: .onlineNow, cells: cells)
-    }
-    
-    func subscribeToRanking() {
-        
-        rankingCells = [XYworldCell?](repeating: nil, count: 2)
-        
-        RankingFirestoreManager.shared.getTopRanking(rankingLength: 3) { (rankingIDs) in
-            let model = RankingModel(
-                name: "Global",
-                rankedUserIDs: rankingIDs
-            )
-            
-            let builder = RankingViewModelBuilder()
-            builder.build(model: model) { (rankingViewModel, error) in
-                if let error = error {
-                    print(error)
-                } else if let rankingViewModel = rankingViewModel {
-                    self.rankingCells[0] = XYworldCell.ranking(viewModel: rankingViewModel)
-                    self.sections[1] = XYworldSection(type: .ranking, cells: self.rankingCells.flatMap{ $0 })
-                    self.collectionView?.reloadData()
-                }
-            }
-        }
-        
-        RankingFirestoreManager.shared.getTopRanking(rankingLength: 3) { (rankingIDs) in
-            let model = RankingModel(
-                name: "Friends",
-                rankedUserIDs: rankingIDs
-            )
-            
-            let builder = RankingViewModelBuilder()
-            builder.build(model: model) { (rankingViewModel, error) in
-                if let error = error {
-                    print(error)
-                } else if let rankingViewModel = rankingViewModel {
-                    self.rankingCells[1] = XYworldCell.ranking(viewModel: rankingViewModel)
-                    self.sections[1] = XYworldSection(type: .ranking, cells: self.rankingCells.flatMap{ $0 })
-                    self.collectionView?.reloadData()
-                }
-            }
-        }
+    @objc private func xpButtonPressed() {
+        let vc = NotificationsVC()
+        vc.isHeroEnabled = true
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .pageIn(direction: .left)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     public func fetchFlow() {
         FlowAlgorithmManager.shared.getFlowFromFollowing() { postModels in
             if let postModels = postModels {
-                let dispatchGroup = DispatchGroup()
-                
+                self.postModels.append(contentsOf: postModels.map({ ($0, nil) }))
+                self.tableView.reloadData()
+                                
                 for model in postModels {
-                    dispatchGroup.enter()
                     PostViewModelBuilder.build(from: model) { (postViewModel) in
-                        defer {
-                            dispatchGroup.leave()
-                        }
-                        
                         if let postViewModel = postViewModel {
-                            self.postModels.append(postViewModel)
+                            
+                            let cellIndex = self.postModels.firstIndex(where: { $0.0.id == model.id })!
+                            self.postModels[cellIndex] = (self.postModels[cellIndex].0, postViewModel)
+                            self.tableView.reloadRows(at: [IndexPath(row: cellIndex, section: 0)], with: .fade)
                         }
                     }
-                }
-                
-                dispatchGroup.notify(queue: .main) {
-                    
-                    self.sections[2] = XYworldSection(type: .flow, cells: self.postModels.compactMap({ XYworldCell.post(viewModel: $0) }))
-                    
-                    self.collectionView?.reloadData()
                 }
             }
         }
     }
 }
 
-extension XYworldVC : UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sections[section].cells.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let model = sections[indexPath.section].cells[indexPath.row]
-
-        switch model {
-        case .onlineNow(let viewModel):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: OnlineNowCollectionViewCell.identifier, for: indexPath) as? OnlineNowCollectionViewCell else {
-                return UICollectionViewCell()
-            }
-            cell.configure(with: viewModel)
-            return cell
-        case .ranking(let viewModel):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RankingBoardCell.identifier, for: indexPath) as? RankingBoardCell else {
-                return UICollectionViewCell()
-            }
-            cell.delegate = self
-            cell.configure(with: viewModel)
-            return cell
-        case .post(let viewModel):
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagePostCell.identifier, for: indexPath) as? ImagePostCell else {
-                return UICollectionViewCell()
-            }
-//            cell.delegate = self
-            cell.configure(with: viewModel)
-            return cell
+extension XYworldVC : UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: XYWorldAsHeader.identifier) as? XYWorldAsHeader else {
+            return UIView()
         }
+        
+        return header
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            let sectionHeader = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: SectionLabelReusableView.identifier,
-                for: indexPath
-            ) as! SectionLabelReusableView
-            sectionHeader.label.text = sections[indexPath.section].type.title
-            return sectionHeader
-        } else {
-            return UICollectionReusableView()
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return postModels.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier, for: indexPath) as? ImagePostCell else {
+            return UITableViewCell()
         }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 40)
+        
+        cell.configure(with: postModels[indexPath.row].1)
+        
+        return cell
     }
 }
 
@@ -330,7 +140,7 @@ extension XYworldVC : RankingBoardCellDelegate {
         vc.configure(with: viewModel)
         
         navigationController?.pushViewController(vc, animated: true)
-        
+
         if (viewModel.name == "Global") {
             RankingFirestoreManager.shared.getTopRanking(rankingLength: 30) { (rankingIDs) in
                 let model = RankingModel(
@@ -367,91 +177,7 @@ extension XYworldVC : RankingBoardCellDelegate {
     }
 }
 
-extension XYworldVC {
-    func layout(for section: Int) -> NSCollectionLayoutSection {
-        let sectionType = sections[section].type
-        
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(widthDimension: .absolute(200), heightDimension: .absolute(55)),
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading
-        )
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 15, trailing: 0)
-        
-        switch sectionType {
-        case .onlineNow:
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .absolute(XYworldVC.onlineNowCellSize.width),
-                    heightDimension: .absolute(XYworldVC.onlineNowCellSize.height)
-                )
-            )
-            
-            item.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
-            
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .absolute(XYworldVC.onlineNowCellSize.height)
-                ),
-                subitems: [item]
-            )
-            
-            let sectionLayout = NSCollectionLayoutSection(group: group)
-            sectionLayout.boundarySupplementaryItems = [sectionHeader]
-            sectionLayout.orthogonalScrollingBehavior = .continuous
-            
-            return sectionLayout
-        case .ranking:
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.95),
-                    heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
-                )
-            )
-            
-            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 0)
-            
-            let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.95),
-                    heightDimension: .absolute(XYworldVC.rankingBoardCellSize.height)
-                ),
-                subitems: [item]
-            )
-            
-            let sectionLayout = NSCollectionLayoutSection(group: group)
-            sectionLayout.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-            sectionLayout.boundarySupplementaryItems = [sectionHeader]
-            sectionLayout.orthogonalScrollingBehavior = .continuous
-            
-            return sectionLayout
-        case .flow:
-            let item = NSCollectionLayoutItem(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .fractionalWidth(1)
-                )
-            )
-            
-            item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-            
-            let group = NSCollectionLayoutGroup.vertical(
-                layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(1),
-                    heightDimension: .fractionalWidth(1)
-                ),
-                subitems: [item]
-            )
-            
-            let sectionLayout = NSCollectionLayoutSection(group: group)
-            
-//            sectionLayout.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-            sectionLayout.boundarySupplementaryItems = [sectionHeader]
-            sectionLayout.orthogonalScrollingBehavior = .continuous
-            
-            return sectionLayout
-            
+    
 //        case .post:
 //            let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
 //
@@ -482,9 +208,6 @@ extension XYworldVC {
 //                self.navigationController?.pushViewController(vc, animated: true)
 //
 //            }
-        }
-    }
-}
 
 
 // MARK: - ImagePostCell Delegate functions

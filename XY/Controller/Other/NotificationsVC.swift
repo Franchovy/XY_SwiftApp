@@ -45,7 +45,7 @@ class NotificationsVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let logo = UIImage(named: "XYnavbarlogo")
+        let logo = UIImage(named: "XYNavbarLogo")
         let imageView = UIImageView(image:logo)
         self.navigationItem.titleView = imageView
         

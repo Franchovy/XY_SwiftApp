@@ -10,7 +10,7 @@ import Firebase
 
 class NewSignupViewController: UIViewController {
     
-    private let logo = UIImageView(image: UIImage(named: "XYnavbarlogo"))
+    private let logo = UIImageView(image: UIImage(named: "XYNavbarLogo"))
     
     private let titleLabel = GradientLabel(text: "Create Account", fontSize: 40, gradientColours: Global.darkModeBackgroundGradient)
     
