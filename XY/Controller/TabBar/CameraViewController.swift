@@ -208,6 +208,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     self.view.layer.insertSublayer(self.previewLayer!, at: 0)
                 }
                 
+                
+                
                 sessionBack.addOutput(self.movieFileOutput)
                 self.backCameraActive = true
             }
@@ -347,7 +349,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         // Set up back camera
         
         sessionBack = AVCaptureSession()
-        sessionBack!.sessionPreset = .low
+        sessionBack!.sessionPreset = .high
         sessionBack!.startRunning()
         
         let backCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,
@@ -367,7 +369,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         // Set up front camera
         sessionFront = AVCaptureSession()
-        sessionFront!.sessionPreset = .low
+        sessionFront!.sessionPreset = .high
         sessionFront!.startRunning()
         
         let frontCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,
@@ -387,16 +389,18 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         // Set up audio
         
-        let audioDevice:AVCaptureDevice? = AVCaptureDevice.default(.builtInMicrophone,
-                                                                   for: .audio, position: .unspecified)
+        let audioDevice = AVCaptureDevice.default(for: .audio)
         if let audioDevice = audioDevice {
             do {
-                print("Front camera initialized")
                 audioInput = try AVCaptureDeviceInput(device: audioDevice)
-                sessionBack?.addInput(audioInput!)
-                sessionFront?.addInput(audioInput!)
             } catch {
-                print("Error initializing session for back input!")
+                print("Error initializing audio input!")
+            }
+            
+            if let sessionBack = sessionBack, sessionBack.canAddInput(audioInput!) {
+                sessionBack.addInput(audioInput!)
+            } else if let sessionFront = sessionFront, sessionFront.canAddInput(audioInput!) {
+                sessionFront.addInput(audioInput!)
             }
         }
     }
@@ -441,46 +445,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         recordButton.layer.addSublayer(gradient)
     }
     
-    private func doneAnimation() {
-        let doneLabel = UILabel()
-        doneLabel.text = "Your Viral has been Uploaded!"
-        doneLabel.textColor = .white
-        doneLabel.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
-        doneLabel.layer.shadowRadius = 1.0
-        doneLabel.layer.shadowOffset = CGSize(width: 0, height: 1)
-        doneLabel.sizeToFit()
-        
-        view.addSubview(doneLabel)
-        
-        doneLabel.alpha = 0.0
-        doneLabel.center = CGPoint(
-            x: self.view.center.x,
-            y: self.view.height - 100
-        )
-        
-        UIView.animate(withDuration: 0.3) {
-            doneLabel.alpha = 1.0
-            doneLabel.center = CGPoint(
-                x: self.view.center.x,
-                y: self.view.center.y - self.view.height / 6
-            )
-        } completion: { (done) in
-            if done {
-                UIView.animate(withDuration: 0.2, delay: 2.0) {
-                    doneLabel.alpha = 0.0
-                    doneLabel.center = CGPoint(
-                        x: self.view.center.x,
-                        y: 0
-                    )
-                } completion: { (done) in
-                    if done {
-                        doneLabel.removeFromSuperview()
-                    }
-                }
-            }
-        }
-    }
-    
     private func startRecording() {
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
         let filePath = documentsURL.appendingPathComponent("tempMovie.mp4")
@@ -499,6 +463,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         } else {
             isFrontRecording = true
         }
+        movieFileOutput.movieFragmentInterval = .invalid
         movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
         
         UIView.animate(withDuration: 0.3, animations: {
@@ -614,7 +579,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             return
         }
         
-        let previewVC = PreviewViewController(previewVideoUrl: outputVideoURL, delegate: self)
+        let previewVC = PreviewViewController(previewVideoUrl: outputVideoURL)
         
         if activeChallenge != nil {
             previewVC.configure(with: activeChallenge!)
@@ -756,21 +721,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @objc private func didTapClose() {
         tabBarController?.selectedIndex = 0
         delegate?.cameraViewDidTapCloseButton()
-    }
-}
-
-extension CameraViewController : PreviewViewControllerDelegate {
-    func didFinishUploadingViral(videoUrl: URL, viralModel: ViralModel) {
-
-        previewVC?.dismiss(animated: true) {
-            self.doneAnimation()
-        }
-    }
-    
-    func didFinishUploadingPost(postData: PostViewModel) {
-        self.delegate?.didFinishUploadingPost(postData: postData)
-        
-        previewVC?.dismiss(animated: true)
     }
 }
 

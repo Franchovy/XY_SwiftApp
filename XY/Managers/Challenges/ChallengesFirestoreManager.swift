@@ -209,7 +209,7 @@ final class ChallengesFirestoreManager {
         }
     }
     
-    func uploadChallengeVideo(videoUrl: URL, challengeID: String, completion: @escaping(String, String) -> Void) {
+    func uploadChallengeVideo(videoUrl: URL, challengeID: String, caption: String?, completion: @escaping(String, String) -> Void) {
         guard let userID = AuthManager.shared.userId else {
             return
         }
@@ -236,6 +236,7 @@ final class ChallengesFirestoreManager {
                             FirebaseKeys.ChallengeKeys.VideoKeys.challengeID: challengeID,
                             FirebaseKeys.ChallengeKeys.VideoKeys.videoRef: videoRef,
                             FirebaseKeys.ChallengeKeys.VideoKeys.creatorID: userID,
+                            FirebaseKeys.ChallengeKeys.VideoKeys.caption: caption,
                             FirebaseKeys.ChallengeKeys.VideoKeys.level: 0,
                             FirebaseKeys.ChallengeKeys.VideoKeys.xp: 0,
                             FirebaseKeys.ChallengeKeys.VideoKeys.timestamp: FieldValue.serverTimestamp()

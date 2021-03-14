@@ -141,7 +141,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         } else {
             buildVideoViewControllerWithPair(vc, model)
         }
-                
+        
         return vc
     }
     

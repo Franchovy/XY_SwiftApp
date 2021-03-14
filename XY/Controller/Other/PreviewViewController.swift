@@ -8,15 +8,8 @@
 import UIKit
 import AVFoundation
 
-protocol PreviewViewControllerDelegate: AnyObject {
-    func didFinishUploadingPost(postData: PostViewModel)
-    func didFinishUploadingViral(videoUrl: URL, viralModel: ViralModel)
-}
-
 class PreviewViewController: UIViewController, UITextViewDelegate {
-    
-    private let delegate: PreviewViewControllerDelegate
-    
+        
     private let nextButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
@@ -90,11 +83,11 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     
     //MARK: - Init
     
-    init(previewVideoUrl: URL, delegate: PreviewViewControllerDelegate) {
-        self.delegate = delegate
+    init(previewVideoUrl: URL) {
         super.init(nibName: nil, bundle: nil)
         
         let player = AVPlayer(url: previewVideoUrl)
+        player.volume = 0.0
         previewLayer = AVPlayerLayer(player: player)
         previewLayer?.videoGravity = .resizeAspectFill
         
@@ -111,16 +104,9 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         }
         
         recordedVideoUrl = previewVideoUrl
-    }
-    
-    init(previewImage: UIImage, delegate: PreviewViewControllerDelegate) {
-        self.delegate = delegate
         
-        super.init(nibName: nil, bundle: nil)
-        
-        previewLayerView.layer.cornerRadius = 5
-        previewLayerView.layer.masksToBounds = true
-        previewImageView = UIImageView(image: previewImage)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapVideo))
+        previewLayerView.addGestureRecognizer(tapGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -350,26 +336,6 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         )
     }
     
-    private func postUploadComplete(_ postModel: PostModel) {
-        
-        print("Post upload complete: \(postModel)")
-        guard let previewImage = previewImageView?.image else {
-            return
-        }
-        
-        let viewmodel = PostViewModel(fromOffline: postModel, image: previewImage)
-        
-        delegate.didFinishUploadingPost(postData: viewmodel)
-    }
-    
-    private func viralUploadComplete(_ viralModel: ViralModel) {
-        guard let videoUrl = recordedVideoUrl else {
-            return
-        }
-        dismiss(animated: true, completion: nil)
-        delegate.didFinishUploadingViral(videoUrl: videoUrl, viralModel: viralModel)
-    }
-    
     var textToDisplay: String?
     private func displayTemporaryLabel(text: String) {
         print(text)
@@ -462,20 +428,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
         )
         activityIndicator.startAnimating()
         
-        if let image = previewImageView?.image {
-            // Upload post
-            PostManager.shared.createPost(caption: caption.text, image: image) { (result) in
-                activityIndicator.stopAnimating()
-                
-                switch result {
-                case .success(let postModel):
-                    
-                    self.postUploadComplete(postModel)
-                case .failure(let error):
-                    print("Error creating post: \(error)")
-                }
-            }
-        } else if let recordedVideoUrl = recordedVideoUrl {
+        if let recordedVideoUrl = recordedVideoUrl {
             previewLayer?.player?.pause()
             
             if challengeViewModel == nil {
@@ -511,31 +464,9 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                     // Upload video to challenge
                     ChallengesFirestoreManager.shared.uploadChallengeVideo(
                         videoUrl: recordedVideoUrl,
-                        challengeID: challengeID) { (ID, videoID) in
+                        challengeID: challengeID, caption: nil) { (ID, videoID) in
                         
-                        let challengeVideoModel = ChallengeVideoModel(
-                            challengeID: challengeID,
-                            ID: ID,
-                            videoRef: videoID,
-                            caption: description,
-                            creatorID: userID,
-                            xp: 0,
-                            level: 0,
-                            timestamp: Date()
-                        )
-                        
-                        self.displayTemporaryLabel(text: "Challenge Uploaded!")
-                        
-                        ChallengesViewModelBuilder.build(from: challengeModel) { (challengeViewModel) in
-                            if let challengeViewModel = challengeViewModel {
-                                self.displayTemporaryLabel(text: "Challenge Uploaded!")
-                                
-                                DispatchQueue.main.asyncAfter(deadline: .now()+2) {
-                                    self.challengeViewModel = challengeViewModel
-                                    self.dismiss(animated: true, completion: nil)
-                                }
-                            }
-                        }
+                        self.dismiss(animated: true, completion: nil)
                     }
                     }
             } else {
@@ -553,37 +484,11 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                 // Upload video to challenge
                 ChallengesFirestoreManager.shared.uploadChallengeVideo(
                     videoUrl: recordedVideoUrl,
-                    challengeID: challengeViewModel.id) { (ID, videoID) in
+                    challengeID: challengeViewModel.id,
+                    caption: caption
+                ) { (ID, videoID) in
                     
-                    let challengeVideoModel = ChallengeVideoModel(
-                        challengeID: challengeViewModel.id,
-                        ID: ID,
-                        videoRef: videoID,
-                        caption: caption,
-                        creatorID: userID,
-                        xp: 0,
-                        level: 0,
-                        timestamp: Date()
-                    )
-                    
-                    let challengeModel = ChallengeModel(
-                        id: challengeViewModel.id,
-                        title: challengeViewModel.title,
-                        description: challengeViewModel.description,
-                        creatorID: challengeViewModel.creator.profileId,
-                        category: .playerChallenges,
-                        level: 0,
-                        xp: 0
-                    )
-                    
-                    ChallengesViewModelBuilder.build(from: challengeModel) { (challengeViewModel) in
-                        if let challengeViewModel = challengeViewModel {
-                            self.challengeViewModel = challengeViewModel
-                            
-                            self.displayTemporaryLabel(text: "Challenge Uploaded!")
-                        }
-                    }
-                    
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
         }
@@ -620,6 +525,12 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                     player.play()
                 }
             }
+        }
+    }
+    
+    @objc private func didTapVideo() {
+        if let player = previewLayer?.player {
+            player.volume = player.volume == 0.0 ? 1.0 : 0.0
         }
     }
 }
