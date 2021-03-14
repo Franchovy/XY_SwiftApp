@@ -12,18 +12,6 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "ChallengeVideoCollectionViewCell"
     
-    private let rankNumberLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: "Raleway-Heavy", size: 24)
-        label.numberOfLines = 1
-        label.textColor = .white
-        label.layer.shadowColor = UIColor.black.cgColor
-        label.layer.shadowOpacity = 1.0
-        label.layer.shadowOffset = CGSize(width: 0, height: 3)
-        label.layer.shadowRadius = 6
-        return label
-    }()
-    
     private let creatorNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Heavy", size: 13)
@@ -43,7 +31,6 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        contentView.addSubview(rankNumberLabel)
         contentView.addSubview(creatorNameLabel)
         
         layer.shadowRadius = 6
@@ -67,26 +54,16 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
         videoView?.layer.cornerRadius = 15
         videoView?.layer.masksToBounds = true
         
-        rankNumberLabel.sizeToFit()
-        rankNumberLabel.frame = CGRect(
-            x: (width - rankNumberLabel.width)/2,
-            y: height/2 - 15,
-            width: rankNumberLabel.width,
-            height: rankNumberLabel.height
-        )
-        
         creatorNameLabel.sizeToFit()
         creatorNameLabel.frame = CGRect(
             x: (width - creatorNameLabel.width)/2,
-            y: rankNumberLabel.bottom + 10,
+            y: (height - creatorNameLabel.height)/2,
             width: creatorNameLabel.width,
             height: creatorNameLabel.height
         )
     }
     
-    public func configureEmpty(rankNumber: Int) {
-        rankNumberLabel.text = String(describing: rankNumber)
-
+    public func configureEmpty() {
         let emptyView = UIView()
         contentView.insertSubview(emptyView, at: 0)
         self.videoView = emptyView
@@ -97,15 +74,13 @@ class ChallengeVideoCollectionViewCell: UICollectionViewCell {
                 
         videoView?.removeFromSuperview()
         creatorNameLabel.text = ""
-        rankNumberLabel.text = ""
     }
     
-    public func configure(viewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel, rankNumber: Int) {
+    public func configure(viewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel) {
         self.challengeViewModel = viewModel
         self.challengeVideoViewModel = videoViewModel
         
         creatorNameLabel.text = "Player:\n@\(viewModel.creator.nickname)"
-        rankNumberLabel.text = String(describing: rankNumber)
         
         let videoView = VideoPlayerView()
         contentView.insertSubview(videoView, at: 0)

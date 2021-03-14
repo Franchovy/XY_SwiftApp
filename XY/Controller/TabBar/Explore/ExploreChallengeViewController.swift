@@ -173,9 +173,9 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         }
         
         if indexPath.row < viewModels.count {
-            cell.configure(viewModel: challengeViewModel, videoViewModel: viewModels[indexPath.row], rankNumber: indexPath.row+1)
+            cell.configure(viewModel: challengeViewModel, videoViewModel: viewModels[indexPath.row])
         } else {
-            cell.configureEmpty(rankNumber: indexPath.row+1)
+            cell.configureEmpty()
         }
         return cell
     }
