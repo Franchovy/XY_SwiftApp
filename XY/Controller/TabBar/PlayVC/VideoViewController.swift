@@ -294,6 +294,7 @@ class VideoViewController: UIViewController {
         if playState == .play {
             player.play()
         }
+        player.play()
         
         playerDidFinishObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
@@ -315,7 +316,7 @@ class VideoViewController: UIViewController {
         if object as AnyObject? === player {
             if keyPath == "timeControlStatus" {
                 if player.timeControlStatus == .playing {
-                    //
+//                    player.play()
                 }
             }
         }
