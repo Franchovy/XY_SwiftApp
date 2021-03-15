@@ -238,7 +238,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         let newChallengeButtonSize = CGSize(width: 259, height: 54)
         if createNewButtonY == nil {
-            createNewButtonY = -50
+            createNewButtonY = -100
         }
         newChallengeButton.frame = CGRect(
             x: (view.width - newChallengeButtonSize.width)/2,
@@ -333,9 +333,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     private func displaySuggestedChallenges() {
+        guard activeChallenge == nil else {
+            return
+        }
+        
         challengePreviewCollectionView.reloadData()
         
-        newChallengeButton.frame.origin.y = -50
+        newChallengeButton.frame.origin.y = -100
         challengePreviewCollectionView.frame.origin.y = view.height
         UIView.animate(withDuration: 0.3) {
             self.challengePreviewCollectionView.frame.origin.y = self.view.height/2 + 25
@@ -506,11 +510,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         layoutCountDownLabel()
         var countDown = 3
         collectionViewY = self.view.height
-        createNewButtonY = -50
+        createNewButtonY = -100
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn) {
             self.countDownLabel.alpha = 1.0
             self.challengePreviewCollectionView.frame.origin.y = self.view.height
-            self.newChallengeButton.frame.origin.y = -50
+            self.newChallengeButton.frame.origin.y = -100
         } completion: { (done) in
             if done {
                 self.challengePreviewCollectionView.isHidden = true
@@ -593,7 +597,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             previewVC.configureWithNewChallenge()
         }
         
-        navigationController?.present(previewVC, animated: true, completion: nil)
+        navigationController?.pushViewController(previewVC, animated: true)
     }
     
     // MARK: - Obj-C functions
@@ -617,7 +621,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         self.newChallengeButton.isHidden = false
         
         self.challengePreviewCollectionView.frame.origin.y = self.view.height
-        self.newChallengeButton.frame.origin.y = -50
+        self.newChallengeButton.frame.origin.y = -100
         
         UIView.animate(withDuration: 0.3) {
             self.challengePreviewCollectionView.frame.origin.y = self.recordButton.top - CameraViewController.challengeCardSize.height - 20
