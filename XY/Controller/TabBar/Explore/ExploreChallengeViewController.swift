@@ -55,7 +55,11 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
     
     private let playButton: GradientBorderButtonWithShadow = {
         let button = GradientBorderButtonWithShadow()
-        
+        button.setTitle("Play", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 33)
+        button.setTitleColor(.white, for: .normal)
+        button.setBackgroundColor(color: .black)
+        button.setGradient(Global.xyGradient)
         return button
     }()
     
@@ -119,7 +123,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
                     ChallengesViewModelBuilder.buildChallengeVideo(from: videoModel, challengeTitle: self.challengeViewModel.title, challengeDescription: self.challengeViewModel.description) { (viewModelPair) in
                         if let viewModelPair = viewModelPair {
                             viewModels.append(viewModelPair)
-
+                            
                             if viewModels.count == videoModels.count {
                                 self.viewModels.append(contentsOf: viewModels)
                                 self.collectionView.reloadData()
@@ -130,7 +134,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
             }
         }
     }
-
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -169,7 +173,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         let playButtonSize = CGSize(width: 131.86, height: 47.17)
         playButton.frame = CGRect(
             x: (view.width - playButtonSize.width)/2,
-            y: view.height * 0.8,
+            y: view.height - playButtonSize.height - 32,
             width: playButtonSize.width,
             height: playButtonSize.height
         )
