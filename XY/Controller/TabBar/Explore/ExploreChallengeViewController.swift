@@ -53,6 +53,15 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         return label
     }()
     
+    private let createdByLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Medium", size: 15)
+        label.textColor = UIColor(named: "XYTint")
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
     private let playButton: GradientBorderButtonWithShadow = {
         let button = GradientBorderButtonWithShadow()
         button.setTitle("Play", for: .normal)
@@ -79,12 +88,14 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         collectionView.dataSource = self
         collectionView.delegate = self
         
+        createdByLabel.text = "Created by:\n @\(challengeViewModel.creator.nickname)"
         descriptionLabel.text = challengeViewModel.description
         
         view.addSubview(timerIcon)
         view.addSubview(descriptionLabel)
         view.addSubview(collectionView)
         view.addSubview(playButton)
+        view.addSubview(createdByLabel)
         
         playButton.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
         
@@ -149,11 +160,19 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
             
             descriptionLabel.frame = CGRect(
                 x: 15,
-                y: view.safeAreaInsets.top + 15,
-                width: textRect.width,
+                y: view.safeAreaInsets.top + 87 - textRect.height,
+                width: view.width - 30,
                 height: textRect.height
             )
         }
+        
+        createdByLabel.sizeToFit()
+        createdByLabel.frame = CGRect(
+            x: 0,
+            y: descriptionLabel.bottom + 15,
+            width: view.width,
+            height: 60
+        )
         
         let timerIconSize:CGFloat = 56.94
         timerIcon.frame = CGRect(
