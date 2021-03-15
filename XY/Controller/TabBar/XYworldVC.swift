@@ -115,7 +115,7 @@ extension XYworldVC : UITableViewDelegate, UITableViewDataSource {
         guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: XYWorldAsHeader.identifier) as? XYWorldAsHeader else {
             return UIView()
         }
-        
+        header.rankingBoardDelegate = self
         return header
     }
     
@@ -158,9 +158,12 @@ extension XYworldVC : RankingBoardCellDelegate {
                 }
             }
         } else {
-            RankingFirestoreManager.shared.getTopRanking(rankingLength: 30) { (rankingIDs) in
+            RankingFirestoreManager.shared.getFriendsRanking(rankingLength: 30) { (rankingIDs) in
+                guard let rankingIDs = rankingIDs else {
+                    return
+                }
                 let model = RankingModel(
-                    name: "Global",
+                    name: "Friends",
                     rankedUserIDs: rankingIDs
                 )
                 
