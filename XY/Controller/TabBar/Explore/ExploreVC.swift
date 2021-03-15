@@ -13,7 +13,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     private var collectionView: UICollectionView = {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(90)),
+            layoutSize: .init(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(50)),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
@@ -230,6 +230,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             gradient: category.getGradientAdaptedToLightMode(),
             description: category.getDescription()
         )
+        
         return headerView
     }
     

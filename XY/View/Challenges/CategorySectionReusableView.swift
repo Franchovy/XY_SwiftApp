@@ -24,6 +24,8 @@ class CategorySectionReusableView : UICollectionReusableView {
         super.init(frame: frame)
         
         addSubview(descriptionLabel)
+        
+        descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -42,28 +44,30 @@ class CategorySectionReusableView : UICollectionReusableView {
                 height: titleLabel.height
             )
             
-            let textFrame = CGSize(
-                width: width,
-                height: .greatestFiniteMagnitude
-            )
-            let boundingRect = descriptionLabel.text!.boundingRect(with: textFrame,
-                                                options: .usesLineFragmentOrigin,
-                                                attributes: [.font: descriptionLabel.font!],
-                                                context: nil)
-            
-            descriptionLabel.frame = CGRect(
-                origin: CGPoint(x: 0,
-                y: titleLabel.bottom + 5),
-                size: boundingRect.size
-            )
-            
-//            frame.size.height = descriptionLabel.bottom
+            if descriptionLabel.text == "" {
+                descriptionLabel.frame = CGRect(x: 0, y: titleLabel.bottom, width: 0, height: 0)
+            } else {
+                let textFrame = CGSize(
+                    width: width,
+                    height: .greatestFiniteMagnitude
+                )
+                let boundingRect = descriptionLabel.text!.boundingRect(with: textFrame,
+                                                    options: .usesLineFragmentOrigin,
+                                                    attributes: [.font: descriptionLabel.font!],
+                                                    context: nil)
+                
+                descriptionLabel.frame = CGRect(
+                    origin: CGPoint(x: 0,
+                    y: titleLabel.bottom + 5),
+                    size: boundingRect.size
+                )
+            }
         }
     }
     
     func configure(title: String, gradient: [UIColor], description: String) {
         titleLabel?.removeFromSuperview()
-        titleLabel = GradientLabel(text: "#\(title)", fontSize: 30, gradientColours: gradient)
+        titleLabel = GradientLabel(text: title, fontSize: 30, gradientColours: gradient)
         addSubview(titleLabel!)
         descriptionLabel.text = description
         
