@@ -141,6 +141,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     var activeChallenge: ChallengeViewModel?
     
     var collectionViewY: CGFloat!
+    var createNewButtonY: CGFloat!
     
     weak var timer: Timer?
     var startTime: Double = 0
@@ -208,8 +209,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                     self.view.layer.insertSublayer(self.previewLayer!, at: 0)
                 }
                 
-                
-                
                 sessionBack.addOutput(self.movieFileOutput)
                 self.backCameraActive = true
             }
@@ -217,8 +216,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         challengePreviewCollectionView.dataSource = self
         fetchChallenges()
-        
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -240,15 +237,18 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         )
         
         let newChallengeButtonSize = CGSize(width: 259, height: 54)
+        if createNewButtonY == nil {
+            createNewButtonY = -50
+        }
         newChallengeButton.frame = CGRect(
             x: (view.width - newChallengeButtonSize.width)/2,
-            y: (view.height - newChallengeButtonSize.height)/4,
+            y: createNewButtonY,
             width: newChallengeButtonSize.width,
             height: newChallengeButtonSize.height
         )
         
         if collectionViewY == nil {
-            collectionViewY = recordButton.top - CameraViewController.challengeCardSize.height - 20
+            collectionViewY = view.height
         }
         challengePreviewCollectionView.frame = CGRect(
             x: 0,
@@ -335,12 +335,15 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     private func displaySuggestedChallenges() {
         challengePreviewCollectionView.reloadData()
         
+        newChallengeButton.frame.origin.y = -50
         challengePreviewCollectionView.frame.origin.y = view.height
         UIView.animate(withDuration: 0.3) {
             self.challengePreviewCollectionView.frame.origin.y = self.view.height/2 + 25
+            self.newChallengeButton.frame.origin.y = (self.view.height - 54)/4
         } completion: { (done) in
             if done {
                 self.collectionViewY = self.view.height/2 + 25
+                self.createNewButtonY = (self.view.height - 54)/4
             }
         }
     }
@@ -503,12 +506,15 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         layoutCountDownLabel()
         var countDown = 3
         collectionViewY = self.view.height
+        createNewButtonY = -50
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn) {
             self.countDownLabel.alpha = 1.0
             self.challengePreviewCollectionView.frame.origin.y = self.view.height
+            self.newChallengeButton.frame.origin.y = -50
         } completion: { (done) in
             if done {
                 self.challengePreviewCollectionView.isHidden = true
+                self.newChallengeButton.isHidden = true
                 
                 self.recursiveCountDown(count: countDown) {
                     self.startRecording()
@@ -608,15 +614,19 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     @objc private func didTapRetake() {
         self.challengeTimerLabel.isHidden = true
         self.challengePreviewCollectionView.isHidden = false
+        self.newChallengeButton.isHidden = false
         
         self.challengePreviewCollectionView.frame.origin.y = self.view.height
+        self.newChallengeButton.frame.origin.y = -50
         
         UIView.animate(withDuration: 0.3) {
             self.challengePreviewCollectionView.frame.origin.y = self.recordButton.top - CameraViewController.challengeCardSize.height - 20
+            self.newChallengeButton.frame.origin.y = (self.view.height - 54)/4
             self.retakeButton.frame.origin.x = -self.view.width
             self.nextButton.frame.origin.x = self.view.width
         } completion: { (done) in
             if done {
+                self.createNewButtonY = (self.view.height - 54)/4
                 self.collectionViewY = self.recordButton.top - CameraViewController.challengeCardSize.height - 20
                 self.retakeButton.isHidden = true
                 self.nextButton.isHidden = true
