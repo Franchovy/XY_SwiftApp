@@ -18,7 +18,7 @@ final class ChallengesViewModelBuilder {
                     if let profileModel = profileModel {
                         let challengeViewModel = ChallengeViewModel(
                             id: challengeModel.id,
-                            title: challengeModel.title,
+                            title: "#\(challengeModel.title)",
                             description: challengeModel.description,
                             creator: profileModel,
                             category: challengeModel.category,

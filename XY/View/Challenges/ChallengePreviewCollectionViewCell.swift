@@ -88,17 +88,18 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
             )
         }
         
+        let bottomY:CGFloat = (challengeTitleGradientLabel?.bottom ?? (130)/2) + 15
         let boundingRect = CGRect(
             x: 12,
-            y: (challengeTitleGradientLabel?.bottom ?? 0) + 15,
+            y: bottomY,
             width: width - 24,
             height: 130
         )
         let descriptionBounds = descriptionLabel.textRect(forBounds: boundingRect, limitedToNumberOfLines: 4)
         descriptionLabel.frame = CGRect(
-            x: descriptionBounds.origin.x,
-            y: (130 - descriptionBounds.height)/2,
-            width: descriptionBounds.width,
+            x: boundingRect.origin.x,
+            y: bottomY,
+            width: boundingRect.width,
             height: descriptionBounds.height
         )
                 
@@ -121,7 +122,7 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(viewModel: ChallengeViewModel) {
-        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 18, gradientColours: viewModel.category.getGradient())
+        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 16, gradientColours: viewModel.category.getGradient())
         addSubview(challengeTitleGradientLabel)
         
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)
