@@ -149,10 +149,11 @@ class NewSignupViewController: UIViewController {
             height: 27
         )
         
+        titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
-            x: (view.width - 279)/2,
+            x: (view.width - titleLabel.width)/2,
             y: view.height / 4 - 50,
-            width: 279,
+            width: titleLabel.width,
             height: 50
         )
         

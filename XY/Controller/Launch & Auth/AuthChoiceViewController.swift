@@ -72,10 +72,11 @@ class AuthChoiceViewController: UIViewController {
             height: 27
         )
         
+        titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
-            x: (view.width - 264)/2,
+            x: (view.width - titleLabel.width)/2,
             y: view.height / 4 - 50,
-            width: 264,
+            width: titleLabel.width,
             height: 50
         )
         
