@@ -46,6 +46,13 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         return label
     }()
     
+    private let indicatorIcon: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "chevron.right"))
+        imageView.tintColor = UIColor(named: "XYTint")
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.register(RankingTableViewCell.self, forCellReuseIdentifier: RankingTableViewCell.identifier)
@@ -78,6 +85,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         contentView.addSubview(playerLabel)
         contentView.addSubview(levelLabel)
         contentView.addSubview(tableView)
+        contentView.addSubview(indicatorIcon)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
         contentView.addGestureRecognizer(tapGesture)
@@ -101,6 +109,13 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         shadowLayer.path = backgroundLayer.path
         shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
         shadowLayer.shadowRadius = 6
+        
+        indicatorIcon.frame = CGRect(
+            x: width - 10.28 - 7.67,
+            y: 11.72,
+            width: 7.67,
+            height: 13.88
+        )
         
         title.sizeToFit()
         title.frame = CGRect(
