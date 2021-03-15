@@ -83,7 +83,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
             )
         }
         
-        let playButtonSize = CGSize(width: 49, height: 18)
+        let playButtonSize = CGSize(width: 66.7, height: 22)
         playButton.frame = CGRect(
             x: (width - playButtonSize.width)/2,
             y: height - 6.1 - playButtonSize.height,
