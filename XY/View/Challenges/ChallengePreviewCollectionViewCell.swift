@@ -121,7 +121,7 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(viewModel: ChallengeViewModel) {
-        let challengeTitleGradientLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 18, gradientColours: viewModel.category.getGradient())
+        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 18, gradientColours: viewModel.category.getGradient())
         addSubview(challengeTitleGradientLabel)
         
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)

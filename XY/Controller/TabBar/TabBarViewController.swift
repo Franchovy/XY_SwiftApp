@@ -14,6 +14,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     var onInitFinished: (() -> Void)?
     var eyesMode = false
     
+    var playVC: PlayViewController!
     var cameraVC: CameraViewController!
     
     init() {
@@ -36,10 +37,11 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         
         tabBar.isTranslucent = false
         
+        playVC = PlayViewController()
         cameraVC = CameraViewController()
         
         let nav1 = UINavigationController(
-            rootViewController: PlayViewController()
+            rootViewController: playVC
         )
         let nav2 = UINavigationController(
             rootViewController: ExploreVC()
@@ -189,6 +191,12 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         let vc = mainStoryboard.instantiateViewController(identifier: "LaunchVC")
         vc.modalPresentationStyle = .fullScreen
         show(vc, sender: self)
+    }
+    
+    public func playChallenge(challenge: ChallengeViewModel) {
+        selectedIndex = 0
+        
+        playVC.configure(for: challenge)
     }
     
     public func startChallenge(challenge: ChallengeViewModel) {

@@ -17,9 +17,11 @@ struct ChallengeViewModel {
     let xp: Int
     
     func toModel() -> ChallengeModel {
+        var titleWithoutHashtag = title
+        titleWithoutHashtag.removeFirst()
         return ChallengeModel(
             id: id,
-            title: title,
+            title: titleWithoutHashtag,
             description: description,
             creatorID: creator.profileId,
             category: category,

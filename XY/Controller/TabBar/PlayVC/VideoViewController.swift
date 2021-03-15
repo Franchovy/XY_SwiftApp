@@ -72,7 +72,7 @@ class VideoViewController: UIViewController {
     var playState:PlayState = .pause
     
     var playerLayer:AVPlayerLayer?
-    var player: AVPlayer!
+    var player: AVPlayer?
     
     private var playerDidFinishObserver: NSObjectProtocol?
     
@@ -218,7 +218,7 @@ class VideoViewController: UIViewController {
     }
     
     public func unloadFromMemory() {
-        player.cancelPendingPrerolls()
+        player?.cancelPendingPrerolls()
 //        teardown()
     }
     

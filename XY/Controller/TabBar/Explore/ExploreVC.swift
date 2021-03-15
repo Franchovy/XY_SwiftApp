@@ -108,7 +108,14 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                                 viewModels.append(viewModelPair)
                                 
                                 if viewModels.count == pairs.count {
-                                    self.sections.append((category.toString(), viewModels))
+                                    if category == .xyChallenges {
+                                        self.sections.insert((category.toString(), viewModels), at: 0)
+                                    } else if category == .playerChallenges {
+                                        
+                                        self.sections.append(
+                                            (category.toString(), viewModels)
+                                        )
+                                    }
                                     self.collectionView.reloadData()
                                 }
                             }
@@ -240,10 +247,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return
         }
         
-        let playVC = PlayViewController()
-        
-        playVC.configure(for: viewModel)
-        navigationController?.pushViewController(playVC, animated: true)
+        TabBarViewController.instance.playChallenge(challenge: viewModel)
     }
 }
 
