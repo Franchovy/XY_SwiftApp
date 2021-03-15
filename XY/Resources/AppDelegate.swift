@@ -31,6 +31,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("Error initializing profile data: \(error)")
                     return
                 }
+                
+                OnlineStatusManager.shared.setupOnlineStatus()
+
             }
             
             if let pushNotificationsEnabled = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool,
@@ -41,9 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             FlowAlgorithmManager.shared.initialiseFollowing()
-            
-            OnlineStatusManager.shared.setupOnlineStatus()
-            
+                        
             ActionManager.shared.getActions()
             
             if UserDefaults.standard.object(forKey: "flowRefreshIndex") != nil {
