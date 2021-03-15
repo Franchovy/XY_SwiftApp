@@ -195,7 +195,7 @@ class VideoViewController: UIViewController {
     
     // MARK: - Private Functions
     
-    private func teardown() {
+    func teardown() {
         self.player?.pause()
         
         if timeControlObserverSet {

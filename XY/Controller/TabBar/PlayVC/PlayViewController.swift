@@ -82,6 +82,13 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     
     public func configure(for challengeViewModel: ChallengeViewModel, withHeroID heroID: String? = nil) {
         models = []
+        if let viewControllers = pageViewController.viewControllers {
+            for vc in viewControllers {
+                if let vc = vc as? VideoViewController {
+                    vc.teardown()
+                }
+            }
+        }
         
         ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel, limitTo: 15) { (challengeVideoModels) in
             if let challengeVideoModels = challengeVideoModels {

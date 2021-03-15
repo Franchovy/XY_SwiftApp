@@ -55,7 +55,6 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         clipsToBounds = false
         
         playButton.addTarget(self, action: #selector(didTapView), for: .touchUpInside)
-        
     }
     
     required init?(coder: NSCoder) {
