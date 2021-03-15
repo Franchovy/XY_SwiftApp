@@ -21,8 +21,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .estimated(130),
-                heightDimension: .estimated(190)
+                widthDimension: .absolute(130),
+                heightDimension: .absolute(190)
             )
         )
         
