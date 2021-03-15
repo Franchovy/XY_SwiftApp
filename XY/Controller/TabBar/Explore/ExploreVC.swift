@@ -53,6 +53,16 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         return collectionView
     }()
     
+    let createNewButton:GradientBorderButtonWithShadow = {
+        let button = GradientBorderButtonWithShadow()
+        button.setTitle("Create New", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 38)
+        button.setTitleColor(.white, for: .normal)
+        button.setBackgroundColor(color: .black)
+        button.setGradient(Global.xyGradient)
+        return button
+    }()
+    
     private var currentViralIndex = 0
     private var sections = [(String, [(ChallengeViewModel, ChallengeVideoViewModel)])]()
     private var categories = [ChallengeModel.Categories]()
@@ -72,6 +82,9 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
         
         view.addSubview(collectionView)
+        view.addSubview(createNewButton)
+        
+        createNewButton.addTarget(self, action: #selector(createNewPressed), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -133,6 +146,13 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         super.viewDidLayoutSubviews()
         
         collectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
+        
+        createNewButton.frame = CGRect(
+            x: (view.width - 259)/2,
+            y: view.height - 54 - 16,
+            width: 259,
+            height: 54
+        )
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -181,6 +201,14 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             }
         }
     }
+    
+    // MARK: - Obj-C Functions
+    
+    @objc private func createNewPressed() {
+        TabBarViewController.instance.selectedIndex = 2
+    }
+    
+    // MARK: - Scroll view delegate functions
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if( scrollView.contentSize.height == 0 ) {
