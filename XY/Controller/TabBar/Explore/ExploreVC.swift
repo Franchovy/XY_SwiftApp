@@ -205,7 +205,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         ) as? ChallengeCollectionViewCell else {
             return UICollectionViewCell()
         }
-        
+        cell.delegate = self
         cell.configure(viewModel: sections[indexPath.section].1[indexPath.row].0, videoViewModel: sections[indexPath.section].1[indexPath.row].1)
         
         return cell
@@ -239,7 +239,16 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return
         }
         
-        let exploreChallengeVC = ExploreChallengeViewController(challengeViewModel: viewModel)
+        let playVC = PlayViewController()
+        
+        playVC.configure(for: viewModel)
+        navigationController?.pushViewController(playVC, animated: true)
+    }
+}
+
+extension ExploreVC : ChallengeCollectionViewCellDelegate {
+    func didPressPlay(for challengeViewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel) {
+        let exploreChallengeVC = ExploreChallengeViewController(challengeViewModel: challengeViewModel)
     
         navigationController?.pushViewController(exploreChallengeVC, animated: true)
     }

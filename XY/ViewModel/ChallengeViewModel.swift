@@ -12,8 +12,20 @@ struct ChallengeViewModel {
     let title: String
     let description: String
     let creator: ProfileModel
-    let gradient: [UIColor]
+    let category: ChallengeModel.Categories
     let level: Int
     let xp: Int
+    
+    func toModel() -> ChallengeModel {
+        return ChallengeModel(
+            id: id,
+            title: title,
+            description: description,
+            creatorID: creator.profileId,
+            category: category,
+            level: level,
+            xp: xp
+        )
+    }
 }
 

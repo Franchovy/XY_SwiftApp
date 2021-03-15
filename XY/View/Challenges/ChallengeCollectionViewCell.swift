@@ -8,6 +8,11 @@
 import UIKit
 import AVFoundation
 
+
+protocol ChallengeCollectionViewCellDelegate: class {
+    func didPressPlay(for challengeViewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel)
+}
+
 class ChallengeCollectionViewCell: UICollectionViewCell {
     static let identifier = "ChallengeCollectionViewCell"
     
@@ -20,7 +25,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     private var challengeTitleGradientLabel: GradientLabel?
     private let playButton: GradientBorderButtonWithShadow = {
        let button = GradientBorderButtonWithShadow()
-        button.setTitle("Play", for: .normal)
+        button.setTitle("View", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
         button.setTitleColor(.white, for: .normal)
         button.setBackgroundColor(color: .black)
@@ -31,6 +36,8 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     private var videoView: VideoPlayerView?
     private var challengeViewModel: ChallengeViewModel?
     private var challengeVideoViewModel: ChallengeVideoViewModel?
+    
+    weak var delegate: ChallengeCollectionViewCellDelegate?
     
     override init(frame: CGRect) {
         
@@ -47,7 +54,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         layer.masksToBounds = false
         clipsToBounds = false
         
-        playButton.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
+        playButton.addTarget(self, action: #selector(didTapView), for: .touchUpInside)
         
     }
     
@@ -99,7 +106,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         self.challengeViewModel = viewModel
         self.challengeVideoViewModel = videoViewModel
         
-        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: viewModel.gradient)
+        let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: viewModel.category.getGradient())
         contentView.addSubview(challengeTitleGradientLabel)
         
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)
@@ -122,11 +129,12 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         layoutSubviews()
     }
     
-    @objc private func didTapPlay() {
+    @objc private func didTapView() {
         
-        guard let challengeViewModel = challengeViewModel else {
+        guard let challengeViewModel = challengeViewModel, let challengeVideoViewModel = challengeVideoViewModel else {
             return
         }
-        TabBarViewController.instance.startChallenge(challenge: challengeViewModel)
+
+        delegate?.didPressPlay(for: challengeViewModel, videoViewModel: challengeVideoViewModel)
     }
 }

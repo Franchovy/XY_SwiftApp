@@ -198,14 +198,18 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+//        if tabBar.selectedItem == item {
+//            if let itemIndex = tabBar.items?.firstIndex(of: item), let viewController = viewControllers?[itemIndex] {
+//                navigationController?.popToViewController(viewController, animated: true)
+//            }
+//        }
+        
         if eyesMode {
             if tabBar.items?[0] == item {
                 tabBar.items?[0].image = UIImage(systemName: "eyes")
             } else {
                 tabBar.items?[0].image = UIImage(cgImage: UIImage(systemName: "eyes")!.cgImage!,
                                                  scale: 2.0, orientation: UIImage.Orientation.upMirrored)
-                
-                
             }
         }
     }

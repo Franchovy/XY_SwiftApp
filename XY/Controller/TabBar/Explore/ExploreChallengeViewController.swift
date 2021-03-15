@@ -53,6 +53,12 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         return label
     }()
     
+    private let playButton: GradientBorderButtonWithShadow = {
+        let button = GradientBorderButtonWithShadow()
+        
+        return button
+    }()
+    
     private let timerIcon = TimerIcon(labelText: "1 Min")
     
     private var currentViralIndex = 0
@@ -74,6 +80,9 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         view.addSubview(timerIcon)
         view.addSubview(descriptionLabel)
         view.addSubview(collectionView)
+        view.addSubview(playButton)
+        
+        playButton.addTarget(self, action: #selector(didTapPlay), for: .touchUpInside)
         
         hidesBottomBarWhenPushed = true
     }
@@ -91,7 +100,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         try? AVAudioSession.sharedInstance().setActive(true)
         
         view.backgroundColor = UIColor(named: "Black")
-        let gradientLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.gradient)
+        let gradientLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.category.getGradient())
         gradientLabel.sizeToFit()
         navigationItem.titleView = gradientLabel
         navigationController?.navigationBar.isHidden = false
@@ -150,6 +159,14 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
             width: view.width,
             height: view.height/2
         )
+        
+        let playButtonSize = CGSize(width: 131.86, height: 47.17)
+        playButton.frame = CGRect(
+            x: (view.width - playButtonSize.width)/2,
+            y: view.height * 0.8,
+            width: playButtonSize.width,
+            height: playButtonSize.height
+        )
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -170,5 +187,9 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
             cell.configureEmpty()
         }
         return cell
+    }
+    
+    @objc private func didTapPlay() {
+        TabBarViewController.instance.startChallenge(challenge: challengeViewModel)
     }
 }

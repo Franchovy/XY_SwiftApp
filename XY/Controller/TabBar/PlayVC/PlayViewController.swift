@@ -33,10 +33,6 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         addChild(pageViewController)
         pageViewController.didMove(toParent: self)
         
-        ChallengesFirestoreManager.shared.getChallengesAndVideos { (pairs) in
-            
-        }
-        
         ChallengesFirestoreManager.shared.getMostRecentVideos { (pairs) in
             if let pairs = pairs {
                 self.models.append(contentsOf: pairs)
@@ -78,6 +74,15 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         super.viewDidLayoutSubviews()
         
         pageViewController.view.frame = view.bounds.inset(by: UIEdgeInsets.init(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0))
+    }
+    
+    public func configure(for challengeViewModel: ChallengeViewModel, withHeroID heroID: String? = nil) {
+        
+        ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel, limitTo: 15) { (challengeVideoModels) in
+            if let challengeVideoModels = challengeVideoModels {
+                self.models = challengeVideoModels.compactMap({ (challengeViewModel.toModel(), $0) })
+            }
+        }
     }
     
     private func setUpFirstVideo() {

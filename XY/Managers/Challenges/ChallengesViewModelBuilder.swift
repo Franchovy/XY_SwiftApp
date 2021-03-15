@@ -21,7 +21,7 @@ final class ChallengesViewModelBuilder {
                             title: challengeModel.title,
                             description: challengeModel.description,
                             creator: profileModel,
-                            gradient: challengeModel.category.getGradient(),
+                            category: challengeModel.category,
                             level: 0,
                             xp: 0
                         )
@@ -83,7 +83,7 @@ final class ChallengesViewModelBuilder {
                     title: "#\(challengeModel.title)",
                     description: challengeModel.description,
                     creator: creatorProfile,
-                    gradient: challengeModel.category.getGradient(),
+                    category: challengeModel.category,
                     level: 0,
                     xp: 0
                 )

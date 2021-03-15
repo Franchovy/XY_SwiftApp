@@ -261,7 +261,7 @@ class VideoViewController: UIViewController {
         captionLabel.text = challengeVideoViewModel.description
         
         challengeLabel.removeFromSuperview()
-        challengeLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.gradient)
+        challengeLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.category.getGradient())
         view.addSubview(challengeLabel)
         
         setUpVideo()
