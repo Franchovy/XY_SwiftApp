@@ -129,7 +129,7 @@ extension XYworldVC : UITableViewDelegate, UITableViewDataSource {
         }
         
         cell.configure(with: postModels[indexPath.row].1)
-        
+        cell.delegate = self
         return cell
     }
 }
@@ -215,95 +215,95 @@ extension XYworldVC : RankingBoardCellDelegate {
 
 // MARK: - ImagePostCell Delegate functions
 
-//extension XYworldVC : ImagePostCellDelegate {
-//    func imagePostCellDelegate(reportPressed postId: String) {
-//        let alert = UIAlertController(title: "Report", message: "Why are you reporting this post?", preferredStyle: .alert)
-//
-//        alert.addTextField { (textfield) in
-//            textfield.placeholder = "Report details"
-//            textfield.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
-//        }
-//        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) in
-//            let textfield = alert.textFields![0]
-//
-//            guard let text = textfield.text else {
-//                return
-//            }
-//
-//            FirebaseUpload.sendReport(message: text, postId: postId)
-//
-//            if let index = self.postViewModels.firstIndex(where: { $0.id == postId }) {
-//                self.postViewModels.remove(at: index)
-//                self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .left)
-//            }
-//        }))
-//        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-//
-//        }))
-//
-//        present(alert, animated: true, completion: nil)
-//    }
-//
-//    func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {
-//
-//    }
-//
-//    func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell) {
-//        guard let cellIndex = tableView.indexPath(for: cell),
-//              postViewModels.count > cellIndex.row else {
-//            return
-//        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
-//            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
-//        }
-//    }
-//
-//    func imagePostCellDelegate(willSwipeRight cell: ImagePostCell) {
-//        guard let cellIndex = tableView.indexPath(for: cell),
-//              postViewModels.count > cellIndex.row else {
-//            return
-//        }
-//
-//        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
-//            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
-//        }
-//    }
-//
-//    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
-//        guard let cellIndex = tableView.indexPath(for: cell),
-//              postViewModels.count > cellIndex.row else {
-//            return
-//        }
-//
-//        self.postViewModels.remove(at: cellIndex.row)
-//
-//        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
-//
-//        guard let postId = cell.viewModel?.id else {
-//            return
-//        }
-//        FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
-//    }
-//
-//    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell) {
-//        guard let cellIndex = tableView.indexPath(for: cell),
-//              postViewModels.count > cellIndex.row else {
-//            return
-//        }
-//
-//        self.postViewModels.remove(at: cellIndex.row)
-//
-//        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
-//
-//        guard self.postViewModels.count > cellIndex.row else {
-//            return
-//        }
-//
-//        guard let postId = cell.viewModel?.id else {
-//            return
-//        }
-//
-//        FirebaseFunctionsManager.shared.swipeRight(postId: postId)
-//    }
-//}
+extension XYworldVC : ImagePostCellDelegate {
+    func imagePostCellDelegate(reportPressed postId: String) {
+        let alert = UIAlertController(title: "Report", message: "Why are you reporting this post?", preferredStyle: .alert)
+
+        alert.addTextField { (textfield) in
+            textfield.placeholder = "Report details"
+            textfield.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
+        }
+        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) in
+            let textfield = alert.textFields![0]
+
+            guard let text = textfield.text else {
+                return
+            }
+
+            FirebaseUpload.sendReport(message: text, postId: postId)
+
+            if let index = self.postModels.firstIndex(where: { $0.0.id == postId }) {
+                self.postModels.remove(at: index)
+                self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .left)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+
+        }))
+
+        present(alert, animated: true, completion: nil)
+    }
+
+    func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {
+
+    }
+
+    func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              postModels.count > cellIndex.row else {
+            return
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
+            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
+        }
+    }
+
+    func imagePostCellDelegate(willSwipeRight cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              postModels.count > cellIndex.row else {
+            return
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
+            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
+        }
+    }
+
+    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              postModels.count > cellIndex.row else {
+            return
+        }
+
+        self.postModels.remove(at: cellIndex.row)
+
+        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+
+        guard let postId = cell.viewModel?.id else {
+            return
+        }
+        FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
+    }
+
+    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell) {
+        guard let cellIndex = tableView.indexPath(for: cell),
+              postModels.count > cellIndex.row else {
+            return
+        }
+
+        self.postModels.remove(at: cellIndex.row)
+
+        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
+
+        guard self.postModels.count > cellIndex.row else {
+            return
+        }
+
+        guard let postId = cell.viewModel?.id else {
+            return
+        }
+
+        FirebaseFunctionsManager.shared.swipeRight(postId: postId)
+    }
+}
