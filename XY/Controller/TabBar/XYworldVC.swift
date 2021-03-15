@@ -41,13 +41,15 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        let tap = UITapGestureRecognizer(target: self, action: #selector(xpButtonPressed))
-        barXPCircle.addGestureRecognizer(tap)
-        
         tableView.delegate = self
         tableView.dataSource = self
 
         navigationItem.titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
+        
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(customView: barXPCircle),
+            UIBarButtonItem(image: UIImage(systemName: "bell"), style: .done, target: self, action: #selector(didTapNotifications))
+        ]
     }
     
     required init?(coder: NSCoder) {
@@ -81,7 +83,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         tableView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
     
-    @objc private func xpButtonPressed() {
+    @objc private func didTapNotifications() {
         let vc = NotificationsVC()
         vc.isHeroEnabled = true
         vc.modalPresentationStyle = .fullScreen
