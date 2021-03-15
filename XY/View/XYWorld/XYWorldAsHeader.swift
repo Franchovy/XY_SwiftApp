@@ -182,7 +182,12 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
             }
         }
         
-        RankingFirestoreManager.shared.getTopRanking(rankingLength: 3) { (rankingIDs) in
+        RankingFirestoreManager.shared.getFriendsRanking(rankingLength: 3) { (rankingIDs) in
+            guard let rankingIDs = rankingIDs else {
+                self.rankingCells.remove(at: 1)
+                return
+            }
+            
             let model = RankingModel(
                 name: "Friends",
                 rankedUserIDs: rankingIDs

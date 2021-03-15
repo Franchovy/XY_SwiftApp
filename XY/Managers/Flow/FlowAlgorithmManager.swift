@@ -15,9 +15,10 @@ final class FlowAlgorithmManager {
         
     }
     
+    var followingInitialized = false
     var followingIDs = [String]()
     
-    public func initialiseFollowing() {
+    public func initialiseFollowing(completion: (() -> Void)? = nil) {
         guard let userId = AuthManager.shared.userId else {
             return
         }
@@ -25,6 +26,11 @@ final class FlowAlgorithmManager {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.relationships)
             .whereField("\(FirebaseKeys.RelationshipKeys.users).\(userId)", isEqualTo: true)
             .getDocuments { (querySnapshot, error) in
+                defer {
+                    self.followingInitialized = true
+                    completion?()
+                }
+                
                 if let error = error {
                     print(error)
                 } else if let querySnapshot = querySnapshot {
