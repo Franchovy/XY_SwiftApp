@@ -37,7 +37,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let tableView = UITableView()
         tableView.register(RankingTableViewCell.self, forCellReuseIdentifier: RankingTableViewCell.identifier)
         tableView.separatorStyle = .none
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         return tableView
     }()
     
@@ -58,6 +58,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         view.clipsToBounds = false
         
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.backgroundColor = .clear
         
         view.addSubview(rankLabel)
@@ -131,4 +132,16 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         return cell
     }
 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let viewModel = cellViewModels[indexPath.row]
+        tableView.cellForRow(at: indexPath)?.isSelected = false
+        
+        ProfileFirestoreManager.shared.getProfileID(forUserID: viewModel.userID) { (profileID, error) in
+            if let error = error {
+                print(error)
+            } else if let profileID = profileID {
+                ProfileManager.shared.openProfileForId(profileID)
+            }
+        }
+    }
 }
