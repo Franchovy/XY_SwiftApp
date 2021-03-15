@@ -93,6 +93,7 @@ final class ChallengesViewModelBuilder {
                     videoUrl: videoURL,
                     title: "#\(challengeModel.title)",
                     description: challengeModel.description,
+                    caption: model.caption,
                     gradient: challengeModel.category.getGradient(),
                     creator: creatorProfile
                 )
@@ -152,6 +153,7 @@ final class ChallengesViewModelBuilder {
                     videoUrl: videoURL,
                     title: challengeTitle,
                     description: challengeDescription,
+                    caption: model.caption,
                     gradient: Global.xyGradient,
                     creator: creatorProfile
                 )

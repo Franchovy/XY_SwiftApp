@@ -93,6 +93,12 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
     
     // MARK: - Lifecycle
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -100,7 +106,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         try? AVAudioSession.sharedInstance().setActive(true)
         
         view.backgroundColor = UIColor(named: "Black")
-        let gradientLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.category.getGradient())
+        let gradientLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.category.getGradientAdaptedToLightMode())
         gradientLabel.sizeToFit()
         navigationItem.titleView = gradientLabel
         navigationController?.navigationBar.isHidden = false

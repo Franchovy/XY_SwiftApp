@@ -8,19 +8,25 @@
 import UIKit
 import AVFoundation
 
+protocol VideoViewControllerDelegate: class {
+    func didTapTitle(for viewModel: ChallengeViewModel)
+}
+
 class VideoViewController: UIViewController {
     
-    private let profileButtonShadowLayer = CAShapeLayer()
-    private let profileButton: UIButton = {
-        let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "test"), for: .normal)
-        button.layer.masksToBounds = true
-        button.contentMode = .scaleAspectFill
-        button.tintColor = .white
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.white.cgColor
-        return button
-    }()
+//    private let profileButtonShadowLayer = CAShapeLayer()
+//    private let profileButton: UIButton = {
+//        let button = UIButton()
+//        button.setBackgroundImage(UIImage(named: "test"), for: .normal)
+//        button.layer.masksToBounds = true
+//        button.contentMode = .scaleAspectFill
+//        button.tintColor = .white
+//        button.layer.borderWidth = 1
+//        button.layer.borderColor = UIColor.white.cgColor
+//        return button
+//    }()
+    
+    private let profileBubble = ProfileBubble()
     
     private let userLabel: UILabel = {
         let label = UILabel()
@@ -73,6 +79,8 @@ class VideoViewController: UIViewController {
     var challengeModel: ChallengeViewModel?
     var videoViewModel: ChallengeVideoViewModel?
     
+    weak var delegate: VideoViewControllerDelegate?
+    
     private var timeControlObserverSet = false
     private var repeatObserverSet = false
     
@@ -85,10 +93,11 @@ class VideoViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        profileButton.addTarget(self, action: #selector(profileImageTapped), for: .touchUpInside)
+        let tapProfileGesture = UITapGestureRecognizer(target: self, action: #selector(profileImageTapped))
+        profileBubble.addGestureRecognizer(tapProfileGesture)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoTapped))
-        view.addGestureRecognizer(tapGesture)
+        videoView.addGestureRecognizer(tapGesture)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(videoPanned(gestureRecognizer:)))
         panGesture.delegate = self
@@ -116,7 +125,7 @@ class VideoViewController: UIViewController {
         view.addSubview(challengeLabel)
         view.addSubview(captionLabel)
         view.addSubview(userLabel)
-        view.addSubview(profileButton)
+        view.addSubview(profileBubble)
     }
     
     override func viewDidLayoutSubviews() {
@@ -176,25 +185,12 @@ class VideoViewController: UIViewController {
         // Side buttons
         
         let size: CGFloat = 60
-        profileButton.frame = CGRect(
+        profileBubble.frame = CGRect(
             x: videoView.width - size - 11,
             y: videoView.height/2 - size/3,
             width: size,
             height: size
         )
-        profileButton.layer.cornerRadius = size / 2
-        
-        let path = UIBezierPath(roundedRect: profileButton.frame, cornerRadius: size/2).cgPath
-        profileButtonShadowLayer.path = path
-        profileButtonShadowLayer.shadowPath = path
-        profileButtonShadowLayer.fillColor = UIColor.black.cgColor
-        profileButtonShadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        profileButtonShadowLayer.shadowRadius = 6
-        profileButtonShadowLayer.shadowOpacity = 0.8
-        profileButtonShadowLayer.shadowColor = UIColor.black.cgColor
-        profileButtonShadowLayer.masksToBounds = false
-        
-        view.layer.insertSublayer(profileButtonShadowLayer, below: profileButton.layer)
     }
     
     // MARK: - Private Functions
@@ -213,23 +209,6 @@ class VideoViewController: UIViewController {
         }
         player?.replaceCurrentItem(with: nil)
         player = nil
-    }
-    
-    private func fetchProfileData() {
-        guard let profileModel = videoViewModel?.creator else {
-            return
-        }
-        
-        userLabel.text = profileModel.nickname
-        userLabel.sizeToFit()
-        
-        FirebaseDownload.getImage(imageId: profileModel.profileImageId) { (image, error) in
-            guard let image = image, error == nil else {
-                return
-            }
-            
-            self.profileButton.setBackgroundImage(image, for: .normal)
-        }
     }
     
     // MARK: - Public Functions
@@ -256,13 +235,27 @@ class VideoViewController: UIViewController {
         self.videoViewModel = challengeVideoViewModel
         
         // Request nickname for this user
-        fetchProfileData()
+        if let profileModel = challengeVideoViewModel.creator {
+            
+            ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
+                if let profileViewModel = profileViewModel {
+                    self.profileBubble.configure(with: profileViewModel, followButtonPos: .forVideo)
+                    
+                    self.userLabel.text = profileModel.nickname
+                    self.userLabel.sizeToFit()
+                }
+            }
+        }
         
-        captionLabel.text = challengeVideoViewModel.description
+        captionLabel.text = challengeVideoViewModel.caption ?? challengeVideoViewModel.description
         
         challengeLabel.removeFromSuperview()
         challengeLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.category.getGradient())
         view.addSubview(challengeLabel)
+        
+        let tappedTitle = UITapGestureRecognizer(target: self, action: #selector(titleTapped))
+        challengeLabel.isUserInteractionEnabled = true
+        challengeLabel.addGestureRecognizer(tappedTitle)
         
         setUpVideo()
     }
@@ -387,6 +380,13 @@ class VideoViewController: UIViewController {
         player?.pause()
         ProfileManager.shared.openProfileForId(profileModel.profileId)
     }
+    
+    @objc private func titleTapped() {
+        guard let challengeModel = challengeModel else {
+            return
+        }
+        delegate?.didTapTitle(for: challengeModel)
+    }
 }
 
 extension VideoViewController : UIGestureRecognizerDelegate {
@@ -395,7 +395,18 @@ extension VideoViewController : UIGestureRecognizerDelegate {
             let velocity = gesture.velocity(in: nil)
             return abs(velocity.x) > abs(velocity.y)
         }
-        else { return true }
+        else {
+//            if gestureRecognizer.view == videoView {
+//                return !challengeLabel.frame.contains(gestureRecognizer.location(in: view))
+//            }
+            return true
+        }
+        
+    }
+}
+
+extension VideoViewController : ProfileBubbleDelegate {
+    func plusButtonPressed() {
         
     }
 }

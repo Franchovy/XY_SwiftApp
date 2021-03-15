@@ -56,6 +56,13 @@ class ProfileBubble: UIView {
     var delegate: ProfileBubbleDelegate?
     var viewModel: NewProfileViewModel?
     
+    
+    enum FollowButtonPos {
+        case forProfile
+        case forVideo
+    }
+    var followButtonPos: FollowButtonPos = .forProfile
+    
     init() {
         super.init(frame: .zero)
         
@@ -90,8 +97,8 @@ class ProfileBubble: UIView {
         profileImageView.layer.cornerRadius = 30
         
         followButton.frame = CGRect(
-            x: 38,
-            y: -6,
+            x: followButtonPos == .forProfile ? 38 : -5,
+            y: followButtonPos == .forProfile ? -6 : 57,
             width: 72,
             height: 23
         )
@@ -105,8 +112,15 @@ class ProfileBubble: UIView {
         addButton.layer.cornerRadius = 12
     }
     
-    public func configure(with viewModel: NewProfileViewModel) {
+    public func configure(with viewModel: NewProfileViewModel, followButtonPos: FollowButtonPos = .forProfile) {
         self.viewModel = viewModel
+        self.followButtonPos = followButtonPos
+        
+        if followButtonPos == .forVideo, viewModel.userId != AuthManager.shared.userId ?? "" {
+            setButtonMode(mode: .follow)
+        }
+        
+        setNeedsLayout()
         
         profileImageView.image = viewModel.profileImage
         

@@ -39,6 +39,10 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             }
             self.setUpFirstVideo()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         navigationController?.isNavigationBarHidden = true
     }
@@ -91,7 +95,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         }
         
         let vc = VideoViewController()
-
+        vc.delegate = self
         buildVideoViewControllerWithPair(vc, model)
 
         pageViewController.setViewControllers(
@@ -120,7 +124,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         let priorIndex = index - 1
         let model = models[priorIndex]
         let vc = VideoViewController()
-        
+        vc.delegate = self
         buildVideoViewControllerWithPair(vc, model)
                         
         return vc
@@ -144,7 +148,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         let priorIndex = index + 1
         let model = models[priorIndex]
         let vc = VideoViewController()
-        
+        vc.delegate = self
         if let viewModelPair = loadedViewModels[model.1.ID] {
             vc.configure(challengeVideoViewModel: viewModelPair.1, challengeViewModel: viewModelPair.0)
         } else {
@@ -182,5 +186,13 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
                 self.loadedViewModels[pair.1.id] = pair
             }
         }
+    }
+}
+
+extension PlayViewController : VideoViewControllerDelegate {
+    func didTapTitle(for viewModel: ChallengeViewModel) {
+        let exploreChallengeVC = ExploreChallengeViewController(challengeViewModel: viewModel)
+    
+        navigationController?.pushViewController(exploreChallengeVC, animated: true)
     }
 }
