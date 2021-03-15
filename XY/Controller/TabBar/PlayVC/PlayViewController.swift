@@ -69,6 +69,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         
         for vc in viewControllers {
             if let vc = vc as? VideoViewController {
+                vc.player?.pause()
                 vc.unloadFromMemory()
             }
         }
@@ -135,8 +136,9 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         let model = models[priorIndex]
         let vc = VideoViewController()
         vc.delegate = self
+        vc.play()
         buildVideoViewControllerWithPair(vc, model)
-                        
+        
         return vc
     }
     
@@ -158,6 +160,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
         let priorIndex = index + 1
         let model = models[priorIndex]
         let vc = VideoViewController()
+        vc.play()
         vc.delegate = self
         if let viewModelPair = loadedViewModels[model.1.ID] {
             vc.configure(challengeVideoViewModel: viewModelPair.1, challengeViewModel: viewModelPair.0)
@@ -179,6 +182,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         for vc in previousViewControllers {
             if let vc = vc as? VideoViewController {
+                vc.player?.pause()
                 vc.unloadFromMemory()
             }
         }
