@@ -292,7 +292,10 @@ class VideoViewController: UIViewController {
         playerDidFinishObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
             object: player.currentItem,
-            queue: .main) { _ in
+            queue: .main) { [weak self] _ in
+            if self == nil {
+                return
+            }
             player.seek(to: .zero)
             player.play()
         }
