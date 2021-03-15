@@ -44,9 +44,9 @@ class CategorySectionReusableView : UICollectionReusableView {
                 height: titleLabel.height
             )
             
-            if descriptionLabel.text == "" {
-                descriptionLabel.frame = CGRect(x: 0, y: titleLabel.bottom, width: 0, height: 0)
-            } else {
+//            if descriptionLabel.text == "" {
+//                descriptionLabel.frame = CGRect(x: 0, y: titleLabel.bottom, width: 0, height: 0)
+//            } else {
                 let textFrame = CGSize(
                     width: width,
                     height: .greatestFiniteMagnitude
@@ -61,7 +61,7 @@ class CategorySectionReusableView : UICollectionReusableView {
                     y: titleLabel.bottom + 5),
                     size: boundingRect.size
                 )
-            }
+//            }
         }
     }
     

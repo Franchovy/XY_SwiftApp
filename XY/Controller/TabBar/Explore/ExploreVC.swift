@@ -13,7 +13,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     private var collectionView: UICollectionView = {
         let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(50)),
+            layoutSize: .init(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(90)),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .topLeading
         )
@@ -21,8 +21,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         let item = NSCollectionLayoutItem(
             layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.32),
-                heightDimension: .absolute(190)
+                widthDimension: .estimated(130),
+                heightDimension: .estimated(190)
             )
         )
         
@@ -31,7 +31,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(175)
+                heightDimension: .estimated(175)
             ),
             subitems: [item]
         )
