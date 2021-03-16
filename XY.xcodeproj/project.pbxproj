@@ -62,6 +62,7 @@
 		B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DABE25E6C40F0040CEDB /* MessageView.swift */; };
 		B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* PreviewViewController.swift */; };
 		B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */; };
+		B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */; };
 		B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */; };
@@ -257,6 +258,7 @@
 		B944DABE25E6C40F0040CEDB /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B944DAC425E6C4290040CEDB /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
+		B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFirestoreManager.swift; sourceTree = "<group>"; };
 		B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabelReusableView.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 			isa = PBXGroup;
 			children = (
 				B90EBA4125DFEA5B005DE0A0 /* PostViewModelBuilder.swift */,
+				B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -1311,6 +1314,7 @@
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
 				B9ABA1FA25E454580039280B /* XPManager.swift in Sources */,
 				B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */,
+				B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */,
 				B936263C25DA81C10063AAD6 /* ChatEvent.swift in Sources */,
 				B9B50F0825FC16AF007B8F9F /* SwipingPageViewController.swift in Sources */,
 				B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */,

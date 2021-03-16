@@ -46,6 +46,13 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
 
         navigationItem.titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
         
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "addpost_icon"),
+            style: .done,
+            target: self,
+            action: #selector(didTapCreatePost)
+        )
+        
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: barXPCircle),
             UIBarButtonItem(image: UIImage(systemName: "bell"), style: .done, target: self, action: #selector(didTapNotifications))
@@ -83,14 +90,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         tableView.frame = view.bounds.inset(by: view.safeAreaInsets)
     }
     
-    @objc private func didTapNotifications() {
-        let vc = NotificationsVC()
-        vc.isHeroEnabled = true
-        vc.modalPresentationStyle = .fullScreen
-        vc.heroModalAnimationType = .pageIn(direction: .left)
-        navigationController?.pushViewController(vc, animated: true)
-    }
-    
     public func fetchFlow() {
         FlowAlgorithmManager.shared.getFlowFromFollowing() { postModels in
             if let postModels = postModels {
@@ -109,6 +108,19 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
                 }
             }
         }
+    }
+    
+    @objc private func didTapNotifications() {
+        let vc = NotificationsVC()
+        vc.isHeroEnabled = true
+        vc.modalPresentationStyle = .fullScreen
+        vc.heroModalAnimationType = .pageIn(direction: .left)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func didTapCreatePost() {
+        let vc = CreatePostViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

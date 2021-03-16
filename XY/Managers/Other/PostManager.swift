@@ -19,41 +19,6 @@ final class PostManager {
     
     var listeners = [ListenerRegistration]()
     
-    public func createPost(caption: String, image: UIImage, completion: @escaping(Result<PostModel, Error>) -> Void){
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return
-        }
-        
-        let postDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts).document()
-        
-        // Create firebase storage: /postId/
-        StorageManager.shared.uploadPhoto(image, storageId: postDocument.documentID) { (result) in
-            switch result {
-            case .success(let imageId):
-                var postModel = PostModel(
-                    id: postDocument.documentID,
-                    userId: uid,
-                    timestamp: Date(),
-                    content: caption,
-                    images: [imageId],
-                    level: 0,
-                    xp: 0
-                )
-                
-                postDocument.setData(postModel.toUpload()) { error in
-                    if let error = error {
-                        completion(.failure(error))
-                    } else {
-                        completion(.success(postModel))
-                    }
-                }
-                
-            case .failure(let error):
-                print("Error uploading image: \(error)")
-            }
-        }
-    }
-    
     func refreshIncrementIndex() {
         userPostIndex += 1
         

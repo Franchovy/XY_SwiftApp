@@ -35,17 +35,4 @@ extension PostModel {
         content = postData[FirebaseKeys.PostKeys.PostData.caption] as! String
         images = [ postData[FirebaseKeys.PostKeys.PostData.imageRef] as! String ]
     }
-    
-    func toUpload() -> [String: Any] {
-        return [
-            FirebaseKeys.PostKeys.author : userId,
-            FirebaseKeys.PostKeys.timestamp : FieldValue.serverTimestamp(),
-            FirebaseKeys.PostKeys.level : level,
-            FirebaseKeys.PostKeys.xp : xp,
-            FirebaseKeys.PostKeys.postData : [
-                FirebaseKeys.PostKeys.PostData.caption : content,
-                FirebaseKeys.PostKeys.PostData.imageRef : images.first
-            ]
-        ]
-    }
 }
