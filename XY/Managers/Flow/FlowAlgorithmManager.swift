@@ -58,6 +58,8 @@ final class FlowAlgorithmManager {
             )
         }
         
+        // guard followers != nil
+        
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
             .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
             .whereField(FirebaseKeys.PostKeys.author, in: getFromFollowing)

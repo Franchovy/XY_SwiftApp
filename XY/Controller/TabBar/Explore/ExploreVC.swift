@@ -275,7 +275,10 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return
         }
         
-        TabBarViewController.instance.playChallenge(challenge: viewModel)
+        let vc = PlayViewController()
+        vc.configure(for: viewModel)
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -19,6 +19,8 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     private var models = [(ChallengeModel, ChallengeVideoModel)]()
     private var loadedViewModels = [String: (ChallengeViewModel, ChallengeVideoViewModel)]()
     
+    private var isModalPresented = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,7 +46,16 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.isNavigationBarHidden = true
+        if !isModalPresented {
+            navigationController?.isNavigationBarHidden = true
+        } else {
+            navigationController?.isNavigationBarHidden = false
+            navigationController?.navigationBar.backgroundColor = .clear
+            navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navigationController?.navigationBar.shadowImage = UIImage()
+            navigationController?.navigationBar.tintColor = .white
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .done, target: self, action: #selector(didPressBack))
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -82,6 +93,9 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     }
     
     public func configure(for challengeViewModel: ChallengeViewModel, withHeroID heroID: String? = nil) {
+        // Set back button enabled
+        isModalPresented = true
+        
         models = []
         if let viewControllers = pageViewController.viewControllers {
             for vc in viewControllers {
@@ -200,6 +214,10 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
                 self.loadedViewModels[pair.1.id] = pair
             }
         }
+    }
+    
+    @objc private func didPressBack() {
+        navigationController?.popViewController(animated: true)
     }
 }
 
