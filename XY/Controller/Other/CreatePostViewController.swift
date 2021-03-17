@@ -129,7 +129,13 @@ class CreatePostViewController: UIViewController, UITextViewDelegate, UIImagePic
         navigationController?.popViewController(animated: true)
     }
     
+    var uploading = false
     @objc private func didTapDone() {
+        guard !uploading else {
+            return
+        }
+        uploading = true
+        
         guard let image = imageView.image else {
             displayError("Please pick an image!")
             return
@@ -144,7 +150,7 @@ class CreatePostViewController: UIViewController, UITextViewDelegate, UIImagePic
         PostFirestoreManager.shared.uploadPost(with: text, image: image) { (result) in
             switch result {
             case .success(let postViewModel):
-                print("Successfully uploaded!")
+                navigationController?.popViewController(animated: true)
             case .failure(let error):
                 print(error)
             }
