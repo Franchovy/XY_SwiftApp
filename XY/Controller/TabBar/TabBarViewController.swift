@@ -100,10 +100,28 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidAppear(animated)
         
         view.layoutSubviews()
+        
+        if UserDefaults.standard.object(forKey: "introMessageSeen") == nil {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                self.popupPrompt(title: "Welcome to XY!", message: "Hi from XY’s team. We created XY to allow you to express yourself and to be pro-active for the world we live in. XY is played through challenges and we really don’t want to be suited because you’ll do dumb things, so, be brave but wise, scale the ranking and have fun!", confirmText: "I'm wise", completion: {
+                    UserDefaults.standard.setValue(true, forKey: "introMessageSeen")
+                })
+                
+            }
+        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
 
+    }
+    
+    public func popupPrompt(title: String, message: String, confirmText: String, completion: @escaping(() -> Void)) {
+        let popupView = PopupMessageView(title: title, message: message, type: .message(confirmText: confirmText), completion: completion)
+        
+        popupView.sizeToFit()
+        view.addSubview(popupView)
+        popupView.center = view.center
     }
     
     private func setProfileIcon(userID: String) {

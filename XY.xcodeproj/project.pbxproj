@@ -163,6 +163,7 @@
 		B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE33F25C9413A00B00656 /* AuthManager.swift */; };
 		B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37925C9AD8C00B00656 /* PostManager.swift */; };
 		B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37D25C9AE1000B00656 /* StorageManager.swift */; };
+		B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BF8BED26023A670057210C /* PopupMessageView.swift */; };
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
 		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
@@ -363,6 +364,7 @@
 		B9BDE34325C96BFD00B00656 /* XY.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = XY.entitlements; sourceTree = "<group>"; };
 		B9BDE37925C9AD8C00B00656 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		B9BDE37D25C9AE1000B00656 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		B9BF8BED26023A670057210C /* PopupMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMessageView.swift; sourceTree = "<group>"; };
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
 		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				B9B92DE125644A41005D9B86 /* LaunchScreen.storyboard */,
 				B99020DE25ED68FA004AC25C /* GradientWidgets */,
 				B972A2C925DD96E2006A0476 /* TypeView.swift */,
+				B9BF8BED26023A670057210C /* PopupMessageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1230,6 +1233,7 @@
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
+				B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */,
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
