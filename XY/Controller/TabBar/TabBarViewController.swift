@@ -67,7 +67,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         tabBar.tintColor = UIColor(named: "XYTint")
         nav2.tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
         nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "tabbar_play_icon")!.withRenderingMode(.alwaysOriginal), tag: 3)
-        nav4.tabBarItem = UITabBarItem(title: "XYWorld", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
+        nav4.tabBarItem = UITabBarItem(title: "XYHub", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
         
         nav1.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
         nav1.tabBarItem.imageInsets.top = 3

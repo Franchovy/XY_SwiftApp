@@ -19,7 +19,9 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     private var models = [(ChallengeModel, ChallengeVideoModel)]()
     private var loadedViewModels = [String: (ChallengeViewModel, ChallengeVideoViewModel)]()
     
+    private var challengeViewModel: ChallengeViewModel?
     private var isModalPresented = false
+    private var isFirstVideoSetUp = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,7 +55,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             navigationController?.navigationBar.backgroundColor = .clear
             navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
             navigationController?.navigationBar.shadowImage = UIImage()
-            navigationController?.navigationBar.tintColor = .white
+            navigationController?.navigationBar.tintColor = UIColor(named: "XYTint")
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .done, target: self, action: #selector(didPressBack))
         }
     }
@@ -74,14 +76,25 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        
+        
         guard let viewControllers = pageViewController.viewControllers else {
             return
         }
         
-        for vc in viewControllers {
-            if let vc = vc as? VideoViewController {
-                vc.player?.pause()
-                vc.unloadFromMemory()
+        if isModalPresented {
+            for vc in viewControllers {
+                if let vc = vc as? VideoViewController {
+                    vc.player?.pause()
+                    vc.teardown()
+                }
+            }
+        } else {
+            for vc in viewControllers {
+                if let vc = vc as? VideoViewController {
+                    vc.player?.pause()
+                    vc.unloadFromMemory()
+                }
             }
         }
     }
@@ -95,6 +108,8 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     public func configure(for challengeViewModel: ChallengeViewModel, withHeroID heroID: String? = nil) {
         // Set back button enabled
         isModalPresented = true
+        
+        self.challengeViewModel = challengeViewModel
         
         models = []
         if let viewControllers = pageViewController.viewControllers {
@@ -115,13 +130,37 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     }
     
     private func setUpFirstVideo() {
-        guard let model = models.first else {
+        guard let model = models.first, !isFirstVideoSetUp else {
             return
         }
+        
+        isFirstVideoSetUp = true
         
         let vc = VideoViewController()
         vc.delegate = self
         buildVideoViewControllerWithPair(vc, model)
+
+        pageViewController.setViewControllers(
+            [vc],
+            direction: .forward,
+            animated: false,
+            completion: nil
+        )
+    }
+    
+    public func setFirstVideo(_ videoViewModel: ChallengeVideoViewModel, heroID: String) {
+        guard let model = models.first, let challengeViewModel = challengeViewModel else {
+            return
+        }
+        
+        isFirstVideoSetUp = true
+        
+        let vc = VideoViewController()
+        vc.delegate = self
+        vc.configure(challengeVideoViewModel: videoViewModel, challengeViewModel: challengeViewModel)
+        
+        vc.isHeroEnabled = true
+        vc.view.heroID = heroID
 
         pageViewController.setViewControllers(
             [vc],

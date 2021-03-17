@@ -50,7 +50,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowOpacity = 1.0
         layer.shadowColor = UIColor.black.cgColor
-                
+
         layer.masksToBounds = false
         clipsToBounds = false
         

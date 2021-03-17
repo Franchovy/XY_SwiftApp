@@ -270,14 +270,21 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let viewModel = sections[indexPath.section].1[indexPath.row].0
-        guard let cell = collectionView.cellForItem(at: indexPath) else {
+        let pair = sections[indexPath.section].1[indexPath.row]
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ChallengeCollectionViewCell else {
             return
         }
         
         let vc = PlayViewController()
-        vc.configure(for: viewModel)
+        vc.configure(for: pair.0)
+        vc.setFirstVideo(pair.1, heroID: "vid")
+        isHeroEnabled = true
+        cell.isHeroEnabled = true
+        cell.heroID = "vid"
+        
         vc.hidesBottomBarWhenPushed = true
+//        vc.heroModalAnimationType = .pageIn(direction: .left)
+        
         navigationController?.pushViewController(vc, animated: true)
     }
 }
