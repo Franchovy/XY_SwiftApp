@@ -40,41 +40,13 @@ class XPCircleView: UIView {
         layer.lineWidth = 9.0
         layer.shadowColor = UIColor(red: 255, green: 0, blue: 0).cgColor
         layer.shadowOffset = CGSize(width: 1, height: 1)
-        layer.shadowRadius = 6.5
-        layer.shadowOpacity = 1.0
+        layer.shadowRadius = 2.5
+        layer.shadowOpacity = 0.5
         layer.masksToBounds = false
         return layer
     }()
     
-    let lifeCircle: CAShapeLayer = {
-        let layer = CAShapeLayer()
-        layer.fillColor = UIColor.white.cgColor
-        layer.path = UIBezierPath(ovalIn: CGRect(x: 0, y: 0, width: 5, height: 5)).cgPath
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowRadius = 1.0
-        layer.shadowOpacity = 0.3
-        layer.masksToBounds = false
-        return layer
-    }()
-    
-    let lifeProgressLayer: CAShapeLayer = {
-        let layer = CAShapeLayer()
-        layer.strokeColor = UIColor.white.cgColor
-        layer.fillColor = UIColor.clear.cgColor
-        layer.lineCap = .round
-        layer.lineWidth = 2.5
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowRadius = 1.5
-        layer.shadowOpacity = 0.3
-        layer.masksToBounds = false
-        
-        return layer
-    }()
-    
-    private var lifeProgress:CGFloat = 0.8
-    private var xpProgress:CGFloat = 0.4
+    private var xpProgress:CGFloat = 0.0
     
     init() {
         super.init(frame: .zero)
@@ -82,8 +54,6 @@ class XPCircleView: UIView {
         layer.addSublayer(glowShadowLayer)
         layer.addSublayer(backgroundLayer)
         layer.addSublayer(progressLayer)
-        layer.addSublayer(lifeProgressLayer)
-        layer.addSublayer(lifeCircle)
     }
     
     required init?(coder: NSCoder) {
@@ -105,26 +75,27 @@ class XPCircleView: UIView {
         
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: width/2, y: height/2), radius: radius, startAngle: -.pi / 2, endAngle: 3 * .pi / 2, clockwise: true)
         backgroundLayer.path = circlePath.cgPath
-        
-        lifeProgressLayer.path = circlePath.cgPath
-        lifeProgressLayer.strokeEnd = lifeProgress * xpProgress
-        
-        let lifeProgressAngle: CGFloat = 2 * .pi * lifeProgress
-        
-        print("Angle: \(lifeProgressAngle)")
-        let lifeCirclePoint = CGPoint(
-            x: -sin(lifeProgressAngle) * lifeCircleRadius,
-            y: cos(lifeProgressAngle) * lifeCircleRadius
-        )
-        print("Point: \(lifeCirclePoint)")
-        lifeCircle.frame.origin = CGPoint(
-            x: width/2 + lifeCirclePoint.x,
-            y: height/2 + lifeCirclePoint.y
-        )
     }
     
     func configure(xpModel: XPModel) {
         
     }
     
+    public func setProgress(_ progress: CGFloat) {
+        xpProgress = progress
+    }
+    
+    public func animateSetProgress(_ progress: CGFloat) {
+        self.xpProgress = progress
+        
+        UIView.animate(withDuration: 0.5) {
+            self.updateCircleViewProgress()
+        }
+        
+    }
+    
+    private func updateCircleViewProgress() {
+        progressLayer.strokeEnd = xpProgress
+        glowShadowLayer.strokeEnd = xpProgress
+    }
 }

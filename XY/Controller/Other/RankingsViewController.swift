@@ -107,7 +107,6 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     public func configure(with viewModel: RankingViewModel) {
-        
         let titleLabel = UILabel()
         titleLabel.font = UIFont(name: "Raleway-Bold", size: 25)
         titleLabel.text = "\(viewModel.name) Ranking"

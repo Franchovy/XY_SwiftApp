@@ -24,10 +24,17 @@ class NewProfileViewController: UIViewController {
     
     private var controllerIndex = 0
     
+    private let loadingCircle = XPCircleView()
+    
     // MARK: - Initialisers
     
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
+        
+        view.addSubview(loadingCircle)
+        
+        loadingCircle.frame.size = CGSize(width: 50, height: 50)
+        loadingCircle.center = view.center
         
         view.backgroundColor = UIColor(named: "Black")
         
@@ -43,24 +50,23 @@ class NewProfileViewController: UIViewController {
         topScrollIndicator.delegate = self
         bottomScrollIndicator.delegate = self
         
+        print("Start fetch")
         ProfileManager.shared.fetchProfile(userId: userId) { result in
             switch result {
             case .success(let profileModel):
+                print("Test 1")
                 ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
                     if let profileViewModel = profileViewModel {
+                        print("done")
                         self.configure(with: profileViewModel)
+                        self.onLoadedProfile()
                     }
                 }
             case .failure(let error):
                 print(error)
             }
         }
-        
-        ProfileManager.shared.listenToProfileUpdatesFor(userId: userId) { viewModel in
-            if let viewModel = viewModel {
-                self.configure(with: viewModel)
-            }
-        }
+
     }
     
     required init?(coder: NSCoder) {
@@ -71,11 +77,25 @@ class NewProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        loadingCircle.setProgress(0.1)
+    
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.loadingCircle.animateSetProgress(0.2)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+                self.loadingCircle.animateSetProgress(0.9)
+                
+                DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+                    self.loadingCircle.animateSetProgress(1.0)
+                }
+            }
+        }
         
         DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
             self.bottomScrollIndicator.animate()
@@ -111,6 +131,17 @@ class NewProfileViewController: UIViewController {
     }
     
     // MARK: - Public Functions
+    
+    public func onLoadedProfile() {
+        guard let userID = viewModel?.userId else {
+            return
+        }
+        ProfileManager.shared.listenToProfileUpdatesFor(userId: userID) { viewModel in
+            if let viewModel = viewModel {
+                self.configure(with: viewModel)
+            }
+        }
+    }
     
     public func configure(with viewModel: NewProfileViewModel) {
         self.viewModel = viewModel

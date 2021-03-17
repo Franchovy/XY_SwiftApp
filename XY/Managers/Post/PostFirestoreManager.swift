@@ -41,7 +41,7 @@ final class PostFirestoreManager {
                     FirebaseKeys.PostKeys.xp : 0,
                     FirebaseKeys.PostKeys.postData : [
                         FirebaseKeys.PostKeys.PostData.caption : caption,
-                        FirebaseKeys.PostKeys.PostData.imageRef : [imageId]
+                        FirebaseKeys.PostKeys.PostData.imageRef : imageId
                     ]
                 ]
                 
