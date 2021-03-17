@@ -28,6 +28,8 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor(named: "Black")
+        
         hapticsManager = HapticsManager()
         print("Haptics manager is \(hapticsManager == nil ? "nil" : "not nil")")
         
