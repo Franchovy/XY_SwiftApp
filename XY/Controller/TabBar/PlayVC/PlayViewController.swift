@@ -63,6 +63,24 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if UserDefaults.standard.object(forKey: "introMessageSeen") == nil {
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
+                if let viewControllers = self.pageViewController.viewControllers {
+                    for vc in viewControllers {
+                        if let vc = vc as? VideoViewController {
+                            vc.player?.pause()
+                        }
+                    }
+                }
+                
+                TabBarViewController.instance.popupPrompt(title: "Welcome to XY!", message: "Hi from XY’s team. We created XY to allow you to express yourself and to be pro-active for the world we live in. XY is played through challenges and we really don’t want to be suited because you’ll do dumb things, so, be brave but wise, scale the ranking and have fun!", confirmText: "I'm wise", completion: {
+                    UserDefaults.standard.setValue(nil, forKey: "introMessageSeen")
+                })
+                
+            }
+        }
+        
         guard let viewControllers = pageViewController.viewControllers else {
             return
         }

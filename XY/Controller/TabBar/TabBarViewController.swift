@@ -100,16 +100,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         super.viewDidAppear(animated)
         
         view.layoutSubviews()
-        
-        if UserDefaults.standard.object(forKey: "introMessageSeen") == nil {
-            
-            DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-                self.popupPrompt(title: "Welcome to XY!", message: "Hi from XY’s team. We created XY to allow you to express yourself and to be pro-active for the world we live in. XY is played through challenges and we really don’t want to be suited because you’ll do dumb things, so, be brave but wise, scale the ranking and have fun!", confirmText: "I'm wise", completion: {
-                    UserDefaults.standard.setValue(true, forKey: "introMessageSeen")
-                })
-                
-            }
-        }
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -117,11 +107,42 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     public func popupPrompt(title: String, message: String, confirmText: String, completion: @escaping(() -> Void)) {
-        let popupView = PopupMessageView(title: title, message: message, type: .message(confirmText: confirmText), completion: completion)
+        // Add blur
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
         
-        popupView.sizeToFit()
-        view.addSubview(popupView)
-        popupView.center = view.center
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.alpha = 0.0
+        view.addSubview(blurEffectView)
+        
+        UIView.animate(withDuration: 0.2) {
+            blurEffectView.alpha = 1.0
+        } completion: { (done) in
+            if done {
+                // Add popup View
+                let popupView = PopupMessageView(
+                    title: title,
+                    message: message,
+                    type: .message(confirmText: confirmText),
+                    completion: {
+                        UIView.animate(withDuration: 0.2) {
+                            blurEffectView.alpha = 0.0
+                        } completion: { (done) in
+                            if done {
+                                blurEffectView.removeFromSuperview()
+                            }
+                        }
+                        
+                        completion()
+                    }
+                )
+                
+                popupView.sizeToFit()
+                self.view.addSubview(popupView)
+                popupView.center = self.view.center
+            }
+        }
     }
     
     private func setProfileIcon(userID: String) {
