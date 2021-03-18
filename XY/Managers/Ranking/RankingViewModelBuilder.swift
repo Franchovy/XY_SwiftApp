@@ -49,7 +49,7 @@ final class RankingViewModelBuilder {
                     profileImageIDs[index] = profileModel.profileImageId
                 }
             }
-            UserFirestoreManager.getUser(with: rankingIDs.userID) { (result) in
+            UserFirestoreManager.shared.getUser(with: rankingIDs.userID) { (result) in
                 defer {
                     dispatchGroup.leave()
                 }

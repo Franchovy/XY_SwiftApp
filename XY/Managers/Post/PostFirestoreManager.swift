@@ -59,4 +59,24 @@ final class PostFirestoreManager {
         }
     }
     
+    public func getPostsByUser(userId: String, completion: @escaping([PostModel]?, Error?) -> Void) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
+            .whereField(FirebaseKeys.PostKeys.author, isEqualTo: userId)
+            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
+                    .getDocuments() { snapshot, error in
+            if let error = error {
+                completion(nil, error)
+            }
+            if let documents = snapshot?.documents {
+                var posts: [PostModel] = []
+                for doc in documents {
+                    let newPost = PostModel(from: doc.data(), id: doc.documentID)
+
+                    posts.append(newPost)
+                }
+                completion(posts, nil)
+            }
+        }
+    }
+    
 }

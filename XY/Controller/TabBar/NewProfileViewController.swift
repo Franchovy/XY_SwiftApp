@@ -28,9 +28,47 @@ class NewProfileViewController: UIViewController {
     
     // MARK: - Initialisers
     
+    init(profileId: String) {
+        super.init(nibName: nil, bundle: nil)
+        
+        ProfileFirestoreManager.shared.getProfile(forProfileID: profileId) { (profileModel) in
+            if let profileModel = profileModel {
+                ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
+                    if let profileViewModel = profileViewModel {
+                        self.configure(with: profileViewModel)
+                        self.onLoadedProfile()
+                    }
+                }
+            }
+        }
+        
+        commonInit()
+    }
+    
     init(userId: String) {
         super.init(nibName: nil, bundle: nil)
         
+        ProfileFirestoreManager.shared.getProfileID(forUserID: userId) { (profileId, error) in
+            if let error = error {
+                print(error)
+            } else if let profileId = profileId {
+                ProfileFirestoreManager.shared.getProfile(forProfileID: profileId) { (profileModel) in
+                    if let profileModel = profileModel {
+                        ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
+                            if let profileViewModel = profileViewModel {
+                                self.configure(with: profileViewModel)
+                                self.onLoadedProfile()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        commonInit()
+    }
+    
+    private func commonInit() {
         view.addSubview(loadingCircle)
         
         loadingCircle.frame.size = CGSize(width: 50, height: 50)
@@ -49,22 +87,6 @@ class NewProfileViewController: UIViewController {
         bottomScrollIndicator.alpha = 0.0
         topScrollIndicator.delegate = self
         bottomScrollIndicator.delegate = self
-        
-        ProfileManager.shared.fetchProfile(userId: userId) { result in
-            switch result {
-            case .success(let profileModel):
-                
-                ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
-                    if let profileViewModel = profileViewModel {
-                        self.configure(with: profileViewModel)
-                        self.onLoadedProfile()
-                    }
-                }
-            case .failure(let error):
-                print(error)
-            }
-        }
-
     }
     
     required init?(coder: NSCoder) {
@@ -131,6 +153,8 @@ class NewProfileViewController: UIViewController {
     // MARK: - Public Functions
     
     public func onLoadedProfile() {
+        loadingCircle.removeFromSuperview()
+        
         guard let userID = viewModel?.userId else {
             return
         }
@@ -296,7 +320,6 @@ class NewProfileViewController: UIViewController {
         
         pageViewController.dataSource = self
         pageViewController.delegate = self
-        
     }
     
     private func willTransitiontoViewController(vc: UIViewController) {
@@ -307,7 +330,7 @@ class NewProfileViewController: UIViewController {
         
         if let collectionVC = vc as? ProfileCollectionViewController, let userId = viewModel?.userId {
             // Configure posts collection
-            FirebaseDownload.getFlowForProfile(userId: userId) { (postModels, error) in
+            PostFirestoreManager.shared.getPostsByUser(userId: userId) { (postModels, error) in
                 if let error = error {
                     print(error)
                 } else if let postModels = postModels {

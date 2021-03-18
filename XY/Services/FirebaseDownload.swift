@@ -69,26 +69,6 @@ class FirebaseDownload {
         }
     }
     
-    static func getFlowForProfile(userId: String, completion: @escaping([PostModel]?, Error?) -> Void) {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.posts)
-            .whereField(FirebaseKeys.PostKeys.author, isEqualTo: userId)
-            .order(by: FirebaseKeys.PostKeys.timestamp, descending: true)
-                    .getDocuments() { snapshot, error in
-            if let error = error {
-                completion(nil, error)
-            }
-            if let documents = snapshot?.documents {
-                var posts: [PostModel] = []
-                for doc in documents {
-                    let newPost = PostModel(from: doc.data(), id: doc.documentID)
-
-                    posts.append(newPost)
-                }
-                completion(posts, nil)
-            }
-        }
-    }
-    
     static func getMoments(completion: @escaping(Result<[MomentModel], Error>) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.moments)
             .order(by: FirebaseKeys.MomentsKeys.timestamp, descending: true)
@@ -116,7 +96,6 @@ class FirebaseDownload {
     
     
     static func getProfile(profileId: String, completion: @escaping(ProfileModel?, Error?) -> Void) {
-
         let profileRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileId)
         profileRef.getDocument() { snapshot, error in
             if let error = error {

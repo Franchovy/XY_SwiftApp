@@ -64,7 +64,8 @@ final class ConversationViewModelBuilder {
             switch result {
             case .success(let profileModel):
                 nickname = profileModel.nickname
-                FirebaseDownload.getImage(imageId: profileModel.profileImageId) { image, error in
+                
+                StorageManager.shared.downloadImage(withImageId: profileModel.profileImageId) { image, error in
                     defer {
                         group.leave()
                     }

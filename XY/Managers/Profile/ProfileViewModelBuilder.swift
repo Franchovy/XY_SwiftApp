@@ -18,8 +18,7 @@ final class ProfileViewModelBuilder {
         
         if fetchingProfileImage {
             group.enter()
-            
-            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { (image, error) in
+            StorageManager.shared.downloadImage(withImageId: profileModel.profileImageId) { (image, error) in
                 defer {
                     group.leave()
                 }
@@ -35,7 +34,7 @@ final class ProfileViewModelBuilder {
         if fetchingCoverImage {
             group.enter()
 
-            FirebaseDownload.getImage(imageId: profileModel.coverImageId) { (image, error) in
+            StorageManager.shared.downloadImage(withImageId: profileModel.coverImageId) { (image, error) in
                 defer {
                     group.leave()
                 }
@@ -50,18 +49,17 @@ final class ProfileViewModelBuilder {
         // Get user model from profile
         if userModel == nil {
             group.enter()
-            FirebaseDownload.getOwnerUser(forProfileId: profileModel.profileId) { (userId, error) in
+            UserFirestoreManager.shared.getUserWithProfileID(profileModel.profileId) { model in
                 defer {
                     group.leave()
                 }
-                if let error = error {
-                    print(error)
-                } else if let userId = userId {
-                    group.enter()
+                if let model = model {
+                    userModel = model
+                    
                     group.enter()
                     
                     // Get relationship type
-                    RelationshipFirestoreManager.shared.getRelationship(with: userId) { (result) in
+                    RelationshipFirestoreManager.shared.getRelationship(with: model.id) { (result) in
                         defer {
                             group.leave()
                         }
@@ -70,21 +68,6 @@ final class ProfileViewModelBuilder {
                             print("Fetched relationship")
                             
                             relationship = model
-                        case .failure(let error):
-                            print(error)
-                        }
-                    }
-                    
-                    // Get user model
-                    UserFirestoreManager.getUser(with: userId) { (result) in
-                        defer {
-                            group.leave()
-                        }
-                        switch result {
-                        case .success(let model):
-                            print("Fetched user model")
-                            
-                            userModel = model
                         case .failure(let error):
                             print(error)
                         }

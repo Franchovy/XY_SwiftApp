@@ -160,13 +160,7 @@ final class ProfileManager {
             
             print("Fetched profileID")
             
-            FirebaseDownload.getProfile(profileId: profileId) { (profileModel, error) in
-                if let error = error {
-                    completion(.failure(error))
-                }
-                
-                print("Fetched profile Model")
-                
+            ProfileFirestoreManager.shared.getProfile(forProfileID: profileId) { profileModel in
                 guard let profileModel = profileModel else {
                     return
                 }

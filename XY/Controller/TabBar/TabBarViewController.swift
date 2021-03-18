@@ -103,7 +103,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-
+        
     }
     
     public func popupPrompt(title: String, message: String, confirmText: String, completion: @escaping(() -> Void)) {
@@ -245,11 +245,11 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-//        if tabBar.selectedItem == item {
-//            if let itemIndex = tabBar.items?.firstIndex(of: item), let viewController = viewControllers?[itemIndex] {
-//                navigationController?.popToViewController(viewController, animated: true)
-//            }
-//        }
+        //        if tabBar.selectedItem == item {
+        //            if let itemIndex = tabBar.items?.firstIndex(of: item), let viewController = viewControllers?[itemIndex] {
+        //                navigationController?.popToViewController(viewController, animated: true)
+        //            }
+        //        }
         
         if eyesMode {
             if tabBar.items?[0] == item {
@@ -275,19 +275,11 @@ extension TabBarViewController: ProfileManagerDelegate {
         if profileId == ProfileManager.shared.ownProfileId {
             selectedIndex = 4
         } else {
-            FirebaseDownload.getOwnerUser(forProfileId: profileId) { userId, error in
-                guard let userId = userId, error == nil else {
-                    print("Error fetching profile with id: \(profileId)")
-                    print(error)
-                    return
-                }
-                
-                let profileVC = NewProfileViewController(userId: userId)
-                profileVC.modalPresentationStyle = .fullScreen
-                profileVC.heroModalAnimationType = .pageIn(direction: .left)
-                self.navigationController?.isNavigationBarHidden = false
-                self.navigationController?.pushViewController(profileVC, animated: true)
-            }
+            let profileVC = NewProfileViewController(profileId: profileId)
+            profileVC.modalPresentationStyle = .fullScreen
+            profileVC.heroModalAnimationType = .pageIn(direction: .left)
+            navigationController?.isNavigationBarHidden = false
+            navigationController?.pushViewController(profileVC, animated: true)
         }
     }
 }
