@@ -774,6 +774,9 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             popupView.sizeToFit()
             self.view.addSubview(popupView)
             popupView.center = self.view.center
+        } else {
+            self.tabBarController?.selectedIndex = 0
+            self.delegate?.cameraViewDidTapCloseButton()
         }
     }
 }
