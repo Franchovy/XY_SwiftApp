@@ -114,35 +114,6 @@ class FirebaseDownload {
         }
     }
     
-    static func getVirals(completion: @escaping(Result<[ViralModel], Error>) -> Void) {
-        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.virals)
-            .order(by: FirebaseKeys.ViralKeys.level, descending: true)
-            .getDocuments { (querySnapshot, error) in
-            if let error = error {
-                completion(.failure(error))
-            }
-            
-            if let querySnapshot = querySnapshot {
-                var virals = [ViralModel]()
-                
-                for doc in querySnapshot.documents {
-                    
-                    let viralModel = ViralModel(
-                        from: doc.data(),
-                        id: doc.documentID
-                    )
-                    if viralModel.lives <= 0 {
-                        continue
-                    }
-                    
-                    virals.append(viralModel)
-                }
-                
-                // Reorder to random and return
-                completion(.success(virals.shuffled()))
-            }
-        }
-    }
     
     static func getProfile(profileId: String, completion: @escaping(ProfileModel?, Error?) -> Void) {
 

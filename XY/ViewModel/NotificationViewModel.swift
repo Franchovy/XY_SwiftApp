@@ -53,7 +53,7 @@ class NotificationViewModel {
             } else if objectType == .post {
                 fetchPost(for: index, postId: model.objectId)
             } else if objectType == .viral {
-                fetchViralData(for: index, viralId: model.objectId)
+                
             }
         } else if type == .swipeLeft || type == .swipeRight {
             if let senderId = model.senderId {
@@ -79,27 +79,6 @@ class NotificationViewModel {
     }
     
     //MARK: - Fetch methods
-    
-    private func fetchViralData(for index: Int, viralId: String) {
-        ViralManager.shared.getViral(forId: viralId) { result in
-            switch result {
-            case .success(let viralData):
-                // Fetch thumbnail
-                StorageManager.shared.downloadThumbnail(withContainerId: viralId, withImageId: viralData.videoRef) { (result) in
-                    switch result {
-                    case .success(let image):
-                        self.previewImage = image
-                        self.delegate?.didFetchPreviewImage(index: index, image: image)
-                    case .failure(let error):
-                        print("Error fetching thumbnail for viral: \(error)")
-                    }
-                }
-            case .failure(let error):
-                print("Error fetching data for viral: \(error)")
-            }
-            
-        }
-    }
     
     private func fetchPost(for index: Int, postId: String) {
         // Fetch swiped post
