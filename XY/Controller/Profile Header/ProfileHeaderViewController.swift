@@ -200,14 +200,7 @@ class ProfileHeaderViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        coverImage.frame = view.bounds.inset(
-            by: UIEdgeInsets(
-                top: view.safeAreaInsets.top,
-                left: 0,
-                bottom: view.safeAreaInsets.bottom,
-                right: 0
-            )
-        )
+        coverImage.frame = view.bounds.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 67, right: 0))
         
         profileCard.frame = CGRect(
             x: 0,
