@@ -9,11 +9,6 @@ import UIKit
 
 class PopupMessageView: UIView {
 
-    enum PopupType {
-        case message(confirmText: String) // Only "OK" type
-        case choice
-    }
-    
     private let titleGradientLabel: GradientLabel
     
     private let descriptionLabel: UILabel = {
@@ -39,19 +34,14 @@ class PopupMessageView: UIView {
     
     private let completion: (() -> Void)
     
-    init(title: String, message: String, type:PopupType, completion: @escaping(() -> Void)) {
+    init(title: String, message: String, confirmText: String, completion: @escaping(() -> Void)) {
         titleGradientLabel = GradientLabel(text: title, fontSize: 22, gradientColours: Global.xyGradient)
         self.completion = completion
         
         super.init(frame: .zero)
         
-        switch type {
-        case .message(let confirmText):
-            confirmButton.setTitle(confirmText, for: .normal)
-            confirmButton.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
-        default:
-            break
-        }
+        confirmButton.setTitle(confirmText, for: .normal)
+        confirmButton.addTarget(self, action: #selector(didTapConfirm), for: .touchUpInside)
         
         descriptionLabel.text = message
         

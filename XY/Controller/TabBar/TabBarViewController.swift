@@ -124,7 +124,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 let popupView = PopupMessageView(
                     title: title,
                     message: message,
-                    type: .message(confirmText: confirmText),
+                    confirmText: confirmText,
                     completion: {
                         UIView.animate(withDuration: 0.2) {
                             blurEffectView.alpha = 0.0

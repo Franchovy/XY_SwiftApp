@@ -164,6 +164,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     // MARK: - Lifecycle
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        reset()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -265,7 +271,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         )
         
         flashCameraButton.frame = CGRect(
-            x: switchCameraButton.left - 26.26 - 22.12,
+            x: switchCameraButton.left - 26.26 - 12.12,
             y: switchCameraButton.top,
             width: 15,
             height: 26.26
@@ -471,7 +477,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             isFrontRecording = true
         }
         movieFileOutput.movieFragmentInterval = .invalid
-        movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
+        
+//        movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
         
         UIView.animate(withDuration: 0.3, animations: {
             self.recordButton.backgroundColor = .red
@@ -500,10 +507,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     private func setUpForChallenge(challenge: ChallengeViewModel) {
         activeChallenge = challenge
         recordButton.isEnabled = true
-        prepareToRecord()
+        prepareToRecord(withChallengeLengthInMinutes: 0.5)
     }
     
-    private func prepareToRecord() {
+    private func prepareToRecord(withChallengeLengthInMinutes lengthInMinutes: Float) {
         // Start timer
         countDownLabel.isHidden = false
         countDownLabel.text = "3"
@@ -511,20 +518,30 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         var countDown = 3
         collectionViewY = self.view.height
         createNewButtonY = -100
+        
+        setTimerText(timeInteger: NSInteger(TimeInterval(lengthInMinutes * 60)))
+        
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn) {
             self.countDownLabel.alpha = 1.0
             self.challengePreviewCollectionView.frame.origin.y = self.view.height
             self.newChallengeButton.frame.origin.y = -100
+            
         } completion: { (done) in
             if done {
+                self.challengeTimerLabel.isHidden = false
+                self.challengeTimerLabel.frame.origin.y = -50
+                
+                UIView.animate(withDuration: 0.3, delay: 2.0) {
+                    self.challengeTimerLabel.frame.origin.y = 32
+                }
+                
                 self.challengePreviewCollectionView.isHidden = true
                 self.newChallengeButton.isHidden = true
                 
                 self.recursiveCountDown(count: countDown) {
                     self.startRecording()
                     self.countDownLabel.alpha = 0.0
-                    self.challengeTimerLabel.isHidden = false
-                    self.startTimer(lengthInMinutes: 1)
+                    self.startTimer(lengthInMinutes: lengthInMinutes)
                 }
             }
         }
@@ -545,9 +562,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     private func startTimer(lengthInMinutes: Float) {
         startTime = Date().timeIntervalSinceReferenceDate
-        print("Start time: \(startTime)")
         endTime = Date().addingTimeInterval(Double(lengthInMinutes * 60))
-        print("End time: \(endTime)")
         
         timer = Timer.scheduledTimer(timeInterval: 0.05,
                                      target: self,
@@ -567,16 +582,20 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             finishedRecording()
         } else {
             let ms = Int(time.truncatingRemainder(dividingBy: 1) * 100)
-            
-            let seconds = ti % 60
-            let minutes = (ti / 60) % 60
-            
-            //Display the time string to a label in our view controller
-            challengeTimerLabel.text = "\(minutes):\(seconds).\(ms)"
+            setTimerText(timeInteger: ti, ms: ms)
         }
         layoutChallengeTimerLabel()
     }
 
+    private func setTimerText(timeInteger: NSInteger, ms: NSInteger = 0) {
+        
+        let seconds = timeInteger % 60
+        let minutes = (timeInteger / 60) % 60
+        
+        //Display the time string to a label in our view controller
+        challengeTimerLabel.text = String(format: "%02d:%02d.%02d", minutes, seconds, ms)
+    }
+    
     private func finishedRecording() {
         didEndRecording()
         
@@ -600,22 +619,11 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         navigationController?.pushViewController(previewVC, animated: true)
     }
     
-    // MARK: - Obj-C functions
-    
-    @objc private func didTapCreateNewChallenge() {
-        recordButton.isEnabled = true
-        prepareToRecord()
-    }
-    
-    @objc private func didTapNext() {
-        readyToPresentPreview = true
-        
-        if outputVideoURL != nil {
-            presentPreviewController()
+    private func reset() {
+        if isBackRecording || isFrontRecording {
+            didEndRecording()
         }
-    }
-    
-    @objc private func didTapRetake() {
+        
         self.challengeTimerLabel.isHidden = true
         self.challengePreviewCollectionView.isHidden = false
         self.newChallengeButton.isHidden = false
@@ -636,6 +644,25 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
                 self.nextButton.isHidden = true
             }
         }
+    }
+    
+    // MARK: - Obj-C functions
+    
+    @objc private func didTapCreateNewChallenge() {
+        recordButton.isEnabled = true
+        prepareToRecord(withChallengeLengthInMinutes: 0.5)
+    }
+    
+    @objc private func didTapNext() {
+        readyToPresentPreview = true
+        
+        if outputVideoURL != nil {
+            presentPreviewController()
+        }
+    }
+    
+    @objc private func didTapRetake() {
+        reset()
     }
     
     @objc private func didTapFlash() {
@@ -733,8 +760,21 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     }
     
     @objc private func didTapClose() {
-        tabBarController?.selectedIndex = 0
-        delegate?.cameraViewDidTapCloseButton()
+        if isBackRecording || isFrontRecording {
+            // Add popup View
+            let popupView = PopupWarningView(
+                title: "Quit Challenge?",
+                buttonText: "Quit 😢",
+                completion: {
+                    self.tabBarController?.selectedIndex = 0
+                    self.delegate?.cameraViewDidTapCloseButton()
+                }
+            )
+            
+            popupView.sizeToFit()
+            self.view.addSubview(popupView)
+            popupView.center = self.view.center
+        }
     }
 }
 
