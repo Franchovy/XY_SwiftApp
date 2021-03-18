@@ -43,6 +43,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
             }
             self.setUpFirstVideo()
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,7 +76,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
                 }
                 
                 TabBarViewController.instance.popupPrompt(title: "Welcome to XY!", message: "Hi from XY’s team. We created XY to allow you to express yourself and to be pro-active for the world we live in. XY is played through challenges and we really don’t want to be suited because you’ll do dumb things, so, be brave but wise, scale the ranking and have fun!", confirmText: "I'm wise", completion: {
-                    UserDefaults.standard.setValue(nil, forKey: "introMessageSeen")
+                    UserDefaults.standard.setValue(true, forKey: "introMessageSeen")
                 })
                 
             }
