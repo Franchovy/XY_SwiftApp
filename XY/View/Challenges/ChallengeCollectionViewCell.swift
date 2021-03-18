@@ -23,17 +23,20 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     }()
     
     private var challengeTitleGradientLabel: GradientLabel?
-    private let playButton: GradientBorderButtonWithShadow = {
+    private let viewButton: GradientBorderButtonWithShadow = {
        let button = GradientBorderButtonWithShadow()
         button.setTitle("View", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
         button.setTitleColor(.white, for: .normal)
-        button.setBackgroundColor(color: .black)
+        button.setBackgroundColor(color: .clear)
         button.setGradient(Global.xyGradient)
+        button.hasShadow = false
         return button
     }()
     
     private var videoView: VideoPlayerView?
+    private var thumbnailView = UIImageView()
+    
     private var challengeViewModel: ChallengeViewModel?
     private var challengeVideoViewModel: ChallengeVideoViewModel?
     
@@ -44,17 +47,17 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
     
         contentView.addSubview(creatorNameLabel)
-        contentView.addSubview(playButton)
+        contentView.addSubview(viewButton)
         
-        layer.shadowRadius = 6
-        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.shadowRadius = 1
+        layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
         layer.shadowOpacity = 1.0
         layer.shadowColor = UIColor.black.cgColor
 
         layer.masksToBounds = false
         clipsToBounds = false
         
-        playButton.addTarget(self, action: #selector(didTapView), for: .touchUpInside)
+        viewButton.addTarget(self, action: #selector(didTapView), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -83,7 +86,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         }
         
         let playButtonSize = CGSize(width: 66.7, height: 22)
-        playButton.frame = CGRect(
+        viewButton.frame = CGRect(
             x: (width - playButtonSize.width)/2,
             y: height - 6.1 - playButtonSize.height,
             width: playButtonSize.width,
@@ -108,10 +111,21 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: viewModel.category.getGradient())
         contentView.addSubview(challengeTitleGradientLabel)
         
+        challengeTitleGradientLabel.layer.shadowRadius = 3
+        challengeTitleGradientLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
+        challengeTitleGradientLabel.layer.shadowOpacity = 1.0
+        challengeTitleGradientLabel.layer.shadowColor = UIColor.black.cgColor
+        
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)
         self.challengeTitleGradientLabel = challengeTitleGradientLabel
         
         creatorNameLabel.text = "@\(viewModel.creator.nickname)"
+        
+        contentView.addSubview(thumbnailView)
+        thumbnailView.frame = bounds
+        thumbnailView.image = videoViewModel.thumbnailImage
+        thumbnailView.layer.cornerRadius = 2
+        thumbnailView.layer.masksToBounds = true
         
         let videoView = VideoPlayerView()
         contentView.insertSubview(videoView, at: 0)
@@ -122,7 +136,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         }
         self.videoView = videoView
         
-        videoView.layer.cornerRadius = 15
+        videoView.layer.cornerRadius = 2
         videoView.layer.masksToBounds = true
         
         layoutSubviews()

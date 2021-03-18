@@ -15,4 +15,5 @@ struct ChallengeVideoViewModel {
     var caption: String?
     var gradient: [UIColor]?
     var creator: ProfileModel?
+    var thumbnailImage: UIImage?
 }

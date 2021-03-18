@@ -25,6 +25,7 @@ class GradientBorderButtonWithShadow: UIButton {
         return shape
     }()
     
+    var hasShadow = true
     private var shadowLayer: CAShapeLayer!
     
     private var bgColor: UIColor?
@@ -50,18 +51,20 @@ class GradientBorderButtonWithShadow: UIButton {
         shape.fillColor = UIColor.clear.cgColor
         gradientLayer.mask = shape
         
-        if shadowLayer == nil {
-            shadowLayer = CAShapeLayer()
-            layer.insertSublayer(shadowLayer, at: 0)
-        }
-        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
-        shadowLayer.fillColor = bgColor?.cgColor ?? UIColor.clear.cgColor
+        if hasShadow {
+            if shadowLayer == nil {
+                shadowLayer = CAShapeLayer()
+                layer.insertSublayer(shadowLayer, at: 0)
+            }
+            shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
+            shadowLayer.fillColor = bgColor?.cgColor ?? UIColor.clear.cgColor
 
-        shadowLayer.shadowColor = UIColor.black.cgColor
-        shadowLayer.shadowPath = shadowLayer.path
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3.0)
-        shadowLayer.shadowOpacity = 0.8
-        shadowLayer.shadowRadius = 6
+            shadowLayer.shadowColor = UIColor.black.cgColor
+            shadowLayer.shadowPath = shadowLayer.path
+            shadowLayer.shadowOffset = CGSize(width: 0, height: 3.0)
+            shadowLayer.shadowOpacity = 0.8
+            shadowLayer.shadowRadius = 6
+        }
     }
     
     public func setGradient(_ colours: [UIColor]) {

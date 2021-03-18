@@ -9,44 +9,18 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate {
+class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout {
     
     private var collectionView: UICollectionView = {
-        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: .init(widthDimension: .fractionalWidth(0.9), heightDimension: .estimated(90)),
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .topLeading
-        )
-        sectionHeader.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 15, trailing: 0)
-        
-        let item = NSCollectionLayoutItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .absolute(130),
-                heightDimension: .absolute(190)
-            )
-        )
-        
-        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 5, bottom: 10, trailing: 5)
-        
-        let group = NSCollectionLayoutGroup.horizontal(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(175)
-            ),
-            subitems: [item]
-        )
-        
-        let sectionLayout = NSCollectionLayoutSection(group: group)
-        sectionLayout.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10)
-        sectionLayout.boundarySupplementaryItems = [sectionHeader]
-        sectionLayout.orthogonalScrollingBehavior = .continuous
-        
-        let layout = UICollectionViewCompositionalLayout(section: sectionLayout)
-        
-        layout.configuration.scrollDirection = .vertical
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 1.6
+        layout.minimumLineSpacing = 1.2
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
+        
+        collectionView.alwaysBounceVertical = true
         
         collectionView.register(CategorySectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CategorySectionReusableView.identifier)
         collectionView.register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
@@ -60,6 +34,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         button.setTitleColor(.white, for: .normal)
         button.setBackgroundColor(color: .black)
         button.setGradient(Global.xyGradient)
+        button.alpha = 0.8
         return button
     }()
     
@@ -105,10 +80,10 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         categories = [.xyChallenges, .playerChallenges]
         
-        for category in categories {
-            
+//        for category in categories {
+        if let category = categories.last {
             ChallengesFirestoreManager.shared.getChallengesAndVideos(
-                limitTo: 3,
+                limitTo: 12,
                 category: category
             ) { (pairs) in
                 if let pairs = pairs {
@@ -144,6 +119,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         
         collectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
         
@@ -186,8 +162,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
                 var viewModels = self.sections.last!.1
                 
                 for (model, videoModel) in pairs {
-                    
-                    ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model) { (viewModelPair) in
+                    ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model, withThumbnailImage: true) { (viewModelPair) in
                         if let viewModelPair = viewModelPair {
                             viewModels.append(viewModelPair)
                             
@@ -226,11 +201,11 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     // MARK: - CollectionView functions
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return sections.count
+        return 1 //sections.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return sections[section].1.count
+        return sections[section].1.count //sections[section].1.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -283,9 +258,15 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         cell.heroID = "vid"
         
         vc.hidesBottomBarWhenPushed = true
-//        vc.heroModalAnimationType = .pageIn(direction: .left)
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                                layout collectionViewLayout: UICollectionViewLayout,
+                                sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let horizontalSize = view.width / 3 - 1.6
+        return CGSize(width: horizontalSize, height: horizontalSize * 1.626)
     }
 }
 

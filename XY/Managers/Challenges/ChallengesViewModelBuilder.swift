@@ -5,7 +5,7 @@
 //  Created by Maxime Franchot on 09/03/2021.
 //
 
-import Foundation
+import UIKit
 
 final class ChallengesViewModelBuilder {
     
@@ -34,7 +34,7 @@ final class ChallengesViewModelBuilder {
         }
     }
     
-    static func buildChallengeAndVideo(from model: ChallengeVideoModel, challengeModel: ChallengeModel, completion: @escaping((ChallengeViewModel, ChallengeVideoViewModel)?) -> Void) {
+    static func buildChallengeAndVideo(from model: ChallengeVideoModel, challengeModel: ChallengeModel, withThumbnailImage: Bool = false, completion: @escaping((ChallengeViewModel, ChallengeVideoViewModel)?) -> Void) {
         let dispatchGroup = DispatchGroup()
         
         dispatchGroup.enter()
@@ -42,6 +42,7 @@ final class ChallengesViewModelBuilder {
         
         var videoURL: URL?
         var creatorProfile: ProfileModel?
+        var videoThumbnail: UIImage?
         
         StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: nil) { (result) in
             defer {
@@ -53,6 +54,22 @@ final class ChallengesViewModelBuilder {
                 videoURL = url
             case .failure(let error):
                 print(error)
+            }
+        }
+        
+        if withThumbnailImage {
+            dispatchGroup.enter()
+            
+            StorageManager.shared.downloadImage(
+                withImageId: model.videoRef.replacingOccurrences(of: ".mov", with: "_thumbnail.jpeg")) { (image, error) in
+                defer {
+                    dispatchGroup.leave()
+                }
+                if let error = error {
+                    print(error)
+                } else if let image = image {
+                    videoThumbnail = image
+                }
             }
         }
         
@@ -95,7 +112,8 @@ final class ChallengesViewModelBuilder {
                     description: challengeModel.description,
                     caption: model.caption,
                     gradient: challengeModel.category.getGradient(),
-                    creator: creatorProfile
+                    creator: creatorProfile,
+                    thumbnailImage: videoThumbnail
                 )
                 
                 completion((challengeViewModel, challengeVideoViewModel))
