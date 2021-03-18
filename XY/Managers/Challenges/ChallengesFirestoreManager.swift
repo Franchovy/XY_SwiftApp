@@ -217,25 +217,31 @@ final class ChallengesFirestoreManager {
                     print(error)
                 } else if let querySnapshot = querySnapshot {
                     
-                    var pairs = [(ChallengeModel, ChallengeVideoModel)]()
-                    for videoDocument in querySnapshot.documents {
+                    let group = DispatchGroup()
+                    
+                    var pairs = [(ChallengeModel, ChallengeVideoModel)?](repeating: nil, count: querySnapshot.count)
+                    for (index, videoDocument) in querySnapshot.documents.enumerated() {
                         let videoModel = self.videoFromDocument(document: videoDocument)
                         
+                        group.enter()
                         videoDocument.reference.parent.parent?.getDocument() { (snapshot, error) in
+                            defer {
+                                group.leave()
+                            }
                             if let error = error {
                                 print(error)
                             } else if let snapshot = snapshot {
                                 let challengeModel = self.challengeFromDocument(document: snapshot)
                                 
                                 if let videoModel = videoModel, let challengeModel = challengeModel {
-                                    pairs.append((challengeModel, videoModel))
-                                }
-                                
-                                if pairs.count == querySnapshot.count {
-                                    completion(pairs)
+                                    pairs[index] = (challengeModel, videoModel)
                                 }
                             }
                         }
+                    }
+                    
+                    group.notify(queue: .main) {
+                        completion(pairs.compactMap { $0 })
                     }
                 }
             }
