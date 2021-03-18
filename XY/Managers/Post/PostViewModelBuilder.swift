@@ -32,7 +32,7 @@ final class PostViewModelBuilder {
                 profileModel = model
                 group.enter()
                 
-                ProfileViewModelBuilder.build(with: model) { (profileViewModel) in
+                ProfileViewModelBuilder.build(with: model, fetchingCoverImage: false) { (profileViewModel) in
                     defer {
                         group.leave()
                     }

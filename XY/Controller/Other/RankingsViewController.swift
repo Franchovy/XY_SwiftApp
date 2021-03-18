@@ -49,7 +49,6 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        
         view.backgroundColor = UIColor(named: "Black")
         
         view.layer.insertSublayer(shadowLayer, at: 0)

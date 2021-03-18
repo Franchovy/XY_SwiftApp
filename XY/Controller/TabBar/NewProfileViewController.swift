@@ -50,14 +50,12 @@ class NewProfileViewController: UIViewController {
         topScrollIndicator.delegate = self
         bottomScrollIndicator.delegate = self
         
-        print("Start fetch")
         ProfileManager.shared.fetchProfile(userId: userId) { result in
             switch result {
             case .success(let profileModel):
-                print("Test 1")
+                
                 ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
                     if let profileViewModel = profileViewModel {
-                        print("done")
                         self.configure(with: profileViewModel)
                         self.onLoadedProfile()
                     }

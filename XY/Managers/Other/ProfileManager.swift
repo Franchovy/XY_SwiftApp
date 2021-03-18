@@ -125,7 +125,7 @@ final class ProfileManager {
                 } else if let snapshot = snapshot, let data = snapshot.data() {
                     let model = ProfileModel(data: data, id: snapshot.documentID)
                     
-                    ProfileViewModelBuilder.build(with: model) { (viewModel) in
+                    ProfileViewModelBuilder.build(with: model, fetchingProfileImage: false, fetchingCoverImage: false) { (viewModel) in
                         if let viewModel = viewModel {
                             callback(viewModel)
                         }

@@ -237,7 +237,7 @@ class VideoViewController: UIViewController {
         // Request nickname for this user
         if let profileModel = challengeVideoViewModel.creator {
             
-            ProfileViewModelBuilder.build(with: profileModel) { (profileViewModel) in
+            ProfileViewModelBuilder.build(with: profileModel, fetchingCoverImage: false) { (profileViewModel) in
                 if let profileViewModel = profileViewModel {
                     self.profileBubble.configure(with: profileViewModel, followButtonPos: .forVideo)
                     

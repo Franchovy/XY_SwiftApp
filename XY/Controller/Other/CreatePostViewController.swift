@@ -150,7 +150,7 @@ class CreatePostViewController: UIViewController, UITextViewDelegate, UIImagePic
         PostFirestoreManager.shared.uploadPost(with: text, image: image) { (result) in
             switch result {
             case .success(let postViewModel):
-                navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 print(error)
             }

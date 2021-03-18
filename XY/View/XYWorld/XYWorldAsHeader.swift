@@ -105,7 +105,6 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -152,6 +151,7 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
             if userId == ownUserId {
                 continue
             }
+            
             let viewModel = ProfileViewModel(profileId: profileId, userId: userId)
             
             self.onlineNowUsers.append(viewModel)

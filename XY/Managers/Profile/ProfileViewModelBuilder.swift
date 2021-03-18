@@ -8,76 +8,103 @@
 import UIKit
 
 final class ProfileViewModelBuilder {
-    static func build(with profileModel: ProfileModel, completion: @escaping(NewProfileViewModel?) -> Void) {
+    
+    static func build(with profileModel: ProfileModel, withUserModel userModel: UserModel? = nil, fetchingProfileImage: Bool = true, fetchingCoverImage: Bool = true, completion: @escaping(NewProfileViewModel?) -> Void) {
         var profileImage: UIImage?
         var coverImage: UIImage?
-        var userModel: UserModel?
         var relationship: Relationship?
-        
+        var userModel = userModel
         let group = DispatchGroup()
-        group.enter()
-        group.enter()
-        group.enter()
-        group.enter()
         
-        // Fetch profile Image
-        FirebaseDownload.getImage(imageId: profileModel.profileImageId) { (image, error) in
-            defer {
-                group.leave()
-            }
-            if let error = error {
-                print(error)
-            } else if let image = image {
-                profileImage = image
-            }
-        }
-        // Fetch cover Image
-        FirebaseDownload.getImage(imageId: profileModel.coverImageId) { (image, error) in
-            defer {
-                group.leave()
-            }
-            if let error = error {
-                print(error)
-            } else if let image = image {
-                coverImage = image
+        if fetchingProfileImage {
+            group.enter()
+            
+            FirebaseDownload.getImage(imageId: profileModel.profileImageId) { (image, error) in
+                defer {
+                    group.leave()
+                }
+                if let error = error {
+                    print(error)
+                } else if let image = image {
+                    print("Fetched profile image")
+                    profileImage = image
+                }
             }
         }
+        
+        if fetchingCoverImage {
+            group.enter()
+
+            FirebaseDownload.getImage(imageId: profileModel.coverImageId) { (image, error) in
+                defer {
+                    group.leave()
+                }
+                if let error = error {
+                    print(error)
+                } else if let image = image {
+                    coverImage = image
+                }
+            }
+        }
+        
         // Get user model from profile
-        FirebaseDownload.getOwnerUser(forProfileId: profileModel.profileId) { (userId, error) in
-            if let error = error {
-                print(error)
-                group.leave()
-                group.leave()
-            } else if let userId = userId {
-                
-                // Get relationship type
-                RelationshipFirestoreManager.shared.getRelationship(with: userId) { (result) in
-                    defer {
-                        group.leave()
+        if userModel == nil {
+            group.enter()
+            FirebaseDownload.getOwnerUser(forProfileId: profileModel.profileId) { (userId, error) in
+                defer {
+                    group.leave()
+                }
+                if let error = error {
+                    print(error)
+                } else if let userId = userId {
+                    group.enter()
+                    group.enter()
+                    
+                    // Get relationship type
+                    RelationshipFirestoreManager.shared.getRelationship(with: userId) { (result) in
+                        defer {
+                            group.leave()
+                        }
+                        switch result {
+                        case .success(let model):
+                            print("Fetched relationship")
+                            
+                            relationship = model
+                        case .failure(let error):
+                            print(error)
+                        }
                     }
-                    switch result {
-                    case .success(let model):
-                        relationship = model
-                    case .failure(let error):
-                        print(error)
+                    
+                    // Get user model
+                    UserFirestoreManager.getUser(with: userId) { (result) in
+                        defer {
+                            group.leave()
+                        }
+                        switch result {
+                        case .success(let model):
+                            print("Fetched user model")
+                            
+                            userModel = model
+                        case .failure(let error):
+                            print(error)
+                        }
                     }
                 }
-                
-                // Get user model
-                UserFirestoreManager.getUser(with: userId) { (result) in
-                    defer {
-                        group.leave()
-                    }
-                    switch result {
-                    case .success(let model):
-                        userModel = model
-                    case .failure(let error):
-                        print(error)
-                    }
+            }
+        } else if let userModel = userModel {
+            // Get relationship type
+            RelationshipFirestoreManager.shared.getRelationship(with: userModel.id) { (result) in
+                defer {
+                    group.leave()
                 }
-            } else {
-                group.leave()
-                group.leave()
+                switch result {
+                case .success(let model):
+                    print("Fetched relationship")
+                    
+                    relationship = model
+                case .failure(let error):
+                    print(error)
+                }
             }
         }
         
