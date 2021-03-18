@@ -114,7 +114,32 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
         
         let titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
+        
+        let tripleTapGesture = UITapGestureRecognizer(target: self, action: #selector(tripleTapDebugOp(_:)))
+        tripleTapGesture.numberOfTapsRequired = 3
+        titleView.addGestureRecognizer(tripleTapGesture)
+        titleView.isUserInteractionEnabled = true
         navigationItem.titleView = titleView
+        
+    }
+    
+    // DEBUG STUFF
+    @objc private func tripleTapDebugOp(_ gestureRecognizer: UIGestureRecognizer) {
+        if let view = gestureRecognizer.view {
+            UIView.animate(withDuration: 0.3) {
+                view.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            } completion: { (done) in
+                if done {
+                    UIView.animate(withDuration: 0.3) {
+                        view.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                    }
+                }
+            }
+        }
+        
+        UserDefaults.standard.setValue(nil, forKey: "introMessageSeen")
+        
+    
     }
     
     override func viewDidLayoutSubviews() {
