@@ -87,8 +87,6 @@ class NewProfileViewController: UIViewController {
         bottomScrollIndicator.alpha = 0.0
         topScrollIndicator.delegate = self
         bottomScrollIndicator.delegate = self
-        
-        
     }
     
     required init?(coder: NSCoder) {

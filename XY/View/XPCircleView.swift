@@ -34,7 +34,7 @@ class XPCircleView: UIView {
     
     let glowShadowLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.strokeColor = UIColor.green.cgColor
+        layer.strokeColor = UIColor.black.cgColor
         layer.fillColor = UIColor.clear.cgColor
         layer.lineCap = .round
         layer.lineWidth = 9.0
@@ -46,6 +46,13 @@ class XPCircleView: UIView {
         return layer
     }()
     
+    let label:UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Heavy", size: 15)
+        label.textColor = UIColor(named: "XYTint")
+        return label
+    }()
+    
     private var xpProgress:CGFloat = 0.0
     
     init() {
@@ -54,6 +61,7 @@ class XPCircleView: UIView {
         layer.addSublayer(glowShadowLayer)
         layer.addSublayer(backgroundLayer)
         layer.addSublayer(progressLayer)
+        addSubview(label)
     }
     
     required init?(coder: NSCoder) {
@@ -75,10 +83,57 @@ class XPCircleView: UIView {
         
         let circlePath = UIBezierPath(arcCenter: CGPoint(x: width/2, y: height/2), radius: radius, startAngle: -.pi / 2, endAngle: 3 * .pi / 2, clockwise: true)
         backgroundLayer.path = circlePath.cgPath
+        
+        layoutLabel()
+    }
+    
+    private func layoutLabel() {
+        label.sizeToFit()
+        label.frame = CGRect(
+            x: (width - label.width)/2,
+            y: (height - label.height)/2 * 0.6,
+            width: label.width,
+            height: label.height
+        )
+    }
+    
+    enum Thickness {
+        case thin
+        case medium
+        case thick
+    }
+    
+    public func setColor(_ color: UIColor) {
+        glowShadowLayer.shadowColor = color.cgColor
+        glowShadowLayer.strokeColor = color.cgColor
+        progressLayer.strokeColor = color.cgColor
+    }
+    
+    public func setThickness(_ thickness: Thickness) {
+        switch thickness {
+        case .thin:
+            backgroundLayer.lineWidth = 2.5
+            progressLayer.lineWidth = 4.0
+            glowShadowLayer.lineWidth = 4.0
+        case .medium:
+            backgroundLayer.lineWidth = 1.0
+            progressLayer.lineWidth = 2.0
+            glowShadowLayer.lineWidth = 2.8
+        case .thick:
+            backgroundLayer.lineWidth = 2.0
+            progressLayer.lineWidth = 4.0
+            glowShadowLayer.lineWidth = 5.0
+        }
     }
     
     func configure(xpModel: XPModel) {
         
+    }
+    
+    public func setLabel(_ text: String) {
+        label.text = text
+        
+        layoutLabel()
     }
     
     public func setProgress(_ progress: CGFloat) {

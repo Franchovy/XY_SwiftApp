@@ -127,7 +127,7 @@ final class ProfileManager {
                     
                     ProfileViewModelBuilder.build(with: model, fetchingProfileImage: false, fetchingCoverImage: false) { (viewModel) in
                         if let viewModel = viewModel {
-                            callback(viewModel)
+//                            callback(viewModel)
                         }
                     }
                 }

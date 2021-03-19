@@ -20,6 +20,7 @@ struct NewProfileViewModel {
     var xp: Int
     var level: Int
     var xyname: String
+    var rank: Int?
     var userId: String
     var profileId: String
 }

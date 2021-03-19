@@ -53,7 +53,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
             rootViewController: XYworldVC()
         )
         let nav5 = UINavigationController(
-            rootViewController: NewProfileViewController(userId: userId)
+            rootViewController: ProfileViewController2(userId: userId)
         )
         setViewControllers([nav1, nav2, nav3, nav4, nav5], animated: false)
         

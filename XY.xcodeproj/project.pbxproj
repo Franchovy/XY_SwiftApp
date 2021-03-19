@@ -182,6 +182,7 @@
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
 		B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */; };
 		B9FEFF952604AF4400313BA1 /* ButtonChoicePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */; };
+		B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -382,6 +383,7 @@
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
 		B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCard.swift; sourceTree = "<group>"; };
 		B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonChoicePrompt.swift; sourceTree = "<group>"; };
+		B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController2.swift; sourceTree = "<group>"; };
 		DE83AA41076DD5C25678000C /* Pods_XY.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XY.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XYTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -497,6 +499,7 @@
 				B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */,
 				B905878426048D8C00B8C9E7 /* EditProfileViewController.swift */,
 				B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */,
+				B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -1200,6 +1203,7 @@
 				B9B0C07425FDE938003DA5CB /* XYWorldAsHeader.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */,
+				B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */,
 				B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */,
 				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,

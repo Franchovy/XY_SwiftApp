@@ -14,6 +14,8 @@ final class ProfileViewModelBuilder {
         var coverImage: UIImage?
         var relationship: Relationship?
         var userModel = userModel
+        var ranking: Int?
+        
         let group = DispatchGroup()
         
         if fetchingProfileImage {
@@ -57,8 +59,6 @@ final class ProfileViewModelBuilder {
                     userModel = model
                     
                     group.enter()
-                    
-                    // Get relationship type
                     RelationshipFirestoreManager.shared.getRelationship(with: model.id) { (result) in
                         defer {
                             group.leave()
@@ -72,9 +72,20 @@ final class ProfileViewModelBuilder {
                             print(error)
                         }
                     }
+                    
+                    group.enter()
+                    RankingFirestoreManager.shared.getRanking(for: model.id) { (rankingNumber) in
+                        defer {
+                            group.leave()
+                        }
+                        if let rankingNumber = rankingNumber {
+                            ranking = rankingNumber
+                        }
+                    }
                 }
             }
         } else if let userModel = userModel {
+            group.enter()
             // Get relationship type
             RelationshipFirestoreManager.shared.getRelationship(with: userModel.id) { (result) in
                 defer {
@@ -87,6 +98,16 @@ final class ProfileViewModelBuilder {
                     relationship = model
                 case .failure(let error):
                     print(error)
+                }
+            }
+            
+            group.enter()
+            RankingFirestoreManager.shared.getRanking(for: userModel.id) { (rankingNumber) in
+                defer {
+                    group.leave()
+                }
+                if let rankingNumber = rankingNumber {
+                    ranking = rankingNumber
                 }
             }
         }
@@ -106,6 +127,7 @@ final class ProfileViewModelBuilder {
                 xp: userModel?.xp ?? profileModel.xp,
                 level: userModel?.level ?? profileModel.level,
                 xyname: userModel?.xyname ?? "",
+                rank: ranking,
                 userId: userModel?.id ?? "",
                 profileId: profileModel.profileId
             )
