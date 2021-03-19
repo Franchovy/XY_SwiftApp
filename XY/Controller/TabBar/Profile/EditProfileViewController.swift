@@ -11,13 +11,14 @@ class EditProfileViewController: UIViewController {
 
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .red
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
     
     private let nicknameTextField: TextFieldCard = {
         let textField = TextFieldCard()
-        textField.text = "AAAAAa"
         textField.textColor = UIColor(named: "XYTint")
         textField.font = UIFont(name: "Raleway-Heavy", size: 25)
         textField.backgroundColor = UIColor(named: "XYCard")
@@ -40,6 +41,11 @@ class EditProfileViewController: UIViewController {
         view.addSubview(profileImage)
         view.addSubview(nicknameTextField)
         view.addSubview(captionTextView)
+        
+        profileImage.isUserInteractionEnabled = true
+        profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage)))
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere)))
     }
     
     required init?(coder: NSCoder) {
@@ -49,6 +55,12 @@ class EditProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        navigationItem.title = "Edit Profile"
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
         let profileImageSize:CGFloat = 110
         profileImage.frame = CGRect(
             x: (view.width - profileImageSize)/2,
@@ -75,6 +87,41 @@ class EditProfileViewController: UIViewController {
     }
     
     public func configure() {
+        guard let profileModel = ProfileManager.shared.ownProfile else {
+            return
+        }
+        ProfileViewModelBuilder.build(
+            with: profileModel,
+            fetchingProfileImage: true,
+            fetchingCoverImage: false) { (profileViewModel) in
+            if let profileViewModel = profileViewModel {
+                self.captionTextView.setText(profileViewModel.caption)
+                self.nicknameTextField.setText(profileViewModel.nickname)
+                self.profileImage.image = profileViewModel.profileImage
+            }
+        }
+    }
+    
+    @objc private func didTapProfileImage() {
+        let prompt = ButtonChoicePrompt()
+        prompt.addButton(
+            buttonText: "Take photo",
+            buttonIcon: UIImage(systemName: "camera.fill")) {
+            print("Take photo")
+        }
+        prompt.addButton(
+            buttonText: "Choose from library",
+            buttonIcon: UIImage(systemName: "photo.on.rectangle.angled")) {
+            print("Choose from library")
+        }
+        view.addSubview(prompt)
         
+        prompt.sizeToFit()
+        prompt.center = view.center
+    }
+    
+    @objc private func didTapAnywhere() {
+        nicknameTextField.resignFirstResponder()
+        captionTextView.resignFirstResponder()
     }
 }

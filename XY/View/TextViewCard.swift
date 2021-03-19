@@ -85,6 +85,13 @@ class TextViewCard: UITextView, UITextViewDelegate {
         setPlaceholderActive(true)
     }
     
+    public func setText(_ text: String) {
+        setPlaceholderActive(false)
+        
+        self.text = text
+        didChangeText()
+    }
+    
     private func setPlaceholderActive(_ active: Bool) {
         if active {
             if self.text == "" {

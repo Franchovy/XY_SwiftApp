@@ -181,6 +181,7 @@
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
 		B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */; };
+		B9FEFF952604AF4400313BA1 /* ButtonChoicePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -380,6 +381,7 @@
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
 		B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCard.swift; sourceTree = "<group>"; };
+		B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonChoicePrompt.swift; sourceTree = "<group>"; };
 		DE83AA41076DD5C25678000C /* Pods_XY.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XY.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XYTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -428,6 +430,7 @@
 				B9BF8BED26023A670057210C /* PopupMessageView.swift */,
 				B93D284D26039B3700F590BE /* PopupWarningView.swift */,
 				B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */,
+				B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */,
 				B905878826048EC600B8C9E7 /* TextViewCard.swift */,
 			);
 			path = View;
@@ -1212,6 +1215,7 @@
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
 				B9B74D8F25F037870083D69A /* RankingTableViewCell.swift in Sources */,
 				B9B0C05525FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift in Sources */,
+				B9FEFF952604AF4400313BA1 /* ButtonChoicePrompt.swift in Sources */,
 				B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */,
 				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,

@@ -78,17 +78,21 @@ class TextFieldCard: UITextField, UITextFieldDelegate {
         self.maxChars = maxChars
     }
     
+    public func setText(_ text: String) {
+        self.text = text
+        didChangeText()
+    }
+    
     func textFieldDidChangeSelection(_ textField: UITextField) {
+        didChangeText()
+    }
+    
+    private func didChangeText() {
         let centerPoint = center
         sizeToFit()
         UIView.animate(withDuration: 0.1) {
             self.center = centerPoint
         }
-        
-        didChangeText()
-    }
-    
-    private func didChangeText() {
         
         if let maxChars = maxChars, text != nil {
             
