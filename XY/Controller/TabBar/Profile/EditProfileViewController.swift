@@ -34,6 +34,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     }()
     
     private var prompt: ButtonChoicePrompt?
+    var onClose: (() -> Void)?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -77,6 +78,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
+        onClose?()
     }
     
     override func viewDidLayoutSubviews() {

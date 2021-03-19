@@ -526,6 +526,17 @@ class ProfileViewController2: UIViewController {
     @objc private func didTapEditButton() {
         let vc = EditProfileViewController()
         vc.configure()
+        vc.onClose = {
+            guard let ownProfile = ProfileManager.shared.ownProfile else {
+                return
+            }
+            ProfileViewModelBuilder.build(with: ownProfile, withUserModel: nil, fetchingProfileImage: true, fetchingCoverImage: false) { (profileViewModel) in
+                if let profileViewModel = profileViewModel {
+                    self.configure(with: profileViewModel)
+                }
+            }
+        }
+        
         navigationController?.pushViewController(vc, animated: true)
     }
     
