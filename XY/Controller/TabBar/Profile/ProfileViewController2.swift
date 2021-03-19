@@ -22,11 +22,14 @@ class ProfileViewController2: UIViewController {
         layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 1.6
         layout.minimumLineSpacing = 1.2
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
         collectionView.isScrollEnabled = false
+        collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+
         
         collectionView.register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
         return collectionView
@@ -126,7 +129,7 @@ class ProfileViewController2: UIViewController {
         return label
     }()
     
-    private let descriptionLabel: UILabel = {
+    private let captionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 10)
         label.textColor = UIColor(named: "XYWhite")
@@ -200,7 +203,7 @@ class ProfileViewController2: UIViewController {
     private func commonInit() {
         view.addSubview(loadingCircle)
         
-        coverImageView.layer.cornerRadius = 5
+    
         coverImageView.layer.masksToBounds = true
         
         collectionView.delegate = self
@@ -242,14 +245,13 @@ class ProfileViewController2: UIViewController {
         scrollView.addSubview(numRankLabel)
         scrollView.addSubview(rankLabel)
         
-        scrollView.addSubview(descriptionLabel)
-        
+        scrollView.addSubview(captionLabel)
         scrollView.addSubview(collectionView)
                 
         settingsButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
         
-        collectionView.backgroundColor = .black
+        collectionView.backgroundColor = UIColor(named: "Black")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -300,18 +302,18 @@ class ProfileViewController2: UIViewController {
             height: view.width * 1.675
         )
         
-        descriptionLabel.sizeToFit()
-        descriptionLabel.frame = CGRect(
-            x: (view.width - descriptionLabel.width)/2,
-            y: coverImageView.bottom - 5 - descriptionLabel.height,
-            width: descriptionLabel.width,
-            height: descriptionLabel.height
+        captionLabel.sizeToFit()
+        captionLabel.frame = CGRect(
+            x: (view.width - captionLabel.width)/2,
+            y: coverImageView.bottom - 5 - captionLabel.height,
+            width: captionLabel.width,
+            height: captionLabel.height
         )
         
         subscribersLabel.sizeToFit()
         subscribersLabel.frame = CGRect(
             x: view.width/2 - 50 - subscribersLabel.width/2,
-            y: descriptionLabel.top - 6 - subscribersLabel.height,
+            y: captionLabel.top - 6 - subscribersLabel.height,
             width: subscribersLabel.width,
             height: subscribersLabel.height
         )
@@ -319,7 +321,7 @@ class ProfileViewController2: UIViewController {
         rankLabel.sizeToFit()
         rankLabel.frame = CGRect(
             x: view.width/2 + 50,
-            y: descriptionLabel.top - 6 - rankLabel.height,
+            y: captionLabel.top - 6 - rankLabel.height,
             width: rankLabel.width,
             height: rankLabel.height
         )
@@ -388,7 +390,7 @@ class ProfileViewController2: UIViewController {
             x: 0,
             y: coverImageView.height - gradientLayerHeight,
             width: view.width,
-            height: gradientLayerHeight
+            height: gradientLayerHeight + 10
         )
         
         collectionView.frame = CGRect(
@@ -403,6 +405,8 @@ class ProfileViewController2: UIViewController {
     
     // MARK: - Public Functions
     
+    
+    var fetchingVideos = false
     public func configure(with viewModel: NewProfileViewModel) {
         self.viewModel = viewModel
         numSubscribersLabel.text = String(describing: viewModel.numFollowers)
@@ -412,39 +416,46 @@ class ProfileViewController2: UIViewController {
         rankLabel.text = "Rank"
         
         nicknameLabel.text = viewModel.nickname
-        descriptionLabel.text = viewModel.caption
+        captionLabel.text = viewModel.caption
         
-        profileImageView.image = viewModel.profileImage
+        if viewModel.profileImage != nil {
+            profileImageView.image = viewModel.profileImage
+        }
         
-        ChallengesFirestoreManager.shared.getVideosByUser(userID: viewModel.userId) { pairs in
-            if let pairs = pairs {
-                
-                if let pair = pairs.first {
-                    StorageManager.shared.downloadVideo(videoId: pair.1.videoRef, containerId: nil) { (result) in
-                        switch result {
-                        case .success(let url):
-                            self.coverImageView.setUpVideo(videoURL: url, withRate: 1.0, audioEnable: false)
-                        case .failure(let error):
-                            print(error)
+        if !fetchingVideos && videoViewModels.count == 0 {
+            fetchingVideos = true
+            
+            ChallengesFirestoreManager.shared.getVideosByUser(userID: viewModel.userId) { pairs in
+                if let pairs = pairs {
+                    
+                    if let pair = pairs.first {
+                        StorageManager.shared.downloadVideo(videoId: pair.1.videoRef, containerId: nil) { (result) in
+                            switch result {
+                            case .success(let url):
+                                self.coverImageView.setUpVideo(videoURL: url, withRate: 1.0, audioEnable: false)
+                                self.coverImageView.setCornerRadius(5)
+                            case .failure(let error):
+                                print(error)
+                            }
                         }
                     }
-                }
 
-                for pair in pairs {
-                    
-                    ChallengesViewModelBuilder.buildChallengeAndVideo(
-                        from: pair.1,
-                        challengeModel: pair.0,
-                        withThumbnailImage: true,
-                        completion: { (pair) in
-                            if let pair = pair {
-                                self.videoViewModels.append(pair)
-                                
-                                if self.videoViewModels.count == pairs.count {
-                                    self.collectionView.reloadData()
+                    for pair in pairs {
+                        ChallengesViewModelBuilder.buildChallengeAndVideo(
+                            from: pair.1,
+                            challengeModel: pair.0,
+                            withThumbnailImage: true,
+                            completion: { (pair) in
+                                if let pair = pair {
+                                    self.videoViewModels.append(pair)
+                                    
+                                    if self.videoViewModels.count == pairs.count {
+                                        self.collectionView.reloadData()
+                                        self.fetchingVideos = false
+                                    }
                                 }
-                            }
-                        })
+                            })
+                    }
                 }
             }
         }
@@ -510,6 +521,7 @@ class ProfileViewController2: UIViewController {
     }
     
     // MARK: - Private Functions
+
     
     @objc private func didTapEditButton() {
         let vc = EditProfileViewController()
