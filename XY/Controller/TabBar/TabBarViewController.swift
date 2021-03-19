@@ -72,7 +72,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         nav1.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
         nav1.tabBarItem.imageInsets.top = 3
         nav2.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
-        nav2.tabBarItem.imageInsets.top = 7
+        nav2.tabBarItem.imageInsets.top = 3
         nav3.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: -18, bottom: -18, right: -18)
         nav4.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
         nav4.tabBarItem.imageInsets.top = 3

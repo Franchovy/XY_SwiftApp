@@ -103,10 +103,14 @@ class XPCircleView: UIView {
         case thick
     }
     
-    public func setColor(_ color: UIColor) {
+    public func setColor(_ color: UIColor, labelColor: UIColor? = nil) {
         glowShadowLayer.shadowColor = color.cgColor
         glowShadowLayer.strokeColor = color.cgColor
         progressLayer.strokeColor = color.cgColor
+        
+        if labelColor != nil {
+            label.textColor = labelColor
+        }
     }
     
     public func setThickness(_ thickness: Thickness) {

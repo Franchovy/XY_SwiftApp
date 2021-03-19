@@ -30,6 +30,10 @@ class ProfileViewController2: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Heavy", size: 25)
         label.textColor = UIColor(named: "XYWhite")
+        label.layer.shadowRadius = 6
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 0, height: 3)
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -39,6 +43,10 @@ class ProfileViewController2: UIViewController {
         button.layer.borderWidth = 1
         button.setTitle("Edit", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
+        button.layer.shadowRadius = 6
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowColor = UIColor.black.cgColor
         return button
     }()
     
@@ -48,6 +56,10 @@ class ProfileViewController2: UIViewController {
         button.layer.borderWidth = 1
         button.setTitle("Settings", for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
+        button.layer.shadowRadius = 6
+        button.layer.shadowOpacity = 0.3
+        button.layer.shadowOffset = CGSize(width: 0, height: 3)
+        button.layer.shadowColor = UIColor.black.cgColor
         return button
     }()
     
@@ -55,6 +67,10 @@ class ProfileViewController2: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Bold", size: 20)
         label.textColor = UIColor(named: "XYWhite")
+        label.layer.shadowRadius = 6
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 0, height: 2)
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -62,6 +78,10 @@ class ProfileViewController2: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 13)
         label.textColor = UIColor(named: "XYWhite")
+        label.layer.shadowRadius = 6
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 0, height: 2)
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -69,6 +89,10 @@ class ProfileViewController2: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Bold", size: 20)
         label.textColor = UIColor(named: "XYWhite")
+        label.layer.shadowRadius = 6
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 0, height: 2)
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -76,6 +100,10 @@ class ProfileViewController2: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 13)
         label.textColor = UIColor(named: "XYWhite")
+        label.layer.shadowRadius = 6
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 0, height: 2)
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -83,6 +111,10 @@ class ProfileViewController2: UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 10)
         label.textColor = UIColor(named: "XYWhite")
+        label.layer.shadowRadius = 6
+        label.layer.shadowOpacity = 0.3
+        label.layer.shadowOffset = CGSize(width: 0, height: 2)
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -160,7 +192,7 @@ class ProfileViewController2: UIViewController {
         super.viewDidLoad()
         
         xpCircle.setThickness(.thin)
-        xpCircle.setColor(UIColor(0x007BF5))
+        xpCircle.setColor(UIColor(0x007BF5), labelColor: .white)
         
         loadingCircle.frame.size = CGSize(width: 50, height: 50)
         loadingCircle.center = view.center
@@ -317,10 +349,10 @@ class ProfileViewController2: UIViewController {
         )
         profileImageView.layer.cornerRadius = profileImageSize/2
         
-        let gradientLayerHeight:CGFloat = view.height - profileImageView.center.x
+        let gradientLayerHeight:CGFloat = coverImageView.height - profileImageView.top - profileImageSize/2
         gradientLayer.frame = CGRect(
             x: 0,
-            y: view.height - gradientLayerHeight,
+            y: coverImageView.height - gradientLayerHeight,
             width: view.width,
             height: gradientLayerHeight
         )
@@ -348,7 +380,7 @@ class ProfileViewController2: UIViewController {
                     StorageManager.shared.downloadVideo(videoId: pair.1.videoRef, containerId: nil) { (result) in
                         switch result {
                         case .success(let url):
-                            self.coverImageView.setUpVideo(videoURL: url, withRate: 1.0, audioEnable: true)
+                            self.coverImageView.setUpVideo(videoURL: url, withRate: 1.0, audioEnable: false)
                         case .failure(let error):
                             print(error)
                         }
