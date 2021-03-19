@@ -19,6 +19,11 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     private let creatorNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway", size: 10)
+        label.textColor = UIColor(0xFFFFFF)
+        label.layer.shadowRadius = 2
+        label.layer.shadowOpacity = 0.8
+        label.layer.shadowOffset = CGSize(width: 0, height: 3)
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -49,10 +54,10 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(creatorNameLabel)
         contentView.addSubview(viewButton)
         
-        layer.shadowRadius = 1
-        layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
-        layer.shadowOpacity = 1.0
-        layer.shadowColor = UIColor.black.cgColor
+//        layer.shadowRadius = 1
+//        layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
+//        layer.shadowOpacity = 1.0
+//        layer.shadowColor = UIColor.black.cgColor
 
         layer.masksToBounds = false
         clipsToBounds = false
@@ -111,13 +116,13 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: viewModel.category.getGradient())
         contentView.addSubview(challengeTitleGradientLabel)
         
-        challengeTitleGradientLabel.layer.shadowRadius = 3
-        challengeTitleGradientLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
-        challengeTitleGradientLabel.layer.shadowOpacity = 1.0
-        challengeTitleGradientLabel.layer.shadowColor = UIColor.black.cgColor
-        
         challengeTitleGradientLabel.setResizesToWidth(width: width - 10)
         self.challengeTitleGradientLabel = challengeTitleGradientLabel
+        
+        challengeTitleGradientLabel.layer.shadowRadius = 2
+        challengeTitleGradientLabel.layer.shadowOpacity = 0.8
+        challengeTitleGradientLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
+        challengeTitleGradientLabel.layer.shadowColor = UIColor.black.cgColor
         
         creatorNameLabel.text = "@\(viewModel.creator.nickname)"
         
