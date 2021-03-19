@@ -123,12 +123,42 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
         }
     }
     
+    private func showSavedLabel() {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Medium", size: 18)
+        label.textColor = UIColor(named: "XYTint")
+        label.text = "Saved."
+        label.alpha = 0.0
+        
+        view.addSubview(label)
+        label.sizeToFit()
+        label.frame.origin = CGPoint(x: 15, y: 80)
+        
+        UIView.animate(withDuration: 0.3) {
+            label.alpha = 0.8
+            label.frame.origin = CGPoint(x: 15, y: 50)
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.3, delay: 0.7) {
+                    label.alpha = 0.0
+                    label.frame.origin = CGPoint(x: 15, y: 30)
+                } completion: { (done) in
+                    if done {
+                        label.removeFromSuperview()
+                    }
+                }
+            }
+        }
+    }
+    
     private func updateNickname(with nickname: String) {
         ProfileFirestoreManager.shared.setProfileNickname(nickname)
+        showSavedLabel()
     }
     
     private func updateCaption(with caption: String) {
         ProfileFirestoreManager.shared.setProfileCaption(caption)
+        showSavedLabel()
     }
     
     @objc private func didTapProfileImage() {
@@ -181,11 +211,19 @@ extension EditProfileViewController : UIImagePickerControllerDelegate, UINavigat
         })
         
         if let image = info[.editedImage] as? UIImage {
-            ProfileFirestoreManager.shared.setProfileImage(image: image)
+            ProfileFirestoreManager.shared.setProfileImage(image: image) {
+                ProfileManager.shared.resetProfileImageFile()
+                TabBarViewController.instance.setUpProfileTabBarItem()
+            }
             profileImage.image = image
+            showSavedLabel()
         } else if let image = info[.originalImage] as? UIImage {
-            ProfileFirestoreManager.shared.setProfileImage(image: image)
+            ProfileFirestoreManager.shared.setProfileImage(image: image) {
+                ProfileManager.shared.resetProfileImageFile()
+                TabBarViewController.instance.setUpProfileTabBarItem()
+            }
             profileImage.image = image
+            showSavedLabel()
         }
     }
     

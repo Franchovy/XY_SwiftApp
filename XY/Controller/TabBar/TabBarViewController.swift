@@ -156,7 +156,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         setUpProfileTabBarItem()
     }
     
-    private func setUpProfileTabBarItem() {
+    func setUpProfileTabBarItem() {
         guard let ownProfile = ProfileManager.shared.ownProfile else {
             fatalError()
         }
@@ -227,9 +227,13 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     public func backToLaunch() {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         
-        let vc = mainStoryboard.instantiateViewController(identifier: "LaunchVC")
-        vc.modalPresentationStyle = .fullScreen
-        show(vc, sender: self)
+        let launchAnimationController = LaunchVC()
+        
+        launchAnimationController.onFinishedAnimation = {
+            launchAnimationController.dismiss(animated: true, completion: nil)
+        }
+        
+        navigationController?.pushViewController(launchAnimationController, animated: true)
     }
     
     public func playChallenge(challenge: ChallengeViewModel) {

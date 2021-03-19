@@ -84,4 +84,8 @@ class VideoPlayerView: UIView {
         }
         repeatObserverSet = true
     }
+    
+    public func setCornerRadius(_ cornerRadius: CGFloat) {
+        playerLayer?.cornerRadius = cornerRadius
+    }
 }

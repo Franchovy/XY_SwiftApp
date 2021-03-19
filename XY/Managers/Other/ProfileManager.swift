@@ -65,6 +65,26 @@ final class ProfileManager {
         }
     }
     
+    func resetProfileImageFile() {
+        let fileManager = FileManager.default
+        let documentsUrl = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let documentPath = documentsUrl.path
+        
+        let filePath = documentsUrl.appendingPathComponent("profileImage.png")
+        
+        do {
+            let files = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
+            
+            for file in files {
+                if "\(documentPath)/\(file)" == filePath.path {
+                    try fileManager.removeItem(at: filePath)
+                }
+            }
+        } catch {
+            print("Error saving file!")
+        }
+    }
+    
     func saveProfileImageToFile(image:UIImage) {
         
         if ownProfileId != nil {

@@ -305,7 +305,8 @@ class ProfileHeaderSettingsViewController: UIViewController {
     
     @objc private func logout() {
         AuthManager.shared.logout()
-        delegate?.didLogOut()
+        
+        TabBarViewController.instance.backToLaunch()
     }
     
     @objc private func changePasswordPressed() {
