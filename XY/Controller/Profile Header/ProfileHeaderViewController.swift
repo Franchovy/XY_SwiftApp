@@ -94,34 +94,6 @@ class ProfileHeaderViewController: UIViewController {
         return button
     }()
     
-    // MARK: - Edit Profile properties
-    
-    private lazy var editCaptionTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .clear
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.layer.cornerRadius = 5
-        textField.layer.masksToBounds = true
-        textField.font = UIFont(name: "Raleway-Medium", size: 15)
-        textField.textColor = .white
-        textField.isHidden = true
-        return textField
-    }()
-    
-    private lazy var editWebsiteTextField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .clear
-        textField.layer.borderWidth = 1
-        textField.layer.borderColor = UIColor.white.cgColor
-        textField.layer.cornerRadius = 5
-        textField.layer.masksToBounds = true
-        textField.font = UIFont(name: "Raleway-Medium", size: 13)
-        textField.textColor = .white
-        textField.isHidden = true
-        return textField
-    }()
-    
     private lazy var editCoverImageButton: UIButton = {
         let button = UIButton()
         button.setBackgroundImage(UIImage(systemName: "camera.fill"), for: .normal)
@@ -164,30 +136,14 @@ class ProfileHeaderViewController: UIViewController {
         if editable {
             profileCard.addSubview(editButton)
             
-            profileCard.addSubview(editWebsiteTextField)
-            profileCard.addSubview(editCaptionTextField)
-            
             view.addSubview(editCoverImageButton)
             editCoverImageButton.addTarget(self, action: #selector(editCoverImage), for: .touchUpInside)
             
 //            let tapProfilePictureGesture = UITapGestureRecognizer(target: self, action: #selector(editProfilePicture))
 //            profileBubble.addGestureRecognizer(tapProfilePictureGesture)
             
-            editButton.addTarget(self, action: #selector(onEnterEditMode), for: .touchUpInside)
+            editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
             
-            editWebsiteTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
-            editCaptionTextField.addTarget(self, action: #selector(onTextFieldTapped(_:)), for: .editingDidBegin)
-            
-            editWebsiteTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
-            editCaptionTextField.addTarget(self, action: #selector(onTextFieldChanged(_:)), for: .editingChanged)
-            
-            editCaptionTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
-            editWebsiteTextField.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .editingDidEnd)
-            
-            
-            
-            let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
-            view.addGestureRecognizer(tappedAnywhereGesture)
         }
     }
     
@@ -279,22 +235,6 @@ class ProfileHeaderViewController: UIViewController {
                 width: editButtonIconSize,
                 height: editButtonIconSize
             )
-            
-            editCaptionTextField.sizeToFit()
-            editCaptionTextField.frame = CGRect(
-                x: descriptionLabel.left,
-                y: descriptionLabel.top,
-                width: editCaptionTextField.width,
-                height: editCaptionTextField.height
-            )
-            editWebsiteTextField.sizeToFit()
-            editWebsiteTextField.frame = CGRect(
-                x: websiteLabel.left,
-                y: websiteLabel.top,
-                width: editWebsiteTextField.width,
-                height: editWebsiteTextField.height
-            )
-            
             let editPicIconSize: CGFloat = 22
 
             editCoverImageButton.frame = CGRect(
@@ -308,86 +248,10 @@ class ProfileHeaderViewController: UIViewController {
     
     // MARK: - Obj-C Functions
     
-    @objc private func onEnterEditMode() {
-        if editMode {
-            exitEditMode()
-            return
-        }
-        
-        editMode = true
-        
-        editCaptionTextField.text = descriptionLabel.text
-        editCaptionTextField.isHidden = false
-        descriptionLabel.isHidden = true
-        
-        editWebsiteTextField.text = websiteLabel.text
-        editWebsiteTextField.isHidden = false
-        websiteLabel.isHidden = true
-        
-        
-        
-        UIView.animate(withDuration: 0.1) {
-            self.editCoverImageButton.alpha = 1.0
-        }
-        
-        delegate?.didEnterEditMode()
-        
-        view.setNeedsLayout()
-    }
-        
-    @objc private func onTextFieldTapped(_ sender: UITextField) {
-        switch sender {
-        case editCaptionTextField:
-            editCaptionTextField.becomeFirstResponder()
-        case editWebsiteTextField:
-            editWebsiteTextField.becomeFirstResponder()
-        default:
-            fatalError()
-        }
-        
-        sender.returnKeyType = .done
-        sender.addTarget(self, action: #selector(onTextFieldEnded(_:)), for: .primaryActionTriggered)
-    }
-    
-    @objc private func onTextFieldChanged(_ sender: UITextField) {
-        view.setNeedsLayout()
-    }
-    
-    @objc private func onTextFieldEnded(_ sender: UITextField) {
-        exitEditMode()
-    }
-    
-    private func exitEditMode() {
-        editMode = false
-        
-        editCaptionTextField.isHidden = true
-        descriptionLabel.isHidden = false
-        if descriptionLabel.text != "" {
-            descriptionLabel.text = editCaptionTextField.text
-        }
-        
-        editWebsiteTextField.isHidden = true
-        websiteLabel.isHidden = false
-        if websiteLabel.text != "" {
-            websiteLabel.text = editWebsiteTextField.text
-        }
-        
-        UIView.animate(withDuration: 0.1) {
-            self.editCoverImageButton.alpha = 0.0
-        }
-        
-        view.setNeedsLayout()
-        
-        guard let descriptionText = descriptionLabel.text, let website = websiteLabel.text else {
-            return
-        }
-        
-//        viewModel?.profileData.caption = descriptionText
-//        viewModel?.profileData.website = website
-        
-        delegate?.didExitEditMode()
-        // Send update to backend
-//        viewModel?.sendEditUpdate()
+    @objc private func didTapEditButton() {
+        let vc = EditProfileViewController()
+        vc.configure()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func editProfilePicture() {
@@ -450,16 +314,6 @@ class ProfileHeaderViewController: UIViewController {
     }
     
     // MARK: - Public functions
-    
-    @objc public func didTapAnywhere() {
-        for view in [
-            view,
-            editCaptionTextField,
-            editWebsiteTextField
-        ] {
-            view?.resignFirstResponder()
-        }
-    }
     
     public func configure(with viewModel: NewProfileViewModel) {
         self.viewModel = viewModel
@@ -549,7 +403,6 @@ extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINaviga
         case .coverPicture:
             // Update cover picture
             coverImage.image = image
-            exitEditMode()
             
             FirebaseUpload.uploadImage(image: image!) { (imageId, error) in
                 if let error = error {
@@ -565,7 +418,6 @@ extension ProfileHeaderViewController: UIImagePickerControllerDelegate, UINaviga
             break
         case .profilePicture:
             // Update profile picture
-            exitEditMode()
             
             FirebaseUpload.uploadImage(image: image!) { (imageId, error) in
                 if let error = error {

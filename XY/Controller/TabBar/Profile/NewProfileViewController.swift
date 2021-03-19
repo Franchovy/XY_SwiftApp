@@ -87,6 +87,8 @@ class NewProfileViewController: UIViewController {
         bottomScrollIndicator.alpha = 0.0
         topScrollIndicator.delegate = self
         bottomScrollIndicator.delegate = self
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -97,7 +99,12 @@ class NewProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        navigationController?.navigationBar.isTranslucent = false
     }
     
     override func viewDidAppear(_ animated: Bool) {

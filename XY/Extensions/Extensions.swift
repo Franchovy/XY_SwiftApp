@@ -93,6 +93,16 @@ extension UIView {
     }
 }
 
+extension UIImage {
+    class func imageWithLabel(label: UILabel) -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(label.bounds.size, false, 0.0)
+        label.layer.render(in: UIGraphicsGetCurrentContext()!)
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return img!
+    }
+}
+
 extension UIView{
     func rotate(numRotations: Int) {
         let rotation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")

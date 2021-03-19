@@ -21,6 +21,8 @@
 		14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14BDAF8325A37DD800D19282 /* MessageModel.swift */; };
 		14C96787258E455B00E072EA /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14C96786258E455B00E072EA /* Constants.swift */; };
 		24588F4C5DC3B75A80D2A8E4 /* Pods_XYTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */; };
+		B905878526048D8C00B8C9E7 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B905878426048D8C00B8C9E7 /* EditProfileViewController.swift */; };
+		B905878926048EC600B8C9E7 /* TextViewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B905878826048EC600B8C9E7 /* TextViewCard.swift */; };
 		B90BFA3025CD6D7100575598 /* XPModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90BFA2F25CD6D7100575598 /* XPModelManager.swift */; };
 		B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C163725BB0ADA003811B2 /* TabBarViewController.swift */; };
 		B90C164425BC6474003811B2 /* MomentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90C164325BC6474003811B2 /* MomentModel.swift */; };
@@ -166,7 +168,6 @@
 		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
 		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
 		B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowDataCell.swift */; };
-		B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E55C25A5F131001859EA /* FlowVC.swift */; };
 		B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56025A5F362001859EA /* PostViewModel.swift */; };
 		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
 		B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* Notification.swift */; };
@@ -179,6 +180,7 @@
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
+		B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -211,6 +213,8 @@
 		6F0373FB5BA276797DEC4E08 /* Pods-XY.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY.debug.xcconfig"; path = "Target Support Files/Pods-XY/Pods-XY.debug.xcconfig"; sourceTree = "<group>"; };
 		6F94382B0FE020F753BC9A88 /* Pods-XY_APPTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APPTests.release.xcconfig"; path = "Target Support Files/Pods-XY_APPTests/Pods-XY_APPTests.release.xcconfig"; sourceTree = "<group>"; };
 		7E73620E1B0026B3D4968CEB /* Pods-XY.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY.release.xcconfig"; path = "Target Support Files/Pods-XY/Pods-XY.release.xcconfig"; sourceTree = "<group>"; };
+		B905878426048D8C00B8C9E7 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		B905878826048EC600B8C9E7 /* TextViewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCard.swift; sourceTree = "<group>"; };
 		B90BFA2F25CD6D7100575598 /* XPModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModelManager.swift; sourceTree = "<group>"; };
 		B90C163725BB0ADA003811B2 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		B90C164325BC6474003811B2 /* MomentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentModel.swift; sourceTree = "<group>"; };
@@ -363,7 +367,6 @@
 		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
 		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		B9D1AB3025A3A591009B428E /* FlowDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataCell.swift; sourceTree = "<group>"; };
-		B9D5E55C25A5F131001859EA /* FlowVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowVC.swift; sourceTree = "<group>"; };
 		B9D5E56025A5F362001859EA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
 		B9DFBA6225B7495D0084E79D /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
@@ -376,6 +379,7 @@
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
+		B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCard.swift; sourceTree = "<group>"; };
 		DE83AA41076DD5C25678000C /* Pods_XY.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XY.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA01309E9B149E5A5729035 /* Pods_XYTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_XYTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -423,6 +427,8 @@
 				B972A2C925DD96E2006A0476 /* TypeView.swift */,
 				B9BF8BED26023A670057210C /* PopupMessageView.swift */,
 				B93D284D26039B3700F590BE /* PopupWarningView.swift */,
+				B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */,
+				B905878826048EC600B8C9E7 /* TextViewCard.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -448,13 +454,12 @@
 		149AD6A2259B52E300E81ABC /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				B9D5E55C25A5F131001859EA /* FlowVC.swift */,
+				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
+				B93D7BFC25F41ADA005CE74D /* PlayVC */,
 				B934B66F25F76CBD00575972 /* Explore */,
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
-				B93D7BFC25F41ADA005CE74D /* PlayVC */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
-				B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */,
-				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
+				B905878C26049C7E00B8C9E7 /* Profile */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -481,6 +486,16 @@
 				B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		B905878C26049C7E00B8C9E7 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */,
+				B905878426048D8C00B8C9E7 /* EditProfileViewController.swift */,
+				B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */,
+			);
+			path = Profile;
 			sourceTree = "<group>";
 		};
 		B90EBA4025DFEA4A005DE0A0 /* Post */ = {
@@ -590,7 +605,6 @@
 			isa = PBXGroup;
 			children = (
 				B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */,
-				B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */,
 				B925CC5425D5823000542A58 /* ProfileHeaderConversationsViewController.swift */,
 				B925CC5025D5821D00542A58 /* ProfileHeaderChatViewController.swift */,
 				B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */,
@@ -1156,12 +1170,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B905878526048D8C00B8C9E7 /* EditProfileViewController.swift in Sources */,
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */,
 				B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */,
 				B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */,
 				B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
+				B905878926048EC600B8C9E7 /* TextViewCard.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
@@ -1174,6 +1190,7 @@
 				B93D7BF525F41A7E005CE74D /* PlayViewController.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
+				B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
@@ -1217,7 +1234,6 @@
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
-				B9D5E55D25A5F131001859EA /* FlowVC.swift in Sources */,
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
