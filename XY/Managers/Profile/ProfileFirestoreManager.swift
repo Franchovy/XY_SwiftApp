@@ -41,7 +41,7 @@ class ProfileFirestoreManager {
             }
     }
     
-    func setProfileImage(image: UIImage) {
+    func setProfileImage(image: UIImage, completion: @escaping() -> Void) {
         guard let profileID = ProfileManager.shared.ownProfileId else {
             return
         }
@@ -52,7 +52,13 @@ class ProfileFirestoreManager {
                 
                 FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile)
                     .document(profileID)
-                    .setData([ FirebaseKeys.ProfileKeys.profileImage : "\(profileID)/\(imageID)" ], merge: true)
+                    .setData([ FirebaseKeys.ProfileKeys.profileImage : "\(profileID)/\(imageID)" ], merge: true) { error in
+                        if let error = error {
+                            print(error)
+                        } else {
+                            completion()
+                        }
+                    }
                 
                     ProfileManager.shared.ownProfile?.profileImageId = "\(profileID)/\(imageID)"
             case .failure(let error):
