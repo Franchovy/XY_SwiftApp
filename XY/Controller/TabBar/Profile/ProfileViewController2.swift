@@ -9,11 +9,30 @@ import UIKit
 
 class ProfileViewController2: UIViewController {
     
-//    private let coverImageView: UIImageView = {
-//        let imageView = UIImageView()
-//        imageView.contentMode = .scaleAspectFill
-//        return imageView
-//    }()
+    // MARK: - Parent Views
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        return scrollView
+    }()
+    
+    private let collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = 1.6
+        layout.minimumLineSpacing = 1.2
+        
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = .clear
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = false
+        
+        collectionView.register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
+        return collectionView
+    }()
+    
+    // MARK: - Subviews
     
     private let coverImageView = VideoPlayerView()
     
@@ -131,7 +150,10 @@ class ProfileViewController2: UIViewController {
     
     private let loadingCircle = XPCircleView()
     
+    // MARK: - Properties
+    
     private var viewModel: NewProfileViewModel?
+    private var videoViewModels = [(ChallengeViewModel, ChallengeVideoViewModel)]()
     
     // MARK: - Initialisers
     
@@ -180,6 +202,9 @@ class ProfileViewController2: UIViewController {
         
         coverImageView.layer.cornerRadius = 5
         coverImageView.layer.masksToBounds = true
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
     }
     
     required init?(coder: NSCoder) {
@@ -199,25 +224,32 @@ class ProfileViewController2: UIViewController {
         
         view.backgroundColor = UIColor(named: "Black")
         
-        view.addSubview(coverImageView)
-        view.layer.addSublayer(gradientLayer)
-        view.addSubview(profileImageView)
+        scrollView.contentInsetAdjustmentBehavior = .never
+        view.addSubview(scrollView)
         
-        view.addSubview(nicknameLabel)
-        view.addSubview(xpCircle)
+        scrollView.addSubview(coverImageView)
+        scrollView.layer.addSublayer(gradientLayer)
+        scrollView.addSubview(profileImageView)
         
-        view.addSubview(settingsButton)
-        view.addSubview(editButton)
+        scrollView.addSubview(nicknameLabel)
+        scrollView.addSubview(xpCircle)
         
-        view.addSubview(numSubscribersLabel)
-        view.addSubview(subscribersLabel)
-        view.addSubview(numRankLabel)
-        view.addSubview(rankLabel)
+        scrollView.addSubview(settingsButton)
+        scrollView.addSubview(editButton)
         
-        view.addSubview(descriptionLabel)
+        scrollView.addSubview(numSubscribersLabel)
+        scrollView.addSubview(subscribersLabel)
+        scrollView.addSubview(numRankLabel)
+        scrollView.addSubview(rankLabel)
+        
+        scrollView.addSubview(descriptionLabel)
+        
+        scrollView.addSubview(collectionView)
                 
         settingsButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
+        
+        collectionView.backgroundColor = .black
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -258,6 +290,8 @@ class ProfileViewController2: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        scrollView.frame = view.bounds
 
         coverImageView.frame = CGRect(
             x: 0,
@@ -357,6 +391,14 @@ class ProfileViewController2: UIViewController {
             height: gradientLayerHeight
         )
         
+        collectionView.frame = CGRect(
+            x: 0,
+            y: coverImageView.bottom,
+            width: view.width,
+            height: collectionView.contentSize.height
+        )
+        
+        scrollView.contentSize.height = collectionView.bottom
     }
     
     // MARK: - Public Functions
@@ -374,8 +416,9 @@ class ProfileViewController2: UIViewController {
         
         profileImageView.image = viewModel.profileImage
         
-        ChallengesFirestoreManager.shared.getMostRecentVideos() { (pairs) in
+        ChallengesFirestoreManager.shared.getVideosByUser(userID: viewModel.userId) { pairs in
             if let pairs = pairs {
+                
                 if let pair = pairs.first {
                     StorageManager.shared.downloadVideo(videoId: pair.1.videoRef, containerId: nil) { (result) in
                         switch result {
@@ -385,6 +428,23 @@ class ProfileViewController2: UIViewController {
                             print(error)
                         }
                     }
+                }
+
+                for pair in pairs {
+                    
+                    ChallengesViewModelBuilder.buildChallengeAndVideo(
+                        from: pair.1,
+                        challengeModel: pair.0,
+                        withThumbnailImage: true,
+                        completion: { (pair) in
+                            if let pair = pair {
+                                self.videoViewModels.append(pair)
+                                
+                                if self.videoViewModels.count == pairs.count {
+                                    self.collectionView.reloadData()
+                                }
+                            }
+                        })
                 }
             }
         }
@@ -453,6 +513,7 @@ class ProfileViewController2: UIViewController {
     
     @objc private func didTapEditButton() {
         let vc = EditProfileViewController()
+        vc.configure()
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -462,6 +523,11 @@ class ProfileViewController2: UIViewController {
     }
     
     private func setUpNavBar() {
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.backgroundColor = .clear
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        
         guard let viewModel = viewModel else {
             return
         }
@@ -481,11 +547,31 @@ class ProfileViewController2: UIViewController {
                 action: #selector(openChatButtonPressed)
             )
         }
-        
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
     }
-    
 }
 
+extension ProfileViewController2 : UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return videoViewModels.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ChallengeCollectionViewCell.identifier,
+            for: indexPath
+        ) as? ChallengeCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configure(viewModel: videoViewModels[indexPath.row].0, videoViewModel: videoViewModels[indexPath.row].1)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,
+                                layout collectionViewLayout: UICollectionViewLayout,
+                                sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let horizontalSize = view.width / 3 - 1.6
+        return CGSize(width: horizontalSize, height: horizontalSize * 1.626)
+    }
+}

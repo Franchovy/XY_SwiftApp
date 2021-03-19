@@ -247,6 +247,45 @@ final class ChallengesFirestoreManager {
             }
     }
     
+    func getVideosByUser(userID: String, completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+        FirestoreReferenceManager.db.collectionGroup(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
+            .order(by: FirebaseKeys.ChallengeKeys.VideoKeys.timestamp, descending: true)
+            .whereField(FirebaseKeys.ChallengeKeys.VideoKeys.creatorID, isEqualTo: userID)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print(error)
+                } else if let querySnapshot = querySnapshot {
+                    
+                    let group = DispatchGroup()
+                    
+                    var pairs = [(ChallengeModel, ChallengeVideoModel)?](repeating: nil, count: querySnapshot.count)
+                    for (index, videoDocument) in querySnapshot.documents.enumerated() {
+                        let videoModel = self.videoFromDocument(document: videoDocument)
+                        
+                        group.enter()
+                        videoDocument.reference.parent.parent?.getDocument() { (snapshot, error) in
+                            defer {
+                                group.leave()
+                            }
+                            if let error = error {
+                                print(error)
+                            } else if let snapshot = snapshot {
+                                let challengeModel = self.challengeFromDocument(document: snapshot)
+                                
+                                if let videoModel = videoModel, let challengeModel = challengeModel {
+                                    pairs[index] = (challengeModel, videoModel)
+                                }
+                            }
+                        }
+                    }
+                    
+                    group.notify(queue: .main) {
+                        completion(pairs.compactMap { $0 })
+                    }
+                }
+            }
+    }
+    
     private func videoFromDocument(document: DocumentSnapshot) -> ChallengeVideoModel? {
         guard let data = document.data() else {
             return nil

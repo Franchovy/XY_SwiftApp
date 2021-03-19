@@ -19,7 +19,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
-        
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.alwaysBounceVertical = true
         
         collectionView.register(CategorySectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CategorySectionReusableView.identifier)

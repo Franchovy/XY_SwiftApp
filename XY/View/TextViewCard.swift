@@ -30,6 +30,8 @@ class TextViewCard: UITextView, UITextViewDelegate {
     
     var isPlaceholderShowing = false
     
+    var onFinishedEditing: ((String) -> Void)?
+    
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
@@ -121,6 +123,8 @@ class TextViewCard: UITextView, UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         if text == "" {
             setPlaceholderActive(true)
+        } else {
+            onFinishedEditing?(text!)
         }
     }
     

@@ -5,7 +5,7 @@
 //  Created by Maxime Franchot on 04/03/2021.
 //
 
-import Foundation
+import UIKit
 
 class ProfileFirestoreManager {
     static var shared = ProfileFirestoreManager()
@@ -39,5 +39,45 @@ class ProfileFirestoreManager {
                     completion(ProfileModel(data: data, id: snapshot.documentID))
                 }
             }
+    }
+    
+    func setProfileImage(image: UIImage) {
+        guard let profileID = ProfileManager.shared.ownProfileId else {
+            return
+        }
+        
+        StorageManager.shared.uploadPhoto(image, storageId: profileID) { (result) in
+            switch result {
+            case .success(let imageID):
+                
+                FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile)
+                    .document(profileID)
+                    .setData([ FirebaseKeys.ProfileKeys.profileImage : "\(profileID)/\(imageID)" ], merge: true)
+                
+                    ProfileManager.shared.ownProfile?.profileImageId = "\(profileID)/\(imageID)"
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    func setProfileCaption(_ caption: String) {
+        guard let profileID = ProfileManager.shared.ownProfileId else {
+            return
+        }
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile)
+            .document(profileID)
+            .setData([ FirebaseKeys.ProfileKeys.caption : caption ], merge: true)
+    }
+    
+    func setProfileNickname(_ nickname: String) {
+        guard let profileID = ProfileManager.shared.ownProfileId else {
+            return
+        }
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile)
+            .document(profileID)
+            .setData([ FirebaseKeys.ProfileKeys.nickname : nickname ], merge: true)
     }
 }

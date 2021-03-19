@@ -44,6 +44,8 @@ class TextFieldCard: UITextField, UITextFieldDelegate {
         }
     }
     
+    var onFinishedEditing: ((String) -> Void)?
+    
     var isPlaceholderShowing = false
     
     override init(frame: CGRect) {
@@ -101,5 +103,12 @@ class TextFieldCard: UITextField, UITextFieldDelegate {
                 return
             }
         }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else {
+            return
+        }
+        onFinishedEditing?(text)
     }
 }

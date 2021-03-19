@@ -31,6 +31,7 @@ class ButtonChoicePrompt: UIView {
         return button
     }()
     
+    private var onPress = [(() -> Void)]()
     private var buttons = [UIButton]()
     
     init() {
@@ -107,8 +108,23 @@ class ButtonChoicePrompt: UIView {
         
         button.tintColor = UIColor(named: "XYTint")
         
+        button.addTarget(self, action: #selector(didPressButton(_:)), for: .touchUpInside)
+        
         addSubview(button)
         buttons.append(button)
+        onPress.append {
+            onTap()
+        }
+    }
+    
+    public func close() {
+        closeButtonPressed()
+    }
+    
+    @objc private func didPressButton(_ button: UIButton) {
+        if let index = buttons.firstIndex(of: button) {
+            onPress[index]()
+        }
     }
     
     @objc private func closeButtonPressed() {
