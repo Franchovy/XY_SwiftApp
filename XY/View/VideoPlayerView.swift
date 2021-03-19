@@ -18,7 +18,7 @@ class VideoPlayerView: UIView {
     var timeControlObserverSet = false
     
     private var playerDidFinishObserver: NSObjectProtocol?
-    
+        
     init() {
         super.init(frame: .zero)
                 
@@ -57,7 +57,7 @@ class VideoPlayerView: UIView {
         player?.play()
     }
     
-    public func setUpVideo(videoURL: URL) {
+    public func setUpVideo(videoURL: URL, withRate rate: Float = 0.5, audioEnable: Bool = false) {
         player = AVPlayer(url: videoURL)
         
         let playerLayer = AVPlayerLayer(player: player)
@@ -72,15 +72,15 @@ class VideoPlayerView: UIView {
         }
         player.play()
         
-        player.volume = 0.0
-        player.rate = 0.5
+        player.volume = audioEnable ? 1.0 : 0.0
+        player.rate = rate
         
         playerDidFinishObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,
             object: player.currentItem,
             queue: .main) { [weak self] _ in
             player.seek(to: .zero)
-            player.playImmediately(atRate: 0.5)
+            player.playImmediately(atRate: rate)
         }
         repeatObserverSet = true
     }

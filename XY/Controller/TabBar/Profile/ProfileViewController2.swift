@@ -9,11 +9,13 @@ import UIKit
 
 class ProfileViewController2: UIViewController {
     
-    private let coverImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        return imageView
-    }()
+//    private let coverImageView: UIImageView = {
+//        let imageView = UIImageView()
+//        imageView.contentMode = .scaleAspectFill
+//        return imageView
+//    }()
+    
+    private let coverImageView = VideoPlayerView()
     
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
@@ -144,6 +146,8 @@ class ProfileViewController2: UIViewController {
     private func commonInit() {
         view.addSubview(loadingCircle)
         
+        coverImageView.layer.cornerRadius = 5
+        coverImageView.layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {
@@ -233,14 +237,14 @@ class ProfileViewController2: UIViewController {
         descriptionLabel.sizeToFit()
         descriptionLabel.frame = CGRect(
             x: (view.width - descriptionLabel.width)/2,
-            y: coverImageView.bottom - 1 - descriptionLabel.height,
+            y: coverImageView.bottom - 5 - descriptionLabel.height,
             width: descriptionLabel.width,
             height: descriptionLabel.height
         )
         
         subscribersLabel.sizeToFit()
         subscribersLabel.frame = CGRect(
-            x: view.width/2 - subscribersLabel.width - 25,
+            x: view.width/2 - 50 - subscribersLabel.width/2,
             y: descriptionLabel.top - 6 - subscribersLabel.height,
             width: subscribersLabel.width,
             height: subscribersLabel.height
@@ -248,7 +252,7 @@ class ProfileViewController2: UIViewController {
         
         rankLabel.sizeToFit()
         rankLabel.frame = CGRect(
-            x: view.width/2 + 25,
+            x: view.width/2 + 50,
             y: descriptionLabel.top - 6 - rankLabel.height,
             width: rankLabel.width,
             height: rankLabel.height
@@ -337,7 +341,21 @@ class ProfileViewController2: UIViewController {
         descriptionLabel.text = viewModel.caption
         
         profileImageView.image = viewModel.profileImage
-        coverImageView.image = viewModel.coverImage
+        
+        ChallengesFirestoreManager.shared.getMostRecentVideos() { (pairs) in
+            if let pairs = pairs {
+                if let pair = pairs.first {
+                    StorageManager.shared.downloadVideo(videoId: pair.1.videoRef, containerId: nil) { (result) in
+                        switch result {
+                        case .success(let url):
+                            self.coverImageView.setUpVideo(videoURL: url, withRate: 1.0, audioEnable: true)
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                }
+            }
+        }
         
         let progress:CGFloat = CGFloat(viewModel.xp) / CGFloat(XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user))
         xpCircle.setLabel(String(describing: viewModel.level))
