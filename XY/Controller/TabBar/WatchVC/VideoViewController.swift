@@ -14,26 +14,27 @@ protocol VideoViewControllerDelegate: class {
 
 class VideoViewController: UIViewController {
     
-//    private let profileButtonShadowLayer = CAShapeLayer()
-//    private let profileButton: UIButton = {
-//        let button = UIButton()
-//        button.setBackgroundImage(UIImage(named: "test"), for: .normal)
-//        button.layer.masksToBounds = true
-//        button.contentMode = .scaleAspectFill
-//        button.tintColor = .white
-//        button.layer.borderWidth = 1
-//        button.layer.borderColor = UIColor.white.cgColor
-//        return button
-//    }()
+    private let profileBubble:UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.borderWidth = 1
+        imageView.layer.borderColor = UIColor.white.cgColor
+        return imageView
+    }()
     
-    private let profileBubble = ProfileBubble()
+    private let followButton = FollowButton()
     
     private let userLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
         label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 0
-        label.font = UIFont(name: "Raleway-Heavy", size: 25)
+        label.font = UIFont(name: "Raleway-Bold", size: 25)
+        label.layer.shadowOffset = CGSize(width: 0, height: 3)
+        label.layer.shadowRadius = 3
+        label.layer.shadowOpacity = 0.7
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -43,6 +44,10 @@ class VideoViewController: UIViewController {
         label.textColor = UIColor(named: "XYWhite")
         label.numberOfLines = 0
         label.font = UIFont(name: "Raleway-Medium", size: 18)
+        label.layer.shadowOffset = CGSize(width: 0, height: 1)
+        label.layer.shadowRadius = 1.5
+        label.layer.shadowOpacity = 0.8
+        label.layer.shadowColor = UIColor.black.cgColor
         return label
     }()
     
@@ -102,6 +107,8 @@ class VideoViewController: UIViewController {
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(videoPanned(gestureRecognizer:)))
         panGesture.delegate = self
         videoView.addGestureRecognizer(panGesture)
+        
+        followButton.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -126,6 +133,7 @@ class VideoViewController: UIViewController {
         view.addSubview(captionLabel)
         view.addSubview(userLabel)
         view.addSubview(profileBubble)
+        view.addSubview(followButton)
     }
     
     override func viewDidLayoutSubviews() {
@@ -146,7 +154,6 @@ class VideoViewController: UIViewController {
         spinner.center = videoView.center
         
         // Bottom Text
-        
         if let captionText = captionLabel.text {
             let constraintRect = CGSize(
                 width: 300,
@@ -160,7 +167,7 @@ class VideoViewController: UIViewController {
             
             captionLabel.frame = CGRect(
                 x: 10,
-                y: videoView.bottom - 31 - boundingRect.height,
+                y: videoView.bottom - 10 - boundingRect.height,
                 width: boundingRect.width,
                 height: boundingRect.height
             )
@@ -169,7 +176,7 @@ class VideoViewController: UIViewController {
         challengeLabel.sizeToFit()
         challengeLabel.frame = CGRect(
             x: 10,
-            y: captionLabel.top - 8.85 - challengeLabel.height,
+            y: captionLabel.top - 2.5 - challengeLabel.height,
             width: challengeLabel.width,
             height: challengeLabel.height
         )
@@ -177,9 +184,16 @@ class VideoViewController: UIViewController {
         userLabel.sizeToFit()
         userLabel.frame = CGRect(
             x: 10,
-            y: challengeLabel.top - userLabel.height - 6.2,
+            y: challengeLabel.top - userLabel.height - 7.5,
             width: userLabel.width,
             height: userLabel.height
+        )
+        
+        followButton.frame = CGRect(
+            x: userLabel.right + 8.3,
+            y: userLabel.top + 5,
+            width: 73,
+            height: 23
         )
         
         // Side buttons
@@ -191,6 +205,7 @@ class VideoViewController: UIViewController {
             width: size,
             height: size
         )
+        profileBubble.layer.cornerRadius = size/2
     }
     
     // MARK: - Private Functions
@@ -239,7 +254,10 @@ class VideoViewController: UIViewController {
             
             ProfileViewModelBuilder.build(with: profileModel, fetchingCoverImage: false) { (profileViewModel) in
                 if let profileViewModel = profileViewModel {
-                    self.profileBubble.configure(with: profileViewModel, followButtonPos: .forVideo)
+                    self.profileBubble.image = profileViewModel.profileImage
+                    
+                    self.followButton.configure(for: profileViewModel.relationshipType, otherUserID: profileViewModel.userId)
+                    self.followButton.isHidden = false
                     
                     self.userLabel.text = profileModel.nickname
                     self.userLabel.sizeToFit()
@@ -251,6 +269,13 @@ class VideoViewController: UIViewController {
         
         challengeLabel.removeFromSuperview()
         challengeLabel = GradientLabel(text: challengeViewModel.title, fontSize: 26, gradientColours: challengeViewModel.category.getGradient())
+        
+        challengeLabel.layer.masksToBounds = false
+        challengeLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
+        challengeLabel.layer.shadowRadius = 3
+        challengeLabel.layer.shadowOpacity = 0.5
+        challengeLabel.layer.shadowColor = UIColor.black.cgColor
+        
         view.addSubview(challengeLabel)
         
         let tappedTitle = UITapGestureRecognizer(target: self, action: #selector(titleTapped))
