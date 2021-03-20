@@ -14,14 +14,15 @@ protocol VideoViewControllerDelegate: class {
 
 class VideoViewController: UIViewController {
     
+    private let profileShadowLayer = CAShapeLayer()
     private let profileBubble:UIImageView = {
         let imageView = UIImageView()
         imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor.white.cgColor
         return imageView
     }()
+    
+    private let xpCircleView = XPCircleView()
     
     private let followButton = FollowButton()
     
@@ -132,6 +133,8 @@ class VideoViewController: UIViewController {
         view.addSubview(challengeLabel)
         view.addSubview(captionLabel)
         view.addSubview(userLabel)
+        view.addSubview(xpCircleView)
+        view.layer.addSublayer(profileShadowLayer)
         view.addSubview(profileBubble)
         view.addSubview(followButton)
     }
@@ -196,16 +199,31 @@ class VideoViewController: UIViewController {
             height: 23
         )
         
-        // Side buttons
-        
-        let size: CGFloat = 60
-        profileBubble.frame = CGRect(
-            x: videoView.width - size - 11,
-            y: videoView.height/2 - size/3,
-            width: size,
-            height: size
+        let profileImageSize: CGFloat = 60
+        let xpCircleSize: CGFloat = profileImageSize + 8
+        xpCircleView.frame = CGRect(
+            x: videoView.width - profileImageSize - 17,
+            y: videoView.height/2 - profileImageSize/3,
+            width: xpCircleSize,
+            height: xpCircleSize
         )
-        profileBubble.layer.cornerRadius = size/2
+        
+        profileBubble.frame = CGRect(
+            x: xpCircleView.left + 4,
+            y: xpCircleView.top + 4,
+            width: profileImageSize,
+            height: profileImageSize
+        )
+        profileBubble.layer.cornerRadius = profileImageSize/2
+        
+        profileShadowLayer.frame = profileBubble.frame
+        profileShadowLayer.fillColor = UIColor.black.cgColor
+        profileShadowLayer.path = UIBezierPath(ovalIn: profileBubble.bounds).cgPath
+        profileShadowLayer.shadowPath = UIBezierPath(ovalIn: profileBubble.bounds).cgPath
+        profileShadowLayer.shadowColor = UIColor.black.cgColor
+        profileShadowLayer.shadowOffset = CGSize(width: 0, height: 3)
+        profileShadowLayer.shadowRadius = 3
+        profileShadowLayer.shadowOpacity = 0.7
     }
     
     // MARK: - Private Functions
@@ -258,6 +276,11 @@ class VideoViewController: UIViewController {
                     
                     self.followButton.configure(for: profileViewModel.relationshipType, otherUserID: profileViewModel.userId)
                     self.followButton.isHidden = false
+                    
+                    self.xpCircleView.animateSetProgress(0.4)
+                    self.xpCircleView.setColor(UIColor(0xCAF035))
+                    self.xpCircleView.setThickness(.thick)
+                    self.xpCircleView.setBackgroundStyle(.glowColor)
                     
                     self.userLabel.text = profileModel.nickname
                     self.userLabel.sizeToFit()

@@ -54,6 +54,7 @@ class XPCircleView: UIView {
     }()
     
     private var xpProgress:CGFloat = 0.0
+    var innerInset: CGFloat = 2.0
     
     init() {
         super.init(frame: .zero)
@@ -72,7 +73,7 @@ class XPCircleView: UIView {
         super.layoutSubviews()
         
         let radius = width/2
-        let innerRadius = radius * 0.95
+        let innerRadius = radius - innerInset
         let lifeCircleRadius = radius * 0.85
         
         let innerCirclePath = UIBezierPath(arcCenter: CGPoint(x: width/2, y: height/2), radius: innerRadius, startAngle: -.pi / 2, endAngle: 3 * .pi / 2, clockwise: true)
@@ -124,10 +125,29 @@ class XPCircleView: UIView {
             progressLayer.lineWidth = 5.0
             glowShadowLayer.lineWidth = 5.0
         case .thick:
-            backgroundLayer.lineWidth = 2.0
-            progressLayer.lineWidth = 4.0
-            glowShadowLayer.lineWidth = 5.0
+            backgroundLayer.lineWidth = 4.0
+            progressLayer.lineWidth = 7.0
+            glowShadowLayer.lineWidth = 8.0
         }
+    }
+    
+    enum BackgroundStyle {
+        case glowColor
+        case rail
+    }
+    
+    public func setBackgroundStyle(_ style: BackgroundStyle) {
+        switch style {
+        case .glowColor:
+            backgroundLayer.strokeColor = progressLayer.strokeColor
+            backgroundLayer.lineWidth = progressLayer.lineWidth
+            backgroundLayer.opacity = 0.6
+            innerInset = 0
+        case .rail:
+            break
+        }
+        
+        layoutSubviews()
     }
     
     func configure(xpModel: XPModel) {
