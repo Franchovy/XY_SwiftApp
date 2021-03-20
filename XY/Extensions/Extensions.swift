@@ -166,16 +166,16 @@ extension UIView{
         scaleX.toValue = NSNumber(value: scaleFactor)
         scaleY.toValue = NSNumber(value: scaleFactor)
         
-        scaleX.initialVelocity = -100.0
-        scaleY.initialVelocity = -100.0
+        scaleX.initialVelocity = -50.0
+        scaleY.initialVelocity = -50.0
         
         scaleY.damping = 1.0
         scaleX.damping = 1.0
         
         scaleX.mass = 0.05
         scaleY.mass = 0.05
-        scaleX.stiffness = 100
-        scaleY.stiffness = 100
+        scaleX.stiffness = 50
+        scaleY.stiffness = 50
         
         scaleX.duration = scaleX.settlingDuration
         scaleY.duration = scaleY.settlingDuration

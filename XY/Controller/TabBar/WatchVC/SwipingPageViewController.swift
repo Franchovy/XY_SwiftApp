@@ -22,6 +22,9 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
     var confirmAnimation = false
     var currentXTranslation: CGFloat = 0
     
+    var swipeLabel: UILabel?
+    var swipeLabelScale:CGFloat = 1
+    
     var hapticsManager: HapticsManager?
     
     
@@ -60,18 +63,65 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         
         animateForDrag(translationX)
         
+        if let swipeLabel = swipeLabel {
+            let percentage:CGFloat = abs(translationX) / (view.width/2)
+            swipeLabel.frame.origin = CGPoint(x: videoViewController.view.left - 150, y: videoViewController.view.top + 400)
+            
+            let scale = percentage * 2.0
+            swipeLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
+            swipeLabel.alpha = percentage
+            
+            if gestureRecognizer.state != .ended {
+                swipeLabelScale = scale
+            }
+        }
+        
         switch gestureRecognizer.state {
         case .began:
+            let label = UILabel()
+            label.font = UIFont(name: "Raleway-Heavy", size: 20)
+            label.adjustsFontSizeToFitWidth = true
+            label.frame.size = CGSize(width: 150, height: 50)
+            label.textColor = UIColor(named: "XYTint")
+            label.text = isTowardsRight ?
+                ["Wow", "Amazing", "Super", "Love it", "Incredible", "lol", "Dope"][Int.random(in: 0...6)] :
+                ["Ughhh", "Boooring", "This sucks", "Really?"][Int.random(in: 0...3)]
+            
+            label.alpha = 0.0
+            label.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            
+            view.addSubview(label)
+            
+            swipeLabel = label
             break
         case .changed:
             break
         case .ended, .cancelled:
             // Un-Cling
+            var fadeStyle: UIView.AnimationOptions!
+            
             if clinged {
                 kaching()
+                
+                fadeStyle = .curveEaseIn
             } else {
                 returnToCenter()
+                
+                fadeStyle = .curveLinear
             }
+            
+            if let swipeLabel = swipeLabel {
+                UIView.animate(withDuration: 0.4, delay: 0, options: fadeStyle) {
+                    swipeLabel.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                    swipeLabel.alpha = 0.0
+                    swipeLabel.frame.origin.x = 0
+                } completion: { (done) in
+                    if done {
+                        swipeLabel.removeFromSuperview()
+                    }
+                }
+            }
+            
         default:
             break
         }
@@ -124,11 +174,12 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         activeDraggedViewController.view.springScaleAnimate(from: 0.9, to: 1.0)
         hapticsManager?.vibrate(for: .success)
         
-        UIView.animate(withDuration: 0.2) {
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseOut) {
             activeDraggedViewController.shadowLayer.shadowOffset = CGSize(width: 10, height: 10)
+            
         } completion: { (done) in
             if done {
-                UIView.animate(withDuration: 0.2) {
+                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn) {
                     activeDraggedViewController.shadowLayer.shadowOffset = CGSize(width: 0, height: 8)
                     activeDraggedViewController.view.transform = activeDraggedViewController.view.transform.translatedBy(
                         x: self.isTowardsRight ? -70 : 70,
@@ -137,11 +188,53 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
                 } completion: { (done) in
                     if done {
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now()+0.24) {
+                        DispatchQueue.main.asyncAfter(deadline: .now()+0.28) {
                             self.confirmAnimation = false
                             activeDraggedViewController.view.stopSpringScaleAnimate()
                             self.uncling()
                             self.returnToCenter()
+                        }
+                    }
+                }
+            }
+        }
+        
+        guard let swipeLabel = swipeLabel else {
+            return
+        }
+        
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Heavy", size: 45)
+        label.adjustsFontSizeToFitWidth = true
+        label.textColor = UIColor(named: "XYTint")
+        label.text = isTowardsRight ?
+            ["😍","😱","🤯","😮","😎"][Int.random(in: 0...4)] :
+            ["🥱","😡","😒","😫","🤮"][Int.random(in: 0...4)]
+        label.sizeToFit()
+        let startPoint = swipeLabel.frame.origin.applying(CGAffineTransform(translationX: 25, y: 100))
+        let topScale = swipeLabelScale
+        label.frame.origin = startPoint
+        label.alpha = 0.0
+        label.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        
+        view.addSubview(label)
+        
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn) {
+            label.alpha = 1.0
+            label.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseOut) {
+                    label.transform = CGAffineTransform(scaleX: max(topScale, 1.2), y: max(topScale, 1.2))
+                } completion: { (done) in
+                    if done {
+                        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseIn) {
+                            label.alpha = 0.0
+                            label.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                        } completion: { (done) in
+                            if done {
+                                label.removeFromSuperview()
+                            }
                         }
                     }
                 }
