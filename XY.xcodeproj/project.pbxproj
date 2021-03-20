@@ -82,6 +82,9 @@
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
 		B95FF51C25A7583B00CFCA9E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */; };
 		B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */; };
+		B96A903D2605F132000CE9F7 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96A903C2605F132000CE9F7 /* FollowButton.swift */; };
+		B96A90412605FFBE000CE9F7 /* SubscribersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96A90402605FFBE000CE9F7 /* SubscribersViewController.swift */; };
+		B96A904626060034000CE9F7 /* SubscriberCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96A904526060034000CE9F7 /* SubscriberCollectionViewCell.swift */; };
 		B972A2AF25DD06E6006A0476 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2AE25DD06E6006A0476 /* PostViewController.swift */; };
 		B972A2BA25DD169E006A0476 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2B925DD169E006A0476 /* CommentViewModel.swift */; };
 		B972A2BE25DD1739006A0476 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2BD25DD1739006A0476 /* CommentTableViewCell.swift */; };
@@ -280,6 +283,9 @@
 		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewCollectionViewCell.swift; sourceTree = "<group>"; };
+		B96A903C2605F132000CE9F7 /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
+		B96A90402605FFBE000CE9F7 /* SubscribersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersViewController.swift; sourceTree = "<group>"; };
+		B96A904526060034000CE9F7 /* SubscriberCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriberCollectionViewCell.swift; sourceTree = "<group>"; };
 		B972A2AE25DD06E6006A0476 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		B972A2B925DD169E006A0476 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		B972A2BD25DD1739006A0476 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -411,6 +417,7 @@
 		14175C792570F5D600C88051 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B96A904426060018000CE9F7 /* New Group */,
 				B9ABAAA825F7CFB4009CB966 /* VideoPlayerView.swift */,
 				B934B67A25F76E3800575972 /* Challenges */,
 				B9E67E6F25F441E2004FA873 /* Video */,
@@ -434,6 +441,7 @@
 				B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */,
 				B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */,
 				B905878826048EC600B8C9E7 /* TextViewCard.swift */,
+				B96A903C2605F132000CE9F7 /* FollowButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -497,6 +505,7 @@
 			isa = PBXGroup;
 			children = (
 				B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */,
+				B96A90402605FFBE000CE9F7 /* SubscribersViewController.swift */,
 				B905878426048D8C00B8C9E7 /* EditProfileViewController.swift */,
 				B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */,
 				B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */,
@@ -543,6 +552,7 @@
 			isa = PBXGroup;
 			children = (
 				14B2709E25AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift */,
+				B96A904526060034000CE9F7 /* SubscriberCollectionViewCell.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -676,6 +686,13 @@
 				B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B96A904426060018000CE9F7 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
 			sourceTree = "<group>";
 		};
 		B972A2B225DD1522006A0476 /* Post */ = {
@@ -1181,12 +1198,14 @@
 				B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */,
 				B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */,
 				B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */,
+				B96A903D2605F132000CE9F7 /* FollowButton.swift in Sources */,
 				B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */,
 				1462BB0E257E47C30096FD23 /* XYworldVC.swift in Sources */,
 				B905878926048EC600B8C9E7 /* TextViewCard.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
+				B96A904626060034000CE9F7 /* SubscriberCollectionViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
 				B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */,
@@ -1247,6 +1266,7 @@
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
 				B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */,
 				B9B74D8A25F02B7B0083D69A /* RankingViewModelBuilder.swift in Sources */,
+				B96A90412605FFBE000CE9F7 /* SubscribersViewController.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
 				B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */,
 				B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */,

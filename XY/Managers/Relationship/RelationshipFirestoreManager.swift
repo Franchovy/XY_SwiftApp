@@ -12,6 +12,85 @@ final class RelationshipFirestoreManager {
     static let shared = RelationshipFirestoreManager()
     private init() { }
     
+    public func getFollowersAndFollowing(userId: String, completion: @escaping(([ProfileModel], [ProfileModel])?) -> Void) {
+        
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.relationships)
+            .whereField("\(FirebaseKeys.RelationshipKeys.users).\(userId)", in: [true, false])
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print(error)
+                } else if let querySnapshot = querySnapshot {
+                    var followerModels = [(Relationship, ProfileModel?)]()
+                    var followingModels = [(Relationship, ProfileModel?)]()
+                    
+                    let dispatchGroup = DispatchGroup()
+                    
+                    for doc in querySnapshot.documents {
+                        print("Relationship doc")
+                        let data = doc.data()
+                        let relationshipModel = Relationship(data, id: doc.documentID)
+                        
+                        // Sort out following
+                        if relationshipModel.type == .follow, relationshipModel.user1ID == userId {
+                            followingModels.append((relationshipModel, nil))
+                            print("Subscribing")
+                        } else if relationshipModel.type == .follow {
+                            followerModels.append((relationshipModel, nil))
+                            print("Subscriber")
+                        } else {
+                            followingModels.append((relationshipModel, nil))
+                            followerModels.append((relationshipModel, nil))
+                        }
+                        
+                        dispatchGroup.enter()
+                        
+                        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users)
+                            .document(relationshipModel.user1ID == userId ? relationshipModel.user2ID : relationshipModel.user1ID)
+                            .getDocument() { snapshot, error in
+                                defer {
+                                    dispatchGroup.leave()
+                                }
+                                
+                                if let error = error {
+                                    print(error)
+                                } else if let snapshot = snapshot, let data = snapshot.data() {
+                                    dispatchGroup.enter()
+                                    
+                                    FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile)
+                                        .document(data[FirebaseKeys.UserKeys.profile] as! String)
+                                        .getDocument() { snapshot, error in
+                                            defer {
+                                                dispatchGroup.leave()
+                                            }
+                                            
+                                            if let error = error {
+                                                print(error)
+                                            } else if let snapshot = snapshot, let data = snapshot.data() {
+                                                
+                                                print("Profile fetched")
+                                                let profileModel = ProfileModel(data: data, id: snapshot.documentID)
+                                                
+                                                if let index = followingModels.firstIndex(where: {$0.0.id == relationshipModel.id}) {
+                                                    print("Profile added to following")
+                                                    followingModels[index] = (relationshipModel, profileModel)
+                                                } else if let index = followerModels.firstIndex(where: {$0.0.id == relationshipModel.id}) {
+                                                    print("Profile added to followers")
+                                                    followerModels[index] = (relationshipModel, profileModel)
+                                                }
+                                            }
+                                        }
+                                }
+                            }
+                    }
+                    
+                    dispatchGroup.notify(queue: .global()) {
+                        print("Finished fetch")
+                        completion((followingModels.compactMap({ $0.1 }), followerModels.compactMap({ $0.1 })))
+                    }
+                }
+            }
+    }
+    
     public func getRelationship(with otherUserID: String, completion: @escaping(Result<Relationship?, Error>) -> Void) {
         guard let userId = AuthManager.shared.userId else {
             return

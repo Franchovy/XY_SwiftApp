@@ -150,22 +150,7 @@ class ProfileViewController2: UIViewController {
         return layer
     }()
     
-    private let followButton: FaveButton = {
-        let button = FaveButton(
-            frame: .zero,
-            faveIconNormal: UIImage()
-        )
-        button.layer.cornerRadius = 11
-        button.setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.setBackgroundColor(color: .darkGray, forState: .disabled)
-        button.setTitleColor(.lightGray, for: .disabled)
-        button.setTitle("Follow", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 16)
-        button.layer.borderWidth = 0.7
-        button.layer.borderColor = UIColor.white.cgColor
-        return button
-    }()
+    private let followButton = FollowButton()
     
     private let xpCircle = XPCircleView()
     private let loadingCircle = XPCircleView()
@@ -221,10 +206,18 @@ class ProfileViewController2: UIViewController {
         view.addSubview(loadingCircle)
         xpCircle.isHidden = true
     
+        followButton.delegate = self
+        
         coverImageView.layer.masksToBounds = true
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        let tappedSubsGesture = UITapGestureRecognizer(target: self, action: #selector(didTapSubscribers))
+        subscribersLabel.isUserInteractionEnabled = true
+        subscribersLabel.addGestureRecognizer(tappedSubsGesture)
+        numSubscribersLabel.isUserInteractionEnabled = true
+        numSubscribersLabel.addGestureRecognizer(tappedSubsGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -239,7 +232,6 @@ class ProfileViewController2: UIViewController {
         xpCircle.setThickness(.thin)
         xpCircle.setColor(UIColor(0x007BF5), labelColor: .white)
         
-        loadingCircle.frame.size = CGSize(width: 50, height: 50)
         loadingCircle.setThickness(.medium)
         
         view.backgroundColor = UIColor(named: "Black")
@@ -262,7 +254,6 @@ class ProfileViewController2: UIViewController {
         scrollView.addSubview(captionLabel)
         scrollView.addSubview(collectionView)
                 
-        followButton.addTarget(self, action: #selector(followButtonPressed), for: .touchUpInside)
         settingsButton.addTarget(self, action: #selector(didTapSettingsButton), for: .touchUpInside)
         editButton.addTarget(self, action: #selector(didTapEditButton), for: .touchUpInside)
         
@@ -416,6 +407,8 @@ class ProfileViewController2: UIViewController {
         )
         profileImageView.layer.cornerRadius = profileImageSize/2
         
+        loadingCircle.frame = profileImageView.frame
+        
         let gradientLayerHeight:CGFloat = coverImageView.height - profileImageView.top - profileImageSize/2
         gradientLayer.frame = CGRect(
             x: 0,
@@ -446,7 +439,7 @@ class ProfileViewController2: UIViewController {
         rankLabel.text = "Rank"
         
         if viewModel.userId != AuthManager.shared.userId {
-            updateFollowButton(for: viewModel.relationshipType)
+            followButton.configure(for: viewModel.relationshipType, otherUserID: viewModel.userId)
         }
         
         nicknameLabel.text = viewModel.nickname
@@ -566,31 +559,6 @@ class ProfileViewController2: UIViewController {
     
     // MARK: - Private Functions
     
-    private func updateFollowButton(for relationshipType: RelationshipTypeForSelf) {
-        switch relationshipType {
-        case .following:
-            followButton.setTitle("Following", for: .normal)
-            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 14)
-            followButton.setBackgroundColor(color: .gray, forState: .normal)
-            followButton.setAnimationsEnabled(enabled: false)
-        case .follower:
-            followButton.setTitle("Follow back", for: .normal)
-            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 12)
-            followButton.setBackgroundColor(color: .gray, forState: .normal)
-            followButton.setAnimationsEnabled(enabled: true)
-        case .friends:
-            followButton.setTitle("Friends", for: .normal)
-            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 16)
-            followButton.setBackgroundColor(color: UIColor(named: "XYpink")!, forState: .normal)
-            followButton.setAnimationsEnabled(enabled: false)
-        case .none:
-            followButton.setTitle("Follow", for: .normal)
-            followButton.titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 16)
-            followButton.setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
-            followButton.setAnimationsEnabled(enabled: true)
-        }
-    }
-    
     @objc private func didTapEditButton() {
         let vc = EditProfileViewController()
         vc.configure()
@@ -610,6 +578,16 @@ class ProfileViewController2: UIViewController {
     
     @objc private func didTapSettingsButton() {
         let vc = ProfileHeaderSettingsViewController()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func didTapSubscribers() {
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        let vc = SubscribersViewController()
+        vc.configure(userId: viewModel.userId)
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -637,41 +615,6 @@ class ProfileViewController2: UIViewController {
                 target: self,
                 action: #selector(openChatButtonPressed)
             )
-        }
-    }
-    
-    @objc private func followButtonPressed() {
-        guard let viewModel = viewModel else {
-            return
-        }
-        followButton.isEnabled = false
-        
-        HapticsManager.shared?.vibrate(for: .success)
-        
-        switch viewModel.relationshipType {
-        case .follower, .none:
-            RelationshipFirestoreManager.shared.follow(otherId: viewModel.userId) { (relationshipModel) in
-                if let relationshipModel = relationshipModel {
-                    self.followButton.isEnabled = true
-                    self.viewModel?.relationshipType = relationshipModel.toRelationshipToSelfType()
-                    
-                    self.updateFollowButton(for: relationshipModel.toRelationshipToSelfType())
-                }
-            }
-        case .friends, .following:
-            RelationshipFirestoreManager.shared.unfollow(otherId: viewModel.userId) { (result) in
-                switch result {
-                case .success(let relationshipModel):
-                    self.followButton.isEnabled = true
-                    
-                    let type = relationshipModel?.toRelationshipToSelfType() ?? .none
-                    self.viewModel?.relationshipType = type
-                    
-                    self.updateFollowButton(for: type)
-                case .failure(let error):
-                    print(error)
-                }
-            }
         }
     }
 }
