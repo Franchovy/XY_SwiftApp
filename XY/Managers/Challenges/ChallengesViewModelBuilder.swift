@@ -37,13 +37,11 @@ final class ChallengesViewModelBuilder {
     static func buildChallengeAndVideo(from model: ChallengeVideoModel, challengeModel: ChallengeModel, withThumbnailImage: Bool = false, completion: @escaping((ChallengeViewModel, ChallengeVideoViewModel)?) -> Void) {
         let dispatchGroup = DispatchGroup()
         
-        dispatchGroup.enter()
-        dispatchGroup.enter()
-        
         var videoURL: URL?
         var creatorProfile: ProfileModel?
         var videoThumbnail: UIImage?
         
+        dispatchGroup.enter()
         StorageManager.shared.downloadVideo(videoId: model.videoRef, containerId: nil) { (result) in
             defer {
                 dispatchGroup.leave()
@@ -51,6 +49,7 @@ final class ChallengesViewModelBuilder {
             
             switch result {
             case .success(let url):
+                print(url)
                 videoURL = url
             case .failure(let error):
                 print(error)
@@ -73,10 +72,16 @@ final class ChallengesViewModelBuilder {
             }
         }
         
+        
+        dispatchGroup.enter()
         ProfileFirestoreManager.shared.getProfileID(forUserID: model.creatorID) { (profileID, error) in
+            defer {
+                dispatchGroup.leave()
+            }
             if let error = error {
                 print(error)
             } else if let profileID = profileID {
+                dispatchGroup.enter()
                 ProfileFirestoreManager.shared.getProfile(forProfileID: profileID) { (profileModel) in
                     defer {
                         dispatchGroup.leave()
@@ -95,6 +100,7 @@ final class ChallengesViewModelBuilder {
                     completion(nil)
                     return
                 }
+                
                 let challengeViewModel = ChallengeViewModel(
                     id: challengeModel.id,
                     title: "#\(challengeModel.title)",

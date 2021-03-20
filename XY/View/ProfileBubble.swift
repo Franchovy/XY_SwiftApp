@@ -56,7 +56,6 @@ class ProfileBubble: UIView {
     var delegate: ProfileBubbleDelegate?
     var viewModel: NewProfileViewModel?
     
-    
     enum FollowButtonPos {
         case forProfile
         case forVideo

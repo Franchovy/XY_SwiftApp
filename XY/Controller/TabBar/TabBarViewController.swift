@@ -279,7 +279,7 @@ extension TabBarViewController: ProfileManagerDelegate {
         if profileId == ProfileManager.shared.ownProfileId {
             selectedIndex = 4
         } else {
-            let profileVC = NewProfileViewController(profileId: profileId)
+            let profileVC = ProfileViewController2(profileId: profileId)
             profileVC.modalPresentationStyle = .fullScreen
             profileVC.heroModalAnimationType = .pageIn(direction: .left)
             navigationController?.isNavigationBarHidden = false
@@ -293,7 +293,6 @@ extension TabBarViewController: CameraViewControllerDelegate {
         selectedIndex = 0
         
         viewControllers?.forEach({ print($0) })
-        
     }
     
     func cameraViewDidTapCloseButton() {
