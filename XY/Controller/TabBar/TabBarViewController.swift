@@ -14,7 +14,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     var onInitFinished: (() -> Void)?
     var eyesMode = false
     
-    var playVC: PlayViewController!
+    var playVC: WatchViewController!
     var cameraVC: CameraViewController!
     
     init() {
@@ -37,7 +37,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         
         tabBar.isTranslucent = false
         
-        playVC = PlayViewController()
+        playVC = WatchViewController()
         cameraVC = CameraViewController()
         
         let nav1 = UINavigationController(

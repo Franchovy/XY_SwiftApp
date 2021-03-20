@@ -59,7 +59,7 @@
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
 		B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D284D26039B3700F590BE /* PopupWarningView.swift */; };
-		B93D7BF525F41A7E005CE74D /* PlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF425F41A7E005CE74D /* PlayViewController.swift */; };
+		B93D7BF525F41A7E005CE74D /* WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF425F41A7E005CE74D /* WatchViewController.swift */; };
 		B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF825F41AD3005CE74D /* VideoViewController.swift */; };
 		B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DABE25E6C40F0040CEDB /* MessageView.swift */; };
 		B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* PreviewViewController.swift */; };
@@ -259,7 +259,7 @@
 		B93D1BEB2597E9C6009ADBFC /* XYTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XYTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B93D284D26039B3700F590BE /* PopupWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWarningView.swift; sourceTree = "<group>"; };
-		B93D7BF425F41A7E005CE74D /* PlayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayViewController.swift; sourceTree = "<group>"; };
+		B93D7BF425F41A7E005CE74D /* WatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewController.swift; sourceTree = "<group>"; };
 		B93D7BF825F41AD3005CE74D /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		B944DABE25E6C40F0040CEDB /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B944DAC425E6C4290040CEDB /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
@@ -468,7 +468,7 @@
 			isa = PBXGroup;
 			children = (
 				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
-				B93D7BFC25F41ADA005CE74D /* PlayVC */,
+				B93D7BFC25F41ADA005CE74D /* WatchVC */,
 				B934B66F25F76CBD00575972 /* Explore */,
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
@@ -638,15 +638,15 @@
 			path = XYTests;
 			sourceTree = "<group>";
 		};
-		B93D7BFC25F41ADA005CE74D /* PlayVC */ = {
+		B93D7BFC25F41ADA005CE74D /* WatchVC */ = {
 			isa = PBXGroup;
 			children = (
-				B93D7BF425F41A7E005CE74D /* PlayViewController.swift */,
+				B93D7BF425F41A7E005CE74D /* WatchViewController.swift */,
 				B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */,
 				B93D7BF825F41AD3005CE74D /* VideoViewController.swift */,
 				B9E67E6725F438BF004FA873 /* ChallengeViewController.swift */,
 			);
-			path = PlayVC;
+			path = WatchVC;
 			sourceTree = "<group>";
 		};
 		B94FA39225710C9D00A44085 /* Model */ = {
@@ -1212,7 +1212,7 @@
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
-				B93D7BF525F41A7E005CE74D /* PlayViewController.swift in Sources */,
+				B93D7BF525F41A7E005CE74D /* WatchViewController.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */,

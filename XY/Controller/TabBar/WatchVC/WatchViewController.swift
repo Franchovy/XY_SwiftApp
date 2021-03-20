@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     private let pageViewController = SwipingPageViewController(
         transitionStyle: .scroll,
@@ -279,7 +279,7 @@ class PlayViewController: UIViewController, UIPageViewControllerDataSource, UIPa
     }
 }
 
-extension PlayViewController : VideoViewControllerDelegate {
+extension WatchViewController : VideoViewControllerDelegate {
     func didTapTitle(for viewModel: ChallengeViewModel) {
         let exploreChallengeVC = ExploreChallengeViewController(challengeViewModel: viewModel)
     

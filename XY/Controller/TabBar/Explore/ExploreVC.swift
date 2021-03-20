@@ -275,7 +275,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return
         }
         
-        let vc = PlayViewController()
+        let vc = WatchViewController()
         vc.configure(for: pair.0)
         vc.setFirstVideo(pair.1, heroID: "vid")
         isHeroEnabled = true
