@@ -120,9 +120,9 @@ class XPCircleView: UIView {
             progressLayer.lineWidth = 4.0
             glowShadowLayer.lineWidth = 4.0
         case .medium:
-            backgroundLayer.lineWidth = 1.0
-            progressLayer.lineWidth = 2.0
-            glowShadowLayer.lineWidth = 2.8
+            backgroundLayer.lineWidth = 3.0
+            progressLayer.lineWidth = 5.0
+            glowShadowLayer.lineWidth = 5.0
         case .thick:
             backgroundLayer.lineWidth = 2.0
             progressLayer.lineWidth = 4.0

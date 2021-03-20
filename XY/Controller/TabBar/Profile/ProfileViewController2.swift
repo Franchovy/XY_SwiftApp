@@ -219,7 +219,7 @@ class ProfileViewController2: UIViewController {
     
     private func commonInit() {
         view.addSubview(loadingCircle)
-        
+        xpCircle.isHidden = true
     
         coverImageView.layer.masksToBounds = true
         
@@ -240,7 +240,7 @@ class ProfileViewController2: UIViewController {
         xpCircle.setColor(UIColor(0x007BF5), labelColor: .white)
         
         loadingCircle.frame.size = CGSize(width: 50, height: 50)
-        loadingCircle.center = view.center
+        loadingCircle.setThickness(.medium)
         
         view.backgroundColor = UIColor(named: "Black")
         
@@ -277,6 +277,8 @@ class ProfileViewController2: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        loadingCircle.center = profileImageView.center
         
         var loadingCircleProgress:CGFloat = 0.1
         loadingCircle.setProgress(loadingCircleProgress)
@@ -499,6 +501,8 @@ class ProfileViewController2: UIViewController {
     
     public func onLoadedProfile() {
         loadingCircle.removeFromSuperview()
+        
+        xpCircle.isHidden = false
         
         guard let userID = viewModel?.userId else {
             return
