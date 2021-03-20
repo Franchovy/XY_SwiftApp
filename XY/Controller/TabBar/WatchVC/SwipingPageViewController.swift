@@ -83,27 +83,12 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         
         switch gestureRecognizer.state {
         case .began:
-            let label = UILabel()
-            label.font = UIFont(name: "Raleway-Heavy", size: 20)
-            label.adjustsFontSizeToFitWidth = true
-            label.frame.size = CGSize(width: 150, height: 50)
-            label.textColor = UIColor(named: "XYTint")
+            startSwipeLabel()
             
-            random = Int.random(in: 0...4)
-            
-            label.text = isTowardsRight ?
-                ["Wow", "Amazing", "Super", "Love it", "Incredible", "lol", "Dope"][Int.random(in: 0...6)] :
-                ["Ughhh", "Boooring", "This sucks", "Really?", "Loser"][random]
-            
-            label.alpha = 0.0
-            label.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-            
-            view.addSubview(label)
-            
-            swipeLabel = label
-            break
         case .changed:
-            break
+            if swipeLabel == nil {
+                startSwipeLabel()
+            }
         case .ended, .cancelled:
             // Un-Cling
             var fadeStyle: UIView.AnimationOptions!
@@ -119,6 +104,7 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
             }
             
             if let swipeLabel = swipeLabel {
+                self.swipeLabel = nil
                 UIView.animate(withDuration: 0.4, delay: 0, options: fadeStyle) {
                     swipeLabel.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                     swipeLabel.alpha = 0.0
@@ -133,6 +119,27 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         default:
             break
         }
+    }
+    
+    private func startSwipeLabel() {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Heavy", size: 20)
+        label.adjustsFontSizeToFitWidth = true
+        label.frame.size = CGSize(width: 150, height: 50)
+        label.textColor = UIColor(named: "XYTint")
+        
+        random = Int.random(in: 0...4)
+        
+        label.text = isTowardsRight ?
+            ["Wow", "Amazing", "Super", "Love it", "Incredible", "lol", "Dope"][Int.random(in: 0...6)] :
+            ["Ughhh", "Boooring", "This sucks", "Really?", "Loser"][random]
+        
+        label.alpha = 0.0
+        label.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+        
+        view.addSubview(label)
+        
+        swipeLabel = label
     }
     
     private func enableScrolling(isEnabled: Bool) {
