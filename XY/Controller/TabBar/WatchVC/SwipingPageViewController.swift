@@ -25,6 +25,8 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
     var swipeLabel: UILabel?
     var swipeLabelScale:CGFloat = 1
     
+    var random: Int!
+    
     var hapticsManager: HapticsManager?
     
     
@@ -65,7 +67,10 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         
         if let swipeLabel = swipeLabel {
             let percentage:CGFloat = abs(translationX) / (view.width/2)
-            swipeLabel.frame.origin = CGPoint(x: videoViewController.view.left - 150, y: videoViewController.view.top + 400)
+            swipeLabel.frame.origin = CGPoint(
+                x: isTowardsRight ? videoViewController.view.left - 150 : videoViewController.view.right - 50,
+                y: videoViewController.view.top + 350
+            )
             
             let scale = percentage * 2.0
             swipeLabel.transform = CGAffineTransform(scaleX: scale, y: scale)
@@ -83,9 +88,12 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
             label.adjustsFontSizeToFitWidth = true
             label.frame.size = CGSize(width: 150, height: 50)
             label.textColor = UIColor(named: "XYTint")
+            
+            random = Int.random(in: 0...4)
+            
             label.text = isTowardsRight ?
                 ["Wow", "Amazing", "Super", "Love it", "Incredible", "lol", "Dope"][Int.random(in: 0...6)] :
-                ["Ughhh", "Boooring", "This sucks", "Really?"][Int.random(in: 0...3)]
+                ["Ughhh", "Boooring", "This sucks", "Really?", "Loser"][random]
             
             label.alpha = 0.0
             label.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
@@ -114,7 +122,7 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
                 UIView.animate(withDuration: 0.4, delay: 0, options: fadeStyle) {
                     swipeLabel.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
                     swipeLabel.alpha = 0.0
-                    swipeLabel.frame.origin.x = 0
+                    swipeLabel.frame.origin.x = self.isTowardsRight ? 0 : self.view.width
                 } completion: { (done) in
                     if done {
                         swipeLabel.removeFromSuperview()
@@ -209,9 +217,14 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
         label.textColor = UIColor(named: "XYTint")
         label.text = isTowardsRight ?
             ["😍","😱","🤯","😮","😎"][Int.random(in: 0...4)] :
-            ["🥱","😡","😒","😫","🤮"][Int.random(in: 0...4)]
+            ["🤮","🥱","😡","😒","😫"][random]
         label.sizeToFit()
-        let startPoint = swipeLabel.frame.origin.applying(CGAffineTransform(translationX: 25, y: 100))
+        let startPoint = swipeLabel.frame.origin.applying(
+            CGAffineTransform(
+                translationX: isTowardsRight ? 25 : 25,
+                y: 100
+            )
+        )
         let topScale = swipeLabelScale
         label.frame.origin = startPoint
         label.alpha = 0.0
