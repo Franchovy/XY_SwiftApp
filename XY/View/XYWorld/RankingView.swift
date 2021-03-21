@@ -146,28 +146,23 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
                 self.ranking!.ranking[indexRow] = rankingCell
                 
                 if self.rowsToReload.contains(where: {$0 == indexRow-1}) {
-                    // second arrived - top
-                    self.tableView.reloadRows(
-                        at: [IndexPath(row: indexRow, section: 0)],
-                        with: .top
-                    )
-                    self.tableView.reloadRows(
-                        at: [IndexPath(row: indexRow-1, section: 0)],
-                        with: .bottom
-                    )
+                    let indexPaths = (IndexPath(row: indexRow-1, section: 0), IndexPath(row: indexRow, section: 0))
+                    
+                    self.tableView.moveRow(at: indexPaths.0, to: indexPaths.1)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
+                        self.tableView.reloadRows(at: [indexPaths.0, indexPaths.1], with: .fade)
+                    }
                     
                     self.rowsToReload.removeAll(where: {$0 == indexRow-1})
                 } else if self.rowsToReload.contains(where: {$0 == indexRow+1}) {
-                    // second arrived - bottom
+                    let indexPaths = (IndexPath(row: indexRow+1, section: 0), IndexPath(row: indexRow, section: 0))
                     
-                    self.tableView.reloadRows(
-                        at: [IndexPath(row: indexRow+1, section: 0)],
-                        with: .top
-                    )
-                    self.tableView.reloadRows(
-                        at: [IndexPath(row: indexRow, section: 0)],
-                        with: .bottom
-                    )
+                    self.tableView.moveRow(at: indexPaths.0, to: indexPaths.1)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.3) {
+                        self.tableView.reloadRows(at: [indexPaths.0, indexPaths.1], with: .none)
+                    }
                     
                     self.rowsToReload.removeAll(where: {$0 == indexRow+1})
                 } else {
