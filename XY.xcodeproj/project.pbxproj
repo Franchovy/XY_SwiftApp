@@ -145,10 +145,8 @@
 		B9AD3B7825CB070000BF74C3 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */; };
 		B9B0C05525FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */; };
 		B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C05825FD5EA3003DA5CB /* ExploreChallengeViewController.swift */; };
-		B9B0C07425FDE938003DA5CB /* XYWorldAsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C07325FDE938003DA5CB /* XYWorldAsHeader.swift */; };
 		B9B0C07C25FE2587003DA5CB /* TimerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C07B25FE2587003DA5CB /* TimerIcon.swift */; };
 		B9B50F0825FC16AF007B8F9F /* SwipingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */; };
-		B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7825F028B90083D69A /* RankingBoardCell.swift */; };
 		B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */; };
 		B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8025F029D50083D69A /* RankingModel.swift */; };
 		B9B74D8625F02B700083D69A /* RankingDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8525F02B700083D69A /* RankingDatabaseManager.swift */; };
@@ -168,6 +166,9 @@
 		B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BF8BED26023A670057210C /* PopupMessageView.swift */; };
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
+		B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */; };
+		B9D0D5C82607840E00D3F128 /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5C72607840E00D3F128 /* RankingView.swift */; };
+		B9D0D5CC2607841C00D3F128 /* OnlineNowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5CB2607841C00D3F128 /* OnlineNowView.swift */; };
 		B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */; };
 		B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */; };
 		B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowDataCell.swift */; };
@@ -347,10 +348,8 @@
 		B9AD3B7725CB070000BF74C3 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
 		B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoCollectionViewCell.swift; sourceTree = "<group>"; };
 		B9B0C05825FD5EA3003DA5CB /* ExploreChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreChallengeViewController.swift; sourceTree = "<group>"; };
-		B9B0C07325FDE938003DA5CB /* XYWorldAsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYWorldAsHeader.swift; sourceTree = "<group>"; };
 		B9B0C07B25FE2587003DA5CB /* TimerIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerIcon.swift; sourceTree = "<group>"; };
 		B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingPageViewController.swift; sourceTree = "<group>"; };
-		B9B74D7825F028B90083D69A /* RankingBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingBoardCell.swift; sourceTree = "<group>"; };
 		B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
 		B9B74D8025F029D50083D69A /* RankingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingModel.swift; sourceTree = "<group>"; };
 		B9B74D8525F02B700083D69A /* RankingDatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDatabaseManager.swift; sourceTree = "<group>"; };
@@ -373,6 +372,9 @@
 		B9BF8BED26023A670057210C /* PopupMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMessageView.swift; sourceTree = "<group>"; };
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
+		B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowViewModel.swift; sourceTree = "<group>"; };
+		B9D0D5C72607840E00D3F128 /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
+		B9D0D5CB2607841C00D3F128 /* OnlineNowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowView.swift; sourceTree = "<group>"; };
 		B9D1AB2025A3945C009B428E /* FirestoreReferenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreReferenceManager.swift; sourceTree = "<group>"; };
 		B9D1AB2625A394C3009B428E /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		B9D1AB3025A3A591009B428E /* FlowDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataCell.swift; sourceTree = "<group>"; };
@@ -831,9 +833,9 @@
 			children = (
 				B9B74D8D25F0376B0083D69A /* Ranking */,
 				B9AD3B7325CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift */,
-				B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */,
 				B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */,
-				B9B0C07325FDE938003DA5CB /* XYWorldAsHeader.swift */,
+				B9D0D5C72607840E00D3F128 /* RankingView.swift */,
+				B9D0D5CB2607841C00D3F128 /* OnlineNowView.swift */,
 			);
 			path = XYWorld;
 			sourceTree = "<group>";
@@ -850,7 +852,7 @@
 		B9B74D8D25F0376B0083D69A /* Ranking */ = {
 			isa = PBXGroup;
 			children = (
-				B9B74D7825F028B90083D69A /* RankingBoardCell.swift */,
+				B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */,
 				B9B74D8E25F037870083D69A /* RankingTableViewCell.swift */,
 			);
 			path = Ranking;
@@ -949,6 +951,7 @@
 				B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */,
 				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
 				B9B74D9425F03A170083D69A /* Ranking */,
+				B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1212,6 +1215,7 @@
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
 				B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */,
+				B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */,
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
@@ -1222,7 +1226,6 @@
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
-				B9B0C07425FDE938003DA5CB /* XYWorldAsHeader.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */,
 				B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */,
@@ -1256,7 +1259,6 @@
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9ABAA9A25F78859009CB966 /* ChallengeVideoViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
-				B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
 				B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */,
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
@@ -1277,6 +1279,7 @@
 				B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */,
 				B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */,
 				B98B070525FB8E7E00001986 /* ChallengeViewModel.swift in Sources */,
+				B9D0D5C82607840E00D3F128 /* RankingView.swift in Sources */,
 				B952AD7425D6C193008CC229 /* GradientButton.swift in Sources */,
 				B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */,
 				14B270A025AA08A000CCACDE /* ProfileFlowCollectionViewCell.swift in Sources */,
@@ -1335,6 +1338,7 @@
 				B9ABAA9E25F7974A009CB966 /* ChallengesViewModelBuilder.swift in Sources */,
 				B9E67E7125F441FA004FA873 /* CommentView.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
+				B9D0D5CC2607841C00D3F128 /* OnlineNowView.swift in Sources */,
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
 				B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */,

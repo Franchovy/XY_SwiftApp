@@ -33,7 +33,7 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var viewModel: ProfileViewModel?
+    var viewModel: NewProfileViewModel?
     
     // MARK: - Init
     
@@ -82,17 +82,14 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    public func configure(with viewModel: ProfileViewModel) {
-        viewModel.delegate = self
+    public func configure(with viewModel: NewProfileViewModel) {
         profileImage.image = viewModel.profileImage
         nameLabel.text = viewModel.nickname
         
         // Register XP Updates
-        if let userId = viewModel.userId {
-            FirebaseSubscriptionManager.shared.registerXPUpdates(for: userId, ofType: .user) { [weak self] (xpModel) in
-                viewModel.updateXP(xpModel)
-            }
-        }
+//        FirebaseSubscriptionManager.shared.registerXPUpdates(for: viewModel.userId, ofType: .user) { [weak self] (xpModel) in
+//            viewModel.updateXP(xpModel)
+//        }
         
         self.viewModel = viewModel
     }

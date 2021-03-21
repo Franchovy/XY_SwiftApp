@@ -9,7 +9,7 @@ import UIKit
 
 final class ProfileViewModelBuilder {
     
-    static func build(with profileModel: ProfileModel, withUserModel userModel: UserModel? = nil, fetchingProfileImage: Bool = true, fetchingCoverImage: Bool = true, completion: @escaping(NewProfileViewModel?) -> Void) {
+    static func build(with profileModel: ProfileModel, withUserModel userModel: UserModel? = nil, fetchingProfileImage: Bool = true, fetchingCoverImage: Bool = true, completion: @escaping(NewProfileViewModel?) -> Void) -> NewProfileViewModel {
         var profileImage: UIImage?
         var coverImage: UIImage?
         var relationship: Relationship?
@@ -117,5 +117,23 @@ final class ProfileViewModelBuilder {
             )
             completion(viewModel)
         }))
+        
+        return NewProfileViewModel(
+            nickname: profileModel.nickname,
+            relationshipType: RelationshipTypeForSelf.none,
+            numFollowers: profileModel.followers,
+            numFollowing: profileModel.following,
+            numSwipeRights: profileModel.swipeRights,
+            website: profileModel.website,
+            caption: profileModel.caption,
+            profileImage: nil,
+            coverImage: nil,
+            xp: 0,
+            level: 0,
+            xyname: "",
+            rank: nil,
+            userId: "",
+            profileId: profileModel.profileId
+        )
     }
 }

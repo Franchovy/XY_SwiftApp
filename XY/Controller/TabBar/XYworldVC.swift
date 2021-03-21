@@ -8,22 +8,26 @@
 import Foundation
 import UIKit
 
-
-
 class XYworldVC: UIViewController, UISearchBarDelegate {
     
-    let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        
-        tableView.sectionHeaderHeight = 450
-        tableView.estimatedRowHeight = 350
-        tableView.backgroundColor = UIColor(named: "XYblack")
-        tableView.showsVerticalScrollIndicator = false
-        tableView.separatorStyle = .none
-        tableView.register(XYWorldAsHeader.self, forHeaderFooterViewReuseIdentifier: XYWorldAsHeader.identifier)
-//        tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
-        return tableView
+    let onlineNowTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Online Now"
+        label.font = UIFont(name: "Raleway-Heavy", size: 25)
+        label.textColor = UIColor(named: "XYTint")
+        return label
     }()
+    
+    let rankingTitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Ranking"
+        label.font = UIFont(name: "Raleway-Heavy", size: 25)
+        label.textColor = UIColor(named: "XYTint")
+        return label
+    }()
+    
+    let onlineNowView = OnlineNowView()
+    let rankingView = RankingView()
     
     let barXPCircle: CircleView = {
         let circleView = CircleView()
@@ -34,29 +38,23 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         return circleView
     }()
     
-    private var postModels = [(PostModel, NewPostViewModel?)]()
+    private let seeMoreButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("See All", for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 22)
+        button.setTitleColor(UIColor(named: "XYTint"), for: .normal)
+        return button
+    }()
+    
+    private var rankingHeight: CGFloat = 270
     
     // MARK: - Properties
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
-        tableView.delegate = self
-        tableView.dataSource = self
-
         navigationItem.titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
-        
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(
-//            image: UIImage(named: "addpost_icon"),
-//            style: .done,
-//            target: self,
-//            action: #selector(didTapCreatePost)
-//        )
-        
-        navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(customView: barXPCircle),
-//            UIBarButtonItem(image: UIImage(systemName: "bell"), style: .done, target: self, action: #selector(didTapNotifications))
-        ]
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: barXPCircle)
     }
     
     required init?(coder: NSCoder) {
@@ -66,15 +64,26 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(tableView)
+        view.addSubview(onlineNowTitleLabel)
+        view.addSubview(rankingTitleLabel)
+        view.addSubview(onlineNowView)
+        view.addSubview(rankingView)
+        view.addSubview(seeMoreButton)
         
-//        fetchFlow()
+        rankingView.subscribeToRanking(.short)
+        
+        seeMoreButton.addTarget(self, action: #selector(didTapSeeMoreRanking), for: .touchUpInside)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.navigationBar.isTranslucent = false
         
         barXPCircle.registerXPUpdates(for: .ownUser)
+        
+        onlineNowView.subscribeToOnlineNow()
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -87,24 +96,58 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         super.viewDidLayoutSubviews()
         
         barXPCircle.frame.size = CGSize(width: 25, height: 25)
-        tableView.frame = view.bounds.inset(by: view.safeAreaInsets)
+        
+        onlineNowTitleLabel.sizeToFit()
+        onlineNowTitleLabel.frame = CGRect(
+            x: 15,
+            y: 5,
+            width: onlineNowTitleLabel.width,
+            height: onlineNowTitleLabel.height
+        )
+        
+        onlineNowView.frame = CGRect(
+            x: 15,
+            y: onlineNowTitleLabel.bottom + 5,
+            width: view.width - 30,
+            height: 100
+        )
+        
+        rankingTitleLabel.sizeToFit()
+        rankingTitleLabel.frame = CGRect(
+            x: 15,
+            y: onlineNowView.bottom + 5,
+            width: rankingTitleLabel.width,
+            height: rankingTitleLabel.height
+        )
+        
+        rankingView.frame = CGRect(
+            x: 0,
+            y: rankingTitleLabel.bottom + 5,
+            width: view.width,
+            height: rankingHeight
+        )
+        
+        seeMoreButton.sizeToFit()
+        seeMoreButton.frame = CGRect(
+            x: (view.width - seeMoreButton.width)/2,
+            y: rankingView.bottom + 10,
+            width: seeMoreButton.width,
+            height: seeMoreButton.height
+        )
     }
     
-    public func fetchFlow() {
-        FlowAlgorithmManager.shared.getFlowFromFollowing() { postModels in
-            if let postModels = postModels {
-                self.postModels.append(contentsOf: postModels.map({ ($0, nil) }))
-                self.tableView.reloadData()
-                                
-                for model in postModels {
-                    PostViewModelBuilder.build(from: model) { (postViewModel) in
-                        if let postViewModel = postViewModel {
-                            
-                            let cellIndex = self.postModels.firstIndex(where: { $0.0.id == model.id })!
-                            self.postModels[cellIndex] = (self.postModels[cellIndex].0, postViewModel)
-                            self.tableView.reloadRows(at: [IndexPath(row: cellIndex, section: 0)], with: .fade)
-                        }
-                    }
+    @objc private func didTapSeeMoreRanking() {
+        rankingView.subscribeToRanking(.full)
+        
+        rankingHeight = 550
+        
+        UIView.animate(withDuration: 0.3) {
+            self.seeMoreButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+            self.seeMoreButton.alpha = 0.0
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 1.5, delay: 0.1, options: .curveEaseIn) {
+                    self.rankingView.frame.size.height = self.rankingHeight
                 }
             }
         }
@@ -121,170 +164,5 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     @objc private func didTapCreatePost() {
         let vc = CreatePostViewController()
         navigationController?.pushViewController(vc, animated: true)
-    }
-}
-
-extension XYworldVC : UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        guard let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: XYWorldAsHeader.identifier) as? XYWorldAsHeader else {
-            return UIView()
-        }
-        header.rankingBoardDelegate = self
-        return header
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return postModels.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ImagePostCell.identifier, for: indexPath) as? ImagePostCell else {
-            return UITableViewCell()
-        }
-        
-        cell.configure(with: postModels[indexPath.row].1)
-        cell.delegate = self
-        return cell
-    }
-}
-
-extension XYworldVC : RankingBoardCellDelegate {
-    func didTapRankingBoard(with viewModel: RankingViewModel) {
-        let vc = RankingsViewController()
-        vc.configure(with: viewModel)
-        
-        navigationController?.pushViewController(vc, animated: true)
-
-        if (viewModel.name == "Global") {
-            
-        }
-    }
-}
-
-    
-//        case .post:
-//            let cell = tableView.cellForRow(at: indexPath) as! ImagePostCell
-//
-//            let originalTransform = cell.transform
-//            let shrinkTransform = cell.transform.scaledBy(x: 0.95, y: 0.95)
-//
-//            UIView.animate(withDuration: 0.2) {
-//                cell.transform = shrinkTransform
-//            } completion: { (done) in
-//                if done {
-//                    UIView.animate(withDuration: 0.2) {
-//                        cell.transform = originalTransform
-//                    }
-//                }
-//            }
-//            DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
-//                cell.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
-//
-//                let vc = PostViewController()
-//                vc.configure(with: self.postViewModels[indexPath.row])
-//                vc.isHeroEnabled = true
-//
-//                vc.onDismiss = { cell.setHeroIDs(forPost: "", forCaption: "", forImage: "") }
-//
-//                vc.setHeroIDs(forPost: "post", forCaption: "caption", forImage: "image")
-//
-//                self.navigationController?.isHeroEnabled = true
-//                self.navigationController?.pushViewController(vc, animated: true)
-//
-//            }
-
-
-// MARK: - ImagePostCell Delegate functions
-
-extension XYworldVC : ImagePostCellDelegate {
-    func imagePostCellDelegate(reportPressed postId: String) {
-        let alert = UIAlertController(title: "Report", message: "Why are you reporting this post?", preferredStyle: .alert)
-
-        alert.addTextField { (textfield) in
-            textfield.placeholder = "Report details"
-            textfield.font = UIFont(name: "HelveticaNeue-Bold", size: 15)
-        }
-        alert.addAction(UIAlertAction(title: "Send", style: .default, handler: { (action) in
-            let textfield = alert.textFields![0]
-
-            guard let text = textfield.text else {
-                return
-            }
-
-            FirebaseUpload.sendReport(message: text, postId: postId)
-
-            if let index = self.postModels.firstIndex(where: { $0.0.id == postId }) {
-                self.postModels.remove(at: index)
-                self.tableView.deleteRows(at: [IndexPath(row: index, section: 0)], with: .left)
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-
-        }))
-
-        present(alert, animated: true, completion: nil)
-    }
-
-    func imagePostCellDelegate(didOpenPostVCFor cell: ImagePostCell) {
-
-    }
-
-    func imagePostCellDelegate(willSwipeLeft cell: ImagePostCell) {
-        guard let cellIndex = tableView.indexPath(for: cell),
-              postModels.count > cellIndex.row else {
-            return
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
-            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
-        }
-    }
-
-    func imagePostCellDelegate(willSwipeRight cell: ImagePostCell) {
-        guard let cellIndex = tableView.indexPath(for: cell),
-              postModels.count > cellIndex.row else {
-            return
-        }
-
-        DispatchQueue.main.asyncAfter(deadline: .now() + cell.swipeAnimationDuration - 0.2) {
-            self.tableView.scrollToRow(at: IndexPath(row: cellIndex.row, section: cellIndex.section), at: .middle, animated: true)
-        }
-    }
-
-    func imagePostCellDelegate(didSwipeLeft cell: ImagePostCell) {
-        guard let cellIndex = tableView.indexPath(for: cell),
-              postModels.count > cellIndex.row else {
-            return
-        }
-
-        self.postModels.remove(at: cellIndex.row)
-
-        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
-
-        guard let postId = cell.viewModel?.id else {
-            return
-        }
-        FirebaseFunctionsManager.shared.swipeLeft(postId: postId)
-    }
-
-    func imagePostCellDelegate(didSwipeRight cell: ImagePostCell) {
-        guard let cellIndex = tableView.indexPath(for: cell),
-              postModels.count > cellIndex.row else {
-            return
-        }
-
-        self.postModels.remove(at: cellIndex.row)
-
-        self.tableView.deleteRows(at: [cellIndex], with: .bottom)
-
-        guard self.postModels.count > cellIndex.row else {
-            return
-        }
-
-        guard let postId = cell.viewModel?.id else {
-            return
-        }
-
-        FirebaseFunctionsManager.shared.swipeRight(postId: postId)
     }
 }

@@ -1,20 +1,14 @@
 //
-//  RankingBoardCell.swift
+//  RankingView.swift
 //  XY
 //
-//  Created by Maxime Franchot on 03/03/2021.
+//  Created by Maxime Franchot on 21/03/2021.
 //
 
 import UIKit
 
-protocol RankingBoardCellDelegate : class {
-    func didTapRankingBoard(with viewModel: RankingViewModel)
-}
-
-class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
-    
-    static let identifier = "RankingBoardCell"
-    
+class RankingView: UIView, UITableViewDataSource {
+        
     private let title: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 25)
@@ -38,19 +32,12 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         return label
     }()
     
-    private let levelLabel: UILabel = {
+    private let scoreLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 9)
         label.textColor = UIColor(named: "tintColor")
-        label.text = "Level"
+        label.text = "Score"
         return label
-    }()
-    
-    private let indicatorIcon: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "chevron.right"))
-        imageView.tintColor = UIColor(named: "XYTint")
-        imageView.contentMode = .scaleAspectFill
-        return imageView
     }()
     
     private let tableView: UITableView = {
@@ -63,32 +50,29 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
         return tableView
     }()
     
+
     let backgroundLayer = CAShapeLayer()
     let shadowLayer = CAShapeLayer()
     
-    var cellViewModels = [(NewProfileViewModel, Int)]()
-    
-    var delegate: RankingBoardCellDelegate?
+    var models = [RankingCellModel]()
     var viewModel: RankingViewModel?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init() {
+        super.init(frame: .zero)
         
-        contentView.layer.insertSublayer(shadowLayer, at: 0)
-        contentView.layer.insertSublayer(backgroundLayer, at: 0)
-        layer.masksToBounds = false
-        clipsToBounds = false
+        backgroundColor = .clear
         
         tableView.dataSource = self
-        contentView.addSubview(title)
-        contentView.addSubview(rankLabel)
-        contentView.addSubview(playerLabel)
-        contentView.addSubview(levelLabel)
-        contentView.addSubview(tableView)
-        contentView.addSubview(indicatorIcon)
+        addSubview(title)
+        addSubview(rankLabel)
+        addSubview(playerLabel)
+        addSubview(scoreLabel)
+        addSubview(tableView)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
-        contentView.addGestureRecognizer(tapGesture)
+        addGestureRecognizer(tapGesture)
+        
+        tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -97,25 +81,6 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-        backgroundLayer.frame = bounds
-        backgroundLayer.fillColor = UIColor(named: "XYCard")!.cgColor
-        backgroundLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: 15).cgPath
-        shadowLayer.frame = bounds
-        shadowLayer.masksToBounds = false
-        shadowLayer.shadowOpacity = 0.8
-        shadowLayer.fillColor = backgroundLayer.fillColor
-        shadowLayer.shadowColor = UIColor.black.cgColor
-        shadowLayer.path = backgroundLayer.path
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        shadowLayer.shadowRadius = 6
-        
-        indicatorIcon.frame = CGRect(
-            x: width - 10.28 - 7.67,
-            y: 11.72,
-            width: 7.67,
-            height: 13.88
-        )
         
         title.sizeToFit()
         title.frame = CGRect(
@@ -141,45 +106,57 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
             height: playerLabel.height
         )
         
-        levelLabel.sizeToFit()
-        levelLabel.frame = CGRect(
-            x: width - 37 - levelLabel.width,
+        scoreLabel.sizeToFit()
+        scoreLabel.frame = CGRect(
+            x: playerLabel.right + 100,
             y: title.bottom + 12.54,
-            width: levelLabel.width,
-            height: levelLabel.height
+            width: scoreLabel.width,
+            height: scoreLabel.height
         )
         
         tableView.frame = CGRect(
             x: 5,
             y: rankLabel.bottom + 5,
             width: width - 10,
-            height: height - (rankLabel.bottom + 5)
+            height: 800
         )
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        title.text = ""
-        cellViewModels = []
+    enum RankingSize {
+        case short
+        case full
     }
     
-    public func configure(with viewModel: RankingViewModel) {
-        self.viewModel = viewModel
-        title.text = viewModel.name
-        
-        cellViewModels = viewModel.cells
-        
-        tableView.reloadData()
+    func subscribeToRanking(_ size: RankingSize) {
+        RankingDatabaseManager.shared.getRanking { (rankingModel) in
+            self.models = rankingModel.ranking
+            
+            RankingViewModelBuilder.build(
+                model: rankingModel,
+                count: size == .short ? 5 : rankingModel.ranking.count
+            ) { (rankingViewModel, error) in
+                if let rankingViewModel = rankingViewModel {
+                    self.viewModel = rankingViewModel
+                    self.tableView.reloadData()
+                }
+            }
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellViewModels.count
+        guard let viewModel = viewModel else {
+            return 0
+        }
+        return viewModel.cells.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let viewModel = viewModel else {
+            return UITableViewCell()
+        }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
-        let cellData = cellViewModels[indexPath.row]
+        let cellData = viewModel.cells[indexPath.row]
         cell.configure(with: cellData.0, rank: indexPath.row + 1, score: cellData.1)
         return cell
     }
@@ -197,11 +174,8 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
                     guard let viewModel = self.viewModel else {
                         return
                     }
-                    
-                    self.delegate?.didTapRankingBoard(with: viewModel)
                 }
             }
         }
     }
 }
-

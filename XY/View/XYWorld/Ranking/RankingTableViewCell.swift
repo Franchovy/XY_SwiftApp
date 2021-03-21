@@ -35,19 +35,25 @@ class RankingTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let xpCircle = CircleView()
+    private let scoreLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Bold", size: 18)
+        label.textColor = UIColor(named: "tintColor")
+        return label
+    }()
+    
+    private let followButton = FollowButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        backgroundColor = UIColor(named: "XYCard")
+        backgroundColor = .clear
         
-        xpCircle.setLevelLabelFontSize(size: 6)
-                
         addSubview(rankLabel)
         addSubview(profileImageView)
         addSubview(nameLabel)
-        addSubview(xpCircle)
+        addSubview(scoreLabel)
+        addSubview(followButton)
     }
     
     required init?(coder: NSCoder) {
@@ -74,23 +80,26 @@ class RankingTableViewCell: UITableViewCell {
         )
         profileImageView.layer.cornerRadius = imageSize/2
         
-        let xpCircleSize: CGFloat = 20
-        xpCircle.frame = CGRect(
-            x: width - xpCircleSize - 33.58,
-            y: (height - xpCircleSize)/2,
-            width: xpCircleSize,
-            height: xpCircleSize
-        )
-        
-        let nameLabelSize = CGSize(
-                width: xpCircle.left - profileImageView.right - 25,
-                height: height - 5
-            )
         nameLabel.frame = CGRect(
             x: profileImageView.right + 9.92,
             y: 8,
-            width: nameLabelSize.width,
-            height: nameLabelSize.height
+            width: 100,
+            height: 26
+        )
+        
+        scoreLabel.sizeToFit()
+        scoreLabel.frame = CGRect(
+            x: 225,
+            y: 7,
+            width: scoreLabel.width,
+            height: scoreLabel.height
+        )
+        
+        followButton.frame = CGRect(
+            x: width - 82,
+            y: 4,
+            width: 72,
+            height: 23
         )
     }
     
@@ -100,29 +109,30 @@ class RankingTableViewCell: UITableViewCell {
         rankLabel.text = ""
         nameLabel.text = ""
         profileImageView.image = nil
-        xpCircle.reset()
+        scoreLabel.text = ""
     }
     
     public func setColor(color: UIColor) {
         rankLabel.textColor = color
-        nameLabel.textColor = color
         rankLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
         rankLabel.layer.shadowRadius = 6
         rankLabel.layer.shadowColor = color.cgColor
         rankLabel.layer.shadowOpacity = 1.0
         
+        nameLabel.textColor = color
         nameLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
         nameLabel.layer.shadowRadius = 6
         nameLabel.layer.shadowColor = color.cgColor
         nameLabel.layer.shadowOpacity = 1.0
+        
+        scoreLabel.textColor = color
+        scoreLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
+        scoreLabel.layer.shadowRadius = 6
+        scoreLabel.layer.shadowColor = color.cgColor
+        scoreLabel.layer.shadowOpacity = 1.0
     }
     
     public func configure(with viewModel: NewProfileViewModel, rank: Int, score: Int) {
-    
-        rankLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
-        profileImageView.frame.size = CGSize(width: 30, height: 30)
-        nameLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
-        xpCircle.frame.size = CGSize(width: 30, height: 30)
         
         if rank == 1 {
             setColor(color: UIColor(0xCAF035))
@@ -137,10 +147,8 @@ class RankingTableViewCell: UITableViewCell {
         rankLabel.text = String(describing: rank)
         nameLabel.text = viewModel.nickname
         profileImageView.image = viewModel.profileImage
+        scoreLabel.text = String(format: "%06d", score)
         
-        let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user)
-        xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / Float(nextLevelXP))
-        xpCircle.setupFinished()
-        
+        followButton.configure(for: viewModel.relationshipType, otherUserID: viewModel.userId)
     }
 }

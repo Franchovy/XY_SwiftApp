@@ -27,16 +27,22 @@ final class RankingViewModelBuilder {
                     dispatchGroup.leave()
                 }
                 if let profileModel = profileModel {
-                    dispatchGroup.enter()
-                    ProfileViewModelBuilder.build(with: profileModel) { (newProfileViewModel) in
+//                    dispatchGroup.enter()
+                    
+                    let prefetchViewModel = ProfileViewModelBuilder.build(with: profileModel) { (newProfileViewModel) in
                         defer {
-                            dispatchGroup.leave()
+//                            dispatchGroup.leave()
                         }
                         if let newProfileViewModel = newProfileViewModel {
                             print(rankingCell.rank)
                             cellViewModels[rankingCell.rank-1] = (newProfileViewModel, rankingCell.score)
+                            
+                            var rankingViewModel = RankingViewModel(name: model.name, cells: cellViewModels.flatMap { $0 } )
+                            callback(rankingViewModel, nil)
                         }
                     }
+                    
+                    cellViewModels[rankingCell.rank-1] = (prefetchViewModel, rankingCell.score)
                 }
             }
         }
