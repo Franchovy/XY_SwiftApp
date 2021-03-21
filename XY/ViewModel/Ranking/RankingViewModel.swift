@@ -9,5 +9,5 @@ import UIKit
 
 struct RankingViewModel {
     let name: String
-    var cells: [RankingCellViewModel]
+    var cells: [(NewProfileViewModel, Int)]
 }

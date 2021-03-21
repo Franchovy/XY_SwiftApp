@@ -103,28 +103,40 @@ class RankingTableViewCell: UITableViewCell {
         xpCircle.reset()
     }
     
-    enum Size {
-        case large
-        case small
+    public func setColor(color: UIColor) {
+        rankLabel.textColor = color
+        nameLabel.textColor = color
+        rankLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
+        rankLabel.layer.shadowRadius = 6
+        rankLabel.layer.shadowColor = color.cgColor
+        rankLabel.layer.shadowOpacity = 1.0
+        
+        nameLabel.layer.shadowOffset = CGSize(width: 0, height: 3)
+        nameLabel.layer.shadowRadius = 6
+        nameLabel.layer.shadowColor = color.cgColor
+        nameLabel.layer.shadowOpacity = 1.0
     }
     
-    public func configure(with viewModel: RankingCellViewModel, for size: Size) {
-        switch size {
-        case .large:
-            rankLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
-            profileImageView.frame.size = CGSize(width: 30, height: 30)
-            nameLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
-            xpCircle.frame.size = CGSize(width: 30, height: 30)
-        case .small:
-            rankLabel.font = UIFont(name: "Raleway-Heavy", size: 19)
-            profileImageView.frame.size = CGSize(width: 40, height: 40)
-            xpCircle.frame.size = CGSize(width: 40, height: 40)
-            nameLabel.font = UIFont(name: "Raleway-Heavy", size: 20)
+    public func configure(with viewModel: NewProfileViewModel, rank: Int, score: Int) {
+    
+        rankLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
+        profileImageView.frame.size = CGSize(width: 30, height: 30)
+        nameLabel.font = UIFont(name: "Raleway-Heavy", size: 30)
+        xpCircle.frame.size = CGSize(width: 30, height: 30)
+        
+        if rank == 1 {
+            setColor(color: UIColor(0xCAF035))
+        } else if rank <= 3 {
+            setColor(color: UIColor(0xFF8740))
+        } else if rank <= 5 {
+            setColor(color: UIColor(0xFF3C4B))
+        } else {
+            setColor(color: UIColor(0x2375F8))
         }
         
-        rankLabel.text = String(describing: viewModel.rank)
-        nameLabel.text = viewModel.name
-        profileImageView.image = viewModel.image
+        rankLabel.text = String(describing: rank)
+        nameLabel.text = viewModel.nickname
+        profileImageView.image = viewModel.profileImage
         
         let nextLevelXP = XPModelManager.shared.getXpForNextLevelOfType(viewModel.level, .user)
         xpCircle.setProgress(level: viewModel.level, progress: Float(viewModel.xp) / Float(nextLevelXP))

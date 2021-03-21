@@ -66,7 +66,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     let backgroundLayer = CAShapeLayer()
     let shadowLayer = CAShapeLayer()
     
-    var cellViewModels = [RankingCellViewModel]()
+    var cellViewModels = [(NewProfileViewModel, Int)]()
     
     var delegate: RankingBoardCellDelegate?
     var viewModel: RankingViewModel?
@@ -167,6 +167,7 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     public func configure(with viewModel: RankingViewModel) {
         self.viewModel = viewModel
         title.text = viewModel.name
+        
         cellViewModels = viewModel.cells
         
         tableView.reloadData()
@@ -178,9 +179,8 @@ class RankingBoardCell: UICollectionViewCell, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
-        
-        cell.configure(with: cellViewModels[indexPath.row], for: .small)
-        
+        let cellData = cellViewModels[indexPath.row]
+        cell.configure(with: cellData.0, rank: indexPath.row + 1, score: cellData.1)
         return cell
     }
     

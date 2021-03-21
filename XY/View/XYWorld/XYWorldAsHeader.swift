@@ -45,14 +45,13 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
     }()
     
     static var onlineNowCellSize = CGSize(width: 60, height: 80)
-    static var rankingBoardCellSize = CGSize(width: 365, height: 230)
 
     private var collectionView: UICollectionView?
         
     private var sections = [XYworldSection]()
     
     private var onlineNowUsers = [ProfileViewModel]()
-    private var rankingCells = [XYworldCell?]()
+    private var rankingCells = [(NewProfileViewModel, Int)?]()
     
     weak var rankingBoardDelegate: RankingBoardCellDelegate?
     
@@ -90,14 +89,11 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
         addSubview(collectionView)
         collectionView.addSubview(noOnlineFriendsLabel)
         
-        
         sections.append(XYworldSection(type: .onlineNow, cells: []))
         sections.append(XYworldSection(type: .ranking, cells: []))
         
         subscribeToOnlineNow()
         subscribeToRanking()
-        
-        subscribeToOnlineNow()
     }
     
     
@@ -162,47 +158,14 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
     
     func subscribeToRanking() {
         
-        rankingCells = [XYworldCell?](repeating: nil, count: 2)
-        
-        RankingFirestoreManager.shared.getTopRanking(rankingLength: 3) { (rankingIDs) in
-            let model = RankingModel(
-                name: "Global",
-                rankedUserIDs: rankingIDs
-            )
+        RankingDatabaseManager.shared.getRanking { (rankingModel) in
             
-            let builder = RankingViewModelBuilder()
-            builder.build(model: model) { (rankingViewModel, error) in
-                if let error = error {
-                    print(error)
-                } else if let rankingViewModel = rankingViewModel {
-                    self.rankingCells[0] = XYworldCell.ranking(viewModel: rankingViewModel)
-                    self.sections[1] = XYworldSection(type: .ranking, cells: self.rankingCells.flatMap{ $0 })
-                    self.collectionView?.reloadData()
+                RankingViewModelBuilder.build(model: rankingModel, count: 5) { (rankingViewModel, error) in
+                    if let rankingViewModel = rankingViewModel {
+                        self.sections[1] = XYworldSection.init(type: .ranking, cells: [XYworldCell.ranking(viewModel: rankingViewModel)])
+                        self.collectionView?.reloadData()
+                    }
                 }
-            }
-        }
-        
-        RankingFirestoreManager.shared.getFriendsRanking(rankingLength: 3) { (rankingIDs) in
-            guard let rankingIDs = rankingIDs else {
-                self.rankingCells.remove(at: 1)
-                return
-            }
-            
-            let model = RankingModel(
-                name: "Friends",
-                rankedUserIDs: rankingIDs
-            )
-            
-            let builder = RankingViewModelBuilder()
-            builder.build(model: model) { (rankingViewModel, error) in
-                if let error = error {
-                    print(error)
-                } else if let rankingViewModel = rankingViewModel {
-                    self.rankingCells[1] = XYworldCell.ranking(viewModel: rankingViewModel)
-                    self.sections[1] = XYworldSection(type: .ranking, cells: self.rankingCells.flatMap{ $0 })
-                    self.collectionView?.reloadData()
-                }
-            }
         }
     }
     
@@ -243,8 +206,8 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
         case .ranking:
             let item = NSCollectionLayoutItem(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.95),
-                    heightDimension: .absolute(XYWorldAsHeader.rankingBoardCellSize.height)
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
                 )
             )
             
@@ -252,8 +215,8 @@ class XYWorldAsHeader: UITableViewHeaderFooterView {
             
             let group = NSCollectionLayoutGroup.horizontal(
                 layoutSize: NSCollectionLayoutSize(
-                    widthDimension: .fractionalWidth(0.95),
-                    heightDimension: .absolute(XYWorldAsHeader.rankingBoardCellSize.height)
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .fractionalHeight(1.0)
                 ),
                 subitems: [item]
             )
@@ -288,12 +251,12 @@ extension XYWorldAsHeader : UICollectionViewDelegate, UICollectionViewDataSource
             }
             cell.configure(with: viewModel)
             return cell
-        case .ranking(let viewModel):
+        case .ranking(let rankingViewModel):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RankingBoardCell.identifier, for: indexPath) as? RankingBoardCell else {
                 return UICollectionViewCell()
             }
             cell.delegate = rankingBoardDelegate
-            cell.configure(with: viewModel)
+            cell.configure(with: rankingViewModel)
             return cell
         }
     }

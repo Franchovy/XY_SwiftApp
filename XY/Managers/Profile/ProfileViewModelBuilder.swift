@@ -73,15 +73,7 @@ final class ProfileViewModelBuilder {
                         }
                     }
                     
-                    group.enter()
-                    RankingFirestoreManager.shared.getRanking(for: model.id) { (rankingNumber) in
-                        defer {
-                            group.leave()
-                        }
-                        if let rankingNumber = rankingNumber {
-                            ranking = rankingNumber
-                        }
-                    }
+                    ranking = 0
                 }
             }
         } else if let userModel = userModel {
@@ -101,15 +93,7 @@ final class ProfileViewModelBuilder {
                 }
             }
             
-            group.enter()
-            RankingFirestoreManager.shared.getRanking(for: userModel.id) { (rankingNumber) in
-                defer {
-                    group.leave()
-                }
-                if let rankingNumber = rankingNumber {
-                    ranking = rankingNumber
-                }
-            }
+            ranking = 0
         }
         
         group.notify(queue: .main, work: DispatchWorkItem(block: {

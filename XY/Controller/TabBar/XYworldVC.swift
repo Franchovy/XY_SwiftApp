@@ -21,7 +21,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         tableView.showsVerticalScrollIndicator = false
         tableView.separatorStyle = .none
         tableView.register(XYWorldAsHeader.self, forHeaderFooterViewReuseIdentifier: XYWorldAsHeader.identifier)
-        tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
+//        tableView.register(ImagePostCell.self, forCellReuseIdentifier: ImagePostCell.identifier)
         return tableView
     }()
     
@@ -46,16 +46,16 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
 
         navigationItem.titleView = UIImageView(image: UIImage(named: "XYNavbarLogo"))
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(named: "addpost_icon"),
-            style: .done,
-            target: self,
-            action: #selector(didTapCreatePost)
-        )
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(
+//            image: UIImage(named: "addpost_icon"),
+//            style: .done,
+//            target: self,
+//            action: #selector(didTapCreatePost)
+//        )
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(customView: barXPCircle),
-            UIBarButtonItem(image: UIImage(systemName: "bell"), style: .done, target: self, action: #selector(didTapNotifications))
+//            UIBarButtonItem(image: UIImage(systemName: "bell"), style: .done, target: self, action: #selector(didTapNotifications))
         ]
     }
     
@@ -68,7 +68,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         view.addSubview(tableView)
         
-        fetchFlow()
+//        fetchFlow()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -156,40 +156,7 @@ extension XYworldVC : RankingBoardCellDelegate {
         navigationController?.pushViewController(vc, animated: true)
 
         if (viewModel.name == "Global") {
-            RankingFirestoreManager.shared.getTopRanking(rankingLength: 30) { (rankingIDs) in
-                let model = RankingModel(
-                    name: "Global",
-                    rankedUserIDs: rankingIDs
-                )
-                
-                let builder = RankingViewModelBuilder()
-                builder.build(model: model) { (rankingViewModel, error) in
-                    if let error = error {
-                        print(error)
-                    } else if let rankingViewModel = rankingViewModel {
-                        vc.configure(with: rankingViewModel)
-                    }
-                }
-            }
-        } else {
-            RankingFirestoreManager.shared.getFriendsRanking(rankingLength: 30) { (rankingIDs) in
-                guard let rankingIDs = rankingIDs else {
-                    return
-                }
-                let model = RankingModel(
-                    name: "Friends",
-                    rankedUserIDs: rankingIDs
-                )
-                
-                let builder = RankingViewModelBuilder()
-                builder.build(model: model) { (rankingViewModel, error) in
-                    if let error = error {
-                        print(error)
-                    } else if let rankingViewModel = rankingViewModel {
-                        vc.configure(with: rankingViewModel)
-                    }
-                }
-            }
+            
         }
     }
 }

@@ -44,7 +44,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     let backgroundLayer = CAShapeLayer()
     let shadowLayer = CAShapeLayer()
     
-    var cellViewModels = [RankingCellViewModel]()
+    var cellViewModels = [(NewProfileViewModel, Int)]()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -125,7 +125,9 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
         
-        cell.configure(with: cellViewModels[indexPath.row], for: .large)
+        let cellViewModel = cellViewModels[indexPath.row]
+        
+        cell.configure(with: cellViewModel.0, rank: indexPath.row + 1, score: cellViewModel.1)
         cell.backgroundColor = UIColor(named: "Black")
         return cell
     }
@@ -134,7 +136,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
         let viewModel = cellViewModels[indexPath.row]
         tableView.cellForRow(at: indexPath)?.isSelected = false
         
-        ProfileFirestoreManager.shared.getProfileID(forUserID: viewModel.userID) { (profileID, error) in
+        ProfileFirestoreManager.shared.getProfileID(forUserID: viewModel.0.userId) { (profileID, error) in
             if let error = error {
                 print(error)
             } else if let profileID = profileID {

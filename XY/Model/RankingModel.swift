@@ -9,5 +9,12 @@ import Foundation
 
 struct RankingModel {
     let name: String
-    let rankedUserIDs: [RankingID]
+    let ranking:
+        [RankingCellModel]
+}
+
+struct RankingCellModel {
+    let rank: Int
+    let profileID: String
+    let score: Int
 }

@@ -151,7 +151,7 @@
 		B9B74D7925F028B90083D69A /* RankingBoardCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7825F028B90083D69A /* RankingBoardCell.swift */; };
 		B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */; };
 		B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8025F029D50083D69A /* RankingModel.swift */; };
-		B9B74D8625F02B700083D69A /* RankingFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8525F02B700083D69A /* RankingFirestoreManager.swift */; };
+		B9B74D8625F02B700083D69A /* RankingDatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8525F02B700083D69A /* RankingDatabaseManager.swift */; };
 		B9B74D8A25F02B7B0083D69A /* RankingViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8925F02B7B0083D69A /* RankingViewModelBuilder.swift */; };
 		B9B74D8F25F037870083D69A /* RankingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8E25F037870083D69A /* RankingTableViewCell.swift */; };
 		B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D9525F03A230083D69A /* RankingCellViewModel.swift */; };
@@ -353,7 +353,7 @@
 		B9B74D7825F028B90083D69A /* RankingBoardCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingBoardCell.swift; sourceTree = "<group>"; };
 		B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
 		B9B74D8025F029D50083D69A /* RankingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingModel.swift; sourceTree = "<group>"; };
-		B9B74D8525F02B700083D69A /* RankingFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingFirestoreManager.swift; sourceTree = "<group>"; };
+		B9B74D8525F02B700083D69A /* RankingDatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingDatabaseManager.swift; sourceTree = "<group>"; };
 		B9B74D8925F02B7B0083D69A /* RankingViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModelBuilder.swift; sourceTree = "<group>"; };
 		B9B74D8E25F037870083D69A /* RankingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingTableViewCell.swift; sourceTree = "<group>"; };
 		B9B74D9525F03A230083D69A /* RankingCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingCellViewModel.swift; sourceTree = "<group>"; };
@@ -841,7 +841,7 @@
 		B9B74D8425F02B580083D69A /* Ranking */ = {
 			isa = PBXGroup;
 			children = (
-				B9B74D8525F02B700083D69A /* RankingFirestoreManager.swift */,
+				B9B74D8525F02B700083D69A /* RankingDatabaseManager.swift */,
 				B9B74D8925F02B7B0083D69A /* RankingViewModelBuilder.swift */,
 			);
 			path = Ranking;
@@ -1251,7 +1251,7 @@
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
 				B9ABAAA525F7CBB1009CB966 /* ThumbnailManager.swift in Sources */,
 				B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */,
-				B9B74D8625F02B700083D69A /* RankingFirestoreManager.swift in Sources */,
+				B9B74D8625F02B700083D69A /* RankingDatabaseManager.swift in Sources */,
 				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9ABAA9A25F78859009CB966 /* ChallengeVideoViewModel.swift in Sources */,
