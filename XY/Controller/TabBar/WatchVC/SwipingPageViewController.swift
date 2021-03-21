@@ -208,6 +208,14 @@ class SwipingPageViewController: UIPageViewController, UIGestureRecognizerDelega
                             activeDraggedViewController.view.stopSpringScaleAnimate()
                             self.uncling()
                             self.returnToCenter()
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now()+0.35) {
+                                if self.isTowardsRight {
+                                    activeDraggedViewController.swipedRight()
+                                } else {
+                                    activeDraggedViewController.swipedLeft()
+                                }
+                            }
                         }
                     }
                 }

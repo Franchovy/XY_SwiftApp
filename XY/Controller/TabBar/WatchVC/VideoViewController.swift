@@ -24,6 +24,8 @@ class VideoViewController: UIViewController {
     
     private let xpCircleView = XPCircleView()
     
+    private let levelLabel = VideoLevelLabel()
+    
     private let followButton = FollowButton()
     
     private let userLabel: UILabel = {
@@ -85,6 +87,8 @@ class VideoViewController: UIViewController {
     var challengeModel: ChallengeViewModel?
     var videoViewModel: ChallengeVideoViewModel?
     
+    var level:CGFloat = 0.4
+    
     weak var delegate: VideoViewControllerDelegate?
     
     private var timeControlObserverSet = false
@@ -136,6 +140,7 @@ class VideoViewController: UIViewController {
         view.addSubview(xpCircleView)
         view.layer.addSublayer(profileShadowLayer)
         view.addSubview(profileBubble)
+        view.addSubview(levelLabel)
         view.addSubview(followButton)
     }
     
@@ -208,6 +213,14 @@ class VideoViewController: UIViewController {
             height: xpCircleSize
         )
         
+        let levelLabelSize = CGSize(width: 68, height: 23)
+        levelLabel.frame = CGRect(
+            x: xpCircleView.left,
+            y: xpCircleView.top - 10.29 - levelLabelSize.height,
+            width: levelLabelSize.width,
+            height: levelLabelSize.height
+        )
+        
         profileBubble.frame = CGRect(
             x: xpCircleView.left + 4,
             y: xpCircleView.top + 4,
@@ -263,6 +276,24 @@ class VideoViewController: UIViewController {
         }
     }
     
+    public func swipedRight() {
+        level += 0.4
+        
+        xpCircleView.animateSetProgress(level.truncatingRemainder(dividingBy: 1.0))
+        levelLabel.configure(for: VideoLevelLabel.Levels.init(rawValue: Int(floor(level)))!)
+        let color = levelLabel.getColor()
+        xpCircleView.setColor(color)
+    }
+    
+    public func swipedLeft() {
+        level -= 0.4
+        
+        xpCircleView.animateSetProgress(level.truncatingRemainder(dividingBy: 1.0))
+        levelLabel.configure(for: VideoLevelLabel.Levels.init(rawValue: Int(floor(level)))!)
+        let color = levelLabel.getColor()
+        xpCircleView.setColor(color)
+    }
+    
     public func configure(challengeVideoViewModel: ChallengeVideoViewModel, challengeViewModel: ChallengeViewModel) {
         self.challengeModel = challengeViewModel
         self.videoViewModel = challengeVideoViewModel
@@ -277,7 +308,9 @@ class VideoViewController: UIViewController {
                     self.followButton.configure(for: profileViewModel.relationshipType, otherUserID: profileViewModel.userId)
                     self.followButton.isHidden = false
                     
-                    self.xpCircleView.animateSetProgress(0.4)
+                    self.levelLabel.configure(for: .new)
+                    
+                    self.xpCircleView.animateSetProgress(self.level)
                     self.xpCircleView.setColor(UIColor(0xCAF035))
                     self.xpCircleView.setThickness(.thick)
                     self.xpCircleView.setBackgroundStyle(.glowColor)

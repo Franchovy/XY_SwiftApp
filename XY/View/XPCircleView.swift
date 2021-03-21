@@ -56,6 +56,8 @@ class XPCircleView: UIView {
     private var xpProgress:CGFloat = 0.0
     var innerInset: CGFloat = 2.0
     
+    var backgroundStyle: BackgroundStyle = .rail
+    
     init() {
         super.init(frame: .zero)
         
@@ -109,6 +111,10 @@ class XPCircleView: UIView {
         glowShadowLayer.strokeColor = color.cgColor
         progressLayer.strokeColor = color.cgColor
         
+        if backgroundStyle == .glowColor {
+            backgroundLayer.strokeColor = color.cgColor
+        }
+        
         if labelColor != nil {
             label.textColor = labelColor
         }
@@ -137,6 +143,8 @@ class XPCircleView: UIView {
     }
     
     public func setBackgroundStyle(_ style: BackgroundStyle) {
+        self.backgroundStyle = style
+        
         switch style {
         case .glowColor:
             backgroundLayer.strokeColor = progressLayer.strokeColor
