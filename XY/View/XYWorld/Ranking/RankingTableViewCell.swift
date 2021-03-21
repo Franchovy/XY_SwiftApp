@@ -31,7 +31,6 @@ class RankingTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Heavy", size: 20)
         label.textColor = UIColor(named: "tintColor")
-        label.adjustsFontSizeToFitWidth = true
         return label
     }()
 
@@ -91,14 +90,14 @@ class RankingTableViewCell: UITableViewCell {
         scoreLabel.sizeToFit()
         scoreLabel.frame = CGRect(
             x: 235,
-            y: 7,
+            y: 9,
             width: scoreLabel.width,
             height: scoreLabel.height
         )
         
         followButton.frame = CGRect(
             x: width - 82,
-            y: 4,
+            y: 10,
             width: 72,
             height: 23
         )
@@ -170,11 +169,17 @@ class RankingTableViewCell: UITableViewCell {
         
         rankLabel.text = String(describing: rank)
         nameLabel.text = viewModel.nickname
-        profileImageView.image = viewModel.profileImage
+        if viewModel.profileImage != nil {
+            profileImageView.image = viewModel.profileImage
+            profileImageView.alpha = 1.0
+        }
+        
         scoreLabel.text = String(format: "%06d", score)
         
-        followButton.configure(for: viewModel.relationshipType, otherUserID: viewModel.userId)
-        followButton.isHidden = false
+        if viewModel.relationshipType != .none {
+            followButton.configure(for: viewModel.relationshipType, otherUserID: viewModel.userId)
+            followButton.isHidden = false
+        }
     }
     
     public func updateScore(_ score: Int) {
