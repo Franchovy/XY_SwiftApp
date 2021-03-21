@@ -9,7 +9,7 @@ import Foundation
 
 struct RankingModel {
     let name: String
-    let ranking:
+    var ranking:
         [RankingCellModel]
 }
 

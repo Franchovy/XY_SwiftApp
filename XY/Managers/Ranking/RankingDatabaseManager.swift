@@ -11,14 +11,14 @@ import FirebaseDatabase
 class RankingDatabaseManager {
     static var shared = RankingDatabaseManager()
     
-    func getRanking(completion: @escaping(RankingModel) -> Void, onChange: @escaping([RankingCellModel]) -> Void, onMove: @escaping([RankingCellModel]) -> Void, onAdd: @escaping([RankingCellModel]) -> Void) {
+    func getRanking(completion: @escaping(RankingModel) -> Void, onChange: @escaping(RankingCellModel) -> Void, onAdd: @escaping(RankingCellModel) -> Void) {
         let rankingRef = Database.database().reference().child("Rankings").child("Global")
         
         rankingRef.observeSingleEvent(of: .value) { (snapshot) in
             
             // Return original ranking model
             if let values = snapshot.value as? [[String: Any]?] {
-                let cells = self.buildRankingCell(from: values)
+                let cells = self.buildRanking(from: values)
                 
                 let rankingModel = RankingModel(name: "Global", ranking: cells)
                 
@@ -26,38 +26,26 @@ class RankingDatabaseManager {
             }
             
             rankingRef.observe(.childChanged) { (snapshot) in
-                print("Child changed")
-                
                 if let value = snapshot.value as? [String: Any] {
-                    let cells = self.buildRankingCell(from: [value])
-                    
-                    onChange(cells)
-                }
-            }
-            
-            rankingRef.observe(.childMoved) { (snapshot) in
-                print("Child moved")
-                
-                if let values = snapshot.value as? [[String: Any]?] {
-                    let cells = self.buildRankingCell(from: values)
-                    
-                    onMove(cells)
+                    let cell = self.buildRankingCell(from: value, rank: Int(snapshot.key)!)
+                    if let cell = cell {
+                        onChange(cell)
+                    }
                 }
             }
             
             rankingRef.observe(.childAdded) { (snapshot) in
-                print("Child added")
-                
-                if let values = snapshot.value as? [[String: Any]?] {
-                    let cells = self.buildRankingCell(from: values)
-                    
-                    onAdd(cells)
+                if let value = snapshot.value as? [String: Any] {
+                    let cell = self.buildRankingCell(from: value, rank: Int(snapshot.key)!)
+                    if let cell = cell {
+                        onAdd(cell)
+                    }
                 }
             }
         }
     }
     
-    private func buildRankingCell(from data: [[String: Any]?]) -> [RankingCellModel] {
+    private func buildRanking(from data: [[String: Any]?]) -> [RankingCellModel] {
         var rankingCells = [RankingCellModel]()
         
         for (index, value) in data.enumerated() {
@@ -74,5 +62,16 @@ class RankingDatabaseManager {
         }
         
         return rankingCells
+    }
+    
+    private func buildRankingCell(from data: [String: Any], rank: Int) -> RankingCellModel? {
+        
+        if let profileID = data["profileID"] as? String,
+           let score = data["score"] as? Int {
+        
+            return RankingCellModel(rank: rank, profileID: profileID, score: score)
+        }
+        
+        return nil
     }
 }

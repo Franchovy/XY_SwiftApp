@@ -57,6 +57,7 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
     var models = [RankingCellModel]()
     var ranking: RankingModel?
     var viewModels: [String: NewProfileViewModel?] = [:]
+    var rowsToReload = [Int]()
     
     init() {
         super.init(frame: .zero)
@@ -126,18 +127,64 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
         RankingDatabaseManager.shared.getRanking { (rankingModel) in
             self.ranking = rankingModel
             self.tableView.reloadData()
-        } onChange: { (rankingCells) in
-            for rankingCell in rankingCells {
-                if let indexRow = self.ranking?.ranking.firstIndex(where: {$0.profileID == rankingCell.profileID}) {
+        } onChange: { (rankingCell) in
+            if let indexRow = self.ranking?.ranking.firstIndex(where: {$0.profileID == rankingCell.profileID}) {
+                
+                if indexRow == rankingCell.rank - 1 {
+                    // on score changed
                     let cell = self.tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as! RankingTableViewCell
                     
                     cell.updateScore(rankingCell.score)
                 }
             }
-        } onMove: { rankingCells in
-            print("Cells moved: \(rankingCells)")
-        } onAdd: { rankingCells in
-            print("Cells added: \(rankingCells)")
+            
+            if self.ranking != nil {
+                
+                let indexRow = rankingCell.rank - 1
+                
+                print("Update row at index: \(indexRow) with cell: \(rankingCell)")
+                self.ranking!.ranking[indexRow] = rankingCell
+                
+                if self.rowsToReload.contains(where: {$0 == indexRow-1}) {
+                    // second arrived - top
+                    self.tableView.reloadRows(
+                        at: [IndexPath(row: indexRow, section: 0)],
+                        with: .top
+                    )
+                    self.tableView.reloadRows(
+                        at: [IndexPath(row: indexRow-1, section: 0)],
+                        with: .bottom
+                    )
+                    
+                    self.rowsToReload.removeAll(where: {$0 == indexRow-1})
+                } else if self.rowsToReload.contains(where: {$0 == indexRow+1}) {
+                    // second arrived - bottom
+                    
+                    self.tableView.reloadRows(
+                        at: [IndexPath(row: indexRow+1, section: 0)],
+                        with: .top
+                    )
+                    self.tableView.reloadRows(
+                        at: [IndexPath(row: indexRow, section: 0)],
+                        with: .bottom
+                    )
+                    
+                    self.rowsToReload.removeAll(where: {$0 == indexRow+1})
+                } else {
+                    // first arrived
+                    self.rowsToReload.append(indexRow)
+                }
+            }
+        } onAdd: { rankingCell in
+            if self.ranking != nil, !self.ranking!.ranking.contains(where: {$0.profileID == rankingCell.profileID}) {
+                if self.ranking!.ranking.count > rankingCell.rank - 1 {
+                    self.ranking!.ranking.insert(rankingCell, at: rankingCell.rank-1)
+                    self.tableView.insertRows(at: [IndexPath(row: rankingCell.rank-1, section: 0)], with: .left)
+                } else {
+                    self.ranking!.ranking.append(rankingCell)
+                    self.tableView.insertRows(at: [IndexPath(row: self.ranking!.ranking.count-1, section: 0)], with: .left)
+                }
+            }
         }
     }
     
@@ -167,7 +214,7 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
             // Fetch
             fetchProfileViewModel(at: indexPath.row)
         }
-        
+                
         return cell
     }
     
