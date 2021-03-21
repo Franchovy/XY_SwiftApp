@@ -70,7 +70,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         view.addSubview(rankingView)
         view.addSubview(seeMoreButton)
         
-        rankingView.subscribeToRanking(.short)
+        rankingView.subscribeToRanking()
         
         seeMoreButton.addTarget(self, action: #selector(didTapSeeMoreRanking), for: .touchUpInside)
     }
@@ -137,7 +137,7 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     }
     
     @objc private func didTapSeeMoreRanking() {
-        rankingView.subscribeToRanking(.full)
+        rankingView.subscribeToRanking()
         
         rankingHeight = 550
         

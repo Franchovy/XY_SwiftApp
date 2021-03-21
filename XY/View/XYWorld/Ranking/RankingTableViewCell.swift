@@ -35,7 +35,7 @@ class RankingTableViewCell: UITableViewCell {
         return label
     }()
 
-    private let scoreLabel: UILabel = {
+    private var scoreLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Bold", size: 18)
         label.textColor = UIColor(named: "tintColor")
@@ -150,5 +150,35 @@ class RankingTableViewCell: UITableViewCell {
         scoreLabel.text = String(format: "%06d", score)
         
         followButton.configure(for: viewModel.relationshipType, otherUserID: viewModel.userId)
+    }
+    
+    public func updateScore(_ score: Int) {
+        let newScoreLabel = UILabel()
+        newScoreLabel.font = scoreLabel.font
+        newScoreLabel.textColor = scoreLabel.textColor
+        newScoreLabel.shadowColor = scoreLabel.shadowColor
+        newScoreLabel.shadowOffset = scoreLabel.shadowOffset
+        newScoreLabel.layer.shadowRadius = scoreLabel.layer.shadowRadius
+        newScoreLabel.text = String(format: "%06d", score)
+        
+        newScoreLabel.sizeToFit()
+        newScoreLabel.frame.origin.x = scoreLabel.frame.origin.x
+        newScoreLabel.frame.origin.y = scoreLabel.frame.origin.y + 30
+        newScoreLabel.alpha = 0.0
+        addSubview(newScoreLabel)
+        
+        let topY = scoreLabel.frame.origin.y - 30
+        let labelY = scoreLabel.frame.origin.y
+        
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .curveEaseOut) {
+            self.scoreLabel.alpha = 0.0
+            newScoreLabel.frame.origin.y = labelY
+            newScoreLabel.alpha = 1.0
+        } completion: { (done) in
+            if done {
+                self.scoreLabel.removeFromSuperview()
+                self.scoreLabel = newScoreLabel
+            }
+        }
     }
 }

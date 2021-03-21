@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RankingView: UIView, UITableViewDataSource {
+class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetching {
         
     private let title: UILabel = {
         let label = UILabel()
@@ -55,7 +55,8 @@ class RankingView: UIView, UITableViewDataSource {
     let shadowLayer = CAShapeLayer()
     
     var models = [RankingCellModel]()
-    var viewModel: RankingViewModel?
+    var ranking: RankingModel?
+    var viewModels: [String: NewProfileViewModel?] = [:]
     
     init() {
         super.init(frame: .zero)
@@ -63,14 +64,13 @@ class RankingView: UIView, UITableViewDataSource {
         backgroundColor = .clear
         
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
+        
         addSubview(title)
         addSubview(rankLabel)
         addSubview(playerLabel)
         addSubview(scoreLabel)
         addSubview(tableView)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTap))
-        addGestureRecognizer(tapGesture)
         
         tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10).isActive = true
     }
@@ -122,59 +122,86 @@ class RankingView: UIView, UITableViewDataSource {
         )
     }
     
-    enum RankingSize {
-        case short
-        case full
-    }
-    
-    func subscribeToRanking(_ size: RankingSize) {
+    func subscribeToRanking() {
         RankingDatabaseManager.shared.getRanking { (rankingModel) in
-            self.models = rankingModel.ranking
-            
-            RankingViewModelBuilder.build(
-                model: rankingModel,
-                count: size == .short ? 5 : rankingModel.ranking.count
-            ) { (rankingViewModel, error) in
-                if let rankingViewModel = rankingViewModel {
-                    self.viewModel = rankingViewModel
-                    self.tableView.reloadData()
+            self.ranking = rankingModel
+            self.tableView.reloadData()
+        } onChange: { (rankingCells) in
+            for rankingCell in rankingCells {
+                if let indexRow = self.ranking?.ranking.firstIndex(where: {$0.profileID == rankingCell.profileID}) {
+                    let cell = self.tableView.cellForRow(at: IndexPath(row: indexRow, section: 0)) as! RankingTableViewCell
+                    
+                    cell.updateScore(rankingCell.score)
                 }
             }
+        } onMove: { rankingCells in
+            print("Cells moved: \(rankingCells)")
+        } onAdd: { rankingCells in
+            print("Cells added: \(rankingCells)")
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let viewModel = viewModel else {
+        guard let ranking = ranking else {
             return 0
         }
-        return viewModel.cells.count
+        return ranking.ranking.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let viewModel = viewModel else {
+        guard let ranking = ranking else {
             return UITableViewCell()
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
-        let cellData = viewModel.cells[indexPath.row]
-        cell.configure(with: cellData.0, rank: indexPath.row + 1, score: cellData.1)
+        let rankingModel = ranking.ranking[indexPath.row]
+        
+        if viewModels.contains(where: {$0.key == rankingModel.profileID}),
+           let viewModel = viewModels[rankingModel.profileID] ?? nil {
+            cell.configure(
+                with: viewModel,
+                rank: rankingModel.rank,
+                score: rankingModel.score
+            )
+        } else {
+            // Fetch
+            fetchProfileViewModel(at: indexPath.row)
+        }
+        
         return cell
     }
     
-    @objc private func didTap() {
-        let originalTransform = transform
-        UIView.animate(withDuration: 0.15) {
-            self.transform = originalTransform.scaledBy(x: 0.9, y: 0.9)
-        } completion: { (done) in
-            if done {
-                UIView.animate(withDuration: 0.15) {
-                    self.transform = originalTransform
-                } completion: { (done) in
-                    
-                    guard let viewModel = self.viewModel else {
-                        return
-                    }
-                }
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let ranking = ranking else {
+            return
+        }
+        
+        for indexPath in indexPaths {
+            
+            fetchProfileViewModel(at: indexPath.row)
+        }
+    }
+    
+    private func fetchProfileViewModel(at indexRow: Int) {
+        
+        guard let id = ranking?.ranking[indexRow].profileID, !viewModels.contains(where: {$0.key == id}) else {
+            return
+        }
+        
+        viewModels[id] = nil
+        
+        ProfileFirestoreManager.shared.getProfile(forProfileID: id) { (profileModel) in
+            if let profileModel = profileModel {
+                self.viewModels[id] = ProfileViewModelBuilder.build(
+                    with: profileModel, completion: { (profileViewModel) in
+                        if let profileViewModel = profileViewModel {
+                            self.viewModels[id] = profileViewModel
+                            
+                            self.tableView.reloadRows(at: [IndexPath(row: indexRow, section: 0)], with: .fade)
+                        }
+                    })
+                
+                self.tableView.reloadRows(at: [IndexPath(row: indexRow, section: 0)], with: .fade)
             }
         }
     }
