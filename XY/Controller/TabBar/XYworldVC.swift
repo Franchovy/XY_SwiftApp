@@ -38,14 +38,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         return circleView
     }()
     
-    private let seeMoreButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("See All", for: .normal)
-        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 22)
-        button.setTitleColor(UIColor(named: "XYTint"), for: .normal)
-        return button
-    }()
-    
     private var rankingHeight: CGFloat = 270
     
     // MARK: - Properties
@@ -68,11 +60,8 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         view.addSubview(rankingTitleLabel)
         view.addSubview(onlineNowView)
         view.addSubview(rankingView)
-        view.addSubview(seeMoreButton)
         
         rankingView.subscribeToRanking()
-        
-        seeMoreButton.addTarget(self, action: #selector(didTapSeeMoreRanking), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,31 +115,6 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             width: view.width,
             height: rankingHeight
         )
-        
-        seeMoreButton.sizeToFit()
-        seeMoreButton.frame = CGRect(
-            x: (view.width - seeMoreButton.width)/2,
-            y: rankingView.bottom + 10,
-            width: seeMoreButton.width,
-            height: seeMoreButton.height
-        )
-    }
-    
-    @objc private func didTapSeeMoreRanking() {
-        rankingView.subscribeToRanking()
-        
-        rankingHeight = 550
-        
-        UIView.animate(withDuration: 0.3) {
-            self.seeMoreButton.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
-            self.seeMoreButton.alpha = 0.0
-        } completion: { (done) in
-            if done {
-                UIView.animate(withDuration: 1.5, delay: 0.1, options: .curveEaseIn) {
-                    self.rankingView.frame.size.height = self.rankingHeight
-                }
-            }
-        }
     }
     
     @objc private func didTapNotifications() {

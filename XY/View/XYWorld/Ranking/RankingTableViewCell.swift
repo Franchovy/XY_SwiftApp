@@ -54,6 +54,7 @@ class RankingTableViewCell: UITableViewCell {
         addSubview(nameLabel)
         addSubview(scoreLabel)
         addSubview(followButton)
+        followButton.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -89,7 +90,7 @@ class RankingTableViewCell: UITableViewCell {
         
         scoreLabel.sizeToFit()
         scoreLabel.frame = CGRect(
-            x: 225,
+            x: 235,
             y: 7,
             width: scoreLabel.width,
             height: scoreLabel.height
@@ -110,6 +111,7 @@ class RankingTableViewCell: UITableViewCell {
         nameLabel.text = ""
         profileImageView.image = nil
         scoreLabel.text = ""
+        followButton.isHidden = true
     }
     
     public func setColor(color: UIColor) {
@@ -132,6 +134,26 @@ class RankingTableViewCell: UITableViewCell {
         scoreLabel.layer.shadowOpacity = 1.0
     }
     
+    public func configureEmpty(rank: Int) {
+        
+        if rank == 1 {
+            setColor(color: UIColor(0xCAF035))
+        } else if rank <= 3 {
+            setColor(color: UIColor(0xFF8740))
+        } else if rank <= 5 {
+            setColor(color: UIColor(0xFF3C4B))
+        } else if rank <= 10 {
+            setColor(color: UIColor(0x2375F8))
+        } else {
+            setColor(color: UIColor(0x43A5FF))
+        }
+        
+        rankLabel.text = String(describing: rank)
+        nameLabel.text = "--------"
+        profileImageView.alpha = 0.0
+        scoreLabel.text = "------"
+    }
+    
     public func configure(with viewModel: NewProfileViewModel, rank: Int, score: Int) {
         
         if rank == 1 {
@@ -140,8 +162,10 @@ class RankingTableViewCell: UITableViewCell {
             setColor(color: UIColor(0xFF8740))
         } else if rank <= 5 {
             setColor(color: UIColor(0xFF3C4B))
-        } else {
+        } else if rank <= 10 {
             setColor(color: UIColor(0x2375F8))
+        } else {
+            setColor(color: UIColor(0x43A5FF))
         }
         
         rankLabel.text = String(describing: rank)
@@ -150,6 +174,7 @@ class RankingTableViewCell: UITableViewCell {
         scoreLabel.text = String(format: "%06d", score)
         
         followButton.configure(for: viewModel.relationshipType, otherUserID: viewModel.userId)
+        followButton.isHidden = false
     }
     
     public func updateScore(_ score: Int) {

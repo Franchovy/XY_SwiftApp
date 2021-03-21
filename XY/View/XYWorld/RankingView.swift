@@ -172,27 +172,44 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
             }
         } onAdd: { rankingCell in
             if self.ranking != nil, !self.ranking!.ranking.contains(where: {$0.profileID == rankingCell.profileID}) {
-                if self.ranking!.ranking.count > rankingCell.rank - 1 {
-                    self.ranking!.ranking.insert(rankingCell, at: rankingCell.rank-1)
-                    self.tableView.insertRows(at: [IndexPath(row: rankingCell.rank-1, section: 0)], with: .left)
+                let targetIndex = rankingCell.rank - 1
+                
+                if self.ranking!.ranking.count > targetIndex {
+                    self.ranking!.ranking.insert(rankingCell, at: targetIndex)
+                    
+                    if targetIndex > 10 {
+                        self.tableView.insertRows(at: [IndexPath(row: rankingCell.rank-1, section: 0)], with: .left)
+                    } else {
+                        self.tableView.reloadRows(at: [IndexPath(row: rankingCell.rank-1, section: 0)], with: .left)
+                    }
                 } else {
                     self.ranking!.ranking.append(rankingCell)
-                    self.tableView.insertRows(at: [IndexPath(row: self.ranking!.ranking.count-1, section: 0)], with: .left)
+                    
+                    if targetIndex > 10 {
+                        self.tableView.insertRows(at: [IndexPath(row: self.ranking!.ranking.count-1, section: 0)], with: .left)
+                    } else {
+                        self.tableView.reloadRows(at: [IndexPath(row: self.ranking!.ranking.count-1, section: 0)], with: .left)
+                    }
                 }
+            } else {
+                self.ranking = RankingModel(name: "Global", ranking: [rankingCell])
+                self.tableView.reloadRows(at: [IndexPath(row: 0, section: 0)], with: .left)
             }
         }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let ranking = ranking else {
-            return 0
+            return 10
         }
-        return ranking.ranking.count
+        return max(ranking.ranking.count, 10)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let ranking = ranking else {
-            return UITableViewCell()
+        guard let ranking = ranking, ranking.ranking.count > indexPath.row else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
+            cell.configureEmpty(rank: indexPath.row + 1)
+            return cell
         }
         
         let cell = tableView.dequeueReusableCell(withIdentifier: RankingTableViewCell.identifier) as! RankingTableViewCell
