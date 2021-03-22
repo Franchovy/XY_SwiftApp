@@ -28,6 +28,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     }()
     
     private var challengeTitleGradientLabel: GradientLabel?
+    
     private let viewButton: GradientBorderButtonWithShadow = {
        let button = GradientBorderButtonWithShadow()
         button.setTitle("View", for: .normal)
@@ -112,6 +113,8 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     public func configure(viewModel: ChallengeViewModel, videoViewModel: ChallengeVideoViewModel) {
         self.challengeViewModel = viewModel
         self.challengeVideoViewModel = videoViewModel
+        
+        challengeTitleGradientLabel?.removeFromSuperview()
         
         let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 12, gradientColours: viewModel.category.getGradient())
         contentView.addSubview(challengeTitleGradientLabel)

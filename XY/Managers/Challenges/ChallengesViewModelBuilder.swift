@@ -49,7 +49,6 @@ final class ChallengesViewModelBuilder {
             
             switch result {
             case .success(let url):
-                print(url)
                 videoURL = url
             case .failure(let error):
                 print(error)

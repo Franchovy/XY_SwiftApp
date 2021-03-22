@@ -8,7 +8,7 @@
 import UIKit
 
 class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetching {
-        
+    
     private let title: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 25)
@@ -72,8 +72,6 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
         addSubview(playerLabel)
         addSubview(scoreLabel)
         addSubview(tableView)
-        
-        tableView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: 10).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -115,12 +113,19 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
             height: scoreLabel.height
         )
         
+        print("Tableview contentsize: \(tableView.contentSize)")
         tableView.frame = CGRect(
             x: 5,
             y: rankLabel.bottom + 5,
             width: width - 10,
-            height: 800
+            height: tableView.contentSize.height
         )
+    }
+    
+    override func sizeToFit() {
+        super.sizeToFit()
+        
+        frame.size.height = tableView.bottom
     }
     
     func subscribeToRanking() {
@@ -200,9 +205,9 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let ranking = ranking else {
-            return 10
+            return 12
         }
-        return max(ranking.ranking.count, 10)
+        return max(ranking.ranking.count, 12)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

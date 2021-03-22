@@ -29,6 +29,13 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     let onlineNowView = OnlineNowView()
     let rankingView = RankingView()
     
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.alwaysBounceVertical = true
+        scrollView.showsVerticalScrollIndicator = false
+        return scrollView
+    }()
+    
     let barXPCircle: CircleView = {
         let circleView = CircleView()
         circleView.setProgress(level: 0, progress: 0.0)
@@ -56,10 +63,11 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(onlineNowTitleLabel)
-        view.addSubview(rankingTitleLabel)
-        view.addSubview(onlineNowView)
-        view.addSubview(rankingView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(onlineNowTitleLabel)
+        scrollView.addSubview(rankingTitleLabel)
+        scrollView.addSubview(onlineNowView)
+        scrollView.addSubview(rankingView)
         
         rankingView.subscribeToRanking()
     }
@@ -86,6 +94,8 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
         
         barXPCircle.frame.size = CGSize(width: 25, height: 25)
         
+        scrollView.frame = view.bounds
+        
         onlineNowTitleLabel.sizeToFit()
         onlineNowTitleLabel.frame = CGRect(
             x: 15,
@@ -109,12 +119,16 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
             height: rankingTitleLabel.height
         )
         
+        rankingView.sizeToFit()
+        print("Ranking height: \(rankingView.height)")
         rankingView.frame = CGRect(
             x: 0,
             y: rankingTitleLabel.bottom + 5,
             width: view.width,
-            height: rankingHeight
+            height: rankingView.height
         )
+        
+        scrollView.contentSize.height = rankingView.bottom
     }
     
     @objc private func didTapNotifications() {
