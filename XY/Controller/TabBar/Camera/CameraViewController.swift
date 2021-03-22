@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import SwiftyCam
 
 protocol CameraViewControllerDelegate {
     func cameraViewDidTapCloseButton()
@@ -17,7 +18,7 @@ protocol StartChallengeDelegate {
     func pressedPlay(challenge: ChallengeViewModel)
 }
 
-class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelegate {
+class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     var delegate: CameraViewControllerDelegate?
     
@@ -117,25 +118,12 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     private var previewVC: PreviewViewController?
     
-    var outputVideoURL: URL?
     var readyToPresentPreview = false
     
-    var flashEnabled = false
-    
-    var previewLayer: AVCaptureVideoPreviewLayer?
-    
-    var backCameraActive = false
+    var backCameraActive = true
     var isFrontRecording = false
-    var videoInputBack: AVCaptureDeviceInput?
-    var sessionBack: AVCaptureSession?
-    
     var isBackRecording = false
-    var videoInputFront: AVCaptureDeviceInput?
-    var sessionFront: AVCaptureSession?
-    
-    var audioInput: AVCaptureInput?
-    
-    private let movieFileOutput = AVCaptureMovieFileOutput()
+    var outputVideoURL: URL?
     
     var viewModels = [ChallengeViewModel]()
     var activeChallenge: ChallengeViewModel?
@@ -164,6 +152,14 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     // MARK: - Lifecycle
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        displaySuggestedChallenges()
+        
+        outputVideoURL = nil
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
@@ -172,6 +168,8 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        cameraDelegate = self
         
         navigationController?.isNavigationBarHidden = true
         
@@ -203,23 +201,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         recordButton.addTarget(self, action: #selector(didTapRecordButton), for: .touchUpInside)
         recordButton.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
         
-        DispatchQueue.global(qos: .default).async {
-            self.setupAVCaptureSessions()
-            
-            if let sessionBack = self.sessionBack {
-                // Set up preview layer and output
-                self.previewLayer = AVCaptureVideoPreviewLayer(session: sessionBack)
-                self.previewLayer?.videoGravity = .resizeAspectFill
-                
-                DispatchQueue.main.async {
-                    self.view.layer.insertSublayer(self.previewLayer!, at: 0)
-                }
-                
-                sessionBack.addOutput(self.movieFileOutput)
-                self.backCameraActive = true
-            }
-        }
-        
         challengePreviewCollectionView.dataSource = self
         fetchChallenges()
     }
@@ -231,8 +212,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        previewLayer?.frame = UIScreen.main.bounds
         
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
@@ -358,66 +337,6 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         }
     }
     
-    private func setupAVCaptureSessions() {
-        // Set up back camera
-        
-        sessionBack = AVCaptureSession()
-        sessionBack!.sessionPreset = .high
-        sessionBack!.startRunning()
-        
-        let backCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,
-                                                                  for: .video, position: .back) ??
-            AVCaptureDevice.default(.builtInWideAngleCamera,
-                                    for: .video, position: .back)
-        
-        if let backCamera = backCamera {
-            do {
-                print("Back camera initialized")
-                videoInputBack = try AVCaptureDeviceInput(device: backCamera)
-                sessionBack!.addInput(videoInputBack!)
-            } catch {
-                print("Error initializing session for back input!")
-            }
-        }
-        
-        // Set up front camera
-        sessionFront = AVCaptureSession()
-        sessionFront!.sessionPreset = .high
-        sessionFront!.startRunning()
-        
-        let frontCamera:AVCaptureDevice? = AVCaptureDevice.default(.builtInDualCamera,
-                                                                   for: .video, position: .front) ??
-            AVCaptureDevice.default(.builtInWideAngleCamera,
-                                    for: .video, position: .front)
-        
-        if let frontCamera = frontCamera {
-            do {
-                print("Front camera initialized")
-                videoInputFront = try AVCaptureDeviceInput(device: frontCamera)
-                sessionFront!.addInput(videoInputFront!)
-            } catch {
-                print("Error initializing session for back input!")
-            }
-        }
-        
-        // Set up audio
-        
-        let audioDevice = AVCaptureDevice.default(for: .audio)
-        if let audioDevice = audioDevice {
-            do {
-                audioInput = try AVCaptureDeviceInput(device: audioDevice)
-            } catch {
-                print("Error initializing audio input!")
-            }
-            
-            if let sessionBack = sessionBack, sessionBack.canAddInput(audioInput!) {
-                sessionBack.addInput(audioInput!)
-            } else if let sessionFront = sessionFront, sessionFront.canAddInput(audioInput!) {
-                sessionFront.addInput(audioInput!)
-            }
-        }
-    }
-    
     private func layoutCountDownLabel() {
         countDownLabel.sizeToFit()
         countDownLabel.frame = CGRect(
@@ -457,28 +376,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         
         recordButton.layer.addSublayer(gradient)
     }
+
+    func swiftyCam(_ swiftyCam: SwiftyCamViewController, didFinishProcessVideoAt url: URL) {
+         outputVideoURL = url
+    }
     
     private func startRecording() {
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0] as URL
-        let filePath = documentsURL.appendingPathComponent("tempMovie.mp4")
-        if FileManager.default.fileExists(atPath: filePath.absoluteString) {
-            do {
-                try FileManager.default.removeItem(at: filePath)
-            }
-            catch {
-                // exception while deleting old cached file
-                // ignore error if any
-            }
-        }
-        
-        if backCameraActive {
-            isBackRecording = true
-        } else {
-            isFrontRecording = true
-        }
-        movieFileOutput.movieFragmentInterval = .invalid
-        
-//        movieFileOutput.startRecording(to: filePath, recordingDelegate: self)
+        startVideoRecording()
         
         UIView.animate(withDuration: 0.3, animations: {
             self.recordButton.backgroundColor = .red
@@ -488,20 +392,13 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
     private func didEndRecording() {
         timer?.invalidate()
         
-        movieFileOutput.stopRecording()
+        stopVideoRecording()
+        
         recordButton.isEnabled = false
         
         UIView.animate(withDuration: 0.5, animations: {
             self.recordButton.backgroundColor = UIColor(0x404040)
         })
-    }
-    
-    internal func fileOutput(_ output: AVCaptureFileOutput, didFinishRecordingTo outputFileURL: URL, from connections: [AVCaptureConnection], error: Error?) {
-        outputVideoURL = outputFileURL
-        
-        if readyToPresentPreview {
-            presentPreviewController()
-        }
     }
     
     private func setUpForChallenge(challenge: ChallengeViewModel) {
@@ -665,23 +562,10 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
         reset()
     }
     
+    var flashOn = false
     @objc private func didTapFlash() {
-        flashEnabled = !flashEnabled
-        
-        guard let device = AVCaptureDevice.default(for: .video) else { return }
-        
-        if device.hasTorch {
-                do {
-                    try device.lockForConfiguration()
-
-                    device.torchMode = flashEnabled ? .on : .off
-                    device.unlockForConfiguration()
-                } catch {
-                    print("Torch could not be used")
-                }
-            } else {
-                print("Torch is not available")
-            }
+        flashMode = flashOn ? .on : .off
+        flashOn = !flashOn
     }
     
     @objc private func didDoubleTap() {
@@ -705,41 +589,7 @@ class CameraViewController: UIViewController, AVCaptureFileOutputRecordingDelega
             return
         }
         
-        // Switch cameras
-        let fromSession = backCameraActive ? sessionBack! : sessionFront!
-        let toSession = backCameraActive ? sessionFront! : sessionBack!
-        backCameraActive = !backCameraActive
-        
-        print("Front session: \(sessionFront!)")
-        print("Back session: \(sessionFront!)")
-        
-        let dispatchGroup = DispatchGroup()
-        dispatchGroup.enter()
-        
-        DispatchQueue.main.async {
-            fromSession.beginConfiguration()
-            fromSession.removeOutput(self.movieFileOutput)
-            fromSession.commitConfiguration()
-            
-            toSession.beginConfiguration()
-            if toSession.canAddOutput(self.movieFileOutput) {
-                toSession.addOutput(self.movieFileOutput)
-                print("Output changed")
-            }
-            toSession.commitConfiguration()
-            
-            dispatchGroup.leave()
-        }
-        
-        dispatchGroup.notify(queue: .main, work: DispatchWorkItem(block: {
-            let newPreviewLayer = AVCaptureVideoPreviewLayer(session: toSession)
-            newPreviewLayer.videoGravity = .resizeAspectFill
-            newPreviewLayer.frame = self.view.bounds
-            self.view.layer.insertSublayer(newPreviewLayer, at: 0)
-            
-            self.previewLayer?.removeFromSuperlayer()
-            self.previewLayer = newPreviewLayer
-        }))
+        switchCamera()
     }
     
     @objc private func didTapRecordButton() {

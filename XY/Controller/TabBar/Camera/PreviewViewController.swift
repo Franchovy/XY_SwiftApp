@@ -495,14 +495,10 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     }
     
     @objc private func didTapClosePreview() {
-        dismiss(animated: true, completion: nil)
-        
         previewLayer?.player?.pause()
         previewLayer?.removeFromSuperlayer()
         
-        
-        dismiss(animated: true, completion: nil)
-        view.removeFromSuperview()
+        navigationController?.popViewController(animated: true)
     }
     
     

@@ -478,7 +478,7 @@
 				B90C163725BB0ADA003811B2 /* TabBarViewController.swift */,
 				B93D7BFC25F41ADA005CE74D /* WatchVC */,
 				B934B66F25F76CBD00575972 /* Explore */,
-				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
+				B9A045452608F74F005F48FF /* Camera */,
 				1462BB0D257E47C30096FD23 /* XYworldVC.swift */,
 				B905878C26049C7E00B8C9E7 /* Profile */,
 			);
@@ -812,7 +812,6 @@
 			isa = PBXGroup;
 			children = (
 				14251377259F89F800DC08BB /* NotificationsVC.swift */,
-				B944DAC425E6C4290040CEDB /* PreviewViewController.swift */,
 				B972A2AE25DD06E6006A0476 /* PostViewController.swift */,
 				B931478325FA209700C054DF /* RankingsViewController.swift */,
 				B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */,
@@ -830,6 +829,15 @@
 				B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */,
 			);
 			path = GradientWidgets;
+			sourceTree = "<group>";
+		};
+		B9A045452608F74F005F48FF /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				B944DAC425E6C4290040CEDB /* PreviewViewController.swift */,
+				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		B9ABA1F825E4544F0039280B /* XP */ = {
