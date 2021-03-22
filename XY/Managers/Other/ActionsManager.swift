@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 
+
 final class ActionManager {
     static let shared = ActionManager()
     private init() { }
@@ -68,5 +69,15 @@ final class ActionManager {
         } else {
             UserDefaults.standard.setValue([userId], forKey: "previousActions")
         }
+    }
+    
+    public func swipeRight(contentID: String, contentType: ContentType) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.actions)
+            .addDocument(data: Action.getSwipeRightAction(id: contentID, contentType: contentType, xp: GameModel.swipeRightXP))
+    }
+    
+    public func swipeLeft(contentID: String, contentType: ContentType) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.actions)
+            .addDocument(data: Action.getSwipeLeftAction(id: contentID, contentType: contentType, xp: GameModel.swipeLeftXP))
     }
 }

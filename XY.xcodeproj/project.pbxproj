@@ -121,6 +121,7 @@
 		B9781E0A25DE8E3900A2FE2D /* Raleway-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9781DF425DE8E3900A2FE2D /* Raleway-VariableFont_wght.ttf */; };
 		B9781E0B25DE8E3900A2FE2D /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9781DF525DE8E3900A2FE2D /* README.txt */; };
 		B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781E3125DEB9CC00A2FE2D /* ConversationManager.swift */; };
+		B97C25E92608073F009EFB06 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C25E82608073F009EFB06 /* GameModel.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
 		B98B06D925FAB9F800001986 /* ChallengeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */; };
 		B98B070525FB8E7E00001986 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */; };
@@ -324,6 +325,7 @@
 		B9781DF425DE8E3900A2FE2D /* Raleway-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		B9781DF525DE8E3900A2FE2D /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		B9781E3125DEB9CC00A2FE2D /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
+		B97C25E82608073F009EFB06 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
 		B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoModel.swift; sourceTree = "<group>"; };
 		B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
@@ -781,6 +783,14 @@
 			path = static;
 			sourceTree = "<group>";
 		};
+		B97C25E726080735009EFB06 /* GameModel */ = {
+			isa = PBXGroup;
+			children = (
+				B97C25E82608073F009EFB06 /* GameModel.swift */,
+			);
+			path = GameModel;
+			sourceTree = "<group>";
+		};
 		B981338425C5AFEE00FE857D /* Launch & Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -977,6 +987,7 @@
 		B9E89CED25C3372F0007D6B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B97C25E726080735009EFB06 /* GameModel */,
 				B9E67E6125F42200004FA873 /* Challenges */,
 				B9B74D8425F02B580083D69A /* Ranking */,
 				B9ABA1F825E4544F0039280B /* XP */,
@@ -1228,6 +1239,7 @@
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */,
+				B97C25E92608073F009EFB06 /* GameModel.swift in Sources */,
 				B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */,
 				B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */,
 				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,

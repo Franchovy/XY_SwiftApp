@@ -13,6 +13,10 @@ enum ActionType: String {
     case levelUp
 }
 
+enum ContentType: String {
+    case challenge
+}
+
 struct Action {
     
     let senderId: String
@@ -31,12 +35,25 @@ struct Action {
         self.type = ActionType(rawValue: data[FirebaseKeys.ActionKeys.type] as! String)!
     }
     
-    static func getSwipeRightAction(postId: String, xp: Int) -> [String: Any] {
+    static func getSwipeRightAction(id: String, contentType: ContentType, xp: Int) -> [String: Any] {
         let userId = Auth.auth().currentUser!.uid
         let type = ActionType.swipeRight
         return [ FirebaseKeys.ActionKeys.user : userId,
-                 FirebaseKeys.ActionKeys.item : postId,
+                 FirebaseKeys.ActionKeys.item : id,
                  FirebaseKeys.ActionKeys.xp : xp,
+                 FirebaseKeys.ActionKeys.contentType: contentType.rawValue,
+                 FirebaseKeys.ActionKeys.timestamp : FieldValue.serverTimestamp(),
+                 FirebaseKeys.ActionKeys.type : String(describing: type)
+        ]
+    }
+    
+    static func getSwipeLeftAction(id: String, contentType: ContentType, xp: Int) -> [String: Any] {
+        let userId = Auth.auth().currentUser!.uid
+        let type = ActionType.swipeLeft
+        return [ FirebaseKeys.ActionKeys.user : userId,
+                 FirebaseKeys.ActionKeys.item : id,
+                 FirebaseKeys.ActionKeys.xp : xp,
+                 FirebaseKeys.ActionKeys.contentType: contentType.rawValue,
                  FirebaseKeys.ActionKeys.timestamp : FieldValue.serverTimestamp(),
                  FirebaseKeys.ActionKeys.type : String(describing: type)
         ]

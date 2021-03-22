@@ -51,7 +51,7 @@ struct FirebaseKeys {
     struct ActionKeys {
         static let timestamp = "timestamp"
         static let type = "type"
-        
+        static let contentType = "contentType"
         static let item = "item"
         static let user = "user"
         static let xp = "xp"

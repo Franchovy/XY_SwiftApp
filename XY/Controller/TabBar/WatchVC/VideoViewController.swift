@@ -283,6 +283,15 @@ class VideoViewController: UIViewController {
         levelLabel.configure(for: VideoLevelLabel.Levels.init(rawValue: Int(floor(level)))!)
         let color = levelLabel.getColor()
         xpCircleView.setColor(color)
+        
+        guard let videoViewModel = videoViewModel, let challengeModel = challengeModel else {
+            return
+        }
+        
+        ActionManager.shared.swipeRight(
+            contentID: "\(challengeModel.id)/\(FirebaseKeys.ChallengeKeys.CollectionPath.videos)/\(videoViewModel.id)",
+            contentType: .challenge
+        )
     }
     
     public func swipedLeft() {
@@ -292,6 +301,15 @@ class VideoViewController: UIViewController {
         levelLabel.configure(for: VideoLevelLabel.Levels.init(rawValue: Int(floor(level)))!)
         let color = levelLabel.getColor()
         xpCircleView.setColor(color)
+        
+        guard let videoViewModel = videoViewModel, let challengeModel = challengeModel else {
+            return
+        }
+        
+        ActionManager.shared.swipeLeft(
+            contentID: "\(challengeModel.id)/\(FirebaseKeys.ChallengeKeys.CollectionPath.videos)/\(videoViewModel.id)",
+            contentType: .challenge
+        )
     }
     
     public func configure(challengeVideoViewModel: ChallengeVideoViewModel, challengeViewModel: ChallengeViewModel) {
