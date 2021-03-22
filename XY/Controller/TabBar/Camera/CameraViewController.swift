@@ -49,7 +49,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     private var challengeTimerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Heavy", size: 44)
+        label.font = UIFont(name: "Raleway-Heavy", size: 38)
         label.textColor = UIColor(0xF2EF37)
         label.text = " "
         label.isHidden = true
@@ -119,6 +119,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     private var previewVC: PreviewViewController?
     
     var readyToPresentPreview = false
+    var activeChallengesDisplayed = false
     
     var backCameraActive = true
     var isFrontRecording = false
@@ -318,9 +319,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     private func displaySuggestedChallenges() {
-        guard activeChallenge == nil else {
+        guard activeChallenge == nil, !activeChallengesDisplayed else {
             return
         }
+        activeChallengesDisplayed = true
         
         challengePreviewCollectionView.reloadData()
         
@@ -418,6 +420,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         setTimerText(timeInteger: NSInteger(TimeInterval(lengthInMinutes * 60)))
         
+        activeChallengesDisplayed = false
+        
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn) {
             self.countDownLabel.alpha = 1.0
             self.challengePreviewCollectionView.frame.origin.y = self.view.height
@@ -461,26 +465,29 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         startTime = Date().timeIntervalSinceReferenceDate
         endTime = Date().addingTimeInterval(Double(lengthInMinutes * 60))
         
-        timer = Timer.scheduledTimer(timeInterval: 0.05,
+        timer = Timer.scheduledTimer(timeInterval: 0.04,
                                      target: self,
                                      selector: #selector(advanceTimer(timer:)),
                                      userInfo: nil,
                                      repeats: true)
     }
     
+    var ms: NSInteger!
+    var ti: NSInteger!
     @objc private func advanceTimer(timer: Timer) {
         //Total time since timer started, in seconds
         time = endTime!.timeIntervalSince(Date())
         
-        let ti = NSInteger(time)
+        ti = NSInteger(time)
         
         if ti < 0 {
             challengeTimerLabel.text = "00:00.00"
             finishedRecording()
         } else {
-            let ms = Int(time.truncatingRemainder(dividingBy: 1) * 100)
+            ms = Int(time.truncatingRemainder(dividingBy: 1) * 100)
             setTimerText(timeInteger: ti, ms: ms)
         }
+        
         layoutChallengeTimerLabel()
     }
 
