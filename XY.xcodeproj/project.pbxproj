@@ -132,6 +132,7 @@
 		B99020DB25ED64F1004AC25C /* GradientBorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020DA25ED64F1004AC25C /* GradientBorderTextField.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B998621E25F17FF100AE8369 /* ProfileFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B998621D25F17FF100AE8369 /* ProfileFirestoreManager.swift */; };
+		B9A0453E2608CAE0005F48FF /* ChallengePreviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A0453D2608CAE0005F48FF /* ChallengePreviewCard.swift */; };
 		B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */; };
 		B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAB16C25E13239005B3903 /* XPCircleView.swift */; };
 		B9ABA1FA25E454580039280B /* XPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABA1F925E454580039280B /* XPManager.swift */; };
@@ -336,6 +337,7 @@
 		B99020DA25ED64F1004AC25C /* GradientBorderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderTextField.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B998621D25F17FF100AE8369 /* ProfileFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFirestoreManager.swift; sourceTree = "<group>"; };
+		B9A0453D2608CAE0005F48FF /* ChallengePreviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewCard.swift; sourceTree = "<group>"; };
 		B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9AAB16C25E13239005B3903 /* XPCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
 		B9ABA1F925E454580039280B /* XPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPManager.swift; sourceTree = "<group>"; };
@@ -589,6 +591,7 @@
 				B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */,
 				B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */,
 				B9B0C07B25FE2587003DA5CB /* TimerIcon.swift */,
+				B9A0453D2608CAE0005F48FF /* ChallengePreviewCard.swift */,
 			);
 			path = Challenges;
 			sourceTree = "<group>";
@@ -1210,6 +1213,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9A0453E2608CAE0005F48FF /* ChallengePreviewCard.swift in Sources */,
 				B905878526048D8C00B8C9E7 /* EditProfileViewController.swift in Sources */,
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */,

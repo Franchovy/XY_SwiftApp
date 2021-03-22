@@ -156,7 +156,6 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         isFirstVideoSetUp = true
         
         let vc = VideoViewController()
-        vc.delegate = self
         buildVideoViewControllerWithPair(vc, model)
 
         pageViewController.setViewControllers(
@@ -175,7 +174,6 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         isFirstVideoSetUp = true
         
         let vc = VideoViewController()
-        vc.delegate = self
         vc.configure(challengeVideoViewModel: videoViewModel, challengeViewModel: challengeViewModel)
         
         vc.isHeroEnabled = true
@@ -207,7 +205,6 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         let priorIndex = index - 1
         let model = models[priorIndex]
         let vc = VideoViewController()
-        vc.delegate = self
         vc.play()
         buildVideoViewControllerWithPair(vc, model)
         
@@ -233,7 +230,6 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         let model = models[priorIndex]
         let vc = VideoViewController()
         vc.play()
-        vc.delegate = self
         if let viewModelPair = loadedViewModels[model.1.ID] {
             vc.configure(challengeVideoViewModel: viewModelPair.1, challengeViewModel: viewModelPair.0)
         } else {
@@ -276,13 +272,5 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
     
     @objc private func didPressBack() {
         navigationController?.popViewController(animated: true)
-    }
-}
-
-extension WatchViewController : VideoViewControllerDelegate {
-    func didTapTitle(for viewModel: ChallengeViewModel) {
-        let exploreChallengeVC = ExploreChallengeViewController(challengeViewModel: viewModel)
-    
-        navigationController?.pushViewController(exploreChallengeVC, animated: true)
     }
 }

@@ -8,9 +8,6 @@
 import UIKit
 import AVFoundation
 
-protocol VideoViewControllerDelegate: class {
-    func didTapTitle(for viewModel: ChallengeViewModel)
-}
 
 class VideoViewController: UIViewController {
     
@@ -88,11 +85,11 @@ class VideoViewController: UIViewController {
     var videoViewModel: ChallengeVideoViewModel?
     
     var level:CGFloat = 0.4
-    
-    weak var delegate: VideoViewControllerDelegate?
-    
+        
     private var timeControlObserverSet = false
     private var repeatObserverSet = false
+    
+    var tapAnywhereGesture: UITapGestureRecognizer!
     
     // MARK: - UI VARIABLES
     
@@ -107,11 +104,19 @@ class VideoViewController: UIViewController {
         profileBubble.addGestureRecognizer(tapProfileGesture)
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(videoTapped))
+        tapGesture.delegate = self
         videoView.addGestureRecognizer(tapGesture)
         
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(videoPanned(gestureRecognizer:)))
         panGesture.delegate = self
         videoView.addGestureRecognizer(panGesture)
+        
+        tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere))
+        tapAnywhereGesture.delegate = self
+        videoView.addGestureRecognizer(tapAnywhereGesture)
+        
+        challengeLabel.isUserInteractionEnabled = true
+        challengeLabel.addGestureRecognizer(tapAnywhereGesture)
         
         followButton.isHidden = true
     }
@@ -352,7 +357,7 @@ class VideoViewController: UIViewController {
         
         view.addSubview(challengeLabel)
         
-        let tappedTitle = UITapGestureRecognizer(target: self, action: #selector(titleTapped))
+        let tappedTitle = UITapGestureRecognizer(target: self, action: #selector(titleTapped(_:)))
         challengeLabel.isUserInteractionEnabled = true
         challengeLabel.addGestureRecognizer(tappedTitle)
         
@@ -460,6 +465,11 @@ class VideoViewController: UIViewController {
     
     var stoppedAnimationFrame: CGRect?
     @objc private func videoTapped() {
+        if let card = card {
+            didTapAnywhere()
+            return
+        }
+        
         guard let player = player else {
             return
         }
@@ -483,15 +493,62 @@ class VideoViewController: UIViewController {
         ProfileManager.shared.openProfileForId(profileModel.profileId)
     }
     
-    @objc private func titleTapped() {
+    var card: ChallengePreviewCard?
+    
+    @objc private func titleTapped(_ gestureRecognizer: UITapGestureRecognizer) {
+        if let card = card {
+            didTapAnywhere()
+            return
+        }
+        
         guard let challengeModel = challengeModel else {
             return
         }
-        delegate?.didTapTitle(for: challengeModel)
+        
+        let card = ChallengePreviewCard()
+        self.card = card
+        card.configure(with: challengeModel)
+        
+        view.addSubview(card)
+        card.frame = CGRect(
+            x: max(gestureRecognizer.location(in: videoView).x - 75, 15),
+            y: gestureRecognizer.location(in: videoView).y - 15 - 200,
+            width: 150,
+            height: 200
+        )
+        
+        card.alpha = 0.0
+        card.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        
+        UIView.animate(withDuration: 0.25) {
+            card.alpha = 1.0
+            card.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        } completion: { (done) in
+            if done {
+                
+            }
+        }
+    }
+    
+    @objc private func didTapAnywhere() {
+        guard let card = card else {
+            return
+        }
+        
+        UIView.animate(withDuration: 0.25) {
+            card.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            card.alpha = 0.0
+        } completion: { (done) in
+            if done {
+                card.removeFromSuperview()
+                self.card = nil
+            }
+        }
     }
 }
 
 extension VideoViewController : UIGestureRecognizerDelegate {
+
     func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if let gesture = gestureRecognizer as? UIPanGestureRecognizer {
             let velocity = gesture.velocity(in: nil)
