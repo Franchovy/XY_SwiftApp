@@ -45,7 +45,19 @@ class FollowButton: FaveButton {
 //        borderGradientLayer?.mask = shape
     }
     
+    public func prepareForReuse() {
+        alpha = 1.0
+        isHidden = true
+    }
+    
     public func configure(for relationshipType: RelationshipTypeForSelf, otherUserID: String) {
+        
+        if otherUserID == AuthManager.shared.userId {
+            // user is self
+            alpha = 0.0
+            return
+        }
+        
         self.relationshipType = relationshipType
         self.otherUserID = otherUserID
         

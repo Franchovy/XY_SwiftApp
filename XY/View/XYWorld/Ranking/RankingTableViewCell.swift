@@ -110,7 +110,7 @@ class RankingTableViewCell: UITableViewCell {
         nameLabel.text = ""
         profileImageView.image = nil
         scoreLabel.text = ""
-        followButton.isHidden = true
+        followButton.prepareForReuse()
     }
     
     public func setColor(color: UIColor) {
