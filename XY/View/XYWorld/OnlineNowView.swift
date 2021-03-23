@@ -16,6 +16,8 @@ class OnlineNowView: UIView, UICollectionViewDataSource {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.register(OnlineNowCollectionViewCell.self, forCellWithReuseIdentifier: OnlineNowCollectionViewCell.identifier)
         
+        collectionView.backgroundColor = .clear
+        
         return collectionView
     }()
 
@@ -34,6 +36,8 @@ class OnlineNowView: UIView, UICollectionViewDataSource {
     
     init() {
         super.init(frame: .zero)
+        
+        backgroundColor = .clear
         
         addSubview(collectionView)
         addSubview(noOnlineFriendsLabel)

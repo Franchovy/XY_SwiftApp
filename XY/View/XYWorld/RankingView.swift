@@ -18,7 +18,7 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
     
     private let rankLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 9)
+        label.font = UIFont(name: "Raleway-Medium", size: 15)
         label.textColor = UIColor(named: "tintColor")
         label.text = "Rank"
         return label
@@ -26,7 +26,7 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
     
     private let playerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 9)
+        label.font = UIFont(name: "Raleway-Medium", size: 15)
         label.textColor = UIColor(named: "tintColor")
         label.text = "Player"
         return label
@@ -34,7 +34,7 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
     
     private let scoreLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Medium", size: 9)
+        label.font = UIFont(name: "Raleway-Medium", size: 15)
         label.textColor = UIColor(named: "tintColor")
         label.text = "Score"
         return label
@@ -91,7 +91,7 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
         
         rankLabel.sizeToFit()
         rankLabel.frame = CGRect(
-            x: 16.66,
+            x: 10.66,
             y: title.bottom + 12.54,
             width: rankLabel.width,
             height: rankLabel.height
@@ -99,7 +99,7 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
         
         playerLabel.sizeToFit()
         playerLabel.frame = CGRect(
-            x: rankLabel.right + 84.84,
+            x: rankLabel.right + 54.99,
             y: title.bottom + 12.54,
             width: playerLabel.width,
             height: playerLabel.height
@@ -107,13 +107,12 @@ class RankingView: UIView, UITableViewDataSource, UITableViewDataSourcePrefetchi
         
         scoreLabel.sizeToFit()
         scoreLabel.frame = CGRect(
-            x: playerLabel.right + 100,
+            x: width - 122.16 - scoreLabel.width,
             y: title.bottom + 12.54,
             width: scoreLabel.width,
             height: scoreLabel.height
         )
         
-        print("Tableview contentsize: \(tableView.contentSize)")
         tableView.frame = CGRect(
             x: 5,
             y: rankLabel.bottom + 5,

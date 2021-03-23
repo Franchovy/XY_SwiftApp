@@ -63,6 +63,8 @@ class XYworldVC: UIViewController, UISearchBarDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = UIColor(named: "Black")
+        
         view.addSubview(scrollView)
         scrollView.addSubview(onlineNowTitleLabel)
         scrollView.addSubview(rankingTitleLabel)

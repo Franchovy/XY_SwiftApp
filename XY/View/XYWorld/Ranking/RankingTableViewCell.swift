@@ -36,7 +36,7 @@ class RankingTableViewCell: UITableViewCell {
 
     private var scoreLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Bold", size: 18)
+        label.font = UIFont(name: "Raleway-Bold", size: 15)
         label.textColor = UIColor(named: "tintColor")
         return label
     }()
@@ -71,9 +71,28 @@ class RankingTableViewCell: UITableViewCell {
             height: rankLabel.height
         )
         
+        followButton.frame = CGRect(
+            x: width - 82,
+            y: 10,
+            width: 72,
+            height: 23
+        )
+        
+        scoreLabel.sizeToFit()
+        scoreLabel.frame = CGRect(
+            x: width - 82 - 22.33 - scoreLabel.width,
+            y: 11,
+            width: scoreLabel.width,
+            height: scoreLabel.height
+        )
+        
+        let nameStartX = rankLabel.right
+        let nameEndX = scoreLabel.left
+        let nameWidth = nameEndX - nameStartX
+        
         let imageSize:CGFloat = 30
         profileImageView.frame = CGRect(
-            x: 70,
+            x: rankLabel.right + nameWidth/10,
             y: (height - imageSize)/2,
             width: imageSize,
             height: imageSize
@@ -83,24 +102,10 @@ class RankingTableViewCell: UITableViewCell {
         nameLabel.frame = CGRect(
             x: profileImageView.right + 9.92,
             y: 8,
-            width: 100,
+            width: nameEndX - (profileImageView.right + 9.92) - 10,
             height: 26
         )
         
-        scoreLabel.sizeToFit()
-        scoreLabel.frame = CGRect(
-            x: 235,
-            y: 9,
-            width: scoreLabel.width,
-            height: scoreLabel.height
-        )
-        
-        followButton.frame = CGRect(
-            x: width - 82,
-            y: 10,
-            width: 72,
-            height: 23
-        )
     }
     
     override func prepareForReuse() {
