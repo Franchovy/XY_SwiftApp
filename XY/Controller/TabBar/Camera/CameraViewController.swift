@@ -137,6 +137,14 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     var endTime: Date?
     var time: Double = 0
     
+    enum State {
+        case challengeChoice
+        case countdown
+        case recording
+        case recordingFinished
+    }
+    var state:State = .challengeChoice
+    
     // MARK: - Initializers
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -164,6 +172,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
+        didEndRecording()
         reset()
     }
     
@@ -204,11 +213,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         challengePreviewCollectionView.dataSource = self
         fetchChallenges()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        timer?.invalidate()
     }
     
     override func viewDidLayoutSubviews() {
@@ -273,15 +277,19 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             height: closeButtonSize
         )
         
-        let buttonSize = CGSize(width: 241, height: 54)
+        guard state != .challengeChoice else {
+            return
+        }
         
+        let buttonSize = CGSize(width: 241, height: 54)
+
         retakeButton.frame = CGRect(
             x: (view.width - buttonSize.width)/2,
             y: view.height/2 - buttonSize.height - 15,
             width: buttonSize.width,
             height: buttonSize.height
         )
-        
+
         nextButton.frame = CGRect(
             x: (view.width - buttonSize.width)/2,
             y: retakeButton.top - buttonSize.height - 28,
@@ -386,6 +394,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     private func startRecording() {
+        state = .recording
         startVideoRecording()
         
         if activeChallenge != nil {
@@ -414,6 +423,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     private func didEndRecording() {
         timer?.invalidate()
         
+        state = .recordingFinished
         stopVideoRecording()
         
         recordButton.isEnabled = false
@@ -431,6 +441,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     private func prepareToRecord(withChallengeLengthInMinutes lengthInMinutes: Float) {
         // Start timer
+        state = .countdown
         countDownLabel.isHidden = false
         countDownLabel.text = "3"
         layoutCountDownLabel()
@@ -548,6 +559,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             didEndRecording()
         }
         
+        state = .challengeChoice
+        
         if challengeTitleLabel != nil {
             UIView.animate(withDuration: 0.3) {
                 self.challengeTitleLabel?.alpha = 1.0
@@ -557,25 +570,20 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
                 }
             }
         }
-        
-        self.challengeTimerLabel.isHidden = true
-        self.challengePreviewCollectionView.isHidden = false
-        self.newChallengeButton.isHidden = false
-        
-        self.challengePreviewCollectionView.frame.origin.y = self.view.height
-        self.newChallengeButton.frame.origin.y = -100
+        activeChallengesDisplayed = false
+        activeChallenge = nil
+        challengeTimerLabel.isHidden = true
+        challengePreviewCollectionView.isHidden = false
+        newChallengeButton.isHidden = false
         
         UIView.animate(withDuration: 0.3) {
-            self.challengePreviewCollectionView.frame.origin.y = self.recordButton.top - CameraViewController.challengeCardSize.height - 20
-            self.newChallengeButton.frame.origin.y = (self.view.height - 54)/4
             self.retakeButton.frame.origin.x = -self.view.width
             self.nextButton.frame.origin.x = self.view.width
         } completion: { (done) in
             if done {
-                self.createNewButtonY = (self.view.height - 54)/4
-                self.collectionViewY = self.recordButton.top - CameraViewController.challengeCardSize.height - 20
                 self.retakeButton.isHidden = true
                 self.nextButton.isHidden = true
+                self.displaySuggestedChallenges()
             }
         }
     }
@@ -583,6 +591,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     // MARK: - Obj-C functions
     
     @objc private func didTapCreateNewChallenge() {
+        
         recordButton.isEnabled = true
         prepareToRecord(withChallengeLengthInMinutes: 0.5)
     }
@@ -630,19 +639,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     @objc private func didTapRecordButton() {
-        
-        if isBackRecording {
+        if isVideoRecording {
             finishedRecording()
-            isBackRecording = false
-        } else if isFrontRecording {
-            finishedRecording()
-            isFrontRecording = false
-        } else {
-            if backCameraActive {
-                startRecording()
-            } else {
-                startRecording()
-            }
         }
     }
     
