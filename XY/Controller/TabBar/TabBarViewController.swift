@@ -15,7 +15,10 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     var eyesMode = false
     
     var playVC: WatchViewController!
+    var challengesVC: ExploreVC!
     var cameraVC: CameraViewController!
+    var hubVC: XYworldVC!
+    var profileVC: ProfileViewController2!
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -37,23 +40,27 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         
         tabBar.isTranslucent = false
         
+        
         playVC = WatchViewController()
+        challengesVC = ExploreVC()
         cameraVC = CameraViewController()
+        hubVC = XYworldVC()
+        profileVC = ProfileViewController2(userId: userId)
         
         let nav1 = UINavigationController(
             rootViewController: playVC
         )
         let nav2 = UINavigationController(
-            rootViewController: ExploreVC()
+            rootViewController: challengesVC
         )
         let nav3 = UINavigationController(
             rootViewController: cameraVC
         )
         let nav4 = UINavigationController(
-            rootViewController: XYworldVC()
+            rootViewController: hubVC
         )
         let nav5 = UINavigationController(
-            rootViewController: ProfileViewController2(userId: userId)
+            rootViewController: profileVC
         )
         setViewControllers([nav1, nav2, nav3, nav4, nav5], animated: false)
         
@@ -64,20 +71,8 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
             image: icon,
             tag: 1
         )
-        tabBar.tintColor = UIColor(named: "XYTint")
-        nav2.tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
-        nav3.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "tabbar_play_icon")!.withRenderingMode(.alwaysOriginal), tag: 3)
-        nav4.tabBarItem = UITabBarItem(title: "XYHub", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
         
-        nav1.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
-        nav1.tabBarItem.imageInsets.top = 3
-        nav2.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
-        nav2.tabBarItem.imageInsets.top = 3
-        nav3.tabBarItem.imageInsets = UIEdgeInsets(top: 10, left: -18, bottom: -18, right: -18)
-        nav4.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
-        nav4.tabBarItem.imageInsets.top = 3
-        nav5.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
-        nav5.tabBarItem.imageInsets.top = 3
+        setupTabBarItems()
         
         cameraVC.delegate = self
     }
@@ -177,6 +172,43 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    func setupTabBarItems() {
+        
+        var window: UIWindow!
+        if #available(iOS 13.0, *) {
+            window = UIApplication.shared.windows[0]
+        } else if #available(iOS 11, *) {
+            window = UIApplication.shared.keyWindow
+        }
+        let bottomPadding = window.safeAreaInsets.bottom
+        print(bottomPadding)
+        
+        tabBar.tintColor = UIColor(named: "XYTint")
+        challengesVC.navigationController?.tabBarItem = UITabBarItem(title: "Challenges", image: UIImage(named: "tabbar_challenges_icon"), tag: 2)
+        cameraVC.navigationController?.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "tabbar_play_icon")!.withRenderingMode(.alwaysOriginal), tag: 3)
+        hubVC.navigationController?.tabBarItem = UITabBarItem(title: "Hub", image: UIImage(named: "tabbar_xyworld_icon"), tag: 4)
+        
+        let bottomAdjustment:CGFloat = bottomPadding > 0 ? 2 : -1
+        let topAdjustment:CGFloat = bottomPadding > 0 ? 5 : -1
+        
+        let tabBarItemEdgeInsets = UIEdgeInsets(top: -bottomAdjustment, left: -bottomAdjustment, bottom: -bottomAdjustment, right: -bottomAdjustment)
+        
+        playVC.navigationController?.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: topAdjustment)
+        playVC.navigationController?.tabBarItem.imageInsets = tabBarItemEdgeInsets
+        challengesVC.navigationController?.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: topAdjustment)
+        challengesVC.navigationController?.tabBarItem.imageInsets = tabBarItemEdgeInsets
+        cameraVC.navigationController?.tabBarItem.imageInsets = UIEdgeInsets(
+            top: topAdjustment + 5,
+            left: -bottomAdjustment-13,
+            bottom: -bottomAdjustment-13,
+            right: -bottomAdjustment-13
+        )
+        hubVC.navigationController?.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: topAdjustment)
+        hubVC.navigationController?.tabBarItem.imageInsets = tabBarItemEdgeInsets
+        profileVC.navigationController?.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: topAdjustment)
+        profileVC.navigationController?.tabBarItem.imageInsets = tabBarItemEdgeInsets
+    }
+    
     private func loadProfileImageToTabBar(image: UIImage) {
         let imageView = UIImageView()
         imageView.image = image
@@ -189,8 +221,10 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         
         let profileTabBarItem = UITabBarItem(title: "Profile", image: tabbarProfileIcon, tag: 5)
         profileTabBarItem.badgeColor = UIColor(named: "tintColor")
-        profileTabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 5)
-        profileTabBarItem.imageInsets.top = 3
+        if let currentTabBarItem = profileVC.navigationController?.tabBarItem {
+            profileTabBarItem.titlePositionAdjustment = currentTabBarItem.titlePositionAdjustment
+            profileTabBarItem.imageInsets = currentTabBarItem.imageInsets
+        }
         
         guard let profileVC = self.viewControllers?[4] else {
             return
