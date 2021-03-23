@@ -11,6 +11,22 @@ import FirebaseDatabase
 class RankingDatabaseManager {
     static var shared = RankingDatabaseManager()
     
+    func getRank(for profileID: String, completion: @escaping(Int?) -> Void) {
+        
+        let rankingRef = Database.database().reference().child("Rankings").child("Global")
+        
+        rankingRef.observeSingleEvent(of: .value) { (snapshot) in
+            if let value = snapshot.value as? [[String: Any]?] {
+                if let index = value.firstIndex(where: {$0?["profileID"] as? String == profileID}) {
+                    completion(index)
+                } else {
+                    completion(nil)
+                }
+            }
+        }
+        
+    }
+    
     func getRanking(completion: @escaping(RankingModel) -> Void, onChange: @escaping(RankingCellModel) -> Void, onAdd: @escaping(RankingCellModel) -> Void) {
         let rankingRef = Database.database().reference().child("Rankings").child("Global")
         

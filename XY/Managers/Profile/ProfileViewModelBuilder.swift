@@ -72,8 +72,6 @@ final class ProfileViewModelBuilder {
                             print(error)
                         }
                     }
-                    
-                    ranking = 0
                 }
             }
         } else if let userModel = userModel {
@@ -92,8 +90,16 @@ final class ProfileViewModelBuilder {
                     print(error)
                 }
             }
-            
-            ranking = 0
+        }
+        
+        group.enter()
+        RankingDatabaseManager.shared.getRank(for: profileModel.profileId) { (num) in
+            defer {
+                group.leave()
+            }
+            if let num = num {
+                ranking = num
+            }
         }
         
         group.notify(queue: .main, work: DispatchWorkItem(block: {

@@ -15,6 +15,7 @@ class ProfileViewController2: UIViewController {
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.alwaysBounceVertical = true
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -433,7 +434,11 @@ class ProfileViewController2: UIViewController {
     public func configure(with viewModel: NewProfileViewModel) {
         self.viewModel = viewModel
         numSubscribersLabel.text = String(describing: viewModel.numFollowers)
-        numRankLabel.text = String(describing: viewModel.rank ?? 0)
+        if let rank = viewModel.rank {
+            numRankLabel.text = String(describing: rank)
+        } else if numRankLabel.text == nil {
+            numRankLabel.text = "None"
+        }
         
         subscribersLabel.text = viewModel.numFollowers == 1 ? "Subscriber" : "Subscribers"
         rankLabel.text = "Rank"
