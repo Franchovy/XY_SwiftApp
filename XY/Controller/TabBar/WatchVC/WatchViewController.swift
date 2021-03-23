@@ -47,6 +47,9 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         }
         
         view.addSubview(uploadProgressView)
+        uploadProgressView.setThickness(.thin)
+        uploadProgressView.label.font = UIFont(name: "Raleway-Medium", size: 14)
+        
         uploadProgressView.alpha = 0.0
     }
     
@@ -69,35 +72,7 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         super.viewDidAppear(animated)
         
         if StorageManager.shared.videoUploadTask != nil {
-            uploadProgressView.setColor(UIColor(0x26FF88))
-            
-            uploadProgressView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-            UIView.animate(withDuration: 0.5) {
-                self.uploadProgressView.alpha = 1.0
-                self.uploadProgressView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-            }
-            
-            let bool = StorageManager.shared.subscribeToUploadProgress { (progress) in
-                self.uploadProgressView.animateSetProgress(CGFloat(progress))
-                self.uploadProgressView.setLabel(String(format: "%0.f%", progress*100))
-                
-                if progress >= 1.0 {
-                    UIView.animate(withDuration: 0.4, delay: 1.0, options: .curveEaseOut) {
-                        self.uploadProgressView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
-                    } completion: { (done) in
-                        if done {
-                            UIView.animate(withDuration: 0.4, delay: 0.1, options: .curveEaseIn) {
-                                self.uploadProgressView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-                                self.uploadProgressView.alpha = 0.0
-                            } completion: { (done) in
-                                if done {
-                                    self.uploadProgressView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            displayUploadProgress()
         }
         
         if UserDefaults.standard.object(forKey: "introMessageSeen") == nil {
@@ -187,6 +162,30 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
                 self.models = challengeVideoModels.compactMap({ (challengeViewModel.toModel(), $0) })
                 
                 self.setUpFirstVideo()
+            }
+        }
+    }
+    
+    private func displayUploadProgress() {
+        uploadProgressView.setColor(UIColor(0x26FF88))
+        
+        uploadProgressView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        UIView.animate(withDuration: 0.5) {
+            self.uploadProgressView.alpha = 1.0
+            self.uploadProgressView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
+        var completeAnimation = false
+        
+        StorageManager.shared.subscribeToUploadProgress { (progress) in
+            self.uploadProgressView.animateSetProgress(CGFloat(progress))
+            self.uploadProgressView.setLabel(String(format: "%0.f%", progress*100).appending("%"))
+            
+            if progress >= 1.0, completeAnimation {
+                completeAnimation = true
+                
+                UIView.animate(withDuration: 1.4, delay: 1.3, options: .curveEaseIn) {
+                    self.uploadProgressView.alpha = 0.0
+                }
             }
         }
     }
