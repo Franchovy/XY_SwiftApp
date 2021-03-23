@@ -270,12 +270,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         navigationController?.pushViewController(launchAnimationController, animated: true)
     }
     
-    public func playChallenge(challenge: ChallengeViewModel) {
-        selectedIndex = 0
-        
-        playVC.configure(for: challenge)
-    }
-    
     public func startChallenge(challenge: ChallengeViewModel) {
         selectedIndex = 2
         

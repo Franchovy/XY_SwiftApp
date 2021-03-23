@@ -25,6 +25,40 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
     
     private var uploadProgressView = XPCircleView()
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(for challenge: ChallengeViewModel, withHeroID heroID: String? = nil) {
+        // Set back button enabled
+        isModalPresented = true
+        
+        self.challengeViewModel = challenge
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        models = []
+        if let viewControllers = pageViewController.viewControllers {
+            for vc in viewControllers {
+                if let vc = vc as? VideoViewController {
+                    vc.teardown()
+                }
+            }
+        }
+        
+        ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challenge) { (challengeVideoModels) in
+            if let challengeVideoModels = challengeVideoModels {
+                self.models = challengeVideoModels.compactMap({ (challenge.toModel(), $0) })
+                
+                self.setUpFirstVideo()
+            }
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -39,11 +73,13 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         addChild(pageViewController)
         pageViewController.didMove(toParent: self)
         
-        ChallengesFirestoreManager.shared.getMostRecentVideos { (pairs) in
-            if let pairs = pairs {
-                self.models.append(contentsOf: pairs)
+        if challengeViewModel == nil {
+            ChallengesFirestoreManager.shared.getMostRecentVideos { (pairs) in
+                if let pairs = pairs {
+                    self.models.append(contentsOf: pairs)
+                }
+                self.setUpFirstVideo()
             }
-            self.setUpFirstVideo()
         }
         
         view.addSubview(uploadProgressView)
@@ -140,30 +176,6 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
             width: 34,
             height: 34
         )
-    }
-    
-    public func configure(for challengeViewModel: ChallengeViewModel, withHeroID heroID: String? = nil) {
-        // Set back button enabled
-        isModalPresented = true
-        
-        self.challengeViewModel = challengeViewModel
-        
-        models = []
-        if let viewControllers = pageViewController.viewControllers {
-            for vc in viewControllers {
-                if let vc = vc as? VideoViewController {
-                    vc.teardown()
-                }
-            }
-        }
-        
-        ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel) { (challengeVideoModels) in
-            if let challengeVideoModels = challengeVideoModels {
-                self.models = challengeVideoModels.compactMap({ (challengeViewModel.toModel(), $0) })
-                
-                self.setUpFirstVideo()
-            }
-        }
     }
     
     private func displayUploadProgress() {
