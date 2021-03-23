@@ -157,7 +157,7 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
             }
         }
         
-        ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel, limitTo: 15) { (challengeVideoModels) in
+        ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel) { (challengeVideoModels) in
             if let challengeVideoModels = challengeVideoModels {
                 self.models = challengeVideoModels.compactMap({ (challengeViewModel.toModel(), $0) })
                 

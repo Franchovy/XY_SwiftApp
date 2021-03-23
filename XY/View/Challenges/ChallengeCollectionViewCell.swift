@@ -101,12 +101,15 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     }
     
     public func stopVideo() {
+        videoView?.teardown()
         videoView?.removeFromSuperview()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
         challengeTitleGradientLabel?.removeFromSuperview()
+        
+        videoView?.teardown()
         videoView?.removeFromSuperview()
     }
     
@@ -129,7 +132,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         
         creatorNameLabel.text = "@\(viewModel.creator.nickname)"
         
-        contentView.addSubview(thumbnailView)
+        
         thumbnailView.frame = bounds
         thumbnailView.image = videoViewModel.thumbnailImage
         thumbnailView.layer.cornerRadius = 2
@@ -137,6 +140,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         
         let videoView = VideoPlayerView()
         contentView.insertSubview(videoView, at: 0)
+//        contentView.insertSubview(thumbnailView, at: 0)
         videoView.frame = bounds
         
         if let videoUrl = videoViewModel.videoUrl {

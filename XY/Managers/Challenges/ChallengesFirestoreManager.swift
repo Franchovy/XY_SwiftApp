@@ -54,7 +54,7 @@ final class ChallengesFirestoreManager {
             }
     }
     
-    func getVideosForChallenge(challenge: ChallengeViewModel, limitTo limit: Int, completion: @escaping([ChallengeVideoModel]?) -> Void) {
+    func getVideosForChallenge(challenge: ChallengeViewModel, completion: @escaping([ChallengeVideoModel]?) -> Void) {
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
             .document(challenge.id)
             .collection(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
@@ -143,12 +143,11 @@ final class ChallengesFirestoreManager {
             }
     }
     
-    func getChallengesAndVideos(limitTo limit: Int, category: ChallengeModel.Categories, completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
+    func getChallengesAndVideos(category: ChallengeModel.Categories, completion: @escaping([(ChallengeModel, ChallengeVideoModel)]?) -> Void) {
         
         var returnData = [(ChallengeModel, ChallengeVideoModel)]()
         
         FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
-            .limit(to: limit)
             .whereField(FirebaseKeys.ChallengeKeys.category, isEqualTo: category.rawValue)
             .getDocuments { (querySnapshot, error) in
                 let dispatchGroup = DispatchGroup()

@@ -35,7 +35,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         
         let layout = UICollectionViewCompositionalLayout(section: sectionLayout)
         
-        layout.configuration.scrollDirection = .vertical
+        layout.configuration.scrollDirection = .horizontal
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = .clear
@@ -69,11 +69,10 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         button.setTitleColor(.white, for: .normal)
         button.setBackgroundColor(color: .black)
         button.setGradient(Global.xyGradient)
+        button.alpha = 0.8
         return button
     }()
-    
-    private let timerIcon = TimerIcon(labelText: "1 Min")
-    
+        
     private var currentViralIndex = 0
     private var viewModels = [ChallengeVideoViewModel]()
     private var challengeViewModel: ChallengeViewModel
@@ -91,7 +90,6 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         createdByLabel.text = "Created by:\n @\(challengeViewModel.creator.nickname)"
         descriptionLabel.text = challengeViewModel.description
         
-        view.addSubview(timerIcon)
         view.addSubview(descriptionLabel)
         view.addSubview(collectionView)
         view.addSubview(playButton)
@@ -126,7 +124,7 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
         navigationItem.titleView = gradientLabel
         navigationController?.navigationBar.isHidden = false
         
-        ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel, limitTo: 5) { (videoModels) in
+        ChallengesFirestoreManager.shared.getVideosForChallenge(challenge: challengeViewModel) { (videoModels) in
             if let videoModels = videoModels {
                 var viewModels = [ChallengeVideoViewModel]()
                 
@@ -174,19 +172,11 @@ class ExploreChallengeViewController: UIViewController, UICollectionViewDelegate
             height: 60
         )
         
-        let timerIconSize:CGFloat = 56.94
-        timerIcon.frame = CGRect(
-            x: (view.width - timerIconSize)/2,
-            y: view.safeAreaInsets.top + 87,
-            width: timerIconSize,
-            height: timerIconSize
-        )
-        
         collectionView.frame = CGRect(
             x: 0,
-            y: 255,
+            y: createdByLabel.bottom + 15,
             width: view.width,
-            height: view.height/2
+            height: 362
         )
         
         let playButtonSize = CGSize(width: 131.86, height: 47.17)

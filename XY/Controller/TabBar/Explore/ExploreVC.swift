@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import AVFoundation
 
-class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout {
+class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UIScrollViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDataSourcePrefetching {
     
     private var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -39,16 +39,20 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }()
     
     private var currentViralIndex = 0
-    private var sections = [(String, [(ChallengeViewModel, ChallengeVideoViewModel)])]()
+    private var sections = [(String, [(ChallengeViewModel, ChallengeVideoViewModel)?])]()
     private var categories = [ChallengeModel.Categories]()
+    private var models = [(ChallengeModel, ChallengeVideoModel)]()
+    
     
     // MARK: - Initializers
     
     init() {
         super.init(nibName: nil, bundle: nil)
+
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.prefetchDataSource = self
         
         for view in collectionView.subviews {
             if let scrollView = view as? UIScrollView {
@@ -83,32 +87,13 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
 //        for category in categories {
         if let category = categories.last {
             ChallengesFirestoreManager.shared.getChallengesAndVideos(
-                limitTo: 12,
                 category: category
             ) { (pairs) in
                 if let pairs = pairs {
-                    var viewModels = [(ChallengeViewModel, ChallengeVideoViewModel)]()
+                    self.models = pairs
                     
-                    for (model, videoModel) in pairs {
-                        
-                        ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model) { (viewModelPair) in
-                            if let viewModelPair = viewModelPair {
-                                viewModels.append(viewModelPair)
-                                
-                                if viewModels.count == pairs.count {
-                                    if category == .xyChallenges {
-                                        self.sections.insert((category.toString(), viewModels), at: 0)
-                                    } else if category == .playerChallenges {
-                                        
-                                        self.sections.append(
-                                            (category.toString(), viewModels)
-                                        )
-                                    }
-                                    self.collectionView.reloadData()
-                                }
-                            }
-                        }
-                    }
+                    self.sections.append(("Player Challenges", [(ChallengeViewModel, ChallengeVideoViewModel)?](repeating: nil, count: pairs.count)))
+                    self.collectionView.reloadData()
                 }
             }
         }
@@ -138,13 +123,11 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         }
         
         UserDefaults.standard.setValue(nil, forKey: "introMessageSeen")
-        
     
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
         
         collectionView.frame = view.bounds.inset(by: view.safeAreaInsets)
         
@@ -160,6 +143,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         super.viewWillAppear(animated)
         
         collectionView.reloadData()
+        navigationController?.navigationBar.isTranslucent = false
+
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -168,36 +153,6 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         for cell in collectionView.visibleCells {
             if let cell = cell as? ChallengeCollectionViewCell {
                 cell.stopVideo()
-            }
-        }
-    }
-    
-    // MARK: - Fetch handling
-    
-    func loadMore() {
-        guard sections.count == 3, sections.last?.0 == ChallengeModel.Categories.playerChallenges.toString() else {
-            return
-        }
-        
-        ChallengesFirestoreManager.shared.getChallengesAndVideos(
-            limitTo: 3,
-            category: .playerChallenges
-        ) { (pairs) in
-            if let pairs = pairs {
-                var viewModels = self.sections.last!.1
-                
-                for (model, videoModel) in pairs {
-                    ChallengesViewModelBuilder.buildChallengeAndVideo(from: videoModel, challengeModel: model, withThumbnailImage: true) { (viewModelPair) in
-                        if let viewModelPair = viewModelPair {
-                            viewModels.append(viewModelPair)
-                            
-                            if viewModels.count == pairs.count {
-                                self.sections[2] = (ChallengeModel.Categories.playerChallenges.rawValue, viewModels)
-                                self.collectionView.reloadData()
-                            }
-                        }
-                    }
-                }
             }
         }
     }
@@ -219,7 +174,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         let maxVisibleY = collectionView.contentOffset.y + self.collectionView.bounds.size.height
         let actualMaxY = collectionView.contentSize.height + collectionView.contentInset.bottom
         if maxVisibleY + buffer >= actualMaxY {
-            loadMore()
+//            loadMore()
         }
     }
     
@@ -241,7 +196,12 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return UICollectionViewCell()
         }
         cell.delegate = self
-        cell.configure(viewModel: sections[indexPath.section].1[indexPath.row].0, videoViewModel: sections[indexPath.section].1[indexPath.row].1)
+        
+        if let pair = sections[indexPath.section].1[indexPath.row] {
+            cell.configure(viewModel: pair.0, videoViewModel: pair.1)
+        } else {
+            fetchForItem(at: indexPath)
+        }
         
         return cell
     }
@@ -270,8 +230,8 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let pair = sections[indexPath.section].1[indexPath.row]
-        guard let cell = collectionView.cellForItem(at: indexPath) as? ChallengeCollectionViewCell else {
+        
+        guard let pair = sections[indexPath.section].1[indexPath.row], let cell = collectionView.cellForItem(at: indexPath) as? ChallengeCollectionViewCell else {
             return
         }
         
@@ -285,6 +245,25 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         vc.hidesBottomBarWhenPushed = true
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            fetchForItem(at: indexPath)
+        }
+    }
+    
+    func fetchForItem(at indexPath: IndexPath) {
+        
+        var pair = models[indexPath.row]
+        
+        ChallengesViewModelBuilder.buildChallengeAndVideo(from: pair.1, challengeModel: pair.0) { (viewModelPair) in
+            if let viewModelPair = viewModelPair {
+                self.sections[indexPath.section].1[indexPath.row] = viewModelPair
+                
+                self.collectionView.reloadItems(at: [indexPath])
+            }
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView,
