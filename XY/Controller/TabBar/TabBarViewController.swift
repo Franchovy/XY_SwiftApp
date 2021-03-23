@@ -263,6 +263,13 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
                                                  scale: 2.0, orientation: UIImage.Orientation.upMirrored)
             }
         }
+        if let viewControllers = viewControllers {
+            for viewController in viewControllers {
+                if let navVC = viewController as? UINavigationController {
+                    navVC.popToRootViewController(animated: false)
+                }
+            }
+        }
     }
 }
 

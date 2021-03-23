@@ -224,7 +224,7 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
     public func configure(with viewModel: ChallengeViewModel) {
         challengeViewModel = viewModel
         
-        challengeTitleLabel = GradientLabel(text: "#\(viewModel.title)", fontSize: 26, gradientColours: Global.xyGradient)
+        challengeTitleLabel = GradientLabel(text: viewModel.title, fontSize: 26, gradientColours: Global.xyGradient)
         challengeTitleLabel!.label.textAlignment = .center
         view.addSubview(challengeTitleLabel!)
         
@@ -464,11 +464,13 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                     // Upload video to challenge
                     ChallengesFirestoreManager.shared.uploadChallengeVideo(
                         videoUrl: recordedVideoUrl,
-                        challengeID: challengeID, caption: nil) { (ID, videoID) in
-                        
+                        challengeID: challengeID, caption: nil,
+                        onUploadProgressStart: {
+                        TabBarViewController.instance.selectedIndex = 0
+                    }, completion: { (ID, videoID) in
                         self.dismiss(animated: true, completion: nil)
-                    }
-                    }
+                    })
+                }
             } else {
                 // Upload to existing challenge
                 guard
@@ -485,11 +487,12 @@ class PreviewViewController: UIViewController, UITextViewDelegate {
                 ChallengesFirestoreManager.shared.uploadChallengeVideo(
                     videoUrl: recordedVideoUrl,
                     challengeID: challengeViewModel.id,
-                    caption: caption
-                ) { (ID, videoID) in
-                    
-                    self.dismiss(animated: true, completion: nil)
-                }
+                    caption: caption,
+                 onUploadProgressStart: {
+                    TabBarViewController.instance.selectedIndex = 0
+                }, completion: { (ID, videoID) in
+                    print("Full upload")
+                })
             }
         }
     }

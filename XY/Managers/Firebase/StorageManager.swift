@@ -180,6 +180,21 @@ final class StorageManager {
         return URL(fileURLWithPath: fileName, relativeTo: documentDirectory)
     }
     
+    var videoUploadTask: StorageUploadTask?
+    
+    public func subscribeToUploadProgress(onProgress: @escaping((Double) -> Void)) -> Bool {
+        guard let videoUploadTask = videoUploadTask else {
+            return false
+        }
+        
+        videoUploadTask.observe(.progress) { (snapshot) in
+            if let progress = snapshot.progress {
+                onProgress(progress.fractionCompleted)
+            }
+        }
+        return true
+    }
+    
     public func uploadVideo(from url: URL, withThumbnail image: UIImage, withContainer containerId: String, completion: @escaping(Result<String,Error>) -> Void) {
         var uuid: String!
         let metadata = StorageMetadata()
@@ -192,7 +207,8 @@ final class StorageManager {
         
         if let videoData = NSData(contentsOf: url) as Data? {
             //use 'putData' instead
-            videoRef.putData(videoData, metadata: metadata) { (_, error) in
+            
+            videoUploadTask = videoRef.putData(videoData, metadata: metadata) { (_, error) in
                 if let error = error {
                     completion(.failure(error))
                 } else {

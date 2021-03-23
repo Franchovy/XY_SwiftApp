@@ -321,7 +321,7 @@ final class ChallengesFirestoreManager {
         return challengeModel
     }
     
-    func uploadChallengeVideo(videoUrl: URL, challengeID: String, caption: String?, completion: @escaping(String, String) -> Void) {
+    func uploadChallengeVideo(videoUrl: URL, challengeID: String, caption: String?, onUploadProgressStart: @escaping(()->Void), completion: @escaping(String, String) -> Void) {
         guard let userID = AuthManager.shared.userId else {
             return
         }
@@ -366,6 +366,8 @@ final class ChallengesFirestoreManager {
                         print(error)
                     }
                 }
+                
+                onUploadProgressStart()
             }
         }
     }

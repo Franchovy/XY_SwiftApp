@@ -23,6 +23,8 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
     private var isModalPresented = false
     private var isFirstVideoSetUp = false
     
+    private var uploadProgressView = XPCircleView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -44,6 +46,8 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
             self.setUpFirstVideo()
         }
         
+        view.addSubview(uploadProgressView)
+        uploadProgressView.alpha = 0.0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -63,6 +67,38 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        if StorageManager.shared.videoUploadTask != nil {
+            uploadProgressView.setColor(UIColor(0x26FF88))
+            
+            uploadProgressView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            UIView.animate(withDuration: 0.5) {
+                self.uploadProgressView.alpha = 1.0
+                self.uploadProgressView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
+            
+            let bool = StorageManager.shared.subscribeToUploadProgress { (progress) in
+                self.uploadProgressView.animateSetProgress(CGFloat(progress))
+                self.uploadProgressView.setLabel(String(format: "%0.f%", progress*100))
+                
+                if progress >= 1.0 {
+                    UIView.animate(withDuration: 0.4, delay: 1.0, options: .curveEaseOut) {
+                        self.uploadProgressView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+                    } completion: { (done) in
+                        if done {
+                            UIView.animate(withDuration: 0.4, delay: 0.1, options: .curveEaseIn) {
+                                self.uploadProgressView.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                                self.uploadProgressView.alpha = 0.0
+                            } completion: { (done) in
+                                if done {
+                                    self.uploadProgressView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         
         if UserDefaults.standard.object(forKey: "introMessageSeen") == nil {
             
@@ -122,6 +158,13 @@ class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIP
         super.viewDidLayoutSubviews()
         
         pageViewController.view.frame = view.bounds.inset(by: UIEdgeInsets.init(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0))
+        
+        uploadProgressView.frame = CGRect(
+            x: 15,
+            y: view.safeAreaInsets.top + 15,
+            width: 34,
+            height: 34
+        )
     }
     
     public func configure(for challengeViewModel: ChallengeViewModel, withHeroID heroID: String? = nil) {
