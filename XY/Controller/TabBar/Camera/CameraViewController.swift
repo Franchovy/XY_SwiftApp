@@ -49,7 +49,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     private var challengeTimerLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "Raleway-Heavy", size: 38)
+        label.font = UIFont(name: "Raleway-Heavy", size: 44)
         label.textColor = UIColor(0xF2EF37)
         label.text = " "
         label.isHidden = true
@@ -214,6 +214,8 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        
+        
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
             x: (view.width - recordButtonSize)/2,
@@ -245,14 +247,14 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         switchCameraButton.frame = CGRect(
             x: view.width - 26.25 - 26.63,
-            y: 60.98,
+            y: view.safeAreaInsets.top + 20.98,
             width: 26.25,
             height: 22.5
         )
         
         flashCameraButton.frame = CGRect(
-            x: switchCameraButton.left - 26.26 - 12.12,
-            y: switchCameraButton.top,
+            x: switchCameraButton.left - 15 - 22.12,
+            y: view.safeAreaInsets.top + 19.1,
             width: 15,
             height: 26.26
         )
@@ -263,10 +265,10 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         layoutCameraButton()
         
-        let closeButtonSize: CGFloat = 30
+        let closeButtonSize: CGFloat = 17
         closeCameraVCButton.frame =  CGRect(
             x: 10.42,
-            y: 63.73,
+            y: view.safeAreaInsets.top + 23.73,
             width: closeButtonSize,
             height: closeButtonSize
         )
@@ -353,7 +355,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         challengeTimerLabel.sizeToFit()
         challengeTimerLabel.frame = CGRect(
             x: (view.width - challengeTimerLabel.width)/2,
-            y: 32,
+            y: view.safeAreaInsets.top + 32,
             width: challengeTimerLabel.width,
             height: challengeTimerLabel.height
         )
@@ -385,6 +387,24 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     private func startRecording() {
         startVideoRecording()
+        
+        if activeChallenge != nil {
+            challengeTitleLabel = GradientLabel(text: activeChallenge!.title, fontSize: 20, gradientColours: activeChallenge!.category.getGradient())
+            challengeTitleLabel!.sizeToFit()
+            challengeTitleLabel!.alpha = 0.0
+            
+            view.addSubview(challengeTitleLabel!)
+            challengeTitleLabel!.frame = CGRect(
+                x: (view.width - challengeTitleLabel!.width)/2,
+                y: challengeTimerLabel.bottom + 1,
+                width: challengeTitleLabel!.width,
+                height: challengeTitleLabel!.height
+            )
+            
+            UIView.animate(withDuration: 0.3) {
+                self.challengeTitleLabel?.alpha = 1.0
+            }
+        }
         
         UIView.animate(withDuration: 0.3, animations: {
             self.recordButton.backgroundColor = .red
@@ -430,7 +450,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         } completion: { (done) in
             if done {
                 self.challengeTimerLabel.isHidden = false
-                self.challengeTimerLabel.frame.origin.y = -50
+                self.challengeTimerLabel.frame.origin.y = -90
                 
                 UIView.animate(withDuration: 0.3, delay: 2.0) {
                     self.challengeTimerLabel.frame.origin.y = 32
@@ -480,24 +500,24 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         ti = NSInteger(time)
         
-        if ti < 0 {
-            challengeTimerLabel.text = "00:00.00"
+        if ti == 0 {
+            challengeTimerLabel.text = "00:00"
+            layoutChallengeTimerLabel()
             finishedRecording()
         } else {
-            ms = Int(time.truncatingRemainder(dividingBy: 1) * 100)
-            setTimerText(timeInteger: ti, ms: ms)
+            setTimerText(timeInteger: ti)
+            layoutChallengeTimerLabel()
         }
         
-        layoutChallengeTimerLabel()
     }
 
-    private func setTimerText(timeInteger: NSInteger, ms: NSInteger = 0) {
+    private func setTimerText(timeInteger: NSInteger) {
         
         let seconds = timeInteger % 60
         let minutes = (timeInteger / 60) % 60
         
         //Display the time string to a label in our view controller
-        challengeTimerLabel.text = String(format: "%02d:%02d.%02d", minutes, seconds, ms)
+        challengeTimerLabel.text = String(format: "%02d:%02d", minutes, seconds)
     }
     
     private func finishedRecording() {
@@ -526,6 +546,16 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     private func reset() {
         if isBackRecording || isFrontRecording {
             didEndRecording()
+        }
+        
+        if challengeTitleLabel != nil {
+            UIView.animate(withDuration: 0.3) {
+                self.challengeTitleLabel?.alpha = 1.0
+            } completion: { (done) in
+                if done {
+                    self.challengeTitleLabel?.removeFromSuperview()
+                }
+            }
         }
         
         self.challengeTimerLabel.isHidden = true
