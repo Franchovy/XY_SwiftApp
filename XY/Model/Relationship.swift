@@ -87,6 +87,7 @@ extension Relationship {
         guard let userId = AuthManager.shared.userId,
               user1ID == userId || user2ID == userId
               else {
+            
             return .none
         }
         

@@ -16,4 +16,6 @@ struct ChallengeVideoViewModel {
     var gradient: [UIColor]?
     var creator: ProfileModel?
     var thumbnailImage: UIImage?
+    var xp: Int
+    var level: Int
 }

@@ -44,6 +44,7 @@ class VideoLevelLabel: UIView {
     }
     
     enum Levels: Int {
+        case delete = -1
         case new
         case rising
         case trend
@@ -52,10 +53,14 @@ class VideoLevelLabel: UIView {
         case goat
     }
     
-    public func configure(for level: Levels) {
+    public func configure(for level: Int) {
         gradientLayer.colors = []
         
-        switch level {
+        switch Levels(rawValue: level) {
+        case .delete:
+            gradientLayer.backgroundColor = UIColor.black.cgColor
+            label.textColor = .systemRed
+            label.text = "Delete"
         case .new:
             gradientLayer.backgroundColor = UIColor(0xCAF035).cgColor
             label.textColor = UIColor(0x262728)
@@ -89,6 +94,8 @@ class VideoLevelLabel: UIView {
             gradientLayer.backgroundColor = UIColor(named: "XYBlack-1")!.cgColor
             label.textColor = UIColor(0xF8D92D)
             label.text = "G.O.A.T."
+        default:
+            break
         }
     }
     

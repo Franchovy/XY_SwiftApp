@@ -11,6 +11,23 @@ import Firebase
 final class ChallengesFirestoreManager {
     static var shared = ChallengesFirestoreManager()
     
+    func subscribeToVideoXP(challengeID: String, videoID: String, onUpdate: @escaping((Int, Int) -> Void)) {
+        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.challenges)
+            .document(challengeID)
+            .collection(FirebaseKeys.ChallengeKeys.CollectionPath.videos)
+            .document(videoID)
+            .addSnapshotListener { (snapshot, error) in
+                if let error = error {
+                    print(error)
+                } else if let snapshot = snapshot {
+                    if let data = snapshot.data(), let xp = data[FirebaseKeys.ChallengeKeys.VideoKeys.xp] as? Int,
+                       let level = data[FirebaseKeys.ChallengeKeys.VideoKeys.level] as? Int {
+                        onUpdate(level, xp)
+                    }
+                }
+            }
+    }
+    
     func getChallenges(completion: @escaping([ChallengeModel]?) -> Void) {
         
         var models = [ChallengeModel]()

@@ -83,8 +83,9 @@ class VideoViewController: UIViewController {
     
     var challengeModel: ChallengeViewModel?
     var videoViewModel: ChallengeVideoViewModel?
+    var xpModel: XPModel?
     
-    var level:CGFloat = 0.4
+    var progress:CGFloat = 0.4
         
     private var timeControlObserverSet = false
     private var repeatObserverSet = false
@@ -119,6 +120,7 @@ class VideoViewController: UIViewController {
         challengeLabel.addGestureRecognizer(tapAnywhereGesture)
         
         followButton.isHidden = true
+        
     }
     
     required init?(coder: NSCoder) {
@@ -281,13 +283,29 @@ class VideoViewController: UIViewController {
         }
     }
     
-    public func swipedRight() {
-        level += 0.4
+    private func setProgressUI() {
+        guard let xpModel = xpModel else {
+            return
+        }
+        let progress = xpModel.getProgress()
         
-        xpCircleView.animateSetProgress(level.truncatingRemainder(dividingBy: 1.0))
-        levelLabel.configure(for: VideoLevelLabel.Levels.init(rawValue: Int(floor(level)))!)
+        xpCircleView.animateSetProgress(CGFloat(progress))
+        levelLabel.configure(for: xpModel.level)
         let color = levelLabel.getColor()
         xpCircleView.setColor(color)
+    }
+    
+    public func swipedRight() {
+        xpModel?.addXP(GameModel.swipeRightXP)
+        
+        guard let xpModel = xpModel else {
+            return
+        }
+        
+        levelLabel.configure(for: xpModel.level)
+        let color = levelLabel.getColor()
+        xpCircleView.setColor(color)
+        xpCircleView.animateSetProgress(CGFloat(xpModel.getProgress()))
         
         guard let videoViewModel = videoViewModel, let challengeModel = challengeModel else {
             return
@@ -300,12 +318,16 @@ class VideoViewController: UIViewController {
     }
     
     public func swipedLeft() {
-        level -= 0.4
+        xpModel?.addXP(GameModel.swipeLeftXP)
         
-        xpCircleView.animateSetProgress(level.truncatingRemainder(dividingBy: 1.0))
-        levelLabel.configure(for: VideoLevelLabel.Levels.init(rawValue: Int(floor(level)))!)
+        guard let xpModel = xpModel else {
+            return
+        }
+        
+        levelLabel.configure(for: xpModel.level)
         let color = levelLabel.getColor()
         xpCircleView.setColor(color)
+        xpCircleView.animateSetProgress(CGFloat(xpModel.getProgress()))
         
         guard let videoViewModel = videoViewModel, let challengeModel = challengeModel else {
             return
@@ -321,6 +343,11 @@ class VideoViewController: UIViewController {
         self.challengeModel = challengeViewModel
         self.videoViewModel = challengeVideoViewModel
         
+        if let videoViewModel = videoViewModel {
+            xpModel = XPModel(type: .challenge, xp: videoViewModel.xp, level: videoViewModel.level)
+            self.setProgressUI()
+        }
+        
         // Request nickname for this user
         if let profileModel = challengeVideoViewModel.creator {
             
@@ -331,10 +358,6 @@ class VideoViewController: UIViewController {
                     self.followButton.configure(for: profileViewModel.relationshipType, otherUserID: profileViewModel.userId)
                     self.followButton.isHidden = false
                     
-                    self.levelLabel.configure(for: .new)
-                    
-                    self.xpCircleView.animateSetProgress(self.level)
-                    self.xpCircleView.setColor(UIColor(0xCAF035))
                     self.xpCircleView.setThickness(.thick)
                     self.xpCircleView.setBackgroundStyle(.glowColor)
                     
@@ -362,6 +385,15 @@ class VideoViewController: UIViewController {
         challengeLabel.addGestureRecognizer(tappedTitle)
         
         setUpVideo()
+    }
+    
+    private func subscribeToXP() {
+        guard let challengeModel = challengeModel, let videoViewModel = videoViewModel else {
+            return
+        }
+        ChallengesFirestoreManager.shared.subscribeToVideoXP(challengeID: challengeModel.id, videoID: videoViewModel.id) { level, xp in
+            
+        }
     }
     
     private func setUpVideo() {

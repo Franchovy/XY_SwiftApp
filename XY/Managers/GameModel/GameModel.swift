@@ -10,5 +10,5 @@ import Foundation
 final class GameModel {
     
     static var swipeRightXP = 10
-    static var swipeLeftXP = 10
+    static var swipeLeftXP = -10
 }

@@ -118,7 +118,9 @@ final class ChallengesViewModelBuilder {
                     caption: model.caption,
                     gradient: challengeModel.category.getGradient(),
                     creator: creatorProfile,
-                    thumbnailImage: videoThumbnail
+                    thumbnailImage: videoThumbnail,
+                    xp: model.xp,
+                    level: model.level
                 )
                 
                 completion((challengeViewModel, challengeVideoViewModel))
@@ -178,7 +180,9 @@ final class ChallengesViewModelBuilder {
                     description: challengeDescription,
                     caption: model.caption,
                     gradient: Global.xyGradient,
-                    creator: creatorProfile
+                    creator: creatorProfile,
+                    xp: model.xp,
+                    level: model.level
                 )
                 
                 completion(challengeViewModel)

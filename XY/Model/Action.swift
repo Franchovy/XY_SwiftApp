@@ -11,6 +11,7 @@ enum ActionType: String {
     case swipeRight
     case swipeLeft
     case levelUp
+    case delete
 }
 
 enum ContentType: String {

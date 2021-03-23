@@ -24,7 +24,7 @@ class XPCircleView: UIView {
     
     let progressLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.strokeColor = UIColor.red.cgColor
+        layer.strokeColor = UIColor.darkGray.cgColor
         layer.fillColor = UIColor.clear.cgColor
         layer.lineCap = .round
         layer.lineWidth = 9.0
