@@ -54,6 +54,8 @@ class RankingTableViewCell: UITableViewCell {
         addSubview(scoreLabel)
         addSubview(followButton)
         followButton.isHidden = true
+        
+        followButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
     }
     
     required init?(coder: NSCoder) {
