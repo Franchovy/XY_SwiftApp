@@ -28,6 +28,14 @@ final class XPModelManager {
     
     /// Returns the XP Requirement to complete *level* of provided *type*
     func getXpForNextLevelOfType(_ level: Int, _ type: XPLevelType) -> Int {
+        if level < 0 || level > levels[type]!.count-1 {
+            if type == .challenge && level < 0 {
+                return 10
+            } else {
+                return -1
+            }
+        }
+        
         if let nextLevelXPRequirement = levels[type]?[level] {
             return nextLevelXPRequirement
         } else {

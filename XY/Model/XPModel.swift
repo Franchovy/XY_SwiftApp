@@ -9,7 +9,7 @@ import Foundation
 
 
 struct XPModel {
-    var type: XPLevelType
+    let type: XPLevelType
     var xp: Int
     var level: Int
 }
@@ -30,6 +30,10 @@ extension XPModel {
         self.xp += transactionXP
         
         if xp < 0 {
+            if level < 0 {
+                return
+            }
+            
             level -= 1
             xp += XPModelManager.shared.getXpForNextLevelOfType(level, type)
         } else {
