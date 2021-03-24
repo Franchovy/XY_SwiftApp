@@ -439,37 +439,44 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     var blurEffectView: UIVisualEffectView?
-    private func setUpForChallenge(challenge: ChallengeViewModel, heroID: String) {
+    private func setUpForChallenge(challenge: ChallengeViewModel, playDirectly: Bool = false, heroID: String? = nil) {
         state = .initWithChallenge
         activeChallenge = challenge
         
-        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
-        
-        blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView!.frame = view.bounds
-        blurEffectView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView!)
-        
-        previewCard = ChallengePreviewCard()
-        previewCard!.configure(with: challenge)
-        
-        previewCard!.onPressedPlay = pressedPlay
-        
-        isHeroEnabled = true
-        previewCard?.heroID = heroID
-        
-        view.addSubview(previewCard!)
-        previewCard!.frame = CGRect(
-            x: (view.width - 150)/2,
-            y: (view.height - 200)/2,
-            width: 150,
-            height: 200
-        )
-        
-        previewCard!.layoutSubviews()
-        
-        tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere(_:)))
-        blurEffectView!.addGestureRecognizer(tapAnywhereGesture!)
+        if playDirectly {
+            recordButton.isEnabled = true
+            prepareToRecord(withChallengeLengthInMinutes: 0.5)
+        } else {
+            let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
+            
+            blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView!.frame = view.bounds
+            blurEffectView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            view.addSubview(blurEffectView!)
+            
+            previewCard = ChallengePreviewCard()
+            previewCard!.configure(with: challenge)
+            
+            previewCard!.onPressedPlay = pressedPlay
+            
+            if let heroID = heroID {
+                isHeroEnabled = true
+                previewCard?.heroID = heroID
+            }
+            
+            view.addSubview(previewCard!)
+            previewCard!.frame = CGRect(
+                x: (view.width - 150)/2,
+                y: (view.height - 200)/2,
+                width: 150,
+                height: 200
+            )
+            
+            previewCard!.layoutSubviews()
+            
+            tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere(_:)))
+            blurEffectView!.addGestureRecognizer(tapAnywhereGesture!)
+        }
     }
     
     @objc private func pressedPlay() {
@@ -597,11 +604,9 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
 
     private func setTimerText(timeInteger: NSInteger) {
-        
         let seconds = timeInteger % 60
         let minutes = (timeInteger / 60) % 60
         
-        //Display the time string to a label in our view controller
         challengeTimerLabel.text = String(format: "%02d:%02d", minutes, seconds)
     }
     
@@ -644,7 +649,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
                 }
             }
         }
-        
 
         activeChallenge = nil
         challengeTimerLabel.isHidden = true
@@ -761,6 +765,6 @@ extension CameraViewController : UICollectionViewDataSource {
 
 extension CameraViewController : StartChallengeDelegate {
     func pressedPlay(challenge: ChallengeViewModel) {
-        setUpForChallenge(challenge: challenge, heroID: "card")
+        setUpForChallenge(challenge: challenge, playDirectly: true)
     }
 }
