@@ -50,6 +50,8 @@ final class AuthManager {
     func logout() {
         do {
             try Auth.auth().signOut()
+            
+            ProfileManager.shared.resetProfileImageFile()
         } catch let error {
             print("Error logging out: \(error)")
         }

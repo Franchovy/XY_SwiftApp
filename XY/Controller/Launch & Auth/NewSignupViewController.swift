@@ -257,6 +257,7 @@ class NewSignupViewController: UIViewController {
                 let vc = UINavigationController(rootViewController: TabBarViewController())
                 vc.modalPresentationStyle = .fullScreen
                 vc.heroModalAnimationType = .pageIn(direction: .left)
+                
                 self.present(vc, animated: true)
             case .failure(let error):
                 print("Error logging in: \(error)")

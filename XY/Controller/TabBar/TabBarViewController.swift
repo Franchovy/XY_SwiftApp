@@ -159,7 +159,6 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         if let profileImage = ProfileManager.shared.loadProfileImageFromFile() {
             loadProfileImageToTabBar(image: profileImage)
         } else {
-            
             StorageManager.shared.downloadImage(withImageId: ownProfile.profileImageId) { (image, error) in
                 if let error = error {
                     print(error)
@@ -259,14 +258,14 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     public func backToLaunch() {
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        
         let launchAnimationController = LaunchVC()
+        let authVC = AuthChoiceViewController()
         
         launchAnimationController.onFinishedAnimation = {
             launchAnimationController.dismiss(animated: true, completion: nil)
+            launchAnimationController.navigationController?.pushViewController(authVC, animated: true)
         }
-        
+        navigationController?.popToRootViewController(animated: true)
         navigationController?.pushViewController(launchAnimationController, animated: true)
     }
     
