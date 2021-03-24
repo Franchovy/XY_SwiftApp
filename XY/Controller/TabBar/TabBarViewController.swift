@@ -191,7 +191,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         let bottomAdjustment:CGFloat = bottomPadding > 0 ? 2 : -1
         let topAdjustment:CGFloat = bottomPadding > 0 ? 5 : -1
         
-        let tabBarItemEdgeInsets = UIEdgeInsets(top: -bottomAdjustment, left: -bottomAdjustment, bottom: -bottomAdjustment, right: -bottomAdjustment)
+        let tabBarItemEdgeInsets = UIEdgeInsets(top: -bottomAdjustment, left: 0, bottom: 0, right: 0)
         
         playVC.navigationController?.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: topAdjustment)
         playVC.navigationController?.tabBarItem.imageInsets = tabBarItemEdgeInsets
