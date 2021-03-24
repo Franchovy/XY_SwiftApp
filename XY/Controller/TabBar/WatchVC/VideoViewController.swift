@@ -540,6 +540,8 @@ class VideoViewController: UIViewController {
         let card = ChallengePreviewCard()
         self.card = card
         card.configure(with: challengeModel)
+        card.heroID = "card"
+        isHeroEnabled = true
         
         view.addSubview(card)
         card.frame = CGRect(

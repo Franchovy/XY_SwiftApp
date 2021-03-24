@@ -34,6 +34,8 @@ class ChallengePreviewCard: UIView {
     
     var viewModel: ChallengeViewModel?
     
+    var onPressedPlay: (() -> Void)?
+    
     init() {
         super.init(frame: .zero)
         
@@ -44,6 +46,8 @@ class ChallengePreviewCard: UIView {
         playButton.setTitle("Play", for: .normal)
         playButton.setTitleColor(.white, for: .normal)
         playButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 14)
+        
+        playButton.addTarget(self, action: #selector(playButtonPressed), for: .touchUpInside)
                 
         layer.insertSublayer(backgroundLayer, at: 0)
     }
@@ -104,5 +108,18 @@ class ChallengePreviewCard: UIView {
         addSubview(titleLabel!)
         
         descriptionLabel.text = viewModel.description
+    }
+    
+    @objc private func playButtonPressed() {
+        if onPressedPlay != nil {
+            onPressedPlay!()
+            return
+        }
+        
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        TabBarViewController.instance.startChallenge(challenge: viewModel)
     }
 }

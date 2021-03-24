@@ -116,6 +116,9 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         return collectionView
     }()
     
+    var tapAnywhereGesture: UITapGestureRecognizer?
+    var previewCard: ChallengePreviewCard?
+    
     private var previewVC: PreviewViewController?
     
     var readyToPresentPreview = false
@@ -213,12 +216,12 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         challengePreviewCollectionView.dataSource = self
         fetchChallenges()
+        
+        videoGravity = .resizeAspectFill
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        
         
         let recordButtonSize: CGFloat = 60
         recordButton.frame = CGRect(
@@ -433,10 +436,76 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         })
     }
     
-    private func setUpForChallenge(challenge: ChallengeViewModel) {
+    private func setUpForChallenge(challenge: ChallengeViewModel, heroID: String) {
         activeChallenge = challenge
+        
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
+        
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView)
+        
+        previewCard = ChallengePreviewCard()
+        previewCard!.configure(with: challenge)
+        
+        previewCard!.onPressedPlay = pressedPlay
+        
+        isHeroEnabled = true
+        previewCard?.heroID = heroID
+        
+        view.addSubview(previewCard!)
+        previewCard!.frame = CGRect(
+            x: (view.width - 150)/2,
+            y: (view.height - 200)/2,
+            width: 150,
+            height: 200
+        )
+        
+        previewCard!.layoutSubviews()
+        
+        tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere(_:)))
+        blurEffectView.addGestureRecognizer(tapAnywhereGesture!)
+    }
+    
+    @objc private func pressedPlay() {
+        if let tapAnywhereGesture = tapAnywhereGesture {
+            view.removeGestureRecognizer(tapAnywhereGesture)
+        }
+        tapAnywhereGesture = nil
+        
         recordButton.isEnabled = true
         prepareToRecord(withChallengeLengthInMinutes: 0.5)
+        
+        UIView.animate(withDuration: 0.4) {
+            self.previewCard?.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
+            self.previewCard?.alpha = 0.0
+        } completion: { (done) in
+            if done {
+                self.previewCard?.removeFromSuperview()
+            }
+        }
+    }
+    
+    @objc private func didTapAnywhere(_ gestureRecognizer: UITapGestureRecognizer) {
+        if let view = gestureRecognizer.view {
+            view.removeGestureRecognizer(tapAnywhereGesture!)
+            if let effectView = view as? UIVisualEffectView {
+                effectView.removeFromSuperview()
+            }
+        }
+        tapAnywhereGesture = nil
+        
+        UIView.animate(withDuration: 0.4) {
+            self.previewCard?.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+            self.previewCard?.alpha = 0.0
+        } completion: { (done) in
+            if done {
+                self.previewCard?.removeFromSuperview()
+                
+                self.reset()
+            }
+        }
     }
     
     private func prepareToRecord(withChallengeLengthInMinutes lengthInMinutes: Float) {
@@ -687,6 +756,6 @@ extension CameraViewController : UICollectionViewDataSource {
 
 extension CameraViewController : StartChallengeDelegate {
     func pressedPlay(challenge: ChallengeViewModel) {
-        setUpForChallenge(challenge: challenge)
+        setUpForChallenge(challenge: challenge, heroID: "card")
     }
 }
