@@ -121,6 +121,13 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
         )
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        challengeTitleGradientLabel?.removeFromSuperview()
+        challengeTitleGradientLabel = nil
+    }
+    
     public func configure(viewModel: ChallengeViewModel) {
         let challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 16, gradientColours: viewModel.category.getGradient())
         addSubview(challengeTitleGradientLabel)

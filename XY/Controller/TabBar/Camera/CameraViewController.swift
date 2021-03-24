@@ -142,6 +142,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     enum State {
         case challengeChoice
+        case initWithChallenge
         case countdown
         case recording
         case recordingFinished
@@ -167,16 +168,17 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        displaySuggestedChallenges()
+        if state == .challengeChoice {
+            displaySuggestedChallenges()
+        }
         
         outputVideoURL = nil
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        didEndRecording()
         reset()
+        
+        super.viewDidDisappear(animated)
     }
     
     override func viewDidLoad() {
@@ -272,7 +274,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         
         layoutCameraButton()
         
-        let closeButtonSize: CGFloat = 17
+        let closeButtonSize: CGFloat = 23
         closeCameraVCButton.frame =  CGRect(
             x: 10.42,
             y: view.safeAreaInsets.top + 23.73,
@@ -398,7 +400,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     private func startRecording() {
         state = .recording
-        startVideoRecording()
+//        startVideoRecording()
         
         if activeChallenge != nil {
             challengeTitleLabel = GradientLabel(text: activeChallenge!.title, fontSize: 20, gradientColours: activeChallenge!.category.getGradient())
@@ -436,15 +438,17 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         })
     }
     
+    var blurEffectView: UIVisualEffectView?
     private func setUpForChallenge(challenge: ChallengeViewModel, heroID: String) {
+        state = .initWithChallenge
         activeChallenge = challenge
         
         let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
         
-        let blurEffectView = UIVisualEffectView(effect: blurEffect)
-        blurEffectView.frame = view.bounds
-        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        view.addSubview(blurEffectView)
+        blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView!.frame = view.bounds
+        blurEffectView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        view.addSubview(blurEffectView!)
         
         previewCard = ChallengePreviewCard()
         previewCard!.configure(with: challenge)
@@ -465,12 +469,12 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         previewCard!.layoutSubviews()
         
         tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(didTapAnywhere(_:)))
-        blurEffectView.addGestureRecognizer(tapAnywhereGesture!)
+        blurEffectView!.addGestureRecognizer(tapAnywhereGesture!)
     }
     
     @objc private func pressedPlay() {
         if let tapAnywhereGesture = tapAnywhereGesture {
-            view.removeGestureRecognizer(tapAnywhereGesture)
+            blurEffectView?.removeGestureRecognizer(tapAnywhereGesture)
         }
         tapAnywhereGesture = nil
         
@@ -480,29 +484,30 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
         UIView.animate(withDuration: 0.4) {
             self.previewCard?.transform = CGAffineTransform(scaleX: 2.0, y: 2.0)
             self.previewCard?.alpha = 0.0
+            self.blurEffectView?.alpha = 0.0
         } completion: { (done) in
             if done {
+                self.previewCard?.removeFromSuperview()
+                self.blurEffectView?.removeFromSuperview()
+                self.blurEffectView = nil
                 self.previewCard?.removeFromSuperview()
             }
         }
     }
     
     @objc private func didTapAnywhere(_ gestureRecognizer: UITapGestureRecognizer) {
-        if let view = gestureRecognizer.view {
-            view.removeGestureRecognizer(tapAnywhereGesture!)
-            if let effectView = view as? UIVisualEffectView {
-                effectView.removeFromSuperview()
-            }
-        }
+        blurEffectView?.removeGestureRecognizer(tapAnywhereGesture!)
         tapAnywhereGesture = nil
         
         UIView.animate(withDuration: 0.4) {
             self.previewCard?.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             self.previewCard?.alpha = 0.0
+            self.blurEffectView?.alpha = 0.0
         } completion: { (done) in
             if done {
                 self.previewCard?.removeFromSuperview()
-                
+                self.blurEffectView?.removeFromSuperview()
+                self.blurEffectView = nil
                 self.reset()
             }
         }
@@ -526,7 +531,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             self.countDownLabel.alpha = 1.0
             self.challengePreviewCollectionView.frame.origin.y = self.view.height
             self.newChallengeButton.frame.origin.y = -100
-            
+            self.challengeTimerLabel.alpha = 1.0
         } completion: { (done) in
             if done {
                 self.challengeTimerLabel.isHidden = false
@@ -624,22 +629,23 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
     
     private func reset() {
-        if isBackRecording || isFrontRecording {
-            didEndRecording()
-        }
+        didEndRecording()
         
         state = .challengeChoice
         
         if challengeTitleLabel != nil {
             UIView.animate(withDuration: 0.3) {
-                self.challengeTitleLabel?.alpha = 1.0
+                self.challengeTitleLabel?.alpha = 0.0
+                self.challengeTimerLabel.alpha = 0.0
             } completion: { (done) in
                 if done {
+                    self.challengeTimerLabel.text = " "
                     self.challengeTitleLabel?.removeFromSuperview()
                 }
             }
         }
-        activeChallengesDisplayed = false
+        
+
         activeChallenge = nil
         challengeTimerLabel.isHidden = true
         challengePreviewCollectionView.isHidden = false
@@ -652,7 +658,6 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             if done {
                 self.retakeButton.isHidden = true
                 self.nextButton.isHidden = true
-                self.displaySuggestedChallenges()
             }
         }
     }
