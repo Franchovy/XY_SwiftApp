@@ -400,7 +400,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     
     private func startRecording() {
         state = .recording
-//        startVideoRecording()
+        startVideoRecording()
         
         if activeChallenge != nil {
             challengeTitleLabel = GradientLabel(text: activeChallenge!.title, fontSize: 20, gradientColours: activeChallenge!.category.getGradient())
