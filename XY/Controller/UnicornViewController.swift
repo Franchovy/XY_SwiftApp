@@ -164,7 +164,7 @@ class UnicornViewController: UIViewController {
         let stackWidth = view.width - 24
         labelStack.frame = CGRect(
             x: countdownLabel.left + 8,
-            y: countdownLabel.bottom + 18,
+            y: countdownLabel.bottom + 9,
             width: countdownLabel.width - 24 ,
             height: 18
         )
@@ -204,9 +204,6 @@ class UnicornViewController: UIViewController {
             [UIColor(0x0C98F6).cgColor, UIColor(0xFF0062).cgColor] :
             [UIColor(0x626263).cgColor, UIColor(0x292A2B).cgColor, UIColor(0x141516).cgColor]
         
-//        gradientBackground.locations = traitCollection.userInterfaceStyle == .light ?
-//            [0.4, 0.6] : [0.05, 0.1, 0.5]
-        
         labelGradient.colors =
             traitCollection.userInterfaceStyle == .light ?
             [UIColor(named: "XYYellow")!.cgColor, UIColor(named: "XYYellow")!.cgColor] :
@@ -217,15 +214,18 @@ class UnicornViewController: UIViewController {
     private func animateBackground() {
         let startPointAnimation = CABasicAnimation(keyPath: "startPoint")
         startPointAnimation.duration = 3.0
-        startPointAnimation.fromValue = CGPoint(x: 0.2, y: 0.3)
-        startPointAnimation.toValue = CGPoint(x: 0.4, y: 0.4)
+        
+        startPointAnimation.fromValue = CGPoint(x: 0.5, y: 0.0)
+        startPointAnimation.toValue = CGPoint(x: 0.3, y: 0.2)
+        
         
         let endPointAnimation = CABasicAnimation(keyPath: "endPoint")
-        endPointAnimation.duration = 3.5
-        startPointAnimation.duration = 4.0
+        endPointAnimation.duration = 2.5
+        startPointAnimation.duration = 3.0
         
-        endPointAnimation.fromValue = CGPoint(x: 0.8, y: 0.7)
-        endPointAnimation.toValue = CGPoint(x: 0.6, y: 0.8)
+        endPointAnimation.fromValue = CGPoint(x: 0.3, y: 1.0)
+        endPointAnimation.toValue = CGPoint(x: 0.7, y: 0.8)
+        
 
         endPointAnimation.fillMode = CAMediaTimingFillMode.forwards
         endPointAnimation.isRemovedOnCompletion = false

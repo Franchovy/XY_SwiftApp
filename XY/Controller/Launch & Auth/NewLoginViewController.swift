@@ -197,7 +197,7 @@ class NewLoginViewController : UIViewController {
             case .success(let _):
                 // Segue to main
                 HapticsManager.shared?.vibrate(for: .success)
-                let vc = UINavigationController(rootViewController: TabBarViewController())
+                let vc = UINavigationController(rootViewController: UnicornViewController())
                 vc.modalPresentationStyle = .fullScreen
                 vc.heroModalAnimationType = .pageIn(direction: .left)
                 
