@@ -26,8 +26,30 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
         PushNotificationManager.shared = self
     }
 
+    func arePushNotificationsEnabled(completion: @escaping(Bool) -> Void) {
+        
+        let current = UNUserNotificationCenter.current()
+        current.getNotificationSettings(completionHandler: { permission in
+            switch permission.authorizationStatus  {
+            case .authorized:
+                completion(true)
+            case .denied:
+                completion(false)
+            case .notDetermined:
+                completion(false)
+            case .provisional:
+                completion(true)
+            case .ephemeral:
+                completion(true)
+            @unknown default:
+                print("Unknown Status")
+            }
+        })
+    }
+    
     func checkPermissions() {
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            
           print("Alert setting is \(settings.alertSetting == UNNotificationSetting.enabled ? "enabled" : "disabled")")
           print("Sound setting is \(settings.soundSetting == UNNotificationSetting.enabled ? "enabled" : "disabled")")
         }

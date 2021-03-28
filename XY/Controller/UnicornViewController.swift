@@ -15,6 +15,15 @@ class UnicornViewController: UIViewController {
         return imageView
     }()
     
+    
+    private let bellImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(systemName: "bell.slash.circle.fill"))
+        imageView.contentMode = .scaleAspectFit
+        imageView.layer.masksToBounds = true
+        imageView.tintColor = .white
+        return imageView
+    }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-ExtraBold", size: 35)
@@ -97,11 +106,17 @@ class UnicornViewController: UIViewController {
         view.addSubview(dropMailLabel)
         view.addSubview(textField)
         
+        view.addSubview(bellImageView)
+        bellImageView.alpha = 0.0
+        
         textField.setRightButton(side: .right, image: UIImage(systemName: "paperplane.fill"), target: self, selector: #selector(didPressBestFriendMail))
         textField.rightViewMode = .always
         
         let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tappedAnywhereGesture)
+        
+        let tapBellGesture = UITapGestureRecognizer(target: self, action: #selector(tappedBellIcon))
+        bellImageView.addGestureRecognizer(tapBellGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -123,6 +138,37 @@ class UnicornViewController: UIViewController {
         }
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if PushNotificationManager.shared == nil {
+            guard let userId = AuthManager.shared.userId else {
+                return
+            }
+            PushNotificationManager.shared = PushNotificationManager(userID: userId)
+        }
+        
+        PushNotificationManager.shared?.arePushNotificationsEnabled(completion: { (enabled) in
+            
+            DispatchQueue.main.async {
+                self.bellImageView.image = enabled ?
+                    UIImage(systemName: "bell.circle.fill") :
+                    UIImage(systemName: "bell.slash.circle.fill")
+                self.bellImageView.transform = self.bellImageView.transform.scaledBy(x: 0.1, y: 0.1)
+                
+                UIView.animate(withDuration: 0.4, delay: 5.0, options: .curveEaseOut) {
+                    self.bellImageView.alpha = 1.0
+                    self.bellImageView.transform = self.bellImageView.transform.scaledBy(x: 10.0, y: 10.0)
+                } completion: { (done) in
+                    if done {
+                        
+                    }
+                }
+            }
+            
+        })
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -133,6 +179,13 @@ class UnicornViewController: UIViewController {
             y: 47.85,
             width: 95.41,
             height: 66.15
+        )
+        
+        bellImageView.frame = CGRect(
+            x: view.width - 90,
+            y: 50,
+            width: 40,
+            height: 40
         )
         
         titleLabel.sizeToFit()
@@ -312,5 +365,9 @@ class UnicornViewController: UIViewController {
     
     @objc private func tappedAnywhere() {
         textField.resignFirstResponder()
+    }
+    
+    @objc private func tappedBellIcon() {
+        
     }
 }
