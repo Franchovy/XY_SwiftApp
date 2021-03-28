@@ -8,7 +8,13 @@
 import UIKit
 
 class UnicornViewController: UIViewController {
-
+    
+    private let logoImageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "XYLogo"))
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-ExtraBold", size: 35)
@@ -62,9 +68,21 @@ class UnicornViewController: UIViewController {
         return textField
     }()
     
+    private let gradientBackground: CAGradientLayer = {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [UIColor(0x0C98F6).cgColor, UIColor(0xFF0062).cgColor]
+        gradientLayer.startPoint = CGPoint(x: 0.45, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.55, y: 1.0)
+        return gradientLayer
+    }()
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        view.layer.addSublayer(gradientBackground)
+        
+        
+        view.addSubview(logoImageView)
         view.addSubview(titleLabel)
         view.addSubview(imageView)
         view.addSubview(countdownLabel)
@@ -87,6 +105,16 @@ class UnicornViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        gradientBackground.frame = view.bounds
+        
+        
+        logoImageView.frame = CGRect(
+            x: (view.width - 95.41)/2,
+            y: 47.85,
+            width: 95.41,
+            height: 66.15
+        )
         
         titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
@@ -111,6 +139,8 @@ class UnicornViewController: UIViewController {
             width: view.width,
             height: countdownLabel.height
         )
+        
+//        gradientBackground.mask = countdownLabel.layer
         
         let stackWidth = view.width - 24
         labelStack.frame = CGRect(
