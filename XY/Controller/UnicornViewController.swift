@@ -36,6 +36,7 @@ class UnicornViewController: UIViewController {
         countdownLabel.textColor = UIColor(named: "XYYellow")
         countdownLabel.setDeadline(countDownTo: Date(timeIntervalSince1970: 1617508800))
         countdownLabel.setSpacer(" ")
+        countdownLabel.adjustsFontSizeToFitWidth = true
         return countdownLabel
     }()
     
@@ -68,19 +69,25 @@ class UnicornViewController: UIViewController {
         return textField
     }()
     
+    private let labelGradient: CAGradientLayer = {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0.45, y: 0.4)
+        gradientLayer.endPoint = CGPoint(x: 0.55, y: 0.6)
+        gradientLayer.locations = [0.4, 0.6]
+        return gradientLayer
+    }()
+    
     private let gradientBackground: CAGradientLayer = {
         let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor(0x0C98F6).cgColor, UIColor(0xFF0062).cgColor]
-        gradientLayer.startPoint = CGPoint(x: 0.45, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 0.55, y: 1.0)
         return gradientLayer
     }()
     
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        setupGradients()
         view.layer.addSublayer(gradientBackground)
-        
+        view.layer.addSublayer(labelGradient)
         
         view.addSubview(logoImageView)
         view.addSubview(titleLabel)
@@ -92,6 +99,9 @@ class UnicornViewController: UIViewController {
         
         textField.setRightButton(side: .right, image: UIImage(systemName: "paperplane.fill"), target: self, selector: #selector(didPressBestFriendMail))
         textField.rightViewMode = .always
+        
+        let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
+        view.addGestureRecognizer(tappedAnywhereGesture)
     }
     
     required init?(coder: NSCoder) {
@@ -103,11 +113,20 @@ class UnicornViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        animateBackground()
+        
+        if traitCollection.userInterfaceStyle == .dark {
+            animateLabelGradient()
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         gradientBackground.frame = view.bounds
-        
         
         logoImageView.frame = CGRect(
             x: (view.width - 95.41)/2,
@@ -134,19 +153,19 @@ class UnicornViewController: UIViewController {
         
         countdownLabel.sizeToFit()
         countdownLabel.frame = CGRect(
-            x: (view.width - countdownLabel.width)/2,
+            x: 8,
             y: imageView.bottom,
-            width: view.width,
+            width: view.width - 16,
             height: countdownLabel.height
         )
-        
-//        gradientBackground.mask = countdownLabel.layer
+        labelGradient.frame = view.bounds
+        labelGradient.mask = countdownLabel.layer
         
         let stackWidth = view.width - 24
         labelStack.frame = CGRect(
-            x: 34,
+            x: countdownLabel.left + 8,
             y: countdownLabel.bottom + 18,
-            width: view.width - 24 - 34,
+            width: countdownLabel.width - 24 ,
             height: 18
         )
         
@@ -167,10 +186,131 @@ class UnicornViewController: UIViewController {
         textField.layer.cornerRadius = 23
     }
     
-    @objc private func didPressBestFriendMail() {
-        if textField.text != nil, textField.text != "" {
-//            register mail & this user to backend
-            print("Invited: \(textField.text)")
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        setupGradients()
+        
+        if traitCollection.userInterfaceStyle == .dark {
+            animateLabelGradient()
+        } else {
+            removeLabelAnimation()
         }
+    }
+    
+    private func setupGradients() {
+        gradientBackground.colors =
+            traitCollection.userInterfaceStyle == .light ?
+            [UIColor(0x0C98F6).cgColor, UIColor(0xFF0062).cgColor] :
+            [UIColor(0x626263).cgColor, UIColor(0x292A2B).cgColor, UIColor(0x141516).cgColor]
+        
+//        gradientBackground.locations = traitCollection.userInterfaceStyle == .light ?
+//            [0.4, 0.6] : [0.05, 0.1, 0.5]
+        
+        labelGradient.colors =
+            traitCollection.userInterfaceStyle == .light ?
+            [UIColor(named: "XYYellow")!.cgColor, UIColor(named: "XYYellow")!.cgColor] :
+            [UIColor(0xFF0062).cgColor, UIColor(0x0C98F6).cgColor]
+        
+    }
+    
+    private func animateBackground() {
+        let startPointAnimation = CABasicAnimation(keyPath: "startPoint")
+        startPointAnimation.duration = 3.0
+        startPointAnimation.fromValue = CGPoint(x: 0.2, y: 0.3)
+        startPointAnimation.toValue = CGPoint(x: 0.4, y: 0.4)
+        
+        let endPointAnimation = CABasicAnimation(keyPath: "endPoint")
+        endPointAnimation.duration = 3.5
+        startPointAnimation.duration = 4.0
+        
+        endPointAnimation.fromValue = CGPoint(x: 0.8, y: 0.7)
+        endPointAnimation.toValue = CGPoint(x: 0.6, y: 0.8)
+
+        endPointAnimation.fillMode = CAMediaTimingFillMode.forwards
+        endPointAnimation.isRemovedOnCompletion = false
+        endPointAnimation.autoreverses = true
+        endPointAnimation.repeatCount = Float.infinity
+        endPointAnimation.timingFunction = .easeInOut
+        
+        startPointAnimation.fillMode = CAMediaTimingFillMode.forwards
+        startPointAnimation.isRemovedOnCompletion = false
+        startPointAnimation.autoreverses = true
+        startPointAnimation.repeatCount = Float.infinity
+        startPointAnimation.timingFunction = .easeInOut
+        
+        gradientBackground.add(startPointAnimation, forKey: "startPointAnimation")
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.gradientBackground.add(endPointAnimation, forKey: "endPointAnimation")
+        }
+    }
+    
+    private func animateLabelGradient() {
+//        labelGradient.mask = countdownLabel.layer
+        
+        let startPointAnimation = CABasicAnimation(keyPath: "startPoint")
+        startPointAnimation.fromValue = CGPoint(x: 0.3, y: 0.8)
+        startPointAnimation.toValue = CGPoint(x: 0.3, y: 0.9)
+        
+        let endPointAnimation = CABasicAnimation(keyPath: "endPoint")
+        endPointAnimation.duration = 2.5
+        startPointAnimation.duration = 3.0
+        
+        endPointAnimation.fromValue = CGPoint(x: 0.7, y: 0.2)
+        endPointAnimation.toValue = CGPoint(x: 0.7, y: 0.1)
+
+        endPointAnimation.fillMode = CAMediaTimingFillMode.forwards
+        endPointAnimation.isRemovedOnCompletion = false
+        endPointAnimation.autoreverses = true
+        endPointAnimation.repeatCount = Float.infinity
+        endPointAnimation.timingFunction = .easeInOut
+        
+        startPointAnimation.fillMode = CAMediaTimingFillMode.forwards
+        startPointAnimation.isRemovedOnCompletion = false
+        startPointAnimation.autoreverses = true
+        startPointAnimation.repeatCount = Float.infinity
+        startPointAnimation.timingFunction = .easeInOut
+        
+        labelGradient.add(startPointAnimation, forKey: "startPointAnimation")
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+            self.labelGradient.add(endPointAnimation, forKey: "endPointAnimation")
+        }
+    }
+    
+    private func removeLabelAnimation() {
+        labelGradient.removeAnimation(forKey: "startPointAnimation")
+        labelGradient.removeAnimation(forKey: "endPointAnimation")
+    }
+    
+    @objc private func didPressBestFriendMail(_ sender: UIButton) {
+        if let email = textField.text, email != "" {
+            
+            if isValidEmail(email) {
+                sender.isEnabled = false
+                InviteService.shared.inviteEmail(email: email) { (success) in
+                    if !success {
+                        HapticsManager.shared?.vibrate(for: .error)
+                        self.textField.shake()
+                    } else {
+                        HapticsManager.shared?.vibrate(for: .success)
+                        self.textField.clear(self)
+                    }
+                    sender.isEnabled = true
+                }
+            } else {
+                textField.shake()
+            }
+        }
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    @objc private func tappedAnywhere() {
+        textField.resignFirstResponder()
     }
 }
