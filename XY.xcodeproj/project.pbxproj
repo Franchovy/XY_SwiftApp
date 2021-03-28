@@ -29,6 +29,10 @@
 		B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90EBA4125DFEA5B005DE0A0 /* PostViewModelBuilder.swift */; };
 		B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */; };
 		B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */; };
+		B91C553026107065000C2AAD /* UnicornViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C552F26107065000C2AAD /* UnicornViewController.swift */; };
+		B91C553426107400000C2AAD /* LabelStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C553326107400000C2AAD /* LabelStackView.swift */; };
+		B91C5538261077AB000C2AAD /* CountdownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C5537261077AB000C2AAD /* CountdownLabel.swift */; };
+		B91C553C26108038000C2AAD /* XYTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C553B26108038000C2AAD /* XYTextField.swift */; };
 		B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161BA25E25940001BE793 /* ProfileBubble.swift */; };
 		B92161E125E272E6001BE793 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161E025E272E6001BE793 /* HapticsManager.swift */; };
 		B92161E525E279BE001BE793 /* XYClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161E425E279BE001BE793 /* XYClasses.swift */; };
@@ -230,6 +234,10 @@
 		B90EBA4125DFEA5B005DE0A0 /* PostViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModelBuilder.swift; sourceTree = "<group>"; };
 		B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostViewModel.swift; sourceTree = "<group>"; };
 		B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSubscriptionManager.swift; sourceTree = "<group>"; };
+		B91C552F26107065000C2AAD /* UnicornViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicornViewController.swift; sourceTree = "<group>"; };
+		B91C553326107400000C2AAD /* LabelStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelStackView.swift; sourceTree = "<group>"; };
+		B91C5537261077AB000C2AAD /* CountdownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownLabel.swift; sourceTree = "<group>"; };
+		B91C553B26108038000C2AAD /* XYTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYTextField.swift; sourceTree = "<group>"; };
 		B92161BA25E25940001BE793 /* ProfileBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBubble.swift; sourceTree = "<group>"; };
 		B92161E025E272E6001BE793 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		B92161E425E279BE001BE793 /* XYClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYClasses.swift; sourceTree = "<group>"; };
@@ -450,6 +458,9 @@
 				B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */,
 				B905878826048EC600B8C9E7 /* TextViewCard.swift */,
 				B96A903C2605F132000CE9F7 /* FollowButton.swift */,
+				B91C553326107400000C2AAD /* LabelStackView.swift */,
+				B91C553B26108038000C2AAD /* XYTextField.swift */,
+				B91C5537261077AB000C2AAD /* CountdownLabel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -461,6 +472,7 @@
 				B981338425C5AFEE00FE857D /* Launch & Auth */,
 				149AD6A2259B52E300E81ABC /* TabBar */,
 				B93CF23325C566C4003CB3DB /* Profile Header */,
+				B91C552F26107065000C2AAD /* UnicornViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1225,6 +1237,7 @@
 				B905878526048D8C00B8C9E7 /* EditProfileViewController.swift in Sources */,
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */,
+				B91C5538261077AB000C2AAD /* CountdownLabel.swift in Sources */,
 				B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */,
 				B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */,
 				B96A903D2605F132000CE9F7 /* FollowButton.swift in Sources */,
@@ -1294,6 +1307,7 @@
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
 				B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */,
+				B91C553C26108038000C2AAD /* XYTextField.swift in Sources */,
 				B9B74D8A25F02B7B0083D69A /* RankingViewModelBuilder.swift in Sources */,
 				B96A90412605FFBE000CE9F7 /* SubscribersViewController.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
@@ -1332,6 +1346,7 @@
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,
 				B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */,
+				B91C553026107065000C2AAD /* UnicornViewController.swift in Sources */,
 				B9ABA20225E45F930039280B /* CaptionView.swift in Sources */,
 				B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */,
 				B972A2C225DD2697006A0476 /* PostHeaderView.swift in Sources */,
@@ -1367,6 +1382,7 @@
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
 				B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */,
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,
+				B91C553426107400000C2AAD /* LabelStackView.swift in Sources */,
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
 				B9ABA1FA25E454580039280B /* XPManager.swift in Sources */,
 				B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */,

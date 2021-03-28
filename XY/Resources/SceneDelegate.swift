@@ -21,17 +21,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             Global.isLightMode = window.traitCollection.userInterfaceStyle != .dark
         }
         
-        
-        
         if AuthManager.shared.userId != nil {
             let launchAnimationController = LaunchVC()
             self.window?.rootViewController = launchAnimationController
-            let tabBarController = UINavigationController(rootViewController: TabBarViewController())
-            tabBarController.heroModalAnimationType = .zoom
-            tabBarController.modalPresentationStyle = .fullScreen
+            
+            let navController = UINavigationController(rootViewController: UnicornViewController())
+            navController.navigationBar.backgroundColor = .clear
+            navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navController.navigationBar.shadowImage = UIImage()
+            
+            navController.heroModalAnimationType = .zoom
+            navController.modalPresentationStyle = .fullScreen
             
             launchAnimationController.onFinishedAnimation = {
-                launchAnimationController.present(tabBarController, animated: false, completion: nil)
+                launchAnimationController.present(navController, animated: false, completion: nil)
             }
             
             self.window?.makeKeyAndVisible()
