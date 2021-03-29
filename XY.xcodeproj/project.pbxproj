@@ -34,6 +34,7 @@
 		B91C5538261077AB000C2AAD /* CountdownLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C5537261077AB000C2AAD /* CountdownLabel.swift */; };
 		B91C553C26108038000C2AAD /* XYTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C553B26108038000C2AAD /* XYTextField.swift */; };
 		B91C55422610D48A000C2AAD /* InviteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C55412610D48A000C2AAD /* InviteService.swift */; };
+		B91C55482610E279000C2AAD /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C55472610E279000C2AAD /* BlurView.swift */; };
 		B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161BA25E25940001BE793 /* ProfileBubble.swift */; };
 		B92161E125E272E6001BE793 /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161E025E272E6001BE793 /* HapticsManager.swift */; };
 		B92161E525E279BE001BE793 /* XYClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92161E425E279BE001BE793 /* XYClasses.swift */; };
@@ -240,6 +241,7 @@
 		B91C5537261077AB000C2AAD /* CountdownLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountdownLabel.swift; sourceTree = "<group>"; };
 		B91C553B26108038000C2AAD /* XYTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYTextField.swift; sourceTree = "<group>"; };
 		B91C55412610D48A000C2AAD /* InviteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteService.swift; sourceTree = "<group>"; };
+		B91C55472610E279000C2AAD /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		B92161BA25E25940001BE793 /* ProfileBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBubble.swift; sourceTree = "<group>"; };
 		B92161E025E272E6001BE793 /* HapticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		B92161E425E279BE001BE793 /* XYClasses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XYClasses.swift; sourceTree = "<group>"; };
@@ -455,6 +457,7 @@
 				B99020DE25ED68FA004AC25C /* GradientWidgets */,
 				B972A2C925DD96E2006A0476 /* TypeView.swift */,
 				B9BF8BED26023A670057210C /* PopupMessageView.swift */,
+				B91C55472610E279000C2AAD /* BlurView.swift */,
 				B93D284D26039B3700F590BE /* PopupWarningView.swift */,
 				B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */,
 				B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */,
@@ -1253,6 +1256,7 @@
 				B96A904626060034000CE9F7 /* SubscriberCollectionViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
+				B91C55482610E279000C2AAD /* BlurView.swift in Sources */,
 				B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */,
 				B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */,
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,

@@ -15,20 +15,11 @@ class UnicornViewController: UIViewController {
         return imageView
     }()
     
-    
-    private let bellImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(systemName: "bell.slash.circle.fill"))
-        imageView.contentMode = .scaleAspectFit
-        imageView.layer.masksToBounds = true
-        imageView.tintColor = .white
-        return imageView
-    }()
-    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-ExtraBold", size: 35)
         label.textColor = UIColor(named: "XYWhite")
-        label.text = "Insane update in:"
+        label.text = "The unicorn bites."
         return label
     }()
     
@@ -55,7 +46,7 @@ class UnicornViewController: UIViewController {
         labelStack.setFont(UIFont(name: "Raleway-ExtraBold", size: 15))
         labelStack.alignment = .fill
         labelStack.spacing = 0
-        labelStack.distribution = .equalCentering
+        labelStack.distribution = .fillEqually
         return labelStack
     }()
     
@@ -75,6 +66,7 @@ class UnicornViewController: UIViewController {
         textField.layer.borderColor = UIColor.white.cgColor
         textField.textAlignment = .center
         textField.tintColor = .white
+        textField.textColor = .white
         return textField
     }()
     
@@ -106,26 +98,19 @@ class UnicornViewController: UIViewController {
         view.addSubview(dropMailLabel)
         view.addSubview(textField)
         
-        view.addSubview(bellImageView)
-        bellImageView.alpha = 0.0
-        
         textField.setRightButton(side: .right, image: UIImage(systemName: "paperplane.fill"), target: self, selector: #selector(didPressBestFriendMail))
         textField.rightViewMode = .always
         
         let tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tappedAnywhereGesture)
         
-        let tapBellGesture = UITapGestureRecognizer(target: self, action: #selector(tappedBellIcon))
-        bellImageView.addGestureRecognizer(tapBellGesture)
+        let tappedImageGesture = UITapGestureRecognizer(target: self, action: #selector(tappedImage))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tappedImageGesture)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -136,37 +121,8 @@ class UnicornViewController: UIViewController {
         if traitCollection.userInterfaceStyle == .dark {
             animateLabelGradient()
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         
-        if PushNotificationManager.shared == nil {
-            guard let userId = AuthManager.shared.userId else {
-                return
-            }
-            PushNotificationManager.shared = PushNotificationManager(userID: userId)
-        }
-        
-        PushNotificationManager.shared?.arePushNotificationsEnabled(completion: { (enabled) in
-            
-            DispatchQueue.main.async {
-                self.bellImageView.image = enabled ?
-                    UIImage(systemName: "bell.circle.fill") :
-                    UIImage(systemName: "bell.slash.circle.fill")
-                self.bellImageView.transform = self.bellImageView.transform.scaledBy(x: 0.1, y: 0.1)
-                
-                UIView.animate(withDuration: 0.4, delay: 5.0, options: .curveEaseOut) {
-                    self.bellImageView.alpha = 1.0
-                    self.bellImageView.transform = self.bellImageView.transform.scaledBy(x: 10.0, y: 10.0)
-                } completion: { (done) in
-                    if done {
-                        
-                    }
-                }
-            }
-            
-        })
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidLayoutSubviews() {
@@ -181,22 +137,15 @@ class UnicornViewController: UIViewController {
             height: 66.15
         )
         
-        bellImageView.frame = CGRect(
-            x: view.width - 90,
-            y: 50,
-            width: 40,
-            height: 40
-        )
-        
         titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
             x: (view.width - titleLabel.width)/2,
-            y: 178,
+            y: view.width / 3,
             width: titleLabel.width,
             height: titleLabel.height
         )
         
-        let imageSize: CGFloat = 201
+        let imageSize: CGFloat = view.width / 2
         imageView.frame = CGRect(
             x: (view.width - imageSize)/2,
             y: titleLabel.bottom + 18,
@@ -205,27 +154,27 @@ class UnicornViewController: UIViewController {
         )
         
         countdownLabel.sizeToFit()
+        countdownLabel.frame.size.width = min(view.width - 16, countdownLabel.width)
         countdownLabel.frame = CGRect(
-            x: 8,
-            y: imageView.bottom,
-            width: view.width - 16,
+            x: (view.width - countdownLabel.width)/2,
+            y: view.height/2,
+            width: countdownLabel.width,
             height: countdownLabel.height
         )
         labelGradient.frame = view.bounds
         labelGradient.mask = countdownLabel.layer
         
-        let stackWidth = view.width - 24
         labelStack.frame = CGRect(
-            x: countdownLabel.left + 8,
+            x: countdownLabel.left,
             y: countdownLabel.bottom + 9,
-            width: countdownLabel.width - 24 ,
+            width: countdownLabel.width,
             height: 18
         )
         
         dropMailLabel.sizeToFit()
         dropMailLabel.frame = CGRect(
             x: (view.width - dropMailLabel.width)/2,
-            y: labelStack.bottom + 78,
+            y: (view.height - dropMailLabel.height)*3/4,
             width: dropMailLabel.width,
             height: dropMailLabel.height
         )
@@ -356,6 +305,54 @@ class UnicornViewController: UIViewController {
         }
     }
     
+    var popupPrompt: PopupMessageView?
+    var blurEffectView: UIVisualEffectView?
+    public func popupPrompt(title: String, message: String, confirmText: String, completion: @escaping(() -> Void)) {
+        // Add blur
+        let blurEffect = UIBlurEffect(style: UIBlurEffect.Style.regular)
+        
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        blurEffectView.alpha = 0.0
+        view.addSubview(blurEffectView)
+        self.blurEffectView = blurEffectView
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(tappedBlurView))
+//        blurEffectView.isUserInteractionEnabled = true
+        blurEffectView.addGestureRecognizer(gesture)
+        
+        UIView.animate(withDuration: 0.2) {
+            blurEffectView.alpha = 1.0
+        } completion: { (done) in
+            if done {
+                // Add popup View
+                let popupView = PopupMessageView(
+                    title: title,
+                    message: message,
+                    confirmText: confirmText,
+                    completion: {
+                        UIView.animate(withDuration: 0.2) {
+                            blurEffectView.alpha = 0.0
+                        } completion: { (done) in
+                            if done {
+                                self.popupPrompt = nil
+                                blurEffectView.removeFromSuperview()
+                                self.blurEffectView = nil
+                            }
+                        }
+                        completion()
+                    }
+                )
+                
+                popupView.sizeToFit()
+                self.view.addSubview(popupView)
+                popupView.center = self.view.center
+                self.popupPrompt = popupView
+            }
+        }
+    }
+    
     func isValidEmail(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
 
@@ -363,11 +360,71 @@ class UnicornViewController: UIViewController {
         return emailPred.evaluate(with: email)
     }
     
+    var coolDown = 0
+    @objc private func tappedBlurView() {
+        coolDown += 1
+        
+        if let popupPrompt = popupPrompt {
+            popupPrompt.scaleAnimate(
+                1.0 - (Float(coolDown) * 0.1),
+                duration: 0.1
+            )
+            
+            DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                popupPrompt.springScaleAnimate(from: 0.9, to: 1.0)
+            }
+        }
+        
+        if coolDown > 10 {
+            self.popupPrompt?.scaleAnimate(2.0, duration: 0.3)
+            
+            UIView.animate(withDuration: 0.2) {
+                self.blurEffectView?.alpha = 0.0
+                self.popupPrompt?.alpha = 0.0
+            } completion: { (done) in
+                if done {
+                    self.popupPrompt?.removeFromSuperview()
+                    self.popupPrompt = nil
+                    self.blurEffectView?.removeFromSuperview()
+                    self.blurEffectView = nil
+                }
+            }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+2.0) {
+            self.coolDown -= 1
+        }
+    }
+    
     @objc private func tappedAnywhere() {
         textField.resignFirstResponder()
     }
     
-    @objc private func tappedBellIcon() {
+    @objc private func tappedImage() {
         
+        if PushNotificationManager.shared == nil {
+            guard let userId = AuthManager.shared.userId else {
+                return
+            }
+            PushNotificationManager.shared = PushNotificationManager(userID: userId)
+        }
+        
+        PushNotificationManager.shared?.arePushNotificationsEnabled(completion: { (enabled) in
+                DispatchQueue.main.async {
+                    self.imageView.scaleAnimate(0.9, duration: 0.1)
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                        self.imageView.springScaleAnimate(from: 0.9, to: 1.0)
+                        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+                            
+                            self.popupPrompt(
+                                title: "Don't miss out",
+                                message: "An insane update is coming. Get notified.",
+                                confirmText: "Enable Notifications") {
+                                PushNotificationManager.shared?.registerForPushNotifications()
+                            }
+                        }
+                    }
+                }
+        })
     }
 }

@@ -110,6 +110,9 @@ class PopupMessageView: UIView {
         
         titleGradientLabel.sizeToFit()
         layoutDescription()
+        
+        confirmButton.titleLabel?.adjustsFontSizeToFitWidth = true
+        confirmButton.titleEdgeInsets = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 15)
         confirmButton.frame.size = confirmButtonSize
         
         frame.size.height =

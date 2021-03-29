@@ -32,14 +32,19 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
         current.getNotificationSettings(completionHandler: { permission in
             switch permission.authorizationStatus  {
             case .authorized:
+                print("Authorized")
                 completion(true)
             case .denied:
+                print("Denied")
                 completion(false)
             case .notDetermined:
+                print("Not Determined")
                 completion(false)
             case .provisional:
+                print("Provisional")
                 completion(true)
             case .ephemeral:
+                print("Ephemeral")
                 completion(true)
             @unknown default:
                 print("Unknown Status")

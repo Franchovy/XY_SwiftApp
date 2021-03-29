@@ -17,6 +17,7 @@ class LabelStackView: UIStackView {
         for labelText in labels {
             let label = UILabel()
             label.text = labelText
+            label.textAlignment = .center
             
             self.labels.append(label)
             addArrangedSubview(label)
