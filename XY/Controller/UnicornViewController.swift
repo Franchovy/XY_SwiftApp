@@ -34,7 +34,7 @@ class UnicornViewController: UIViewController {
         let countdownLabel = CountdownLabel()
         countdownLabel.font = UIFont(name: "Raleway-ExtraBold", size: 72)
         countdownLabel.textColor = UIColor(named: "XYYellow")
-        countdownLabel.setDeadline(countDownTo: Date(timeIntervalSince1970: 1617508800))
+        countdownLabel.setDeadline(countDownTo: Date(timeIntervalSince1970: 1617890400))
         countdownLabel.setSpacer(" ")
         countdownLabel.adjustsFontSizeToFitWidth = true
         return countdownLabel
