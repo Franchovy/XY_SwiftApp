@@ -812,6 +812,13 @@
 			path = GameModel;
 			sourceTree = "<group>";
 		};
+		B97E33A1261201B600AD00B5 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
 		B981338425C5AFEE00FE857D /* Launch & Auth */ = {
 			isa = PBXGroup;
 			children = (
@@ -939,6 +946,7 @@
 				14175C7C2570F62D00C88051 /* Controller */,
 				14175C792570F5D600C88051 /* View */,
 				B9781DDD25DE8E0F00A2FE2D /* Resources */,
+				B97E33A1261201B600AD00B5 /* Source */,
 			);
 			path = XY;
 			sourceTree = "<group>";
