@@ -11,7 +11,7 @@ import UIKit
 public extension UITextField {
 
     func shake(count : Float = 4,
-               for duration : TimeInterval = 0.5,
+               for duration : TimeInterval = 0.3,
                withTranslation translation : Float = 5)
     {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
@@ -27,7 +27,7 @@ public extension UITextField {
 public extension UIImageView {
 
     func shake(count : Float = 4,
-               for duration : TimeInterval = 0.5,
+               for duration : TimeInterval = 0.3,
                withTranslation translation : Float = 5)
     {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
@@ -44,7 +44,7 @@ public extension UIImageView {
 public extension UIButton {
 
     func shake(count : Float = 4,
-               for duration : TimeInterval = 0.5,
+               for duration : TimeInterval = 0.3,
                withTranslation translation : Float = 5)
     {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")

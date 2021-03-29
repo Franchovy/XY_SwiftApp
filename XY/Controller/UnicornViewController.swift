@@ -210,7 +210,6 @@ class UnicornViewController: UIViewController {
             traitCollection.userInterfaceStyle == .light ?
             [UIColor(named: "XYYellow")!.cgColor, UIColor(named: "XYYellow")!.cgColor] :
             [UIColor(0xFF0062).cgColor, UIColor(0x0C98F6).cgColor]
-        
     }
     
     private func animateBackground() {
@@ -248,8 +247,6 @@ class UnicornViewController: UIViewController {
     }
     
     private func animateLabelGradient() {
-//        labelGradient.mask = countdownLabel.layer
-        
         let startPointAnimation = CABasicAnimation(keyPath: "startPoint")
         startPointAnimation.fromValue = CGPoint(x: 0.3, y: 0.8)
         startPointAnimation.toValue = CGPoint(x: 0.3, y: 0.9)
@@ -295,7 +292,12 @@ class UnicornViewController: UIViewController {
                         self.textField.shake()
                     } else {
                         HapticsManager.shared?.vibrate(for: .success)
-                        self.textField.clear(self)
+                        self.displayTempLabel(
+                            centerPoint: self.textField.center.applying(CGAffineTransform(translationX: 0, y: 40)),
+                            labelText: "Added email!",
+                            labelColor: UIColor.white
+                        )
+                        self.textField.text = ""
                     }
                     sender.isEnabled = true
                 }
@@ -319,7 +321,6 @@ class UnicornViewController: UIViewController {
         self.blurEffectView = blurEffectView
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tappedBlurView))
-//        blurEffectView.isUserInteractionEnabled = true
         blurEffectView.addGestureRecognizer(gesture)
         
         UIView.animate(withDuration: 0.2) {

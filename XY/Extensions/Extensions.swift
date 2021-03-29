@@ -103,6 +103,36 @@ extension UIImage {
     }
 }
 
+extension UIViewController {
+    func displayTempLabel(centerPoint: CGPoint, labelText: String, labelColor: UIColor) {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Medium", size: 18)
+        label.textColor = labelColor
+        label.text = "Email added!"
+        label.alpha = 0.0
+        
+        view.addSubview(label)
+        label.sizeToFit()
+        label.center = centerPoint.applying(CGAffineTransform(translationX: 0, y: 300))
+        
+        UIView.animate(withDuration: 0.3) {
+            label.alpha = 0.8
+            label.center = centerPoint
+        } completion: { (done) in
+            if done {
+                UIView.animate(withDuration: 0.3, delay: 0.7) {
+                    label.alpha = 0.0
+                    label.center = centerPoint.applying(CGAffineTransform(translationX: 0, y: -300))
+                } completion: { (done) in
+                    if done {
+                        label.removeFromSuperview()
+                    }
+                }
+            }
+        }
+    }
+}
+
 extension UIView{
     func rotate(numRotations: Int) {
         let rotation : CABasicAnimation = CABasicAnimation(keyPath: "transform.rotation.z")

@@ -18,6 +18,8 @@ final class InviteService {
             .addDocument(data: [
                 "email": email,
                 "invitedBy": userId
-            ])
+            ]) { error in
+                completion(error == nil)
+            }
     }
 }
