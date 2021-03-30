@@ -86,6 +86,15 @@ class UnicornViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         setupGradients()
         view.layer.addSublayer(gradientBackground)
         view.layer.addSublayer(labelGradient)
@@ -107,10 +116,6 @@ class UnicornViewController: UIViewController {
         let tappedImageGesture = UITapGestureRecognizer(target: self, action: #selector(tappedImage))
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tappedImageGesture)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewWillAppear(_ animated: Bool) {
