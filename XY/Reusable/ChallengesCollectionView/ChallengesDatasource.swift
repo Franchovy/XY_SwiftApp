@@ -38,6 +38,13 @@ final class ChallengesManager: NSObject, UICollectionViewDataSource {
             playerName: "Lorenzo Dabraio",
             videoURL: Bundle.main.url(forResource: "video4", withExtension: "mov")!
         ),
+        ChallengeCollectionCellViewModel(
+            friendImages: [UIImage(named: "friend4")!, UIImage(named: "friend5")!, UIImage(named: "friend1")!],
+            colorLabel: ColorLabelViewModel(colorLabelText: "Sent to", colorLabelColor: UIColor(0xFF0062)),
+            timeLeft: nil,
+            playerName: nil,
+            videoURL: Bundle.main.url(forResource: "video5", withExtension: "mov")!
+        ),
     ]
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -21,6 +21,9 @@ class FriendsCollectionView: UICollectionView {
         register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
         
         layer.masksToBounds = false
+        
+        showsHorizontalScrollIndicator = false
+        alwaysBounceHorizontal = true
     }
     
     required init?(coder: NSCoder) {

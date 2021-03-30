@@ -22,6 +22,7 @@ class ChallengesCollectionView: UICollectionView {
         layer.masksToBounds = false
         
         showsHorizontalScrollIndicator = false
+        alwaysBounceHorizontal = true
     }
     
     required init?(coder: NSCoder) {

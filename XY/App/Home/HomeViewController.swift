@@ -9,6 +9,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    private let scrollView = UIScrollView()
+    
     private let friendsLabel = Label("Friends", style: .title)
     private let friendsCollectionView = FriendsCollectionView()
     
@@ -33,10 +35,13 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.addSubview(friendsLabel)
-        view.addSubview(friendsCollectionView)
-        view.addSubview(challengesLabel)
-        view.addSubview(challengesCollectionView)
+        scrollView.alwaysBounceVertical = true
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(friendsLabel)
+        scrollView.addSubview(friendsCollectionView)
+        scrollView.addSubview(challengesLabel)
+        scrollView.addSubview(challengesCollectionView)
         
         let logoView = UIImageView(image: UIImage(named: "XYLogo"))
         logoView.contentMode = .scaleAspectFit
@@ -54,6 +59,8 @@ class HomeViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        scrollView.frame = view.bounds
         
         friendsLabel.sizeToFit()
         friendsLabel.frame = CGRect(
