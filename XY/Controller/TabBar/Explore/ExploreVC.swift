@@ -23,7 +23,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         collectionView.alwaysBounceVertical = true
         
         collectionView.register(CategorySectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CategorySectionReusableView.identifier)
-        collectionView.register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
+        collectionView.register(_ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: _ChallengeCollectionViewCell.identifier)
         return collectionView
     }()
     
@@ -151,7 +151,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
         super.viewDidDisappear(animated)
         
         for cell in collectionView.visibleCells {
-            if let cell = cell as? ChallengeCollectionViewCell {
+            if let cell = cell as? _ChallengeCollectionViewCell {
                 cell.stopVideo()
             }
         }
@@ -190,9 +190,9 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ChallengeCollectionViewCell.identifier,
+            withReuseIdentifier: _ChallengeCollectionViewCell.identifier,
             for: indexPath
-        ) as? ChallengeCollectionViewCell else {
+        ) as? _ChallengeCollectionViewCell else {
             return UICollectionViewCell()
         }
         cell.delegate = self
@@ -231,7 +231,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let pair = sections[indexPath.section].1[indexPath.row], let cell = collectionView.cellForItem(at: indexPath) as? ChallengeCollectionViewCell else {
+        guard let pair = sections[indexPath.section].1[indexPath.row], let cell = collectionView.cellForItem(at: indexPath) as? _ChallengeCollectionViewCell else {
             return
         }
         

@@ -25,9 +25,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let launchAnimationController = LaunchVC()
             self.window?.rootViewController = launchAnimationController
             
-            let navController = UINavigationController(rootViewController: UnicornViewController())
-            navController.navigationBar.backgroundColor = .clear
-            navController.navigationBar.setBackgroundImage(UIImage(), for: .default)
+            let navController = UINavigationController(rootViewController: HomeViewController())
+            navController.navigationBar.isTranslucent = false
+            navController.navigationBar.backgroundColor = UIColor(named: "XYBackground")
             navController.navigationBar.shadowImage = UIImage()
             
             navController.heroModalAnimationType = .zoom

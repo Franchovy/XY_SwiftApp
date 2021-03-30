@@ -33,7 +33,7 @@ class ProfileViewController2: UIViewController {
         collectionView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
 
         
-        collectionView.register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
+        collectionView.register(_ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: _ChallengeCollectionViewCell.identifier)
         return collectionView
     }()
     
@@ -631,9 +631,9 @@ extension ProfileViewController2 : UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ChallengeCollectionViewCell.identifier,
+            withReuseIdentifier: _ChallengeCollectionViewCell.identifier,
             for: indexPath
-        ) as? ChallengeCollectionViewCell else {
+        ) as? _ChallengeCollectionViewCell else {
             return UICollectionViewCell()
         }
         
