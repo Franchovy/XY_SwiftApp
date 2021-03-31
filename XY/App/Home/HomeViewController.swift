@@ -48,6 +48,21 @@ class HomeViewController: UIViewController {
         logoView.frame.size = CGSize(width: 53.36, height: 28.4)
         
         navigationItem.titleView = logoView
+        
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(
+                image: UIImage(systemName: "magnifyingglass")?.withTintColor(UIColor(named: "XYTint")!, renderingMode: .alwaysOriginal),
+                style: .done,
+                target: self,
+                action: #selector(tappedSearch)
+            ),
+            UIBarButtonItem(
+                image: UIImage(systemName: "bell.fill")?.withTintColor(UIColor(named: "XYTint")!, renderingMode: .alwaysOriginal),
+                style: .done,
+                target: self,
+                action: #selector(tappedNotifications)
+            )
+        ]
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -91,5 +106,13 @@ class HomeViewController: UIViewController {
             width: view.width - 20,
             height: 200
         )
+    }
+    
+    @objc private func tappedNotifications() {
+        
+    }
+    
+    @objc private func tappedSearch() {
+        
     }
 }
