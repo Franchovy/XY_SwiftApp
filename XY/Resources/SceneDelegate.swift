@@ -29,6 +29,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             navController.navigationBar.isTranslucent = false
             navController.navigationBar.backgroundColor = UIColor(named: "XYBackground")
             navController.navigationBar.shadowImage = UIImage()
+            navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Raleway-Bold", size: 20)!]
+
             
             navController.heroModalAnimationType = .zoom
             navController.modalPresentationStyle = .fullScreen
