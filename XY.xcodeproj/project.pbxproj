@@ -50,6 +50,12 @@
 		B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926225D25A234A100BA2FB0 /* LaunchVC.swift */; };
 		B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92686442613925800A306F6 /* FriendsDataSource.swift */; };
 		B9268649261392A100A306F6 /* FriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9268648261392A100A306F6 /* FriendCollectionViewCell.swift */; };
+		B92686582614616600A306F6 /* FindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92686572614616600A306F6 /* FindFriendsViewController.swift */; };
+		B926865F261461A400A306F6 /* FriendsListCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926865E261461A400A306F6 /* FriendsListCollectionView.swift */; };
+		B9268663261461CA00A306F6 /* FriendsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9268662261461CA00A306F6 /* FriendsListCollectionViewCell.swift */; };
+		B9268667261461D800A306F6 /* FriendsListCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9268666261461D800A306F6 /* FriendsListCollectionDataSource.swift */; };
+		B926866C2614637900A306F6 /* AddFriendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926866B2614637900A306F6 /* AddFriendButton.swift */; };
+		B9268672261466C100A306F6 /* FriendListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9268671261466C100A306F6 /* FriendListViewModel.swift */; };
 		B931478425FA209700C054DF /* RankingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B931478325FA209700C054DF /* RankingsViewController.swift */; };
 		B934B67C25F76E5600575972 /* _ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934B67B25F76E5600575972 /* _ChallengeCollectionViewCell.swift */; };
 		B934B68225F76EF800575972 /* CategorySectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B934B68125F76EF800575972 /* CategorySectionReusableView.swift */; };
@@ -274,6 +280,12 @@
 		B926225D25A234A100BA2FB0 /* LaunchVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B92686442613925800A306F6 /* FriendsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsDataSource.swift; sourceTree = "<group>"; };
 		B9268648261392A100A306F6 /* FriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewCell.swift; sourceTree = "<group>"; };
+		B92686572614616600A306F6 /* FindFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindFriendsViewController.swift; sourceTree = "<group>"; };
+		B926865E261461A400A306F6 /* FriendsListCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionView.swift; sourceTree = "<group>"; };
+		B9268662261461CA00A306F6 /* FriendsListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionViewCell.swift; sourceTree = "<group>"; };
+		B9268666261461D800A306F6 /* FriendsListCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionDataSource.swift; sourceTree = "<group>"; };
+		B926866B2614637900A306F6 /* AddFriendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendButton.swift; sourceTree = "<group>"; };
+		B9268671261466C100A306F6 /* FriendListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewModel.swift; sourceTree = "<group>"; };
 		B931478325FA209700C054DF /* RankingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingsViewController.swift; sourceTree = "<group>"; };
 		B934B67B25F76E5600575972 /* _ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
 		B934B68125F76EF800575972 /* CategorySectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySectionReusableView.swift; sourceTree = "<group>"; };
@@ -624,6 +636,33 @@
 			path = ChatBubbles;
 			sourceTree = "<group>";
 		};
+		B92686562614615000A306F6 /* Friends */ = {
+			isa = PBXGroup;
+			children = (
+				B92686572614616600A306F6 /* FindFriendsViewController.swift */,
+			);
+			path = Friends;
+			sourceTree = "<group>";
+		};
+		B926865D2614618600A306F6 /* FriendsListCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				B926865E261461A400A306F6 /* FriendsListCollectionView.swift */,
+				B9268662261461CA00A306F6 /* FriendsListCollectionViewCell.swift */,
+				B9268666261461D800A306F6 /* FriendsListCollectionDataSource.swift */,
+				B9268671261466C100A306F6 /* FriendListViewModel.swift */,
+			);
+			path = FriendsListCollectionView;
+			sourceTree = "<group>";
+		};
+		B926866A2614636400A306F6 /* AddFriendButton */ = {
+			isa = PBXGroup;
+			children = (
+				B926866B2614637900A306F6 /* AddFriendButton.swift */,
+			);
+			path = AddFriendButton;
+			sourceTree = "<group>";
+		};
 		B934B66F25F76CBD00575972 /* Explore */ = {
 			isa = PBXGroup;
 			children = (
@@ -759,6 +798,8 @@
 		B96B7F1726132FBF00B1CBF5 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
+				B926866A2614636400A306F6 /* AddFriendButton */,
+				B926865D2614618600A306F6 /* FriendsListCollectionView */,
 				B96B7F292613323600B1CBF5 /* ChallengesCollectionView */,
 				B96B7F282613322F00B1CBF5 /* FriendsCollectionView */,
 				B96B7F202613311200B1CBF5 /* Label.swift */,
@@ -904,6 +945,7 @@
 		B97E33A1261201B600AD00B5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B92686562614615000A306F6 /* Friends */,
 				B96B7F1626132FA000B1CBF5 /* Home */,
 			);
 			path = App;
@@ -1356,6 +1398,7 @@
 				B905878926048EC600B8C9E7 /* TextViewCard.swift in Sources */,
 				B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */,
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
+				B926866C2614637900A306F6 /* AddFriendButton.swift in Sources */,
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
 				B96A904626060034000CE9F7 /* SubscriberCollectionViewCell.swift in Sources */,
 				B96B7F3B26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift in Sources */,
@@ -1389,6 +1432,7 @@
 				B99020C425ED3817004AC25C /* AuthChoiceViewController.swift in Sources */,
 				B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
+				B9268672261466C100A306F6 /* FriendListViewModel.swift in Sources */,
 				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
 				B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
@@ -1422,8 +1466,11 @@
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
+				B926865F261461A400A306F6 /* FriendsListCollectionView.swift in Sources */,
 				B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */,
 				B91C553C26108038000C2AAD /* XYTextField.swift in Sources */,
+				B92686582614616600A306F6 /* FindFriendsViewController.swift in Sources */,
+				B9268667261461D800A306F6 /* FriendsListCollectionDataSource.swift in Sources */,
 				B9B74D8A25F02B7B0083D69A /* RankingViewModelBuilder.swift in Sources */,
 				B96B7F462613614300B1CBF5 /* ChallengesDatasource.swift in Sources */,
 				B96A90412605FFBE000CE9F7 /* SubscribersViewController.swift in Sources */,
@@ -1481,6 +1528,7 @@
 				B972A2C625DD4282006A0476 /* Comment.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */,
+				B9268663261461CA00A306F6 /* FriendsListCollectionViewCell.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 				B9781DD025DE70FA00A2FE2D /* UserModel.swift in Sources */,
@@ -1725,7 +1773,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = A.1.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1751,7 +1799,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = A.1.0;
+				CURRENT_PROJECT_VERSION = 1.0;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

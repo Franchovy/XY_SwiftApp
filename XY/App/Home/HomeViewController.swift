@@ -113,6 +113,8 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func tappedSearch() {
+        let vc = FindFriendsViewController()
         
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
