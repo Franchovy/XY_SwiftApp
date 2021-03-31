@@ -19,6 +19,7 @@ class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
         backgroundColor = .clear
         
         delegate = self
+        register(EditProfileCollectionViewCell.self, forCellWithReuseIdentifier: EditProfileCollectionViewCell.identifier)
         register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
         
         layer.masksToBounds = false
@@ -32,6 +33,12 @@ class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
+        if indexPath.row == 0 {
+            let vc = EditProfileViewController()
+            
+            NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
+        }
     }
 }
