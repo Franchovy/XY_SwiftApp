@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsCollectionView: UICollectionView {
+class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -18,6 +18,7 @@ class FriendsCollectionView: UICollectionView {
         
         backgroundColor = .clear
         
+        delegate = self
         register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.identifier)
         
         layer.masksToBounds = false
@@ -28,5 +29,9 @@ class FriendsCollectionView: UICollectionView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
     }
 }

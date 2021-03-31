@@ -10,14 +10,14 @@ import FirebaseStorage
 
 protocol ProfileViewModelDelegate: NSObjectProtocol {
     func onXYNameFetched(_ xyname: String)
-    func onProfileDataFetched(_ viewModel: ProfileViewModel)
+    func onProfileDataFetched(_ viewModel: _ProfileViewModel)
     func onProfileImageFetched(_ image: UIImage)
     func onCoverImageFetched(_ image: UIImage)
     func onXpUpdate(_ model: XPModel)
     func setCoverPictureOpacity(_ opacity: CGFloat)
 }
 
-class ProfileViewModel {
+class _ProfileViewModel {
     weak var delegate: ProfileViewModelDelegate?
     var profileData: ProfileModel! {
         didSet {

@@ -14,9 +14,10 @@ class Label: UILabel {
         case body
         case bodyBold
         case nickname
+        case info
     }
     
-    init(_ labelText: String? = nil, style: LabelStyle) {
+    init(_ labelText: String? = nil, style: LabelStyle, fontSize: CGFloat? = nil) {
         super.init(frame: .zero)
         
         text = labelText
@@ -24,13 +25,15 @@ class Label: UILabel {
         
         switch style {
         case .title:
-            font = UIFont(name: "Raleway-Heavy", size: 26)
+            font = UIFont(name: "Raleway-Heavy", size: fontSize ?? 26)
         case .body:
-            font = UIFont(name: "Raleway-Medium", size: 10)
+            font = UIFont(name: "Raleway-Medium", size: fontSize ?? 10)
         case .bodyBold:
-            font = UIFont(name: "Raleway-Bold", size: 10)
+            font = UIFont(name: "Raleway-Bold", size: fontSize ?? 10)
         case .nickname:
-            font = UIFont(name: "Raleway-Heavy", size: 20)
+            font = UIFont(name: "Raleway-Heavy", size: fontSize ?? 20)
+        case .info:
+            font = UIFont(name: "Raleway-Medium", size: fontSize ?? 10)
         }
     }
     

@@ -249,7 +249,7 @@ class ProfileHeaderViewController: UIViewController {
     // MARK: - Obj-C Functions
     
     @objc private func didTapEditButton() {
-        let vc = EditProfileViewController()
+        let vc = _EditProfileViewController()
         vc.configure()
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -372,7 +372,7 @@ extension ProfileHeaderViewController: ProfileViewModelDelegate {
         view.setNeedsLayout()
     }
     
-    func onProfileDataFetched(_ viewModel: ProfileViewModel) {
+    func onProfileDataFetched(_ viewModel: _ProfileViewModel) {
 //        configure(with: viewModel)
     }
     

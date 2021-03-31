@@ -119,7 +119,7 @@ extension OnlineNowCollectionViewCell : ProfileViewModelDelegate {
         
     }
     
-    func onProfileDataFetched(_ viewModel: ProfileViewModel) {
+    func onProfileDataFetched(_ viewModel: _ProfileViewModel) {
         nameLabel.text = viewModel.nickname
         
         // Register XP Updates

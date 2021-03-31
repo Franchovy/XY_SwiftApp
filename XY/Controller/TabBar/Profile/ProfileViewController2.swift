@@ -565,7 +565,7 @@ class ProfileViewController2: UIViewController {
     // MARK: - Private Functions
     
     @objc private func didTapEditButton() {
-        let vc = EditProfileViewController()
+        let vc = _EditProfileViewController()
         vc.configure()
         vc.onClose = {
             guard let ownProfile = ProfileManager.shared.ownProfile else {

@@ -23,6 +23,8 @@ class HomeViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        NavigationControlManager.mainViewController = self
+        
         view.backgroundColor = UIColor(named: "XYBackground")
         challengesCollectionView.dataSource = challengesDataSource
         friendsCollectionView.dataSource = friendsDataSource

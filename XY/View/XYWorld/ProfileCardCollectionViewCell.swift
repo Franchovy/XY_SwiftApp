@@ -63,7 +63,7 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    var viewModel: ProfileViewModel?
+    var viewModel: _ProfileViewModel?
     
     // MARK: - Init
     
@@ -142,7 +142,7 @@ class ProfileCardCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    public func configure(with viewModel: ProfileViewModel) {
+    public func configure(with viewModel: _ProfileViewModel) {
         viewModel.delegate = self
         coverImage.image = viewModel.coverImage
         profileImage.image = viewModel.profileImage
@@ -184,7 +184,7 @@ extension ProfileCardCollectionViewCell : ProfileViewModelDelegate {
         
     }
     
-    func onProfileDataFetched(_ viewModel: ProfileViewModel) {
+    func onProfileDataFetched(_ viewModel: _ProfileViewModel) {
         guard viewModel.profileId == self.viewModel?.profileId else {
             return
         }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
+class _EditProfileViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
 
     private let profileImage: UIImageView = {
         let imageView = UIImageView()
@@ -206,7 +206,7 @@ class EditProfileViewController: UIViewController, UITextFieldDelegate, UITextVi
     }
 }
 
-extension EditProfileViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension _EditProfileViewController : UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: {
             self.prompt?.close()

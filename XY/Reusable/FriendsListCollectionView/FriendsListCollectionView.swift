@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendsListCollectionView: UICollectionView {
+class FriendsListCollectionView: UICollectionView, UICollectionViewDelegate {
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -21,6 +21,7 @@ class FriendsListCollectionView: UICollectionView {
         
         alwaysBounceVertical = true
         
+        delegate = self
         register(FriendsListCollectionViewCell.self, forCellWithReuseIdentifier: FriendsListCollectionViewCell.identifier)
     }
     
@@ -28,4 +29,7 @@ class FriendsListCollectionView: UICollectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
+    }
 }
