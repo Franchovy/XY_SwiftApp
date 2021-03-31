@@ -28,7 +28,7 @@ class EditProfileImageView: UIImageView {
         
         layer.cornerRadius = height/2
         layer.borderWidth = 1
-        layer.borderColor = UIColor(named: "XYWhite")!.cgColor
+        layer.borderColor = UIColor(named: "XYTint")!.cgColor
         
         let changeImageIconSize:CGFloat = 15
         changeImageIcon.frame = CGRect(
@@ -39,4 +39,9 @@ class EditProfileImageView: UIImageView {
         )
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        layer.borderColor = UIColor(named: "XYTint")!.cgColor
+    }
 }
