@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FindFriendsViewController: UIViewController {
+class FindFriendsViewController: UIViewController, UISearchBarDelegate {
 
     private let searchBar = UISearchBar()
     
@@ -31,6 +31,7 @@ class FindFriendsViewController: UIViewController {
         searchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
         searchBar.barTintColor = UIColor(named: "XYBackground")
         searchBar.isTranslucent = false
+        searchBar.delegate = self
         
         view.addSubview(friendsListCollectionView)
         view.addSubview(searchBar)
@@ -49,6 +50,11 @@ class FindFriendsViewController: UIViewController {
         )
         
         friendsListCollectionView.frame = view.bounds.inset(by: UIEdgeInsets(top: 47, left: 0, bottom: 0, right: 0))
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        friendsListDataSource.setSearchString(searchText)
+        friendsListCollectionView.reloadData()
     }
     
 }

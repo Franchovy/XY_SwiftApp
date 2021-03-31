@@ -44,9 +44,13 @@ class AddFriendButton: UIButton {
         case added
         case none
     }
+    var mode: Mode = .none
     
     public func configure(for mode: Mode) {
         isHidden = false
+        layer.borderWidth = 0
+        
+        self.mode = mode
         
         switch mode {
         case .add:
@@ -64,11 +68,22 @@ class AddFriendButton: UIButton {
         case .added:
             setTitle("Added", for: .normal)
             setBackgroundColor(color: UIColor.clear, forState: .normal)
+            setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
             setTitleColor(UIColor(named: "XYTint"), for: .normal)
             layer.borderWidth = 1
             layer.borderColor = UIColor(named: "XYTint")!.cgColor
         case .none:
             isHidden = true
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        layer.borderColor = UIColor(named: "XYTint")!.cgColor
+        
+        if mode == .added {
+            setTitleColor(UIColor(named: "XYTint"), for: .normal)
         }
     }
     
