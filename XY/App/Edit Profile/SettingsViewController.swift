@@ -9,8 +9,8 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
-    private let changePasswordButton = FlatButton(text: "Change Email", icon: UIImage(systemName: "envelope.fill")!)
-    private let changeEmailButton = FlatButton(text: "Change Password", icon: UIImage(systemName: "lock.fill")!)
+    private let changeEmailButton = FlatButton(text: "Change Email", icon: UIImage(systemName: "envelope.fill")!)
+    private let changePasswordButton = FlatButton(text: "Change Password", icon: UIImage(systemName: "lock.fill")!)
     private let darkModeButton = GradientButton(text: "Light Mode", textColor: .black, gradient: [UIColor(0xFFFFFF), UIColor(0xF2F2F2)], style: .basic)
     private let lightModeButton = GradientButton(text: "Dark Mode", textColor: .white, gradient: [UIColor(0x626263), UIColor(0x141516)], style: .basic)
     private let logoutButton = FlatButton(text: "Log out", icon: UIImage(named: "settings_logout_icon")!, tintColor: UIColor(0xEF3A30))

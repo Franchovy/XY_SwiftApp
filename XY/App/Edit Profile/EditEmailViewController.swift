@@ -17,6 +17,7 @@ class EditEmailViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        currentEmailField.text = AuthManager.shared.email
     }
     
     required init?(coder: NSCoder) {
@@ -32,6 +33,9 @@ class EditEmailViewController: UIViewController {
         view.addSubview(currentEmailField)
         view.addSubview(separatorLine2)
         view.addSubview(newEmailTextField)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveButtonPressed))
+        navigationItem.title = "Change Email"
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,6 +58,14 @@ class EditEmailViewController: UIViewController {
             y: separatorLine2.bottom + 1,
             width: view.width,
             height: 46.95
+        )
+    }
+    
+    @objc private func saveButtonPressed() {
+        displayTempLabel(
+            centerPoint: view.center.applying(CGAffineTransform(translationX: 0, y: -150)),
+            labelText: "New Email saved.",
+            labelColor: UIColor(named: "XYTint")!
         )
     }
 }

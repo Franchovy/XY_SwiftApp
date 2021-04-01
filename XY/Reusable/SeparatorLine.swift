@@ -13,7 +13,7 @@ class SeparatorLine: UIView {
         super.init(frame: .zero)
         
         layer.borderWidth = 1
-        layer.borderColor = UIColor(named: "XYTint")!.cgColor
+        layer.borderColor = UIColor(named: "XYCard")!.cgColor
     }
     
     required init?(coder: NSCoder) {
@@ -32,6 +32,6 @@ class SeparatorLine: UIView {
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
-        layer.borderColor = UIColor(named: "XYTint")!.cgColor
+        layer.borderColor = UIColor(named: "XYCard")!.cgColor
     }
 }

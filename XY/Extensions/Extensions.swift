@@ -132,7 +132,7 @@ extension UIViewController {
         let label = UILabel()
         label.font = UIFont(name: "Raleway-Medium", size: 18)
         label.textColor = labelColor
-        label.text = "Email added!"
+        label.text = labelText
         label.alpha = 0.0
         
         view.addSubview(label)
