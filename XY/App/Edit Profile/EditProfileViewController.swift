@@ -98,7 +98,7 @@ class EditProfileViewController: UIViewController {
     }
     
     private func configure() {
-        nicknameTextField.text = "sexyBoss_666"
+        nicknameTextField.text = "sexyBoss_23"
         nicknameTextField.sizeToFit()
         
         numFriendsLabel.text = String(describing: Int.random(in: 0...1000))
