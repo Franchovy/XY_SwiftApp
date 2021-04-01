@@ -106,7 +106,7 @@ class EditProfileViewController: UIViewController {
     }
     
     @objc private func didTapSettings() {
-        
+        NavigationControlManager.mainViewController.navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
     @objc private func tappedAnywhere() {

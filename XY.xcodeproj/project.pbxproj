@@ -226,6 +226,9 @@
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */; };
 		B9ECA20026066A4800B1C5CF /* VideoLevelLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ECA1FF26066A4800B1C5CF /* VideoLevelLabel.swift */; };
+		B9FD993E2615C08100D6716C /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD993D2615C08100D6716C /* TextField.swift */; };
+		B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD99412615C23400D6716C /* SeparatorLine.swift */; };
+		B9FD99462615C48300D6716C /* FlatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD99452615C48300D6716C /* FlatButton.swift */; };
 		B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */; };
 		B9FEFF952604AF4400313BA1 /* ButtonChoicePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */; };
 		B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */; };
@@ -473,6 +476,9 @@
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileManager.swift; sourceTree = "<group>"; };
 		B9ECA1FF26066A4800B1C5CF /* VideoLevelLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLevelLabel.swift; sourceTree = "<group>"; };
+		B9FD993D2615C08100D6716C /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
+		B9FD99412615C23400D6716C /* SeparatorLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLine.swift; sourceTree = "<group>"; };
+		B9FD99452615C48300D6716C /* FlatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatButton.swift; sourceTree = "<group>"; };
 		B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCard.swift; sourceTree = "<group>"; };
 		B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonChoicePrompt.swift; sourceTree = "<group>"; };
 		B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController2.swift; sourceTree = "<group>"; };
@@ -853,6 +859,9 @@
 				B96B7F292613323600B1CBF5 /* ChallengesCollectionView */,
 				B96B7F282613322F00B1CBF5 /* FriendsCollectionView */,
 				B96B7F202613311200B1CBF5 /* Label.swift */,
+				B9FD99412615C23400D6716C /* SeparatorLine.swift */,
+				B9FD99452615C48300D6716C /* FlatButton.swift */,
+				B9FD993D2615C08100D6716C /* TextField.swift */,
 				B96B7F3E26135BA100B1CBF5 /* ColorLabel */,
 				B96B7F362613397000B1CBF5 /* FriendBubble.swift */,
 			);
@@ -1506,6 +1515,7 @@
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
 				B9ABAAA525F7CBB1009CB966 /* ThumbnailManager.swift in Sources */,
 				B96B7F2B2613339200B1CBF5 /* ChallengeCollectionViewCell.swift in Sources */,
+				B9FD993E2615C08100D6716C /* TextField.swift in Sources */,
 				B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */,
 				B9B74D8625F02B700083D69A /* RankingDatabaseManager.swift in Sources */,
 				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
@@ -1525,6 +1535,7 @@
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
 				B926865F261461A400A306F6 /* FriendsListCollectionView.swift in Sources */,
+				B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */,
 				B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */,
 				B91C553C26108038000C2AAD /* XYTextField.swift in Sources */,
 				B92686582614616600A306F6 /* FindFriendsViewController.swift in Sources */,
@@ -1579,6 +1590,7 @@
 				B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */,
 				B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */,
 				B972A2C225DD2697006A0476 /* PostHeaderView.swift in Sources */,
+				B9FD99462615C48300D6716C /* FlatButton.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
 				B92161E125E272E6001BE793 /* HapticsManager.swift in Sources */,
 				B972A2BE25DD1739006A0476 /* CommentTableViewCell.swift in Sources */,
@@ -1837,7 +1849,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1863,7 +1875,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.0;
+				CURRENT_PROJECT_VERSION = 1.1;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

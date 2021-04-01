@@ -20,8 +20,30 @@ class GradientButton: UIButton {
 
     private var colours = [UIColor]()
     
-    init() {
+    enum Style {
+        case basic
+        case `default`
+    }
+    
+    init(text: String? = nil, textColor: UIColor? = nil, gradient: [UIColor]? = nil, style: Style = .default) {
         super.init(frame: .zero)
+        
+        if let text = text {
+            setTitle(text, for: .normal)
+        }
+        if let textColor = textColor {
+            setTitleColor(textColor, for: .normal)
+        }
+        if let gradient = gradient {
+            setGradient(gradient)
+        }
+        
+        switch style {
+        case .basic:
+            titleLabel?.font = UIFont(name: "Raleway-Bold", size: 14)
+        case .default:
+            break
+        }
         
         layer.insertSublayer(gradientLayer, at: 0)
         
@@ -52,7 +74,6 @@ class GradientButton: UIButton {
             shadowLayer.shadowRadius = 6
 
             layer.insertSublayer(shadowLayer, at: 0)
-            //layer.insertSublayer(shadowLayer, below: nil) // also works
         }
     }
     
