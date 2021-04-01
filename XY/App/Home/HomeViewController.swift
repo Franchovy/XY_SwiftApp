@@ -111,7 +111,9 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func tappedNotifications() {
+        let vc = NotificationsViewController()
         
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func tappedSearch() {

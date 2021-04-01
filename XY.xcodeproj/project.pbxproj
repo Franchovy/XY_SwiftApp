@@ -10,7 +10,7 @@
 		0611EDE9CCA8AC70041F1EA2 /* Pods_XY.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE83AA41076DD5C25678000C /* Pods_XY.framework */; };
 		140826B925867EC400DC055D /* ImagePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 140826B725867EC400DC055D /* ImagePostCell.swift */; };
 		14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14251377259F89F800DC08BB /* NotificationsVC.swift */; };
-		1425137C259F8C0100DC08BB /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1425137B259F8C0100DC08BB /* NotificationViewModel.swift */; };
+		1425137C259F8C0100DC08BB /* _NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1425137B259F8C0100DC08BB /* _NotificationViewModel.swift */; };
 		14251383259F936500DC08BB /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14251381259F936500DC08BB /* NotificationCell.swift */; };
 		1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1456020F25724DEE0093FDA7 /* InterestsViewController.swift */; };
 		14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14607A7B25A0DDE5009B3B50 /* ProfileModel.swift */; };
@@ -229,6 +229,12 @@
 		B9FD993E2615C08100D6716C /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD993D2615C08100D6716C /* TextField.swift */; };
 		B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD99412615C23400D6716C /* SeparatorLine.swift */; };
 		B9FD99462615C48300D6716C /* FlatButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD99452615C48300D6716C /* FlatButton.swift */; };
+		B9FD99512616103600D6716C /* NotificationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD99502616103600D6716C /* NotificationsViewController.swift */; };
+		B9FD99552616108800D6716C /* NotificationsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD99542616108800D6716C /* NotificationsCollectionView.swift */; };
+		B9FD995B2616128E00D6716C /* NotificationsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD995A2616128E00D6716C /* NotificationsCollectionViewCell.swift */; };
+		B9FD995F2616165200D6716C /* ChallengeNotificationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD995E2616165200D6716C /* ChallengeNotificationImage.swift */; };
+		B9FD9963261619AD00D6716C /* NotificationsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD9962261619AD00D6716C /* NotificationsDataSource.swift */; };
+		B9FD9967261619E000D6716C /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD9966261619E000D6716C /* NotificationViewModel.swift */; };
 		B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */; };
 		B9FEFF952604AF4400313BA1 /* ButtonChoicePrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */; };
 		B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */; };
@@ -249,7 +255,7 @@
 		13812B2840F408D53204E346 /* Pods-XY_APP.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XY_APP.release.xcconfig"; path = "Target Support Files/Pods-XY_APP/Pods-XY_APP.release.xcconfig"; sourceTree = "<group>"; };
 		140826B725867EC400DC055D /* ImagePostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePostCell.swift; sourceTree = "<group>"; };
 		14251377259F89F800DC08BB /* NotificationsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsVC.swift; sourceTree = "<group>"; };
-		1425137B259F8C0100DC08BB /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
+		1425137B259F8C0100DC08BB /* _NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _NotificationViewModel.swift; sourceTree = "<group>"; };
 		14251381259F936500DC08BB /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		1456020F25724DEE0093FDA7 /* InterestsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
 		14607A7B25A0DDE5009B3B50 /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
@@ -479,6 +485,12 @@
 		B9FD993D2615C08100D6716C /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		B9FD99412615C23400D6716C /* SeparatorLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLine.swift; sourceTree = "<group>"; };
 		B9FD99452615C48300D6716C /* FlatButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatButton.swift; sourceTree = "<group>"; };
+		B9FD99502616103600D6716C /* NotificationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsViewController.swift; sourceTree = "<group>"; };
+		B9FD99542616108800D6716C /* NotificationsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCollectionView.swift; sourceTree = "<group>"; };
+		B9FD995A2616128E00D6716C /* NotificationsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsCollectionViewCell.swift; sourceTree = "<group>"; };
+		B9FD995E2616165200D6716C /* ChallengeNotificationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeNotificationImage.swift; sourceTree = "<group>"; };
+		B9FD9962261619AD00D6716C /* NotificationsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsDataSource.swift; sourceTree = "<group>"; };
+		B9FD9966261619E000D6716C /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		B9FEFF8C2604A5FF00313BA1 /* TextFieldCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCard.swift; sourceTree = "<group>"; };
 		B9FEFF942604AF4400313BA1 /* ButtonChoicePrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonChoicePrompt.swift; sourceTree = "<group>"; };
 		B9FEFF982604CABE00313BA1 /* ProfileViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController2.swift; sourceTree = "<group>"; };
@@ -1005,6 +1017,7 @@
 		B97E33A1261201B600AD00B5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B9FD994F2616101500D6716C /* Notifications */,
 				B926868D2614A8C900A306F6 /* Edit Profile */,
 				B92686882614A21700A306F6 /* Global */,
 				B926867526148E3900A306F6 /* Profile */,
@@ -1192,7 +1205,7 @@
 				B9ABAA9925F78859009CB966 /* ChallengeVideoViewModel.swift */,
 				B90EBA4525DFEAC0005DE0A0 /* NewPostViewModel.swift */,
 				B9781DD925DE84A400A2FE2D /* NewProfileViewModel.swift */,
-				1425137B259F8C0100DC08BB /* NotificationViewModel.swift */,
+				1425137B259F8C0100DC08BB /* _NotificationViewModel.swift */,
 				B9B74D9425F03A170083D69A /* Ranking */,
 				B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */,
 			);
@@ -1237,6 +1250,19 @@
 				B936266325DC23630063AAD6 /* PushNotificationSender.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		B9FD994F2616101500D6716C /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				B9FD99542616108800D6716C /* NotificationsCollectionView.swift */,
+				B9FD99502616103600D6716C /* NotificationsViewController.swift */,
+				B9FD995A2616128E00D6716C /* NotificationsCollectionViewCell.swift */,
+				B9FD995E2616165200D6716C /* ChallengeNotificationImage.swift */,
+				B9FD9962261619AD00D6716C /* NotificationsDataSource.swift */,
+				B9FD9966261619E000D6716C /* NotificationViewModel.swift */,
+			);
+			path = Notifications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1454,6 +1480,7 @@
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */,
 				B91C5538261077AB000C2AAD /* CountdownLabel.swift in Sources */,
+				B9FD9963261619AD00D6716C /* NotificationsDataSource.swift in Sources */,
 				B925CC5125D5821D00542A58 /* ProfileHeaderChatViewController.swift in Sources */,
 				B99020D725ED4B15004AC25C /* GradientBorderButtonWithShadow.swift in Sources */,
 				B96A903D2605F132000CE9F7 /* FollowButton.swift in Sources */,
@@ -1472,6 +1499,7 @@
 				B91C55482610E279000C2AAD /* BlurView.swift in Sources */,
 				B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */,
 				B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */,
+				B9FD99552616108800D6716C /* NotificationsCollectionView.swift in Sources */,
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
@@ -1489,6 +1517,7 @@
 				B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */,
 				B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */,
 				B9268649261392A100A306F6 /* FriendCollectionViewCell.swift in Sources */,
+				B9FD995F2616165200D6716C /* ChallengeNotificationImage.swift in Sources */,
 				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
@@ -1532,10 +1561,12 @@
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
 				B96B7F312613352D00B1CBF5 /* ColorLabel.swift in Sources */,
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
+				B9FD995B2616128E00D6716C /* NotificationsCollectionViewCell.swift in Sources */,
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
 				B926865F261461A400A306F6 /* FriendsListCollectionView.swift in Sources */,
 				B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */,
+				B9FD99512616103600D6716C /* NotificationsViewController.swift in Sources */,
 				B9B0C05925FD5EA3003DA5CB /* ExploreChallengeViewController.swift in Sources */,
 				B91C553C26108038000C2AAD /* XYTextField.swift in Sources */,
 				B92686582614616600A306F6 /* FindFriendsViewController.swift in Sources */,
@@ -1600,6 +1631,7 @@
 				B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */,
 				B972A2C625DD4282006A0476 /* Comment.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
+				B9FD9967261619E000D6716C /* NotificationViewModel.swift in Sources */,
 				B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */,
 				B9268663261461CA00A306F6 /* FriendsListCollectionViewCell.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
@@ -1608,7 +1640,7 @@
 				B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */,
 				B92161EA25E2C8F2001BE793 /* RelationshipFirestoreManager.swift in Sources */,
 				B931478425FA209700C054DF /* RankingsViewController.swift in Sources */,
-				1425137C259F8C0100DC08BB /* NotificationViewModel.swift in Sources */,
+				1425137C259F8C0100DC08BB /* _NotificationViewModel.swift in Sources */,
 				B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */,
 				B94EAD6025EEAEA400504A2A /* Gradient.swift in Sources */,
 				B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */,

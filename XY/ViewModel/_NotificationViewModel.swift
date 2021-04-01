@@ -18,7 +18,7 @@ protocol NotificationViewModelDelegate: AnyObject {
     func didOpenPost(post: PostModel)
 }
 
-class NotificationViewModel {
+class _NotificationViewModel {
     weak var delegate: NotificationViewModelDelegate?
     
     var profileData: ProfileModel?
@@ -31,7 +31,7 @@ class NotificationViewModel {
     var nickname: String?
     var text: String?
     var date: Date
-    var type: NotificationType
+    var type: _NotificationType
     
     let objectType: ObjectType
     let model: Notification

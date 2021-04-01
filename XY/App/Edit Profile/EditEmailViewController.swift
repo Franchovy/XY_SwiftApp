@@ -10,7 +10,7 @@ import UIKit
 class EditEmailViewController: UIViewController {
     
     private let separatorLine = SeparatorLine()
-    private let currentEmailField = Label(style: .info, fontSize: 15)
+    private let currentEmailField = Label(style: .body, fontSize: 15)
     private let separatorLine2 = SeparatorLine()
     private let newEmailTextField = TextField(placeholder: "New email")
 

@@ -14,7 +14,6 @@ class Label: UILabel {
         case body
         case bodyBold
         case nickname
-        case info
     }
     
     init(_ labelText: String? = nil, style: LabelStyle, fontSize: CGFloat? = nil) {
@@ -32,8 +31,6 @@ class Label: UILabel {
             font = UIFont(name: "Raleway-Bold", size: fontSize ?? 10)
         case .nickname:
             font = UIFont(name: "Raleway-Heavy", size: fontSize ?? 20)
-        case .info:
-            font = UIFont(name: "Raleway-Medium", size: fontSize ?? 10)
         }
     }
     

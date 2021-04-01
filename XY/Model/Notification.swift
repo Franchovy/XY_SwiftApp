@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-enum NotificationType: String {
+enum _NotificationType: String {
     case swipeRight
     case swipeLeft
     case levelUp
@@ -42,7 +42,7 @@ enum ObjectType: String {
 
 struct Notification {
     let notificationId: String
-    let type: NotificationType
+    let type: _NotificationType
     let objectId: String
     let objectType: ObjectType
     let senderId: String?
@@ -51,7 +51,7 @@ struct Notification {
 
 extension Notification {
     init(_ data: [String: Any], id: String) {
-        type = NotificationType(rawValue: data[FirebaseKeys.NotificationKeys.notifications.type] as! String)!
+        type = _NotificationType(rawValue: data[FirebaseKeys.NotificationKeys.notifications.type] as! String)!
         objectType = ObjectType(rawValue: data[FirebaseKeys.NotificationKeys.notifications.objectType] as! String)!
         
         notificationId = id

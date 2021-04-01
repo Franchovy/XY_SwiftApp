@@ -14,7 +14,7 @@ protocol NotificationCellDelegate {
 class NotificationCell: UITableViewCell {
 
     static let identifier = "NotificationCell"
-    var viewModel: NotificationViewModel?
+    var viewModel: _NotificationViewModel?
     
     private let profileImageContainer = UIView()
     public let profileImage: UIButton = {
@@ -220,7 +220,7 @@ class NotificationCell: UITableViewCell {
         
     }
 
-    func configure(with model: NotificationViewModel) {
+    func configure(with model: _NotificationViewModel) {
         profileImage.setBackgroundImage(model.displayImage, for: .normal)
         postImage.image = model.previewImage
         nicknameLabel.text = model.nickname

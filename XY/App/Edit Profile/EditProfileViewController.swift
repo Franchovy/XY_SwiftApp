@@ -12,10 +12,10 @@ class EditProfileViewController: UIViewController {
     private let profileImage = EditProfileImageView()
     private let nicknameTextField = EditNicknameTextField()
     
-    private let friendsLabel = Label("Friends", style: .info, fontSize: 15)
-    private let challengesLabel = Label("Challenges", style: .info, fontSize: 15)
-    private let numFriendsLabel = Label(style: .info, fontSize: 25)
-    private let numChallengesLabel = Label(style: .info, fontSize: 25)
+    private let friendsLabel = Label("Friends", style: .body, fontSize: 15)
+    private let challengesLabel = Label("Challenges", style: .body, fontSize: 15)
+    private let numFriendsLabel = Label(style: .body, fontSize: 25)
+    private let numChallengesLabel = Label(style: .body, fontSize: 25)
     
     init() {
         super.init(nibName: nil, bundle: nil)

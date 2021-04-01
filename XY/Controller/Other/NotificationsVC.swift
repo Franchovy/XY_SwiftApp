@@ -17,7 +17,7 @@ class NotificationsVC: UIViewController {
         return tableView
     }()
     
-    var notifications = [NotificationViewModel]()
+    var notifications = [_NotificationViewModel]()
     
     var notificationsListener : ListenerRegistration?
     
@@ -103,7 +103,7 @@ class NotificationsVC: UIViewController {
                     let data = notificationDocument.data()
                     
                     let notificationModel = Notification(data, id: notificationDocument.documentID)
-                    var notificationViewModel = NotificationViewModel(from: notificationModel)
+                    var notificationViewModel = _NotificationViewModel(from: notificationModel)
                     notificationViewModel.delegate = strongSelf
                     
                     print("Appending notification of type: \(notificationModel.objectType)")
@@ -125,7 +125,7 @@ class NotificationsVC: UIViewController {
                         let data = document.data()
 
                         let notificationModel = Notification(data, id: document.documentID)
-                        var notificationViewModel = NotificationViewModel(from: notificationModel)
+                        var notificationViewModel = _NotificationViewModel(from: notificationModel)
                         notificationViewModel.delegate = strongSelf
 
                         strongSelf.notifications.insert(notificationViewModel, at: 0)

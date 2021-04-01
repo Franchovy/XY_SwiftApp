@@ -13,7 +13,7 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
     
     private let imageView = UIImageView()
     private let imageLabel = Label(style: .title, fontSize: 12)
-    private let label = Label(style: .info)
+    private let label = Label(style: .body)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
