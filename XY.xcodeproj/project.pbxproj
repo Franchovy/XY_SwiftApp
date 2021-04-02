@@ -100,8 +100,10 @@
 		B952F5C226174B6B0063E7B4 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C126174B6B0063E7B4 /* Card.swift */; };
 		B952F5C7261762420063E7B4 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C6261762420063E7B4 /* RecordButton.swift */; };
 		B952F5CF26176D3F0063E7B4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */; };
-		B952F5D3261778A20063E7B4 /* ChallengeDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5D2261778A20063E7B4 /* ChallengeDescriptionViewController.swift */; };
+		B952F5D3261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5D2261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift */; };
 		B952F5D7261778BB0063E7B4 /* CreateChallengeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5D6261778BB0063E7B4 /* CreateChallengeManager.swift */; };
+		B952F5DC26177C470063E7B4 /* SendChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5DB26177C470063E7B4 /* SendChallengeViewController.swift */; };
+		B952F5E026177DF80063E7B4 /* ConfirmSendChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5DF26177DF80063E7B4 /* ConfirmSendChallengeViewController.swift */; };
 		B9530020259F36CE00DE926A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953001F259F36CE00DE926A /* CircleView.swift */; };
 		B9530026259F476000DE926A /* CircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9530025259F476000DE926A /* CircleView.xib */; };
 		B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482B725AAF1E00058D8B4 /* XPModel.swift */; };
@@ -360,8 +362,10 @@
 		B952F5C126174B6B0063E7B4 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		B952F5C6261762420063E7B4 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
-		B952F5D2261778A20063E7B4 /* ChallengeDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDescriptionViewController.swift; sourceTree = "<group>"; };
+		B952F5D2261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeDescriptionViewController.swift; sourceTree = "<group>"; };
 		B952F5D6261778BB0063E7B4 /* CreateChallengeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeManager.swift; sourceTree = "<group>"; };
+		B952F5DB26177C470063E7B4 /* SendChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChallengeViewController.swift; sourceTree = "<group>"; };
+		B952F5DF26177DF80063E7B4 /* ConfirmSendChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSendChallengeViewController.swift; sourceTree = "<group>"; };
 		B953001F259F36CE00DE926A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		B9530025259F476000DE926A /* CircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleView.xib; sourceTree = "<group>"; };
 		B95482B725AAF1E00058D8B4 /* XPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModel.swift; sourceTree = "<group>"; };
@@ -859,10 +863,11 @@
 		B952F5952617426D0063E7B4 /* Create Challenge */ = {
 			isa = PBXGroup;
 			children = (
+				B952F5DA26177C310063E7B4 /* Send Challenge */,
 				B952F5C52617622C0063E7B4 /* Camera */,
 				B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */,
 				B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */,
-				B952F5D2261778A20063E7B4 /* ChallengeDescriptionViewController.swift */,
+				B952F5D2261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift */,
 				B952F5D6261778BB0063E7B4 /* CreateChallengeManager.swift */,
 			);
 			path = "Create Challenge";
@@ -874,6 +879,15 @@
 				B952F5C6261762420063E7B4 /* RecordButton.swift */,
 			);
 			path = Camera;
+			sourceTree = "<group>";
+		};
+		B952F5DA26177C310063E7B4 /* Send Challenge */ = {
+			isa = PBXGroup;
+			children = (
+				B952F5DB26177C470063E7B4 /* SendChallengeViewController.swift */,
+				B952F5DF26177DF80063E7B4 /* ConfirmSendChallengeViewController.swift */,
+			);
+			path = "Send Challenge";
 			sourceTree = "<group>";
 		};
 		B95FF4BF25A6F09900CFCA9E /* Services */ = {
@@ -1593,7 +1607,7 @@
 				B9ABAA9A25F78859009CB966 /* ChallengeVideoViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
-				B952F5D3261778A20063E7B4 /* ChallengeDescriptionViewController.swift in Sources */,
+				B952F5D3261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift in Sources */,
 				B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */,
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
@@ -1675,6 +1689,7 @@
 				B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */,
 				B99020DB25ED64F1004AC25C /* GradientBorderTextField.swift in Sources */,
 				B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */,
+				B952F5E026177DF80063E7B4 /* ConfirmSendChallengeViewController.swift in Sources */,
 				B972A2C625DD4282006A0476 /* Comment.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B9FD9967261619E000D6716C /* NotificationViewModel.swift in Sources */,
@@ -1701,6 +1716,7 @@
 				B9D0D5CC2607841C00D3F128 /* OnlineNowView.swift in Sources */,
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
+				B952F5DC26177C470063E7B4 /* SendChallengeViewController.swift in Sources */,
 				B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */,
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,
 				B91C553426107400000C2AAD /* LabelStackView.swift in Sources */,

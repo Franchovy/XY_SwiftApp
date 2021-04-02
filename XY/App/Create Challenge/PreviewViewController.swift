@@ -45,6 +45,14 @@ class PreviewViewController: UIViewController {
     }
     
     @objc private func didTapNext() {
-        
+        if CreateChallengeManager.shared.title != nil && CreateChallengeManager.shared.description != nil {
+            let vc = SendChallengeViewController()
+            
+            navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let vc = CreateChallengeDescriptionViewController()
+            
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }
