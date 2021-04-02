@@ -18,6 +18,8 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
     private var followButton: AddFriendButton?
     private var previewImage: ChallengeNotificationImage?
     
+    var viewModel: NotificationViewModel?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -88,6 +90,8 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
+        viewModel = nil
+        
         previewImage?.removeFromSuperview()
         previewImage = nil
         
@@ -96,6 +100,8 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: NotificationViewModel) {
+        self.viewModel = viewModel
+        
         nameLabel.text = viewModel.nickname
         textLabel.text = viewModel.notificationText
         timestampLabel.text = viewModel.timestampText
