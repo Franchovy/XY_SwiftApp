@@ -119,7 +119,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     var tapAnywhereGesture: UITapGestureRecognizer?
     var previewCard: ChallengePreviewCard?
     
-    private var previewVC: PreviewViewController?
+    private var previewVC: _PreviewViewController?
     
     var readyToPresentPreview = false
     var activeChallengesDisplayed = false
@@ -622,7 +622,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             return
         }
         
-        let previewVC = PreviewViewController(previewVideoUrl: outputVideoURL)
+        let previewVC = _PreviewViewController(previewVideoUrl: outputVideoURL)
         
         if activeChallenge != nil {
             previewVC.configure(with: activeChallenge!)

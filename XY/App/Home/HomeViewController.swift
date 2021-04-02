@@ -85,8 +85,8 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.navigationBar.barTintColor = UIColor(named: "XYBackground")
-        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.configureBackgroundStyle(.visible)
+        configureBackButton(.backButton)
     }
     
     override func viewDidAppear(_ animated: Bool) {

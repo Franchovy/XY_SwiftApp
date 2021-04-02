@@ -173,10 +173,9 @@ class Prompt: UIView {
         
         card.addSubview(textField)
         fields.append(textField)
-
     }
     
-    public func addButton(buttonText: String, backgroundColor: UIColor = UIColor(named: "XYCard")!, textColor: UIColor = UIColor(named: "XYTint")!, icon: UIImage? = nil,  style: ButtonStyle, closeOnTap: Bool? = false, onTap: (() -> Void)? = nil, target: Selector? = nil) {
+    public func addButton(buttonText: String, backgroundColor: UIColor = UIColor(named: "XYCard")!, textColor: UIColor = UIColor(named: "XYTint")!, icon: UIImage? = nil,  style: ButtonStyle, closeOnTap: Bool = false, onTap: (() -> Void)? = nil, target: Selector? = nil) {
         let button = UIButton()
         button.setTitle(buttonText, for: .normal)
         
@@ -185,6 +184,15 @@ class Prompt: UIView {
         
         card.addSubview(button)
         buttons.append(button)
+        
+        button.addAction {
+            onTap?()
+            
+            if closeOnTap {
+                self.disappear()
+            }
+        }
+//        button.addTarget(Selector(, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
         
 //        if style == .action {
 //            button.setBackgroundColor(color: backgroundColor, forState: .normal)

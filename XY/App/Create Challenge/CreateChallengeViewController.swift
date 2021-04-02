@@ -10,7 +10,17 @@ import CameraManager
 
 class CreateChallengeViewController: UIViewController {
     
+    enum CameraState {
+        case prepareToRecord
+        case recording
+        case finishedRecording
+    }
+    private var state:CameraState = .prepareToRecord
+    
+    var videoURL: URL?
+    
     private let cameraManager = CameraManager()
+    private let recordButton = RecordButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -20,6 +30,8 @@ class CreateChallengeViewController: UIViewController {
         
         cameraManager.shouldEnableExposure = false
         cameraManager.exposureMode = .continuousAutoExposure
+        
+        cameraManager.writeFilesToPhoneLibrary = false
     }
     
     required init?(coder: NSCoder) {
@@ -30,17 +42,48 @@ class CreateChallengeViewController: UIViewController {
         super.viewDidLoad()
         
         cameraManager.addPreviewLayerToView(view)
+        
+        presentingViewController?.navigationItem.backButtonTitle = " "
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        navigationController?.isNavigationBarHidden = true
+        configureBackButton(.xmark)
+        navigationController?.configureBackgroundStyle(.invisible)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        displayNewChallengePrompt()
+        
+        view.addSubview(recordButton)
+        recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        navigationController?.isNavigationBarHidden = false
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let recordButtonSize: CGFloat = 64
+        recordButton.frame = CGRect(
+            x: (view.width - recordButtonSize)/2,
+            y: view.bottom - recordButtonSize - 15,
+            width: recordButtonSize,
+            height: recordButtonSize
+        )
+    }
+
+    
+    // MARK: -
+    
+    private func displayNewChallengePrompt() {
         let prompt = Prompt()
         
         prompt.setTitle(text: "Create Challenge", isGradient: true)
@@ -63,15 +106,47 @@ class CreateChallengeViewController: UIViewController {
         prompt.appear()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    private func startRecording() {
         
-        navigationController?.isNavigationBarHidden = false
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    private func endRecording() {
         
     }
-
+    
+    private func displayPreview() {
+        guard let videoURL = videoURL else {
+            return
+        }
+        let previewVC = PreviewViewController(previewVideoURL: videoURL)
+        
+        navigationController?.pushViewController(previewVC, animated: true)
+    }
+    
+    // MARK: - OBJ-C FUNCTIONS
+    
+    @objc private func recordButtonPressed() {
+        if state == .prepareToRecord {
+            recordButton.setState(.recording)
+            cameraManager.startRecordingVideo()
+            state = .recording
+        } else {
+            state = .finishedRecording
+            recordButton.setState(.notRecording)
+            cameraManager.stopVideoRecording { (videoURL, error) in
+                if let error = error {
+                    self.displayTempLabel(
+                        centerPoint: self.view.center,
+                        labelText: error.localizedDescription,
+                        labelColor: UIColor(named: "XYWhite")!
+                    )
+                } else if let videoURL = videoURL {
+                    self.videoURL = videoURL
+                    DispatchQueue.main.async {
+                        self.displayPreview()
+                    }
+                }
+            }
+        }
+    }
 }

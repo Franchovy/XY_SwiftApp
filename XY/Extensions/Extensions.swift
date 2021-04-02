@@ -127,6 +127,68 @@ extension UIImage {
     }
 }
 
+enum NavigationControllerStyle {
+    case invisible
+    case visible
+}
+
+extension UINavigationController {
+    func configureBackgroundStyle(_ style: NavigationControllerStyle) {
+        if style == .invisible {
+            navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navigationBar.barTintColor = .clear
+            navigationBar.shadowImage = UIImage()
+            navigationBar.isTranslucent = true
+            navigationBar.backgroundColor = .clear
+        } else if style == .visible {
+            navigationBar.setBackgroundImage(UIImage(), for: .default)
+            navigationBar.barTintColor = UIColor(named: "XYBackground")
+            navigationBar.isTranslucent = false
+            navigationBar.shadowImage = UIImage()
+            navigationBar.backgroundColor = UIColor(named: "XYBackground")
+        }
+    }
+}
+
+enum NavigationControllerBackButtonStyle {
+    case xmark
+    case backButton
+}
+
+extension UIViewController {
+    func configureBackButton(_ style: NavigationControllerBackButtonStyle) {
+        if style == .backButton {
+            let yourBackImage = UIImage(systemName: "chevron.left")
+            self.navigationController?.navigationBar.backIndicatorImage = yourBackImage
+            self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = yourBackImage
+            navigationItem.backButtonTitle = "Back"
+        } else if style == .xmark {
+            let yourBackImage = UIImage(systemName: "xmark")
+            self.navigationController?.navigationBar.backIndicatorImage = yourBackImage
+            self.navigationController?.navigationBar.backIndicatorTransitionMaskImage = yourBackImage
+            navigationItem.backButtonTitle = " "
+        }
+    }
+}
+
+extension UIControl {
+    
+    func addAction(for controlEvents: UIControl.Event = .touchUpInside, _ closure: @escaping()->()) {
+        if #available(iOS 14.0, *) {
+            addAction(UIAction { (action: UIAction) in closure() }, for: controlEvents)
+        } else {
+            @objc class ClosureSleeve: NSObject {
+                let closure:()->()
+                init(_ closure: @escaping()->()) { self.closure = closure }
+                @objc func invoke() { closure() }
+            }
+            let sleeve = ClosureSleeve(closure)
+            addTarget(sleeve, action: #selector(ClosureSleeve.invoke), for: controlEvents)
+            objc_setAssociatedObject(self, "\(UUID())", sleeve, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+        }
+    }
+}
+
 extension UILabel {
     func setFrameWithAutomaticHeight(x: CGFloat, y: CGFloat, width: CGFloat) {
         guard let text = text else {

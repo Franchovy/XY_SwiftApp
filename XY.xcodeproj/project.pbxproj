@@ -84,7 +84,7 @@
 		B93D7BF525F41A7E005CE74D /* WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF425F41A7E005CE74D /* WatchViewController.swift */; };
 		B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF825F41AD3005CE74D /* VideoViewController.swift */; };
 		B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DABE25E6C40F0040CEDB /* MessageView.swift */; };
-		B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* PreviewViewController.swift */; };
+		B944DAC525E6C4290040CEDB /* _PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */; };
 		B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */; };
 		B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */; };
 		B94CC3F225BAA5B900E97B78 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */; };
@@ -98,6 +98,8 @@
 		B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */; };
 		B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5BD261746BF0063E7B4 /* Prompt.swift */; };
 		B952F5C226174B6B0063E7B4 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C126174B6B0063E7B4 /* Card.swift */; };
+		B952F5C7261762420063E7B4 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C6261762420063E7B4 /* RecordButton.swift */; };
+		B952F5CF26176D3F0063E7B4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */; };
 		B9530020259F36CE00DE926A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953001F259F36CE00DE926A /* CircleView.swift */; };
 		B9530026259F476000DE926A /* CircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9530025259F476000DE926A /* CircleView.xib */; };
 		B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482B725AAF1E00058D8B4 /* XPModel.swift */; };
@@ -340,7 +342,7 @@
 		B93D7BF425F41A7E005CE74D /* WatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewController.swift; sourceTree = "<group>"; };
 		B93D7BF825F41AD3005CE74D /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		B944DABE25E6C40F0040CEDB /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
-		B944DAC425E6C4290040CEDB /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
+		B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _PreviewViewController.swift; sourceTree = "<group>"; };
 		B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFirestoreManager.swift; sourceTree = "<group>"; };
 		B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
@@ -354,6 +356,8 @@
 		B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeViewController.swift; sourceTree = "<group>"; };
 		B952F5BD261746BF0063E7B4 /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
 		B952F5C126174B6B0063E7B4 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		B952F5C6261762420063E7B4 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
+		B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		B953001F259F36CE00DE926A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		B9530025259F476000DE926A /* CircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleView.xib; sourceTree = "<group>"; };
 		B95482B725AAF1E00058D8B4 /* XPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModel.swift; sourceTree = "<group>"; };
@@ -851,9 +855,19 @@
 		B952F5952617426D0063E7B4 /* Create Challenge */ = {
 			isa = PBXGroup;
 			children = (
+				B952F5C52617622C0063E7B4 /* Camera */,
 				B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */,
+				B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */,
 			);
 			path = "Create Challenge";
+			sourceTree = "<group>";
+		};
+		B952F5C52617622C0063E7B4 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				B952F5C6261762420063E7B4 /* RecordButton.swift */,
+			);
+			path = Camera;
 			sourceTree = "<group>";
 		};
 		B95FF4BF25A6F09900CFCA9E /* Services */ = {
@@ -1087,7 +1101,7 @@
 		B9A045452608F74F005F48FF /* Camera */ = {
 			isa = PBXGroup;
 			children = (
-				B944DAC425E6C4290040CEDB /* PreviewViewController.swift */,
+				B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */,
 				B94CC3F125BAA5B900E97B78 /* CameraViewController.swift */,
 			);
 			path = Camera;
@@ -1511,6 +1525,7 @@
 				B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */,
 				B926866C2614637900A306F6 /* AddFriendButton.swift in Sources */,
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
+				B952F5C7261762420063E7B4 /* RecordButton.swift in Sources */,
 				B96A904626060034000CE9F7 /* SubscriberCollectionViewCell.swift in Sources */,
 				B96B7F3B26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift in Sources */,
 				B9B302AE2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift in Sources */,
@@ -1532,7 +1547,7 @@
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B926867726148E5600A306F6 /* EditProfileViewController.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
-				B944DAC525E6C4290040CEDB /* PreviewViewController.swift in Sources */,
+				B944DAC525E6C4290040CEDB /* _PreviewViewController.swift in Sources */,
 				B97C25E92608073F009EFB06 /* GameModel.swift in Sources */,
 				B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */,
 				B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */,
@@ -1610,6 +1625,7 @@
 				B925CC7325D5844200542A58 /* MessageViewModel.swift in Sources */,
 				B98B06D925FAB9F800001986 /* ChallengeVideoModel.swift in Sources */,
 				B972A2AF25DD06E6006A0476 /* PostViewController.swift in Sources */,
+				B952F5CF26176D3F0063E7B4 /* PreviewViewController.swift in Sources */,
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,

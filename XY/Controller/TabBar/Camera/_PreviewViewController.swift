@@ -1,5 +1,5 @@
 //
-//  PreviewViewController.swift
+//  _PreviewViewController.swift
 //  XY
 //
 //  Created by Maxime Franchot on 25/01/2021.
@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class PreviewViewController: UIViewController, UITextViewDelegate {
+class _PreviewViewController: UIViewController, UITextViewDelegate {
         
     private let nextButton: UIButton = {
         let button = UIButton()
