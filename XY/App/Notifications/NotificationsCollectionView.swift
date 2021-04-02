@@ -30,4 +30,17 @@ class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! NotificationsCollectionViewCell
+        
+        guard let viewModel = cell.viewModel else {
+            return
+        }
+        
+        let vc = ProfileViewController()
+        vc.configure(with: ProfileViewModel.randomProfileViewModel())
+        
+        NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
