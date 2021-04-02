@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
     
     private let noChallengesLabel = Label("You have no challenges.", style: .body, fontSize: 18)
     private let createChallengeButton = GradientBorderButtonWithShadow()
-
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -35,17 +35,6 @@ class HomeViewController: UIViewController {
         view.backgroundColor = UIColor(named: "XYBackground")
         challengesCollectionView.dataSource = challengesDataSource
         friendsCollectionView.dataSource = friendsDataSource
-        
-        if friendsCollectionView.numberOfItems(inSection: 0) == 1 {
-            challengesLabel.isHidden = true
-            
-            configureEmptyNoFriends()
-        } else {
-            if challengesCollectionView.numberOfItems(inSection: 0) == 0 {
-                
-                configureEmptyNoChallenges()
-            }
-        }
     }
     
     required init?(coder: NSCoder) {
@@ -63,6 +52,14 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(challengesLabel)
         scrollView.addSubview(challengesCollectionView)
         
+        createChallengeButton.setTitle("Create challenge", for: .normal)
+        createChallengeButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
+        createChallengeButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
+        createChallengeButton.setGradient(Global.xyGradient)
+        createChallengeButton.setBackgroundColor(color: UIColor(named: "XYBackground")!)
+        
+        createChallengeButton.addTarget(self, action: #selector(tappedCreateChallenge), for: .touchUpInside)
+            
         let logoView = UIImageView(image: UIImage(named: "XYLogo"))
         logoView.contentMode = .scaleAspectFit
         logoView.frame.size = CGSize(width: 53.36, height: 28.4)
@@ -90,6 +87,23 @@ class HomeViewController: UIViewController {
         
         navigationController?.navigationBar.barTintColor = UIColor(named: "XYBackground")
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        switch HomeStateManager.state {
+        case .noFriends:
+            challengesLabel.isHidden = true
+            createChallengeButton.isHidden = true
+            configureEmptyNoFriends()
+        case .noChallengesFirst, .noChallengesNormal:
+            configureEmptyNoChallenges()
+            scrollView.addSubview(createChallengeButton)
+        case .normal:
+            scrollView.addSubview(createChallengeButton)
+        default: break
+        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -160,7 +174,9 @@ class HomeViewController: UIViewController {
         
         createChallengeButton.frame = CGRect(
             x: (view.width - buttonSize.width)/2,
-            y: noChallengesLabel.bottom + 22.02,
+            y: HomeStateManager.state == .normal ?
+                view.height * 0.69 :
+                noChallengesLabel.bottom + 22.02,
             width: buttonSize.width,
             height: buttonSize.height
         )
@@ -183,13 +199,6 @@ class HomeViewController: UIViewController {
     
     private func configureEmptyNoChallenges() {
         scrollView.addSubview(noChallengesLabel)
-        scrollView.addSubview(createChallengeButton)
-        
-        createChallengeButton.setTitle("Create new", for: .normal)
-        createChallengeButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
-        createChallengeButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
-        createChallengeButton.setGradient(Global.xyGradient)
-        createChallengeButton.setBackgroundColor(color: UIColor(named: "XYBackground")!)
     }
     
     @objc private func tappedNotifications() {
@@ -200,6 +209,12 @@ class HomeViewController: UIViewController {
     
     @objc private func tappedSearch() {
         let vc = FindFriendsViewController()
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func tappedCreateChallenge() {
+        let vc = CreateChallengeViewController()
         
         navigationController?.pushViewController(vc, animated: true)
     }

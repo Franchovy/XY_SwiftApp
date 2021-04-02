@@ -94,6 +94,10 @@
 		B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */; };
 		B9520FF425ADCC41008E9B57 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9520FF325ADCC41008E9B57 /* Action.swift */; };
 		B952AD7425D6C193008CC229 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952AD7325D6C193008CC229 /* GradientButton.swift */; };
+		B952F592261736AA0063E7B4 /* HomeStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F591261736AA0063E7B4 /* HomeStateManager.swift */; };
+		B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */; };
+		B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5BD261746BF0063E7B4 /* Prompt.swift */; };
+		B952F5C226174B6B0063E7B4 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C126174B6B0063E7B4 /* Card.swift */; };
 		B9530020259F36CE00DE926A /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B953001F259F36CE00DE926A /* CircleView.swift */; };
 		B9530026259F476000DE926A /* CircleView.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9530025259F476000DE926A /* CircleView.xib */; };
 		B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95482B725AAF1E00058D8B4 /* XPModel.swift */; };
@@ -346,6 +350,10 @@
 		B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		B9520FF325ADCC41008E9B57 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		B952AD7325D6C193008CC229 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
+		B952F591261736AA0063E7B4 /* HomeStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStateManager.swift; sourceTree = "<group>"; };
+		B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeViewController.swift; sourceTree = "<group>"; };
+		B952F5BD261746BF0063E7B4 /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
+		B952F5C126174B6B0063E7B4 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		B953001F259F36CE00DE926A /* CircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		B9530025259F476000DE926A /* CircleView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircleView.xib; sourceTree = "<group>"; };
 		B95482B725AAF1E00058D8B4 /* XPModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPModel.swift; sourceTree = "<group>"; };
@@ -840,6 +848,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		B952F5952617426D0063E7B4 /* Create Challenge */ = {
+			isa = PBXGroup;
+			children = (
+				B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */,
+			);
+			path = "Create Challenge";
+			sourceTree = "<group>";
+		};
 		B95FF4BF25A6F09900CFCA9E /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -859,6 +875,7 @@
 			isa = PBXGroup;
 			children = (
 				B96B7F1826132FDB00B1CBF5 /* HomeViewController.swift */,
+				B952F591261736AA0063E7B4 /* HomeStateManager.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -871,6 +888,8 @@
 				B96B7F292613323600B1CBF5 /* ChallengesCollectionView */,
 				B96B7F282613322F00B1CBF5 /* FriendsCollectionView */,
 				B96B7F202613311200B1CBF5 /* Label.swift */,
+				B952F5C126174B6B0063E7B4 /* Card.swift */,
+				B952F5BD261746BF0063E7B4 /* Prompt.swift */,
 				B9FD99412615C23400D6716C /* SeparatorLine.swift */,
 				B9FD99452615C48300D6716C /* FlatButton.swift */,
 				B9FD993D2615C08100D6716C /* TextField.swift */,
@@ -1017,6 +1036,7 @@
 		B97E33A1261201B600AD00B5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B952F5952617426D0063E7B4 /* Create Challenge */,
 				B9FD994F2616101500D6716C /* Notifications */,
 				B926868D2614A8C900A306F6 /* Edit Profile */,
 				B92686882614A21700A306F6 /* Global */,
@@ -1557,6 +1577,7 @@
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				B96B7F4026135BAD00B1CBF5 /* ColorLabelViewModel.swift in Sources */,
+				B952F592261736AA0063E7B4 /* HomeStateManager.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
 				B96B7F312613352D00B1CBF5 /* ColorLabel.swift in Sources */,
@@ -1600,6 +1621,7 @@
 				B936263625DA818D0063AAD6 /* ChatEventHandler.swift in Sources */,
 				B9BCABFB25CD58C000155F37 /* ActionsManager.swift in Sources */,
 				B94D46F1257253BA00A21355 /* PostModel.swift in Sources */,
+				B952F5C226174B6B0063E7B4 /* Card.swift in Sources */,
 				14251378259F89F800DC08BB /* NotificationsVC.swift in Sources */,
 				B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */,
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
@@ -1639,6 +1661,7 @@
 				B9781DD025DE70FA00A2FE2D /* UserModel.swift in Sources */,
 				B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */,
 				B92161EA25E2C8F2001BE793 /* RelationshipFirestoreManager.swift in Sources */,
+				B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */,
 				B931478425FA209700C054DF /* RankingsViewController.swift in Sources */,
 				1425137C259F8C0100DC08BB /* _NotificationViewModel.swift in Sources */,
 				B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */,
@@ -1663,6 +1686,7 @@
 				B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */,
 				B9B302AA2614AE1000D14FC0 /* EditNicknameTextField.swift in Sources */,
 				B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */,
+				B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */,
 				B926868526149C7800A306F6 /* ProfileViewModel.swift in Sources */,
 				B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */,
 				B96B7F212613311200B1CBF5 /* Label.swift in Sources */,
