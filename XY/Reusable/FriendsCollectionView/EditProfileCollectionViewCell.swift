@@ -39,7 +39,7 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let imageViewSize: CGFloat = 50
+        let imageViewSize: CGFloat = width
         imageView.layer.cornerRadius = imageViewSize/2
         imageView.frame = CGRect(x: 0, y: 0, width: imageViewSize, height: imageViewSize)
         

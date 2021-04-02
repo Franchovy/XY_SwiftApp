@@ -33,7 +33,7 @@ class HomeViewController: UIViewController {
         NavigationControlManager.mainViewController = self
         
         view.backgroundColor = UIColor(named: "XYBackground")
-//        challengesCollectionView.dataSource = challengesDataSource
+        challengesCollectionView.dataSource = challengesDataSource
         friendsCollectionView.dataSource = friendsDataSource
         
         if friendsCollectionView.numberOfItems(inSection: 0) == 1 {
@@ -109,7 +109,7 @@ class HomeViewController: UIViewController {
             x: 10,
             y: friendsLabel.bottom + 10,
             width: view.width - 20,
-            height: 66
+            height: 86
         )
         
         challengesLabel.sizeToFit()
