@@ -32,6 +32,8 @@ class Prompt: UIView {
     var fields = [UIView]()
     var externalButtons = [UIButton]()
     
+    var onCompletion: (([String]) -> Void)?
+    
     // MARK: - PROPERTIES
     
     var tapEscapable: Bool = false
@@ -189,6 +191,9 @@ class Prompt: UIView {
             onTap?()
             
             if closeOnTap {
+                if self.onCompletion != nil {
+                    self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+                }
                 self.disappear()
             }
         }

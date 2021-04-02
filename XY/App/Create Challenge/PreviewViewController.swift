@@ -43,4 +43,8 @@ class PreviewViewController: UIViewController {
         
         videoView.frame = view.bounds
     }
+    
+    @objc private func didTapNext() {
+        
+    }
 }

@@ -100,6 +100,15 @@ class CreateChallengeViewController: UIViewController {
             target: nil
         )
         prompt.addExternalButton()
+        prompt.onCompletion = { inputTexts in
+            if let challengeTitle = inputTexts.first, let challengeDescription = inputTexts.last {
+                print("Challenge title: \(challengeTitle)")
+                print("Description title: \(challengeDescription)")
+                
+                CreateChallengeManager.shared.title = challengeTitle
+                CreateChallengeManager.shared.description = challengeDescription
+            }
+        }
         
         view.addSubview(prompt)
         
