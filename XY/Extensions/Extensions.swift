@@ -127,6 +127,29 @@ extension UIImage {
     }
 }
 
+extension UILabel {
+    func setFrameWithAutomaticHeight(x: CGFloat, y: CGFloat, width: CGFloat) {
+        guard let text = text else {
+            frame = .zero
+            return
+        }
+        
+        let boundingRect = text.boundingRect(
+            with: CGSize(width: width, height: .greatestFiniteMagnitude),
+            options: .usesLineFragmentOrigin,
+            attributes: [.font: font],
+            context: nil
+        )
+        
+        frame = CGRect(
+            x: x,
+            y: y,
+            width: width,
+            height: boundingRect.height
+        )
+    }
+}
+
 extension UIViewController {
     func displayTempLabel(centerPoint: CGPoint, labelText: String, labelColor: UIColor) {
         let label = UILabel()

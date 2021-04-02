@@ -9,7 +9,7 @@ import UIKit
 
 class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
-    let fakeData = [
+    let fakeData:[UIImage] = [
         UIImage(named: "friend4")!,
         UIImage(named: "friend1")!,
         UIImage(named: "friend3")!,
