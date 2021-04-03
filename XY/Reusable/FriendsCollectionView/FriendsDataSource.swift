@@ -9,13 +9,7 @@ import UIKit
 
 class FriendsDataSource: NSObject, UICollectionViewDataSource {
 
-    let fakeData:[UIImage] = [
-        UIImage(named: "friend4")!,
-        UIImage(named: "friend1")!,
-        UIImage(named: "friend3")!,
-        UIImage(named: "friend2")!,
-        UIImage(named: "friend5")!
-    ]
+    let fakeData = FriendBubbleViewModel.generateFakeData()
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return fakeData.count + 1

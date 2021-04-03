@@ -38,7 +38,12 @@ class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
             
             NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
         } else {
-            NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
+            let cell = collectionView.cellForItem(at: indexPath) as! FriendCollectionViewCell
+            guard let viewModel = cell.viewModel else {
+                return
+            }
+            
+            NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel(basedOn: (viewModel.nickname, viewModel.image)))
         }
     }
 }

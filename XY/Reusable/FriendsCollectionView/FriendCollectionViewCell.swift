@@ -12,6 +12,8 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     private let friendBubble = FriendBubble()
     
+    var viewModel: FriendBubbleViewModel?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -28,11 +30,16 @@ class FriendCollectionViewCell: UICollectionViewCell {
         friendBubble.frame = bounds
     }
     
-    public func configure(with image: UIImage) {
-        friendBubble.setImage(image)
+    public func configure(with viewModel: FriendBubbleViewModel) {
+        self.viewModel = viewModel
+        
+        friendBubble.setImage(viewModel.image)
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        
+        viewModel = nil
+        friendBubble.imageView.image = nil
     }
 }

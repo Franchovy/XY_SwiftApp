@@ -140,6 +140,7 @@
 		B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2C925DD96E2006A0476 /* TypeView.swift */; };
 		B97352E42618675A00183201 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352E32618675A00183201 /* Button.swift */; };
 		B97352E826186D7200183201 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352E726186D7200183201 /* CameraViewController.swift */; };
+		B97352EE2618729900183201 /* FriendBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352ED2618729900183201 /* FriendBubbleViewModel.swift */; };
 		B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */; };
 		B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */; };
 		B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */; };
@@ -405,6 +406,7 @@
 		B972A2C925DD96E2006A0476 /* TypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeView.swift; sourceTree = "<group>"; };
 		B97352E32618675A00183201 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		B97352E726186D7200183201 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		B97352ED2618729900183201 /* FriendBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubbleViewModel.swift; sourceTree = "<group>"; };
 		B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
 		B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLivePostsViewController.swift; sourceTree = "<group>"; };
 		B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewController.swift; sourceTree = "<group>"; };
@@ -946,6 +948,7 @@
 				B96B7F1C2613307300B1CBF5 /* FriendsCollectionView.swift */,
 				B92686442613925800A306F6 /* FriendsDataSource.swift */,
 				B9268648261392A100A306F6 /* FriendCollectionViewCell.swift */,
+				B97352ED2618729900183201 /* FriendBubbleViewModel.swift */,
 			);
 			path = FriendsCollectionView;
 			sourceTree = "<group>";
@@ -1565,6 +1568,7 @@
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B93D7BF525F41A7E005CE74D /* WatchViewController.swift in Sources */,
+				B97352EE2618729900183201 /* FriendBubbleViewModel.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */,

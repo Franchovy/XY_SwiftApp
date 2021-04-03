@@ -37,10 +37,17 @@ class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate {
             return
         }
         
-        let vc = ProfileViewController()
-        vc.configure(with: ProfileViewModel.randomProfileViewModel())
-        
-        NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+        switch viewModel.type {
+        case .challengeAction(let previewImage):
+            break
+        case .challengeStatus(let image, let status):
+            break
+        case .friendStatus(let friendshipStatus):
+            let vc = ProfileViewController()
+            vc.configure(with: ProfileViewModel.randomProfileViewModel(basedOn: (viewModel.nickname, viewModel.profileImage)))
+            
+            NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
 }

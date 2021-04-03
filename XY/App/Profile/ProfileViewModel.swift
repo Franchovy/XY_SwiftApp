@@ -16,14 +16,14 @@ struct ProfileViewModel {
 }
 
 extension ProfileViewModel {
-    static func randomProfileViewModel() -> ProfileViewModel {
+    static func randomProfileViewModel(basedOn profileData: (String, UIImage)? = nil) -> ProfileViewModel {
         let rand = Int.random(in: 0...4)
         
         return ProfileViewModel(
-            profileImage: UIImage(named: [
+            profileImage: profileData?.1 ?? UIImage(named: [
                 "friend1", "friend2", "friend3", "friend4", "friend5"
             ][rand])!,
-            nickname: ["Girl 1", "Girl 2", "Girl 3", "Lorenzo", "Fil"][rand],
+            nickname: profileData?.0 ?? ["Girl 1", "Girl 2", "Girl 3", "Lorenzo", "Fil"][rand],
             numChallenges: Int.random(in: 0...1200),
             numFriends: Int.random(in: 0...1000),
             friendStatus: [
