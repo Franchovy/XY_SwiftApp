@@ -52,4 +52,13 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate {
             height: view.height - (searchBar.bottom + 10)
         )
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if let searchText = searchBar.text {
+            dataSource.setSearchString(searchText)
+        } else {
+            dataSource.setSearchString("")
+        }
+        collectionView.reloadData()
+    }
 }
