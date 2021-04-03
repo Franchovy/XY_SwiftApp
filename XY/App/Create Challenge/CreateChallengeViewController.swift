@@ -6,32 +6,16 @@
 //
 
 import UIKit
-import CameraManager
 
 class CreateChallengeViewController: UIViewController {
     
-    enum CameraState {
-        case prepareToRecord
-        case recording
-        case finishedRecording
-    }
-    private var state:CameraState = .prepareToRecord
-    
     var videoURL: URL?
     
-    private let cameraManager = CameraManager()
+    private let cameraViewController = CameraViewController()
     private let recordButton = RecordButton()
     
     init() {
         super.init(nibName: nil, bundle: nil)
-        
-        cameraManager.cameraOutputMode = .videoWithMic
-        cameraManager.cameraOutputQuality = .high
-        
-        cameraManager.shouldEnableExposure = false
-        cameraManager.exposureMode = .continuousAutoExposure
-        
-        cameraManager.writeFilesToPhoneLibrary = false
     }
     
     required init?(coder: NSCoder) {
@@ -41,9 +25,13 @@ class CreateChallengeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        cameraManager.addPreviewLayerToView(view)
-        
         presentingViewController?.navigationItem.backButtonTitle = " "
+        
+        view.addSubview(cameraViewController.view)
+        addChild(cameraViewController)
+        
+        view.addSubview(recordButton)
+        recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,9 +45,6 @@ class CreateChallengeViewController: UIViewController {
         super.viewDidAppear(animated)
         
         displayNewChallengePrompt()
-        
-        view.addSubview(recordButton)
-        recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -70,6 +55,8 @@ class CreateChallengeViewController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        cameraViewController.view.frame = view.bounds
         
         let recordButtonSize: CGFloat = 64
         recordButton.frame = CGRect(
@@ -115,14 +102,6 @@ class CreateChallengeViewController: UIViewController {
         prompt.appear()
     }
     
-    private func startRecording() {
-        
-    }
-    
-    private func endRecording() {
-        
-    }
-    
     private func displayPreview() {
         guard let videoURL = videoURL else {
             return
@@ -135,25 +114,16 @@ class CreateChallengeViewController: UIViewController {
     // MARK: - OBJ-C FUNCTIONS
     
     @objc private func recordButtonPressed() {
-        if state == .prepareToRecord {
+        if cameraViewController.state == .prepareToRecord {
+            cameraViewController.startRecording()
             recordButton.setState(.recording)
-            cameraManager.startRecordingVideo()
-            state = .recording
         } else {
-            state = .finishedRecording
             recordButton.setState(.notRecording)
-            cameraManager.stopVideoRecording { (videoURL, error) in
-                if let error = error {
-                    self.displayTempLabel(
-                        centerPoint: self.view.center,
-                        labelText: error.localizedDescription,
-                        labelColor: UIColor(named: "XYWhite")!
-                    )
-                } else if let videoURL = videoURL {
-                    self.videoURL = videoURL
-                    DispatchQueue.main.async {
-                        self.displayPreview()
-                    }
+            cameraViewController.stopRecording() { outputUrl in
+                self.videoURL = outputUrl
+                
+                DispatchQueue.main.async {
+                    self.displayPreview()
                 }
             }
         }

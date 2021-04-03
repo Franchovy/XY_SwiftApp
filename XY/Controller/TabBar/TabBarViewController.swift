@@ -16,7 +16,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     
     var playVC: WatchViewController!
     var challengesVC: ExploreVC!
-    var cameraVC: CameraViewController!
+    var cameraVC: _CameraViewController!
     var hubVC: XYworldVC!
     var profileVC: ProfileViewController2!
     
@@ -43,7 +43,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         
         playVC = WatchViewController()
         challengesVC = ExploreVC()
-        cameraVC = CameraViewController()
+        cameraVC = _CameraViewController()
         hubVC = XYworldVC()
         profileVC = ProfileViewController2(userId: userId)
         

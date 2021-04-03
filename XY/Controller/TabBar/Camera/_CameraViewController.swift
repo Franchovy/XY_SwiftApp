@@ -18,7 +18,7 @@ protocol StartChallengeDelegate {
     func pressedPlay(challenge: ChallengeViewModel)
 }
 
-class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
+class _CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDelegate {
     
     var delegate: CameraViewControllerDelegate?
     
@@ -251,7 +251,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
             x: 0,
             y: collectionViewY,
             width: view.width,
-            height: CameraViewController.challengeCardSize.height
+            height: _CameraViewController.challengeCardSize.height
         )
         
         switchCameraButton.frame = CGRect(
@@ -744,7 +744,7 @@ class CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDele
     }
 }
 
-extension CameraViewController : UICollectionViewDataSource {
+extension _CameraViewController : UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModels.count
     }
@@ -763,7 +763,7 @@ extension CameraViewController : UICollectionViewDataSource {
     }
 }
 
-extension CameraViewController : StartChallengeDelegate {
+extension _CameraViewController : StartChallengeDelegate {
     func pressedPlay(challenge: ChallengeViewModel) {
         setUpForChallenge(challenge: challenge, playDirectly: true)
     }
