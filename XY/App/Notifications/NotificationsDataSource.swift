@@ -9,6 +9,8 @@ import UIKit
 
 final class NotificationsDataSource: NSObject, UICollectionViewDataSource {
     
+    weak var delegate: NotificationCollectionViewCellDelegate?
+    
     let fakeData: [NotificationViewModel] = {
         let size = Int.random(in: 0...40)
         var notifications = [NotificationViewModel]()
@@ -59,6 +61,9 @@ final class NotificationsDataSource: NSObject, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NotificationsCollectionViewCell.identifier, for: indexPath) as! NotificationsCollectionViewCell
         
         cell.configure(with: fakeData[indexPath.row])
+        
+        assert(delegate != nil, "NotificationsDataSource delegate has not been set!")
+        cell.delegate = delegate
         
         return cell
     }

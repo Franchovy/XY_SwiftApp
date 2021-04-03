@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate {
+class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate, NotificationCollectionViewCellDelegate {
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -37,16 +37,22 @@ class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate {
             return
         }
         
+        let vc = ProfileViewController()
+        vc.configure(with: ProfileViewModel.randomProfileViewModel(basedOn: (viewModel.nickname, viewModel.profileImage)))
+        
+        NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func notificationCellTappedPreview(with viewModel: NotificationViewModel) {
         switch viewModel.type {
-        case .challengeAction(let previewImage):
-            break
-        case .challengeStatus(let image, let status):
-            break
-        case .friendStatus(let friendshipStatus):
-            let vc = ProfileViewController()
-            vc.configure(with: ProfileViewModel.randomProfileViewModel(basedOn: (viewModel.nickname, viewModel.profileImage)))
+        case .challengeAction(let image):
+            let vc = CreateChallengeViewController()
             
             NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+        case .challengeStatus(let image, let status):
+            break
+        default:
+            break
         }
     }
     

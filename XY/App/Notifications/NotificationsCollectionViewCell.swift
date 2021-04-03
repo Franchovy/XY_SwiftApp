@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol NotificationCollectionViewCellDelegate: AnyObject {
+    func notificationCellTappedPreview(with viewModel: NotificationViewModel)
+}
+
 class NotificationsCollectionViewCell: UICollectionViewCell {
     static let identifier = "NotificationsCollectionViewCell"
     
@@ -19,6 +23,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
     private var previewImage: ChallengeNotificationImage?
     
     var viewModel: NotificationViewModel?
+    weak var delegate: NotificationCollectionViewCellDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -112,16 +117,29 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
             previewImage = ChallengeNotificationImage()
             previewImage?.setImage(image)
             contentView.addSubview(previewImage!)
+            
+            previewImage?.isUserInteractionEnabled = true
+            previewImage?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
         case .challengeStatus(let image, let status):
             previewImage = ChallengeNotificationImage()
             previewImage?.setImage(image)
             previewImage?.setIcon(status ? .check : .xmark)
             contentView.addSubview(previewImage!)
+            
+            previewImage?.isUserInteractionEnabled = true
+            previewImage?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
         case .friendStatus(let status):
             followButton = AddFriendButton()
             followButton?.configure(for: status)
             contentView.addSubview(followButton!)
         }
         
+    }
+    
+    @objc private func didTapImageView() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        delegate?.notificationCellTappedPreview(with: viewModel)
     }
 }

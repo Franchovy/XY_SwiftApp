@@ -31,6 +31,7 @@ class NotificationsViewController: UIViewController {
         
         view.addSubview(collectionView)
         collectionView.dataSource = dataSource
+        dataSource.delegate = collectionView
         
         if collectionView.numberOfItems(inSection: 0) == 0 {
             configureEmpty()
