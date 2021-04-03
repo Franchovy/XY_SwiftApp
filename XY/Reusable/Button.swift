@@ -12,6 +12,8 @@ class Button: UIButton {
     enum Style {
         case circular(backgroundColor: UIColor)
         case card
+        case roundButton(backgroundColor: UIColor)
+        case roundButtonBorder(gradient: [UIColor])
     }
     let style: Style
     
@@ -21,6 +23,8 @@ class Button: UIButton {
     let titlePosition: TitlePosition?
     let padding: UIEdgeInsets
     
+    var gradientLayer = CAGradientLayer()
+    var shapeLayer = CAShapeLayer()
     var backgroundLayer = CALayer()
     
     init(
@@ -50,6 +54,18 @@ class Button: UIButton {
             backgroundLayer.backgroundColor = backgroundColor.cgColor
         case .card:
             backgroundLayer.backgroundColor = UIColor(named: "XYCard")!.cgColor
+        case .roundButton(let backgroundColor):
+            backgroundLayer.backgroundColor = backgroundColor.cgColor
+        case .roundButtonBorder(let gradientColors):
+            gradientLayer = CAGradientLayer()
+            gradientLayer.colors = gradientColors.map({ $0.cgColor })
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.2)
+            gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.2)
+            gradientLayer.mask = shapeLayer
+            
+            shapeLayer.fillColor = UIColor.clear.cgColor
+            shapeLayer.borderWidth = 2
+            shapeLayer.borderColor = UIColor.black.cgColor
         }
         
         backgroundLayer.masksToBounds = true
@@ -70,12 +86,20 @@ class Button: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         
+        shapeLayer.frame = bounds
+        shapeLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
+        gradientLayer.frame = bounds
+        
         backgroundLayer.frame = bounds
         
         switch style {
         case .card:
             backgroundLayer.cornerRadius = 15
         case .circular(backgroundColor: _):
+            backgroundLayer.cornerRadius = height/2
+        case .roundButton(backgroundColor: _):
+            backgroundLayer.cornerRadius = height/2
+        case .roundButtonBorder(gradient: _):
             backgroundLayer.cornerRadius = height/2
         }
         

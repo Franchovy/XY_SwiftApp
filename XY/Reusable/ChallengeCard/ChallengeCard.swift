@@ -12,14 +12,22 @@ class ChallengeCard: UIView {
     let challengeTitleGradientLabel: GradientLabel
     let previewImage = UIImageView()
     let descriptionLabel = Label(style: .body, fontSize: 15)
+    let viewModel: ChallengeCardViewModel
 
     init(with viewModel: ChallengeCardViewModel) {
+        self.viewModel = viewModel
         challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 18, gradientColours: Global.xyGradient)
         
         super.init(frame: .zero)
         
+        backgroundColor = .black
+        
         previewImage.image = viewModel.image
+        previewImage.alpha = 0.6
+        
         descriptionLabel.text = viewModel.description
+        descriptionLabel.textColor = UIColor(named: "XYWhite")
+        descriptionLabel.textAlignment = .center
         
         previewImage.contentMode = .scaleAspectFill
         

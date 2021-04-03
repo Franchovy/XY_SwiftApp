@@ -14,6 +14,7 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
     
     init(with viewModel: ChallengeCardViewModel) {
         challengeCard = ChallengeCard(with: viewModel)
+        
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(named: "XYBackground")
@@ -43,7 +44,7 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         super.viewDidLayoutSubviews()
         
         challengeCard.frame = CGRect(
-            x: (view.width - challengeCard.width)/2,
+            x: (view.width - 181)/2,
             y: 15,
             width: 181,
             height: 284
@@ -66,7 +67,12 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
     }
     
     @objc private func sendButtonPressed() {
-        let vc = ConfirmSendChallengeViewController()
+        let friendsDataSource = FriendsDataSource(fromList: sendToFriendsViewController.selectedFriendsToSend)
+        
+        isHeroEnabled = true
+        challengeCard.heroID = "challengeCard"
+        
+        let vc = ConfirmSendChallengeViewController(challengeCardViewModel: challengeCard.viewModel, friendsList: friendsDataSource)
         
         navigationController?.pushViewController(vc, animated: true)
     }
