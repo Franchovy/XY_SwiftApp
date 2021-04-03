@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SendChallengeViewController: UIViewController {
+class SendChallengeViewController: UIViewController, SendToFriendsViewControllerDelegate {
 
     private var challengeCard: ChallengeCard
     private let sendToFriendsViewController = SendToFriendsViewController()
@@ -17,6 +17,8 @@ class SendChallengeViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(named: "XYBackground")
+        
+        sendToFriendsViewController.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -30,6 +32,9 @@ class SendChallengeViewController: UIViewController {
         view.addSubview(sendToFriendsViewController.view)
         
         view.addSubview(challengeCard)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendButtonPressed))
+        navigationItem.rightBarButtonItem?.isEnabled = false
         
         navigationItem.title = "Send Challenge"
     }
@@ -50,5 +55,19 @@ class SendChallengeViewController: UIViewController {
             width: view.width,
             height: view.height - 300
         )
+    }
+    
+    func sendToFriendDelegate(_ sendToList: [SendCollectionViewCellViewModel]) {
+        if sendToList.count == 0 {
+            navigationItem.rightBarButtonItem?.isEnabled = false
+        } else {
+            navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+    }
+    
+    @objc private func sendButtonPressed() {
+        let vc = ConfirmSendChallengeViewController()
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

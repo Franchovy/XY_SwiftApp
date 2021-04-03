@@ -11,7 +11,7 @@ class ChallengeCard: UIView {
     
     let challengeTitleGradientLabel: GradientLabel
     let previewImage = UIImageView()
-    let descriptionLabel = Label(style: .body)
+    let descriptionLabel = Label(style: .body, fontSize: 15)
 
     init(with viewModel: ChallengeCardViewModel) {
         challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 18, gradientColours: Global.xyGradient)
@@ -50,16 +50,16 @@ class ChallengeCard: UIView {
         
         if let text = descriptionLabel.text {
             let boundingRect = text.boundingRect(
-                with: CGSize(width: width, height: .greatestFiniteMagnitude),
+                with: CGSize(width: width - 24, height: .greatestFiniteMagnitude),
                 options: .usesLineFragmentOrigin,
                 attributes: [.font: descriptionLabel.font],
                 context: nil
             )
             
             descriptionLabel.frame = CGRect(
-                x: 10,
+                x: 12,
                 y: (height - boundingRect.height)/2,
-                width: width,
+                width: width - 24,
                 height: boundingRect.height
             )
         }

@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol SendToFriendCellDelegate: AnyObject {
+    func sendToFriendCell(selectedCellWith viewModel: SendCollectionViewCellViewModel)
+    func sendToFriendCell(deselectedCellWith viewModel: SendCollectionViewCellViewModel)
+}
+
 class SendCollectionViewCell: UICollectionViewCell {
     static let identifier = "SendCollectionViewCell"
     
@@ -14,12 +19,17 @@ class SendCollectionViewCell: UICollectionViewCell {
     private let nicknameLabel = Label(style: .nickname)
     private let sendButton = SendButton()
     
+    var viewModel: SendCollectionViewCellViewModel?
+    weak var delegate: SendToFriendCellDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         contentView.addSubview(friendBubble)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(sendButton)
+        
+        sendButton.addTarget(self, action: #selector(tappedSendButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -61,7 +71,21 @@ class SendCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: SendCollectionViewCellViewModel) {
+        self.viewModel = viewModel
+        
         friendBubble.setImage(viewModel.profileImage)
         nicknameLabel.text = viewModel.nickname
+    }
+    
+    @objc private func tappedSendButton() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        if sendButton.isPressed {
+            delegate?.sendToFriendCell(deselectedCellWith: viewModel)
+        } else {
+            delegate?.sendToFriendCell(selectedCellWith: viewModel)
+        }
     }
 }

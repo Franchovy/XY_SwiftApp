@@ -25,6 +25,8 @@ final class SendCollectionViewDataSource : NSObject, UICollectionViewDataSource 
     
     var filteredData = [SendCollectionViewCellViewModel]()
     
+    weak var delegate: SendToFriendCellDelegate?
+    
     private func filterDataBySearch() {
         guard let searchString = searchString else {
             filteredData = fakeData
@@ -47,6 +49,7 @@ final class SendCollectionViewDataSource : NSObject, UICollectionViewDataSource 
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SendCollectionViewCell.identifier, for: indexPath) as! SendCollectionViewCell
         
         cell.configure(with: filteredData[indexPath.row])
+        cell.delegate = delegate
         
         return cell
     }

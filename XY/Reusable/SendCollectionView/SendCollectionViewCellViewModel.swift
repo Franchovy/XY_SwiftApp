@@ -7,8 +7,12 @@
 
 import UIKit
 
-struct SendCollectionViewCellViewModel {
+struct SendCollectionViewCellViewModel: Comparable {
     var profileImage: UIImage
     var nickname: String
     var buttonStatus: AddFriendButton.Mode
+    
+    static func < (lhs: SendCollectionViewCellViewModel, rhs: SendCollectionViewCellViewModel) -> Bool {
+        return lhs.nickname < rhs.nickname
+    }
 }

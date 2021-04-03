@@ -7,15 +7,23 @@
 
 import UIKit
 
-class SendToFriendsViewController: UIViewController, UISearchBarDelegate {
+protocol SendToFriendsViewControllerDelegate: AnyObject {
+    func sendToFriendDelegate(_ sendToList: [SendCollectionViewCellViewModel])
+}
+
+class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendToFriendCellDelegate {
 
     private let searchBar = SearchBar()
     private let collectionView = SendCollectionView()
     private let dataSource = SendCollectionViewDataSource()
     
+    var selectedFriendsToSend = [SendCollectionViewCellViewModel]()
+    weak var delegate: SendToFriendsViewControllerDelegate?
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        dataSource.delegate = self
         collectionView.dataSource = dataSource
         searchBar.delegate = self
         
@@ -60,5 +68,17 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate {
             dataSource.setSearchString("")
         }
         collectionView.reloadData()
+    }
+    
+    func sendToFriendCell(selectedCellWith viewModel: SendCollectionViewCellViewModel) {
+        selectedFriendsToSend.append(viewModel)
+        
+        delegate?.sendToFriendDelegate(selectedFriendsToSend)
+    }
+    
+    func sendToFriendCell(deselectedCellWith viewModel: SendCollectionViewCellViewModel) {
+        selectedFriendsToSend.removeAll(where: {$0 == viewModel})
+        
+        delegate?.sendToFriendDelegate(selectedFriendsToSend)
     }
 }

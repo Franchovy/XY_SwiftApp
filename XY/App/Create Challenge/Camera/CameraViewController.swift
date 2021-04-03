@@ -30,6 +30,7 @@ class CameraViewController: UIViewController {
         cameraManager.exposureMode = .continuousAutoExposure
         
         cameraManager.writeFilesToPhoneLibrary = false
+        cameraManager.shouldRespondToOrientationChanges = false
 
     }
     
