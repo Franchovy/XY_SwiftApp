@@ -17,7 +17,6 @@ class PreviewViewController: UIViewController {
         image: UIImage(systemName: "paperplane.fill")!,
         style: .circular(backgroundColor: UIColor(0x007BF5))
     )
-    
 
     init(previewVideoURL: URL) {
         self.previewVideoURL = previewVideoURL
@@ -38,6 +37,9 @@ class PreviewViewController: UIViewController {
         
         videoView.setUpVideo(videoURL: previewVideoURL, withRate: 1.0, audioEnable: true)
         
+        videoView.isUserInteractionEnabled = true
+        videoView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapVideo)))
+        
         sendButton.alpha = 0.0
         view.addSubview(sendButton)
         sendButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
@@ -53,6 +55,12 @@ class PreviewViewController: UIViewController {
         super.viewDidAppear(animated)
         
         appearSendButton()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        videoView.player?.pause()
     }
     
     override func viewDidLayoutSubviews() {
@@ -74,6 +82,16 @@ class PreviewViewController: UIViewController {
         UIView.animate(withDuration: 0.4, delay: 1.0, options: .curveEaseIn) {
             self.sendButton.transform = .identity
             self.sendButton.alpha = 1.0
+        }
+    }
+    
+    @objc private func didTapVideo() {
+        guard let player = videoView.player else { return }
+        
+        if player.timeControlStatus == .playing {
+            player.pause()
+        } else {
+            player.play()
         }
     }
     
