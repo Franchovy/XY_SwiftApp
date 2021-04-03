@@ -14,7 +14,7 @@ class Button: UIButton {
     }
     var style: Style
     
-    var shadowLayer = CALayer()
+    var backgroundLayer = CALayer()
     
     init(image: UIImage? = nil, title: String? = nil, backgroundColor: UIColor? = nil, style: Style) {
         self.style = style
@@ -22,18 +22,23 @@ class Button: UIButton {
         super.init(frame: .zero)
         
         setImage(image, for: .normal)
+        tintColor = UIColor(named: "XYWhite")
+        
         setTitle(title, for: .normal)
+        
         if let backgroundColor = backgroundColor {
-            setBackgroundColor(color: backgroundColor, forState: .normal)
+            backgroundLayer.backgroundColor = backgroundColor.cgColor
         }
         
-        layer.sublayers?.forEach({ $0.masksToBounds = true })
-        layer.insertSublayer(shadowLayer, at: 0)
+        backgroundLayer.masksToBounds = true
+    
+        layer.insertSublayer(backgroundLayer, below: imageView?.layer)
         
-        shadowLayer.shadowColor = UIColor.black.cgColor
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        shadowLayer.shadowRadius = 6
-        shadowLayer.shadowOpacity = 0.7
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.shadowRadius = 6
+        layer.shadowOpacity = 0.7
     }
     
     required init?(coder: NSCoder) {
@@ -43,11 +48,10 @@ class Button: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        shadowLayer.shadowPath = UIBezierPath(ovalIn: bounds).cgPath
+        backgroundLayer.frame = bounds
         
         if style == .circular {
-            layer.cornerRadius = height/2
+            backgroundLayer.cornerRadius = height/2
         }
     }
-
 }
