@@ -10,24 +10,46 @@ import UIKit
 class Button: UIButton {
 
     enum Style {
-        case circular
+        case circular(backgroundColor: UIColor)
+        case card
     }
-    var style: Style
+    let style: Style
+    
+    enum TitlePosition {
+        case belowImage
+    }
+    let titlePosition: TitlePosition?
+    let padding: UIEdgeInsets
     
     var backgroundLayer = CALayer()
     
-    init(image: UIImage? = nil, title: String? = nil, backgroundColor: UIColor? = nil, style: Style) {
+    init(
+        image: UIImage? = nil,
+        title: String? = nil,
+        style: Style,
+        titlePosition: TitlePosition? = nil,
+        paddingVertical: CGFloat = 15,
+        paddingHorizontal: CGFloat = 15,
+        imageSizeIncrease: CGFloat = 0
+    ) {
         self.style = style
+        self.titlePosition = titlePosition
+        self.padding = UIEdgeInsets(top: paddingVertical, left: paddingHorizontal, bottom: paddingVertical, right: paddingHorizontal)
         
         super.init(frame: .zero)
         
+        imageView?.contentMode = .scaleAspectFill
+
         setImage(image, for: .normal)
         tintColor = UIColor(named: "XYWhite")
         
         setTitle(title, for: .normal)
         
-        if let backgroundColor = backgroundColor {
+        switch style {
+        case .circular(let backgroundColor):
             backgroundLayer.backgroundColor = backgroundColor.cgColor
+        case .card:
+            backgroundLayer.backgroundColor = UIColor(named: "XYCard")!.cgColor
         }
         
         backgroundLayer.masksToBounds = true
@@ -50,8 +72,52 @@ class Button: UIButton {
         
         backgroundLayer.frame = bounds
         
-        if style == .circular {
+        switch style {
+        case .card:
+            backgroundLayer.cornerRadius = 15
+        case .circular(backgroundColor: _):
             backgroundLayer.cornerRadius = height/2
         }
+        
+        switch titlePosition {
+        case .belowImage:
+            guard
+                let imageViewSize = self.imageView?.frame.size,
+                let titleLabelSize = self.titleLabel?.frame.size else {
+                break
+            }
+            
+            let totalHeight = imageViewSize.height + titleLabelSize.height + padding.top
+            
+            self.imageEdgeInsets = UIEdgeInsets(
+                top: -(totalHeight - imageViewSize.height),
+                left: 0.0,
+                bottom: 0.0,
+                right: -titleLabelSize.width
+            )
+            
+            self.titleEdgeInsets = UIEdgeInsets(
+                top: 0.0,
+                left: -imageViewSize.width,
+                bottom: -(totalHeight - titleLabelSize.height),
+                right: 0.0
+            )
+            
+            self.contentEdgeInsets = UIEdgeInsets(
+                top: 0.0,
+                left: 0.0,
+                bottom: titleLabelSize.height,
+                right: 0.0
+            )
+        default:
+            break
+        }
+    }
+    
+    override func sizeToFit() {
+        super.sizeToFit()
+        
+        frame.size.width = intrinsicContentSize.width + padding.left + padding.right
+        frame.size.height = intrinsicContentSize.height + padding.top + padding.bottom
     }
 }

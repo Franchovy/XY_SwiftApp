@@ -102,6 +102,10 @@ class CreateChallengeViewController: UIViewController {
                 print("Challenge title: \(challengeTitle)")
                 print("Description title: \(challengeDescription)")
                 
+                if challengeTitle == "" || challengeDescription == "" {
+                    return
+                }
+                
                 CreateChallengeManager.shared.title = challengeTitle
                 CreateChallengeManager.shared.description = challengeDescription
             }

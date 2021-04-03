@@ -10,8 +10,12 @@ import UIKit
 class TextField: UITextField {
     
     let shadowLayer = CALayer()
+    let maxCharsLabel: UILabel?
 
-    init(placeholder: String? = nil, style: Style = .card) {
+    init(placeholder: String? = nil, style: Style = .card, maxChars: Int? = nil) {
+        maxCharsLabel = UILabel()
+        maxCharsLabel!.text = "0/\(maxChars)"
+        
         super.init(frame: .zero)
         
         if let placeholder = placeholder {

@@ -100,7 +100,7 @@
 		B952F5C226174B6B0063E7B4 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C126174B6B0063E7B4 /* Card.swift */; };
 		B952F5C7261762420063E7B4 /* RecordButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C6261762420063E7B4 /* RecordButton.swift */; };
 		B952F5CF26176D3F0063E7B4 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */; };
-		B952F5D3261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5D2261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift */; };
+		B952F5D3261778A20063E7B4 /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5D2261778A20063E7B4 /* DescriptionViewController.swift */; };
 		B952F5D7261778BB0063E7B4 /* CreateChallengeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5D6261778BB0063E7B4 /* CreateChallengeManager.swift */; };
 		B952F5DC26177C470063E7B4 /* SendChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5DB26177C470063E7B4 /* SendChallengeViewController.swift */; };
 		B952F5E026177DF80063E7B4 /* ConfirmSendChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5DF26177DF80063E7B4 /* ConfirmSendChallengeViewController.swift */; };
@@ -365,7 +365,7 @@
 		B952F5C126174B6B0063E7B4 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		B952F5C6261762420063E7B4 /* RecordButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordButton.swift; sourceTree = "<group>"; };
 		B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
-		B952F5D2261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeDescriptionViewController.swift; sourceTree = "<group>"; };
+		B952F5D2261778A20063E7B4 /* DescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = "<group>"; };
 		B952F5D6261778BB0063E7B4 /* CreateChallengeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeManager.swift; sourceTree = "<group>"; };
 		B952F5DB26177C470063E7B4 /* SendChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChallengeViewController.swift; sourceTree = "<group>"; };
 		B952F5DF26177DF80063E7B4 /* ConfirmSendChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSendChallengeViewController.swift; sourceTree = "<group>"; };
@@ -873,7 +873,7 @@
 				B952F5C52617622C0063E7B4 /* Camera */,
 				B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */,
 				B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */,
-				B952F5D2261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift */,
+				B952F5D2261778A20063E7B4 /* DescriptionViewController.swift */,
 				B952F5D6261778BB0063E7B4 /* CreateChallengeManager.swift */,
 			);
 			path = "Create Challenge";
@@ -1618,7 +1618,7 @@
 				B9ABAA9A25F78859009CB966 /* ChallengeVideoViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
-				B952F5D3261778A20063E7B4 /* CreateChallengeDescriptionViewController.swift in Sources */,
+				B952F5D3261778A20063E7B4 /* DescriptionViewController.swift in Sources */,
 				B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */,
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,

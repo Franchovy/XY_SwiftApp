@@ -12,6 +12,7 @@ class SendChallengeViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        view.backgroundColor = UIColor(named: "XYBackground")
     }
     
     required init?(coder: NSCoder) {

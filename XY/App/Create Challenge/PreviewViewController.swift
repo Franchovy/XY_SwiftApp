@@ -13,7 +13,7 @@ class PreviewViewController: UIViewController {
     let videoView = VideoPlayerView()
     let previewVideoURL: URL
     
-    private let sendButton = Button(image: UIImage(systemName: "paperplane")!, backgroundColor: UIColor(0x007BF5), style: .circular)
+    private let sendButton = Button(image: UIImage(systemName: "paperplane.fill")!, style: .circular(backgroundColor: UIColor(0x007BF5)))
 
     init(previewVideoURL: URL) {
         self.previewVideoURL = previewVideoURL
@@ -78,7 +78,7 @@ class PreviewViewController: UIViewController {
             
             navigationController?.pushViewController(vc, animated: true)
         } else {
-            let vc = CreateChallengeDescriptionViewController()
+            let vc = DescriptionViewController()
             
             navigationController?.pushViewController(vc, animated: true)
         }
