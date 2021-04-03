@@ -122,6 +122,18 @@ class Prompt: UIView {
             width: cardWidth,
             height: cardHeight
         )
+        
+        for button in externalButtons {
+            
+            button.sizeToFit()
+            button.frame = CGRect(
+                x: (width - button.width)/2,
+                y: (height - card.bottom)/2 - button.height/2,
+                width: button.width,
+                height: button.height
+            )
+            button.layer.cornerRadius = button.height/2
+        }
     }
     
     // MARK: - USAGE FUNCTIONS
@@ -177,7 +189,16 @@ class Prompt: UIView {
         fields.append(textField)
     }
     
-    public func addButton(buttonText: String, backgroundColor: UIColor = UIColor(named: "XYCard")!, textColor: UIColor = UIColor(named: "XYTint")!, icon: UIImage? = nil,  style: ButtonStyle, closeOnTap: Bool = false, onTap: (() -> Void)? = nil, target: Selector? = nil) {
+    public func addButton(
+        buttonText: String,
+        backgroundColor: UIColor = UIColor(named: "XYCard")!,
+        textColor: UIColor = UIColor(named: "XYTint")!,
+        icon: UIImage? = nil,
+        style: ButtonStyle,
+        closeOnTap: Bool = false,
+        onTap: (() -> Void)? = nil,
+        target: Selector? = nil
+    ) {
         let button = UIButton()
         button.setTitle(buttonText, for: .normal)
         
@@ -208,8 +229,34 @@ class Prompt: UIView {
 //        }
     }
     
-    public func addExternalButton() {
+    public func addExternalButton(
+        buttonText: String,
+        buttonIcon: UIImage? = nil,
+        backgroundColor: UIColor = UIColor(named: "XYCard")!,
+        textColor: UIColor = UIColor(named: "XYTint")!,
+        closeOnTap: Bool = true,
+        onTap: (() -> Void)? = nil,
+        target: Selector? = nil
+    ) {
+        let button = UIButton()
+        button.setTitle(buttonText, for: .normal)
         
+        button.setBackgroundColor(color: backgroundColor, forState: .normal)
+        button.setTitleColor(textColor, for: .normal)
+        
+        card.addSubview(button)
+        externalButtons.append(button)
+        
+        button.addAction {
+            onTap?()
+            
+            if closeOnTap {
+                if self.onCompletion != nil {
+                    self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+                }
+                self.disappear()
+            }
+        }
     }
     
     @objc private func tappedBlurView() {

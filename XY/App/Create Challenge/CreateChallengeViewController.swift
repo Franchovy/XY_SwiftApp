@@ -88,7 +88,15 @@ class CreateChallengeViewController: UIViewController {
             onTap: nil,
             target: nil
         )
-        prompt.addExternalButton()
+        prompt.addExternalButton(
+            buttonText: "Fast Record",
+            buttonIcon: UIImage(systemName: "video.fill")!,
+            backgroundColor: UIColor(0xF23333),
+            textColor: UIColor(named: "XYWhite")!,
+            closeOnTap: true,
+            onTap: nil,
+            target: nil
+        )
         prompt.onCompletion = { inputTexts in
             if let challengeTitle = inputTexts.first, let challengeDescription = inputTexts.last {
                 print("Challenge title: \(challengeTitle)")
