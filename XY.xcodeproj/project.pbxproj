@@ -122,7 +122,7 @@
 		B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F1826132FDB00B1CBF5 /* HomeViewController.swift */; };
 		B96B7F1D2613307300B1CBF5 /* FriendsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F1C2613307300B1CBF5 /* FriendsCollectionView.swift */; };
 		B96B7F212613311200B1CBF5 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F202613311200B1CBF5 /* Label.swift */; };
-		B96B7F25261331FF00B1CBF5 /* ChallengesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F24261331FF00B1CBF5 /* ChallengesCollectionView.swift */; };
+		B96B7F25261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */; };
 		B96B7F2B2613339200B1CBF5 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */; };
 		B96B7F312613352D00B1CBF5 /* ColorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F302613352D00B1CBF5 /* ColorLabel.swift */; };
 		B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F362613397000B1CBF5 /* FriendBubble.swift */; };
@@ -397,7 +397,7 @@
 		B96B7F1826132FDB00B1CBF5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		B96B7F1C2613307300B1CBF5 /* FriendsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCollectionView.swift; sourceTree = "<group>"; };
 		B96B7F202613311200B1CBF5 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
-		B96B7F24261331FF00B1CBF5 /* ChallengesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesCollectionView.swift; sourceTree = "<group>"; };
+		B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCardsCollectionView.swift; sourceTree = "<group>"; };
 		B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
 		B96B7F302613352D00B1CBF5 /* ColorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLabel.swift; sourceTree = "<group>"; };
 		B96B7F362613397000B1CBF5 /* FriendBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubble.swift; sourceTree = "<group>"; };
@@ -945,7 +945,7 @@
 				B97352F32618AEAA00183201 /* SendCollectionView */,
 				B926866A2614636400A306F6 /* AddFriendButton */,
 				B926865D2614618600A306F6 /* FriendsListCollectionView */,
-				B96B7F292613323600B1CBF5 /* ChallengesCollectionView */,
+				B96B7F292613323600B1CBF5 /* ChallengeCardsCollectionView */,
 				B96B7F282613322F00B1CBF5 /* FriendsCollectionView */,
 				B96B7F202613311200B1CBF5 /* Label.swift */,
 				B97352E32618675A00183201 /* Button.swift */,
@@ -974,15 +974,15 @@
 			path = FriendsCollectionView;
 			sourceTree = "<group>";
 		};
-		B96B7F292613323600B1CBF5 /* ChallengesCollectionView */ = {
+		B96B7F292613323600B1CBF5 /* ChallengeCardsCollectionView */ = {
 			isa = PBXGroup;
 			children = (
 				B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */,
-				B96B7F24261331FF00B1CBF5 /* ChallengesCollectionView.swift */,
+				B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */,
 				B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */,
 				B96B7F3A26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift */,
 			);
-			path = ChallengesCollectionView;
+			path = ChallengeCardsCollectionView;
 			sourceTree = "<group>";
 		};
 		B96B7F3E26135BA100B1CBF5 /* ColorLabel */ = {
@@ -1783,7 +1783,7 @@
 				B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */,
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,
 				B91C553426107400000C2AAD /* LabelStackView.swift in Sources */,
-				B96B7F25261331FF00B1CBF5 /* ChallengesCollectionView.swift in Sources */,
+				B96B7F25261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift in Sources */,
 				B901BA2F2618CF700088193E /* SendButton.swift in Sources */,
 				B9AD3B4C25CAAB1400BF74C3 /* OnlineStatusManager.swift in Sources */,
 				B9ABA1FA25E454580039280B /* XPManager.swift in Sources */,

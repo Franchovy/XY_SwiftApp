@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChallengesCollectionView: UICollectionView {
+class ChallengeCardsCollectionView: UICollectionView {
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -16,7 +16,7 @@ class ChallengesCollectionView: UICollectionView {
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
-        register(ChallengeCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCollectionViewCell.identifier)
+        register(ChallengeCardCollectionViewCell.self, forCellWithReuseIdentifier: ChallengeCardCollectionViewCell.identifier)
         
         backgroundColor = .clear
         layer.masksToBounds = false

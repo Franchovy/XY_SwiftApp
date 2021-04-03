@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
     private let friendsCollectionView = FriendsCollectionView()
     
     private let challengesLabel = Label("Your Challenges", style: .title)
-    private let challengesCollectionView = ChallengesCollectionView()
+    private let challengesCollectionView = ChallengeCardsCollectionView()
     
     private let challengesDataSource = ChallengesManager()
     private let friendsDataSource = FriendsDataSource()

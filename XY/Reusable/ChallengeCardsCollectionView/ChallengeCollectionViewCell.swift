@@ -7,13 +7,13 @@
 
 import UIKit
 
-class ChallengeCollectionViewCell: UICollectionViewCell {
+class ChallengeCardCollectionViewCell: UICollectionViewCell {
     
-    static let identifier = "ChallengeCollectionViewCell"
+    static let identifier = "ChallengeCardCollectionViewCell"
     
     private let colorLabel = ColorLabel()
     private var friendBubblesCollection = [FriendBubble]()
-    private let videoView = VideoPlayerView()
+    private let imageView = UIImageView()
     private let centerLabel = Label(style: .body)
     private let nameLabel = Label(style: .bodyBold)
     private let timeLeftLabel = Label(style: .bodyBold)
@@ -21,7 +21,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        addSubview(videoView)
+        addSubview(imageView)
         addSubview(colorLabel)
         
         addSubview(centerLabel)
@@ -41,8 +41,8 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
             label.layer.masksToBounds = false
         }
         
-        videoView.layer.cornerRadius = 5
-        videoView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 5
+        imageView.layer.masksToBounds = true
         
         layer.shadowOffset = CGSize(width: 0, height: 3)
         layer.shadowRadius = 6
@@ -58,7 +58,7 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        videoView.frame = bounds
+        imageView.frame = bounds
         
         colorLabel.sizeToFit()
         colorLabel.frame = CGRect(
@@ -127,7 +127,9 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
             
             layoutFriendBubbles()
         }
-        videoView.setUpVideo(videoURL: viewModel.videoURL)
+        
+        imageView.image = ThumbnailManager.shared.generateVideoThumbnail(url: viewModel.videoURL)!
+        
         if let playerName = viewModel.playerName {
             centerLabel.text = "Challenged by:"
             nameLabel.text = viewModel.playerName
@@ -145,10 +147,8 @@ class ChallengeCollectionViewCell: UICollectionViewCell {
         })
         friendBubblesCollection = []
         
-        videoView.teardown()
         centerLabel.text = nil
         nameLabel.text = nil
         timeLeftLabel.text = nil
-        
     }
 }

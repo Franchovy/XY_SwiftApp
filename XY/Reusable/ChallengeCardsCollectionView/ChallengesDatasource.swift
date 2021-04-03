@@ -52,7 +52,7 @@ final class ChallengesManager: NSObject, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeCollectionViewCell.identifier, for: indexPath) as! ChallengeCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeCardCollectionViewCell.identifier, for: indexPath) as! ChallengeCardCollectionViewCell
         
         cell.configure(with: fakeData[indexPath.row])
         
