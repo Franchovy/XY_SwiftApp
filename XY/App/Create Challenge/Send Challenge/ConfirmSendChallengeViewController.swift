@@ -38,8 +38,18 @@ class ConfirmSendChallengeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.configureBackgroundStyle(.visible)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        backHomeButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
+        takeAnotherButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 15)
+        takeAnotherButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
         
         view.addSubview(youChallengedLabel)
         view.addSubview(toLabel)
@@ -47,6 +57,9 @@ class ConfirmSendChallengeViewController: UIViewController {
         view.addSubview(card)
         view.addSubview(backHomeButton)
         view.addSubview(takeAnotherButton)
+        
+        backHomeButton.addTarget(self, action: #selector(tappedHomeButton), for: .touchUpInside)
+        takeAnotherButton.addTarget(self, action: #selector(tappedTakeAnotherButton), for: .touchUpInside)
         
         navigationItem.title = "Confirm Send"
     }
@@ -101,6 +114,18 @@ class ConfirmSendChallengeViewController: UIViewController {
             height: cardSize.height
         )
         
+    }
+    
+    @objc private func tappedHomeButton() {
+        if let vc = navigationController?.viewControllers.last(where: {$0 is HomeViewController}) {
+            navigationController?.popToViewController(vc, animated: true)
+        }
+    }
+    
+    @objc private func tappedTakeAnotherButton() {
+        if let vc = navigationController?.viewControllers.last(where: {$0 is CameraViewController}) {
+            navigationController?.popToViewController(vc, animated: true)
+        }
     }
 
 }

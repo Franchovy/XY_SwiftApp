@@ -16,7 +16,7 @@ final class NavigationControlManager {
         
         mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
-    
+        
     static func performLogout() {
         mainViewController.navigationController?.popToRootViewController(animated: true)
         

@@ -68,7 +68,6 @@ class CreateChallengeViewController: UIViewController {
             height: recordButtonSize
         )
     }
-
     
     // MARK: -
     

@@ -59,13 +59,15 @@ class Button: UIButton {
         case .roundButtonBorder(let gradientColors):
             gradientLayer = CAGradientLayer()
             gradientLayer.colors = gradientColors.map({ $0.cgColor })
-            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.2)
-            gradientLayer.endPoint = CGPoint(x: 0.0, y: 0.2)
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.8)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.2)
             gradientLayer.mask = shapeLayer
             
             shapeLayer.fillColor = UIColor.clear.cgColor
             shapeLayer.borderWidth = 2
             shapeLayer.borderColor = UIColor.black.cgColor
+            
+            layer.insertSublayer(gradientLayer, at: 0)
         }
         
         backgroundLayer.masksToBounds = true
@@ -86,21 +88,21 @@ class Button: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        shapeLayer.frame = bounds
-        shapeLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
-        gradientLayer.frame = bounds
-        
-        backgroundLayer.frame = bounds
-        
         switch style {
         case .card:
+            backgroundLayer.frame = bounds
             backgroundLayer.cornerRadius = 15
         case .circular(backgroundColor: _):
+            backgroundLayer.frame = bounds
             backgroundLayer.cornerRadius = height/2
         case .roundButton(backgroundColor: _):
+            backgroundLayer.frame = bounds
             backgroundLayer.cornerRadius = height/2
         case .roundButtonBorder(gradient: _):
-            backgroundLayer.cornerRadius = height/2
+            shapeLayer.frame = bounds
+            shapeLayer.cornerRadius = height/2
+            shapeLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
+            gradientLayer.frame = bounds
         }
         
         switch titlePosition {

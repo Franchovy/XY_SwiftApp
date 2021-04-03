@@ -31,7 +31,7 @@ class CameraViewController: UIViewController {
         
         cameraManager.writeFilesToPhoneLibrary = false
         cameraManager.shouldRespondToOrientationChanges = false
-
+        
     }
     
     required init?(coder: NSCoder) {
