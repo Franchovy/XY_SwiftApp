@@ -26,6 +26,12 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.configureBackgroundStyle(.visible)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

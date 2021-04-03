@@ -128,7 +128,7 @@ class ChallengeCardCollectionViewCell: UICollectionViewCell {
             layoutFriendBubbles()
         }
         
-        imageView.image = ThumbnailManager.shared.generateVideoThumbnail(url: viewModel.videoURL)!
+        imageView.image = viewModel.thumbnailImage
         
         if let playerName = viewModel.playerName {
             centerLabel.text = "Challenged by:"

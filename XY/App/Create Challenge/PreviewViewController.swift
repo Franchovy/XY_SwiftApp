@@ -49,6 +49,7 @@ class PreviewViewController: UIViewController {
         super.viewWillAppear(animated)
         
         configureBackButton(.xmark)
+        navigationController?.configureBackgroundStyle(.invisible)
     }
     
     override func viewDidAppear(_ animated: Bool) {

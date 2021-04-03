@@ -15,35 +15,40 @@ final class ChallengesManager: NSObject, UICollectionViewDataSource {
             colorLabel: ColorLabelViewModel(colorLabelText: "Sent to", colorLabelColor: UIColor(0xFF0062)),
             timeLeft: nil,
             playerName: nil,
-            videoURL: Bundle.main.url(forResource: "video1", withExtension: "mov")!
+            videoURL: Bundle.main.url(forResource: "video1", withExtension: "mov")!,
+            thumbnailImage: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video1", withExtension: "mov")!)!
         ),
         ChallengeCollectionCellViewModel(
             friendImages: nil,
             colorLabel: ColorLabelViewModel(colorLabelText: "New", colorLabelColor: UIColor(0xCAF035)),
             timeLeft: "23H",
             playerName: "C3-TO",
-            videoURL: Bundle.main.url(forResource: "video2", withExtension: "mov")!
+            videoURL: Bundle.main.url(forResource: "video2", withExtension: "mov")!,
+            thumbnailImage: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video2", withExtension: "mov")!)!
         ),
         ChallengeCollectionCellViewModel(
             friendImages: nil,
             colorLabel: nil,
             timeLeft: "10H",
             playerName: "C3-0",
-            videoURL: Bundle.main.url(forResource: "video3", withExtension: "mov")!
+            videoURL: Bundle.main.url(forResource: "video3", withExtension: "mov")!,
+            thumbnailImage: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video3", withExtension: "mov")!)!
         ),
         ChallengeCollectionCellViewModel(
             friendImages: nil,
             colorLabel: ColorLabelViewModel(colorLabelText: "Expiring", colorLabelColor: UIColor(0xC6C6C6)),
             timeLeft: "1H",
             playerName: "Lorenzo Dabraio",
-            videoURL: Bundle.main.url(forResource: "video4", withExtension: "mov")!
+            videoURL: Bundle.main.url(forResource: "video4", withExtension: "mov")!,
+            thumbnailImage: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video4", withExtension: "mov")!)!
         ),
         ChallengeCollectionCellViewModel(
             friendImages: [UIImage(named: "friend4")!, UIImage(named: "friend5")!, UIImage(named: "friend1")!],
             colorLabel: ColorLabelViewModel(colorLabelText: "Sent to", colorLabelColor: UIColor(0xFF0062)),
             timeLeft: nil,
             playerName: nil,
-            videoURL: Bundle.main.url(forResource: "video5", withExtension: "mov")!
+            videoURL: Bundle.main.url(forResource: "video5", withExtension: "mov")!,
+            thumbnailImage: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video5", withExtension: "mov")!)!
         ),
     ]
     

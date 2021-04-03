@@ -13,4 +13,5 @@ struct ChallengeCollectionCellViewModel {
     var timeLeft: String?
     var playerName: String?
     var videoURL: URL
+    var thumbnailImage: UIImage
 }
