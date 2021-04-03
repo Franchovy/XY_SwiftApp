@@ -40,6 +40,14 @@ class NotificationsViewController: UIViewController {
         navigationItem.title = "Notifications"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        configureBackButton(.backButton)
+        navigationController?.configureBackgroundStyle(.visible)
+
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

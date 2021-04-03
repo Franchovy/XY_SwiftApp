@@ -54,10 +54,16 @@ class ProfileViewController: UIViewController {
         challengeButton.setGradient(Global.xyGradient)
         challengeButton.setTitle("Challenge", for: .normal)
         challengeButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
+        challengeButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
+        
+        challengeButton.addTarget(self, action: #selector(didTapChallengeButton), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        configureBackButton(.backButton)
+        navigationController?.configureBackgroundStyle(.visible)
         
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont(name: "Raleway-Heavy", size: 25)!
@@ -168,5 +174,11 @@ class ProfileViewController: UIViewController {
         super.traitCollectionDidChange(previousTraitCollection)
         
         profileBubble.imageView.layer.borderColor = UIColor(named: "XYTint")!.cgColor
+    }
+    
+    @objc private func didTapChallengeButton() {
+        let vc = CreateChallengeViewController()
+        
+        NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
 }

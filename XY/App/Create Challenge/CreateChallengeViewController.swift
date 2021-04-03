@@ -16,6 +16,8 @@ class CreateChallengeViewController: UIViewController {
     
     init() {
         super.init(nibName: nil, bundle: nil)
+        
+        view.backgroundColor = .black
     }
     
     required init?(coder: NSCoder) {
