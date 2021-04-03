@@ -9,7 +9,7 @@ import UIKit
 
 class FindFriendsViewController: UIViewController, UISearchBarDelegate {
 
-    private let searchBar = UISearchBar()
+    private let searchBar = SearchBar()
     
     private let friendsListCollectionView = FriendsListCollectionView()
     private let friendsListDataSource = FriendsListCollectionDataSource()
@@ -28,9 +28,6 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "XYBackground")
         
-        searchBar.setBackgroundImage(UIImage(), for: .any, barMetrics: .default)
-        searchBar.barTintColor = UIColor(named: "XYBackground")
-        searchBar.isTranslucent = false
         searchBar.delegate = self
         
         view.addSubview(friendsListCollectionView)

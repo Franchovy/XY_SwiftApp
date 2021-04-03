@@ -9,7 +9,7 @@ import UIKit
 
 class SendToFriendsViewController: UIViewController, UISearchBarDelegate {
 
-    private let searchBar = UISearchBar()
+    private let searchBar = SearchBar()
     private let collectionView = SendCollectionView()
     private let dataSource = SendCollectionViewDataSource()
     

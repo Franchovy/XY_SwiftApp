@@ -12,14 +12,14 @@ class SendCollectionViewCell: UICollectionViewCell {
     
     private let friendBubble = FriendBubble()
     private let nicknameLabel = Label(style: .nickname)
-    private let addFriendButton = AddFriendButton()
+    private let sendButton = SendButton()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         contentView.addSubview(friendBubble)
         contentView.addSubview(nicknameLabel)
-        contentView.addSubview(addFriendButton)
+        contentView.addSubview(sendButton)
     }
     
     required init?(coder: NSCoder) {
@@ -44,12 +44,12 @@ class SendCollectionViewCell: UICollectionViewCell {
             height: nicknameLabel.height
         )
         
-        addFriendButton.sizeToFit()
-        addFriendButton.frame = CGRect(
-            x: width - addFriendButton.width - 15,
-            y: (height - addFriendButton.height)/2,
-            width: addFriendButton.width,
-            height: addFriendButton.height
+        sendButton.sizeToFit()
+        sendButton.frame = CGRect(
+            x: width - sendButton.width - 15,
+            y: (height - sendButton.height)/2,
+            width: sendButton.width,
+            height: sendButton.height
         )
     }
     
@@ -58,12 +58,10 @@ class SendCollectionViewCell: UICollectionViewCell {
         
         friendBubble.imageView.image = nil
         nicknameLabel.text = nil
-        addFriendButton.configure(for: .none)
     }
     
     public func configure(with viewModel: SendCollectionViewCellViewModel) {
         friendBubble.setImage(viewModel.profileImage)
         nicknameLabel.text = viewModel.nickname
-        addFriendButton.configure(for: viewModel.buttonStatus)
     }
 }
