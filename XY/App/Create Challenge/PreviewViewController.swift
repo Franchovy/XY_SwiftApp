@@ -13,20 +13,18 @@ class PreviewViewController: UIViewController {
     let videoView = VideoPlayerView()
     let previewVideoURL: URL
     
-    private let sendButton = Button(image: UIImage(systemName: "paperplane.fill")!, style: .circular(backgroundColor: UIColor(0x007BF5)))
+    private let sendButton = Button(
+        image: UIImage(systemName: "paperplane.fill")!,
+        style: .circular(backgroundColor: UIColor(0x007BF5))
+    )
+    
 
     init(previewVideoURL: URL) {
         self.previewVideoURL = previewVideoURL
         
         super.init(nibName: nil, bundle: nil)
         
-        view.addSubview(videoView)
-        
-        videoView.setUpVideo(videoURL: previewVideoURL, withRate: 1.0, audioEnable: true)
-        
-        sendButton.alpha = 0.0
-        view.addSubview(sendButton)
-        sendButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
+        view.backgroundColor = UIColor(named: "XYBlack")
     }
     
     required init?(coder: NSCoder) {
@@ -36,6 +34,13 @@ class PreviewViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.addSubview(videoView)
+        
+        videoView.setUpVideo(videoURL: previewVideoURL, withRate: 1.0, audioEnable: true)
+        
+        sendButton.alpha = 0.0
+        view.addSubview(sendButton)
+        sendButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -73,8 +78,14 @@ class PreviewViewController: UIViewController {
     }
     
     @objc private func didTapNext() {
+        CreateChallengeManager.shared.videoUrl = previewVideoURL
+        
         if CreateChallengeManager.shared.title != nil && CreateChallengeManager.shared.description != nil {
-            let vc = SendChallengeViewController()
+            guard let cardViewModel = CreateChallengeManager.shared.getChallengeCardViewModel() else {
+                return
+            }
+            
+            let vc = SendChallengeViewController(with: cardViewModel)
             
             navigationController?.pushViewController(vc, animated: true)
         } else {

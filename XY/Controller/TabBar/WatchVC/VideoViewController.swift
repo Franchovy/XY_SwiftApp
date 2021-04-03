@@ -525,7 +525,7 @@ class VideoViewController: UIViewController {
         ProfileManager.shared.openProfileForId(profileModel.profileId)
     }
     
-    var card: ChallengePreviewCard?
+    var card: _ChallengePreviewCard?
     
     @objc private func titleTapped(_ gestureRecognizer: UITapGestureRecognizer) {
         if let card = card {
@@ -537,7 +537,7 @@ class VideoViewController: UIViewController {
             return
         }
         
-        let card = ChallengePreviewCard()
+        let card = _ChallengePreviewCard()
         self.card = card
         card.configure(with: challengeModel)
         card.heroID = "card"

@@ -14,4 +14,24 @@ final class CreateChallengeManager {
     var description: String?
     var title: String?
     
+    func isReadyToCreateCard() -> Bool {
+        return videoUrl != nil && description != nil && title != nil
+    }
+    
+    func getChallengeCardViewModel() -> ChallengeCardViewModel? {
+        guard
+            let videoUrl = videoUrl,
+            let description = description,
+            let title = title,
+            let image = ThumbnailManager.shared.generateVideoThumbnail(url: videoUrl)
+        else {
+            return nil
+        }
+        
+        return ChallengeCardViewModel(
+            image: image,
+            title: title,
+            description: description
+        )
+    }
 }

@@ -74,7 +74,7 @@ class ChallengePreviewCollectionViewCell: UICollectionViewCell {
         shadowLayer.shadowRadius = 6
         shadowLayer.shadowColor = UIColor(0xFFFFFF).withAlphaComponent(101/255).cgColor
         shadowLayer.shadowOpacity = 1.0
-        backgroundLayer.fillColor = UIColor(named: "XYBlack-1")!.cgColor
+        backgroundLayer.fillColor = UIColor(named: "XYBlack")!.cgColor
         backgroundLayer.frame = bounds
         shadowLayer.frame = bounds
         

@@ -76,7 +76,7 @@ class _CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDel
         button.setTitle("Create New", for: .normal)
         button.setTitleColor(UIColor(named: "XYWhite")!, for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
-        button.setBackgroundColor(color: UIColor(named: "XYBlack-1")!)
+        button.setBackgroundColor(color: UIColor(named: "XYBlack")!)
         button.setGradient(Global.xyGradient)
         return button
     }()
@@ -96,7 +96,7 @@ class _CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDel
         button.setTitle("Retake", for: .normal)
         button.setTitleColor(UIColor(named: "XYWhite")!, for: .normal)
         button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
-        button.setBackgroundColor(color: UIColor(named: "XYBlack-1")!)
+        button.setBackgroundColor(color: UIColor(named: "XYBlack")!)
         button.setGradient(Global.xyGradient)
         button.isHidden = true
         return button
@@ -117,7 +117,7 @@ class _CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDel
     }()
     
     var tapAnywhereGesture: UITapGestureRecognizer?
-    var previewCard: ChallengePreviewCard?
+    var previewCard: _ChallengePreviewCard?
     
     private var previewVC: _PreviewViewController?
     
@@ -454,7 +454,7 @@ class _CameraViewController: SwiftyCamViewController, SwiftyCamViewControllerDel
             blurEffectView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             view.addSubview(blurEffectView!)
             
-            previewCard = ChallengePreviewCard()
+            previewCard = _ChallengePreviewCard()
             previewCard!.configure(with: challenge)
             
             previewCard!.onPressedPlay = pressedPlay

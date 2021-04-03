@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DescriptionViewController: UIViewController {
+class DescriptionViewController: UIViewController, UITextFieldDelegate {
     
     private let challengeNameTextField = TextField(placeholder: "Give a title to your challenge...", style: .card, maxChars: 15)
     private let challengeDescriptionTextField = TextField(placeholder: "Describe what you have to do in your challenge...", style: .card, maxChars: 50)
@@ -34,12 +34,18 @@ class DescriptionViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        challengeNameTextField.delegate = self
+        challengeDescriptionTextField.delegate = self
+        
         view.addSubview(challengeNameTextField)
         view.addSubview(challengeDescriptionTextField)
         view.addSubview(challengePreviewImage)
         view.addSubview(downloadVideoButton)
         
         navigationItem.title = "Description"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(didTapNext))
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -77,5 +83,24 @@ class DescriptionViewController: UIViewController {
     
     public func setPreviewImage(_ image: UIImage) {
         challengePreviewImage.image = image
+    }
+    
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if textField == challengeDescriptionTextField {
+            CreateChallengeManager.shared.description = textField.text
+        } else if textField == challengeNameTextField {
+            CreateChallengeManager.shared.title = textField.text
+        }
+        
+        navigationItem.rightBarButtonItem?.isEnabled =  CreateChallengeManager.shared.isReadyToCreateCard()
+    }
+    
+    @objc private func didTapNext() {
+        guard let cardViewModel = CreateChallengeManager.shared.getChallengeCardViewModel() else {
+            return
+        }
+        let vc = SendChallengeViewController(with: cardViewModel)
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

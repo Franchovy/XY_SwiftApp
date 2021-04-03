@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChallengePreviewCard: UIView {
+class _ChallengePreviewCard: UIView {
 
     private var titleLabel: GradientLabel?
 

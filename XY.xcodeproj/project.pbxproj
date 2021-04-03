@@ -141,6 +141,13 @@
 		B97352E42618675A00183201 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352E32618675A00183201 /* Button.swift */; };
 		B97352E826186D7200183201 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352E726186D7200183201 /* CameraViewController.swift */; };
 		B97352EE2618729900183201 /* FriendBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352ED2618729900183201 /* FriendBubbleViewModel.swift */; };
+		B97352F52618AEF500183201 /* SendCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352F42618AEF500183201 /* SendCollectionView.swift */; };
+		B97352F92618AF0B00183201 /* SendCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352F82618AF0B00183201 /* SendCollectionViewDataSource.swift */; };
+		B97352FD2618AF5200183201 /* SendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352FC2618AF5200183201 /* SendCollectionViewCell.swift */; };
+		B97353012618AF7A00183201 /* SendCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */; };
+		B97353052618B41200183201 /* SendToFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97353042618B41200183201 /* SendToFriendsViewController.swift */; };
+		B973530B2618B8A200183201 /* ChallengeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973530A2618B8A200183201 /* ChallengeCard.swift */; };
+		B97353102618BFD300183201 /* ChallengeCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973530F2618BFD300183201 /* ChallengeCardViewModel.swift */; };
 		B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */; };
 		B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */; };
 		B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */; };
@@ -182,7 +189,7 @@
 		B99020DB25ED64F1004AC25C /* GradientBorderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020DA25ED64F1004AC25C /* GradientBorderTextField.swift */; };
 		B990917625B759010047526B /* FirebaseFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B990917525B759010047526B /* FirebaseFunctions.swift */; };
 		B998621E25F17FF100AE8369 /* ProfileFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B998621D25F17FF100AE8369 /* ProfileFirestoreManager.swift */; };
-		B9A0453E2608CAE0005F48FF /* ChallengePreviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A0453D2608CAE0005F48FF /* ChallengePreviewCard.swift */; };
+		B9A0453E2608CAE0005F48FF /* _ChallengePreviewCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A0453D2608CAE0005F48FF /* _ChallengePreviewCard.swift */; };
 		B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */; };
 		B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9AAB16C25E13239005B3903 /* XPCircleView.swift */; };
 		B9ABA1FA25E454580039280B /* XPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ABA1F925E454580039280B /* XPManager.swift */; };
@@ -407,6 +414,13 @@
 		B97352E32618675A00183201 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		B97352E726186D7200183201 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		B97352ED2618729900183201 /* FriendBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubbleViewModel.swift; sourceTree = "<group>"; };
+		B97352F42618AEF500183201 /* SendCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionView.swift; sourceTree = "<group>"; };
+		B97352F82618AF0B00183201 /* SendCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		B97352FC2618AF5200183201 /* SendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionViewCell.swift; sourceTree = "<group>"; };
+		B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
+		B97353042618B41200183201 /* SendToFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToFriendsViewController.swift; sourceTree = "<group>"; };
+		B973530A2618B8A200183201 /* ChallengeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCard.swift; sourceTree = "<group>"; };
+		B973530F2618BFD300183201 /* ChallengeCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCardViewModel.swift; sourceTree = "<group>"; };
 		B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
 		B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLivePostsViewController.swift; sourceTree = "<group>"; };
 		B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewController.swift; sourceTree = "<group>"; };
@@ -448,7 +462,7 @@
 		B99020DA25ED64F1004AC25C /* GradientBorderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientBorderTextField.swift; sourceTree = "<group>"; };
 		B990917525B759010047526B /* FirebaseFunctions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFunctions.swift; sourceTree = "<group>"; };
 		B998621D25F17FF100AE8369 /* ProfileFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileFirestoreManager.swift; sourceTree = "<group>"; };
-		B9A0453D2608CAE0005F48FF /* ChallengePreviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewCard.swift; sourceTree = "<group>"; };
+		B9A0453D2608CAE0005F48FF /* _ChallengePreviewCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ChallengePreviewCard.swift; sourceTree = "<group>"; };
 		B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9AAB16C25E13239005B3903 /* XPCircleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
 		B9ABA1F925E454580039280B /* XPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XPManager.swift; sourceTree = "<group>"; };
@@ -774,7 +788,7 @@
 				B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */,
 				B9B0C05425FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift */,
 				B9B0C07B25FE2587003DA5CB /* TimerIcon.swift */,
-				B9A0453D2608CAE0005F48FF /* ChallengePreviewCard.swift */,
+				B9A0453D2608CAE0005F48FF /* _ChallengePreviewCard.swift */,
 			);
 			path = Challenges;
 			sourceTree = "<group>";
@@ -924,6 +938,7 @@
 		B96B7F1726132FBF00B1CBF5 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
+				B97352F32618AEAA00183201 /* SendCollectionView */,
 				B926866A2614636400A306F6 /* AddFriendButton */,
 				B926865D2614618600A306F6 /* FriendsListCollectionView */,
 				B96B7F292613323600B1CBF5 /* ChallengesCollectionView */,
@@ -937,6 +952,7 @@
 				B9FD993D2615C08100D6716C /* TextField.swift */,
 				B96B7F3E26135BA100B1CBF5 /* ColorLabel */,
 				B96B7F362613397000B1CBF5 /* FriendBubble.swift */,
+				B973530E2618BFC600183201 /* ChallengeCard */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -993,6 +1009,27 @@
 				B9ABA20125E45F930039280B /* CaptionView.swift */,
 			);
 			path = Post;
+			sourceTree = "<group>";
+		};
+		B97352F32618AEAA00183201 /* SendCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				B97352F42618AEF500183201 /* SendCollectionView.swift */,
+				B97352F82618AF0B00183201 /* SendCollectionViewDataSource.swift */,
+				B97352FC2618AF5200183201 /* SendCollectionViewCell.swift */,
+				B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */,
+				B97353042618B41200183201 /* SendToFriendsViewController.swift */,
+			);
+			path = SendCollectionView;
+			sourceTree = "<group>";
+		};
+		B973530E2618BFC600183201 /* ChallengeCard */ = {
+			isa = PBXGroup;
+			children = (
+				B973530A2618B8A200183201 /* ChallengeCard.swift */,
+				B973530F2618BFD300183201 /* ChallengeCardViewModel.swift */,
+			);
+			path = ChallengeCard;
 			sourceTree = "<group>";
 		};
 		B9781DC325DE6FA300A2FE2D /* Profile */ = {
@@ -1538,7 +1575,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B926868F2614A8DD00A306F6 /* EditPasswordViewController.swift in Sources */,
-				B9A0453E2608CAE0005F48FF /* ChallengePreviewCard.swift in Sources */,
+				B9A0453E2608CAE0005F48FF /* _ChallengePreviewCard.swift in Sources */,
 				B905878526048D8C00B8C9E7 /* _EditProfileViewController.swift in Sources */,
 				B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */,
 				B925CC5525D5823000542A58 /* ProfileHeaderConversationsViewController.swift in Sources */,
@@ -1573,6 +1610,7 @@
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
+				B973530B2618B8A200183201 /* ChallengeCard.swift in Sources */,
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B926867726148E5600A306F6 /* EditProfileViewController.swift in Sources */,
@@ -1616,6 +1654,7 @@
 				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9ABAA9A25F78859009CB966 /* ChallengeVideoViewModel.swift in Sources */,
+				B97353012618AF7A00183201 /* SendCollectionViewCellViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
 				B952F5D3261778A20063E7B4 /* DescriptionViewController.swift in Sources */,
@@ -1623,8 +1662,10 @@
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
+				B97353102618BFD300183201 /* ChallengeCardViewModel.swift in Sources */,
 				B96B7F4026135BAD00B1CBF5 /* ColorLabelViewModel.swift in Sources */,
 				B952F592261736AA0063E7B4 /* HomeStateManager.swift in Sources */,
+				B97352FD2618AF5200183201 /* SendCollectionViewCell.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
 				B96B7F312613352D00B1CBF5 /* ColorLabel.swift in Sources */,
@@ -1644,6 +1685,7 @@
 				B96B7F462613614300B1CBF5 /* ChallengesDatasource.swift in Sources */,
 				B96A90412605FFBE000CE9F7 /* SubscribersViewController.swift in Sources */,
 				B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */,
+				B97353052618B41200183201 /* SendToFriendsViewController.swift in Sources */,
 				B92161BB25E25940001BE793 /* ProfileBubble.swift in Sources */,
 				B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */,
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
@@ -1719,9 +1761,11 @@
 				B94EAD6025EEAEA400504A2A /* Gradient.swift in Sources */,
 				B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */,
 				B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */,
+				B97352F52618AEF500183201 /* SendCollectionView.swift in Sources */,
 				B998621E25F17FF100AE8369 /* ProfileFirestoreManager.swift in Sources */,
 				B9BDE34025C9413A00B00656 /* AuthManager.swift in Sources */,
 				14BDAF8425A37DD800D19282 /* MessageModel.swift in Sources */,
+				B97352F92618AF0B00183201 /* SendCollectionViewDataSource.swift in Sources */,
 				B9ABAA9E25F7974A009CB966 /* ChallengesViewModelBuilder.swift in Sources */,
 				B9E67E7125F441FA004FA873 /* CommentView.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,

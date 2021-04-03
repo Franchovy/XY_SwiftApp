@@ -91,7 +91,7 @@ class VideoLevelLabel: UIView {
             label.textColor = UIColor(0x262728)
             label.text = "Unicorn"
         case .goat:
-            gradientLayer.backgroundColor = UIColor(named: "XYBlack-1")!.cgColor
+            gradientLayer.backgroundColor = UIColor(named: "XYBlack")!.cgColor
             label.textColor = UIColor(0xF8D92D)
             label.text = "G.O.A.T."
         default:

@@ -33,6 +33,22 @@ class ThumbnailManager {
         completion(images)
     }
     
+    
+    public func generateVideoThumbnail(url: URL) -> UIImage? {
+        let asset = AVAsset(url: url)
+        let avAssetImageGenerator = AVAssetImageGenerator(asset: asset)
+        avAssetImageGenerator.appliesPreferredTrackTransform = true
+        let thumnailTime = CMTimeMake(value: 2, timescale: 1)
+        do {
+            let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
+            let thumbImage = UIImage(cgImage: cgThumbImage)
+            return thumbImage
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
     public func generateVideoThumbnail(url: URL, completion: @escaping ((_ image: UIImage?) -> Void)) {
         let asset = AVAsset(url: url)
         let avAssetImageGenerator = AVAssetImageGenerator(asset: asset)
