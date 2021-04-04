@@ -62,6 +62,8 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendTo
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        HapticsManager.shared.vibrateImpact(for: .light)
+        
         if let searchText = searchBar.text {
             dataSource.setSearchString(searchText)
         } else {

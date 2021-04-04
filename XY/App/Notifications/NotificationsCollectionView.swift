@@ -40,6 +40,7 @@ class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate, N
         let vc = ProfileViewController()
         vc.configure(with: ProfileViewModel.randomProfileViewModel(basedOn: (viewModel.nickname, viewModel.profileImage)))
         
+        HapticsManager.shared.vibrateImpact(for: .light)
         NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -48,6 +49,7 @@ class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate, N
         case .challengeAction(let image):
             let vc = CreateChallengeViewController()
             
+            HapticsManager.shared.vibrateImpact(for: .light)
             NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
         case .challengeStatus(let image, let status):
             break

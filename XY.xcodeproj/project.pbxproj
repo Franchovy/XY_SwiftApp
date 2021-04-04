@@ -943,7 +943,6 @@
 			isa = PBXGroup;
 			children = (
 				B97352F32618AEAA00183201 /* SendCollectionView */,
-				B926866A2614636400A306F6 /* AddFriendButton */,
 				B926865D2614618600A306F6 /* FriendsListCollectionView */,
 				B96B7F292613323600B1CBF5 /* ChallengeCardsCollectionView */,
 				B96B7F282613322F00B1CBF5 /* FriendsCollectionView */,
@@ -957,6 +956,7 @@
 				B9FD993D2615C08100D6716C /* TextField.swift */,
 				B96B7F3E26135BA100B1CBF5 /* ColorLabel */,
 				B96B7F362613397000B1CBF5 /* FriendBubble.swift */,
+				B926866A2614636400A306F6 /* AddFriendButton */,
 				B973530E2618BFC600183201 /* ChallengeCard */,
 			);
 			path = Reusable;

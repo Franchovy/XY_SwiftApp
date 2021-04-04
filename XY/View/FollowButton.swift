@@ -107,7 +107,7 @@ class FollowButton: FaveButton {
         
         isEnabled = false
         
-        HapticsManager.shared?.vibrate(for: .success)
+        HapticsManager.shared.vibrate(for: .success)
         
         switch relationshipType {
         case .follower, .none:

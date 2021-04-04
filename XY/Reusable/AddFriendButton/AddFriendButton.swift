@@ -87,4 +87,18 @@ class AddFriendButton: UIButton {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        HapticsManager.shared.vibrateImpact(for: .soft)
+        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+            HapticsManager.shared.vibrateImpact(for: .heavy)
+        }
+    }
+    
 }

@@ -36,6 +36,11 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
         navigationItem.title = "Find Friends"
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        HapticsManager.shared.vibrateImpact(for: .soft)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -52,6 +57,17 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         friendsListDataSource.setSearchString(searchText)
         friendsListCollectionView.reloadData()
+        
+        HapticsManager.shared.vibrateImpact()
     }
     
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        HapticsManager.shared.beginImpactSession(with: .rigid)
+        HapticsManager.shared.vibrateImpact(for: .soft)
+    }
+    
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        HapticsManager.shared.endImpactSession()
+        HapticsManager.shared.vibrateImpact(for: .soft)
+    }
 }

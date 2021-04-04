@@ -196,7 +196,7 @@ class NewLoginViewController : UIViewController {
             switch result {
             case .success(let _):
                 // Segue to main
-                HapticsManager.shared?.vibrate(for: .success)
+                HapticsManager.shared.vibrate(for: .success)
                 NavigationControlManager.performedAuthentication()
             case .failure(let error):
                 print("Error logging in: \(error)")

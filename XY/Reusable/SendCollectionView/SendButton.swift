@@ -50,6 +50,8 @@ class SendButton: UIButton {
         super.touchesBegan(touches, with: event)
         
         gradientLayer.opacity = 0.5
+        
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -73,5 +75,8 @@ class SendButton: UIButton {
             setTitleColor(UIColor(named: "XYWhite"), for: .normal)
             setTitle("Sent", for: .normal)
         }
+        
+        HapticsManager.shared.vibrateImpact(for: .soft)
+        HapticsManager.shared.vibrateImpact(for: .heavy)
     }
 }

@@ -204,18 +204,21 @@ class HomeViewController: UIViewController {
     @objc private func tappedNotifications() {
         let vc = NotificationsViewController()
         
+        HapticsManager.shared.vibrateImpact(for: .light)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func tappedSearch() {
         let vc = FindFriendsViewController()
         
+        HapticsManager.shared.vibrateImpact(for: .light)
         navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc private func tappedCreateChallenge() {
         let vc = CreateChallengeViewController()
         
+        HapticsManager.shared.vibrateImpact(for: .light)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

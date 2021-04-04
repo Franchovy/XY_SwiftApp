@@ -58,6 +58,11 @@ class PreviewViewController: UIViewController {
         appearSendButton()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        HapticsManager.shared.vibrateImpact(for: .soft)
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         

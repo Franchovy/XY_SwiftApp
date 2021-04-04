@@ -45,7 +45,11 @@ class NotificationsViewController: UIViewController {
         
         configureBackButton(.backButton)
         navigationController?.configureBackgroundStyle(.visible)
-
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        HapticsManager.shared.vibrateImpact(for: .soft)
     }
     
     override func viewDidLayoutSubviews() {

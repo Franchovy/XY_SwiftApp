@@ -293,10 +293,10 @@ class UnicornViewController: UIViewController {
                 sender.isEnabled = false
                 InviteService.shared.inviteEmail(email: email) { (success) in
                     if !success {
-                        HapticsManager.shared?.vibrate(for: .error)
+                        HapticsManager.shared.vibrate(for: .error)
                         self.textField.shake()
                     } else {
-                        HapticsManager.shared?.vibrate(for: .success)
+                        HapticsManager.shared.vibrate(for: .success)
                         self.displayTempLabel(
                             centerPoint: self.textField.center.applying(CGAffineTransform(translationX: 0, y: 40)),
                             labelText: "Added email!",

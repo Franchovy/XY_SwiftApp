@@ -32,6 +32,11 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         navigationController?.configureBackgroundStyle(.visible)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        HapticsManager.shared.vibrateImpact(for: .soft)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
