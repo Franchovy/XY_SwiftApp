@@ -28,6 +28,7 @@ class Prompt: UIView, UITextViewDelegate {
     var card = Card(backgroundColor: UIColor(named: "XYBackground")!)
     
     var titleLabel: UILabel?
+    var separators = [SeparatorLine]()
     var buttons = [UIButton]()
     var fields = [UIView]()
     var externalButtons = [UIButton]()
@@ -112,6 +113,12 @@ class Prompt: UIView, UITextViewDelegate {
         }
         
         for button in buttons {
+            
+            if let button = button as? Button, button.style == .text {
+                if let index = buttons.filter({($0 as! Button).style == .text}).firstIndex(of: button) {
+                    separators[index].frame = CGRect(x: 0, y: previousY + 7, width: cardWidth, height: 1)
+                }
+            }
             
             button.sizeToFit()
             button.frame = CGRect(
@@ -252,8 +259,12 @@ class Prompt: UIView, UITextViewDelegate {
                 }
             }
         case .embedded:
-            let button = Button(title: buttonText, style: .text)
+            let separatorLine = SeparatorLine()
             
+            card.addSubview(separatorLine)
+            separators.append(separatorLine)
+            
+            let button = Button(title: buttonText, style: .text)
             button.setTitleColor(textColor, for: .normal)
             
             card.addSubview(button)

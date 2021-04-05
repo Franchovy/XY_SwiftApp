@@ -9,7 +9,7 @@ import UIKit
 
 class Button: UIButton {
 
-    enum Style {
+    enum Style : Equatable {
         case circular(backgroundColor: UIColor)
         case card
         case roundButton(backgroundColor: UIColor)
@@ -150,7 +150,11 @@ class Button: UIButton {
     override func sizeToFit() {
         super.sizeToFit()
         
-        frame.size.width = intrinsicContentSize.width + padding.left + padding.right
-        frame.size.height = intrinsicContentSize.height + padding.top + padding.bottom
+        if style != .text {
+            frame.size.width = intrinsicContentSize.width + padding.left + padding.right
+            frame.size.height = intrinsicContentSize.height + padding.top + padding.bottom
+        } else {
+            
+        }
     }
 }

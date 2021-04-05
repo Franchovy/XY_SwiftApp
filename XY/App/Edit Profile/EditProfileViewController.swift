@@ -133,7 +133,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             buttonText: "Photo Library",
             font: UIFont(name: "Raleway-Medium", size: 15),
             onTap: didTapPhotoLibrary)
-        prompt.addCompletionButton(buttonText: "Cancel", style: .embedded)
+        prompt.addCompletionButton(buttonText: "Cancel", style: .embedded, closeOnTap: true)
         
         view.addSubview(prompt)
         prompt.appear()
