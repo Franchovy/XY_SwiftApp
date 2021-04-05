@@ -99,8 +99,7 @@ class CreateChallengeViewController: UIViewController {
             style: .action(style: .roundButton(backgroundColor: .red)),
             font: UIFont(name: "Raleway-Heavy", size: 20),
             closeOnTap: true,
-            onTap: nil,
-            target: nil
+            onTap: nil
         )
         prompt.addExternalButton(
             buttonText: "Record now",
@@ -109,8 +108,7 @@ class CreateChallengeViewController: UIViewController {
             textColor: UIColor(named: "XYWhite")!,
             font: UIFont(name: "Raleway-Heavy", size: 18),
             closeOnTap: true,
-            onTap: nil,
-            target: nil
+            onTap: nil
         )
         prompt.onCompletion = { inputTexts in
             if let challengeTitle = inputTexts.first, let challengeDescription = inputTexts.last {

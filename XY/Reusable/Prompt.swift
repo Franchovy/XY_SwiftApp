@@ -189,6 +189,8 @@ class Prompt: UIView, UITextViewDelegate {
         }
         animating = true
         
+        HapticsManager.shared.vibrateImpact(for: .soft)
+        
         UIView.animate(withDuration: 0.3) {
             self.card.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             self.card.alpha = 0.0
@@ -237,6 +239,7 @@ class Prompt: UIView, UITextViewDelegate {
         
         if let onTap = onTap {
             button.addAction {
+                HapticsManager.shared.vibrateImpact(for: .rigid)
                 onTap()
             }
         }
@@ -253,8 +256,7 @@ class Prompt: UIView, UITextViewDelegate {
         style: ButtonStyle,
         font: UIFont? = nil,
         closeOnTap: Bool = false,
-        onTap: (() -> Void)? = nil,
-        target: Selector? = nil
+        onTap: (() -> Void)? = nil
     ) {
         switch style {
         case .action(let style):
@@ -269,7 +271,7 @@ class Prompt: UIView, UITextViewDelegate {
             
             button.addAction {
                 onTap?()
-                
+                HapticsManager.shared.vibrateImpact(for: .light)
                 if closeOnTap {
                     if self.onCompletion != nil {
                         self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
@@ -291,7 +293,7 @@ class Prompt: UIView, UITextViewDelegate {
             
             button.addAction {
                 onTap?()
-                
+                HapticsManager.shared.vibrateImpact(for: .light)
                 if closeOnTap {
                     if self.onCompletion != nil {
                         self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
@@ -309,8 +311,7 @@ class Prompt: UIView, UITextViewDelegate {
         textColor: UIColor = UIColor(named: "XYTint")!,
         font: UIFont? = nil,
         closeOnTap: Bool = true,
-        onTap: (() -> Void)? = nil,
-        target: Selector? = nil
+        onTap: (() -> Void)? = nil
     ) {
         
         let button = Button(title: buttonText, style: .roundButton(backgroundColor: backgroundColor), font: font, paddingVertical: 5, paddingHorizontal: 10)

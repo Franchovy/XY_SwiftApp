@@ -76,9 +76,7 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont(name: "Raleway-Bold", size: 20)!
         ]
-        
-        HapticsManager.shared.vibrateImpact(for: .soft)
-        
+                
     }
     
     override func viewDidLayoutSubviews() {

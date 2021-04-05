@@ -28,6 +28,8 @@ class Button: UIButton {
     var shapeLayer = CAShapeLayer()
     var backgroundLayer = CALayer()
     
+    var isAnimating = false
+        
     init(
         image: UIImage? = nil,
         title: String? = nil,
@@ -94,6 +96,10 @@ class Button: UIButton {
     }
     
     override func layoutSubviews() {
+        guard !isAnimating else {
+            return
+        }
+        
         super.layoutSubviews()
         
         switch style {
@@ -159,10 +165,8 @@ class Button: UIButton {
         }
     }
     
-    var isAnimateSelected = false
-    
     private func animateSelect() {
-        guard !isAnimateSelected else {
+        guard !isAnimating else {
             return
         }
         
@@ -170,11 +174,11 @@ class Button: UIButton {
         UIView.animate(withDuration: 0.1) {
             self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
         }
-        isAnimateSelected = true
+        isAnimating = true
     }
     
     private func animateDeselect() {
-        guard isAnimateSelected else {
+        guard isAnimating else {
             return
         }
         
@@ -182,7 +186,7 @@ class Button: UIButton {
         UIView.animate(withDuration: 0.2) {
             self.transform = .identity
         }
-        isAnimateSelected = false
+        isAnimating = false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

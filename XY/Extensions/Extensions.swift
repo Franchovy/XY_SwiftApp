@@ -212,6 +212,28 @@ extension UILabel {
     }
 }
 
+extension UIView {
+    func bounceAnimation() {
+        UIView.animate(withDuration: 0.1) {
+            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            
+            UIView.animate(withDuration: 0.1) {
+                self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
+        }
+    }
+    
+    func reverseBounceAnimation() {
+        UIView.animate(withDuration: 0.1) {
+            self.transform = CGAffineTransform(scaleX: 1.05, y: 1.05)
+            
+            UIView.animate(withDuration: 0.1) {
+                self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+            }
+        }
+    }
+}
+
 extension UIViewController {
     func displayTempLabel(centerPoint: CGPoint, labelText: String, labelColor: UIColor) {
         let label = UILabel()

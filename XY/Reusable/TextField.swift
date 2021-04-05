@@ -114,6 +114,8 @@ class TextField: UITextView {
         if let maxChars = maxChars {
             if text.count > maxChars {
                 text.popLast()
+                reverseBounceAnimation()
+                return
             }
             
             maxCharsLabel!.text = "\(text.count)/\(maxChars)"
@@ -130,6 +132,8 @@ class TextField: UITextView {
             placeholderActive = false
             textColor = textColor?.withAlphaComponent(1.0)
         }
+        
+        bounceAnimation()
     }
     
     @objc private func didEndEditing(notification: Notification) {
@@ -142,6 +146,8 @@ class TextField: UITextView {
             placeholderActive = true
             textColor = textColor?.withAlphaComponent(0.5)
         }
+        
+        reverseBounceAnimation()
     }
 }
  

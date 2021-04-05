@@ -33,7 +33,6 @@ class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        HapticsManager.shared.vibrateImpact(for: .medium)
         
         if indexPath.row == 0 {
             let vc = EditProfileViewController()

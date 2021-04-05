@@ -30,7 +30,6 @@ class FriendsListCollectionView: UICollectionView, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        HapticsManager.shared.vibrateImpact(for: .light)
         NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
     }
 }
