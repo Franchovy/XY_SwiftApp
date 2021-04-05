@@ -45,6 +45,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
 
         scrollView.alwaysBounceVertical = true
+        scrollView.isScrollEnabled = false
         view.addSubview(scrollView)
         
         scrollView.addSubview(friendsLabel)
