@@ -22,10 +22,10 @@ class HomeViewController: UIViewController {
     
     private let welcomeGradientLabel = GradientLabel(text: "Welcome To XY!", fontSize: 40, gradientColours: Global.xyGradient)
     private let welcomeTextLabel = Label("Here you'll find your challenges, but you need to add a friend to start.", style: .body, fontSize: 20)
-    private let addFriendButton = GradientBorderButtonWithShadow()
+    private let addFriendButton = Button(title: "Find Friends", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
     
     private let noChallengesLabel = Label("You have no challenges.", style: .body, fontSize: 18)
-    private let createChallengeButton = GradientBorderButtonWithShadow()
+    private let createChallengeButton = Button(title: "Create new", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -52,12 +52,6 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(friendsCollectionView)
         scrollView.addSubview(challengesLabel)
         scrollView.addSubview(challengesCollectionView)
-        
-        createChallengeButton.setTitle("Create challenge", for: .normal)
-        createChallengeButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
-        createChallengeButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
-        createChallengeButton.setGradient(Global.xyGradient)
-        createChallengeButton.setBackgroundColor(color: UIColor(named: "XYBackground")!)
         
         createChallengeButton.addTarget(self, action: #selector(tappedCreateChallenge), for: .touchUpInside)
             
@@ -191,11 +185,6 @@ class HomeViewController: UIViewController {
         welcomeTextLabel.numberOfLines = 0
         welcomeTextLabel.textAlignment = .center
         
-        addFriendButton.setTitle("Find friends", for: .normal)
-        addFriendButton.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 26)
-        addFriendButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
-        addFriendButton.setGradient(Global.xyGradient)
-        addFriendButton.setBackgroundColor(color: UIColor(named: "XYBackground")!)
     }
     
     private func configureEmptyNoChallenges() {

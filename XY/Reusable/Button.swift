@@ -60,6 +60,8 @@ class Button: UIButton {
         layer.shadowRadius = 6
         layer.shadowOpacity = 0.7
         
+        layer.insertSublayer(backgroundLayer, below: imageView?.layer)
+        
         switch style {
         case .circular(let backgroundColor):
             backgroundLayer.backgroundColor = backgroundColor.cgColor
@@ -78,7 +80,10 @@ class Button: UIButton {
             shapeLayer.borderWidth = 2
             shapeLayer.borderColor = UIColor.black.cgColor
             
-            layer.insertSublayer(gradientLayer, at: 0)
+            layer.insertSublayer(gradientLayer, above: backgroundLayer)
+            
+            setTitleColor(UIColor(named: "XYTint"), for: .normal)
+            backgroundLayer.backgroundColor = UIColor(named: "XYBackground")?.cgColor
         case .text:
             layer.shadowOpacity = 0.0
             contentVerticalAlignment = .center
@@ -87,7 +92,7 @@ class Button: UIButton {
         
         backgroundLayer.masksToBounds = true
     
-        layer.insertSublayer(backgroundLayer, below: imageView?.layer)
+    
         
     }
     
@@ -115,8 +120,10 @@ class Button: UIButton {
         case .roundButtonBorder(gradient: _):
             shapeLayer.frame = bounds
             shapeLayer.cornerRadius = height/2
+            backgroundLayer.cornerRadius = height/2
             shapeLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
             gradientLayer.frame = bounds
+            backgroundLayer.frame = bounds
         case .text:
             backgroundLayer.frame = bounds
         }
