@@ -1,5 +1,5 @@
 //
-//  Notification.swift
+//  _Notification.swift
 //  XY
 //
 //  Created by Maxime Franchot on 19/01/2021.
@@ -40,7 +40,7 @@ enum ObjectType: String {
     }
 }
 
-struct Notification {
+struct _Notification {
     let notificationId: String
     let type: _NotificationType
     let objectId: String
@@ -49,7 +49,7 @@ struct Notification {
     let timestamp: Date
 }
 
-extension Notification {
+extension _Notification {
     init(_ data: [String: Any], id: String) {
         type = _NotificationType(rawValue: data[FirebaseKeys.NotificationKeys.notifications.type] as! String)!
         objectType = ObjectType(rawValue: data[FirebaseKeys.NotificationKeys.notifications.objectType] as! String)!

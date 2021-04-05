@@ -7,20 +7,31 @@
 
 import UIKit
 
-class TextField: UITextField {
+class TextField: UITextView {
     
     let shadowLayer = CALayer()
     let maxCharsLabel: UILabel?
+    
+    let placeholder: String?
+    var placeholderActive:Bool
 
-    init(placeholder: String? = nil, style: Style = .card, maxChars: Int? = nil) {
-        maxCharsLabel = UILabel()
-        maxCharsLabel!.text = "0/\(maxChars)"
-        
-        super.init(frame: .zero)
-        
-        if let placeholder = placeholder {
-            self.placeholder = placeholder
+    init(placeholder: String? = nil, style: Style = .card, maxChars: Int? = nil, numLines: Int? = nil, font: UIFont? = nil) {
+        if let maxChars = maxChars {
+            maxCharsLabel = Label("0/\(maxChars)", style: .bodyBold, fontSize: 10)
+            maxCharsLabel?.alpha = 0.7
+        } else {
+            maxCharsLabel = nil
         }
+        
+        placeholderActive = placeholder != nil
+        self.placeholder = placeholder
+        
+        super.init(frame: .zero, textContainer: nil)
+        
+        text = placeholder
+        
+        isScrollEnabled = false
+        textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
         
         shadowLayer.shadowColor = UIColor.black.cgColor
         shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
@@ -30,18 +41,36 @@ class TextField: UITextField {
         layer.insertSublayer(shadowLayer, at: 0)
         
         setStyle(style)
+        self.font = font
         
-        font = UIFont(name: "Raleway-Medium", size: 15)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(textDidChange),
+            name: UITextView.textDidChangeNotification,
+            object: nil
+        )
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+                
         shadowLayer.frame = bounds
+        
+        maxCharsLabel?.sizeToFit()
+        maxCharsLabel?.frame = CGRect(
+            x: width - maxCharsLabel!.width - 10,
+            y: height - maxCharsLabel!.height - 5,
+            width: maxCharsLabel!.width,
+            height: maxCharsLabel!.height
+        )
     }
     
     enum Style {
@@ -60,19 +89,18 @@ class TextField: UITextField {
             textColor = UIColor(named: "XYTint")
         }
     }
+
+    @objc private func textDidChange(notification: Notification) {
+        guard let obj = notification.object as? NSObject, obj == self else {
+            return
+        }
         
-    var inset: CGFloat = 10
-
-    override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: inset , dy: inset)
+        if text == "" {
+            text = placeholder
+            placeholderActive = true
+        } else if placeholderActive {
+            text.removeFirst(text.count-1)
+            placeholderActive = false
+        }
     }
-
-    override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: inset , dy: inset)
-    }
-
-    override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.insetBy(dx: inset, dy: inset)
-    }
-
 }

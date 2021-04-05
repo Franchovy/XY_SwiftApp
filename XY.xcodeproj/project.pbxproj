@@ -237,7 +237,7 @@
 		B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowDataCell.swift */; };
 		B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56025A5F362001859EA /* PostViewModel.swift */; };
 		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
-		B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* Notification.swift */; };
+		B9DFBA6325B7495D0084E79D /* _Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* _Notification.swift */; };
 		B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9B25ED746500C4FF9F /* Global.swift */; };
 		B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */; };
 		B9E67E5E25F41C31004FA873 /* VideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E67E5D25F41C31004FA873 /* VideoModel.swift */; };
@@ -515,7 +515,7 @@
 		B9D1AB3025A3A591009B428E /* FlowDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataCell.swift; sourceTree = "<group>"; };
 		B9D5E56025A5F362001859EA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
-		B9DFBA6225B7495D0084E79D /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		B9DFBA6225B7495D0084E79D /* _Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Notification.swift; sourceTree = "<group>"; };
 		B9E55D9B25ED746500C4FF9F /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignupViewController.swift; sourceTree = "<group>"; };
 		B9E67E5D25F41C31004FA873 /* VideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoModel.swift; sourceTree = "<group>"; };
@@ -874,7 +874,7 @@
 				14BDAF8325A37DD800D19282 /* MessageModel.swift */,
 				148935BE25A2686F00CB60C3 /* ConversationModel.swift */,
 				B95482B725AAF1E00058D8B4 /* XPModel.swift */,
-				B9DFBA6225B7495D0084E79D /* Notification.swift */,
+				B9DFBA6225B7495D0084E79D /* _Notification.swift */,
 				B9D1AB3025A3A591009B428E /* FlowDataCell.swift */,
 				B9781DCF25DE70FA00A2FE2D /* UserModel.swift */,
 				B92161ED25E2CC1B001BE793 /* Relationship.swift */,
@@ -1661,7 +1661,7 @@
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9ABAA9A25F78859009CB966 /* ChallengeVideoViewModel.swift in Sources */,
 				B97353012618AF7A00183201 /* SendCollectionViewCellViewModel.swift in Sources */,
-				B9DFBA6325B7495D0084E79D /* Notification.swift in Sources */,
+				B9DFBA6325B7495D0084E79D /* _Notification.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
 				B952F5D3261778A20063E7B4 /* DescriptionViewController.swift in Sources */,
 				B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */,

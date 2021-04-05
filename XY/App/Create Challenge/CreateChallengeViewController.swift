@@ -80,23 +80,33 @@ class CreateChallengeViewController: UIViewController {
         let prompt = Prompt()
         
         prompt.setTitle(text: "Create Challenge", isGradient: true)
-        prompt.addTextField(placeholderText: "What is your challenge called?", maxChars: 15, font: UIFont(name: "Raleway-Heavy", size: 15)!)
-        prompt.addTextField(placeholderText: "Write a description for your challenge", maxChars: 50)
+        prompt.addTextField(
+            placeholderText: "What is your challenge called?",
+            maxChars: 15,
+            numLines: 1,
+            font: UIFont(name: "Raleway-Heavy", size: 15)!
+        )
+        prompt.addTextField(
+            placeholderText: "Write a description for your challenge",
+            maxChars: 50,
+            numLines: 6
+        )
         prompt.addButton(
             buttonText: "Record",
-            backgroundColor: UIColor(0xF23333),
             textColor: UIColor(named: "XYWhite")!,
             icon: UIImage(systemName: "video.fill"),
-            style: .action,
+            style: .action(style: .roundButton(backgroundColor: .red)),
+            font: UIFont(name: "Raleway-Heavy", size: 20),
             closeOnTap: true,
             onTap: nil,
             target: nil
         )
         prompt.addExternalButton(
-            buttonText: "Fast Record",
+            buttonText: "Record now",
             buttonIcon: UIImage(systemName: "video.fill")!,
             backgroundColor: UIColor(0xF23333),
             textColor: UIColor(named: "XYWhite")!,
+            font: UIFont(name: "Raleway-Heavy", size: 18),
             closeOnTap: true,
             onTap: nil,
             target: nil

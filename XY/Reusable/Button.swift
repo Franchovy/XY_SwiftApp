@@ -14,6 +14,7 @@ class Button: UIButton {
         case card
         case roundButton(backgroundColor: UIColor)
         case roundButtonBorder(gradient: [UIColor])
+        case text
     }
     let style: Style
     
@@ -32,6 +33,7 @@ class Button: UIButton {
         title: String? = nil,
         style: Style,
         titlePosition: TitlePosition? = nil,
+        font: UIFont? = nil,
         paddingVertical: CGFloat = 15,
         paddingHorizontal: CGFloat = 15,
         imageSizeIncrease: CGFloat = 0
@@ -48,6 +50,7 @@ class Button: UIButton {
         tintColor = UIColor(named: "XYWhite")
         
         setTitle(title, for: .normal)
+        titleLabel?.font = font
         
         switch style {
         case .circular(let backgroundColor):
@@ -68,6 +71,8 @@ class Button: UIButton {
             shapeLayer.borderColor = UIColor.black.cgColor
             
             layer.insertSublayer(gradientLayer, at: 0)
+        case .text:
+            break
         }
         
         backgroundLayer.masksToBounds = true
@@ -103,6 +108,8 @@ class Button: UIButton {
             shapeLayer.cornerRadius = height/2
             shapeLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
             gradientLayer.frame = bounds
+        case .text:
+            break
         }
         
         switch titlePosition {

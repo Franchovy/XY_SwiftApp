@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DescriptionViewController: UIViewController, UITextFieldDelegate {
+class DescriptionViewController: UIViewController, UITextViewDelegate {
     
     private let challengeNameTextField = TextField(placeholder: "Give a title to your challenge...", style: .card, maxChars: 15)
     private let challengeDescriptionTextField = TextField(placeholder: "Describe what you have to do in your challenge...", style: .card, maxChars: 50)
@@ -90,11 +90,11 @@ class DescriptionViewController: UIViewController, UITextFieldDelegate {
         challengePreviewImage.image = image
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if textField == challengeDescriptionTextField {
-            CreateChallengeManager.shared.description = textField.text
-        } else if textField == challengeNameTextField {
-            CreateChallengeManager.shared.title = textField.text
+    func textViewDidChange(_ textView: UITextView) {
+        if textView == challengeDescriptionTextField {
+            CreateChallengeManager.shared.description = textView.text
+        } else if textView == challengeNameTextField {
+            CreateChallengeManager.shared.title = textView.text
         }
         
         navigationItem.rightBarButtonItem?.isEnabled =  CreateChallengeManager.shared.isReadyToCreateCard()

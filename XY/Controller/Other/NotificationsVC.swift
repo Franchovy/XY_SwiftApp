@@ -102,7 +102,7 @@ class NotificationsVC: UIViewController {
                     
                     let data = notificationDocument.data()
                     
-                    let notificationModel = Notification(data, id: notificationDocument.documentID)
+                    let notificationModel = _Notification(data, id: notificationDocument.documentID)
                     var notificationViewModel = _NotificationViewModel(from: notificationModel)
                     notificationViewModel.delegate = strongSelf
                     
@@ -124,7 +124,7 @@ class NotificationsVC: UIViewController {
                         let document = documentChanges.document
                         let data = document.data()
 
-                        let notificationModel = Notification(data, id: document.documentID)
+                        let notificationModel = _Notification(data, id: document.documentID)
                         var notificationViewModel = _NotificationViewModel(from: notificationModel)
                         notificationViewModel.delegate = strongSelf
 

@@ -1,5 +1,5 @@
 //
-//  Notification.swift
+//  _Notification.swift
 //  XY_APP
 //
 //  Created by Simone on 01/01/2021.
@@ -34,9 +34,9 @@ class _NotificationViewModel {
     var type: _NotificationType
     
     let objectType: ObjectType
-    let model: Notification
+    let model: _Notification
     
-    init(from model: Notification) {
+    init(from model: _Notification) {
         self.model = model
         notificationId = model.notificationId
         date = model.timestamp

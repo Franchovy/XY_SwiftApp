@@ -13,7 +13,7 @@ class Prompt: UIView {
     
     enum ButtonStyle {
         case embedded
-        case action
+        case action(style: Button.Style)
     }
     
     // MARK: - UI PROPERTIES
@@ -128,7 +128,7 @@ class Prompt: UIView {
             button.sizeToFit()
             button.frame = CGRect(
                 x: (width - button.width)/2,
-                y: (height - card.bottom)/2 - button.height/2,
+                y: card.bottom + (height - card.bottom)/2 - button.height/2,
                 width: button.width,
                 height: button.height
             )
@@ -182,8 +182,8 @@ class Prompt: UIView {
         
     }
     
-    public func addTextField(placeholderText: String, maxChars: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
-        let textField = TextField(placeholder: placeholderText, style: .card)
+    public func addTextField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
+        let textField = TextField(placeholder: placeholderText, style: .card, numLines: numLines, font: font)
         
         card.addSubview(textField)
         fields.append(textField)
@@ -195,38 +195,49 @@ class Prompt: UIView {
         textColor: UIColor = UIColor(named: "XYTint")!,
         icon: UIImage? = nil,
         style: ButtonStyle,
+        font: UIFont? = nil,
         closeOnTap: Bool = false,
         onTap: (() -> Void)? = nil,
         target: Selector? = nil
     ) {
-        let button = UIButton()
-        button.setTitle(buttonText, for: .normal)
-        
-        button.setBackgroundColor(color: backgroundColor, forState: .normal)
-        button.setTitleColor(textColor, for: .normal)
-        
-        card.addSubview(button)
-        buttons.append(button)
-        
-        button.addAction {
-            onTap?()
+        switch style {
+        case .action(let style):
+            let button = Button(image: icon, title: buttonText, style: style, font: font)
             
-            if closeOnTap {
-                if self.onCompletion != nil {
-                    self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+            button.setTitleColor(textColor, for: .normal)
+            
+            card.addSubview(button)
+            buttons.append(button)
+            
+            button.addAction {
+                onTap?()
+                
+                if closeOnTap {
+                    if self.onCompletion != nil {
+                        self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+                    }
+                    self.disappear()
                 }
-                self.disappear()
+            }
+        case .embedded:
+            let button = Button(title: buttonText, style: .text)
+            
+            button.setTitleColor(textColor, for: .normal)
+            
+            card.addSubview(button)
+            buttons.append(button)
+            
+            button.addAction {
+                onTap?()
+                
+                if closeOnTap {
+                    if self.onCompletion != nil {
+                        self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+                    }
+                    self.disappear()
+                }
             }
         }
-//        button.addTarget(Selector(, action: <#T##Selector#>, for: <#T##UIControl.Event#>)
-        
-//        if style == .action {
-//            button.setBackgroundColor(color: backgroundColor, forState: .normal)
-//            button.setTitleColor(textColor, for: .normal)
-//        } else {
-//            button.setTitleColor(textColor, for: .normal)
-//            button.frame.size.width = card.width
-//        }
     }
     
     public func addExternalButton(
@@ -234,17 +245,17 @@ class Prompt: UIView {
         buttonIcon: UIImage? = nil,
         backgroundColor: UIColor = UIColor(named: "XYCard")!,
         textColor: UIColor = UIColor(named: "XYTint")!,
+        font: UIFont? = nil,
         closeOnTap: Bool = true,
         onTap: (() -> Void)? = nil,
         target: Selector? = nil
     ) {
-        let button = UIButton()
-        button.setTitle(buttonText, for: .normal)
         
-        button.setBackgroundColor(color: backgroundColor, forState: .normal)
+        let button = Button(title: buttonText, style: .roundButton(backgroundColor: backgroundColor), font: font)
+        
         button.setTitleColor(textColor, for: .normal)
         
-        card.addSubview(button)
+        addSubview(button)
         externalButtons.append(button)
         
         button.addAction {
