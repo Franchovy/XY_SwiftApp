@@ -11,15 +11,19 @@ class TextField: UITextView {
     
     let shadowLayer = CALayer()
     let maxCharsLabel: UILabel?
+    let maxChars: Int?
     
     let placeholder: String?
     var placeholderActive:Bool
 
     init(placeholder: String? = nil, style: Style = .card, maxChars: Int? = nil, numLines: Int? = nil, font: UIFont? = nil) {
         if let maxChars = maxChars {
+            self.maxChars = maxChars
             maxCharsLabel = Label("0/\(maxChars)", style: .bodyBold, fontSize: 10)
-            maxCharsLabel?.alpha = 0.7
+            maxCharsLabel?.textAlignment = .right
+            maxCharsLabel!.alpha = 0.7
         } else {
+            self.maxChars = nil
             maxCharsLabel = nil
         }
         
@@ -27,6 +31,10 @@ class TextField: UITextView {
         self.placeholder = placeholder
         
         super.init(frame: .zero, textContainer: nil)
+        
+        if let maxCharsLabel = maxCharsLabel {
+            addSubview(maxCharsLabel)
+        }
         
         text = placeholder
         
@@ -43,12 +51,9 @@ class TextField: UITextView {
         setStyle(style)
         self.font = font
         
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(textDidChange),
-            name: UITextView.textDidChangeNotification,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didBeginEditing), name: UITextView.textDidBeginEditingNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didEndEditing), name: UITextView.textDidEndEditingNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -66,9 +71,9 @@ class TextField: UITextView {
         
         maxCharsLabel?.sizeToFit()
         maxCharsLabel?.frame = CGRect(
-            x: width - maxCharsLabel!.width - 10,
+            x: width - maxCharsLabel!.width - 10 - 25,
             y: height - maxCharsLabel!.height - 5,
-            width: maxCharsLabel!.width,
+            width: maxCharsLabel!.width + 25,
             height: maxCharsLabel!.height
         )
     }
@@ -95,12 +100,37 @@ class TextField: UITextView {
             return
         }
         
+        if let maxChars = maxChars {
+            if text.count > maxChars {
+                text.popLast()
+            }
+            
+            maxCharsLabel!.text = "\(text.count)/\(maxChars)"
+        }
+    }
+    
+    @objc private func didBeginEditing(notification: Notification) {
+        guard let obj = notification.object as? NSObject, obj == self else {
+            return
+        }
+        
+        if placeholderActive {
+            text = ""
+            placeholderActive = false
+            textColor = textColor?.withAlphaComponent(1.0)
+        }
+    }
+    
+    @objc private func didEndEditing(notification: Notification) {
+        guard let obj = notification.object as? NSObject, obj == self else {
+            return
+        }
+        
         if text == "" {
             text = placeholder
             placeholderActive = true
-        } else if placeholderActive {
-            text.removeFirst(text.count-1)
-            placeholderActive = false
+            textColor = textColor?.withAlphaComponent(0.5)
         }
     }
 }
+ 

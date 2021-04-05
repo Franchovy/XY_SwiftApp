@@ -183,7 +183,7 @@ class Prompt: UIView {
     }
     
     public func addTextField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
-        let textField = TextField(placeholder: placeholderText, style: .card, numLines: numLines, font: font)
+        let textField = TextField(placeholder: placeholderText, style: .card, maxChars: maxChars, numLines: numLines, font: font)
         
         card.addSubview(textField)
         fields.append(textField)
