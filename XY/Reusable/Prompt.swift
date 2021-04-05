@@ -97,7 +97,7 @@ class Prompt: UIView, UITextViewDelegate {
             
             if field is UITextView {
                 height += CGFloat((field as! UITextView).textContainer.maximumNumberOfLines) * 25
-            } else if field is UIButton {
+            } else if let button = field as? UIButton {
                 (field as! UIButton).sizeToFit()
                 height = field.height
             }
@@ -118,22 +118,32 @@ class Prompt: UIView, UITextViewDelegate {
                 if let index = buttons.filter({($0 as! Button).style == .text}).firstIndex(of: button) {
                     separators[index].frame = CGRect(x: 0, y: previousY + 7, width: cardWidth, height: 1)
                 }
+                
+                button.frame = CGRect(
+                    x: 0,
+                    y: previousY + 7,
+                    width: cardWidth,
+                    height: 50.77
+                )
+                
+                previousY = button.bottom
+            } else {
+                button.sizeToFit()
+                button.frame = CGRect(
+                    x: (cardWidth - button.width)/2,
+                    y: previousY + 14,
+                    width: button.width,
+                    height: button.height
+                )
+                button.layer.cornerRadius = button.height/2
+                
+                previousY = button.bottom
             }
-            
-            button.sizeToFit()
-            button.frame = CGRect(
-                x: (cardWidth - button.width)/2,
-                y: previousY + 14,
-                width: button.width,
-                height: button.height
-            )
-            button.layer.cornerRadius = button.height/2
-            
-            previousY = button.bottom
         }
         
+        let lastButtonIsEmbedded = (buttons.last) != nil && ((buttons.last)! as! Button).style == .text
         let cardHeight = (buttons.last?.bottom ?? fields.last?.bottom ?? titleLabel?.bottom ?? 0)
-            + 14
+            + (lastButtonIsEmbedded ? 0 : 14)
         
         card.frame = CGRect(
             x: (width - cardWidth)/2,
@@ -213,8 +223,7 @@ class Prompt: UIView, UITextViewDelegate {
         let button = Button(image: image, title: buttonText, style: .card, font: font, paddingVertical: 16, paddingHorizontal: 16)
         button.setTitleColor(UIColor(named: "XYTint"), for: .normal)
         button.tintColor = UIColor(named: "XYTint")
-        button.setBackgroundColor(color: UIColor(named: "XYBackground")!, forState: .normal)
-        
+//        button.setBackgroundColor(color: UIColor(named: "XYBackground")!, forState: .normal)
         
         if let onTap = onTap {
             button.addAction {

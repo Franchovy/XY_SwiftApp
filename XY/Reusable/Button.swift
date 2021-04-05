@@ -8,7 +8,7 @@
 import UIKit
 
 class Button: UIButton {
-
+    
     enum Style : Equatable {
         case circular(backgroundColor: UIColor)
         case card
@@ -52,6 +52,12 @@ class Button: UIButton {
         setTitle(title, for: .normal)
         titleLabel?.font = font
         
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.shadowRadius = 6
+        layer.shadowOpacity = 0.7
+        
         switch style {
         case .circular(let backgroundColor):
             backgroundLayer.backgroundColor = backgroundColor.cgColor
@@ -72,18 +78,15 @@ class Button: UIButton {
             
             layer.insertSublayer(gradientLayer, at: 0)
         case .text:
-            break
+            layer.shadowOpacity = 0.0
+            contentVerticalAlignment = .center
+            contentHorizontalAlignment = .center
         }
         
         backgroundLayer.masksToBounds = true
     
         layer.insertSublayer(backgroundLayer, below: imageView?.layer)
         
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 3)
-        layer.shadowRadius = 6
-        layer.shadowOpacity = 0.7
     }
     
     required init?(coder: NSCoder) {
@@ -109,7 +112,7 @@ class Button: UIButton {
             shapeLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: height/2).cgPath
             gradientLayer.frame = bounds
         case .text:
-            break
+            backgroundLayer.frame = bounds
         }
         
         switch titlePosition {
@@ -153,8 +156,66 @@ class Button: UIButton {
         if style != .text {
             frame.size.width = intrinsicContentSize.width + padding.left + padding.right
             frame.size.height = intrinsicContentSize.height + padding.top + padding.bottom
+        }
+    }
+    
+    var isAnimateSelected = false
+    
+    private func animateSelect() {
+        guard !isAnimateSelected else {
+            return
+        }
+        
+        alpha = 0.8
+        UIView.animate(withDuration: 0.1) {
+            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }
+        isAnimateSelected = true
+    }
+    
+    private func animateDeselect() {
+        guard isAnimateSelected else {
+            return
+        }
+        
+        alpha = 1.0
+        UIView.animate(withDuration: 0.2) {
+            self.transform = .identity
+        }
+        isAnimateSelected = false
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+                
+        animateSelect()
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
+        animateDeselect()
+    }
+    
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        
+        animateDeselect()
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
+
+        if isHighlighted {
+            animateSelect()
         } else {
-            
+            animateDeselect()
+        }
+    }
+    
+    override var isEnabled: Bool {
+        didSet {
+            alpha = isEnabled ? 1.0 : 0.4
         }
     }
 }
