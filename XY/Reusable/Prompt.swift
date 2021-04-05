@@ -191,7 +191,7 @@ class Prompt: UIView, UITextViewDelegate {
         
     }
     
-    public func addTextField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
+    public func addTextInputField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
         let textField = TextField(placeholder: placeholderText, style: .card, maxChars: maxChars, numLines: numLines, font: font)
         textField.delegate = self
         
@@ -199,7 +199,20 @@ class Prompt: UIView, UITextViewDelegate {
         fields.append(textField)
     }
     
-    public func addButton(
+    public func addButtonField(image: UIImage? = nil, buttonText: String, font: UIFont? = nil, onTap: (() -> Void)? = nil) {
+        let button = Button(image: image, title: buttonText, style: .card, font: font)
+        button.setBackgroundColor(color: UIColor(named: "XYBackground")!, forState: .normal)
+        if let onTap = onTap {
+            button.addAction {
+                onTap()
+            }
+        }
+        
+        card.addSubview(button)
+        fields.append(button)
+    }
+    
+    public func addCompletionButton(
         buttonText: String,
         backgroundColor: UIColor = UIColor(named: "XYCard")!,
         textColor: UIColor = UIColor(named: "XYTint")!,
@@ -263,7 +276,7 @@ class Prompt: UIView, UITextViewDelegate {
         target: Selector? = nil
     ) {
         
-        let button = Button(title: buttonText, style: .roundButton(backgroundColor: backgroundColor), font: font)
+        let button = Button(title: buttonText, style: .roundButton(backgroundColor: backgroundColor), font: font, paddingVertical: 5, paddingHorizontal: 10)
         
         button.setTitleColor(textColor, for: .normal)
         

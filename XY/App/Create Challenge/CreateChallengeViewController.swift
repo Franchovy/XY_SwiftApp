@@ -80,18 +80,18 @@ class CreateChallengeViewController: UIViewController {
         let prompt = Prompt()
         prompt.textFieldsRequiredForButton = true
         prompt.setTitle(text: "Create Challenge", isGradient: true)
-        prompt.addTextField(
+        prompt.addTextInputField(
             placeholderText: "What is your challenge called?",
             maxChars: 15,
             numLines: 1,
             font: UIFont(name: "Raleway-Heavy", size: 15)!
         )
-        prompt.addTextField(
+        prompt.addTextInputField(
             placeholderText: "Write a description for your challenge",
             maxChars: 50,
             numLines: 6
         )
-        prompt.addButton(
+        prompt.addCompletionButton(
             buttonText: "Record",
             textColor: UIColor(named: "XYWhite")!,
             icon: UIImage(systemName: "video.fill"),

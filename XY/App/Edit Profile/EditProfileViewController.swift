@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditProfileViewController: UIViewController {
+class EditProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     private let profileImage = EditProfileImageView()
     private let nicknameTextField = EditNicknameTextField()
@@ -16,6 +16,8 @@ class EditProfileViewController: UIViewController {
     private let challengesLabel = Label("Challenges", style: .body, fontSize: 15)
     private let numFriendsLabel = Label(style: .body, fontSize: 25)
     private let numChallengesLabel = Label(style: .body, fontSize: 25)
+    
+    private var imagePickerController: UIImagePickerController?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -38,6 +40,9 @@ class EditProfileViewController: UIViewController {
         view.addSubview(numChallengesLabel)
         
         configure()
+        
+        profileImage.isUserInteractionEnabled = true
+        profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage)))
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
         
@@ -103,6 +108,42 @@ class EditProfileViewController: UIViewController {
         
         numFriendsLabel.text = String(describing: Int.random(in: 0...1000))
         numChallengesLabel.text = String(describing: Int.random(in: 0...1000))
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        imagePickerController?.dismiss(animated: true, completion: nil)
+        imagePickerController = nil
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        imagePickerController?.dismiss(animated: true, completion: nil)
+        imagePickerController = nil
+    }
+    
+    @objc private func didTapProfileImage() {
+        let prompt = Prompt()
+        prompt.addButtonField(image: UIImage(systemName: "camera.fill"), buttonText: "Take Photo", onTap: didTapCamera)
+        prompt.addButtonField(image: UIImage(systemName: "photo.fill.on.rectangle.fill"), buttonText: "Take Photo", onTap: didTapPhotoLibrary)
+        prompt.addCompletionButton(buttonText: "Cancel", style: .embedded)
+        
+        view.addSubview(prompt)
+        prompt.appear()
+    }
+    
+    @objc private func didTapCamera() {
+        imagePickerController = UIImagePickerController()
+        imagePickerController!.sourceType = .camera
+        imagePickerController!.allowsEditing = true
+        imagePickerController!.delegate = self
+        present(imagePickerController!, animated: true)
+    }
+    
+    @objc private func didTapPhotoLibrary() {
+        imagePickerController = UIImagePickerController()
+        imagePickerController!.sourceType = .photoLibrary
+        imagePickerController!.allowsEditing = true
+        imagePickerController!.delegate = self
+        present(imagePickerController!, animated: true)
     }
     
     @objc private func didTapSettings() {
