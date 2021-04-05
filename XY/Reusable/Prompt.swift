@@ -96,6 +96,9 @@ class Prompt: UIView, UITextViewDelegate {
             
             if field is UITextView {
                 height += CGFloat((field as! UITextView).textContainer.maximumNumberOfLines) * 25
+            } else if field is UIButton {
+                (field as! UIButton).sizeToFit()
+                height = field.height
             }
             
             field.frame = CGRect(
@@ -200,8 +203,12 @@ class Prompt: UIView, UITextViewDelegate {
     }
     
     public func addButtonField(image: UIImage? = nil, buttonText: String, font: UIFont? = nil, onTap: (() -> Void)? = nil) {
-        let button = Button(image: image, title: buttonText, style: .card, font: font)
+        let button = Button(image: image, title: buttonText, style: .card, font: font, paddingVertical: 16, paddingHorizontal: 16)
+        button.setTitleColor(UIColor(named: "XYTint"), for: .normal)
+        button.tintColor = UIColor(named: "XYTint")
         button.setBackgroundColor(color: UIColor(named: "XYBackground")!, forState: .normal)
+        
+        
         if let onTap = onTap {
             button.addAction {
                 onTap()

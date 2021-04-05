@@ -122,8 +122,17 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     @objc private func didTapProfileImage() {
         let prompt = Prompt()
-        prompt.addButtonField(image: UIImage(systemName: "camera.fill"), buttonText: "Take Photo", onTap: didTapCamera)
-        prompt.addButtonField(image: UIImage(systemName: "photo.fill.on.rectangle.fill"), buttonText: "Take Photo", onTap: didTapPhotoLibrary)
+        prompt.setTitle(text: "Change Profile Photo")
+        prompt.addButtonField(
+            image: UIImage(systemName: "camera.fill"),
+            buttonText: "Take Photo",
+            font: UIFont(name: "Raleway-Medium", size: 15),
+            onTap: didTapCamera)
+        prompt.addButtonField(
+            image: UIImage(systemName: "photo.fill.on.rectangle.fill"),
+            buttonText: "Photo Library",
+            font: UIFont(name: "Raleway-Medium", size: 15),
+            onTap: didTapPhotoLibrary)
         prompt.addCompletionButton(buttonText: "Cancel", style: .embedded)
         
         view.addSubview(prompt)
