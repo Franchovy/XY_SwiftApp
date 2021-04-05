@@ -79,6 +79,7 @@ class CreateChallengeViewController: UIViewController {
     private func displayNewChallengePrompt() {
         let prompt = Prompt()
         prompt.textFieldsRequiredForButton = true
+        prompt.tapEscapable = false
         prompt.setTitle(text: "Create Challenge", isGradient: true)
         prompt.addTextInputField(
             placeholderText: "What is your challenge called?",

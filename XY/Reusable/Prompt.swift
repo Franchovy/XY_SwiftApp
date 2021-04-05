@@ -37,7 +37,7 @@ class Prompt: UIView, UITextViewDelegate {
     
     // MARK: - PROPERTIES
     
-    var tapEscapable: Bool = false
+    var tapEscapable: Bool = true
     var textFieldsRequiredForButton: Bool = false
     
     // MARK: - INITIALISERS
@@ -75,6 +75,10 @@ class Prompt: UIView, UITextViewDelegate {
     }
     
     override func layoutSubviews() {
+        guard !animating else {
+            return
+        }
+        
         super.layoutSubviews()
         
         blurEffectView.frame = bounds
@@ -178,7 +182,12 @@ class Prompt: UIView, UITextViewDelegate {
         }
     }
     
+    var animating = false
     public func disappear() {
+        guard !animating else {
+            return
+        }
+        animating = true
         
         UIView.animate(withDuration: 0.3) {
             self.card.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
@@ -186,8 +195,9 @@ class Prompt: UIView, UITextViewDelegate {
             self.blurEffectView.alpha = 0.0
         } completion: { (done) in
             if done {
-                self.card.transform = .identity
+                self.transform = .identity
                 self.removeFromSuperview()
+                self.animating = false
             }
         }
     }
