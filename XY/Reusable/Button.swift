@@ -199,11 +199,18 @@ class Button: UIButton {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
                 
+        HapticsManager.shared.vibrateImpact(for: .light)
+        
         animateSelect()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        
+        if isSelected {
+            HapticsManager.shared.vibrateImpact(for: .rigid)
+        }
+        
         
         animateDeselect()
     }
