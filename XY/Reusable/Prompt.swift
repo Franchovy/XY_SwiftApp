@@ -7,7 +7,7 @@
 
 import UIKit
 
-class Prompt: UIView {
+class Prompt: UIView, UITextViewDelegate {
     
     // MARK: - ENUMS
     
@@ -37,6 +37,7 @@ class Prompt: UIView {
     // MARK: - PROPERTIES
     
     var tapEscapable: Bool = false
+    var textFieldsRequiredForButton: Bool = false
     
     // MARK: - INITIALISERS
     
@@ -53,6 +54,8 @@ class Prompt: UIView {
         
         blurEffectView.alpha = 0.0
         card.alpha = 0.0
+        
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
     }
     
     required init?(coder: NSCoder) {
@@ -89,11 +92,17 @@ class Prompt: UIView {
         
         var previousY:CGFloat = titleLabel?.bottom ?? 0
         for field in fields {
+            var height: CGFloat = 80
+            
+            if field is UITextView {
+                height += CGFloat((field as! UITextView).textContainer.maximumNumberOfLines) * 25
+            }
+            
             field.frame = CGRect(
                 x: 16,
                 y: previousY + 14,
                 width: cardWidth - 32,
-                height: 80
+                height: height
             )
             
             previousY = field.bottom
@@ -184,6 +193,7 @@ class Prompt: UIView {
     
     public func addTextField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
         let textField = TextField(placeholder: placeholderText, style: .card, maxChars: maxChars, numLines: numLines, font: font)
+        textField.delegate = self
         
         card.addSubview(textField)
         fields.append(textField)
@@ -208,6 +218,8 @@ class Prompt: UIView {
             
             card.addSubview(button)
             buttons.append(button)
+            
+            button.isEnabled = !textFieldsRequiredForButton
             
             button.addAction {
                 onTap?()
@@ -270,7 +282,23 @@ class Prompt: UIView {
         }
     }
     
+    func textViewDidChange(_ textView: UITextView) {
+        if textFieldsRequiredForButton {
+            var fieldsFilled = true
+            
+            fields.filter({$0 is TextField}).forEach({ fieldsFilled = fieldsFilled && ($0 as! TextField).text.count > 0 })
+            
+            buttons.forEach({ $0.isEnabled = fieldsFilled })
+        }
+    }
+    
+    @objc private func tappedAnywhere() {
+        fields.filter({$0 is TextField}).forEach({ ($0 as! TextField).resignFirstResponder() })
+    }
+    
     @objc private func tappedBlurView() {
+        fields.filter({$0 is TextField}).forEach({ ($0 as! TextField).resignFirstResponder() })
+        
         if tapEscapable {
             disappear()
         }

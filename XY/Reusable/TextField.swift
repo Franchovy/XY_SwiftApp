@@ -36,10 +36,24 @@ class TextField: UITextView {
             addSubview(maxCharsLabel)
         }
         
+        setStyle(style)
+        self.font = font
+        
         text = placeholder
+        if placeholderActive {
+            textColor = textColor?.withAlphaComponent(0.5)
+        }
         
         isScrollEnabled = false
-        textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+        textContainerInset = UIEdgeInsets(
+            top: 15,
+            left: 15,
+            bottom: 15,
+            right: 15
+        )
+        if let numLines = numLines {
+            textContainer.maximumNumberOfLines = numLines
+        }
         
         shadowLayer.shadowColor = UIColor.black.cgColor
         shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
@@ -47,10 +61,7 @@ class TextField: UITextView {
         shadowLayer.shadowOpacity = 0.8
         
         layer.insertSublayer(shadowLayer, at: 0)
-        
-        setStyle(style)
-        self.font = font
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didBeginEditing), name: UITextView.textDidBeginEditingNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didEndEditing), name: UITextView.textDidEndEditingNotification, object: nil)
