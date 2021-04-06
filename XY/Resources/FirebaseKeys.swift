@@ -91,6 +91,8 @@ struct FirebaseKeys {
         static let level = "level"
         static let website = "website"
         static let xp = "xp"
+        static let numFriends = "numFriends"
+        static let numChallenges = "numChallenges"
     }
     
     struct PostKeys {

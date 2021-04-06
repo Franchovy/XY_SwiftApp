@@ -21,6 +21,8 @@ struct ProfileModel : Encodable {
     var xp: Int
     var level: Int
     var caption: String
+    var numChallenges: Int
+    var numFriends: Int
 }
 
 extension ProfileModel {
@@ -36,6 +38,8 @@ extension ProfileModel {
         swipeRights = data[FirebaseKeys.ProfileKeys.swipeRights] as! Int
         xp = data[FirebaseKeys.ProfileKeys.xp] as! Int
         level = data[FirebaseKeys.ProfileKeys.level] as! Int
+        numFriends = data[FirebaseKeys.ProfileKeys.numFriends] as? Int ?? 0
+        numChallenges = data[FirebaseKeys.ProfileKeys.numChallenges] as? Int ?? 0
     }
 }
 
@@ -66,7 +70,9 @@ extension ProfileModel {
                 FirebaseKeys.ProfileKeys.swipeRights: 0,
                 FirebaseKeys.ProfileKeys.xp: 0,
                 FirebaseKeys.ProfileKeys.level: 0,
-                FirebaseKeys.ProfileKeys.caption: "I'm new on XY!"
+                FirebaseKeys.ProfileKeys.caption: "I'm new on XY!",
+                FirebaseKeys.ProfileKeys.numFriends: 0,
+                FirebaseKeys.ProfileKeys.numFriends: 0
         ]
     }
 }
