@@ -100,10 +100,21 @@ class Prompt: UIView, UITextViewDelegate {
             var height: CGFloat = 80
             
             if field is UITextView {
-                height += CGFloat((field as! UITextView).textContainer.maximumNumberOfLines) * 25
-            } else if let button = field as? UIButton {
+                height += CGFloat((field as! UITextView).textContainer.maximumNumberOfLines) * 15
+            } else if field is UIButton {
                 (field as! UIButton).sizeToFit()
                 height = field.height
+            } else if field is UILabel {
+                if let text = (field as! UILabel).text {
+                    let boundingRect = text.boundingRect(
+                        with: CGSize(width: cardWidth - 20, height: .greatestFiniteMagnitude),
+                        options: .usesLineFragmentOrigin,
+                        attributes: [.font: (field as! UILabel).font],
+                        context: nil
+                    )
+                    
+                    height = boundingRect.height
+                }
             }
             
             field.frame = CGRect(
@@ -220,7 +231,13 @@ class Prompt: UIView, UITextViewDelegate {
     }
     
     public func addText(text: String, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
+        let label = Label(text, style: .body)
+        label.font = font
+        label.numberOfLines = 0
+        label.textAlignment = .center
         
+        card.addSubview(label)
+        fields.append(label)
     }
     
     public func addTextInputField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
