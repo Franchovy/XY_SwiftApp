@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class DescriptionViewController: UIViewController, UITextViewDelegate {
     
     private let challengeNameTextField = TextField(placeholder: "Give a title to your challenge...", style: .card, maxChars: 15)
@@ -51,6 +52,8 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(didTapNext))
         navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        downloadVideoButton.addTarget(self, action: #selector(didTapSaveVideo), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -107,5 +110,33 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
         let vc = SendChallengeViewController(with: cardViewModel)
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func didTapSaveVideo() {
+        guard let url = CreateChallengeManager.shared.videoUrl else {
+            return
+        }
+        VideoSaver.saveVideoWithUrl(url: url) { success, error in
+            DispatchQueue.main.async {
+                if success {
+                    let prompt = Prompt()
+                    prompt.setTitle(text: "Success")
+                    prompt.addText(text: "Video saved to your photos library.")
+                    
+                    self.view.addSubview(prompt)
+                    prompt.appear()
+
+                } else {
+                    let prompt = Prompt()
+                    prompt.setTitle(text: "Error")
+                    prompt.addText(text: "Video failed to save to your library.")
+                    if let error = error {
+                        prompt.addText(text: error.localizedDescription, font: UIFont(name: "Raleway-Bold", size: 12)!)
+                    }
+                    self.view.addSubview(prompt)
+                    prompt.appear()
+                }
+            }
+        }
     }
 }
