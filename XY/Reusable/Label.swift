@@ -14,13 +14,19 @@ class Label: UILabel {
         case body
         case bodyBold
         case nickname
+        case info
     }
     
-    init(_ labelText: String? = nil, style: LabelStyle, fontSize: CGFloat? = nil) {
+    init(_ labelText: String? = nil, style: LabelStyle, fontSize: CGFloat? = nil, adaptToLightMode: Bool = true) {
         super.init(frame: .zero)
         
         text = labelText
-        textColor = UIColor(named: "XYTint")
+        textColor = adaptToLightMode ? UIColor(named: "XYTint") : UIColor(named: "XYWhite")
+        
+        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.shadowRadius = 6
+        layer.shadowColor = UIColor.black.cgColor
+        layer.shadowOpacity = 0.0
         
         switch style {
         case .title:
@@ -31,6 +37,8 @@ class Label: UILabel {
             font = UIFont(name: "Raleway-Bold", size: fontSize ?? 10)
         case .nickname:
             font = UIFont(name: "Raleway-Heavy", size: fontSize ?? 20)
+        case .info:
+            font = UIFont(name: "Raleway-Regular", size: fontSize ?? 10)
         }
     }
     
@@ -38,4 +46,9 @@ class Label: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var enableShadow: Bool = false {
+        didSet {
+            layer.shadowOpacity = enableShadow ? 1.0 : 0.0
+        }
+    }
 }

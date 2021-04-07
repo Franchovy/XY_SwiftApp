@@ -9,6 +9,7 @@ import UIKit
 
 class Global {
     static let xyGradient:[UIColor] = [UIColor(0xFF0062), UIColor(0x0C98F6)]
+    static let whiteGradient:[UIColor] = [UIColor(0xF2F2F2), UIColor(0xF2F2F2)]
     
     static var isLightMode: Bool = false
     static var lightModeBackgroundGradient:[UIColor] {

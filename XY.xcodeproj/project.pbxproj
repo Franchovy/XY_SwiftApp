@@ -115,6 +115,9 @@
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
 		B95FF51C25A7583B00CFCA9E /* _ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* _ProfileViewModel.swift */; };
+		B968322C261D905F00AF1DD1 /* WatchChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B968322B261D905F00AF1DD1 /* WatchChallengeViewController.swift */; };
+		B9683231261DA98300AF1DD1 /* FriendBubblesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */; };
+		B968325A261DBA9D00AF1DD1 /* VideoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9683259261DBA9D00AF1DD1 /* VideoSaver.swift */; };
 		B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */; };
 		B96A903D2605F132000CE9F7 /* FollowButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96A903C2605F132000CE9F7 /* FollowButton.swift */; };
 		B96A90412605FFBE000CE9F7 /* SubscribersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96A90402605FFBE000CE9F7 /* SubscribersViewController.swift */; };
@@ -126,7 +129,6 @@
 		B96B7F2B2613339200B1CBF5 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */; };
 		B96B7F312613352D00B1CBF5 /* ColorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F302613352D00B1CBF5 /* ColorLabel.swift */; };
 		B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F362613397000B1CBF5 /* FriendBubble.swift */; };
-		B96B7F3B26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F3A26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift */; };
 		B96B7F4026135BAD00B1CBF5 /* ColorLabelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F3F26135BAD00B1CBF5 /* ColorLabelViewModel.swift */; };
 		B96B7F462613614300B1CBF5 /* ChallengesDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */; };
 		B96B7F4B26137FF300B1CBF5 /* video5.mov in Resources */ = {isa = PBXBuildFile; fileRef = B96B7F4A26137FF300B1CBF5 /* video5.mov */; };
@@ -390,6 +392,9 @@
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
 		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* _ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ProfileViewModel.swift; sourceTree = "<group>"; };
+		B968322B261D905F00AF1DD1 /* WatchChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchChallengeViewController.swift; sourceTree = "<group>"; };
+		B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubblesView.swift; sourceTree = "<group>"; };
+		B9683259261DBA9D00AF1DD1 /* VideoSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSaver.swift; sourceTree = "<group>"; };
 		B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewCollectionViewCell.swift; sourceTree = "<group>"; };
 		B96A903C2605F132000CE9F7 /* FollowButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowButton.swift; sourceTree = "<group>"; };
 		B96A90402605FFBE000CE9F7 /* SubscribersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribersViewController.swift; sourceTree = "<group>"; };
@@ -401,7 +406,6 @@
 		B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
 		B96B7F302613352D00B1CBF5 /* ColorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLabel.swift; sourceTree = "<group>"; };
 		B96B7F362613397000B1CBF5 /* FriendBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubble.swift; sourceTree = "<group>"; };
-		B96B7F3A26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionCellViewModel.swift; sourceTree = "<group>"; };
 		B96B7F3F26135BAD00B1CBF5 /* ColorLabelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLabelViewModel.swift; sourceTree = "<group>"; };
 		B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesDatasource.swift; sourceTree = "<group>"; };
 		B96B7F4A26137FF300B1CBF5 /* video5.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = video5.mov; path = ../../../../../Desktop/video5.mov; sourceTree = "<group>"; };
@@ -930,6 +934,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		B968322A261D900A00AF1DD1 /* View Challenge */ = {
+			isa = PBXGroup;
+			children = (
+				B968322B261D905F00AF1DD1 /* WatchChallengeViewController.swift */,
+			);
+			path = "View Challenge";
+			sourceTree = "<group>";
+		};
 		B96B7F1626132FA000B1CBF5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -954,7 +966,6 @@
 				B9FD99412615C23400D6716C /* SeparatorLine.swift */,
 				B9FD99452615C48300D6716C /* FlatButton.swift */,
 				B9FD993D2615C08100D6716C /* TextField.swift */,
-				B96B7F3E26135BA100B1CBF5 /* ColorLabel */,
 				B96B7F362613397000B1CBF5 /* FriendBubble.swift */,
 				B926866A2614636400A306F6 /* AddFriendButton */,
 				B973530E2618BFC600183201 /* ChallengeCard */,
@@ -980,7 +991,6 @@
 				B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */,
 				B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */,
 				B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */,
-				B96B7F3A26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift */,
 			);
 			path = ChallengeCardsCollectionView;
 			sourceTree = "<group>";
@@ -1032,8 +1042,10 @@
 		B973530E2618BFC600183201 /* ChallengeCard */ = {
 			isa = PBXGroup;
 			children = (
+				B96B7F3E26135BA100B1CBF5 /* ColorLabel */,
 				B973530A2618B8A200183201 /* ChallengeCard.swift */,
 				B973530F2618BFD300183201 /* ChallengeCardViewModel.swift */,
+				B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */,
 			);
 			path = ChallengeCard;
 			sourceTree = "<group>";
@@ -1122,6 +1134,7 @@
 		B97E33A1261201B600AD00B5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B968322A261D900A00AF1DD1 /* View Challenge */,
 				B952F5952617426D0063E7B4 /* Create Challenge */,
 				B9FD994F2616101500D6716C /* Notifications */,
 				B926868D2614A8C900A306F6 /* Edit Profile */,
@@ -1280,6 +1293,7 @@
 			isa = PBXGroup;
 			children = (
 				B9BDE37925C9AD8C00B00656 /* PostManager.swift */,
+				B9683259261DBA9D00AF1DD1 /* VideoSaver.swift */,
 				B9E89CEE25C3373A0007D6B1 /* ProfileManager.swift */,
 				B9AD3B4B25CAAB1400BF74C3 /* OnlineStatusManager.swift */,
 				B9BCABFA25CD58C000155F37 /* ActionsManager.swift */,
@@ -1599,7 +1613,6 @@
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
 				B952F5C7261762420063E7B4 /* RecordButton.swift in Sources */,
 				B96A904626060034000CE9F7 /* SubscriberCollectionViewCell.swift in Sources */,
-				B96B7F3B26135B4B00B1CBF5 /* ChallengeCollectionCellViewModel.swift in Sources */,
 				B9B302AE2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
@@ -1620,6 +1633,7 @@
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B926867726148E5600A306F6 /* EditProfileViewController.swift in Sources */,
+				B968325A261DBA9D00AF1DD1 /* VideoSaver.swift in Sources */,
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B944DAC525E6C4290040CEDB /* _PreviewViewController.swift in Sources */,
 				B97C25E92608073F009EFB06 /* GameModel.swift in Sources */,
@@ -1648,6 +1662,7 @@
 				B9AD3B7425CAF55700BF74C3 /* ProfileCardCollectionViewCell.swift in Sources */,
 				1456021025724DEE0093FDA7 /* InterestsViewController.swift in Sources */,
 				B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */,
+				B9683231261DA98300AF1DD1 /* FriendBubblesView.swift in Sources */,
 				B9781DC525DE6FAF00A2FE2D /* ProfileViewModelBuilder.swift in Sources */,
 				B934B68225F76EF800575972 /* CategorySectionReusableView.swift in Sources */,
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
@@ -1763,6 +1778,7 @@
 				B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */,
 				B931478425FA209700C054DF /* RankingsViewController.swift in Sources */,
 				1425137C259F8C0100DC08BB /* _NotificationViewModel.swift in Sources */,
+				B968322C261D905F00AF1DD1 /* WatchChallengeViewController.swift in Sources */,
 				B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */,
 				B94EAD6025EEAEA400504A2A /* Gradient.swift in Sources */,
 				B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */,

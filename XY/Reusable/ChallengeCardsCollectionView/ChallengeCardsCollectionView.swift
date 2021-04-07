@@ -12,7 +12,7 @@ class ChallengeCardsCollectionView: UICollectionView {
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.estimatedItemSize = CGSize(width: 150, height: 250)
+        layout.estimatedItemSize = CGSize(width: 170, height: 267)
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
@@ -28,4 +28,6 @@ class ChallengeCardsCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    
 }

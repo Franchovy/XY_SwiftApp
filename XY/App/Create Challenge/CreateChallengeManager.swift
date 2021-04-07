@@ -13,6 +13,7 @@ final class CreateChallengeManager {
     var videoUrl: URL?
     var description: String?
     var title: String?
+    var friendsToChallengeList: [FriendBubbleViewModel]?
     
     func isReadyToCreateCard() -> Bool {
         return videoUrl != nil && description != nil && title != nil
@@ -31,7 +32,11 @@ final class CreateChallengeManager {
         return ChallengeCardViewModel(
             image: image,
             title: title,
-            description: description
+            description: description,
+            tag: nil,
+            timeLeftText: nil,
+            isReceived: false,
+            friendBubbles: friendsToChallengeList
         )
     }
 }

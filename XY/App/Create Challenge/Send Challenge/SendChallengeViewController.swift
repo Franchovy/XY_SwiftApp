@@ -9,11 +9,11 @@ import UIKit
 
 class SendChallengeViewController: UIViewController, SendToFriendsViewControllerDelegate {
 
-    private var challengeCard: ChallengeCard
+    private var challengeCard = ChallengeCard()
     private let sendToFriendsViewController = SendToFriendsViewController()
     
     init(with viewModel: ChallengeCardViewModel) {
-        challengeCard = ChallengeCard(with: viewModel)
+        challengeCard.configure(with: viewModel)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -78,12 +78,17 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
     }
     
     @objc private func sendButtonPressed() {
+        
+        guard let viewModel = challengeCard.viewModel else {
+            return
+        }
+        
         let friendsDataSource = FriendsDataSource(fromList: sendToFriendsViewController.selectedFriendsToSend)
         
         isHeroEnabled = true
         challengeCard.heroID = "challengeCard"
         
-        let vc = ConfirmSendChallengeViewController(challengeCardViewModel: challengeCard.viewModel, friendsList: friendsDataSource)
+        let vc = ConfirmSendChallengeViewController(challengeCardViewModel: viewModel, friendsList: friendsDataSource)
         
         navigationController?.pushViewController(vc, animated: true)
     }

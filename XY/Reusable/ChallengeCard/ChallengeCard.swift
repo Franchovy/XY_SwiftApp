@@ -9,34 +9,31 @@ import UIKit
 
 class ChallengeCard: UIView {
     
-    let challengeTitleGradientLabel: GradientLabel
-    let previewImage = UIImageView()
-    let descriptionLabel = Label(style: .body, fontSize: 15)
-    let viewModel: ChallengeCardViewModel
+    var challengeTitleGradientLabel = GradientLabel(text: "", fontSize: 20, gradientColours: Global.whiteGradient)
+    var previewImage = UIImageView()
+    var descriptionLabel = Label(style: .info, fontSize: 15, adaptToLightMode: false)
+    var friendBubbleView = FriendBubblesView()
+    var timeleftLabel = Label(style: .info, fontSize: 15, adaptToLightMode: false)
+    var tagLabel: ColorLabel?
+    
+    var viewModel: ChallengeCardViewModel?
 
-    init(with viewModel: ChallengeCardViewModel) {
-        self.viewModel = viewModel
-        challengeTitleGradientLabel = GradientLabel(text: viewModel.title, fontSize: 18, gradientColours: Global.xyGradient)
-        
+    init() {
         super.init(frame: .zero)
         
         backgroundColor = .black
         
-        previewImage.image = viewModel.image
-        previewImage.alpha = 0.6
+        layer.cornerRadius = 10
+        layer.masksToBounds = true
         
-        descriptionLabel.text = viewModel.description
-        descriptionLabel.textColor = UIColor(named: "XYWhite")
-        descriptionLabel.textAlignment = .center
-        
-        previewImage.contentMode = .scaleAspectFill
+        descriptionLabel.numberOfLines = 0
+        challengeTitleGradientLabel.label.adjustsFontSizeToFitWidth = true
         
         addSubview(previewImage)
         addSubview(challengeTitleGradientLabel)
         addSubview(descriptionLabel)
-        
-        layer.cornerRadius = 10
-        layer.masksToBounds = true
+        addSubview(friendBubbleView)
+        addSubview(timeleftLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -49,10 +46,13 @@ class ChallengeCard: UIView {
         previewImage.frame = bounds
         
         challengeTitleGradientLabel.sizeToFit()
+        
+        let challengeTitleWidth = min(challengeTitleGradientLabel.width, width - 10)
+        
         challengeTitleGradientLabel.frame = CGRect(
-            x: (width - challengeTitleGradientLabel.width)/2,
+            x: (width - challengeTitleWidth)/2,
             y: 17.51,
-            width: challengeTitleGradientLabel.width,
+            width: challengeTitleWidth,
             height: challengeTitleGradientLabel.height
         )
         
@@ -71,5 +71,68 @@ class ChallengeCard: UIView {
                 height: boundingRect.height
             )
         }
+        
+        if let tagLabel = tagLabel {
+            tagLabel.sizeToFit()
+            tagLabel.frame = CGRect(
+                x: (width - tagLabel.width)/2,
+                y: challengeTitleGradientLabel.bottom + 5.32,
+                width: tagLabel.width,
+                height: tagLabel.height
+            )
+        }
+        
+        if friendBubbleView.isNotEmpty() {
+            friendBubbleView.sizeToFit()
+            friendBubbleView.frame = CGRect(
+                x: (width - friendBubbleView.width)/2,
+                y: (tagLabel?.bottom ?? challengeTitleGradientLabel.bottom) + 5.32,
+                width: friendBubbleView.width,
+                height: friendBubbleView.height
+            )
+        }
+    }
+    
+    public func reset() {
+        clearTagLabel()
+        friendBubbleView.reset()
+    }
+    
+    public func configure(with viewModel: ChallengeCardViewModel) {
+        self.viewModel = viewModel
+        
+        challengeTitleGradientLabel.label.text = viewModel.title
+        descriptionLabel.text = viewModel.description
+        
+        previewImage.image = viewModel.image
+        previewImage.alpha = 0.8
+        
+        if let tagLabel = viewModel.tag {
+            addTagLabel(labelColor: tagLabel.colorLabelColor, labelText: tagLabel.colorLabelText)
+        }
+        
+        descriptionLabel.textColor = UIColor(named: "XYWhite")
+        descriptionLabel.textAlignment = .center
+        descriptionLabel.enableShadow = true
+        
+        previewImage.contentMode = .scaleAspectFill
+        
+        if let friendBubbles = viewModel.friendBubbles {
+            friendBubbleView.configure(with: friendBubbles)
+        }
+    }
+    
+    func clearTagLabel() {
+        tagLabel?.removeFromSuperview()
+        tagLabel = nil
+    }
+    
+    func addTagLabel(labelColor: UIColor, labelText: String, textColor: UIColor = UIColor.black) {
+        tagLabel = ColorLabel()
+        tagLabel!.setBackgroundColor(labelColor)
+        tagLabel!.setText(labelText)
+        tagLabel!.setTextColor(textColor)
+        
+        addSubview(tagLabel!)
     }
 }

@@ -75,6 +75,7 @@ class HomeViewController: UIViewController {
                 action: #selector(tappedNotifications)
             )
         ]
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -210,5 +211,17 @@ class HomeViewController: UIViewController {
         
         HapticsManager.shared.vibrateImpact(for: .light)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func fetchOwnProfile() {
+        friendsDataSource.showEditProfile()
+    }
+    
+    func fetchFriendsProfiles() {
+        
+    }
+    
+    func fetchChallenges() {
+        
     }
 }

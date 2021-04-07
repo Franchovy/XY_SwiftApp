@@ -45,7 +45,7 @@ class GradientLabel: UIView {
         super.layoutSubviews()
         
         label.sizeToFit()
-        label.frame = CGRect(x: 0, y: 0, width: label.width, height: label.height)
+        label.frame = CGRect(x: 0, y: 0, width: min(width, label.width), height: label.height)
         gradientLayer.frame = label.frame
     }
     
