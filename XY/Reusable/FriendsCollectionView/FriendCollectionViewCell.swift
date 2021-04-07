@@ -11,6 +11,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
     static let identifier = "FriendCollectionViewCell"
     
     private let friendBubble = FriendBubble()
+    private let nicknameLabel = Label(style: .body)
     
     var viewModel: FriendBubbleViewModel?
     
@@ -18,6 +19,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         addSubview(friendBubble)
+        addSubview(nicknameLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -28,12 +30,23 @@ class FriendCollectionViewCell: UICollectionViewCell {
         super.layoutSubviews()
         
         friendBubble.frame = bounds
+        
+        nicknameLabel.sizeToFit()
+        let labelWidth = min(nicknameLabel.width, width)
+        
+        nicknameLabel.frame = CGRect(
+            x: (width - labelWidth)/2,
+            y: friendBubble.bottom + 5,
+            width: labelWidth,
+            height: nicknameLabel.height
+        )
     }
     
     public func configure(with viewModel: FriendBubbleViewModel) {
         self.viewModel = viewModel
         
         friendBubble.setImage(viewModel.image)
+        nicknameLabel.text = viewModel.nickname
     }
     
     override func prepareForReuse() {

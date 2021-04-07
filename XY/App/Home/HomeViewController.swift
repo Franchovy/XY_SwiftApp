@@ -35,6 +35,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = UIColor(named: "XYBackground")
         challengesCollectionView.dataSource = challengesDataSource
         friendsCollectionView.dataSource = friendsDataSource
+        friendsDataSource.showEditProfile = true
     }
     
     required init?(coder: NSCoder) {
@@ -214,7 +215,7 @@ class HomeViewController: UIViewController {
     }
     
     func fetchOwnProfile() {
-        friendsDataSource.showEditProfile()
+        
     }
     
     func fetchFriendsProfiles() {
