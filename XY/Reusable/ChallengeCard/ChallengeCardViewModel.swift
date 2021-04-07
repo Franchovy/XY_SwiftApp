@@ -45,6 +45,15 @@ extension ChallengeCardViewModel {
             timeLeftText: "1H left",
             isReceived: true,
             friendBubbles: FriendBubbleViewModel.generateFakeData()
+        ),
+        ChallengeCardViewModel(
+            image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video4", withExtension: "mov")!)!,
+            title: "FaceFears",
+            description: "Today is a day to face your fears. Sit directly on the toilets of I3P.",
+            tag: nil,
+            timeLeftText: "1H left",
+            isReceived: true,
+            friendBubbles: FriendBubbleViewModel.generateFakeData()
         )
     ]
 }

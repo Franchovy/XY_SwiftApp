@@ -56,22 +56,6 @@ class ChallengeCard: UIView {
             height: challengeTitleGradientLabel.height
         )
         
-        if let text = descriptionLabel.text {
-            let boundingRect = text.boundingRect(
-                with: CGSize(width: width - 24, height: .greatestFiniteMagnitude),
-                options: .usesLineFragmentOrigin,
-                attributes: [.font: descriptionLabel.font],
-                context: nil
-            )
-            
-            descriptionLabel.frame = CGRect(
-                x: 12,
-                y: (height - boundingRect.height)/2,
-                width: width - 24,
-                height: boundingRect.height
-            )
-        }
-        
         if let tagLabel = tagLabel {
             tagLabel.sizeToFit()
             tagLabel.frame = CGRect(
@@ -83,12 +67,40 @@ class ChallengeCard: UIView {
         }
         
         if friendBubbleView.isNotEmpty() {
+            friendBubbleView.layoutSubviews()
+            
             friendBubbleView.sizeToFit()
             friendBubbleView.frame = CGRect(
                 x: (width - friendBubbleView.width)/2,
                 y: (tagLabel?.bottom ?? challengeTitleGradientLabel.bottom) + 5.32,
                 width: friendBubbleView.width,
                 height: friendBubbleView.height
+            )
+        }
+        
+        timeleftLabel.sizeToFit()
+        timeleftLabel.frame = CGRect(
+            x: (width - timeleftLabel.width)/2,
+            y: (tagLabel?.bottom ?? challengeTitleGradientLabel.bottom) + 5.32,
+            width: timeleftLabel.width,
+            height: timeleftLabel.height
+        )
+        
+        if let text = descriptionLabel.text {
+            let boundingRect = text.boundingRect(
+                with: CGSize(width: width - 24, height: .greatestFiniteMagnitude),
+                options: .usesLineFragmentOrigin,
+                attributes: [.font: descriptionLabel.font],
+                context: nil
+            )
+            
+            let top = max(timeleftLabel.bottom + 5, (height - boundingRect.height)/2)
+            
+            descriptionLabel.frame = CGRect(
+                x: 12,
+                y: top,
+                width: width - 24,
+                height: boundingRect.height
             )
         }
     }
@@ -117,8 +129,12 @@ class ChallengeCard: UIView {
         
         previewImage.contentMode = .scaleAspectFill
         
-        if let friendBubbles = viewModel.friendBubbles {
-            friendBubbleView.configure(with: friendBubbles)
+        if let timeLeftText = viewModel.timeLeftText {
+            timeleftLabel.text = timeLeftText
+        }
+        
+        if !viewModel.isReceived, let friendBubbles = viewModel.friendBubbles {
+            friendBubbleView.configure(with: friendBubbles, displayReceived: viewModel.isReceived)
         }
     }
     

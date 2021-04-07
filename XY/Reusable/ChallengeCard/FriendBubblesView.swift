@@ -33,12 +33,12 @@ class FriendBubblesView: UIView {
             fromLabel.sizeToFit()
             fromLabel.frame = CGRect(
                 x: 0,
-                y: 0,
+                y: (height - fromLabel.height)/2,
                 width: fromLabel.width,
                 height: fromLabel.height
             )
             
-            x = fromLabel.width + 15
+            x = fromLabel.width
         }
         
         for friendBubble in friendBubbles {
@@ -50,8 +50,8 @@ class FriendBubblesView: UIView {
         if let numMoreLabel = numMoreLabel {
             numMoreLabel.sizeToFit()
             numMoreLabel.frame = CGRect(
-                x: x,
-                y: 0,
+                x: friendBubbles.last!.right + 5,
+                y: (height - numMoreLabel.height)/2,
                 width: numMoreLabel.width,
                 height: numMoreLabel.height
             )
@@ -67,7 +67,6 @@ class FriendBubblesView: UIView {
                 (numMoreLabel != nil ? numMoreLabel!.width + 5 : 0) +
                 (fromLabel != nil ? fromLabel!.width + 5 : 0)
             frame.size.width = bubblesWidth + additionalWidth
-                
             
             frame.size.height = 25
         }
@@ -90,6 +89,14 @@ class FriendBubblesView: UIView {
     }
     
     public func configure(with viewModels: [FriendBubbleViewModel], numMore: Int = 0, displayReceived: Bool = false) {
+        var numMore = numMore
+        var viewModels = viewModels
+        
+        if viewModels.count > 3 {
+            numMore += viewModels.count - 3
+            viewModels.removeSubrange(3...viewModels.count - 1)
+        }
+        
         self.viewModels = viewModels
         
         friendBubbles = viewModels.map({ viewModel in
@@ -101,10 +108,12 @@ class FriendBubblesView: UIView {
         
         if numMore > 0 {
             numMoreLabel = Label("+ \(numMore) more", style: .info, adaptToLightMode: false)
+            numMoreLabel!.enableShadow = true
             addSubview(numMoreLabel!)
         }
         if displayReceived {
             fromLabel = Label("From: ", style: .body, adaptToLightMode: false)
+            fromLabel!.enableShadow = true
             addSubview(fromLabel!)
         }
     }
