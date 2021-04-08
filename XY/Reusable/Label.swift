@@ -17,6 +17,9 @@ class Label: UILabel {
         case info
     }
     
+    private var textImage: UIImage?
+    var gradient: CGGradient?
+    
     init(_ labelText: String? = nil, style: LabelStyle, fontSize: CGFloat? = nil, adaptToLightMode: Bool = true) {
         super.init(frame: .zero)
         
@@ -46,9 +49,61 @@ class Label: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
     var enableShadow: Bool = false {
         didSet {
             layer.shadowOpacity = enableShadow ? 1.0 : 0.0
+        }
+    }
+    
+    func applyGradient(gradientColours: [UIColor]) {
+        gradient = CGGradient(
+            colorsSpace: nil,
+            colors: gradientColours.map({ $0.cgColor }) as CFArray,
+            locations: nil
+        )
+    }
+    
+    override open func draw(_ rect: CGRect) {
+        if let gradient = gradient {
+            let size = bounds.size
+            
+            let start = CGPoint(x: 0.4, y: 0.53)
+            let end = CGPoint(x: 0.6, y: 0.47)
+            
+            if textImage == nil {
+                let drawText = {
+                    let backgroundColor = self.layer.backgroundColor
+
+                    self.layer.backgroundColor = UIColor.clear.cgColor
+                    super.draw(rect)
+                    self.layer.backgroundColor = backgroundColor
+                }
+
+                if #available(iOS 10.0, *) {
+                    textImage = UIGraphicsImageRenderer(size: size).image { _ in drawText() }
+                } else {
+                    UIGraphicsBeginImageContext(size)
+                    defer { UIGraphicsEndImageContext() }
+
+                    drawText()
+                    textImage = UIGraphicsGetImageFromCurrentImageContext()
+                }
+            }
+
+            if let context = UIGraphicsGetCurrentContext() {
+                context.drawLinearGradient(gradient,
+                                       start: CGPoint(x: start.x * size.width, y: start.y * size.height),
+                                       end: CGPoint(x: end.x * size.width, y: end.y * size.height),
+                                       options: [.drawsAfterEndLocation, .drawsBeforeStartLocation])
+            }
+            
+            textImage?.draw(at: .zero, blendMode: .destinationIn, alpha: 1.0)
+
+            
+        } else {
+            super.draw(rect)
         }
     }
 }
