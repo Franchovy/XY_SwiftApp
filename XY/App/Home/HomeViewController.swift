@@ -54,7 +54,6 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(challengesLabel)
         scrollView.addSubview(challengesCollectionView)
         
-        
         createChallengeButton.addTarget(self, action: #selector(tappedCreateChallenge), for: .touchUpInside)
             
         let logoView = UIImageView(image: UIImage(named: "XYLogo"))

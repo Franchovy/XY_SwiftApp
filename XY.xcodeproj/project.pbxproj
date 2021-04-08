@@ -212,6 +212,7 @@
 		B9B0C07C25FE2587003DA5CB /* TimerIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B0C07B25FE2587003DA5CB /* TimerIcon.swift */; };
 		B9B302AA2614AE1000D14FC0 /* EditNicknameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B302A92614AE1000D14FC0 /* EditNicknameTextField.swift */; };
 		B9B302AE2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B302AD2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift */; };
+		B9B44E10261F4D26002E4776 /* LabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B44E0F261F4D26002E4776 /* LabelView.swift */; };
 		B9B50F0825FC16AF007B8F9F /* SwipingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */; };
 		B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */; };
 		B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B74D8025F029D50083D69A /* RankingModel.swift */; };
@@ -490,6 +491,7 @@
 		B9B0C07B25FE2587003DA5CB /* TimerIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerIcon.swift; sourceTree = "<group>"; };
 		B9B302A92614AE1000D14FC0 /* EditNicknameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameTextField.swift; sourceTree = "<group>"; };
 		B9B302AD2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileCollectionViewCell.swift; sourceTree = "<group>"; };
+		B9B44E0F261F4D26002E4776 /* LabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelView.swift; sourceTree = "<group>"; };
 		B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipingPageViewController.swift; sourceTree = "<group>"; };
 		B9B74D7C25F0296E0083D69A /* RankingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingViewModel.swift; sourceTree = "<group>"; };
 		B9B74D8025F029D50083D69A /* RankingModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingModel.swift; sourceTree = "<group>"; };
@@ -961,6 +963,7 @@
 				B96B7F292613323600B1CBF5 /* ChallengeCardsCollectionView */,
 				B96B7F282613322F00B1CBF5 /* FriendsCollectionView */,
 				B96B7F202613311200B1CBF5 /* Label.swift */,
+				B9B44E0F261F4D26002E4776 /* LabelView.swift */,
 				B97352E32618675A00183201 /* Button.swift */,
 				B901BA322618D5160088193E /* SearchBar.swift */,
 				B952F5C126174B6B0063E7B4 /* Card.swift */,
@@ -1716,6 +1719,7 @@
 				149AD69C259B52A800E81ABC /* ExploreVC.swift in Sources */,
 				B9AAB16D25E13239005B3903 /* XPCircleView.swift in Sources */,
 				B9E89CEF25C3373A0007D6B1 /* ProfileManager.swift in Sources */,
+				B9B44E10261F4D26002E4776 /* LabelView.swift in Sources */,
 				B98B070525FB8E7E00001986 /* ChallengeViewModel.swift in Sources */,
 				B9D0D5C82607840E00D3F128 /* RankingView.swift in Sources */,
 				B952AD7425D6C193008CC229 /* GradientButton.swift in Sources */,

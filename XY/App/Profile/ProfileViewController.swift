@@ -11,10 +11,9 @@ class ProfileViewController: UIViewController {
     
     private let profileBubble = FriendBubble()
     private let friendButton = AddFriendButton()
-    private let friendsLabel = Label("Friends", style: .body, fontSize: 15)
-    private let challengesLabel = Label("Challenges", style: .body, fontSize: 15)
-    private let numFriendsLabel = Label(style: .body, fontSize: 25)
-    private let numChallengesLabel = Label(style: .body, fontSize: 25)
+    
+    private let friendsLabelView = LabelView()
+    private let challengeLabelView = LabelView()
     
     private let startChallengeLabel = Label("Start a challenge with ", style: .body, fontSize: 15)
     private let startChallengeNameLabel = Label(style: .nickname, fontSize: 15)
@@ -37,10 +36,8 @@ class ProfileViewController: UIViewController {
         
         view.addSubview(profileBubble)
         view.addSubview(friendButton)
-        view.addSubview(friendsLabel)
-        view.addSubview(challengesLabel)
-        view.addSubview(numFriendsLabel)
-        view.addSubview(numChallengesLabel)
+        view.addSubview(friendsLabelView)
+        view.addSubview(challengeLabelView)
         view.addSubview(startChallengeLabel)
         view.addSubview(startChallengeNameLabel)
         view.addSubview(challengeButton)
@@ -98,36 +95,20 @@ class ProfileViewController: UIViewController {
             height: friendButton.height
         )
         
-        numFriendsLabel.sizeToFit()
-        numFriendsLabel.frame = CGRect(
-            x: profileBubble.left + 5 - numFriendsLabel.width/2,
-            y: friendButton.bottom + 10.5,
-            width: numFriendsLabel.width,
-            height: numFriendsLabel.height
+        friendsLabelView.sizeToFit()
+        friendsLabelView.frame = CGRect(
+            x: profileBubble.left + 5 - friendsLabelView.width/2,
+            y: friendButton.bottom + 10,
+            width: friendsLabelView.width,
+            height: friendsLabelView.height
         )
         
-        numChallengesLabel.sizeToFit()
-        numChallengesLabel.frame = CGRect(
-            x: profileBubble.right - 5 - numChallengesLabel.width/2,
-            y: friendButton.bottom + 10.5,
-            width: numChallengesLabel.width,
-            height: numChallengesLabel.height
-        )
-        
-        friendsLabel.sizeToFit()
-        friendsLabel.frame = CGRect(
-            x: profileBubble.left + 5 - friendsLabel.width/2,
-            y: numFriendsLabel.bottom + 3,
-            width: friendsLabel.width,
-            height: friendsLabel.height
-        )
-        
-        challengesLabel.sizeToFit()
-        challengesLabel.frame = CGRect(
-            x: profileBubble.right - 5 - challengesLabel.width/2,
-            y: numChallengesLabel.bottom + 3,
-            width: challengesLabel.width,
-            height: challengesLabel.height
+        challengeLabelView.sizeToFit()
+        challengeLabelView.frame = CGRect(
+            x: profileBubble.right - 5 - challengeLabelView.width/2,
+            y: friendButton.bottom + 10,
+            width: challengeLabelView.width,
+            height: challengeLabelView.height
         )
         
         startChallengeLabel.sizeToFit()
@@ -164,11 +145,15 @@ class ProfileViewController: UIViewController {
         navigationItem.title = viewModel.nickname
         startChallengeNameLabel.text = viewModel.nickname
         
-        numFriendsLabel.text = String(describing: viewModel.numFriends)
-        numChallengesLabel.text = String(describing: viewModel.numChallenges)
+        friendsLabelView.addLabel(String(describing: viewModel.numFriends), font: UIFont(name: "Raleway-Medium", size: 25)!)
+        friendsLabelView.addLabel("Friends", font: UIFont(name: "Raleway-Medium", size: 15)!)
+        
+        challengeLabelView.addLabel(String(describing: viewModel.numChallenges), font: UIFont(name: "Raleway-Medium", size: 25)!)
+        challengeLabelView.addLabel("Challenges", font: UIFont(name: "Raleway-Medium", size: 15)!)
         
         profileBubble.setImage(viewModel.profileImage)
         
+        friendButton.configure(for: viewModel.friendStatus)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
