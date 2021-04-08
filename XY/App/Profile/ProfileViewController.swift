@@ -147,9 +147,29 @@ class ProfileViewController: UIViewController {
         
         friendsLabelView.addLabel(String(describing: viewModel.numFriends), font: UIFont(name: "Raleway-Medium", size: 25)!)
         friendsLabelView.addLabel("Friends", font: UIFont(name: "Raleway-Medium", size: 15)!)
+        friendsLabelView.addOnPress {
+            let prompt = Prompt()
+            prompt.setTitle(text: "Friends")
+            let numFriendsText = "\(viewModel.numFriends) friends"
+            prompt.addTextWithBoldInRange(text: "You have \(numFriendsText) to challenge.", range: NSRange(location: 9, length: numFriendsText.count))
+            prompt.addCompletionButton(buttonText: "Ok", style: .embedded, closeOnTap: true)
+            
+            self.view.addSubview(prompt)
+            prompt.appear()
+        }
         
         challengeLabelView.addLabel(String(describing: viewModel.numChallenges), font: UIFont(name: "Raleway-Medium", size: 25)!)
         challengeLabelView.addLabel("Challenges", font: UIFont(name: "Raleway-Medium", size: 15)!)
+        challengeLabelView.addOnPress {
+            let prompt = Prompt()
+            prompt.setTitle(text: "Friends")
+            let numFriendsText = "\(viewModel.numFriends) friends"
+            prompt.addTextWithBoldInRange(text: "You have \(numFriendsText) to challenge.", range: NSRange(location: 9, length: numFriendsText.count))
+            prompt.addCompletionButton(buttonText: "Ok", style: .embedded, closeOnTap: true)
+            
+            self.view.addSubview(prompt)
+            prompt.appear()
+        }
         
         profileBubble.setImage(viewModel.profileImage)
         

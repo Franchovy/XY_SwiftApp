@@ -10,6 +10,9 @@ import UIKit
 class LabelView: UIView {
 
     var labels = [Label]()
+    var onPressAction: (() -> Void)?
+    
+    var isAnimating = false
     
     init() {
         super.init(frame: .zero)
@@ -20,6 +23,10 @@ class LabelView: UIView {
     }
     
     override func layoutSubviews() {
+        guard !isAnimating else {
+            return
+        }
+        
         super.layoutSubviews()
         
         var y:CGFloat = 0
@@ -60,5 +67,14 @@ class LabelView: UIView {
         
         labels.append(label)
         addSubview(label)
+    }
+    
+    func addOnPress(onPress action: @escaping(() -> Void)) {
+        addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(onPress)))
+        onPressAction = action
+    }
+    
+    @objc private func onPress() {
+        self.onPressAction?()
     }
 }
