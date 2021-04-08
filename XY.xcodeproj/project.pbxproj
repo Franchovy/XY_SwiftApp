@@ -80,6 +80,7 @@
 		B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */; };
 		B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */; };
 		B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936266325DC23630063AAD6 /* PushNotificationSender.swift */; };
+		B93797D4261EFF1700405892 /* AppInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93797D3261EFF1700405892 /* AppInitializer.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
 		B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D284D26039B3700F590BE /* PopupWarningView.swift */; };
@@ -353,6 +354,7 @@
 		B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModelBuilder.swift; sourceTree = "<group>"; };
 		B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		B936266325DC23630063AAD6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
+		B93797D3261EFF1700405892 /* AppInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInitializer.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
 		B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSettingsViewController.swift; sourceTree = "<group>"; };
@@ -1134,6 +1136,7 @@
 		B97E33A1261201B600AD00B5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B93797D3261EFF1700405892 /* AppInitializer.swift */,
 				B968322A261D900A00AF1DD1 /* View Challenge */,
 				B952F5952617426D0063E7B4 /* Create Challenge */,
 				B9FD994F2616101500D6716C /* Notifications */,
@@ -1628,6 +1631,7 @@
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */,
+				B93797D4261EFF1700405892 /* AppInitializer.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
 				B973530B2618B8A200183201 /* ChallengeCard.swift in Sources */,
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,

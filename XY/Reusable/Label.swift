@@ -65,6 +65,17 @@ class Label: UILabel {
         )
     }
     
+    public func setText(_ text: String, applyingBoldInRange range: NSRange? = nil) {
+        if range != nil {
+            let string = NSMutableAttributedString(string: text, attributes: [NSAttributedString.Key.font:font])
+            string.addAttribute(NSAttributedString.Key.font, value: UIFont(name: "Raleway-Bold", size: font.pointSize), range: range!)
+            // set label Attribute
+            self.attributedText = string
+        } else {
+            self.text = text
+        }
+    }
+    
     override open func draw(_ rect: CGRect) {
         if let gradient = gradient {
             let size = bounds.size

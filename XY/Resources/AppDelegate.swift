@@ -23,6 +23,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         FirebaseApp.configure()
                    
+        AppInitializer.shared.setRandomSession()
+        
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
     

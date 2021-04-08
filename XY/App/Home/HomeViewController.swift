@@ -54,6 +54,7 @@ class HomeViewController: UIViewController {
         scrollView.addSubview(challengesLabel)
         scrollView.addSubview(challengesCollectionView)
         
+        
         createChallengeButton.addTarget(self, action: #selector(tappedCreateChallenge), for: .touchUpInside)
             
         let logoView = UIImageView(image: UIImage(named: "XYLogo"))
@@ -100,6 +101,14 @@ class HomeViewController: UIViewController {
         case .normal:
             scrollView.addSubview(createChallengeButton)
         default: break
+        }
+        
+        
+        if AppInitializer.shared.challengesToSee > 0 {
+            AppInitializer.shared.challengesToSee = 0
+            DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+                self.promptChallengesReceived()
+            }
         }
     }
 
@@ -177,6 +186,21 @@ class HomeViewController: UIViewController {
             width: buttonSize.width,
             height: buttonSize.height
         )
+    }
+    
+    private func promptChallengesReceived() {
+        let prompt = Prompt()
+        prompt.setTitle(text: "New challenges", isGradient: true)
+        
+        prompt.addTextWithBoldInRange(
+            text: "Hey, you've been challenged \(AppInitializer.shared.challengesToSee) times, it's time to reply!",
+            range: NSRange(location: 28, length: String(describing: AppInitializer.shared.challengesToSee).count + 6)
+        )
+        
+        prompt.addCompletionButton(buttonText: "Let's go!", style: .embedded, font: UIFont(name: "Raleway-Heavy", size: 20), closeOnTap: true)
+        
+        view.addSubview(prompt)
+        prompt.appear()
     }
     
     private func configureEmptyNoFriends() {

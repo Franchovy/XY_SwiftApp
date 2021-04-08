@@ -27,7 +27,7 @@ class Prompt: UIView, UITextViewDelegate {
     
     var card = Card(backgroundColor: UIColor(named: "XYBackground")!)
     
-    var titleLabel: UILabel?
+    var titleLabel: Label?
     var separators = [SeparatorLine]()
     var buttons = [UIButton]()
     var fields = [UIView]()
@@ -218,16 +218,27 @@ class Prompt: UIView, UITextViewDelegate {
     // MARK: - CONFIG FUNCTIONS
     
     public func setTitle(text: String, isGradient: Bool = true) {
-        if isGradient {
-//            titleLabel = GradientLabel(text: text, fontSize: 20, gradientColours: Global.xyGradient)
-        } else {
-            
-        }
         
         titleLabel = Label(text, style: .title, fontSize: 20)
         
+        if isGradient {
+            titleLabel!.applyGradient(gradientColours: Global.xyGradient)
+        }
+        
         card.addSubview(titleLabel!)
         
+    }
+    
+    public func addTextWithBoldInRange(text: String, range: NSRange) {
+        let label = Label(style: .body)
+        label.font = UIFont(name: "Raleway-Medium", size: 18)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        
+        label.setText(text, applyingBoldInRange: range)
+        
+        card.addSubview(label)
+        fields.append(label)
     }
     
     public func addText(text: String, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
