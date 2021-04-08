@@ -8,9 +8,7 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-    
-    private let scrollView = UIScrollView()
-    
+        
     private let friendsLabel = Label("Friends", style: .title)
     private let friendsCollectionView = FriendsCollectionView()
     
@@ -44,15 +42,11 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        scrollView.alwaysBounceVertical = true
-        scrollView.isScrollEnabled = false
-        view.addSubview(scrollView)
         
-        scrollView.addSubview(friendsLabel)
-        scrollView.addSubview(friendsCollectionView)
-        scrollView.addSubview(challengesLabel)
-        scrollView.addSubview(challengesCollectionView)
+        view.addSubview(friendsLabel)
+        view.addSubview(friendsCollectionView)
+        view.addSubview(challengesLabel)
+        view.addSubview(challengesCollectionView)
         
         createChallengeButton.addTarget(self, action: #selector(tappedCreateChallenge), for: .touchUpInside)
             
@@ -96,9 +90,9 @@ class HomeViewController: UIViewController {
             configureEmptyNoFriends()
         case .noChallengesFirst, .noChallengesNormal:
             configureEmptyNoChallenges()
-            scrollView.addSubview(createChallengeButton)
+            view.addSubview(createChallengeButton)
         case .normal:
-            scrollView.addSubview(createChallengeButton)
+            view.addSubview(createChallengeButton)
         default: break
         }
         
@@ -113,8 +107,6 @@ class HomeViewController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        scrollView.frame = view.bounds
         
         friendsLabel.sizeToFit()
         friendsLabel.frame = CGRect(
@@ -203,9 +195,9 @@ class HomeViewController: UIViewController {
     }
     
     private func configureEmptyNoFriends() {
-        scrollView.addSubview(welcomeGradientLabel)
-        scrollView.addSubview(welcomeTextLabel)
-        scrollView.addSubview(addFriendButton)
+        view.addSubview(welcomeGradientLabel)
+        view.addSubview(welcomeTextLabel)
+        view.addSubview(addFriendButton)
         
         welcomeTextLabel.numberOfLines = 0
         welcomeTextLabel.textAlignment = .center
@@ -213,7 +205,7 @@ class HomeViewController: UIViewController {
     }
     
     private func configureEmptyNoChallenges() {
-        scrollView.addSubview(noChallengesLabel)
+        view.addSubview(noChallengesLabel)
     }
     
     @objc private func tappedNotifications() {
