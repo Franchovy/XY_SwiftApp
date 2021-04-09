@@ -14,6 +14,11 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
     var playerViewControllers = [PlayerViewController]()
     
     var isCurrentlySwiping = false
+    var currentSwipeSpeed: CGFloat?
+    var currentSwipeOffset: CGFloat?
+    
+    let animationActivationOffset:CGFloat = 600
+    let maxAnimationDuration:CGFloat = 0.4
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -54,6 +59,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    // MARK: - Set up ViewControllers
+    
     private func setUpInitialPlayerController() {
         guard currentIndex == 0 else {
             return
@@ -88,6 +95,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         prevPlayerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
     }
     
+    // MARK: - Pan Gesture and Animation
+    
     @objc private func didPanPlayerViewController(_ gestureRecognizer: UIPanGestureRecognizer) {
         
         guard let playerVCView = gestureRecognizer.view else {
@@ -107,13 +116,14 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         let dy = gestureRecognizer.translation(in: view).y
         let vy = gestureRecognizer.velocity(in: view).y
         
+        currentSwipeOffset = dy
+        currentSwipeSpeed = vy
         
         if gestureRecognizer.state == .began {
             isCurrentlySwiping = true
         } else if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
             
-            let limit:CGFloat = 300
-            let passedLimit = limit < abs(dy + vy)
+            let passedLimit = animationActivationOffset < abs(dy + vy)
             
             if passedLimit {
                 if dy < 0 {
@@ -132,9 +142,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private func setPositionForDrag(dragLength: CGFloat) {
         let currentVC = playerViewControllers[currentIndex]
-        let progressRatio = abs(dragLength) / 600
+        let progressRatio = abs(dragLength) / animationActivationOffset
 
-        
         if dragLength < 0 {
             
             currentVC.view.transform = CGAffineTransform(
@@ -184,7 +193,10 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.currentIndex += 1
         
-        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+        let distanceLeft = animationActivationOffset - currentSwipeOffset!
+        let animationDuration = min(distanceLeft / currentSwipeSpeed!, maxAnimationDuration)
+        
+        UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0.0, options: .beginFromCurrentState) {
             currentVC.view.transform = CGAffineTransform(translationX: 0, y: -self.view.height)
             nextVC.view.transform = .identity
             
@@ -203,7 +215,10 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         let currentVC = playerViewControllers[currentIndex]
         let nextVC = playerViewControllers[currentIndex+1]
         
-        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+        let distanceLeft = animationActivationOffset - currentSwipeOffset!
+        let animationDuration = min(distanceLeft / currentSwipeSpeed!, maxAnimationDuration)
+        
+        UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0.0, options: .beginFromCurrentState) {
             currentVC.view.transform = .identity
             nextVC.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
             
@@ -227,7 +242,10 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         
         self.currentIndex -= 1
         
-        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+        let distanceLeft = animationActivationOffset - currentSwipeOffset!
+        let animationDuration = min(distanceLeft / currentSwipeSpeed!, maxAnimationDuration)
+        
+        UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0.0, options: .beginFromCurrentState) {
             currentVC.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
             nextVC.view.transform = CGAffineTransform(translationX: 0, y: 0)
             
