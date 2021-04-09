@@ -7,7 +7,9 @@
 
 import UIKit
 
-class ChallengeCardsCollectionView: UICollectionView {
+
+
+class ChallengeCardsCollectionView: UICollectionView, UICollectionViewDelegate {
 
     init() {
         let layout = UICollectionViewFlowLayout()
@@ -23,11 +25,20 @@ class ChallengeCardsCollectionView: UICollectionView {
         
         showsHorizontalScrollIndicator = false
         alwaysBounceHorizontal = true
+        
+        delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let challengeCard = collectionView.cellForItem(at: indexPath) as? ChallengeCardCollectionViewCell else {
+            return
+        }
+        
+        let watchVC = WatchViewController()
+        NavigationControlManager.mainViewController.navigationController?.pushViewController(watchVC, animated: true)
+    }
 }

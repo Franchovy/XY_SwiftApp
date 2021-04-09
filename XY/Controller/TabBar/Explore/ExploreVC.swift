@@ -235,7 +235,7 @@ class ExploreVC: UIViewController, UICollectionViewDelegate, UICollectionViewDat
             return
         }
         
-        let vc = WatchViewController(for: pair.0)
+        let vc = _WatchViewController(for: pair.0)
         vc.setFirstVideo(pair.1, heroID: "vid")
         isHeroEnabled = true
         cell.isHeroEnabled = true

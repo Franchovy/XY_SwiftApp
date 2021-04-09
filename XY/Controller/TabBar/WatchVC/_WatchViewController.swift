@@ -8,7 +8,7 @@
 import UIKit
 import AVFoundation
 
-class WatchViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
+class _WatchViewController: UIViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate {
 
     private let pageViewController = SwipingPageViewController(
         transitionStyle: .scroll,

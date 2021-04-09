@@ -84,7 +84,7 @@
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
 		B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D284D26039B3700F590BE /* PopupWarningView.swift */; };
-		B93D7BF525F41A7E005CE74D /* WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF425F41A7E005CE74D /* WatchViewController.swift */; };
+		B93D7BF525F41A7E005CE74D /* _WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF425F41A7E005CE74D /* _WatchViewController.swift */; };
 		B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF825F41AD3005CE74D /* VideoViewController.swift */; };
 		B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DABE25E6C40F0040CEDB /* MessageView.swift */; };
 		B944DAC525E6C4290040CEDB /* _PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */; };
@@ -127,7 +127,7 @@
 		B96B7F1D2613307300B1CBF5 /* FriendsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F1C2613307300B1CBF5 /* FriendsCollectionView.swift */; };
 		B96B7F212613311200B1CBF5 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F202613311200B1CBF5 /* Label.swift */; };
 		B96B7F25261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */; };
-		B96B7F2B2613339200B1CBF5 /* ChallengeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */; };
+		B96B7F2B2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F2A2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift */; };
 		B96B7F312613352D00B1CBF5 /* ColorLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F302613352D00B1CBF5 /* ColorLabel.swift */; };
 		B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F362613397000B1CBF5 /* FriendBubble.swift */; };
 		B96B7F4026135BAD00B1CBF5 /* ColorLabelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F3F26135BAD00B1CBF5 /* ColorLabelViewModel.swift */; };
@@ -231,6 +231,8 @@
 		B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37925C9AD8C00B00656 /* PostManager.swift */; };
 		B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BDE37D25C9AE1000B00656 /* StorageManager.swift */; };
 		B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BF8BED26023A670057210C /* PopupMessageView.swift */; };
+		B9C4225826203575008E9315 /* WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C4225726203575008E9315 /* WatchViewController.swift */; };
+		B9C4225C2620380D008E9315 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C4225B2620380D008E9315 /* PlayerViewController.swift */; };
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
 		B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */; };
@@ -362,7 +364,7 @@
 		B93D1BEB2597E9C6009ADBFC /* XYTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XYTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B93D1BEF2597E9C6009ADBFC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B93D284D26039B3700F590BE /* PopupWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWarningView.swift; sourceTree = "<group>"; };
-		B93D7BF425F41A7E005CE74D /* WatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewController.swift; sourceTree = "<group>"; };
+		B93D7BF425F41A7E005CE74D /* _WatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _WatchViewController.swift; sourceTree = "<group>"; };
 		B93D7BF825F41AD3005CE74D /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
 		B944DABE25E6C40F0040CEDB /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _PreviewViewController.swift; sourceTree = "<group>"; };
@@ -406,7 +408,7 @@
 		B96B7F1C2613307300B1CBF5 /* FriendsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsCollectionView.swift; sourceTree = "<group>"; };
 		B96B7F202613311200B1CBF5 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCardsCollectionView.swift; sourceTree = "<group>"; };
-		B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCollectionViewCell.swift; sourceTree = "<group>"; };
+		B96B7F2A2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B96B7F302613352D00B1CBF5 /* ColorLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLabel.swift; sourceTree = "<group>"; };
 		B96B7F362613397000B1CBF5 /* FriendBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubble.swift; sourceTree = "<group>"; };
 		B96B7F3F26135BAD00B1CBF5 /* ColorLabelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLabelViewModel.swift; sourceTree = "<group>"; };
@@ -513,6 +515,8 @@
 		B9BDE37925C9AD8C00B00656 /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
 		B9BDE37D25C9AE1000B00656 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		B9BF8BED26023A670057210C /* PopupMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMessageView.swift; sourceTree = "<group>"; };
+		B9C4225726203575008E9315 /* WatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewController.swift; sourceTree = "<group>"; };
+		B9C4225B2620380D008E9315 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
 		B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowViewModel.swift; sourceTree = "<group>"; };
@@ -859,7 +863,7 @@
 		B93D7BFC25F41ADA005CE74D /* WatchVC */ = {
 			isa = PBXGroup;
 			children = (
-				B93D7BF425F41A7E005CE74D /* WatchViewController.swift */,
+				B93D7BF425F41A7E005CE74D /* _WatchViewController.swift */,
 				B9B50F0725FC16AF007B8F9F /* SwipingPageViewController.swift */,
 				B93D7BF825F41AD3005CE74D /* VideoViewController.swift */,
 				B9E67E6725F438BF004FA873 /* ChallengeViewController.swift */,
@@ -995,7 +999,7 @@
 			children = (
 				B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */,
 				B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */,
-				B96B7F2A2613339200B1CBF5 /* ChallengeCollectionViewCell.swift */,
+				B96B7F2A2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift */,
 			);
 			path = ChallengeCardsCollectionView;
 			sourceTree = "<group>";
@@ -1140,6 +1144,7 @@
 			isa = PBXGroup;
 			children = (
 				B93797D3261EFF1700405892 /* AppInitializer.swift */,
+				B9C4224C2620350C008E9315 /* WatchVC */,
 				B968322A261D900A00AF1DD1 /* View Challenge */,
 				B952F5952617426D0063E7B4 /* Create Challenge */,
 				B9FD994F2616101500D6716C /* Notifications */,
@@ -1307,6 +1312,15 @@
 				B9ABAAA425F7CBB1009CB966 /* ThumbnailManager.swift */,
 			);
 			path = Other;
+			sourceTree = "<group>";
+		};
+		B9C4224C2620350C008E9315 /* WatchVC */ = {
+			isa = PBXGroup;
+			children = (
+				B9C4225726203575008E9315 /* WatchViewController.swift */,
+				B9C4225B2620380D008E9315 /* PlayerViewController.swift */,
+			);
+			path = WatchVC;
 			sourceTree = "<group>";
 		};
 		B9C8482525B09697002F7CD5 /* Extensions */ = {
@@ -1629,7 +1643,7 @@
 				B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */,
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
-				B93D7BF525F41A7E005CE74D /* WatchViewController.swift in Sources */,
+				B93D7BF525F41A7E005CE74D /* _WatchViewController.swift in Sources */,
 				B97352EE2618729900183201 /* FriendBubbleViewModel.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
@@ -1637,6 +1651,7 @@
 				B93797D4261EFF1700405892 /* AppInitializer.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
 				B973530B2618B8A200183201 /* ChallengeCard.swift in Sources */,
+				B9C4225826203575008E9315 /* WatchViewController.swift in Sources */,
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B936264A25DA86100063AAD6 /* ChatFirestoreManager.swift in Sources */,
 				B926867726148E5600A306F6 /* EditProfileViewController.swift in Sources */,
@@ -1675,7 +1690,7 @@
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
 				B9ABAAA525F7CBB1009CB966 /* ThumbnailManager.swift in Sources */,
 				B97352E42618675A00183201 /* Button.swift in Sources */,
-				B96B7F2B2613339200B1CBF5 /* ChallengeCollectionViewCell.swift in Sources */,
+				B96B7F2B2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift in Sources */,
 				B9FD993E2615C08100D6716C /* TextField.swift in Sources */,
 				B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */,
 				B9B74D8625F02B700083D69A /* RankingDatabaseManager.swift in Sources */,
@@ -1728,6 +1743,7 @@
 				B925CC7325D5844200542A58 /* MessageViewModel.swift in Sources */,
 				B98B06D925FAB9F800001986 /* ChallengeVideoModel.swift in Sources */,
 				B972A2AF25DD06E6006A0476 /* PostViewController.swift in Sources */,
+				B9C4225C2620380D008E9315 /* PlayerViewController.swift in Sources */,
 				B952F5CF26176D3F0063E7B4 /* PreviewViewController.swift in Sources */,
 				B9520FF425ADCC41008E9B57 /* Action.swift in Sources */,
 				B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */,
@@ -2033,7 +2049,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2059,7 +2075,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.2;
+				CURRENT_PROJECT_VERSION = 1.4;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

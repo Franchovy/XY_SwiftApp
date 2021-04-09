@@ -14,7 +14,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     var onInitFinished: (() -> Void)?
     var eyesMode = false
     
-    var playVC: WatchViewController!
+    var playVC: _WatchViewController!
     var challengesVC: ExploreVC!
     var cameraVC: _CameraViewController!
     var hubVC: XYworldVC!
@@ -41,7 +41,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         tabBar.isTranslucent = false
         
         
-        playVC = WatchViewController()
+        playVC = _WatchViewController()
         challengesVC = ExploreVC()
         cameraVC = _CameraViewController()
         hubVC = XYworldVC()
