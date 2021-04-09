@@ -33,7 +33,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         playerViewControllers.append(PlayerViewController())
         playerViewControllers.append(PlayerViewController())
         
-        setUpPlayerController(index: currentIndex)
+        setUpInitialPlayerController()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,20 +54,38 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
-    private func setUpPlayerController(index: Int) {
-        let playerVC = playerViewControllers[index]
-        
-        if index > 0, index < playerViewControllers.count {
-            let previousPlayerVC = playerViewControllers[index-1]
-            
-            view.insertSubview(playerVC.view, belowSubview: previousPlayerVC.view)
-        } else {
-            view.addSubview(playerVC.view)
+    private func setUpInitialPlayerController() {
+        guard currentIndex == 0 else {
+            return
         }
         
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:)))
+        let playerVC = playerViewControllers[currentIndex]
+        view.addSubview(playerVC.view)
+        playerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
+    }
+    
+    private func setUpNextPlayerController() {
+        guard currentIndex < playerViewControllers.count else {
+            return
+        }
         
-        playerVC.view.addGestureRecognizer(panGesture)
+        let nextPlayerVC = playerViewControllers[currentIndex + 1]
+        let currentPlayerVC = playerViewControllers[currentIndex]
+        
+        view.insertSubview(nextPlayerVC.view, belowSubview: currentPlayerVC.view)
+        
+        nextPlayerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
+    }
+    
+    private func setUpPrevPlayerController() {
+        guard currentIndex > 0 else { return }
+        
+        let prevPlayerVC = playerViewControllers[currentIndex - 1]
+        
+        let previousPlayerVC = playerViewControllers[currentIndex-1]
+        view.insertSubview(prevPlayerVC.view, belowSubview: previousPlayerVC.view)
+
+        prevPlayerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
     }
     
     @objc private func didPanPlayerViewController(_ gestureRecognizer: UIPanGestureRecognizer) {
@@ -88,7 +106,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         
         let dy = gestureRecognizer.translation(in: view).y
         let vy = gestureRecognizer.velocity(in: view).y
-        let progressRatio = -dy / 600
+        
         
         if gestureRecognizer.state == .began {
             isCurrentlySwiping = true
@@ -96,58 +114,131 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             
             let limit:CGFloat = 300
             let passedLimit = limit < abs(dy + vy)
-            print("Passed limit: \(passedLimit)")
-            print("values: dy: \(dy), vy: \(vy)")
             
             if passedLimit {
-                let nextVC = playerViewControllers[currentIndex+1]
-                
-                UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
-                    vc.view.transform = CGAffineTransform(translationX: 0, y: -self.view.height)
-                    nextVC.view.transform = .identity
-                    
-                } completion: { (done) in
-                    if done {
-                        vc.view.removeFromSuperview()
-                        self.isCurrentlySwiping = false
-                        self.currentIndex += 1
-                    }
+                if dy < 0 {
+                    animateScrollUp()
+                } else {
+                    animateScrollDown()
                 }
+                
             } else {
-                let nextVC = playerViewControllers[currentIndex+1]
-                
-                UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
-                    vc.view.transform = .identity
-                    nextVC.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
-                    
-                } completion: { (done) in
-                    if done {
-                        nextVC.view.removeFromSuperview()
-                        self.isCurrentlySwiping = false
-                    }
-                }
+                animateReset()
             }
-            
-            return
+        } else if gestureRecognizer.state == .changed {
+            setPositionForDrag(dragLength: dy)
         }
-        
-        playerVCView.transform = CGAffineTransform(
-            translationX: 0,
-            y: dy
-        )
-        
-        let nextVC = playerViewControllers[indexOfVC+1]
-        
-        if !view.subviews.contains(nextVC.view) {
-            setUpPlayerController(index: indexOfVC+1)
-            view.insertSubview(nextVC.view, belowSubview: playerVCView)
-            nextVC.view.frame = self.view.bounds
-        }
-        
-        nextVC.view.transform = CGAffineTransform(
-            scaleX: min(1.0, progressRatio),
-            y: min(1.0, progressRatio)
-        )
     }
     
+    private func setPositionForDrag(dragLength: CGFloat) {
+        let currentVC = playerViewControllers[currentIndex]
+        let progressRatio = abs(dragLength) / 600
+
+        
+        if dragLength < 0 {
+            
+            currentVC.view.transform = CGAffineTransform(
+                translationX: 0,
+                y: dragLength
+            )
+            
+            let nextVC = playerViewControllers[currentIndex+1]
+            
+            if !view.subviews.contains(nextVC.view) {
+                setUpNextPlayerController()
+                nextVC.view.frame = self.view.bounds
+            }
+            
+            nextVC.view.transform = CGAffineTransform(
+                scaleX: min(1.0, progressRatio),
+                y: min(1.0, progressRatio)
+            )
+            
+        } else {
+            guard currentIndex > 0 else {
+                return
+            }
+            
+            currentVC.view.transform = CGAffineTransform(
+                scaleX: 1 - progressRatio,
+                y: 1 - progressRatio
+            )
+            
+            let prevVC = playerViewControllers[currentIndex-1]
+            
+            if !view.subviews.contains(prevVC.view) {
+                setUpPrevPlayerController()
+                prevVC.view.frame = self.view.bounds
+            }
+            
+            prevVC.view.transform = CGAffineTransform(
+                translationX: 0,
+                y: -view.height + dragLength
+            )
+        }
+    }
+    
+    private func animateScrollUp() {
+        let currentVC = playerViewControllers[currentIndex]
+        let nextVC = playerViewControllers[currentIndex+1]
+        
+        self.currentIndex += 1
+        
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+            currentVC.view.transform = CGAffineTransform(translationX: 0, y: -self.view.height)
+            nextVC.view.transform = .identity
+            
+        } completion: { (done) in
+            if done {
+                currentVC.view.removeFromSuperview()
+                self.isCurrentlySwiping = false
+                
+                currentVC.view.transform = .identity
+                nextVC.view.transform = .identity
+            }
+        }
+    }
+    
+    private func animateReset() {
+        let currentVC = playerViewControllers[currentIndex]
+        let nextVC = playerViewControllers[currentIndex+1]
+        
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+            currentVC.view.transform = .identity
+            nextVC.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            
+        } completion: { (done) in
+            if done {
+                nextVC.view.removeFromSuperview()
+                self.isCurrentlySwiping = false
+                
+                currentVC.view.transform = .identity
+                nextVC.view.transform = .identity
+            }
+        }
+    }
+    
+    private func animateScrollDown() {
+        guard currentIndex != 0 else {
+            return
+        }
+        let currentVC = playerViewControllers[currentIndex]
+        let nextVC = playerViewControllers[currentIndex-1]
+        
+        self.currentIndex -= 1
+        
+        UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+            currentVC.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            nextVC.view.transform = CGAffineTransform(translationX: 0, y: 0)
+            
+        } completion: { (done) in
+            if done {
+                currentVC.view.removeFromSuperview()
+                self.isCurrentlySwiping = false
+                
+                currentVC.view.transform = .identity
+                nextVC.view.transform = .identity
+            }
+        }
+    }
 }
