@@ -36,6 +36,12 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         setUpPlayerController(index: currentIndex)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.configureBackgroundStyle(.invisible)
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -80,36 +86,50 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             playerViewControllers.append(PlayerViewController())
         }
         
+        let dy = gestureRecognizer.translation(in: view).y
+        let vy = gestureRecognizer.velocity(in: view).y
+        let progressRatio = -dy / 600
+        
         if gestureRecognizer.state == .began {
             isCurrentlySwiping = true
         } else if gestureRecognizer.state == .ended || gestureRecognizer.state == .cancelled {
             
-            // Animate gesture:
+            let limit:CGFloat = 300
+            let passedLimit = limit < abs(dy + vy)
+            print("Passed limit: \(passedLimit)")
+            print("values: dy: \(dy), vy: \(vy)")
             
-            // pass to next
-            
-            let nextVC = playerViewControllers[currentIndex+1]
-            
-            UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
-                vc.view.transform = CGAffineTransform(translationX: 0, y: -self.view.height)
-                nextVC.view.transform = .identity
+            if passedLimit {
+                let nextVC = playerViewControllers[currentIndex+1]
                 
-            } completion: { (done) in
-                if done {
-                    vc.view.removeFromSuperview()
-                    self.isCurrentlySwiping = false
-                    self.currentIndex += 1
+                UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+                    vc.view.transform = CGAffineTransform(translationX: 0, y: -self.view.height)
+                    nextVC.view.transform = .identity
+                    
+                } completion: { (done) in
+                    if done {
+                        vc.view.removeFromSuperview()
+                        self.isCurrentlySwiping = false
+                        self.currentIndex += 1
+                    }
+                }
+            } else {
+                let nextVC = playerViewControllers[currentIndex+1]
+                
+                UIView.animate(withDuration: 0.4, delay: 0.0, options: .beginFromCurrentState) {
+                    vc.view.transform = .identity
+                    nextVC.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+                    
+                } completion: { (done) in
+                    if done {
+                        nextVC.view.removeFromSuperview()
+                        self.isCurrentlySwiping = false
+                    }
                 }
             }
             
-            // cancel
-            
-            
             return
         }
-        
-        let dy = gestureRecognizer.translation(in: view).y
-        let progressRatio = -dy / 600
         
         playerVCView.transform = CGAffineTransform(
             translationX: 0,
