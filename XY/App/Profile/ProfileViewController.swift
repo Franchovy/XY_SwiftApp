@@ -151,24 +151,34 @@ class ProfileViewController: UIViewController {
             let prompt = Prompt()
             prompt.setTitle(text: "Friends")
             let numFriendsText = "\(viewModel.numFriends) friends"
-            prompt.addTextWithBoldInRange(text: "You have \(numFriendsText) to challenge.", range: NSRange(location: 9, length: numFriendsText.count))
+            prompt.addTextWithBoldInRange(
+                text: "\(viewModel.nickname) has \(numFriendsText) to challenge.",
+                range: NSRange(
+                    location: viewModel.nickname.count + 5,
+                    length: numFriendsText.count
+                )
+            )
             prompt.addCompletionButton(buttonText: "Ok", style: .embedded, closeOnTap: true)
             
-            self.view.addSubview(prompt)
-            prompt.appear()
+            NavigationControlManager.displayPrompt(prompt)
         }
         
         challengeLabelView.addLabel(String(describing: viewModel.numChallenges), font: UIFont(name: "Raleway-Medium", size: 25)!)
         challengeLabelView.addLabel("Challenges", font: UIFont(name: "Raleway-Medium", size: 15)!)
         challengeLabelView.addOnPress {
             let prompt = Prompt()
-            prompt.setTitle(text: "Friends")
-            let numFriendsText = "\(viewModel.numFriends) friends"
-            prompt.addTextWithBoldInRange(text: "You have \(numFriendsText) to challenge.", range: NSRange(location: 9, length: numFriendsText.count))
+            prompt.setTitle(text: "Challenges")
+            let numFriendsText = "\(viewModel.numChallenges) challenges"
+            prompt.addTextWithBoldInRange(
+                text: "\(viewModel.nickname) has completed \(numFriendsText).",
+                range: NSRange(
+                    location: viewModel.nickname.count + 15,
+                    length: numFriendsText.count
+                )
+            )
             prompt.addCompletionButton(buttonText: "Ok", style: .embedded, closeOnTap: true)
             
-            self.view.addSubview(prompt)
-            prompt.appear()
+            NavigationControlManager.displayPrompt(prompt)
         }
         
         profileBubble.setImage(viewModel.profileImage)

@@ -135,8 +135,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             onTap: didTapPhotoLibrary)
         prompt.addCompletionButton(buttonText: "Cancel", style: .embedded, closeOnTap: true)
         
-        view.addSubview(prompt)
-        prompt.appear()
+        NavigationControlManager.displayPrompt(prompt)
     }
     
     @objc private func didTapCamera() {

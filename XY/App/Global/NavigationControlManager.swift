@@ -10,6 +10,11 @@ import UIKit
 final class NavigationControlManager {
     static var mainViewController: UIViewController!
     
+    static func displayPrompt(_ prompt: Prompt) {
+        mainViewController.navigationController?.view.addSubview(prompt)
+        prompt.appear()
+    }
+    
     static func presentProfileViewController(with viewModel: ProfileViewModel) {
         let vc = ProfileViewController()
         vc.configure(with: viewModel)

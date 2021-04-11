@@ -123,9 +123,7 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
                     prompt.setTitle(text: "Success")
                     prompt.addText(text: "Video saved to your photos library.")
                     
-                    self.view.addSubview(prompt)
-                    prompt.appear()
-
+                    NavigationControlManager.displayPrompt(prompt)
                 } else {
                     let prompt = Prompt()
                     prompt.setTitle(text: "Error")
@@ -133,8 +131,7 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
                     if let error = error {
                         prompt.addText(text: error.localizedDescription, font: UIFont(name: "Raleway-Bold", size: 12)!)
                     }
-                    self.view.addSubview(prompt)
-                    prompt.appear()
+                    NavigationControlManager.displayPrompt(prompt)
                 }
             }
         }
