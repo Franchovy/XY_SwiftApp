@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct HomeChallengeCardViewModel {
+struct ChallengeCardViewModel {
     let image: UIImage
     let title: String
     let description: String
@@ -17,9 +17,9 @@ struct HomeChallengeCardViewModel {
     let friendBubbles: [FriendBubbleViewModel]?
 }
 
-extension HomeChallengeCardViewModel {
+extension ChallengeCardViewModel {
     static var fakeData = [
-        HomeChallengeCardViewModel(
+        ChallengeCardViewModel(
             image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video1", withExtension: "mov")!)!,
             title: "EatAPizza",
             description: "Eat a pizza for lunch today!",
@@ -28,7 +28,7 @@ extension HomeChallengeCardViewModel {
             isReceived: true,
             friendBubbles: FriendBubbleViewModel.generateFakeData()
         ),
-        HomeChallengeCardViewModel(
+        ChallengeCardViewModel(
             image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video2", withExtension: "mov")!)!,
             title: "FastingChallenge",
             description: "Don't eat for 24h.",
@@ -37,7 +37,7 @@ extension HomeChallengeCardViewModel {
             isReceived: false,
             friendBubbles: FriendBubbleViewModel.generateFakeData()
         ),
-        HomeChallengeCardViewModel(
+        ChallengeCardViewModel(
             image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video3", withExtension: "mov")!)!,
             title: "FaceFears",
             description: "Today is a day to face your fears. Sit directly on the toilets of I3P.",
@@ -46,7 +46,7 @@ extension HomeChallengeCardViewModel {
             isReceived: true,
             friendBubbles: FriendBubbleViewModel.generateFakeData()
         ),
-        HomeChallengeCardViewModel(
+        ChallengeCardViewModel(
             image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video4", withExtension: "mov")!)!,
             title: "FaceFears",
             description: "Today is a day to face your fears. Sit directly on the toilets of I3P.",

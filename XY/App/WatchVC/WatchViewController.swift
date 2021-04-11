@@ -65,6 +65,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         let playerVC = playerViewControllers[currentIndex]
         view.addSubview(playerVC.view)
         playerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
+        
+        playerVC.viewAppeared()
     }
     
     private func setUpNextPlayerController() {

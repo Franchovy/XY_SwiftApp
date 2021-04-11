@@ -81,6 +81,8 @@
 		B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */; };
 		B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936266325DC23630063AAD6 /* PushNotificationSender.swift */; };
 		B93797D4261EFF1700405892 /* AppInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93797D3261EFF1700405892 /* AppInitializer.swift */; };
+		B93849002623300E00887291 /* VideoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93848FF2623300E00887291 /* VideoHeaderView.swift */; };
+		B93849042623301C00887291 /* VideoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93849032623301C00887291 /* VideoFooterView.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
 		B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D284D26039B3700F590BE /* PopupWarningView.swift */; };
@@ -152,7 +154,7 @@
 		B97353012618AF7A00183201 /* SendCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */; };
 		B97353052618B41200183201 /* SendToFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97353042618B41200183201 /* SendToFriendsViewController.swift */; };
 		B973530B2618B8A200183201 /* ChallengeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973530A2618B8A200183201 /* ChallengeCard.swift */; };
-		B97353102618BFD300183201 /* ChallengeCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973530F2618BFD300183201 /* ChallengeCardViewModel.swift */; };
+		B97353102618BFD300183201 /* HomeChallengeCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973530F2618BFD300183201 /* HomeChallengeCardViewModel.swift */; };
 		B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */; };
 		B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */; };
 		B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */; };
@@ -358,6 +360,8 @@
 		B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		B936266325DC23630063AAD6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		B93797D3261EFF1700405892 /* AppInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInitializer.swift; sourceTree = "<group>"; };
+		B93848FF2623300E00887291 /* VideoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHeaderView.swift; sourceTree = "<group>"; };
+		B93849032623301C00887291 /* VideoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFooterView.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
 		B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSettingsViewController.swift; sourceTree = "<group>"; };
@@ -433,7 +437,7 @@
 		B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		B97353042618B41200183201 /* SendToFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToFriendsViewController.swift; sourceTree = "<group>"; };
 		B973530A2618B8A200183201 /* ChallengeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCard.swift; sourceTree = "<group>"; };
-		B973530F2618BFD300183201 /* ChallengeCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCardViewModel.swift; sourceTree = "<group>"; };
+		B973530F2618BFD300183201 /* HomeChallengeCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeChallengeCardViewModel.swift; sourceTree = "<group>"; };
 		B9781DB725DE699300A2FE2D /* NewProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewProfileViewController.swift; sourceTree = "<group>"; };
 		B9781DBB25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLivePostsViewController.swift; sourceTree = "<group>"; };
 		B9781DBF25DE6B3600A2FE2D /* ProfileCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewController.swift; sourceTree = "<group>"; };
@@ -1053,7 +1057,7 @@
 			children = (
 				B96B7F3E26135BA100B1CBF5 /* ColorLabel */,
 				B973530A2618B8A200183201 /* ChallengeCard.swift */,
-				B973530F2618BFD300183201 /* ChallengeCardViewModel.swift */,
+				B973530F2618BFD300183201 /* HomeChallengeCardViewModel.swift */,
 				B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */,
 			);
 			path = ChallengeCard;
@@ -1319,6 +1323,8 @@
 			children = (
 				B9C4225726203575008E9315 /* WatchViewController.swift */,
 				B9C4225B2620380D008E9315 /* PlayerViewController.swift */,
+				B93848FF2623300E00887291 /* VideoHeaderView.swift */,
+				B93849032623301C00887291 /* VideoFooterView.swift */,
 			);
 			path = WatchVC;
 			sourceTree = "<group>";
@@ -1665,6 +1671,7 @@
 				B9FD995F2616165200D6716C /* ChallengeNotificationImage.swift in Sources */,
 				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
+				B93849042623301C00887291 /* VideoFooterView.swift in Sources */,
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B926867D26148E6200A306F6 /* ProfileViewController.swift in Sources */,
 				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,
@@ -1705,7 +1712,7 @@
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
 				B9BDE37E25C9AE1000B00656 /* StorageManager.swift in Sources */,
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
-				B97353102618BFD300183201 /* ChallengeCardViewModel.swift in Sources */,
+				B97353102618BFD300183201 /* HomeChallengeCardViewModel.swift in Sources */,
 				B96B7F4026135BAD00B1CBF5 /* ColorLabelViewModel.swift in Sources */,
 				B952F592261736AA0063E7B4 /* HomeStateManager.swift in Sources */,
 				B97352FD2618AF5200183201 /* SendCollectionViewCell.swift in Sources */,
@@ -1772,6 +1779,7 @@
 				B926868A2614A23100A306F6 /* NavigationControlManager.swift in Sources */,
 				B9599A3C25711D810057B7D9 /* LoginViewController.swift in Sources */,
 				B9D1AB2725A394C3009B428E /* FirebaseKeys.swift in Sources */,
+				B93849002623300E00887291 /* VideoHeaderView.swift in Sources */,
 				B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */,
 				B92686992614A91600A306F6 /* EditEmailViewController.swift in Sources */,
 				B91C553026107065000C2AAD /* UnicornViewController.swift in Sources */,

@@ -14,6 +14,7 @@ class Button: UIButton {
         case card
         case roundButton(backgroundColor: UIColor)
         case roundButtonBorder(gradient: [UIColor])
+        case colorButton(color: UIColor, cornerRadius: CGFloat)
         case text
     }
     let style: Style
@@ -88,6 +89,9 @@ class Button: UIButton {
             layer.shadowOpacity = 0.0
             contentVerticalAlignment = .center
             contentHorizontalAlignment = .center
+        case .colorButton(let color, let _):
+            
+            backgroundLayer.backgroundColor = color.cgColor
         }
         
         backgroundLayer.masksToBounds = true
@@ -126,6 +130,9 @@ class Button: UIButton {
             backgroundLayer.frame = bounds
         case .text:
             backgroundLayer.frame = bounds
+        case .colorButton(_, let cornerRadius):
+            backgroundLayer.frame = bounds
+            backgroundLayer.cornerRadius = cornerRadius
         }
         
         switch titlePosition {

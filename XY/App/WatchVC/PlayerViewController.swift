@@ -8,7 +8,11 @@
 import UIKit
 import AVKit
 
+
 class PlayerViewController: UIViewController {
+    
+    let challengeFooter = VideoFooterView()
+    let challengeHeader = VideoHeaderView()
     
     private var player: AVPlayer?
     private var videoLayer: AVPlayerLayer?
@@ -53,14 +57,48 @@ class PlayerViewController: UIViewController {
             Bundle.main.url(forResource: "video5", withExtension: "mov")
         ][Int.random(in: 0...4)]
         configureVideo(from: url!)
+        
+        configureChallengeCard(
+            with: ChallengeCardViewModel.fakeData.randomElement()!,
+            profileViewModel: FriendBubbleViewModel.generateFakeData().randomElement()!
+        )
+        
+        view.addSubview(challengeHeader)
+        view.addSubview(challengeFooter)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        challengeHeader.frame = CGRect(
+            x: 0,
+            y: 0,
+            width: view.width,
+            height: 90
+        )
+        
         if let videoLayer = videoLayer {
             videoLayer.frame = view.bounds
         }
+        
+        challengeFooter.sizeToFit()
+        challengeFooter.frame = CGRect(
+            x: 0,
+            y: view.height - challengeFooter.height,
+            width: view.width,
+            height: challengeFooter.height
+        )
+    }
+    
+    func configureChallengeCard(with challengeCardViewModel: ChallengeCardViewModel, profileViewModel: FriendBubbleViewModel) {
+        challengeHeader.configure(challengeName: challengeCardViewModel.title)
+        challengeFooter.configure(profileViewModel: profileViewModel, challengeViewModel: challengeCardViewModel)
     }
     
     func configureVideo(from url: URL) {
@@ -87,7 +125,20 @@ class PlayerViewController: UIViewController {
             player.seek(to: .zero)
             player.play()
         }
+        
+        playerDidFinishObserver = NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem,
+            queue: .main) { [weak self] _ in
+            player.seek(to: .zero)
+            player.play()
+        }
+        
         repeatObserverSet = true
+    }
+    
+    public func viewAppeared() {
+        challengeHeader.appear()
     }
     
     public func play() {
