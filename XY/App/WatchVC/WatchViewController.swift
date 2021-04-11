@@ -33,10 +33,6 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewDidLoad()
         
         playerViewControllers.append(PlayerViewController())
-        playerViewControllers.append(PlayerViewController())
-        playerViewControllers.append(PlayerViewController())
-        playerViewControllers.append(PlayerViewController())
-        playerViewControllers.append(PlayerViewController())
         
         setUpInitialPlayerController()
     }
