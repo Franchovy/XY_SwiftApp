@@ -75,6 +75,9 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         let nextPlayerVC = playerViewControllers[currentIndex + 1]
         let currentPlayerVC = playerViewControllers[currentIndex]
         
+        currentPlayerVC.pause()
+        nextPlayerVC.play()
+        
         view.insertSubview(nextPlayerVC.view, belowSubview: currentPlayerVC.view)
         
         nextPlayerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
@@ -84,6 +87,11 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         guard currentIndex > 0 else { return }
         
         let prevPlayerVC = playerViewControllers[currentIndex - 1]
+        
+        let currentPlayerVC = playerViewControllers[currentIndex]
+        
+        currentPlayerVC.pause()
+        prevPlayerVC.play()
         
         let previousPlayerVC = playerViewControllers[currentIndex-1]
         view.insertSubview(prevPlayerVC.view, belowSubview: previousPlayerVC.view)
@@ -211,6 +219,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         let currentVC = playerViewControllers[currentIndex]
         let nextVC = playerViewControllers[currentIndex+1]
         
+        
         let distanceLeft = animationActivationOffset - currentSwipeOffset!
         let animationDuration = min(distanceLeft / currentSwipeSpeed!, maxAnimationDuration)
         
@@ -225,6 +234,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 currentVC.view.transform = .identity
                 nextVC.view.transform = .identity
+                currentVC.play()
+                nextVC.pause()
             }
         }
     }
