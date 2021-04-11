@@ -36,7 +36,8 @@ final class CreateChallengeManager {
             tag: nil,
             timeLeftText: nil,
             isReceived: false,
-            friendBubbles: friendsToChallengeList
+            friendBubbles: friendsToChallengeList,
+            senderProfile: FriendBubbleViewModel.generateFakeData().randomElement()
         )
     }
 }

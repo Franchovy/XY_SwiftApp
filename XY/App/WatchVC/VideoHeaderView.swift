@@ -10,10 +10,12 @@ import UIKit
 class VideoHeaderView: UIView {
 
     private let titleLabel = Label(style: .title, fontSize: 26)
-    private let acceptButton = Button(title: "Accept", style: .colorButton(color: UIColor(0x03FF64), cornerRadius: 5), paddingVertical: 3.25, paddingHorizontal: 6)
-    private let declineButton = Button(title: "Reject", style: .colorButton(color: UIColor(0xFB473D), cornerRadius: 5), paddingVertical: 3.25, paddingHorizontal: 6)
+    private let acceptButton = Button(title: "Accept", style: .colorButton(color: UIColor(0x03FF64), cornerRadius: 5), paddingVertical: 7.25, paddingHorizontal: 12)
+    private let declineButton = Button(title: "Reject", style: .colorButton(color: UIColor(0xFB473D), cornerRadius: 5), paddingVertical: 7.25, paddingHorizontal: 12)
     
     var acceptDeclineButtonsDisplayed = false
+        
+    var viewModel: ChallengeCardViewModel?
     
     init() {
         super.init(frame: .zero)
@@ -24,6 +26,10 @@ class VideoHeaderView: UIView {
         
         acceptButton.alpha = 0.0
         declineButton.alpha = 0.0
+        
+        declineButton.addTarget(self, action: #selector(tappedReject), for: .touchUpInside)
+        acceptButton.addTarget(self, action: #selector(tappedAccept), for: .touchUpInside)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -57,6 +63,14 @@ class VideoHeaderView: UIView {
         )
     }
     
+    override func sizeToFit() {
+        super.sizeToFit()
+        
+        var height = 41.85 + titleLabel.height + 63.5 + 8.75 + 63.5 + 8.75
+        frame.size.height = height
+        frame.size.width = superview?.width ?? 375
+    }
+    
     func appear() {
         acceptButton.transform = CGAffineTransform(translationX: 0, y: -70)
         declineButton.transform = CGAffineTransform(translationX: 0, y: -70)
@@ -76,8 +90,37 @@ class VideoHeaderView: UIView {
 
     }
     
-    func configure(challengeName: String) {
-        titleLabel.text = challengeName
+    func configure(challengeViewModel: ChallengeCardViewModel) {
+        viewModel = challengeViewModel
+        titleLabel.text = challengeViewModel.title
     }
 
+    @objc private func tappedAccept() {
+        
+    }
+    
+    @objc private func tappedReject() {
+        let prompt = Prompt()
+        prompt.setTitle(text: "Reject Challenge")
+        prompt.addText(text: "Rejecting this challenge you’ll permanently lose the chance to perform it.")
+        prompt.addCompletionButton(
+            buttonText: "Reject",
+            textColor: UIColor(0xEF3A30),
+            style: .embedded,
+            closeOnTap: true,
+            onTap: {
+                if let viewModel = self.viewModel {
+                    NavigationControlManager.mainViewController.navigationController?.pushViewController(RejectedChallengeViewController(viewModel: viewModel), animated: true)
+                }
+            }
+        )
+        prompt.addCompletionButton(
+            buttonText: "Cancel",
+            style: .embedded,
+            closeOnTap: true
+        )
+        prompt.backgroundStyle = .fade
+    
+        NavigationControlManager.displayPrompt(prompt)
+    }
 }

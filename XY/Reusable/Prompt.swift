@@ -16,6 +16,12 @@ class Prompt: UIView, UITextViewDelegate {
         case action(style: Button.Style)
     }
     
+    enum BackgroundStyle {
+        case blur
+        case fade
+    }
+    var backgroundStyle: BackgroundStyle = .blur
+    
     // MARK: - UI PROPERTIES
 
     var blurEffectView: UIVisualEffectView = {
@@ -189,6 +195,7 @@ class Prompt: UIView, UITextViewDelegate {
         UIView.animate(withDuration: 0.3) {
             self.card.transform = .identity
             self.card.alpha = 1.0
+            
             self.blurEffectView.alpha = 1.0
         }
     }
@@ -205,6 +212,7 @@ class Prompt: UIView, UITextViewDelegate {
         UIView.animate(withDuration: 0.3) {
             self.card.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
             self.card.alpha = 0.0
+            
             self.blurEffectView.alpha = 0.0
         } completion: { (done) in
             if done {

@@ -15,6 +15,7 @@ struct ChallengeCardViewModel {
     let timeLeftText: String?
     let isReceived: Bool
     let friendBubbles: [FriendBubbleViewModel]?
+    let senderProfile: FriendBubbleViewModel?
 }
 
 extension ChallengeCardViewModel {
@@ -26,7 +27,8 @@ extension ChallengeCardViewModel {
             tag: ColorLabelViewModel(colorLabelText: "New", colorLabelColor: UIColor(0xCAF035)),
             timeLeftText: "6H left",
             isReceived: true,
-            friendBubbles: FriendBubbleViewModel.generateFakeData()
+            friendBubbles: FriendBubbleViewModel.generateFakeData(),
+            senderProfile: FriendBubbleViewModel.generateFakeData().randomElement()
         ),
         ChallengeCardViewModel(
             image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video2", withExtension: "mov")!)!,
@@ -35,7 +37,8 @@ extension ChallengeCardViewModel {
             tag: ColorLabelViewModel(colorLabelText: "Sent to", colorLabelColor: UIColor(0xFF0062)),
             timeLeftText: nil,
             isReceived: false,
-            friendBubbles: FriendBubbleViewModel.generateFakeData()
+            friendBubbles: FriendBubbleViewModel.generateFakeData(),
+            senderProfile: FriendBubbleViewModel.generateFakeData().randomElement()
         ),
         ChallengeCardViewModel(
             image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video3", withExtension: "mov")!)!,
@@ -44,7 +47,8 @@ extension ChallengeCardViewModel {
             tag: ColorLabelViewModel(colorLabelText: "Expiring", colorLabelColor: UIColor(0xC6C6C6)),
             timeLeftText: "1H left",
             isReceived: true,
-            friendBubbles: FriendBubbleViewModel.generateFakeData()
+            friendBubbles: FriendBubbleViewModel.generateFakeData(),
+            senderProfile: FriendBubbleViewModel.generateFakeData().randomElement()
         ),
         ChallengeCardViewModel(
             image: ThumbnailManager.shared.generateVideoThumbnail(url: Bundle.main.url(forResource: "video4", withExtension: "mov")!)!,
@@ -53,7 +57,8 @@ extension ChallengeCardViewModel {
             tag: nil,
             timeLeftText: "1H left",
             isReceived: true,
-            friendBubbles: FriendBubbleViewModel.generateFakeData()
+            friendBubbles: FriendBubbleViewModel.generateFakeData(),
+            senderProfile: FriendBubbleViewModel.generateFakeData().randomElement()
         )
     ]
 }

@@ -67,12 +67,6 @@ class PlayerViewController: UIViewController {
         view.addSubview(challengeFooter)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        
-    }
-    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -97,7 +91,7 @@ class PlayerViewController: UIViewController {
     }
     
     func configureChallengeCard(with challengeCardViewModel: ChallengeCardViewModel, profileViewModel: FriendBubbleViewModel) {
-        challengeHeader.configure(challengeName: challengeCardViewModel.title)
+        challengeHeader.configure(challengeViewModel: challengeCardViewModel)
         challengeFooter.configure(profileViewModel: profileViewModel, challengeViewModel: challengeCardViewModel)
     }
     
@@ -108,23 +102,14 @@ class PlayerViewController: UIViewController {
         videoLayer!.frame = view.bounds
         videoLayer!.videoGravity = .resizeAspectFill
         
-        view.layer.addSublayer(videoLayer!)
+        view.layer.insertSublayer(videoLayer!, at: 0)
         
         guard let player = player else {
             return
         }
         
         player.play()
-        
         player.volume = 1.0
-        
-        playerDidFinishObserver = NotificationCenter.default.addObserver(
-            forName: .AVPlayerItemDidPlayToEndTime,
-            object: player.currentItem,
-            queue: .main) { [weak self] _ in
-            player.seek(to: .zero)
-            player.play()
-        }
         
         playerDidFinishObserver = NotificationCenter.default.addObserver(
             forName: .AVPlayerItemDidPlayToEndTime,

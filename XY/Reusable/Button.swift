@@ -95,9 +95,6 @@ class Button: UIButton {
         }
         
         backgroundLayer.masksToBounds = true
-    
-    
-        
     }
     
     required init?(coder: NSCoder) {
@@ -168,6 +165,10 @@ class Button: UIButton {
         default:
             break
         }
+    }
+    
+    public func increaseTouchSize(by amount: CGFloat) {
+        contentEdgeInsets = UIEdgeInsets(top: amount, left: amount, bottom: amount, right: amount)
     }
     
     override func sizeToFit() {

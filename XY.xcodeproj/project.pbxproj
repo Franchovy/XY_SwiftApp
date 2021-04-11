@@ -83,6 +83,7 @@
 		B93797D4261EFF1700405892 /* AppInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93797D3261EFF1700405892 /* AppInitializer.swift */; };
 		B93849002623300E00887291 /* VideoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93848FF2623300E00887291 /* VideoHeaderView.swift */; };
 		B93849042623301C00887291 /* VideoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93849032623301C00887291 /* VideoFooterView.swift */; };
+		B938490B2623604C00887291 /* RejectedChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B938490A2623604C00887291 /* RejectedChallengeViewController.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
 		B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D284D26039B3700F590BE /* PopupWarningView.swift */; };
@@ -362,6 +363,7 @@
 		B93797D3261EFF1700405892 /* AppInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInitializer.swift; sourceTree = "<group>"; };
 		B93848FF2623300E00887291 /* VideoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHeaderView.swift; sourceTree = "<group>"; };
 		B93849032623301C00887291 /* VideoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFooterView.swift; sourceTree = "<group>"; };
+		B938490A2623604C00887291 /* RejectedChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectedChallengeViewController.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
 		B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderSettingsViewController.swift; sourceTree = "<group>"; };
@@ -843,6 +845,14 @@
 			path = Conversations;
 			sourceTree = "<group>";
 		};
+		B93849092623603500887291 /* ChallengeStatusScreen */ = {
+			isa = PBXGroup;
+			children = (
+				B938490A2623604C00887291 /* RejectedChallengeViewController.swift */,
+			);
+			path = ChallengeStatusScreen;
+			sourceTree = "<group>";
+		};
 		B93CF23325C566C4003CB3DB /* Profile Header */ = {
 			isa = PBXGroup;
 			children = (
@@ -1147,6 +1157,7 @@
 		B97E33A1261201B600AD00B5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B93849092623603500887291 /* ChallengeStatusScreen */,
 				B93797D3261EFF1700405892 /* AppInitializer.swift */,
 				B9C4224C2620350C008E9315 /* WatchVC */,
 				B968322A261D900A00AF1DD1 /* View Challenge */,
@@ -1840,6 +1851,7 @@
 				B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */,
 				B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */,
 				B926868526149C7800A306F6 /* ProfileViewModel.swift in Sources */,
+				B938490B2623604C00887291 /* RejectedChallengeViewController.swift in Sources */,
 				B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */,
 				B96B7F212613311200B1CBF5 /* Label.swift in Sources */,
 				B926869D2614AB0F00A306F6 /* EditProfileImageView.swift in Sources */,
