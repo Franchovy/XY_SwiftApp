@@ -217,7 +217,7 @@ class Prompt: UIView, UITextViewDelegate {
     
     // MARK: - CONFIG FUNCTIONS
     
-    public func setTitle(text: String, isGradient: Bool = true) {
+    public func setTitle(text: String, isGradient: Bool = false) {
         
         titleLabel = Label(text, style: .title, fontSize: 20)
         
