@@ -7,6 +7,7 @@
 
 import UIKit
 import CameraManager
+import AVFoundation
 
 class CameraViewController: UIViewController {
     
@@ -55,11 +56,23 @@ class CameraViewController: UIViewController {
         navigationController?.configureBackgroundStyle(.invisible)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        
+        do {
+            try AVAudioSession.sharedInstance().setAllowHapticsAndSystemSoundsDuringRecording(true)
+        } catch let error {
+            print(error)
+        }
+    }
+    
     public func startRecording() {
         if state == .prepareToRecord {
             
             cameraManager.startRecordingVideo()
             state = .recording
+            
         }
     }
     

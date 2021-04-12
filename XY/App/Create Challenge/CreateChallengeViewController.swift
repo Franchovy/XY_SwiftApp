@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class CreateChallengeViewController: UIViewController {
     
     var videoURL: URL?
@@ -46,7 +47,16 @@ class CreateChallengeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        displayNewChallengePrompt()
+        videoURL = nil
+        CreateChallengeManager.shared.videoUrl = nil
+        
+        cameraViewController.state = .prepareToRecord
+        
+        if CreateChallengeManager.shared.title != nil && CreateChallengeManager.shared.description != nil {
+            
+        } else {
+            displayNewChallengePrompt()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -102,8 +112,7 @@ class CreateChallengeViewController: UIViewController {
             onTap: nil
         )
         prompt.addExternalButton(
-            buttonText: "Record now",
-            buttonIcon: UIImage(systemName: "video.fill")!,
+            buttonText: "Skip",
             backgroundColor: UIColor(0xF23333),
             textColor: UIColor(named: "XYWhite")!,
             font: UIFont(name: "Raleway-Heavy", size: 18),
@@ -142,9 +151,13 @@ class CreateChallengeViewController: UIViewController {
     
     @objc private func recordButtonPressed() {
         if cameraViewController.state == .prepareToRecord {
+            HapticsManager.shared.vibrateImpact(for: .medium)
+            
             cameraViewController.startRecording()
             recordButton.setState(.recording)
         } else {
+            HapticsManager.shared.vibrateImpact(for: .light)
+            
             recordButton.setState(.notRecording)
             cameraViewController.stopRecording() { outputUrl in
                 self.videoURL = outputUrl

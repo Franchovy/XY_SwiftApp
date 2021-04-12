@@ -20,7 +20,7 @@ class RecordButton: UIButton {
         let layer = CAShapeLayer()
         layer.strokeColor = UIColor(0xF2F2F2).cgColor
         layer.lineWidth = 5
-        layer.backgroundColor = UIColor.clear.cgColor
+        layer.fillColor = UIColor.clear.cgColor
         return layer
     }()
     
@@ -36,8 +36,6 @@ class RecordButton: UIButton {
         layer.addSublayer(borderLayer)
         layer.addSublayer(centerLayer)
         
-        layer.backgroundColor = UIColor.clear.cgColor
-        backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {
@@ -72,7 +70,20 @@ class RecordButton: UIButton {
         animation.fillMode = .forwards
         animation.isRemovedOnCompletion = true
         
-        centerLayer.add(animation, forKey: nil)
-        recordingState = state
+        
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut) {
+            self.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        } completion: { (done) in
+            if done {
+                
+                self.centerLayer.add(animation, forKey: nil)
+                self.recordingState = state
+                
+                UIView.animate(withDuration: 0.1, delay: 0.1, options: .curveEaseIn) {
+                    self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                }
+            }
+        }
+        
     }
 }
