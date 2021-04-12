@@ -150,7 +150,7 @@ class ProfileViewController: UIViewController {
         friendsLabelView.addOnPress {
             let prompt = Prompt()
             prompt.setTitle(text: "Friends")
-            let numFriendsText = "\(viewModel.numFriends) friends"
+            let numFriendsText = "\(viewModel.numFriends) friend\(viewModel.numFriends != 1 ? "s" : "")"
             prompt.addTextWithBoldInRange(
                 text: "\(viewModel.nickname) has \(numFriendsText) to challenge.",
                 range: NSRange(
@@ -168,11 +168,11 @@ class ProfileViewController: UIViewController {
         challengeLabelView.addOnPress {
             let prompt = Prompt()
             prompt.setTitle(text: "Challenges")
-            let numFriendsText = "\(viewModel.numChallenges) challenges"
+            let numFriendsText = "\(viewModel.numChallenges) challenge\(viewModel.numChallenges != 1 ? "s" : "")"
             prompt.addTextWithBoldInRange(
-                text: "\(viewModel.nickname) has completed \(numFriendsText).",
-                range: NSRange(
-                    location: viewModel.nickname.count + 15,
+            text: "\(viewModel.nickname) has completed \(numFriendsText).",
+            range: NSRange(
+                location: viewModel.nickname.count + 15,
                     length: numFriendsText.count
                 )
             )
@@ -181,7 +181,7 @@ class ProfileViewController: UIViewController {
             NavigationControlManager.displayPrompt(prompt)
         }
         
-        profileBubble.setImage(viewModel.profileImage)
+        profileBubble.setImage(viewModel.profileImage ?? UIImage(named: "defaultProfileImage")!)
         
         friendButton.configure(for: viewModel.friendStatus)
     }

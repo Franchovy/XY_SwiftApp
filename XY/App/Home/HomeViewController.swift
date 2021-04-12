@@ -185,7 +185,7 @@ class HomeViewController: UIViewController {
         prompt.setTitle(text: "New challenges", isGradient: true)
         
         prompt.addTextWithBoldInRange(
-            text: "Hey, you've been challenged \(numChallenges) times, it's time to reply!",
+            text: "Hey, you've been challenged \(numChallenges) time\(numChallenges != 1 ? "s" : ""), it's time to reply!",
             range: NSRange(location: 28, length: String(describing: numChallenges).count + 6)
         )
         

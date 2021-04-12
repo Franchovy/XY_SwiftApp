@@ -8,7 +8,7 @@
 import UIKit
 
 struct ProfileViewModel {
-    var profileImage: UIImage
+    var profileImage: UIImage?
     var nickname: String
     var numChallenges: Int
     var numFriends: Int

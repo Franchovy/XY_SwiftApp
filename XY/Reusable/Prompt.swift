@@ -113,7 +113,7 @@ class Prompt: UIView, UITextViewDelegate {
             } else if field is UILabel {
                 if let text = (field as! UILabel).text {
                     let boundingRect = text.boundingRect(
-                        with: CGSize(width: cardWidth - 20, height: .greatestFiniteMagnitude),
+                        with: CGSize(width: cardWidth - 32, height: .greatestFiniteMagnitude),
                         options: .usesLineFragmentOrigin,
                         attributes: [.font: (field as! UILabel).font],
                         context: nil

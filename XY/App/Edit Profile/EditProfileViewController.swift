@@ -12,10 +12,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     private let profileImage = EditProfileImageView()
     private let nicknameTextField = EditNicknameTextField()
     
-    private let friendsLabel = Label("Friends", style: .body, fontSize: 15)
-    private let challengesLabel = Label("Challenges", style: .body, fontSize: 15)
-    private let numFriendsLabel = Label(style: .body, fontSize: 25)
-    private let numChallengesLabel = Label(style: .body, fontSize: 25)
+    private let friendsLabelView = LabelView()
+    private let challengeLabelView = LabelView()
     
     private var imagePickerController: UIImagePickerController?
     
@@ -34,10 +32,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         view.addSubview(profileImage)
         view.addSubview(nicknameTextField)
-        view.addSubview(friendsLabel)
-        view.addSubview(challengesLabel)
-        view.addSubview(numFriendsLabel)
-        view.addSubview(numChallengesLabel)
+        view.addSubview(friendsLabelView)
+        view.addSubview(challengeLabelView)
         
         configure()
         
@@ -69,45 +65,65 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
             height: nicknameTextField.height
         )
         
-        numFriendsLabel.sizeToFit()
-        numFriendsLabel.frame = CGRect(
-            x: profileImage.left + 5 - numFriendsLabel.width/2,
-            y: nicknameTextField.bottom + 10.5,
-            width: numFriendsLabel.width,
-            height: numFriendsLabel.height
+        
+        friendsLabelView.sizeToFit()
+        friendsLabelView.frame = CGRect(
+            x: profileImage.left + 5 - friendsLabelView.width/2,
+            y: nicknameTextField.bottom + 10,
+            width: friendsLabelView.width,
+            height: friendsLabelView.height
         )
         
-        numChallengesLabel.sizeToFit()
-        numChallengesLabel.frame = CGRect(
-            x: profileImage.right - 5 - numChallengesLabel.width/2,
-            y: nicknameTextField.bottom + 10.5,
-            width: numChallengesLabel.width,
-            height: numChallengesLabel.height
-        )
-        
-        friendsLabel.sizeToFit()
-        friendsLabel.frame = CGRect(
-            x: profileImage.left + 5 - friendsLabel.width/2,
-            y: numFriendsLabel.bottom + 3,
-            width: friendsLabel.width,
-            height: friendsLabel.height
-        )
-        
-        challengesLabel.sizeToFit()
-        challengesLabel.frame = CGRect(
-            x: profileImage.right - 5 - challengesLabel.width/2,
-            y: numChallengesLabel.bottom + 3,
-            width: challengesLabel.width,
-            height: challengesLabel.height
+        challengeLabelView.sizeToFit()
+        challengeLabelView.frame = CGRect(
+            x: profileImage.right - 5 - challengeLabelView.width/2,
+            y: nicknameTextField.bottom + 10,
+            width: challengeLabelView.width,
+            height: challengeLabelView.height
         )
     }
     
     private func configure() {
-        nicknameTextField.text = ProfileDataManager.shared.nickname
+        let viewModel = ProfileDataManager.ownViewModel
+        
+        nicknameTextField.text = viewModel.nickname
         nicknameTextField.sizeToFit()
         
-        numFriendsLabel.text = String(describing: Int.random(in: 0...1000))
-        numChallengesLabel.text = String(describing: Int.random(in: 0...1000))
+        friendsLabelView.addLabel(String(describing: viewModel.numFriends), font: UIFont(name: "Raleway-Medium", size: 25)!)
+        friendsLabelView.addLabel("Friends", font: UIFont(name: "Raleway-Medium", size: 15)!)
+        friendsLabelView.addOnPress {
+            let prompt = Prompt()
+            prompt.setTitle(text: "Friends")
+            let numFriendsText = "\(viewModel.numFriends) friend\(viewModel.numFriends != 1 ? "s" : "")"
+            prompt.addTextWithBoldInRange(
+                text: "You have \(numFriendsText) to challenge.",
+                range: NSRange(
+                    location: 9,
+                    length: numFriendsText.count
+                )
+            )
+            prompt.addCompletionButton(buttonText: "Ok", style: .embedded, closeOnTap: true)
+            
+            NavigationControlManager.displayPrompt(prompt)
+        }
+        
+        challengeLabelView.addLabel(String(describing: viewModel.numChallenges), font: UIFont(name: "Raleway-Medium", size: 25)!)
+        challengeLabelView.addLabel("Challenges", font: UIFont(name: "Raleway-Medium", size: 15)!)
+        challengeLabelView.addOnPress {
+            let prompt = Prompt()
+            prompt.setTitle(text: "Challenges")
+            let numFriendsText = "\(viewModel.numChallenges) challenge\(viewModel.numChallenges != 1 ? "s" : "")"
+            prompt.addTextWithBoldInRange(
+                text: "You have completed \(numFriendsText).",
+                range: NSRange(
+                    location: 19,
+                    length: numFriendsText.count
+                )
+            )
+            prompt.addCompletionButton(buttonText: "Ok", style: .embedded, closeOnTap: true)
+            
+            NavigationControlManager.displayPrompt(prompt)
+        }
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
@@ -159,10 +175,10 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc private func tappedAnywhere() {
-        if nicknameTextField.text != "" {
-            ProfileDataManager.shared.nickname = nicknameTextField.text
+        if let text = nicknameTextField.text, text != "" {
+            ProfileDataManager.ownViewModel.nickname = text
         } else {
-            nicknameTextField.text = ProfileDataManager.shared.nickname
+            nicknameTextField.text = ProfileDataManager.ownViewModel.nickname
         }
         
         nicknameTextField.resignFirstResponder()
