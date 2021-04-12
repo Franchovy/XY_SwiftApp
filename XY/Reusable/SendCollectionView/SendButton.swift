@@ -18,14 +18,14 @@ class SendButton: UIButton {
         setTitle("Send", for: .normal)
         
         gradientLayer.colors = Global.xyGradient.map({ $0.cgColor })
-        gradientLayer.startPoint = CGPoint(x: 0.1, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 0.8, y: 1.0)
+        gradientLayer.startPoint = CGPoint(x: 0.2, y: 0.6)
+        gradientLayer.endPoint = CGPoint(x: 0.8, y: 0.4)
         gradientLayer.locations = [0.0, 1.0]
         
         gradientLayer.masksToBounds = true
         layer.insertSublayer(gradientLayer, at: 0)
         
-        titleLabel?.font = UIFont(name: "Raleway-Bold", size: 14)
+        titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 14)
         setTitleColor(UIColor(named: "XYWhite"), for: .normal)
     }
     
@@ -50,8 +50,6 @@ class SendButton: UIButton {
         super.touchesBegan(touches, with: event)
         
         gradientLayer.opacity = 0.5
-        
-        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
