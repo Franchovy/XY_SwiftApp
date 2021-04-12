@@ -47,15 +47,17 @@ class CreateChallengeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        videoURL = nil
-        CreateChallengeManager.shared.videoUrl = nil
-        
-        cameraViewController.state = .prepareToRecord
-        
-        if CreateChallengeManager.shared.title != nil && CreateChallengeManager.shared.description != nil {
+        if cameraViewController.state != .prepareToRecord {
+            cameraViewController.state = .prepareToRecord
             
-        } else {
-            displayNewChallengePrompt()
+            videoURL = nil
+            CreateChallengeManager.shared.videoUrl = nil
+            
+            if CreateChallengeManager.shared.title != nil && CreateChallengeManager.shared.description != nil {
+                
+            } else {
+                displayNewChallengePrompt()
+            }
         }
     }
     

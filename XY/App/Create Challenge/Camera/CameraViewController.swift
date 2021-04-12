@@ -12,12 +12,13 @@ import AVFoundation
 class CameraViewController: UIViewController {
     
     enum CameraState {
+        case uninitialized
         case prepareToRecord
         case recording
         case finishedRecording
     }
     
-    var state:CameraState = .prepareToRecord
+    var state:CameraState = .uninitialized
     
     private let cameraManager = CameraManager()
     
