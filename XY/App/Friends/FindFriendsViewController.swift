@@ -34,6 +34,8 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
         view.addSubview(searchBar)
         
         navigationItem.title = "Find Friends"
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,5 +71,9 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         HapticsManager.shared.endImpactSession()
         HapticsManager.shared.vibrateImpact(for: .soft)
+    }
+    
+    @objc private func tappedAnywhere() {
+        searchBar.resignFirstResponder()
     }
 }
