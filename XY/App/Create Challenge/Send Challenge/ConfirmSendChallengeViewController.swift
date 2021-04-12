@@ -17,8 +17,8 @@ class ConfirmSendChallengeViewController: UIViewController {
 
     private let card = ChallengeCard()
     
-    private let backHomeButton = Button(title: "Back home", style: .roundButton(backgroundColor: UIColor(0x007BF5)), paddingVertical: 13, paddingHorizontal: 15)
-    private let takeAnotherButton = Button(title: "Take another", style: .roundButtonBorder(gradient: Global.xyGradient), paddingVertical: 13, paddingHorizontal: 15)
+    private let backHomeButton = Button(title: "Back home", style: .roundButton(backgroundColor: UIColor(0x007BF5)), paddingVertical: 6, paddingHorizontal: 15)
+    private let takeAnotherButton = Button(title: "Take another", style: .roundButtonBorder(gradient: Global.xyGradient), paddingVertical: 6, paddingHorizontal: 15)
     
     init(challengeCardViewModel: ChallengeCardViewModel, friendsList: FriendsDataSource) {
         friendsDataSource = friendsList
@@ -42,6 +42,7 @@ class ConfirmSendChallengeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         navigationController?.configureBackgroundStyle(.visible)
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -75,7 +76,7 @@ class ConfirmSendChallengeViewController: UIViewController {
         youChallengedLabel.sizeToFit()
         youChallengedLabel.frame = CGRect(
             x: 25,
-            y: 15,
+            y: 98,
             width: youChallengedLabel.width,
             height: youChallengedLabel.height
         )
