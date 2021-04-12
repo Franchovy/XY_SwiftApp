@@ -73,7 +73,7 @@ class SendButton: UIButton {
             gradientLayer.borderWidth = 0
             
             setTitleColor(UIColor(named: "XYWhite"), for: .normal)
-            setTitle("Sent", for: .normal)
+            setTitle("Send", for: .normal)
         }
         
         HapticsManager.shared.vibrateImpact(for: .soft)
