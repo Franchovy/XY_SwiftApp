@@ -126,7 +126,7 @@ class HomeViewController: UIViewController {
         challengesLabel.sizeToFit()
         challengesLabel.frame = CGRect(
             x: 10,
-            y: friendsCollectionView.bottom + 12,
+            y: friendsCollectionView.bottom + 16,
             width: challengesLabel.width,
             height: challengesLabel.height
         )
