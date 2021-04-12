@@ -111,7 +111,7 @@ class ChallengeCard: UIView {
         friendBubbleView.reset()
     }
     
-    public func configure(with viewModel: ChallengeCardViewModel) {
+    public func configure(with viewModel: ChallengeCardViewModel, withoutTag: Bool = false) {
         self.viewModel = viewModel
         
         challengeTitleGradientLabel.text = viewModel.title
@@ -120,7 +120,7 @@ class ChallengeCard: UIView {
         previewImage.image = viewModel.image
         previewImage.alpha = 0.8
         
-        if let tagLabel = viewModel.tag {
+        if !withoutTag, let tagLabel = viewModel.tag {
             addTagLabel(labelColor: tagLabel.colorLabelColor, labelText: tagLabel.colorLabelText)
         }
         

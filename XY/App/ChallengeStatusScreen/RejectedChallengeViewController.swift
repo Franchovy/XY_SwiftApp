@@ -17,7 +17,7 @@ class RejectedChallengeViewController: UIViewController {
     init(viewModel: ChallengeCardViewModel) {
         super.init(nibName: nil, bundle: nil)
         
-        challengeCard.configure(with: viewModel)
+        challengeCard.configure(with: viewModel, withoutTag: true)
         if let nickname = viewModel.senderProfile?.nickname {
             infoLabel.text = "You rejected \(nickname)'s challenge."
         }
@@ -42,6 +42,12 @@ class RejectedChallengeViewController: UIViewController {
         view.addSubview(backHomeButton)
         
         backHomeButton.addTarget(self, action: #selector(backHomeButtonTapped), for: .touchUpInside)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.isNavigationBarHidden = true
     }
     
     override func viewDidLayoutSubviews() {
