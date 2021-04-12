@@ -17,6 +17,4 @@ final class HomeStateManager {
     }
     
     static var state: HomeState = .normal
-    
-    
 }

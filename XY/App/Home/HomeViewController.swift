@@ -96,7 +96,6 @@ class HomeViewController: UIViewController {
         default: break
         }
         
-        
         if AppInitializer.shared.challengesToSee > 0 {
             let numChallenges = AppInitializer.shared.challengesToSee
             AppInitializer.shared.challengesToSee = 0
@@ -173,7 +172,7 @@ class HomeViewController: UIViewController {
         createChallengeButton.frame = CGRect(
             x: (view.width - buttonSize.width)/2,
             y: HomeStateManager.state == .normal ?
-                view.height * 0.69 :
+                view.height - 53 - buttonSize.height :
                 noChallengesLabel.bottom + 22.02,
             width: buttonSize.width,
             height: buttonSize.height
