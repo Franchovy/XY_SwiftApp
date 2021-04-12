@@ -16,7 +16,7 @@ class SearchBar: UISearchBar {
         barTintColor = UIColor(named: "XYBackground")
         isTranslucent = false
         placeholder = "Search"
-        searchTextField.font = UIFont(name: "Raleway-Heavy", size: 15)
+        searchTextField.font = UIFont(name: "Raleway-Bold", size: 15)
     }
     
     required init?(coder: NSCoder) {
