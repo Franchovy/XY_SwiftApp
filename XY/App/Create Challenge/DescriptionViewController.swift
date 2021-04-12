@@ -14,6 +14,8 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
     private let challengeDescriptionTextField = TextField(placeholder: "Describe what you have to do in your challenge...", style: .card, maxChars: 50)
     
     private let challengePreviewImage = UIImageView()
+    private let previewLabel = Label("Preview", style: .info, fontSize: 15, adaptToLightMode: false)
+    
     private let downloadVideoButton = Button(image: UIImage(systemName: "arrow.down.to.line"), title: "Save video", style: .card, titlePosition: .belowImage, imageSizeIncrease: 30)
 
     init() {
@@ -35,10 +37,13 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         HapticsManager.shared.vibrateImpact(for: .soft)
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
         
         challengeNameTextField.delegate = self
         challengeDescriptionTextField.delegate = self
@@ -47,10 +52,17 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
         view.addSubview(challengeDescriptionTextField)
         view.addSubview(challengePreviewImage)
         view.addSubview(downloadVideoButton)
+        view.addSubview(previewLabel)
+        
+        challengePreviewImage.isUserInteractionEnabled = true
+        challengePreviewImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(previewImagePressed)))
+        
+        challengePreviewImage.alpha = 0.7
+        challengePreviewImage.layer.cornerRadius = 5
         
         navigationItem.title = "Description"
         
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(didTapNext))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(didTapNext))
         navigationItem.rightBarButtonItem?.isEnabled = false
         
         downloadVideoButton.addTarget(self, action: #selector(didTapSaveVideo), for: .touchUpInside)
@@ -77,8 +89,11 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
             x: challengeNameTextField.right + 10,
             y: 15,
             width: 94,
-            height: 94
+            height: 130
         )
+        
+        previewLabel.sizeToFit()
+        previewLabel.center = challengePreviewImage.center
         
         let downloadVideoButtonSize = CGSize(width: 105, height: 74)
         downloadVideoButton.frame = CGRect(
@@ -89,27 +104,32 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
         )
     }
     
-    public func setPreviewImage(_ image: UIImage) {
-        challengePreviewImage.image = image
+    func textViewDidChange(_ textView: UITextView) {
+        navigationItem.rightBarButtonItem?.isEnabled = challengeNameTextField.text != "" && challengeDescriptionTextField.text != ""
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        if textView == challengeDescriptionTextField {
-            CreateChallengeManager.shared.description = textView.text
-        } else if textView == challengeNameTextField {
-            CreateChallengeManager.shared.title = textView.text
-        }
-        
-        navigationItem.rightBarButtonItem?.isEnabled =  CreateChallengeManager.shared.isReadyToCreateCard()
+    func loadFromManager() {
+        challengeNameTextField.setText(CreateChallengeManager.shared.title!)
+        challengeDescriptionTextField.setText(CreateChallengeManager.shared.description!)
+        challengePreviewImage.image = CreateChallengeManager.shared.previewImage
     }
     
     @objc private func didTapNext() {
+        CreateChallengeManager.shared.description = challengeDescriptionTextField.text
+        CreateChallengeManager.shared.title = challengeNameTextField.text
+        
         guard let cardViewModel = CreateChallengeManager.shared.getChallengeCardViewModel() else {
             return
         }
         let vc = SendChallengeViewController(with: cardViewModel)
         
-        navigationController?.pushViewController(vc, animated: true)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func previewImagePressed() {
+        CreateChallengeManager.shared.changePreviewImageTimestamp()
+        
+        challengePreviewImage.image = CreateChallengeManager.shared.previewImage
     }
     
     @objc private func didTapSaveVideo() {
@@ -135,5 +155,10 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
+    }
+    
+    @objc private func tappedAnywhere() {
+        challengeDescriptionTextField.resignFirstResponder()
+        challengeNameTextField.resignFirstResponder()
     }
 }

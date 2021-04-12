@@ -94,6 +94,12 @@ class TextField: UITextView {
         case card
     }
     
+    public func setText(_ text: String) {
+        self.text = text
+        placeholderActive = false
+        textColor = textColor?.withAlphaComponent(1.0)
+    }
+    
     public func setStyle(_ style: Style) {
         switch style {
         case .clear:

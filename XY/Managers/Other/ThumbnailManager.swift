@@ -34,11 +34,13 @@ class ThumbnailManager {
     }
     
     
-    public func generateVideoThumbnail(url: URL) -> UIImage? {
+    public func generateVideoThumbnail(url: URL, timestamp: Double = 1.0) -> UIImage? {
         let asset = AVAsset(url: url)
         let avAssetImageGenerator = AVAssetImageGenerator(asset: asset)
         avAssetImageGenerator.appliesPreferredTrackTransform = true
-        let thumnailTime = CMTimeMake(value: 2, timescale: 1)
+        
+        let thumnailTime = CMTimeMake(value: Int64(timestamp * 10), timescale: 10)
+        
         do {
             let cgThumbImage = try avAssetImageGenerator.copyCGImage(at: thumnailTime, actualTime: nil)
             let thumbImage = UIImage(cgImage: cgThumbImage)

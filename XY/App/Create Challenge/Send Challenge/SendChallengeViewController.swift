@@ -44,9 +44,11 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         view.addSubview(sendToFriendsViewController.view)
         
         view.addSubview(challengeCard)
+        challengeCard.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(challengeTapped)))
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendButtonPressed))
         navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .done, target: self, action: #selector(closeButtonPressed))
         
         navigationItem.title = "Send Challenge"
     }
@@ -75,6 +77,25 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         } else {
             navigationItem.rightBarButtonItem?.isEnabled = true
         }
+    }
+    
+    @objc private func challengeTapped() {
+        let vc = DescriptionViewController()
+        vc.loadFromManager()
+        NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func closeButtonPressed() {
+        let prompt = Prompt()
+        prompt.setTitle(text: "Discard Challenge")
+        prompt.addText(text: "Are you sure you want to quit? You will lose all your progress.")
+        prompt.addCompletionButton(buttonText: "Quit", textColor: UIColor(0xEF3A30), style: .embedded, onTap: {
+            NavigationControlManager.backToCamera()
+        })
+        prompt.addCompletionButton(buttonText: "Cancel", style: .embedded, closeOnTap: true)
+        
+        view.addSubview(prompt)
+        prompt.appear()
     }
     
     @objc private func sendButtonPressed() {

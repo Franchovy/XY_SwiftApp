@@ -120,7 +120,7 @@ class PreviewViewController: UIViewController {
     }
     
     @objc private func didTapNext() {
-        CreateChallengeManager.shared.videoUrl = previewVideoURL
+        CreateChallengeManager.shared.setVideoUrl(url: previewVideoURL)
         
         if CreateChallengeManager.shared.title != nil && CreateChallengeManager.shared.description != nil {
             guard let cardViewModel = CreateChallengeManager.shared.getChallengeCardViewModel() else {
