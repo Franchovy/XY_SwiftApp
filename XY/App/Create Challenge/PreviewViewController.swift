@@ -90,7 +90,7 @@ class PreviewViewController: UIViewController {
     
     private func appearSendButton() {
         sendButton.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
-        UIView.animate(withDuration: 0.4, delay: 1.0, options: .curveEaseIn) {
+        UIView.animate(withDuration: 0.4, delay: 0.2, options: .curveEaseIn) {
             self.sendButton.transform = .identity
             self.sendButton.alpha = 1.0
         }
