@@ -21,7 +21,7 @@ final class AppInitializer {
         }
     }
     
-    var challengesToSee: Int = 3
+    var challengesToSee: Int = 0
     private func setNumChallengesNotification(numChallenges: Int) {
         challengesToSee = numChallenges
     }

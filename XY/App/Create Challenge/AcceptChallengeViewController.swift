@@ -100,7 +100,7 @@ class AcceptChallengeViewController: UIViewController {
             
             challengeCard.frame = CGRect(x: (view.width - 248.14)/2, y: challengedYouLabel.bottom + 27.39, width: 248.14, height: 389.4)
         } else {
-            self.challengeTitleLabel!.center = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
+            self.challengeTitleLabel!.frame.origin = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
         }
         
         cameraViewController.view.frame = view.bounds
@@ -135,6 +135,8 @@ class AcceptChallengeViewController: UIViewController {
         
         challengeTitleLabel?.center = challengeCard.center
         
+        self.startButton.isHidden = true
+        
         UIView.animate(withDuration: 0.3) {
             self.blurView.alpha = 0.0
             self.challengeCard.alpha = 0.0
@@ -145,11 +147,7 @@ class AcceptChallengeViewController: UIViewController {
             self.challengeTitleLabel!.font = UIFont(name: "Raleway-Heavy", size: 31)
             self.challengeTitleLabel!.sizeToFit()
             self.challengeTitleLabel!.frame.origin = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
-        } completion: { (done) in
-            if done {
-                
-            }
-        }
+        } 
     }
     
     @objc private func recordButtonPressed() {
