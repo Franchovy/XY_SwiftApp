@@ -67,6 +67,12 @@ class PlayerViewController: UIViewController {
         view.addSubview(challengeFooter)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        pause()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

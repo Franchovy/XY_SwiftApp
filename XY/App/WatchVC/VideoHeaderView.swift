@@ -98,7 +98,10 @@ class VideoHeaderView: UIView {
     }
 
     @objc private func tappedAccept() {
-        
+        guard let viewModel = viewModel else {
+            return
+        }
+        NavigationControlManager.startChallenge(with: viewModel)
     }
     
     @objc private func tappedReject() {

@@ -15,8 +15,17 @@ final class CreateChallengeManager {
     var title: String?
     var friendsToChallengeList: [FriendBubbleViewModel]?
     
+    var acceptedChallenge: ChallengeCardViewModel?
+    
     func isReadyToCreateCard() -> Bool {
         return videoUrl != nil && description != nil && title != nil
+    }
+    
+    func loadAcceptedChallenge(_ viewModel: ChallengeCardViewModel) {
+        acceptedChallenge = viewModel
+        
+        description = viewModel.description
+        title = viewModel.title
     }
     
     func getChallengeCardViewModel() -> ChallengeCardViewModel? {

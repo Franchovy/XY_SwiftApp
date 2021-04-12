@@ -32,6 +32,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Raleway-Bold", size: 20)!]
             navController.navigationBar.tintColor = UIColor(named: "XYTint")
             
+            navController.isHeroEnabled = true
+            
             navController.heroModalAnimationType = .zoom
             navController.modalPresentationStyle = .fullScreen
             

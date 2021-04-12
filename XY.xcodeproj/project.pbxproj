@@ -93,6 +93,7 @@
 		B944DAC525E6C4290040CEDB /* _PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */; };
 		B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */; };
 		B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */; };
+		B9474B7E262444C400D4AD89 /* AcceptChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9474B7D262444C400D4AD89 /* AcceptChallengeViewController.swift */; };
 		B94CC3F225BAA5B900E97B78 /* _CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */; };
@@ -376,6 +377,7 @@
 		B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _PreviewViewController.swift; sourceTree = "<group>"; };
 		B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFirestoreManager.swift; sourceTree = "<group>"; };
+		B9474B7D262444C400D4AD89 /* AcceptChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptChallengeViewController.swift; sourceTree = "<group>"; };
 		B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CameraViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabelReusableView.swift; sourceTree = "<group>"; };
@@ -916,6 +918,7 @@
 				B952F5DA26177C310063E7B4 /* Send Challenge */,
 				B952F5C52617622C0063E7B4 /* Camera */,
 				B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */,
+				B9474B7D262444C400D4AD89 /* AcceptChallengeViewController.swift */,
 				B952F5CE26176D3F0063E7B4 /* PreviewViewController.swift */,
 				B952F5D2261778A20063E7B4 /* DescriptionViewController.swift */,
 				B952F5D6261778BB0063E7B4 /* CreateChallengeManager.swift */,
@@ -1695,6 +1698,7 @@
 				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
 				B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
+				B9474B7E262444C400D4AD89 /* AcceptChallengeViewController.swift in Sources */,
 				B9B74D8F25F037870083D69A /* RankingTableViewCell.swift in Sources */,
 				B9B0C05525FD5E23003DA5CB /* ChallengeVideoCollectionViewCell.swift in Sources */,
 				B9FEFF952604AF4400313BA1 /* ButtonChoicePrompt.swift in Sources */,

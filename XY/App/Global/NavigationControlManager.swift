@@ -15,6 +15,13 @@ final class NavigationControlManager {
         prompt.appear()
     }
     
+    static func startChallenge(with viewModel: ChallengeCardViewModel) {
+        let vc = AcceptChallengeViewController()
+        CreateChallengeManager.shared.loadAcceptedChallenge(viewModel)
+        
+        mainViewController.heroReplaceViewController(with: vc)
+    }
+    
     static func presentProfileViewController(with viewModel: ProfileViewModel) {
         let vc = ProfileViewController()
         vc.configure(with: viewModel)
@@ -62,6 +69,8 @@ final class NavigationControlManager {
         navController.navigationBar.shadowImage = UIImage()
         navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Raleway-Bold", size: 20)!]
         navController.navigationBar.tintColor = UIColor(named: "XYTint")
+        
+        navController.isHeroEnabled = true
         
         navController.heroModalAnimationType = .zoomSlide(direction: .left)
         navController.modalPresentationStyle = .fullScreen

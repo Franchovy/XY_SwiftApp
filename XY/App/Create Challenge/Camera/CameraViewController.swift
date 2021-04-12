@@ -49,6 +49,12 @@ class CameraViewController: UIViewController {
         
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        navigationController?.configureBackgroundStyle(.invisible)
+    }
+    
     public func startRecording() {
         if state == .prepareToRecord {
             
