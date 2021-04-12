@@ -14,8 +14,27 @@ class AcceptChallengeViewController: UIViewController {
     private let cameraViewController = CameraViewController()
     private let recordButton = RecordButton()
     
-    init() {
+    private let blurView: UIVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .regular)
+        return UIVisualEffectView(effect: blurEffect)
+    }()
+    
+    private var challengeTitleLabel: Label?
+    
+    private let bubble = FriendBubble()
+    private let challengedYouLabel = Label(style: .title, fontSize: 18, adaptToLightMode: false)
+    private let challengeCard = ChallengeCard()
+    private let startButton = Button(image: UIImage(systemName: "video.fill"), title: "Record", style: .roundButton(backgroundColor: .red), font: UIFont(name: "Raleway-Heavy", size: 26), paddingVertical: 5)
+    
+    private var displayingCard = true
+    
+    init(viewModel: ChallengeCardViewModel) {
         super.init(nibName: nil, bundle: nil)
+        
+        bubble.setImage(viewModel.senderProfile!.image)
+        challengedYouLabel.text = "\(viewModel.senderProfile!.nickname) challenged you to:"
+        
+        challengeCard.configure(with: viewModel)
         
         view.backgroundColor = .black
     }
@@ -27,13 +46,19 @@ class AcceptChallengeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        presentingViewController?.navigationItem.backButtonTitle = " "
-        
         view.addSubview(cameraViewController.view)
         addChild(cameraViewController)
         
         view.addSubview(recordButton)
         recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
+        
+        view.addSubview(blurView)
+        view.addSubview(bubble)
+        view.addSubview(challengedYouLabel)
+        view.addSubview(challengeCard)
+        view.addSubview(startButton)
+        
+        startButton.addTarget(self, action: #selector(startButtonPressed), for: .touchUpInside)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,10 +71,6 @@ class AcceptChallengeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        guard let acceptedChallenge = CreateChallengeManager.shared.acceptedChallenge else {
-            return
-        }
-        challengeAcceptedPrompt(viewModel: acceptedChallenge)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -66,6 +87,22 @@ class AcceptChallengeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        if displayingCard {
+            blurView.frame = view.bounds
+            
+            bubble.frame = CGRect(x: (view.width - 70)/2, y: 92, width: 70, height: 70)
+            
+            challengedYouLabel.sizeToFit()
+            challengedYouLabel.frame = CGRect(x: (view.width - challengedYouLabel.width)/2, y: bubble.bottom + 3, width: challengedYouLabel.width, height: challengedYouLabel.height)
+            
+            startButton.sizeToFit()
+            startButton.frame = CGRect(x: (view.width - startButton.width)/2, y: challengeCard.bottom + 35, width: startButton.width, height: startButton.height)
+            
+            challengeCard.frame = CGRect(x: (view.width - 248.14)/2, y: challengedYouLabel.bottom + 27.39, width: 248.14, height: 389.4)
+        } else {
+            self.challengeTitleLabel!.center = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
+        }
+        
         cameraViewController.view.frame = view.bounds
         
         let recordButtonSize: CGFloat = 64
@@ -79,39 +116,6 @@ class AcceptChallengeViewController: UIViewController {
     
     // MARK: -
     
-    private func challengeAcceptedPrompt(viewModel: ChallengeCardViewModel) {
-        
-        let blurEffect = UIBlurEffect(style: .regular)
-        let blurView = UIVisualEffectView(effect: blurEffect)
-        view.addSubview(blurView)
-        blurView.frame = view.bounds
-        
-        // picture
-        let bubble = FriendBubble()
-        bubble.setImage(viewModel.senderProfile!.image)
-        view.addSubview(bubble)
-        bubble.frame = CGRect(x: (view.width - 70)/2, y: 92, width: 70, height: 70)
-        
-        // label
-        let label = Label("\(viewModel.senderProfile!.nickname) challenged you to:", style: .title, fontSize: 18, adaptToLightMode: false)
-        view.addSubview(label)
-        label.sizeToFit()
-        label.frame = CGRect(x: (view.width - label.width)/2, y: bubble.bottom + 3, width: label.width, height: label.height)
-        
-        // card
-        let card = ChallengeCard()
-        view.addSubview(card)
-        card.configure(with: viewModel)
-        card.frame = CGRect(x: (view.width - 248.14)/2, y: label.bottom + 27.39, width: 248.14, height: 389.4)
-        
-        // start
-        let button = Button(image: UIImage(systemName: "video.fill"), title: "Record", style: .roundButton(backgroundColor: .red), font: UIFont(name: "Raleway-Heavy", size: 26), paddingVertical: 5)
-        view.addSubview(button)
-        button.sizeToFit()
-        button.frame = CGRect(x: (view.width - button.width)/2, y: card.bottom + 35, width: button.width, height: button.height)
-        
-    }
-    
     private func displayPreview() {
         guard let videoURL = videoURL else {
             return
@@ -122,6 +126,31 @@ class AcceptChallengeViewController: UIViewController {
     }
     
     // MARK: - OBJ-C FUNCTIONS
+    
+    @objc private func startButtonPressed() {
+        displayingCard = false
+        
+        challengeTitleLabel = self.challengeCard.extractTitle()
+        view.addSubview(challengeTitleLabel!)
+        
+        challengeTitleLabel?.center = challengeCard.center
+        
+        UIView.animate(withDuration: 0.3) {
+            self.blurView.alpha = 0.0
+            self.challengeCard.alpha = 0.0
+            self.challengedYouLabel.alpha = 0.0
+            self.startButton.alpha = 0.0
+            self.bubble.alpha = 0.0
+            
+            self.challengeTitleLabel!.font = UIFont(name: "Raleway-Heavy", size: 31)
+            self.challengeTitleLabel!.sizeToFit()
+            self.challengeTitleLabel!.frame.origin = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
+        } completion: { (done) in
+            if done {
+                
+            }
+        }
+    }
     
     @objc private func recordButtonPressed() {
         if cameraViewController.state == .prepareToRecord {

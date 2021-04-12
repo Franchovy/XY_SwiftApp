@@ -16,9 +16,10 @@ final class NavigationControlManager {
     }
     
     static func startChallenge(with viewModel: ChallengeCardViewModel) {
-        let vc = AcceptChallengeViewController()
+        let vc = AcceptChallengeViewController(viewModel: viewModel)
         CreateChallengeManager.shared.loadAcceptedChallenge(viewModel)
         
+        mainViewController.hero.modalAnimationType = .zoomSlide(direction: .right)
         mainViewController.heroReplaceViewController(with: vc)
     }
     

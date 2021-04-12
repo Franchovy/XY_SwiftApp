@@ -9,7 +9,7 @@ import UIKit
 
 class ChallengeCard: UIView {
     
-    var challengeTitleGradientLabel = GradientLabel(text: "", fontSize: 20, gradientColours: Global.whiteGradient)
+    var challengeTitleGradientLabel = Label(style: .title, fontSize: 20)
     var previewImage = UIImageView()
     var descriptionLabel = Label(style: .info, fontSize: 15, adaptToLightMode: false)
     var friendBubbleView = FriendBubblesView()
@@ -27,7 +27,8 @@ class ChallengeCard: UIView {
         layer.masksToBounds = true
         
         descriptionLabel.numberOfLines = 0
-        challengeTitleGradientLabel.label.adjustsFontSizeToFitWidth = true
+        challengeTitleGradientLabel.adjustsFontSizeToFitWidth = true
+        challengeTitleGradientLabel.applyGradient(gradientColours: Global.whiteGradient)
         
         addSubview(previewImage)
         addSubview(challengeTitleGradientLabel)
@@ -113,7 +114,7 @@ class ChallengeCard: UIView {
     public func configure(with viewModel: ChallengeCardViewModel) {
         self.viewModel = viewModel
         
-        challengeTitleGradientLabel.label.text = viewModel.title
+        challengeTitleGradientLabel.text = viewModel.title
         descriptionLabel.text = viewModel.description
         
         previewImage.image = viewModel.image
@@ -136,6 +137,13 @@ class ChallengeCard: UIView {
         if !viewModel.isReceived, let friendBubbles = viewModel.friendBubbles {
             friendBubbleView.configure(with: friendBubbles, displayReceived: viewModel.isReceived)
         }
+    }
+    
+    public func extractTitle() -> Label {
+        let labelCopy = Label(challengeTitleGradientLabel.text, style: .title, fontSize: challengeTitleGradientLabel.font.pointSize)
+        labelCopy.applyGradient(gradientColours: Global.whiteGradient)
+        labelCopy.sizeToFit()
+        return labelCopy
     }
     
     func clearTagLabel() {
