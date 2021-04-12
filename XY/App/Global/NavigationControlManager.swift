@@ -71,7 +71,7 @@ final class NavigationControlManager {
         navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Raleway-Bold", size: 20)!]
         navController.navigationBar.tintColor = UIColor(named: "XYTint")
         
-        navController.isHeroEnabled = true
+//        navController.isHeroEnabled = true
         
         navController.heroModalAnimationType = .zoomSlide(direction: .left)
         navController.modalPresentationStyle = .fullScreen
