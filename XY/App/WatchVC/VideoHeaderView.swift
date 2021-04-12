@@ -66,7 +66,7 @@ class VideoHeaderView: UIView {
     override func sizeToFit() {
         super.sizeToFit()
         
-        var height = 41.85 + titleLabel.height + 63.5 + 8.75 + 63.5 + 8.75
+        var height = 41.85 + titleLabel.height + 63.5 + 8.75
         frame.size.height = height
         frame.size.width = superview?.width ?? 375
     }

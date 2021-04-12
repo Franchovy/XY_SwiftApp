@@ -116,7 +116,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         
         if indexOfVC >= playerViewControllers.count - 1 {
-            playerViewControllers.append(PlayerViewController())
+//            playerViewControllers.append(PlayerViewController())
         }
         
         let dy = gestureRecognizer.translation(in: view).y
@@ -151,6 +151,10 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         let progressRatio = abs(dragLength) / animationActivationOffset
 
         if dragLength < 0 {
+            
+            guard playerViewControllers.count > currentIndex + 1 else {
+                return
+            }
             
             currentVC.view.transform = CGAffineTransform(
                 translationX: 0,
@@ -195,6 +199,10 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private func animateScrollUp() {
         let currentVC = playerViewControllers[currentIndex]
+        
+        guard playerViewControllers.count > currentIndex + 1 else {
+            return
+        }
         let nextVC = playerViewControllers[currentIndex+1]
         
         self.currentIndex += 1
@@ -219,7 +227,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
     
     private func animateReset() {
         let currentVC = playerViewControllers[currentIndex]
-        let nextVC = playerViewControllers[currentIndex+1]
+        
+        let nextVC = playerViewControllers.count > currentIndex + 1 ? playerViewControllers[currentIndex+1] : nil
         
         
         let distanceLeft = animationActivationOffset - currentSwipeOffset!
@@ -227,17 +236,17 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         
         UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0.0, options: .beginFromCurrentState) {
             currentVC.view.transform = .identity
-            nextVC.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            nextVC?.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
             
         } completion: { (done) in
             if done {
-                nextVC.view.removeFromSuperview()
+                nextVC?.view.removeFromSuperview()
                 self.isCurrentlySwiping = false
                 
                 currentVC.view.transform = .identity
-                nextVC.view.transform = .identity
+                nextVC?.view.transform = .identity
                 currentVC.play()
-                nextVC.pause()
+                nextVC?.pause()
             }
         }
     }

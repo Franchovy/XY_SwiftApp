@@ -70,11 +70,12 @@ class PlayerViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
+        challengeHeader.sizeToFit()
         challengeHeader.frame = CGRect(
             x: 0,
             y: 0,
             width: view.width,
-            height: 90
+            height: challengeHeader.height
         )
         
         if let videoLayer = videoLayer {
