@@ -42,7 +42,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
         
-        navigationItem.title = "Edit Profile"
+        navigationItem.title = "Your Profile"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .done, target: self, action: #selector(didTapSettings))
     }
     
