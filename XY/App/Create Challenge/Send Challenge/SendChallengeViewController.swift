@@ -47,6 +47,7 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         challengeCard.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(challengeTapped)))
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Send", style: .done, target: self, action: #selector(sendButtonPressed))
+        navigationItem.rightBarButtonItem?.tintColor = .systemBlue
         navigationItem.rightBarButtonItem?.isEnabled = false
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .done, target: self, action: #selector(closeButtonPressed))
         
