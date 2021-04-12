@@ -35,6 +35,8 @@ class CreateChallengeViewController: UIViewController {
         
         view.addSubview(recordButton)
         recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
+        
+        cameraViewController.view.layer.cornerRadius = 10
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -75,12 +77,12 @@ class CreateChallengeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        cameraViewController.view.frame = view.bounds
+        cameraViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
         
         let recordButtonSize: CGFloat = 64
         recordButton.frame = CGRect(
             x: (view.width - recordButtonSize)/2,
-            y: view.bottom - recordButtonSize - 15,
+            y: cameraViewController.view.bottom - recordButtonSize - 15,
             width: recordButtonSize,
             height: recordButtonSize
         )

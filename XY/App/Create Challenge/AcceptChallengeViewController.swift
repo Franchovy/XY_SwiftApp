@@ -49,6 +49,8 @@ class AcceptChallengeViewController: UIViewController {
         view.addSubview(cameraViewController.view)
         addChild(cameraViewController)
         
+        cameraViewController.view.layer.cornerRadius = 10
+        
         view.addSubview(recordButton)
         recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
         
@@ -95,20 +97,20 @@ class AcceptChallengeViewController: UIViewController {
             challengedYouLabel.sizeToFit()
             challengedYouLabel.frame = CGRect(x: (view.width - challengedYouLabel.width)/2, y: bubble.bottom + 3, width: challengedYouLabel.width, height: challengedYouLabel.height)
             
+            challengeCard.frame = CGRect(x: (view.width - 248.14)/2, y: challengedYouLabel.bottom + 27.39, width: 248.14, height: 389.4)
+            
             startButton.sizeToFit()
             startButton.frame = CGRect(x: (view.width - startButton.width)/2, y: challengeCard.bottom + 35, width: startButton.width, height: startButton.height)
-            
-            challengeCard.frame = CGRect(x: (view.width - 248.14)/2, y: challengedYouLabel.bottom + 27.39, width: 248.14, height: 389.4)
         } else {
             self.challengeTitleLabel!.frame.origin = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
         }
         
-        cameraViewController.view.frame = view.bounds
+        cameraViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
         
         let recordButtonSize: CGFloat = 64
         recordButton.frame = CGRect(
             x: (view.width - recordButtonSize)/2,
-            y: view.bottom - recordButtonSize - 15,
+            y: cameraViewController.view.bottom - recordButtonSize - 15,
             width: recordButtonSize,
             height: recordButtonSize
         )
@@ -147,11 +149,15 @@ class AcceptChallengeViewController: UIViewController {
             self.challengeTitleLabel!.font = UIFont(name: "Raleway-Heavy", size: 31)
             self.challengeTitleLabel!.sizeToFit()
             self.challengeTitleLabel!.frame.origin = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
-        } 
+        } completion: { (done) in
+            if done {
+                self.recordButtonPressed()
+            }
+        }
     }
     
     @objc private func recordButtonPressed() {
-        if cameraViewController.state == .prepareToRecord {
+        if cameraViewController.state == .prepareToRecord || cameraViewController.state == .uninitialized {
             cameraViewController.startRecording()
             recordButton.setState(.recording)
         } else {

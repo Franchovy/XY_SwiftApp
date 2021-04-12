@@ -69,7 +69,7 @@ class CameraViewController: UIViewController {
     }
     
     public func startRecording() {
-        if state == .prepareToRecord {
+        if state == .prepareToRecord || state == .uninitialized {
             
             cameraManager.startRecordingVideo()
             state = .recording

@@ -40,6 +40,9 @@ class PreviewViewController: UIViewController {
         videoView.isUserInteractionEnabled = true
         videoView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapVideo)))
         
+        videoView.layer.cornerRadius = 10
+        videoView.layer.masksToBounds = true
+        
         sendButton.alpha = 0.0
         view.addSubview(sendButton)
         sendButton.addTarget(self, action: #selector(didTapNext), for: .touchUpInside)
@@ -72,7 +75,7 @@ class PreviewViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        videoView.frame = view.bounds
+        videoView.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
         
         let sendButtonSize: CGFloat = 50
         sendButton.frame = CGRect(
