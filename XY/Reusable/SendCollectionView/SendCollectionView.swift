@@ -30,6 +30,6 @@ class SendCollectionView: UICollectionView, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
+        
     }
 }
