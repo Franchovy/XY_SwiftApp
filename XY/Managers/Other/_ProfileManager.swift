@@ -13,8 +13,8 @@ protocol ProfileManagerDelegate {
     func profileManager(openProfileFor profileId: String)
 }
 
-final class ProfileManager {
-    static let shared = ProfileManager()
+final class _ProfileManager {
+    static let shared = _ProfileManager()
     private init () { }
     
     var onInitFinished: (() -> Void)?

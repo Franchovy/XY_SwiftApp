@@ -110,7 +110,7 @@ class OnlineNowCollectionViewCell: UICollectionViewCell {
         guard let profileId = viewModel?.profileId else {
             return
         }
-        ProfileManager.shared.openProfileForId(profileId)
+        _ProfileManager.shared.openProfileForId(profileId)
     }
 }
 

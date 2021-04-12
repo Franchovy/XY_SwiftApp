@@ -346,7 +346,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
         guard let profileId = viewModel?.profileId else {
             return
         }
-        ProfileManager.shared.openProfileForId(profileId)
+        _ProfileManager.shared.openProfileForId(profileId)
     }
     
     var pauseTranslationX:CGFloat = 0

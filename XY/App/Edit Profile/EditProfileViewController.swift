@@ -103,7 +103,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     private func configure() {
-        nicknameTextField.text = "sexyBoss_23"
+        nicknameTextField.text = ProfileDataManager.shared.nickname
         nicknameTextField.sizeToFit()
         
         numFriendsLabel.text = String(describing: Int.random(in: 0...1000))
@@ -159,6 +159,12 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc private func tappedAnywhere() {
+        if nicknameTextField.text != "" {
+            ProfileDataManager.shared.nickname = nicknameTextField.text
+        } else {
+            nicknameTextField.text = ProfileDataManager.shared.nickname
+        }
+        
         nicknameTextField.resignFirstResponder()
     }
 }

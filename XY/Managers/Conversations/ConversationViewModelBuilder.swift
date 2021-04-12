@@ -60,7 +60,7 @@ final class ConversationViewModelBuilder {
         
         // Fetch profile
           // Fetch profileImage
-        ProfileManager.shared.fetchProfile(userId: otherUserId) { (result) in
+        _ProfileManager.shared.fetchProfile(userId: otherUserId) { (result) in
             switch result {
             case .success(let profileModel):
                 nickname = profileModel.nickname

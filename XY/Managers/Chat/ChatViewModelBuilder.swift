@@ -9,7 +9,7 @@ import Foundation
 
 final class ChatViewModelBuilder {
     static func build(for chatModels: [Message], conversationViewModel: ConversationViewModel) -> [MessageViewModel] {
-        guard let userId = AuthManager.shared.userId, let ownNickname = ProfileManager.shared.ownProfile?.nickname else {
+        guard let userId = AuthManager.shared.userId, let ownNickname = _ProfileManager.shared.ownProfile?.nickname else {
             fatalError()
         }
         

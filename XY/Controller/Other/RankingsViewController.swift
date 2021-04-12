@@ -140,7 +140,7 @@ class RankingsViewController: UIViewController, UITableViewDataSource, UITableVi
             if let error = error {
                 print(error)
             } else if let profileID = profileID {
-                ProfileManager.shared.openProfileForId(profileID)
+                _ProfileManager.shared.openProfileForId(profileID)
             }
         }
     }

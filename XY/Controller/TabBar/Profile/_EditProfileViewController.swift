@@ -110,7 +110,7 @@ class _EditProfileViewController: UIViewController, UITextFieldDelegate, UITextV
     }
     
     public func configure() {
-        guard let profileModel = ProfileManager.shared.ownProfile else {
+        guard let profileModel = _ProfileManager.shared.ownProfile else {
             return
         }
         ProfileViewModelBuilder.build(
@@ -214,14 +214,14 @@ extension _EditProfileViewController : UIImagePickerControllerDelegate, UINaviga
         
         if let image = info[.editedImage] as? UIImage {
             ProfileFirestoreManager.shared.setProfileImage(image: image) {
-                ProfileManager.shared.resetProfileImageFile()
+                _ProfileManager.shared.resetProfileImageFile()
                 TabBarViewController.instance.setUpProfileTabBarItem()
             }
             profileImage.image = image
             showSavedLabel()
         } else if let image = info[.originalImage] as? UIImage {
             ProfileFirestoreManager.shared.setProfileImage(image: image) {
-                ProfileManager.shared.resetProfileImageFile()
+                _ProfileManager.shared.resetProfileImageFile()
                 TabBarViewController.instance.setUpProfileTabBarItem()
             }
             profileImage.image = image

@@ -22,7 +22,7 @@ final class PostViewModelBuilder {
         group.enter()
         group.enter()
         
-        ProfileManager.shared.fetchProfile(userId: model.userId) { (result) in
+        _ProfileManager.shared.fetchProfile(userId: model.userId) { (result) in
             defer {
                 group.leave()
             }

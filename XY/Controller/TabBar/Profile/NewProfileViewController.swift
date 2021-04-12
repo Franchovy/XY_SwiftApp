@@ -130,7 +130,7 @@ class NewProfileViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let viewModel = viewModel {
-            ProfileManager.shared.cancelListenerFor(userId: viewModel.userId)
+            _ProfileManager.shared.cancelListenerFor(userId: viewModel.userId)
         }
         StorageManager.shared.cancelCurrentDownloadTasks()
     }
@@ -163,7 +163,7 @@ class NewProfileViewController: UIViewController {
         guard let userID = viewModel?.userId else {
             return
         }
-        ProfileManager.shared.listenToProfileUpdatesFor(userId: userID) { viewModel in
+        _ProfileManager.shared.listenToProfileUpdatesFor(userId: userID) { viewModel in
             if let viewModel = viewModel {
                 self.configure(with: viewModel)
             }

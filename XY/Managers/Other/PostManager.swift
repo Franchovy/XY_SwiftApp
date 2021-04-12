@@ -111,7 +111,7 @@ final class PostManager {
     }
     
     func buildComment(from commentModel: Comment, ownId: String, completion: @escaping(CommentViewModel?) -> Void) {
-        ProfileManager.shared.fetchProfile(userId: commentModel.author) { (result) in
+        _ProfileManager.shared.fetchProfile(userId: commentModel.author) { (result) in
             switch result {
             case .success(let profileModel):
                 FirebaseDownload.getImage(imageId: profileModel.profileImageId) { (image, error) in

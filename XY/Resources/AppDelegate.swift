@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
     
-//            ProfileManager.shared.initialiseForCurrentUser() { error in
+//            _ProfileManager.shared.initialiseForCurrentUser() { error in
 //                guard error == nil else {
 //                    print("Error initializing profile data: \(error)")
 //                    return

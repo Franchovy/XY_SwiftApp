@@ -522,7 +522,7 @@ class VideoViewController: UIViewController {
             return
         }
         player?.pause()
-        ProfileManager.shared.openProfileForId(profileModel.profileId)
+        _ProfileManager.shared.openProfileForId(profileModel.profileId)
     }
     
     var card: _ChallengePreviewCard?

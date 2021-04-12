@@ -290,7 +290,7 @@ class ProfileViewController2: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if let viewModel = viewModel {
-            ProfileManager.shared.cancelListenerFor(userId: viewModel.userId)
+            _ProfileManager.shared.cancelListenerFor(userId: viewModel.userId)
         }
         StorageManager.shared.cancelCurrentDownloadTasks()
     }
@@ -513,7 +513,7 @@ class ProfileViewController2: UIViewController {
             scrollView.addSubview(followButton)
         }
         
-        ProfileManager.shared.listenToProfileUpdatesFor(userId: userID) { viewModel in
+        _ProfileManager.shared.listenToProfileUpdatesFor(userId: userID) { viewModel in
             if let viewModel = viewModel {
                 self.configure(with: viewModel)
             }
@@ -568,7 +568,7 @@ class ProfileViewController2: UIViewController {
         let vc = _EditProfileViewController()
         vc.configure()
         vc.onClose = {
-            guard let ownProfile = ProfileManager.shared.ownProfile else {
+            guard let ownProfile = _ProfileManager.shared.ownProfile else {
                 return
             }
             ProfileViewModelBuilder.build(with: ownProfile, withUserModel: nil, fetchingProfileImage: true, fetchingCoverImage: false) { (profileViewModel) in

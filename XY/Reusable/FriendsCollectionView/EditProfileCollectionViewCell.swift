@@ -23,12 +23,17 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
         imageView.layer.borderWidth = 1
         imageView.layer.borderColor = UIColor(named: "XYTint")!.cgColor
         
-        imageLabel.text = "Profile"
-        imageLabel.alpha = 0.5
-        label.text = "Nickname"
+        if let profileImage = ProfileDataManager.shared.profileImage {
+            imageView.image = profileImage
+        } else {
+            imageLabel.text = "Profile"
+            imageLabel.alpha = 0.5
+            contentView.addSubview(imageLabel)
+        }
+        
+        label.text = ProfileDataManager.shared.nickname
         
         contentView.addSubview(imageView)
-        contentView.addSubview(imageLabel)
         contentView.addSubview(label)
     }
     

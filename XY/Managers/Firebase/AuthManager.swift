@@ -51,7 +51,7 @@ final class AuthManager {
         do {
             try Auth.auth().signOut()
             
-            ProfileManager.shared.resetProfileImageFile()
+            _ProfileManager.shared.resetProfileImageFile()
         } catch let error {
             print("Error logging out: \(error)")
         }
@@ -75,7 +75,7 @@ final class AuthManager {
                 self.userId = uid
                 
                 // Load profile data
-                ProfileManager.shared.initialiseForCurrentUser(completion: {_ in })
+                _ProfileManager.shared.initialiseForCurrentUser(completion: {_ in })
                 
                 completion(.success(true))
             }
@@ -178,7 +178,7 @@ final class AuthManager {
                                             completion(.failure(error))
                                         }
                                         
-                                        ProfileManager.shared.newProfileCreated(withId: profileId)
+                                        _ProfileManager.shared.newProfileCreated(withId: profileId)
                                         
                                         completion(.success(uid))
                                     }

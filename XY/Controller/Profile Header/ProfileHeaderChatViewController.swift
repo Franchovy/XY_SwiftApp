@@ -222,7 +222,7 @@ class ProfileHeaderChatViewController: UIViewController {
         }
         // Send push notification
         let pushNotificationSender = PushNotificationSender()
-        pushNotificationSender.sendPushNotification(to: otherUserId, title: ProfileManager.shared.ownProfile!.nickname, body: message.messageText)
+        pushNotificationSender.sendPushNotification(to: otherUserId, title: _ProfileManager.shared.ownProfile!.nickname, body: message.messageText)
     }
 }
 

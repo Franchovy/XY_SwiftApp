@@ -173,7 +173,7 @@ class NotificationCell: UITableViewCell {
         guard let profileId = viewModel?.profileData?.profileId else {
             return
         }
-        ProfileManager.shared.openProfileForId(profileId)
+        _ProfileManager.shared.openProfileForId(profileId)
     }
     
     @objc func postTapped() {

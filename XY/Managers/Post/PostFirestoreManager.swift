@@ -13,7 +13,7 @@ final class PostFirestoreManager {
     private init() { }
     
     func uploadPost(with caption: String, image: UIImage, completion: @escaping(Result<NewPostViewModel, Error>) -> Void) {
-        guard let userID = AuthManager.shared.userId, let profileData = ProfileManager.shared.ownProfile else {
+        guard let userID = AuthManager.shared.userId, let profileData = _ProfileManager.shared.ownProfile else {
             return
         }
         

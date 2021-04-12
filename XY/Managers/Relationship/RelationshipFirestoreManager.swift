@@ -227,7 +227,7 @@ final class RelationshipFirestoreManager {
     }
     
     private func incrementFollowers(for userId: String) {
-        ProfileManager.shared.fetchProfile(userId: userId) { (result) in
+        _ProfileManager.shared.fetchProfile(userId: userId) { (result) in
             switch result {
             case .success(let profileModel):
                 FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileModel.profileId)
@@ -239,7 +239,7 @@ final class RelationshipFirestoreManager {
     }
     
     private func incrementFollowing(for userId: String) {
-        ProfileManager.shared.fetchProfile(userId: userId) { (result) in
+        _ProfileManager.shared.fetchProfile(userId: userId) { (result) in
             switch result {
             case .success(let profileModel):
                 FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileModel.profileId)
@@ -251,7 +251,7 @@ final class RelationshipFirestoreManager {
     }
     
     private func decrementFollowers(for userId: String) {
-        ProfileManager.shared.fetchProfile(userId: userId) { (result) in
+        _ProfileManager.shared.fetchProfile(userId: userId) { (result) in
             switch result {
             case .success(let profileModel):
                 FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileModel.profileId)
@@ -263,7 +263,7 @@ final class RelationshipFirestoreManager {
     }
     
     private func decrementFollowing(for userId: String) {
-        ProfileManager.shared.fetchProfile(userId: userId) { (result) in
+        _ProfileManager.shared.fetchProfile(userId: userId) { (result) in
             switch result {
             case .success(let profileModel):
                 FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).document(profileModel.profileId)

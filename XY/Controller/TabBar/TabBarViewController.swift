@@ -32,7 +32,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         heroTabBarAnimationType = .auto
         
         PushNotificationManager.shared?.tabBarController = self
-        ProfileManager.shared.delegate = self
+        _ProfileManager.shared.delegate = self
         
         let appearance = UITabBarItem.appearance()
         let attributes = [NSAttributedString.Key.font:UIFont(name: "Raleway-Heavy", size: 10)]
@@ -141,8 +141,8 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     private func setProfileIcon(userID: String) {
-        guard let ownProfile = ProfileManager.shared.ownProfile else {
-            ProfileManager.shared.onInitFinished = {
+        guard let ownProfile = _ProfileManager.shared.ownProfile else {
+            _ProfileManager.shared.onInitFinished = {
                 self.setUpProfileTabBarItem()
             }
             return
@@ -152,11 +152,11 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func setUpProfileTabBarItem() {
-        guard let ownProfile = ProfileManager.shared.ownProfile else {
+        guard let ownProfile = _ProfileManager.shared.ownProfile else {
             fatalError()
         }
         
-        if let profileImage = ProfileManager.shared.loadProfileImageFromFile() {
+        if let profileImage = _ProfileManager.shared.loadProfileImageFromFile() {
             loadProfileImageToTabBar(image: profileImage)
         } else {
             StorageManager.shared.downloadImage(withImageId: ownProfile.profileImageId) { (image, error) in
@@ -165,7 +165,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
                 } else if let image = image {
                     self.loadProfileImageToTabBar(image: image)
                     
-                    ProfileManager.shared.saveProfileImageToFile(image: image)
+                    _ProfileManager.shared.saveProfileImageToFile(image: image)
                 }
             }
         }
@@ -310,7 +310,7 @@ extension TabBarViewController {
 extension TabBarViewController: ProfileManagerDelegate {
     func profileManager(openProfileFor profileId: String) {
         
-        if profileId == ProfileManager.shared.ownProfileId {
+        if profileId == _ProfileManager.shared.ownProfileId {
             selectedIndex = 4
         } else {
             let profileVC = ProfileViewController2(profileId: profileId)

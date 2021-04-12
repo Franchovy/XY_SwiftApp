@@ -42,7 +42,7 @@ class ProfileFirestoreManager {
     }
     
     func setProfileImage(image: UIImage, completion: @escaping() -> Void) {
-        guard let profileID = ProfileManager.shared.ownProfileId else {
+        guard let profileID = _ProfileManager.shared.ownProfileId else {
             return
         }
         
@@ -60,7 +60,7 @@ class ProfileFirestoreManager {
                         }
                     }
                 
-                    ProfileManager.shared.ownProfile?.profileImageId = "\(profileID)/\(imageID)"
+                    _ProfileManager.shared.ownProfile?.profileImageId = "\(profileID)/\(imageID)"
             case .failure(let error):
                 print(error)
             }
@@ -68,7 +68,7 @@ class ProfileFirestoreManager {
     }
     
     func setProfileCaption(_ caption: String) {
-        guard let profileID = ProfileManager.shared.ownProfileId else {
+        guard let profileID = _ProfileManager.shared.ownProfileId else {
             return
         }
         
@@ -78,7 +78,7 @@ class ProfileFirestoreManager {
     }
     
     func setProfileNickname(_ nickname: String) {
-        guard let profileID = ProfileManager.shared.ownProfileId else {
+        guard let profileID = _ProfileManager.shared.ownProfileId else {
             return
         }
         

@@ -21,7 +21,7 @@ final class OnlineStatusManager {
         let userRef = usersRef.child(userId)
         
         
-        if let profileId = ProfileManager.shared.ownProfileId {
+        if let profileId = _ProfileManager.shared.ownProfileId {
             
             // BLOCK ONLINE NOW ON THE DEV DB
             if FirestoreReferenceManager.environment == "dev" {
