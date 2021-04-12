@@ -9,7 +9,7 @@ import UIKit
 
 class VideoHeaderView: UIView {
 
-    private let titleLabel = Label(style: .title, fontSize: 26)
+    private let titleLabel = Label(style: .title, fontSize: 26, adaptToLightMode: false)
     private let acceptButton = Button(title: "Accept", style: .colorButton(color: UIColor(0x03FF64), cornerRadius: 5), paddingVertical: 7.25, paddingHorizontal: 12)
     private let declineButton = Button(title: "Reject", style: .colorButton(color: UIColor(0xFB473D), cornerRadius: 5), paddingVertical: 7.25, paddingHorizontal: 12)
     

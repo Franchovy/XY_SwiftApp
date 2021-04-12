@@ -10,8 +10,8 @@ import UIKit
 class VideoFooterView: UIView {
 
     private let profileBubble = FriendBubble()
-    private let challengedYouLabel = Label(style: .title, fontSize: 15)
-    private let challengeDescriptionLabel = Label(style: .body, fontSize: 12)
+    private let challengedYouLabel = Label(style: .title, fontSize: 15, adaptToLightMode: false)
+    private let challengeDescriptionLabel = Label(style: .body, fontSize: 12, adaptToLightMode: false)
     
     init() {
         super.init(frame: .zero)
