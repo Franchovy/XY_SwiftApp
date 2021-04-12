@@ -24,6 +24,8 @@ class VideoHeaderView: UIView {
         addSubview(acceptButton)
         addSubview(declineButton)
         
+        titleLabel.enableShadow = true
+        
         acceptButton.alpha = 0.0
         declineButton.alpha = 0.0
         

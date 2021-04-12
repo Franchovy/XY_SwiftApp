@@ -19,6 +19,9 @@ class VideoFooterView: UIView {
         addSubview(profileBubble)
         addSubview(challengedYouLabel)
         addSubview(challengeDescriptionLabel)
+        
+        challengedYouLabel.enableShadow = true
+        challengeDescriptionLabel.enableShadow = true
     }
     
     required init?(coder: NSCoder) {
