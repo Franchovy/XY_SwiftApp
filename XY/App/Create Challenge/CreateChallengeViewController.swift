@@ -115,14 +115,6 @@ class CreateChallengeViewController: UIViewController {
             closeOnTap: true,
             onTap: nil
         )
-        prompt.addExternalButton(
-            buttonText: "Skip",
-            backgroundColor: UIColor(0xF23333),
-            textColor: UIColor(named: "XYWhite")!,
-            font: UIFont(name: "Raleway-Heavy", size: 18),
-            closeOnTap: true,
-            onTap: nil
-        )
         prompt.onCompletion = { inputTexts in
             if let challengeTitle = inputTexts.first, let challengeDescription = inputTexts.last {
                 print("Challenge title: \(challengeTitle)")
@@ -138,7 +130,6 @@ class CreateChallengeViewController: UIViewController {
         }
         
         view.addSubview(prompt)
-        
         prompt.appear()
     }
     

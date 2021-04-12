@@ -310,7 +310,7 @@ class Prompt: UIView, UITextViewDelegate {
                 HapticsManager.shared.vibrateImpact(for: .light)
                 if closeOnTap {
                     if self.onCompletion != nil {
-                        self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+                        self.onCompletion!(self.fields.filter({$0 is UITextView}).compactMap({($0 as! UITextView).text}))
                     }
                     self.disappear()
                 }
