@@ -51,8 +51,10 @@ class PreviewViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        configureBackButton(.xmark)
+        navigationController?.navigationItem.backBarButtonItem?.isEnabled = false;
         navigationController?.configureBackgroundStyle(.invisible)
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .done, target: self, action: #selector(didTapClose))
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -92,6 +94,19 @@ class PreviewViewController: UIViewController {
             self.sendButton.transform = .identity
             self.sendButton.alpha = 1.0
         }
+    }
+    
+    @objc private func didTapClose() {
+        let prompt = Prompt()
+        prompt.setTitle(text: "Discard Challenge")
+        prompt.addText(text: "By discarding this challenge you will lose the video you've just recorded.")
+        prompt.addCompletionButton(buttonText: "Quit", textColor: UIColor(0xEF3A30), style: .embedded, onTap: {
+            NavigationControlManager.backToCamera()
+        })
+        prompt.addCompletionButton(buttonText: "Cancel", style: .embedded, closeOnTap: true)
+        
+        view.addSubview(prompt)
+        prompt.appear()
     }
     
     @objc private func didTapVideo() {

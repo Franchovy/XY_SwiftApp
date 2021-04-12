@@ -323,6 +323,7 @@ class Prompt: UIView, UITextViewDelegate {
             
             let button = Button(title: buttonText, style: .text)
             button.setTitleColor(textColor, for: .normal)
+            button.titleLabel?.font = font ?? UIFont(name: "Raleway-Medium", size: 20)
             
             card.addSubview(button)
             buttons.append(button)

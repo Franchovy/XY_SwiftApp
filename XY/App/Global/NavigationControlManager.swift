@@ -30,6 +30,15 @@ final class NavigationControlManager {
         mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
     
+    static func backToCamera() {
+        if let cameraVC = mainViewController.navigationController?.viewControllers.first(
+            where: {$0 is CreateChallengeViewController || $0 is AcceptChallengeViewController}) {
+            mainViewController.navigationController?.popToViewController(cameraVC, animated: true)
+        } else {
+            mainViewController.navigationController?.popToRootViewController(animated: true)
+        }
+    }
+    
     static func backToHome() {
         mainViewController.navigationController?.popToRootViewController(animated: true)
     }
