@@ -49,20 +49,6 @@ class PlayerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = [
-            Bundle.main.url(forResource: "video1", withExtension: "mov"),
-            Bundle.main.url(forResource: "video2", withExtension: "mov"),
-            Bundle.main.url(forResource: "video3", withExtension: "mov"),
-            Bundle.main.url(forResource: "video4", withExtension: "mov"),
-            Bundle.main.url(forResource: "video5", withExtension: "mov")
-        ][Int.random(in: 0...4)]
-        configureVideo(from: url!)
-        
-        configureChallengeCard(
-            with: ChallengeCardViewModel.fakeData.randomElement()!,
-            profileViewModel: FriendBubbleViewModel.generateFakeData().randomElement()!
-        )
-        
         view.addSubview(challengeHeader)
         view.addSubview(challengeFooter)
     }

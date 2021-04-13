@@ -39,6 +39,8 @@ class ChallengeCardsCollectionView: UICollectionView, UICollectionViewDelegate {
         }
         
         let watchVC = WatchViewController()
+        
+        watchVC.setIndex(indexPath.row)
         NavigationControlManager.mainViewController.navigationController?.pushViewController(watchVC, animated: true)
     }
 }

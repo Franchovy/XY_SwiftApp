@@ -32,7 +32,14 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playerViewControllers.append(PlayerViewController())
+        for challengeVideoModel in ChallengeDataManager.shared.activeChallenges {
+            let playerViewController = PlayerViewController()
+            
+            playerViewController.configureVideo(from: challengeVideoModel.fileUrl!)
+            playerViewController.configureChallengeCard(with: challengeVideoModel.toCard(), profileViewModel: challengeVideoModel.fromUser.toBubble())
+            
+            playerViewControllers.append(playerViewController)
+        }
         
         setUpInitialPlayerController()
     }
@@ -57,10 +64,11 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Set up ViewControllers
     
+    public func setIndex(_ index: Int) {
+        currentIndex = index
+    }
+    
     private func setUpInitialPlayerController() {
-        guard currentIndex == 0 else {
-            return
-        }
         
         let playerVC = playerViewControllers[currentIndex]
         view.addSubview(playerVC.view)

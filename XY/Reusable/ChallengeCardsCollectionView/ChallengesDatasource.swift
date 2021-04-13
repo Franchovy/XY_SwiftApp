@@ -13,17 +13,7 @@ final class ChallengesDataSource: NSObject, UICollectionViewDataSource {
     
     public func reload() {
         challengesData = ChallengeDataManager.shared.activeChallenges.map({
-            
-            ChallengeCardViewModel(
-                image: UIImage(data: $0.previewImage)!,
-                title: $0.title,
-                description: $0.description,
-                tag: nil,
-                timeLeftText: "\($0.expireTimestamp.hoursFromNow())H",
-                isReceived: true,
-                friendBubbles: nil,
-                senderProfile: FriendsDataManager.shared.getBubbleFromData(dataModel: $0.fromUser)
-            )
+            $0.toCard()
         })
     }
     

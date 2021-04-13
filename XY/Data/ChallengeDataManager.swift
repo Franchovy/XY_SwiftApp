@@ -30,7 +30,8 @@ final class ChallengeDataManager {
             description: "Scream randomly somewhere. Get your friend to film it.",
             expireTimestamp: Date().addingTimeInterval(TimeInterval.days(1)),
             fromUser: UserDataModel(nickname: "bobby", profileImage: UIImage(named: "friend1")!.pngData()!),
-            previewImage: UIImage(named: "challenge1")!.pngData()!
+            previewImage: UIImage(named: "challenge1")!.pngData()!,
+            completionState: .received
         )
         
         activeChallenges.append(newChallenge)
