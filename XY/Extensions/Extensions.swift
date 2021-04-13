@@ -171,6 +171,30 @@ extension UIViewController {
     }
 }
 
+extension Date {
+    func hoursFromNow() -> Int {
+        Int((timeIntervalSinceNow / 60 / 60).rounded())
+    }
+}
+
+extension TimeInterval {
+    static func seconds(_ numSeconds: Double) -> TimeInterval {
+        return TimeInterval(numSeconds)
+    }
+    
+    static func minutes(_ numMinutes: Double) -> TimeInterval {
+        return TimeInterval(numMinutes * 60)
+    }
+    
+    static func hours(_ numHours: Double) -> TimeInterval {
+        return TimeInterval(numHours * 60 * 60)
+    }
+    
+    static func days(_ numDays: Double) -> TimeInterval {
+        return TimeInterval(numDays * 60 * 60 * 24)
+    }
+}
+
 extension UIControl {
     
     func addAction(for controlEvents: UIControl.Event = .touchUpInside, _ closure: @escaping()->()) {

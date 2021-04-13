@@ -187,6 +187,10 @@
 		B9781E0A25DE8E3900A2FE2D /* Raleway-VariableFont_wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B9781DF425DE8E3900A2FE2D /* Raleway-VariableFont_wght.ttf */; };
 		B9781E0B25DE8E3900A2FE2D /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = B9781DF525DE8E3900A2FE2D /* README.txt */; };
 		B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9781E3125DEB9CC00A2FE2D /* ConversationManager.swift */; };
+		B979AAFF26258E570079C4E8 /* ChallengeDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */; };
+		B979AB0326258F8F0079C4E8 /* ChallengeDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979AB0226258F8F0079C4E8 /* ChallengeDataModel.swift */; };
+		B979AB0A26258FF50079C4E8 /* UserDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979AB0926258FF50079C4E8 /* UserDataModel.swift */; };
+		B979AB0E26259BED0079C4E8 /* FriendsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */; };
 		B97C25E92608073F009EFB06 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C25E82608073F009EFB06 /* GameModel.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
 		B98B06D925FAB9F800001986 /* ChallengeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */; };
@@ -473,6 +477,10 @@
 		B9781DF425DE8E3900A2FE2D /* Raleway-VariableFont_wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-VariableFont_wght.ttf"; sourceTree = "<group>"; };
 		B9781DF525DE8E3900A2FE2D /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		B9781E3125DEB9CC00A2FE2D /* ConversationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationManager.swift; sourceTree = "<group>"; };
+		B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDataManager.swift; sourceTree = "<group>"; };
+		B979AB0226258F8F0079C4E8 /* ChallengeDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDataModel.swift; sourceTree = "<group>"; };
+		B979AB0926258FF50079C4E8 /* UserDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataModel.swift; sourceTree = "<group>"; };
+		B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsDataManager.swift; sourceTree = "<group>"; };
 		B97C25E82608073F009EFB06 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
 		B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoModel.swift; sourceTree = "<group>"; };
@@ -1151,6 +1159,15 @@
 			path = static;
 			sourceTree = "<group>";
 		};
+		B979AB0626258F920079C4E8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B979AB0226258F8F0079C4E8 /* ChallengeDataModel.swift */,
+				B979AB0926258FF50079C4E8 /* UserDataModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		B97C25E726080735009EFB06 /* GameModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1360,7 +1377,10 @@
 		B9CFB7D22624909000754552 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B979AB0626258F920079C4E8 /* Models */,
 				B9CFB7D3262490A300754552 /* ProfileDataManager.swift */,
+				B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */,
+				B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1669,6 +1689,7 @@
 				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
 				B91C55482610E279000C2AAD /* BlurView.swift in Sources */,
 				B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */,
+				B979AB0326258F8F0079C4E8 /* ChallengeDataModel.swift in Sources */,
 				B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */,
 				B9FD99552616108800D6716C /* NotificationsCollectionView.swift in Sources */,
 				B9CFB7D4262490A300754552 /* ProfileDataManager.swift in Sources */,
@@ -1691,6 +1712,7 @@
 				B9BDE37A25C9AD8C00B00656 /* PostManager.swift in Sources */,
 				B944DAC525E6C4290040CEDB /* _PreviewViewController.swift in Sources */,
 				B97C25E92608073F009EFB06 /* GameModel.swift in Sources */,
+				B979AB0E26259BED0079C4E8 /* FriendsDataManager.swift in Sources */,
 				B9FEFF992604CABE00313BA1 /* ProfileViewController2.swift in Sources */,
 				B9ABAA9625F78781009CB966 /* ChallengesFirestoreManager.swift in Sources */,
 				B9268649261392A100A306F6 /* FriendCollectionViewCell.swift in Sources */,
@@ -1734,6 +1756,7 @@
 				B97353012618AF7A00183201 /* SendCollectionViewCellViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* _Notification.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
+				B979AAFF26258E570079C4E8 /* ChallengeDataManager.swift in Sources */,
 				B952F5D3261778A20063E7B4 /* DescriptionViewController.swift in Sources */,
 				B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */,
 				B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */,
@@ -1867,6 +1890,7 @@
 				B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */,
 				B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */,
 				B926868526149C7800A306F6 /* ProfileViewModel.swift in Sources */,
+				B979AB0A26258FF50079C4E8 /* UserDataModel.swift in Sources */,
 				B938490B2623604C00887291 /* RejectedChallengeViewController.swift in Sources */,
 				B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */,
 				B96B7F212613311200B1CBF5 /* Label.swift in Sources */,
@@ -2085,7 +2109,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 1.6;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2111,7 +2135,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1.5;
+				CURRENT_PROJECT_VERSION = 1.6;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

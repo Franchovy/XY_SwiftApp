@@ -15,7 +15,7 @@ class HomeViewController: UIViewController {
     private let challengesLabel = Label("Your Challenges", style: .title)
     private let challengesCollectionView = ChallengeCardsCollectionView()
     
-    private let challengesDataSource = ChallengesManager()
+    private let challengesDataSource = ChallengesDataSource()
     private let friendsDataSource = FriendsDataSource()
     
     private let welcomeGradientLabel = GradientLabel(text: "Welcome To XY!", fontSize: 40, gradientColours: Global.xyGradient)
@@ -71,6 +71,11 @@ class HomeViewController: UIViewController {
             )
         ]
         
+        NotificationCenter.default.addObserver(self, selector: #selector(didLoadNewActiveChallenges), name: .didLoadActiveChallenges, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,6 +108,10 @@ class HomeViewController: UIViewController {
             DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
                 self.promptChallengesReceived(numChallenges: numChallenges)
             }
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+5) {
+            ChallengeDataManager.shared.loadNewActiveChallenge()
         }
     }
 
@@ -227,6 +236,11 @@ class HomeViewController: UIViewController {
         
         HapticsManager.shared.vibrateImpact(for: .light)
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func didLoadNewActiveChallenges() {
+        challengesDataSource.reload()
+        challengesCollectionView.reloadData()
     }
     
     func fetchOwnProfile() {

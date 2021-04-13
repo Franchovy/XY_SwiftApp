@@ -7,18 +7,34 @@
 
 import UIKit
 
-final class ChallengesManager: NSObject, UICollectionViewDataSource {
+final class ChallengesDataSource: NSObject, UICollectionViewDataSource {
     
-    let fakeData = ChallengeCardViewModel.fakeData
+    var challengesData:[ChallengeCardViewModel] = []
+    
+    public func reload() {
+        challengesData = ChallengeDataManager.shared.activeChallenges.map({
+            
+            ChallengeCardViewModel(
+                image: UIImage(data: $0.previewImage)!,
+                title: $0.title,
+                description: $0.description,
+                tag: nil,
+                timeLeftText: "\($0.expireTimestamp.hoursFromNow())H",
+                isReceived: true,
+                friendBubbles: nil,
+                senderProfile: FriendsDataManager.shared.getBubbleFromData(dataModel: $0.fromUser)
+            )
+        })
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fakeData.count
+        return challengesData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChallengeCardCollectionViewCell.identifier, for: indexPath) as! ChallengeCardCollectionViewCell
         
-        cell.configure(with: fakeData[indexPath.row])
+        cell.configure(with: challengesData[indexPath.row])
         
         return cell
     }
