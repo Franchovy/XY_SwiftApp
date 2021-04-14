@@ -40,6 +40,7 @@ class Prompt: UIView, UITextViewDelegate {
     var externalButtons = [UIButton]()
     
     var onCompletion: (([String]) -> Void)?
+    var executesCompletionOnTapOutside = false
     
     // MARK: - PROPERTIES
     
@@ -363,7 +364,7 @@ class Prompt: UIView, UITextViewDelegate {
             
             if closeOnTap {
                 if self.onCompletion != nil {
-                    self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+                    self.executeCompletion()
                 }
                 self.disappear()
             }
@@ -380,6 +381,10 @@ class Prompt: UIView, UITextViewDelegate {
         }
     }
     
+    private func executeCompletion() {
+        self.onCompletion!(self.fields.filter({$0 is UITextField}).compactMap({($0 as! UITextField).text}))
+    }
+    
     @objc private func tappedAnywhere() {
         fields.filter({$0 is TextField}).forEach({ ($0 as! TextField).resignFirstResponder() })
     }
@@ -388,6 +393,10 @@ class Prompt: UIView, UITextViewDelegate {
         fields.filter({$0 is TextField}).forEach({ ($0 as! TextField).resignFirstResponder() })
         
         if tapEscapable {
+            if executesCompletionOnTapOutside {
+                executeCompletion()
+            }
+            
             disappear()
         }
     }

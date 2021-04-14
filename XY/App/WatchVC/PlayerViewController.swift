@@ -20,6 +20,8 @@ class PlayerViewController: UIViewController {
     var repeatObserverSet: Bool = false
     private var playerDidFinishObserver: NSObjectProtocol?
     
+    var viewed = false
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -90,6 +92,16 @@ class PlayerViewController: UIViewController {
         )
     }
     
+    func prepareForDisplay() {
+        challengeHeader.hideButtons()
+        
+        view.setNeedsLayout()
+    }
+    
+    func displayButtons() {
+        challengeHeader.appear(withDelay: viewed ? 0.5 : 5.0)
+    }
+    
     func configureChallengeCard(with challengeCardViewModel: ChallengeCardViewModel, profileViewModel: FriendBubbleViewModel) {
         challengeHeader.configure(challengeViewModel: challengeCardViewModel)
         challengeFooter.configure(profileViewModel: profileViewModel, challengeViewModel: challengeCardViewModel)
@@ -120,10 +132,6 @@ class PlayerViewController: UIViewController {
         }
         
         repeatObserverSet = true
-    }
-    
-    public func viewAppeared() {
-        challengeHeader.appear()
     }
     
     public func play() {

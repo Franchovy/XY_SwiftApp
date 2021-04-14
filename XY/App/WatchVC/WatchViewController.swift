@@ -37,6 +37,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             
             playerViewController.configureVideo(from: challengeVideoModel.fileUrl!)
             playerViewController.configureChallengeCard(with: challengeVideoModel.toCard(), profileViewModel: challengeVideoModel.fromUser!.toBubble())
+            playerViewController.view.frame = view.bounds
             
             playerViewControllers.append(playerViewController)
         }
@@ -89,7 +90,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         view.addSubview(playerVC.view)
         playerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
         
-        playerVC.viewAppeared()
+        playerVC.displayButtons()
     }
     
     private func setUpNextPlayerController() {
@@ -101,7 +102,6 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         let currentPlayerVC = playerViewControllers[currentIndex]
         
         currentPlayerVC.pause()
-        nextPlayerVC.play()
         
         view.insertSubview(nextPlayerVC.view, belowSubview: currentPlayerVC.view)
         
@@ -112,16 +112,25 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         guard currentIndex > 0 else { return }
         
         let prevPlayerVC = playerViewControllers[currentIndex - 1]
-        
         let currentPlayerVC = playerViewControllers[currentIndex]
         
         currentPlayerVC.pause()
-        prevPlayerVC.play()
         
         let previousPlayerVC = playerViewControllers[currentIndex-1]
         view.insertSubview(prevPlayerVC.view, belowSubview: previousPlayerVC.view)
 
         prevPlayerVC.view.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(didPanPlayerViewController(_:))))
+    }
+    
+    private func draggedIntoNewPlayerController(displayButtons: Bool = true) {
+        let currentPlayerVC = playerViewControllers[currentIndex]
+        
+        currentPlayerVC.play()
+        
+        if displayButtons {
+            currentPlayerVC.displayButtons()
+        }
+        currentPlayerVC.viewed = true
     }
     
     // MARK: - Pan Gesture and Animation
@@ -136,10 +145,6 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         
         guard let indexOfVC = playerViewControllers.firstIndex(of: vc) else {
             return
-        }
-        
-        if indexOfVC >= playerViewControllers.count - 1 {
-//            playerViewControllers.append(PlayerViewController())
         }
         
         let dy = gestureRecognizer.translation(in: view).y
@@ -188,7 +193,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             
             if !view.subviews.contains(nextVC.view) {
                 setUpNextPlayerController()
-                nextVC.view.frame = self.view.bounds
+                
             }
             
             nextVC.view.transform = CGAffineTransform(
@@ -210,7 +215,6 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             
             if !view.subviews.contains(prevVC.view) {
                 setUpPrevPlayerController()
-                prevVC.view.frame = self.view.bounds
             }
             
             prevVC.view.transform = CGAffineTransform(
@@ -227,6 +231,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             return
         }
         let nextVC = playerViewControllers[currentIndex+1]
+        nextVC.prepareForDisplay()
         
         self.currentIndex += 1
         
@@ -244,15 +249,16 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 currentVC.view.transform = .identity
                 nextVC.view.transform = .identity
+                
+                self.draggedIntoNewPlayerController()
             }
         }
     }
     
     private func animateReset() {
         let currentVC = playerViewControllers[currentIndex]
-        
+        let prevVC = currentIndex > 0 ? playerViewControllers[currentIndex-1] : nil
         let nextVC = playerViewControllers.count > currentIndex + 1 ? playerViewControllers[currentIndex+1] : nil
-        
         
         let distanceLeft = animationActivationOffset - currentSwipeOffset!
         let animationDuration = min(distanceLeft / currentSwipeSpeed!, maxAnimationDuration)
@@ -260,16 +266,19 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0.0, options: .beginFromCurrentState) {
             currentVC.view.transform = .identity
             nextVC?.view.transform = CGAffineTransform(scaleX: 0.2, y: 0.2)
+            prevVC?.view.transform = CGAffineTransform(translationX: 0, y: -self.view.height)
             
         } completion: { (done) in
             if done {
                 nextVC?.view.removeFromSuperview()
+                prevVC?.view.removeFromSuperview()
                 self.isCurrentlySwiping = false
                 
                 currentVC.view.transform = .identity
                 nextVC?.view.transform = .identity
-                currentVC.play()
-                nextVC?.pause()
+                prevVC?.view.transform = .identity
+                
+                self.draggedIntoNewPlayerController(displayButtons: false)
             }
         }
     }
@@ -280,6 +289,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         }
         let currentVC = playerViewControllers[currentIndex]
         let nextVC = playerViewControllers[currentIndex-1]
+        nextVC.prepareForDisplay()
         
         self.currentIndex -= 1
         
@@ -297,6 +307,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
                 
                 currentVC.view.transform = .identity
                 nextVC.view.transform = .identity
+                
+                self.draggedIntoNewPlayerController()
             }
         }
     }

@@ -199,6 +199,7 @@ class HomeViewController: UIViewController {
         
         prompt.addCompletionButton(buttonText: "Let's go!", style: .embedded, font: UIFont(name: "Raleway-Heavy", size: 20), closeOnTap: true)
         
+        prompt.executesCompletionOnTapOutside = true
         prompt.onCompletion = { _ in
             self.challengesDataSource.reload()
             self.challengesCollectionView.reloadData()

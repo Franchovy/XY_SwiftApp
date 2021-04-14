@@ -101,7 +101,7 @@ class VideoFooterView: UIView {
         height += 70 + 5
         
         frame.size.height = height
-        frame.size.width = superview?.width ?? 375
+        frame.size.width = 375
     }
     
     func configure(profileViewModel: FriendBubbleViewModel, challengeViewModel: ChallengeCardViewModel) {

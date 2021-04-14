@@ -21,9 +21,9 @@ class VideoHeaderView: UIView {
     init() {
         super.init(frame: .zero)
         
-        addSubview(titleLabel)
         addSubview(acceptButton)
         addSubview(declineButton)
+        addSubview(titleLabel)
         
         titleLabel.enableShadow = true
         
@@ -68,16 +68,19 @@ class VideoHeaderView: UIView {
     override func sizeToFit() {
         super.sizeToFit()
         
-        var height = 41.85 + titleLabel.height + 63.5 + 8.75
+        let height = 41.85 + titleLabel.height + 63.5 + 8.75
         frame.size.height = height
-        frame.size.width = superview?.width ?? 375
+        frame.size.width = 375
     }
     
-    func appear() {
-        acceptButton.transform = CGAffineTransform(translationX: 0, y: -70)
-        declineButton.transform = CGAffineTransform(translationX: 0, y: -70)
+    func appear(withDelay delay: Double) {
+        acceptButton.alpha = 0.0
+        declineButton.alpha = 0.0
         
-        UIView.animate(withDuration: 0.3, delay: 5.0, options: .curveEaseIn) {
+        acceptButton.transform = CGAffineTransform(translationX: 0, y: -34)
+        declineButton.transform = CGAffineTransform(translationX: 0, y: -34)
+        
+        UIView.animate(withDuration: 0.3, delay: delay, options: .curveEaseIn) {
             self.acceptButton.transform = .identity
             self.declineButton.transform = .identity
             
@@ -95,6 +98,11 @@ class VideoHeaderView: UIView {
     func configure(challengeViewModel: ChallengeCardViewModel) {
         viewModel = challengeViewModel
         titleLabel.text = challengeViewModel.title
+    }
+    
+    func hideButtons() {
+        acceptButton.alpha = 0.0
+        declineButton.alpha = 0.0
     }
 
     @objc private func tappedAccept() {
