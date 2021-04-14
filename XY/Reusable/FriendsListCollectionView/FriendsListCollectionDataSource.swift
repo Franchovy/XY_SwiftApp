@@ -28,12 +28,11 @@ class FriendsListCollectionDataSource: NSObject, UICollectionViewDataSource {
         }
     }
     
-    func loadFromData() {
+    func reload() {
         data = FriendsDataManager.shared.allUsers.map({ $0.toFriendListViewModel() })
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
         return filteredData.count
     }
     

@@ -33,6 +33,9 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
         view.addSubview(friendsListCollectionView)
         view.addSubview(searchBar)
         
+        friendsListDataSource.reload()
+        friendsListCollectionView.reloadData()
+        
         navigationItem.title = "Find Friends"
         
         view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
