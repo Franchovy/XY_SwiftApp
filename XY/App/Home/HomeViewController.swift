@@ -9,6 +9,8 @@ import UIKit
 
 class HomeViewController: UIViewController {
         
+    // MARK: - UI Properties
+    
     private let friendsLabel = Label("Friends", style: .title)
     private let friendsCollectionView = FriendsCollectionView()
     
@@ -25,6 +27,19 @@ class HomeViewController: UIViewController {
     private let noChallengesLabel = Label("You have no challenges.", style: .body, fontSize: 18)
     private let createChallengeButton = Button(title: "Create new", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
     
+    // MARK: - Properties
+    
+    enum HomeState {
+        case normal
+        case noFriends
+        case noChallengesFirst
+        case noChallengesNormal
+    }
+    
+    var state: HomeState = .normal
+    
+    // MARK: - Initializers
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -39,6 +54,8 @@ class HomeViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -117,7 +134,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        switch HomeStateManager.state {
+        switch state {
         case .noFriends:
             configureEmptyNoFriends()
         case .noChallengesFirst, .noChallengesNormal:
@@ -130,6 +147,8 @@ class HomeViewController: UIViewController {
         ChallengeDataManager.shared.loadNewActiveChallenge()
         
     }
+    
+    // MARK: - Layout
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -197,7 +216,7 @@ class HomeViewController: UIViewController {
         
         createChallengeButton.frame = CGRect(
             x: (view.width - buttonSize.width)/2,
-            y: HomeStateManager.state == .normal ?
+            y: state == .normal ?
                 view.height - 53 - buttonSize.height :
                 noChallengesLabel.bottom + 22.02,
             width: buttonSize.width,
@@ -231,7 +250,7 @@ class HomeViewController: UIViewController {
     }
     
     private func configureNormal() {
-        HomeStateManager.state = .normal
+        state = .normal
         
         challengesLabel.isHidden = false
         createChallengeButton.isHidden = false
@@ -245,7 +264,7 @@ class HomeViewController: UIViewController {
     }
     
     private func configureEmptyNoFriends() {
-        HomeStateManager.state = .noFriends
+        state = .noFriends
         
         noChallengesLabel.isHidden = false
         welcomeGradientLabel.isHidden = false
@@ -260,7 +279,7 @@ class HomeViewController: UIViewController {
     }
     
     private func configureEmptyNoChallenges() {
-        HomeStateManager.state = .noChallengesFirst
+        state = .noChallengesFirst
         
         noChallengesLabel.isHidden = false
         createChallengeButton.isHidden = false
@@ -302,17 +321,5 @@ class HomeViewController: UIViewController {
         if newNumChallenges > currentNumChallenges {
             self.promptChallengesReceived(numChallenges: newNumChallenges - currentNumChallenges)
         }
-    }
-    
-    func fetchOwnProfile() {
-        
-    }
-    
-    func fetchFriendsProfiles() {
-        
-    }
-    
-    func fetchChallenges() {
-        
     }
 }

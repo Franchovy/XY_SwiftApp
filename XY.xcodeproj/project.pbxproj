@@ -102,7 +102,6 @@
 		B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */; };
 		B9520FF425ADCC41008E9B57 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9520FF325ADCC41008E9B57 /* Action.swift */; };
 		B952AD7425D6C193008CC229 /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952AD7325D6C193008CC229 /* GradientButton.swift */; };
-		B952F592261736AA0063E7B4 /* HomeStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F591261736AA0063E7B4 /* HomeStateManager.swift */; };
 		B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */; };
 		B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5BD261746BF0063E7B4 /* Prompt.swift */; };
 		B952F5C226174B6B0063E7B4 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5C126174B6B0063E7B4 /* Card.swift */; };
@@ -391,7 +390,6 @@
 		B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		B9520FF325ADCC41008E9B57 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		B952AD7325D6C193008CC229 /* GradientButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
-		B952F591261736AA0063E7B4 /* HomeStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeStateManager.swift; sourceTree = "<group>"; };
 		B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeViewController.swift; sourceTree = "<group>"; };
 		B952F5BD261746BF0063E7B4 /* Prompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prompt.swift; sourceTree = "<group>"; };
 		B952F5C126174B6B0063E7B4 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
@@ -973,7 +971,6 @@
 			isa = PBXGroup;
 			children = (
 				B96B7F1826132FDB00B1CBF5 /* HomeViewController.swift */,
-				B952F591261736AA0063E7B4 /* HomeStateManager.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1756,7 +1753,6 @@
 				B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */,
 				B97353102618BFD300183201 /* HomeChallengeCardViewModel.swift in Sources */,
 				B96B7F4026135BAD00B1CBF5 /* ColorLabelViewModel.swift in Sources */,
-				B952F592261736AA0063E7B4 /* HomeStateManager.swift in Sources */,
 				B97352FD2618AF5200183201 /* SendCollectionViewCell.swift in Sources */,
 				148935BF25A2686F00CB60C3 /* ConversationModel.swift in Sources */,
 				B95482B825AAF1E00058D8B4 /* XPModel.swift in Sources */,
