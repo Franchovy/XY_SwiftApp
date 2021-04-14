@@ -23,6 +23,13 @@ class PlayerViewController: UIViewController {
     init() {
         super.init(nibName: nil, bundle: nil)
         
+        do {
+//            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+        }
+        catch {
+            print(error)
+        }
+        
         view.layer.cornerRadius = 15
         view.layer.masksToBounds = true
         
