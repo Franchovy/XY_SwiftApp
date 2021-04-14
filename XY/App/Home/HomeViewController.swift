@@ -48,6 +48,16 @@ class HomeViewController: UIViewController {
         view.addSubview(challengesLabel)
         view.addSubview(challengesCollectionView)
         
+        view.addSubview(createChallengeButton)
+        view.addSubview(welcomeGradientLabel)
+        view.addSubview(welcomeTextLabel)
+        view.addSubview(addFriendButton)
+        view.addSubview(noChallengesLabel)
+        
+        welcomeTextLabel.numberOfLines = 0
+        welcomeTextLabel.textAlignment = .center
+        
+        addFriendButton.addTarget(self, action: #selector(tappedSearch), for: .touchUpInside)
         createChallengeButton.addTarget(self, action: #selector(tappedCreateChallenge), for: .touchUpInside)
             
         let logoView = UIImageView(image: UIImage(named: "XYLogo"))
@@ -73,14 +83,21 @@ class HomeViewController: UIViewController {
         
         // Fetch Challenges from storage
         ChallengeDataManager.shared.loadChallengesFromStorage()
+        FriendsDataManager.shared.loadDataFromStorage()
         
-        if ChallengeDataManager.shared.activeChallenges.count == 0 {
-            configureEmptyNoChallenges()
+        if FriendsDataManager.shared.friends.count == 0 {
+            configureEmptyNoFriends()
         } else {
-            challengesDataSource.reload()
-            challengesCollectionView.reloadData()
+            friendsDataSource.reload()
+            friendsCollectionView.reloadData()
+            
+            if ChallengeDataManager.shared.activeChallenges.count == 0 {
+                configureEmptyNoChallenges()
+            } else {
+                challengesDataSource.reload()
+                challengesCollectionView.reloadData()
+            }
         }
-        
         
         NotificationCenter.default.addObserver(self, selector: #selector(didLoadNewActiveChallenges), name: .didLoadActiveChallenges, object: nil)
     }
@@ -102,14 +119,11 @@ class HomeViewController: UIViewController {
         
         switch HomeStateManager.state {
         case .noFriends:
-            challengesLabel.isHidden = true
-            createChallengeButton.isHidden = true
             configureEmptyNoFriends()
         case .noChallengesFirst, .noChallengesNormal:
             configureEmptyNoChallenges()
-            view.addSubview(createChallengeButton)
         case .normal:
-            view.addSubview(createChallengeButton)
+            configureNormal()
         default: break
         }
         
@@ -219,24 +233,44 @@ class HomeViewController: UIViewController {
     private func configureNormal() {
         HomeStateManager.state = .normal
         
+        challengesLabel.isHidden = false
+        createChallengeButton.isHidden = false
+        
         noChallengesLabel.isHidden = true
+        welcomeGradientLabel.isHidden = true
+        welcomeTextLabel.isHidden = true
+        addFriendButton.isHidden = true
+        
+        view.setNeedsLayout()
     }
     
     private func configureEmptyNoFriends() {
         HomeStateManager.state = .noFriends
         
-        view.addSubview(welcomeGradientLabel)
-        view.addSubview(welcomeTextLabel)
-        view.addSubview(addFriendButton)
+        noChallengesLabel.isHidden = false
+        welcomeGradientLabel.isHidden = false
+        welcomeTextLabel.isHidden = false
+        addFriendButton.isHidden = false
         
-        welcomeTextLabel.numberOfLines = 0
-        welcomeTextLabel.textAlignment = .center
+        challengesLabel.isHidden = true
+        noChallengesLabel.isHidden = true
+        createChallengeButton.isHidden = true
+        
+        view.setNeedsLayout()
     }
     
     private func configureEmptyNoChallenges() {
-        HomeStateManager.state == .noChallengesNormal
+        HomeStateManager.state = .noChallengesFirst
         
-        view.addSubview(noChallengesLabel)
+        noChallengesLabel.isHidden = false
+        createChallengeButton.isHidden = false
+        challengesLabel.isHidden = false
+        
+        welcomeGradientLabel.isHidden = true
+        welcomeTextLabel.isHidden = true
+        addFriendButton.isHidden = true
+        
+        view.setNeedsLayout()
     }
     
     @objc private func tappedNotifications() {
