@@ -20,6 +20,11 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(friendBubble)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(addFriendButton)
+        
+        addFriendButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        addFriendButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
+        addFriendButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -45,12 +50,13 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         )
         
         addFriendButton.sizeToFit()
-        addFriendButton.frame = CGRect(
-            x: width - addFriendButton.width - 15,
-            y: (height - addFriendButton.height)/2,
-            width: addFriendButton.width,
-            height: addFriendButton.height
-        )
+        addFriendButton.layoutIfNeeded()
+//        addFriendButton.frame = CGRect(
+//            x: width - addFriendButton.width - 15,
+//            y: (height - addFriendButton.height)/2,
+//            width: addFriendButton.width,
+//            height: addFriendButton.height
+//        )
     }
     
     override func prepareForReuse() {

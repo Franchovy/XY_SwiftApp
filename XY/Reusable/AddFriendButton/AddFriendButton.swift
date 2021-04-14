@@ -15,6 +15,10 @@ class AddFriendButton: UIButton {
         titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 12)
         
         titleEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
+        
+        translatesAutoresizingMaskIntoConstraints = false
+        heightAnchor.constraint(equalTo: titleLabel!.heightAnchor, constant: 16).isActive = true
+        widthAnchor.constraint(equalTo: titleLabel!.widthAnchor, constant: 30).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -25,16 +29,6 @@ class AddFriendButton: UIButton {
         super.layoutSubviews()
         
         layer.cornerRadius = height/2
-    }
-    
-    override func sizeToFit() {
-        super.sizeToFit()
-        
-        if titleLabel != nil {
-            titleLabel!.sizeToFit()
-            frame.size.width = titleLabel!.frame.size.width + 24
-            frame.size.height = titleLabel!.frame.size.height + 10
-        }
     }
     
     enum Mode {
@@ -75,6 +69,8 @@ class AddFriendButton: UIButton {
         case .none:
             isHidden = true
         }
+        
+        titleLabel!.sizeToFit()
     }
     
     func changeStateTapped() {

@@ -13,7 +13,7 @@ class FriendsListCollectionView: UICollectionView, UICollectionViewDelegate {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         
-        layout.estimatedItemSize = CGSize(width: 375, height: 55)
+        layout.itemSize = CGSize(width: 375, height: 55)
         
         super.init(frame: .zero, collectionViewLayout: layout)
         
