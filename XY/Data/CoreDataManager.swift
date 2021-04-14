@@ -29,13 +29,18 @@ class CoreDataManager {
     }
     
     func deleteEverything() {
-        // create the delete request for the specified entity
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ChallengeDataModel.fetchRequest()
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        // Delete challenges
+        let challengeFetchRequest: NSFetchRequest<NSFetchRequestResult> = ChallengeDataModel.fetchRequest()
+        let challengeDeleteRequest = NSBatchDeleteRequest(fetchRequest: challengeFetchRequest)
+        
+        // Delete all users/friends
+        let friendsFetchRequest: NSFetchRequest<NSFetchRequestResult> = UserDataModel.fetchRequest()
+        let friendsDeleteRequest = NSBatchDeleteRequest(fetchRequest: friendsFetchRequest)
 
         // perform the delete
         do {
-            try persistentContainer.viewContext.execute(deleteRequest)
+            try persistentContainer.viewContext.execute(challengeDeleteRequest)
+            try persistentContainer.viewContext.execute(friendsDeleteRequest)
         } catch let error as NSError {
             print(error)
         }

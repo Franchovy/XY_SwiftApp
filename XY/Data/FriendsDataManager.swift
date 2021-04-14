@@ -33,7 +33,7 @@ final class FriendsDataManager {
             
             #if DEBUG
             if allUsers.count == 0 {
-                for _ in 0...7 {
+                for _ in 0...100 {
                     allUsers.append(UserDataModel.fakeUser())
                 }
             }

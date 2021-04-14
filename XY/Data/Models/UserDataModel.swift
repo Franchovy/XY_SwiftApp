@@ -48,14 +48,109 @@ extension UserDataModel {
         let entity = UserDataModel.entity()
         let user = UserDataModel(entity: entity, insertInto: context)
         
-        user.nickname = "test"
-        user.profileImage = UIImage(named: "friend1")?.pngData()
+        user.nickname = fakeName()
+        user.profileImage = UIImage(named: "friend\(Int.random(in: 1...5))")?.pngData()
         user.friendStatus = FriendStatus.none.rawValue
         user.numChallenges = Int16.random(in: 0...100)
         user.numFriends = Int16.random(in: 0...100)
         
         return user
     }
+}
+
+func fakeName() -> String {
+    let fakeNames = ["Ulrico",
+    "Maika",
+    "Renato",
+    "Oretta",
+    "Violante",
+    "Gilda",
+    "Nestore",
+    "Doriana",
+    "Noemi",
+    "Tancredi",
+    "Lino",
+    "Anselmo",
+    "Evangelista",
+    "Matilde",
+    "Olimpia",
+    "Ruth",
+    "Tancredi",
+    "Nestore",
+    "Olimpia",
+    "Grazia",
+    "Laura",
+    "Nayade",
+    "Mercedes",
+    "Marco",
+    "Siro",
+    "Mariapia",
+    "Elga",
+    "Kociss",
+    "Nayade",
+    "Cassiopea",
+    "Marcella",
+    "Marzio",
+    "Michele",
+    "Nicolas",
+    "Christophe",
+    "Océane",
+    "Hélène",
+    "Maggie",
+    "Martin",
+    "Brigitte",
+    "Grégoire",
+    "Jacqueline",
+    "Lorraine",
+    "Marcel",
+    "Benoît",
+    "Jérôme",
+    "Capucine",
+    "Inès",
+    "Laetitia",
+    "Thierry",
+    "Gérard",
+    "Anastasie",
+    "Théodore",
+    "Jade",
+    "Kieran",
+    "Daniel",
+    "Gavin",
+    "Jack",
+    "Stefan",
+    "Mia",
+    "Reece",
+    "Joanne",
+    "Joe",
+    "Alfie",
+    "Gary",
+    "Tyler",
+    "Ben",
+    "Gavin",
+    "Kirsty",
+    "Bradley",
+    "Hollie",
+    "Phoebe",
+    "Benjamin",
+    "Carrie",
+    "Jason",
+    "Jamie",
+    "Abbie",
+    "Leo",
+    "Mason",
+    "Joseph",
+    "Mark",
+    "Damien",
+    "Ava",
+    "Harry",
+    "Elsie",
+    "Leanne",
+    "Maisie",
+    "Andy",
+    "Patricia",
+    "Anthony"]
+    
+    return fakeNames[Int.random(in: 0...fakeNames.count-1)]
 }
 
 #endif
