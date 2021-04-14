@@ -15,7 +15,7 @@ class CoreDataManager {
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Challenge")
         container.loadPersistentStores(completionHandler: { _, error in
-            _ = error.map { fatalError("Unresolved error \($0)") }
+            _ = error.map { print("Unresolved error \($0)") }
         })
         return container
     }()
@@ -26,5 +26,19 @@ class CoreDataManager {
     
     func backgroundContext() -> NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
+    }
+    
+    func deleteEverything() {
+        // create the delete request for the specified entity
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = ChallengeDataModel.fetchRequest()
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+
+        // perform the delete
+        do {
+            try persistentContainer.viewContext.execute(deleteRequest)
+        } catch let error as NSError {
+            print(error)
+        }
+        
     }
 }

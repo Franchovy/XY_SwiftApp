@@ -18,7 +18,7 @@ final class FriendsDataManager {
     }
     
     func getBubbleFromData(dataModel: UserDataModel) -> FriendBubbleViewModel {
-        FriendBubbleViewModel(image: UIImage(data: dataModel.profileImage!)!, nickname: dataModel.nickname!)
+        return FriendBubbleViewModel(image: UIImage(data: dataModel.profileImage!)!, nickname: dataModel.nickname!)
     }
     
     func loadDataFromStorage() {
@@ -28,6 +28,14 @@ final class FriendsDataManager {
         do {
             let results = try mainContext.fetch(fetchRequest)
             allUsers = results
+            
+            #if DEBUG
+            if allUsers.count == 0 {
+                for _ in 0...100 {
+                    allUsers.append(UserDataModel.fakeUser())
+                }
+            }
+            #endif
         }
         catch {
             debugPrint(error)
