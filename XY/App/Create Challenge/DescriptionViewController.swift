@@ -11,7 +11,7 @@ import UIKit
 class DescriptionViewController: UIViewController, UITextViewDelegate {
     
     private let challengeNameTextField = TextField(placeholder: "Give a title to your challenge...", style: .card, maxChars: 15)
-    private let challengeDescriptionTextField = TextField(placeholder: "Describe what you have to do in your challenge...", style: .card, maxChars: 50)
+    private let challengeDescriptionTextField = TextField(placeholder: "Describe what you have to do in your challenge...", style: .card, maxChars: 80)
     
     private let challengePreviewImage = UIImageView()
     private let previewLabel = Label("Preview", style: .info, fontSize: 15, adaptToLightMode: false)
@@ -121,7 +121,7 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
         guard let cardViewModel = CreateChallengeManager.shared.getChallengeCardViewModel() else {
             return
         }
-        let vc = SendChallengeViewController(with: cardViewModel)
+        let vc = SendChallengeViewController()
         
         navigationController?.popViewController(animated: true)
     }

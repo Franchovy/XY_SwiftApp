@@ -12,9 +12,7 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
     private var challengeCard = ChallengeCard()
     private let sendToFriendsViewController = SendToFriendsViewController()
     
-    init(with viewModel: ChallengeCardViewModel) {
-        challengeCard.configure(with: viewModel)
-        
+    init() {
         super.init(nibName: nil, bundle: nil)
         
         view.backgroundColor = UIColor(named: "XYBackground")
@@ -28,6 +26,8 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    
+        configureChallengeCard()
         
         navigationController?.configureBackgroundStyle(.visible)
     }
@@ -70,6 +70,14 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
             width: view.width,
             height: view.height - 300
         )
+    }
+    
+    public func configureChallengeCard() {
+        guard let viewModel = CreateChallengeManager.shared.getChallengeCardViewModel() else {
+            return
+        }
+        
+        challengeCard.configure(with: viewModel)
     }
     
     func sendToFriendDelegate(_ sendToList: [SendCollectionViewCellViewModel]) {

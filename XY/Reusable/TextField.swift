@@ -98,6 +98,8 @@ class TextField: UITextView {
         self.text = text
         placeholderActive = false
         textColor = textColor?.withAlphaComponent(1.0)
+        
+        maxCharsLabel!.text = "\(text.count)/\(maxChars)"
     }
     
     public func setStyle(_ style: Style) {

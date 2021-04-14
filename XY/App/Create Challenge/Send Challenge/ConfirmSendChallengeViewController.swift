@@ -10,7 +10,7 @@ import UIKit
 class ConfirmSendChallengeViewController: UIViewController {
     
     private let youChallengedLabel = Label("You challenged:", style: .title)
-    private let toLabel = Label("To:", style: .title)
+    private let toLabel = Label("To perform:", style: .title)
     
     private let friendsCollectionView = FriendsCollectionView()
     private let friendsDataSource: FriendsDataSource
@@ -96,6 +96,14 @@ class ConfirmSendChallengeViewController: UIViewController {
             height: toLabel.height
         )
         
+        let cardSize = CGSize(width: 181, height: 284)
+        card.frame = CGRect(
+            x: (view.width - cardSize.width)/2,
+            y: toLabel.bottom + 15,
+            width: cardSize.width,
+            height: cardSize.height
+        )
+        
         takeAnotherButton.sizeToFit()
         takeAnotherButton.frame = CGRect(
             x: (view.width - takeAnotherButton.width)/2,
@@ -110,14 +118,6 @@ class ConfirmSendChallengeViewController: UIViewController {
             y: takeAnotherButton.top - 11 - backHomeButton.height,
             width: backHomeButton.width,
             height: backHomeButton.height
-        )
-        
-        let cardSize = CGSize(width: 181, height: 284)
-        card.frame = CGRect(
-            x: (view.width - cardSize.width)/2,
-            y: backHomeButton.top - 15 - cardSize.height,
-            width: cardSize.width,
-            height: cardSize.height
         )
         
     }

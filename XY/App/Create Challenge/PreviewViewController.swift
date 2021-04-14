@@ -127,7 +127,7 @@ class PreviewViewController: UIViewController {
                 return
             }
             
-            let vc = SendChallengeViewController(with: cardViewModel)
+            let vc = SendChallengeViewController()
             
             navigationController?.pushViewController(vc, animated: true)
         } else {
