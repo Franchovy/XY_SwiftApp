@@ -71,6 +71,14 @@ class HomeViewController: UIViewController {
             )
         ]
         
+        // Fetch Challenges from storage
+        ChallengeDataManager.shared.loadChallengesFromStorage()
+        
+        if ChallengeDataManager.shared.activeChallenges.count == 0 {
+            configureEmptyNoChallenges()
+        }
+        
+        
         NotificationCenter.default.addObserver(self, selector: #selector(didLoadNewActiveChallenges), name: .didLoadActiveChallenges, object: nil)
     }
     
@@ -194,22 +202,36 @@ class HomeViewController: UIViewController {
         prompt.onCompletion = { _ in
             self.challengesDataSource.reload()
             self.challengesCollectionView.reloadData()
+            
+            if ChallengeDataManager.shared.activeChallenges.count > 0 {
+                self.configureNormal()
+                
+            }
         }
         
         NavigationControlManager.displayPrompt(prompt)
     }
     
+    private func configureNormal() {
+        HomeStateManager.state = .normal
+        
+        noChallengesLabel.isHidden = true
+    }
+    
     private func configureEmptyNoFriends() {
+        HomeStateManager.state = .noFriends
+        
         view.addSubview(welcomeGradientLabel)
         view.addSubview(welcomeTextLabel)
         view.addSubview(addFriendButton)
         
         welcomeTextLabel.numberOfLines = 0
         welcomeTextLabel.textAlignment = .center
-        
     }
     
     private func configureEmptyNoChallenges() {
+        HomeStateManager.state == .noChallengesNormal
+        
         view.addSubview(noChallengesLabel)
     }
     
