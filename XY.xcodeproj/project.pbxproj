@@ -80,7 +80,6 @@
 		B936265C25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */; };
 		B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */; };
 		B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936266325DC23630063AAD6 /* PushNotificationSender.swift */; };
-		B93797D4261EFF1700405892 /* AppInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93797D3261EFF1700405892 /* AppInitializer.swift */; };
 		B93849002623300E00887291 /* VideoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93848FF2623300E00887291 /* VideoHeaderView.swift */; };
 		B93849042623301C00887291 /* VideoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93849032623301C00887291 /* VideoFooterView.swift */; };
 		B938490B2623604C00887291 /* RejectedChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B938490A2623604C00887291 /* RejectedChallengeViewController.swift */; };
@@ -97,6 +96,7 @@
 		B94CC3F225BAA5B900E97B78 /* _CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */; };
+		B94E3F7126270D12001AE129 /* Challenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B94E3F6F26270D12001AE129 /* Challenge.xcdatamodeld */; };
 		B94EAD6025EEAEA400504A2A /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EAD5F25EEAEA400504A2A /* Gradient.swift */; };
 		B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */; };
 		B9520FF425ADCC41008E9B57 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9520FF325ADCC41008E9B57 /* Action.swift */; };
@@ -365,7 +365,6 @@
 		B936265B25DAE7F40063AAD6 /* ConversationViewModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModelBuilder.swift; sourceTree = "<group>"; };
 		B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		B936266325DC23630063AAD6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
-		B93797D3261EFF1700405892 /* AppInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppInitializer.swift; sourceTree = "<group>"; };
 		B93848FF2623300E00887291 /* VideoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHeaderView.swift; sourceTree = "<group>"; };
 		B93849032623301C00887291 /* VideoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFooterView.swift; sourceTree = "<group>"; };
 		B938490A2623604C00887291 /* RejectedChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectedChallengeViewController.swift; sourceTree = "<group>"; };
@@ -385,6 +384,7 @@
 		B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CameraViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabelReusableView.swift; sourceTree = "<group>"; };
+		B94E3F7026270D12001AE129 /* Challenge.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Challenge.xcdatamodel; sourceTree = "<group>"; };
 		B94EAD5F25EEAEA400504A2A /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
 		B9520FF325ADCC41008E9B57 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
@@ -1152,6 +1152,7 @@
 		B979AB0626258F920079C4E8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B94E3F6F26270D12001AE129 /* Challenge.xcdatamodeld */,
 				B979AB0226258F8F0079C4E8 /* ChallengeDataModel.swift */,
 				B979AB0926258FF50079C4E8 /* UserDataModel.swift */,
 			);
@@ -1170,7 +1171,6 @@
 			isa = PBXGroup;
 			children = (
 				B93849092623603500887291 /* ChallengeStatusScreen */,
-				B93797D3261EFF1700405892 /* AppInitializer.swift */,
 				B9C4224C2620350C008E9315 /* WatchVC */,
 				B952F5952617426D0063E7B4 /* Create Challenge */,
 				B9FD994F2616101500D6716C /* Notifications */,
@@ -1690,7 +1690,6 @@
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */,
-				B93797D4261EFF1700405892 /* AppInitializer.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
 				B973530B2618B8A200183201 /* ChallengeCard.swift in Sources */,
 				B9C4225826203575008E9315 /* WatchViewController.swift in Sources */,
@@ -1736,6 +1735,7 @@
 				B9ABAAA525F7CBB1009CB966 /* ThumbnailManager.swift in Sources */,
 				B97352E42618675A00183201 /* Button.swift in Sources */,
 				B96B7F2B2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift in Sources */,
+				B94E3F7126270D12001AE129 /* Challenge.xcdatamodeld in Sources */,
 				B9FD993E2615C08100D6716C /* TextField.swift in Sources */,
 				B9E67E6825F438C0004FA873 /* ChallengeViewController.swift in Sources */,
 				B9B74D8625F02B700083D69A /* RankingDatabaseManager.swift in Sources */,
@@ -2171,6 +2171,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B94E3F6F26270D12001AE129 /* Challenge.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B94E3F7026270D12001AE129 /* Challenge.xcdatamodel */,
+			);
+			currentVersion = B94E3F7026270D12001AE129 /* Challenge.xcdatamodel */;
+			path = Challenge.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B9B92DC825644A3F005D9B86 /* Project object */;
 }

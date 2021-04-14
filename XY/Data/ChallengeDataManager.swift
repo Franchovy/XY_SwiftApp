@@ -23,22 +23,16 @@ final class ChallengeDataManager {
         activeChallenges = []
     }
     
+    
+    
     func loadNewActiveChallenge() {
-        let newChallenge = ChallengeDataModel(
-            fileUrl: Bundle.main.url(forResource: "video1", withExtension: "mov"),
-            title: "ScreamChallenge",
-            description: "Scream randomly somewhere. Get your friend to film it.",
-            expireTimestamp: Date().addingTimeInterval(TimeInterval.days(1)),
-            fromUser: UserDataModel(nickname: "bobby", profileImage: UIImage(named: "friend1")!.pngData()!),
-            previewImage: UIImage(named: "challenge1")!.pngData()!,
-            completionState: .received
-        )
-        
-        activeChallenges.append(newChallenge)
-        activeChallenges.append(newChallenge)
-        activeChallenges.append(newChallenge)
-        
-        NotificationCenter.default.post(Notification(name: .didLoadActiveChallenges))
+        if Int.random(in: 0...3) < 3 {
+            for _ in 0...Int.random(in: 1...3) {
+                activeChallenges.append(ChallengeDataModel.fakeChallenge())
+            }
+            
+            NotificationCenter.default.post(Notification(name: .didLoadActiveChallenges))
+        }
     }
     
     func updateChallengeState(challengeViewModel: ChallengeCardViewModel, newState: ChallengeCompletionState) {

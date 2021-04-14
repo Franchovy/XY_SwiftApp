@@ -22,8 +22,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.enableAutoToolbar = false
                 
         FirebaseApp.configure()
-                   
-        AppInitializer.shared.setRandomSession()
         
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {

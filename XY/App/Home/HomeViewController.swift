@@ -102,17 +102,8 @@ class HomeViewController: UIViewController {
         default: break
         }
         
-        if AppInitializer.shared.challengesToSee > 0 {
-            let numChallenges = AppInitializer.shared.challengesToSee
-            AppInitializer.shared.challengesToSee = 0
-            DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
-                self.promptChallengesReceived(numChallenges: numChallenges)
-            }
-        }
+        ChallengeDataManager.shared.loadNewActiveChallenge()
         
-        DispatchQueue.main.asyncAfter(deadline: .now()+5) {
-            ChallengeDataManager.shared.loadNewActiveChallenge()
-        }
     }
 
     override func viewDidLayoutSubviews() {
@@ -200,6 +191,11 @@ class HomeViewController: UIViewController {
         
         prompt.addCompletionButton(buttonText: "Let's go!", style: .embedded, font: UIFont(name: "Raleway-Heavy", size: 20), closeOnTap: true)
         
+        prompt.onCompletion = { _ in
+            self.challengesDataSource.reload()
+            self.challengesCollectionView.reloadData()
+        }
+        
         NavigationControlManager.displayPrompt(prompt)
     }
     
@@ -239,8 +235,13 @@ class HomeViewController: UIViewController {
     }
     
     @objc private func didLoadNewActiveChallenges() {
-        challengesDataSource.reload()
-        challengesCollectionView.reloadData()
+        let currentNumChallenges = challengesCollectionView.numberOfItems(inSection: 0)
+        
+        let newNumChallenges = ChallengeDataManager.shared.activeChallenges.count
+        
+        if newNumChallenges > currentNumChallenges {
+            self.promptChallengesReceived(numChallenges: newNumChallenges - currentNumChallenges)
+        }
     }
     
     func fetchOwnProfile() {

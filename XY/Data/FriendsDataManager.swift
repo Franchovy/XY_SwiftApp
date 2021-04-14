@@ -13,7 +13,7 @@ final class FriendsDataManager {
     
     
     func getBubbleFromData(dataModel: UserDataModel) -> FriendBubbleViewModel {
-        FriendBubbleViewModel(image: UIImage(data: dataModel.profileImage)!, nickname: dataModel.nickname)
+        FriendBubbleViewModel(image: UIImage(data: dataModel.profileImage!)!, nickname: dataModel.nickname!)
     }
 }
 
