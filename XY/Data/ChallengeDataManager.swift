@@ -18,8 +18,6 @@ extension Notification.Name {
 final class ChallengeDataManager {
     static var shared = ChallengeDataManager()
     
-    
-    
     var activeChallenges: [ChallengeDataModel]
     
     private init() {
@@ -27,7 +25,7 @@ final class ChallengeDataManager {
     }
     
     func loadNewActiveChallenge() {
-        if Int.random(in: 0...3) < 4 {
+        if Int.random(in: 0...3) == 3 {
             for _ in 0...Int.random(in: 1...3) {
                 activeChallenges.append(ChallengeDataModel.fakeChallenge())
             }
@@ -46,6 +44,13 @@ final class ChallengeDataManager {
         assert(activeChallenges.first(where: { $0.title == challengeViewModel.title })!.completionState == newState)
     }
     
+    func savePersistent() {
+        do {
+            try CoreDataManager.shared.mainContext.save()
+        } catch let error {
+            print("Error saving context: \(error)")
+        }
+    }
     
     func loadChallengesFromStorage() {
         let mainContext = CoreDataManager.shared.mainContext

@@ -76,6 +76,9 @@ class HomeViewController: UIViewController {
         
         if ChallengeDataManager.shared.activeChallenges.count == 0 {
             configureEmptyNoChallenges()
+        } else {
+            challengesDataSource.reload()
+            challengesCollectionView.reloadData()
         }
         
         
