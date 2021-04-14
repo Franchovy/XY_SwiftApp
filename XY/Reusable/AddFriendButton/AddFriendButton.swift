@@ -77,6 +77,23 @@ class AddFriendButton: UIButton {
         }
     }
     
+    func changeStateTapped() {
+        switch mode {
+        case .add:
+            mode = .added
+        case .addBack:
+            mode = .friend
+        case .added:
+            mode = .add
+        case .friend:
+            mode = .addBack
+        case .none:
+            break
+        }
+        
+        configure(for: mode)
+    }
+    
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
         
@@ -95,9 +112,28 @@ class AddFriendButton: UIButton {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         
-        HapticsManager.shared.vibrateImpact(for: .soft)
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.1) {
+        switch mode {
+        case .added, .friend:
+            changeStateTapped()
+        default:
             HapticsManager.shared.vibrateImpact(for: .heavy)
+            
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut) {
+                self.transform = CGAffineTransform(scaleX: 0.7, y: 0.7)
+            } completion: { (done) in
+                if done {
+                    self.changeStateTapped()
+                    
+                    UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.1, initialSpringVelocity: 5.0, options: .curveEaseIn) {
+                        self.transform = .identity
+                    } completion: { (done) in
+                        if done {
+                            
+                        }
+                    }
+
+                }
+            }
         }
     }
     
