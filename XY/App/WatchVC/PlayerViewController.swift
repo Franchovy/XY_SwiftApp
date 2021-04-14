@@ -101,7 +101,7 @@ class PlayerViewController: UIViewController {
             return
         }
         
-        player.play()
+//        player.play()
         player.volume = 1.0
         
         playerDidFinishObserver = NotificationCenter.default.addObserver(

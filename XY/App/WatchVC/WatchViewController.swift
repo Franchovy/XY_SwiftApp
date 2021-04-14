@@ -50,6 +50,21 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         navigationController?.configureBackgroundStyle(.invisible)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let playerViewController = playerViewControllers[currentIndex]
+        playerViewController.play()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let playerViewController = playerViewControllers[currentIndex]
+        playerViewController.pause()
+        
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
