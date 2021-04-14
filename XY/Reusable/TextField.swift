@@ -99,7 +99,9 @@ class TextField: UITextView {
         placeholderActive = false
         textColor = textColor?.withAlphaComponent(1.0)
         
-        maxCharsLabel!.text = "\(text.count)/\(maxChars)"
+        if let maxChars = maxChars {
+            maxCharsLabel!.text = "\(text.count)/\(maxChars)"
+        }
     }
     
     public func setStyle(_ style: Style) {
