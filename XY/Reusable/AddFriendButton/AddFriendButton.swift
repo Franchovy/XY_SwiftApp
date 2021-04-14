@@ -110,7 +110,17 @@ class AddFriendButton: UIButton {
         
         switch mode {
         case .added, .friend:
-            changeStateTapped()
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut) {
+                self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            } completion: { (done) in
+                if done {
+                    self.changeStateTapped()
+                    
+                    UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn) {
+                        self.transform = .identity
+                    }
+                }
+            }
         default:
             HapticsManager.shared.vibrateImpact(for: .heavy)
             
