@@ -14,6 +14,13 @@ extension UserDataModel {
     }
 }
 
+enum FriendStatus: String {
+    case none
+    case added
+    case addedMe
+    case friend
+}
+
 #if DEBUG
 
 extension UserDataModel {
