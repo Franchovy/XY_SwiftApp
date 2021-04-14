@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 class VideoHeaderView: UIView {
 
     private let titleLabel = Label(style: .title, fontSize: 26, adaptToLightMode: false)
@@ -31,7 +32,6 @@ class VideoHeaderView: UIView {
         
         declineButton.addTarget(self, action: #selector(tappedReject), for: .touchUpInside)
         acceptButton.addTarget(self, action: #selector(tappedAccept), for: .touchUpInside)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -101,6 +101,7 @@ class VideoHeaderView: UIView {
         guard let viewModel = viewModel else {
             return
         }
+        ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .accepted)
         NavigationControlManager.startChallenge(with: viewModel)
     }
     
@@ -115,6 +116,7 @@ class VideoHeaderView: UIView {
             closeOnTap: true,
             onTap: {
                 if let viewModel = self.viewModel {
+                    ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .rejected)
                     NavigationControlManager.mainViewController.navigationController?.pushViewController(RejectedChallengeViewController(viewModel: viewModel), animated: true)
                 }
             }

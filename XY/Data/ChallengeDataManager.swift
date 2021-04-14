@@ -40,4 +40,14 @@ final class ChallengeDataManager {
         
         NotificationCenter.default.post(Notification(name: .didLoadActiveChallenges))
     }
+    
+    func updateChallengeState(challengeViewModel: ChallengeCardViewModel, newState: ChallengeCompletionState) {
+        print("Updated challenge \"\(challengeViewModel.title)\" state: \(newState)")
+        if let index = activeChallenges.firstIndex(where: { $0.title == challengeViewModel.title }) {
+            var challenge = activeChallenges[index]
+            challenge.completionState = newState
+            activeChallenges[index] = challenge
+        }
+        assert(activeChallenges.first(where: { $0.title == challengeViewModel.title })!.completionState == newState)
+    }
 }

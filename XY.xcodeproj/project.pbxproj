@@ -120,7 +120,6 @@
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
 		B95FF51C25A7583B00CFCA9E /* _ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* _ProfileViewModel.swift */; };
-		B968322C261D905F00AF1DD1 /* WatchChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B968322B261D905F00AF1DD1 /* WatchChallengeViewController.swift */; };
 		B9683231261DA98300AF1DD1 /* FriendBubblesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */; };
 		B968325A261DBA9D00AF1DD1 /* VideoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9683259261DBA9D00AF1DD1 /* VideoSaver.swift */; };
 		B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */; };
@@ -410,7 +409,6 @@
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
 		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* _ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ProfileViewModel.swift; sourceTree = "<group>"; };
-		B968322B261D905F00AF1DD1 /* WatchChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchChallengeViewController.swift; sourceTree = "<group>"; };
 		B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubblesView.swift; sourceTree = "<group>"; };
 		B9683259261DBA9D00AF1DD1 /* VideoSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSaver.swift; sourceTree = "<group>"; };
 		B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -969,14 +967,6 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		B968322A261D900A00AF1DD1 /* View Challenge */ = {
-			isa = PBXGroup;
-			children = (
-				B968322B261D905F00AF1DD1 /* WatchChallengeViewController.swift */,
-			);
-			path = "View Challenge";
-			sourceTree = "<group>";
-		};
 		B96B7F1626132FA000B1CBF5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -1182,7 +1172,6 @@
 				B93849092623603500887291 /* ChallengeStatusScreen */,
 				B93797D3261EFF1700405892 /* AppInitializer.swift */,
 				B9C4224C2620350C008E9315 /* WatchVC */,
-				B968322A261D900A00AF1DD1 /* View Challenge */,
 				B952F5952617426D0063E7B4 /* Create Challenge */,
 				B9FD994F2616101500D6716C /* Notifications */,
 				B926868D2614A8C900A306F6 /* Edit Profile */,
@@ -1860,7 +1849,6 @@
 				B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */,
 				B931478425FA209700C054DF /* RankingsViewController.swift in Sources */,
 				1425137C259F8C0100DC08BB /* _NotificationViewModel.swift in Sources */,
-				B968322C261D905F00AF1DD1 /* WatchChallengeViewController.swift in Sources */,
 				B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */,
 				B94EAD6025EEAEA400504A2A /* Gradient.swift in Sources */,
 				B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */,
