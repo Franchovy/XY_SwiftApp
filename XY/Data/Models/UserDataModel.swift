@@ -6,11 +6,7 @@
 //
 
 import UIKit
-//
-//struct UserDataModel {
-//    let nickname: String
-//    let profileImage: Data
-//}
+import CoreData
 
 extension UserDataModel {
     func toBubble() -> FriendBubbleViewModel {
@@ -22,7 +18,10 @@ extension UserDataModel {
 
 extension UserDataModel {
     static func fakeUser() -> UserDataModel {
-        let user = UserDataModel()
+        let context = CoreDataManager.shared.mainContext
+        let entity = UserDataModel.entity()
+        let user = UserDataModel(entity: entity, insertInto: context)
+        
         user.nickname = "test"
         user.profileImage = UIImage(named: "friend1")?.pngData()
         return user

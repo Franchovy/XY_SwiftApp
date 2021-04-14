@@ -7,16 +7,6 @@
 
 import UIKit
 
-//struct ChallengeDataModel {
-//    let fileUrl: URL?
-//    let title: String
-//    let description: String
-//    let expireTimestamp: Date
-//    let fromUser: UserDataModel
-//    let previewImage: Data
-//    var completionState: ChallengeCompletionState
-//}
-
 extension ChallengeDataModel {
     var completionState: ChallengeCompletionState {
         get {
@@ -64,7 +54,10 @@ extension ChallengeDataModel {
             Bundle.main.url(forResource: "video5", withExtension: "mov")
         ][Int.random(in: 0...4)]
         
-        let challengeModel = ChallengeDataModel()
+        let context = CoreDataManager.shared.mainContext
+        let entity = ChallengeDataModel.entity()
+        let challengeModel = ChallengeDataModel(entity: entity, insertInto: context)
+        
         challengeModel.fileUrl = url!
         challengeModel.title = "ScreamRandomly"
         challengeModel.challengeDescription = "Scream randomly somewhere in public. Get your friend to film it."

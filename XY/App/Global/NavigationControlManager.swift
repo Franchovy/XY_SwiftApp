@@ -20,7 +20,7 @@ final class NavigationControlManager {
         CreateChallengeManager.shared.loadAcceptedChallenge(viewModel)
         
         mainViewController.hero.modalAnimationType = .zoomSlide(direction: .right)
-        mainViewController.heroReplaceViewController(with: vc)
+        mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
     
     static func presentProfileViewController(with viewModel: ProfileViewModel) {

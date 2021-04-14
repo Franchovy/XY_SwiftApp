@@ -93,6 +93,7 @@
 		B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */; };
 		B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */; };
 		B9474B7E262444C400D4AD89 /* AcceptChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9474B7D262444C400D4AD89 /* AcceptChallengeViewController.swift */; };
+		B94C2F8B2627169B00282207 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C2F8A2627169B00282207 /* CoreDataManager.swift */; };
 		B94CC3F225BAA5B900E97B78 /* _CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */; };
@@ -381,6 +382,7 @@
 		B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
 		B94680D026010EEB001BDC3F /* PostFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFirestoreManager.swift; sourceTree = "<group>"; };
 		B9474B7D262444C400D4AD89 /* AcceptChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptChallengeViewController.swift; sourceTree = "<group>"; };
+		B94C2F8A2627169B00282207 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CameraViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabelReusableView.swift; sourceTree = "<group>"; };
@@ -1370,6 +1372,7 @@
 				B9CFB7D3262490A300754552 /* ProfileDataManager.swift */,
 				B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */,
 				B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */,
+				B94C2F8A2627169B00282207 /* CoreDataManager.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1840,6 +1843,7 @@
 				B9FD9967261619E000D6716C /* NotificationViewModel.swift in Sources */,
 				B925CC6F25D5843A00542A58 /* ConversationViewModel.swift in Sources */,
 				B9268663261461CA00A306F6 /* FriendsListCollectionViewCell.swift in Sources */,
+				B94C2F8B2627169B00282207 /* CoreDataManager.swift in Sources */,
 				B926225E25A234A100BA2FB0 /* LaunchVC.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 				B9781DD025DE70FA00A2FE2D /* UserModel.swift in Sources */,

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H15" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="ChallengeDataModel" representedClassName="ChallengeDataModel" syncable="YES" codeGenerationType="class">
+    <entity name="ChallengeDataModel" representedClassName=".ChallengeDataModel" syncable="YES" codeGenerationType="class">
         <attribute name="challengeDescription" attributeType="String" defaultValueString=""/>
         <attribute name="completionStateValue" attributeType="String" defaultValueString=""/>
         <attribute name="expiryTimestamp" attributeType="Date" usesScalarValueType="NO"/>
@@ -9,7 +9,7 @@
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="fromUser" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataModel"/>
     </entity>
-    <entity name="UserDataModel" representedClassName="UserDataModel" syncable="YES" codeGenerationType="class">
+    <entity name="UserDataModel" representedClassName=".UserDataModel" syncable="YES" codeGenerationType="class">
         <attribute name="nickname" attributeType="String" defaultValueString=""/>
         <attribute name="profileImage" optional="YES" attributeType="Binary"/>
     </entity>

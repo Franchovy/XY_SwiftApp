@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreData
 import UIKit
 
 extension Notification.Name {
@@ -17,16 +18,16 @@ extension Notification.Name {
 final class ChallengeDataManager {
     static var shared = ChallengeDataManager()
     
+    
+    
     var activeChallenges: [ChallengeDataModel]
     
     private init() {
         activeChallenges = []
     }
     
-    
-    
     func loadNewActiveChallenge() {
-        if Int.random(in: 0...3) < 3 {
+        if Int.random(in: 0...3) < 4 {
             for _ in 0...Int.random(in: 1...3) {
                 activeChallenges.append(ChallengeDataModel.fakeChallenge())
             }
@@ -43,5 +44,19 @@ final class ChallengeDataManager {
             activeChallenges[index] = challenge
         }
         assert(activeChallenges.first(where: { $0.title == challengeViewModel.title })!.completionState == newState)
+    }
+    
+    
+    func loadChallengesFromStorage() {
+        let mainContext = CoreDataManager.shared.mainContext
+        
+        let fetchRequest: NSFetchRequest<ChallengeDataModel> = ChallengeDataModel.fetchRequest()
+        do {
+            let results = try mainContext.fetch(fetchRequest)
+            activeChallenges = results
+        }
+        catch {
+            debugPrint(error)
+        }
     }
 }
