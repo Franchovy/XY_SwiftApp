@@ -9,33 +9,27 @@ import UIKit
 
 class FriendsListCollectionDataSource: NSObject, UICollectionViewDataSource {
     
-    override init() {
-        filteredData = fakeData
-    }
+    override init() { }
     
     var searchString: String?
     
-    let fakeData = [
-        FriendListViewModel(profileImage: UIImage(named: "friend1")!, nickname: "friend1", buttonStatus: .add),
-        FriendListViewModel(profileImage: UIImage(named: "friend2")!, nickname: "friend2", buttonStatus: .added),
-        FriendListViewModel(profileImage: UIImage(named: "friend3")!, nickname: "friend3", buttonStatus: .friend),
-        FriendListViewModel(profileImage: UIImage(named: "friend4")!, nickname: "friend4", buttonStatus: .addBack),
-        FriendListViewModel(profileImage: UIImage(named: "friend5")!, nickname: "friend5", buttonStatus: .friend)
-    ]
-    
-    var filteredData = [FriendListViewModel]()
-    
-    private func filterDataBySearch() {
-        guard let searchString = searchString else {
-            filteredData = fakeData
-            return
+    var data: [FriendListViewModel] = []
+    var filteredData:[FriendListViewModel] {
+        get {
+            if let searchString = searchString {
+                if searchString == "" {
+                    return data
+                } else {
+                    return data.filter({$0.nickname.lowercased().contains(searchString.lowercased())})
+                }
+            } else {
+                return data
+            }
         }
-        
-        if searchString == "" {
-            filteredData = fakeData
-        } else {
-            filteredData = fakeData.filter({$0.nickname.lowercased().contains(searchString.lowercased())})
-        }
+    }
+    
+    func loadFromData() {
+        data = FriendsDataManager.shared.allUsers.map({ $0.toFriendListViewModel() })
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -53,6 +47,5 @@ class FriendsListCollectionDataSource: NSObject, UICollectionViewDataSource {
     
     public func setSearchString(_ searchString: String) {
         self.searchString = searchString
-        filterDataBySearch()
     }
 }

@@ -12,9 +12,11 @@ final class FriendsDataManager {
     static var shared = FriendsDataManager()
     
     var allUsers: [UserDataModel]
+    var friends: [UserDataModel]
     
     private init() {
         allUsers = []
+        friends = []
     }
     
     func getBubbleFromData(dataModel: UserDataModel) -> FriendBubbleViewModel {
@@ -31,7 +33,7 @@ final class FriendsDataManager {
             
             #if DEBUG
             if allUsers.count == 0 {
-                for _ in 0...100 {
+                for _ in 0...7 {
                     allUsers.append(UserDataModel.fakeUser())
                 }
             }

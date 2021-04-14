@@ -9,24 +9,27 @@ import UIKit
 
 class FriendsDataSource: NSObject, UICollectionViewDataSource {
     
-    let fakeData: [FriendBubbleViewModel]
+    var data: [FriendBubbleViewModel]
     var showEditProfile: Bool = false
     
     init(fromList list: [SendCollectionViewCellViewModel]) {
-        fakeData = list.map({ FriendBubbleViewModel.init(image: $0.profileImage, nickname: $0.nickname) })
+        data = list.map({ FriendBubbleViewModel.init(image: $0.profileImage, nickname: $0.nickname) })
         showEditProfile = false
         
         super.init()
     }
     
     override init() {
-        fakeData = FriendBubbleViewModel.generateFakeData()
-        
+        data = []
         super.init()
     }
     
+    func reload() {
+        data = FriendsDataManager.shared.friends.map({ $0.toBubble() })
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return fakeData.count + (showEditProfile ? 1 : 0)
+        return data.count + (showEditProfile ? 1 : 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -37,11 +40,9 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.identifier, for: indexPath) as! FriendCollectionViewCell
             
-            cell.configure(with: fakeData[indexPath.row - (showEditProfile ? 1 : 0)])
+            cell.configure(with: data[indexPath.row - (showEditProfile ? 1 : 0)])
             
             return cell
         }
     }
-    
-    
 }
