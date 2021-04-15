@@ -37,7 +37,6 @@ class ChallengeCardCollectionViewCell: UICollectionViewCell {
 
     public func configure(with viewModel: ChallengeCardViewModel) {
         challengeCard.configure(with: viewModel)
-        
     }
     
     override func prepareForReuse() {

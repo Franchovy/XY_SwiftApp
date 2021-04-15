@@ -24,13 +24,40 @@ final class ChallengeDataManager {
         activeChallenges = []
     }
     
+    func sendNewChallenge(challengeCard: ChallengeCardViewModel, to friendsList: [UserViewModel], completion: @escaping(() -> Void)) {
+        let entity = ChallengeDataModel.entity()
+        let context = CoreDataManager.shared.mainContext
+        let newChallenge = ChallengeDataModel(entity: entity, insertInto: context)
+        
+        newChallenge.title = challengeCard.title
+        newChallenge.challengeDescription = challengeCard.description
+        newChallenge.completionStateValue = ChallengeCompletionState.sent.rawValue
+        newChallenge.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
+        newChallenge.fileUrl = CreateChallengeManager.shared.videoUrl
+        newChallenge.fromUser = ProfileDataManager.shared.ownProfileModel
+        newChallenge.previewImage = challengeCard.image.pngData()
+        
+        do {
+            try context.save()
+        } catch let error {
+            print("Error creating new challenge: \(error)")
+        }
+        
+        activeChallenges.append(newChallenge)
+        NotificationCenter.default.post(Notification(name: .didLoadActiveChallenges))
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            completion()
+        }
+    }
+    
     func loadNewActiveChallenge() {
         if Int.random(in: 0...3) == 3 {
             for _ in 0...Int.random(in: 1...3) {
                 activeChallenges.append(ChallengeDataModel.fakeChallenge())
             }
             
-            NotificationCenter.default.post(Notification(name: .didLoadActiveChallenges))
+            NotificationCenter.default.post(Notification(name: .didReceiveChallenges))
         }
     }
     
@@ -59,6 +86,8 @@ final class ChallengeDataManager {
         do {
             let results = try mainContext.fetch(fetchRequest)
             activeChallenges = results
+            
+            NotificationCenter.default.post(name: .didLoadActiveChallenges, object: nil)
         }
         catch {
             debugPrint(error)

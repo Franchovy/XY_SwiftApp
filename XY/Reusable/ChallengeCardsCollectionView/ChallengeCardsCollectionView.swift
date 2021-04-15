@@ -7,14 +7,14 @@
 
 import UIKit
 
-
-
 class ChallengeCardsCollectionView: UICollectionView, UICollectionViewDelegate {
 
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.estimatedItemSize = CGSize(width: 170, height: 267)
+        layout.estimatedItemSize = CGSize(width: 181, height: 284)
+        layout.minimumLineSpacing = 5
+        layout.minimumInteritemSpacing = 5
         
         super.init(frame: .zero, collectionViewLayout: layout)
         

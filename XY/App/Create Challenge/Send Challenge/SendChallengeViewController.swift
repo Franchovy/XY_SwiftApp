@@ -113,13 +113,15 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
             return
         }
         
-        let friendsDataSource = FriendsDataSource(fromList: sendToFriendsViewController.selectedFriendsToSend)
-        
-        isHeroEnabled = true
-        challengeCard.heroID = "challengeCard"
-        
-        let vc = ConfirmSendChallengeViewController(challengeCardViewModel: viewModel, friendsList: friendsDataSource)
-        
-        navigationController?.pushViewController(vc, animated: true)
+        ChallengeDataManager.shared.sendNewChallenge(challengeCard: viewModel, to: sendToFriendsViewController.selectedFriendsToSend) {
+            self.isHeroEnabled = true
+            self.challengeCard.heroID = "challengeCard"
+            
+            let vc = ConfirmSendChallengeViewController(challengeCardViewModel: viewModel, friendsList: self.sendToFriendsViewController.selectedFriendsToSend)
+            vc.isHeroEnabled = true
+            self.navigationController?.isHeroEnabled = true
+            
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
 }

@@ -45,7 +45,7 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
         self.viewModel = viewModel
         self.status = viewModel.friendStatus
         
-        if viewModel.nickname == ProfileDataManager.nickname {
+        if viewModel.nickname == ProfileDataManager.shared.nickname {
             isHidden = true
             return
         } else {

@@ -49,6 +49,7 @@ class HomeViewController: UIViewController {
         challengesCollectionView.dataSource = challengesDataSource
         friendsCollectionView.dataSource = friendsDataSource
         friendsDataSource.showEditProfile = true
+
     }
     
     required init?(coder: NSCoder) {
@@ -59,6 +60,11 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didLoadActiveChallenges), name: .didLoadActiveChallenges, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didFinishSendingChallenge), name: .didFinishSendingChallenge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didReceiveChallenges, object: nil)
         
         view.addSubview(friendsLabel)
         view.addSubview(friendsCollectionView)
@@ -98,6 +104,9 @@ class HomeViewController: UIViewController {
             )
         ]
         
+        // Some coredata loading
+        ProfileDataManager.shared.load()
+        
         // Fetch Challenges from storage
         ChallengeDataManager.shared.loadChallengesFromStorage()
         FriendsDataManager.shared.loadDataFromStorage()
@@ -111,13 +120,10 @@ class HomeViewController: UIViewController {
             if ChallengeDataManager.shared.activeChallenges.count == 0 {
                 configureEmptyNoChallenges()
             } else {
-                challengesDataSource.reload()
-                challengesCollectionView.reloadData()
+                configureNormal()
             }
         }
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didLoadNewActiveChallenges), name: .didLoadActiveChallenges, object: nil)
+ 
     }
     
     deinit {
@@ -179,7 +185,7 @@ class HomeViewController: UIViewController {
             x: 10,
             y: challengesLabel.bottom + 10,
             width: view.width - 20,
-            height: 200
+            height: 299
         )
         
         welcomeGradientLabel.sizeToFit()
@@ -312,16 +318,6 @@ class HomeViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc private func didLoadNewActiveChallenges() {
-        let currentNumChallenges = challengesCollectionView.numberOfItems(inSection: 0)
-        
-        let newNumChallenges = ChallengeDataManager.shared.activeChallenges.count
-        
-        if newNumChallenges > currentNumChallenges {
-            self.promptChallengesReceived(numChallenges: newNumChallenges - currentNumChallenges)
-        }
-    }
-    
     @objc private func onFriendsUpdated() {
         friendsDataSource.reload()
         friendsCollectionView.reloadData()
@@ -329,5 +325,31 @@ class HomeViewController: UIViewController {
         if state == .noFriends, friendsCollectionView.numberOfItems(inSection: 0) > 1 {
             configureEmptyNoChallenges()
         }
+    }
+    
+    @objc private func didLoadActiveChallenges() {
+        self.challengesDataSource.reload()
+        self.challengesCollectionView.reloadData()
+        
+        if ChallengeDataManager.shared.activeChallenges.count > 0 {
+            self.configureNormal()
+        }
+    }
+    
+    @objc private func didFinishSendingChallenge() {
+        self.challengesDataSource.reload()
+        self.challengesCollectionView.reloadData()
+        
+        if ChallengeDataManager.shared.activeChallenges.count > 0 {
+            self.configureNormal()
+            
+        }
+    }
+    
+    @objc private func didReceiveChallenge() {
+        let currentNumChallenges = challengesCollectionView.numberOfItems(inSection: 0)
+        let newNumChallenges = ChallengeDataManager.shared.activeChallenges.count
+        
+        self.promptChallengesReceived(numChallenges: newNumChallenges - currentNumChallenges)
     }
 }

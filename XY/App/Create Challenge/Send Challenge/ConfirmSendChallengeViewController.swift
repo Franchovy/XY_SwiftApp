@@ -20,8 +20,8 @@ class ConfirmSendChallengeViewController: UIViewController {
     private let backHomeButton = Button(title: "Back home", style: .roundButton(backgroundColor: UIColor(0x007BF5)), paddingVertical: 6, paddingHorizontal: 15)
     private let takeAnotherButton = Button(title: "Take another", style: .roundButtonBorder(gradient: Global.xyGradient), paddingVertical: 6, paddingHorizontal: 15)
     
-    init(challengeCardViewModel: ChallengeCardViewModel, friendsList: FriendsDataSource) {
-        friendsDataSource = friendsList
+    init(challengeCardViewModel: ChallengeCardViewModel, friendsList: [UserViewModel]) {
+        friendsDataSource = FriendsDataSource(fromList: friendsList)
         card.configure(with: challengeCardViewModel)
         
         super.init(nibName: nil, bundle: nil)

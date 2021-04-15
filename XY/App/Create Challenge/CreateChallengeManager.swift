@@ -75,7 +75,7 @@ final class CreateChallengeManager {
             timeLeftText: nil,
             isReceived: false,
             friendBubbles: friendsToChallengeList,
-            senderProfile: ProfileDataManager.ownProfile
+            senderProfile: ProfileDataManager.shared.ownProfile
         )
     }
 }
