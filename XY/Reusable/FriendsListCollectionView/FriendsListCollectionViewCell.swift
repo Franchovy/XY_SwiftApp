@@ -8,7 +8,7 @@
 import UIKit
 
 
-class FriendsListCollectionViewCell: UICollectionViewCell {
+class FriendsListCollectionViewCell: UICollectionViewCell, FriendsDataManagerListener {
     
     static let identifier = "FriendsListCollectionViewCell"
     
@@ -64,6 +64,7 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         nicknameLabel.text = nil
         
         viewModel = nil
+        FriendsDataManager.shared.deregisterChangeListener(listener: self)
     }
     
     public func configure(with viewModel: UserViewModel) {
@@ -72,6 +73,8 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         friendBubble.configure(with: viewModel)
         nicknameLabel.text = viewModel.nickname
         addFriendButton.configure(with: viewModel)
+        
+        FriendsDataManager.shared.registerChangeListener(for: viewModel, listener: self)
     }
     
     func didPressButtonForMode(mode: FriendStatus) {
@@ -81,4 +84,7 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         FriendsDataManager.shared.updateFriendStatus(friend: viewModel, newStatus: mode)
     }
     
+    func didUpdateFriendshipState(to state: FriendStatus) {
+        viewModel?.friendStatus = state
+    }
 }

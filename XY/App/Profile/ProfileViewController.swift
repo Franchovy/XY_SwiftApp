@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, FriendsDataManagerListener {
     
     private let profileBubble = FriendBubble()
     private let friendButton = AddFriendButton()
@@ -76,6 +76,8 @@ class ProfileViewController: UIViewController {
         navigationController?.navigationBar.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont(name: "Raleway-Bold", size: 20)!
         ]
+        
+        FriendsDataManager.shared.deregisterChangeListener(listener: self)
                 
     }
     
@@ -178,6 +180,8 @@ class ProfileViewController: UIViewController {
         
         profileBubble.configure(with: viewModel)
         friendButton.configure(with: viewModel)
+        
+        FriendsDataManager.shared.registerChangeListener(for: viewModel, listener: self)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -192,4 +196,7 @@ class ProfileViewController: UIViewController {
         NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
     
+    func didUpdateFriendshipState(to state: FriendStatus) {
+        viewModel?.friendStatus = state
+    }
 }

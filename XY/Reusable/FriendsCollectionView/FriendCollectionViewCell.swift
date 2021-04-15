@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FriendCollectionViewCell: UICollectionViewCell {
+class FriendCollectionViewCell: UICollectionViewCell, FriendsDataManagerListener {
     static let identifier = "FriendCollectionViewCell"
     
     private let friendBubble = FriendBubble()
@@ -47,6 +47,8 @@ class FriendCollectionViewCell: UICollectionViewCell {
         
         friendBubble.configure(with: viewModel)
         nicknameLabel.text = viewModel.nickname
+        
+        FriendsDataManager.shared.registerChangeListener(for: viewModel, listener: self)
     }
     
     override func prepareForReuse() {
@@ -54,5 +56,10 @@ class FriendCollectionViewCell: UICollectionViewCell {
         
         viewModel = nil
         friendBubble.imageView.image = nil
+        FriendsDataManager.shared.deregisterChangeListener(listener: self)
+    }
+    
+    func didUpdateFriendshipState(to state: FriendStatus) {
+        viewModel?.friendStatus = state
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddFriendButton: UIButton {
+class AddFriendButton: UIButton, FriendsDataManagerListener {
 
     init() {
         super.init(frame: .zero)
@@ -46,10 +46,25 @@ class AddFriendButton: UIButton {
             return
         } else {
             setupButtonForCurrentStatus()
+            
+            FriendsDataManager.shared.registerChangeListener(for: viewModel, listener: self)
         }
     }
     
-    func changeStateTapped() {
+    public func prepareForReuse() {
+        isHidden = true
+        viewModel = nil
+        layer.borderWidth = 0
+        status = .none
+        FriendsDataManager.shared.deregisterChangeListener(listener: self)
+    }
+    
+    func didUpdateFriendshipState(to state: FriendStatus) {
+        status = state
+        setupButtonForCurrentStatus()
+    }
+    
+    private func changeStateTapped() {
         switch status {
         case .none:
             status = .added
@@ -64,21 +79,23 @@ class AddFriendButton: UIButton {
         setupButtonForCurrentStatus()
     }
     
-    func setupButtonForCurrentStatus() {
-        
+    private func setupButtonForCurrentStatus() {
         switch status {
         case .none:
             setTitle("Add", for: .normal)
             setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
             setTitleColor(.white, for: .normal)
+            layer.borderWidth = 0
         case .addedMe:
             setTitle("Add back", for: .normal)
             setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
             setTitleColor(.white, for: .normal)
+            layer.borderWidth = 0
         case .friend:
             setTitle("Friend", for: .normal)
             setBackgroundColor(color: UIColor(0xFF0062), forState: .normal)
             setTitleColor(.white, for: .normal)
+            layer.borderWidth = 0
         case .added:
             setTitle("Added", for: .normal)
             setBackgroundColor(color: UIColor.clear, forState: .normal)
@@ -152,6 +169,6 @@ class AddFriendButton: UIButton {
         guard let viewModel = viewModel else {
             return
         }
-        FriendsDataManager.shared.updateFriendStatus(friend: viewModel, newStatus: status)
+        FriendsDataManager.shared.updateFriendStatus(friend: self.viewModel!, newStatus: status)
     }
 }

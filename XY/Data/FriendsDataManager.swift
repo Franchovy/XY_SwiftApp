@@ -9,10 +9,9 @@ import UIKit
 import CoreData
 
 
-extension Notification.Name {
-    static let didUpdateStateForUser = Notification.Name("didReceiveChallenges")
+protocol FriendsDataManagerListener: NSObject {
+    func didUpdateFriendshipState(to state: FriendStatus)
 }
-
 
 final class FriendsDataManager {
     static var shared = FriendsDataManager()
@@ -23,6 +22,28 @@ final class FriendsDataManager {
     private init() {
         allUsers = []
         friends = []
+    }
+    
+    var changeListeners: [UserViewModel: [FriendsDataManagerListener]] = [:]
+    
+    func registerChangeListener(for viewModel: UserViewModel, listener: FriendsDataManagerListener) {
+        if changeListeners[viewModel] != nil {
+            changeListeners[viewModel]!.append(listener)
+        } else {
+            changeListeners[viewModel] = [listener]
+        }
+    }
+    
+    func deregisterChangeListener(listener: FriendsDataManagerListener) {
+        let listenersWithListener = changeListeners.filter({ $0.value.contains(where: { $0 == listener }) })
+        
+        for keyValuePair in listenersWithListener {
+            if keyValuePair.value.count == 1 {
+                changeListeners.removeValue(forKey: keyValuePair.key)
+            } else {
+                changeListeners[keyValuePair.key]?.removeAll(where: { $0 == listener })
+            }
+        }
     }
     
     func loadDataFromStorage() {
@@ -54,13 +75,21 @@ final class FriendsDataManager {
         }
     }
     
+    func getStateForUser(_ viewModel: UserViewModel) -> FriendStatus {
+        if let userModel = allUsers.first(where: { $0.nickname == viewModel.nickname }) {
+            return FriendStatus(rawValue: userModel.friendStatus!)!
+        } else {
+            return .none
+        }
+    }
+    
     func updateFriendStatus(friend: UserViewModel, newStatus: FriendStatus) {
         if let index = allUsers.firstIndex(where: { $0.nickname == friend.nickname }) {
             let friendModel = allUsers[index]
             friendModel.friendStatus = newStatus.rawValue
             allUsers[index] = friendModel
             
-            NotificationCenter.default.post(name: .didUpdateStateForUser, object: friend)
+            changeListeners[friend]?.forEach({ $0.didUpdateFriendshipState(to: newStatus ) })
         }
     }
 }
