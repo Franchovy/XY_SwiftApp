@@ -116,6 +116,7 @@ class HomeViewController: UIViewController {
             }
         }
         
+        NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didLoadNewActiveChallenges), name: .didLoadActiveChallenges, object: nil)
     }
     
@@ -144,7 +145,7 @@ class HomeViewController: UIViewController {
         default: break
         }
         
-        ChallengeDataManager.shared.loadNewActiveChallenge()
+//        ChallengeDataManager.shared.loadNewActiveChallenge()
         
     }
     
@@ -320,6 +321,15 @@ class HomeViewController: UIViewController {
         
         if newNumChallenges > currentNumChallenges {
             self.promptChallengesReceived(numChallenges: newNumChallenges - currentNumChallenges)
+        }
+    }
+    
+    @objc private func onFriendsUpdated() {
+        friendsDataSource.reload()
+        friendsCollectionView.reloadData()
+        
+        if state == .noFriends, friendsCollectionView.numberOfItems(inSection: 0) > 1 {
+            configureEmptyNoChallenges()
         }
     }
 }

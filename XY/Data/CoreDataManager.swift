@@ -10,7 +10,10 @@ import CoreData
 
 class CoreDataManager {
     static let shared = CoreDataManager()
-    private init() {}
+    private init() {
+    }
+    
+    var isSetup = false
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Challenge")
@@ -21,11 +24,21 @@ class CoreDataManager {
     }()
     
     var mainContext: NSManagedObjectContext {
+        if !isSetup {
+            performSetup()
+        }
+        
         return persistentContainer.viewContext
     }
     
     func backgroundContext() -> NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
+    }
+    
+    func performSetup() {
+        isSetup = true
+        
+        persistentContainer.viewContext.mergePolicy = NSMergePolicy(merge: NSMergePolicyType.mergeByPropertyObjectTrumpMergePolicyType)
     }
     
     func deleteEverything() {
