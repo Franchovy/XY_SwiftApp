@@ -67,6 +67,8 @@ class FriendsListCollectionViewCell: UICollectionViewCell, FriendsDataManagerLis
         friendBubble.imageView.image = nil
         nicknameLabel.text = nil
         
+        addFriendButton.prepareForReuse()
+        
         viewModel = nil
         FriendsDataManager.shared.deregisterChangeListener(listener: self)
     }

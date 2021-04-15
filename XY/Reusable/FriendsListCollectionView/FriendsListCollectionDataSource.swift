@@ -9,7 +9,15 @@ import UIKit
 
 class FriendsListCollectionDataSource: NSObject, UICollectionViewDataSource {
     
-    override init() { }
+    override init() {
+        super.init()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onFriendUpdate), name: .friendUpdateNotification, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     var searchString: String?
     
@@ -46,5 +54,9 @@ class FriendsListCollectionDataSource: NSObject, UICollectionViewDataSource {
     
     public func setSearchString(_ searchString: String) {
         self.searchString = searchString
+    }
+    
+    @objc private func onFriendUpdate() {
+        reload()
     }
 }
