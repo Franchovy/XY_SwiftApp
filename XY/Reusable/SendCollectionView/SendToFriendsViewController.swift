@@ -40,6 +40,9 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendTo
         view.addSubview(collectionView)
         view.addSubview(searchBar)
         
+        dataSource.reload()
+        collectionView.reloadData()
+        
         navigationItem.title = "Send Challenge"
     }
     

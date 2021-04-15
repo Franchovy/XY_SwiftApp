@@ -13,11 +13,11 @@ final class SendCollectionViewDataSource : NSObject, UICollectionViewDataSource 
     
     var searchString: String?
     
-    let data = [UserViewModel]()
+    var data = [UserViewModel]()
     
     var filteredData: [UserViewModel] {
         get {
-            if searchString == nil, searchString == "" {
+            if searchString == nil || searchString == "" {
                 return data
             } else {
                 return data.filter({$0.nickname.lowercased().contains(searchString!.lowercased())})
@@ -26,6 +26,10 @@ final class SendCollectionViewDataSource : NSObject, UICollectionViewDataSource 
     }
     
     weak var delegate: SendToFriendCellDelegate?
+    
+    func reload() {
+        data = FriendsDataManager.shared.friends.map({ $0.toViewModel() })
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
