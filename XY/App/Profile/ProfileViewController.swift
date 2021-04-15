@@ -95,7 +95,7 @@ class ProfileViewController: UIViewController, FriendsDataManagerListener {
         friendsLabelView.sizeToFit()
         friendsLabelView.frame = CGRect(
             x: profileBubble.left + 5 - friendsLabelView.width/2,
-            y: profileBubble.bottom + 45,
+            y: profileBubble.bottom + 60,
             width: friendsLabelView.width,
             height: friendsLabelView.height
         )
@@ -103,7 +103,7 @@ class ProfileViewController: UIViewController, FriendsDataManagerListener {
         challengeLabelView.sizeToFit()
         challengeLabelView.frame = CGRect(
             x: profileBubble.right - 5 - challengeLabelView.width/2,
-            y: profileBubble.bottom + 45,
+            y: profileBubble.bottom + 60,
             width: challengeLabelView.width,
             height: challengeLabelView.height
         )

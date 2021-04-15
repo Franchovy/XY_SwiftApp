@@ -8,7 +8,7 @@
 import UIKit
 
 class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
-
+    
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -26,10 +26,16 @@ class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
         
         showsHorizontalScrollIndicator = false
         alwaysBounceHorizontal = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -46,5 +52,13 @@ class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
             
             NavigationControlManager.presentProfileViewController(with: viewModel)
         }
+    }
+    
+    @objc private func onFriendsUpdated() {
+        guard let dataSource = dataSource as? FriendsDataSource else {
+            return
+        }
+        dataSource.reload()
+        reloadData()
     }
 }

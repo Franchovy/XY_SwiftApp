@@ -8,6 +8,10 @@
 import UIKit
 import CoreData
 
+extension NSNotification.Name {
+    static let friendUpdateNotification = Notification.Name("friendUpdateNotification")
+}
+
 final class WeakReferenceListener {
     init(_ listener: FriendsDataManagerListener) {
         reference = listener
@@ -24,11 +28,14 @@ final class FriendsDataManager {
     static var shared = FriendsDataManager()
     
     var allUsers: [UserDataModel]
-    var friends: [UserDataModel]
+    var friends: [UserDataModel] {
+        get {
+            allUsers.filter({ $0.friendStatus == FriendStatus.friend.rawValue })
+        }
+    }
     
     private init() {
         allUsers = []
-        friends = []
     }
     
     var changeListeners: [UserDataModel: [WeakReferenceListener]] = [:]
@@ -115,7 +122,9 @@ final class FriendsDataManager {
             
             user.friendStatus = newStatus.rawValue
             
+            // Update listeners
             changeListeners[user]?.forEach({ $0.reference?.didUpdateFriendshipState(to: newStatus ) })
+            NotificationCenter.default.post(name: .friendUpdateNotification, object: nil)
             
             #if DEBUG
             
