@@ -9,11 +9,11 @@ import UIKit
 
 class FriendsDataSource: NSObject, UICollectionViewDataSource {
     
-    var data: [FriendBubbleViewModel]
+    var data: [UserViewModel]
     var showEditProfile: Bool = false
     
-    init(fromList list: [SendCollectionViewCellViewModel]) {
-        data = list.map({ FriendBubbleViewModel.init(image: $0.profileImage, nickname: $0.nickname) })
+    init(fromList list: [UserViewModel]) {
+        data = list
         showEditProfile = false
         
         super.init()
@@ -25,7 +25,7 @@ class FriendsDataSource: NSObject, UICollectionViewDataSource {
     }
     
     func reload() {
-        data = FriendsDataManager.shared.friends.map({ $0.toBubble() })
+        data = FriendsDataManager.shared.friends.map({ $0.toViewModel() })
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -13,7 +13,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
     private let friendBubble = FriendBubble()
     private let nicknameLabel = Label(style: .body)
     
-    var viewModel: FriendBubbleViewModel?
+    var viewModel: UserViewModel?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,10 +42,10 @@ class FriendCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    public func configure(with viewModel: FriendBubbleViewModel) {
+    public func configure(with viewModel: UserViewModel) {
         self.viewModel = viewModel
         
-        friendBubble.setImage(viewModel.image)
+        friendBubble.configure(with: viewModel)
         nicknameLabel.text = viewModel.nickname
     }
     

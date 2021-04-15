@@ -23,6 +23,7 @@ class FriendsListCollectionView: UICollectionView, UICollectionViewDelegate {
         
         delegate = self
         register(FriendsListCollectionViewCell.self, forCellWithReuseIdentifier: FriendsListCollectionViewCell.identifier)
+        
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +35,7 @@ class FriendsListCollectionView: UICollectionView, UICollectionViewDelegate {
         guard let item = collectionView.cellForItem(at: indexPath) as? FriendsListCollectionViewCell, let viewModel = item.viewModel else {
             return
         }
-        NavigationControlManager.presentProfileViewController(with: FriendsDataManager.shared.profileFrom(viewModel)!)
+        
+        NavigationControlManager.presentProfileViewController(with: viewModel)
     }
 }

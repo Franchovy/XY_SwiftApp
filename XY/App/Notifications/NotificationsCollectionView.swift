@@ -38,7 +38,7 @@ class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate, N
         }
         
         let vc = ProfileViewController()
-        vc.configure(with: ProfileViewModel.randomProfileViewModel(basedOn: (viewModel.nickname, viewModel.profileImage)))
+        vc.configure(with: viewModel.user)
         
         HapticsManager.shared.vibrateImpact(for: .light)
         NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)

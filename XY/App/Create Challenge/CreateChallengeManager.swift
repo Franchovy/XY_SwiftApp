@@ -18,7 +18,7 @@ final class CreateChallengeManager {
     var previewImage: UIImage?
     var previewTimestamp: Double = 1.0
     
-    var friendsToChallengeList: [FriendBubbleViewModel]?
+    var friendsToChallengeList: [UserViewModel]?
     
     var acceptedChallenge: ChallengeCardViewModel?
     
@@ -75,7 +75,7 @@ final class CreateChallengeManager {
             timeLeftText: nil,
             isReceived: false,
             friendBubbles: friendsToChallengeList,
-            senderProfile: FriendBubbleViewModel.generateFakeData().randomElement()
+            senderProfile: ProfileDataManager.ownProfile
         )
     }
 }

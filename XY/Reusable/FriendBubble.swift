@@ -42,8 +42,7 @@ class FriendBubble: UIView {
         imageView.layer.cornerRadius = height/2
     }
     
-    public func setImage(_ image: UIImage) {
-        imageView.image = image
+    public func configure(with viewModel: UserViewModel) {
+        imageView.image = viewModel.profileImage
     }
-
 }

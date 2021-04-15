@@ -13,8 +13,8 @@ class FriendsListCollectionDataSource: NSObject, UICollectionViewDataSource {
     
     var searchString: String?
     
-    var data: [FriendListViewModel] = []
-    var filteredData:[FriendListViewModel] {
+    var data: [UserViewModel] = []
+    var filteredData:[UserViewModel] {
         get {
             if let searchString = searchString {
                 if searchString == "" {
@@ -29,7 +29,7 @@ class FriendsListCollectionDataSource: NSObject, UICollectionViewDataSource {
     }
     
     func reload() {
-        data = FriendsDataManager.shared.allUsers.map({ $0.toFriendListViewModel() })
+        data = FriendsDataManager.shared.allUsers.map({ $0.toViewModel() })
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

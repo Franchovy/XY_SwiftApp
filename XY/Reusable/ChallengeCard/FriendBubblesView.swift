@@ -10,7 +10,7 @@ import UIKit
 class FriendBubblesView: UIView {
 
     var friendBubbles: [FriendBubble] = []
-    var viewModels: [FriendBubbleViewModel] = []
+    var viewModels: [UserViewModel] = []
     
     var numMoreLabel: Label?
     var fromLabel: Label?
@@ -88,7 +88,7 @@ class FriendBubblesView: UIView {
         fromLabel = nil
     }
     
-    public func configure(with viewModels: [FriendBubbleViewModel], numMore: Int = 0, displayReceived: Bool = false) {
+    public func configure(with viewModels: [UserViewModel], numMore: Int = 0, displayReceived: Bool = false) {
         var numMore = numMore
         var viewModels = viewModels
         
@@ -101,7 +101,7 @@ class FriendBubblesView: UIView {
         
         friendBubbles = viewModels.map({ viewModel in
             let friendBubble = FriendBubble()
-            friendBubble.setImage(viewModel.image)
+            friendBubble.configure(with: viewModel)
             addSubview(friendBubble)
             return friendBubble
         })

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, AddFriendButtonDelegate {
+class ProfileViewController: UIViewController {
     
     private let profileBubble = FriendBubble()
     private let friendButton = AddFriendButton()
@@ -19,7 +19,7 @@ class ProfileViewController: UIViewController, AddFriendButtonDelegate {
     private let startChallengeNameLabel = Label(style: .nickname, fontSize: 15)
     private let challengeButton = GradientBorderButtonWithShadow()
     
-    private var viewModel: ProfileViewModel?
+    private var viewModel: UserViewModel?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -54,8 +54,6 @@ class ProfileViewController: UIViewController, AddFriendButtonDelegate {
         challengeButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
         
         challengeButton.addTarget(self, action: #selector(didTapChallengeButton), for: .touchUpInside)
-        
-        friendButton.delegate = self
         
         friendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         friendButton.topAnchor.constraint(equalTo: profileBubble.bottomAnchor, constant: 15).isActive = true
@@ -136,7 +134,7 @@ class ProfileViewController: UIViewController, AddFriendButtonDelegate {
         )
     }
     
-    public func configure(with viewModel: ProfileViewModel) {
+    public func configure(with viewModel: UserViewModel) {
         self.viewModel = viewModel
         
         navigationItem.title = viewModel.nickname
@@ -178,10 +176,8 @@ class ProfileViewController: UIViewController, AddFriendButtonDelegate {
             NavigationControlManager.displayPrompt(prompt)
         }
         
-        profileBubble.setImage(viewModel.profileImage ?? UIImage(named: "defaultProfileImage")!)
-        
-        friendButton.configure(for: viewModel.friendStatus)
-        
+        profileBubble.configure(with: viewModel)
+        friendButton.configure(with: viewModel)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -194,13 +190,6 @@ class ProfileViewController: UIViewController, AddFriendButtonDelegate {
         let vc = CreateChallengeViewController()
         
         NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    func didPressButtonForMode(mode: AddFriendButton.Mode) {
-        guard let viewModel = viewModel else {
-            return
-        }
-        FriendsDataManager.shared.updateFriendStatus(friend: viewModel, newStatus: mode)
     }
     
 }

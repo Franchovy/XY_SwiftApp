@@ -28,13 +28,6 @@ final class NotificationsDataSource: NSObject, UICollectionViewDataSource {
             
             notifications.append(
                 NotificationViewModel(
-                    nickname: ["friend", "Beatrice Migliasso", "Fil", "other guy", "lady"][Int.random(in: 0...4)],
-                    profileImage: [
-                        UIImage(named: "friend1")!,
-                        UIImage(named: "friend2")!,
-                        UIImage(named: "friend3")!,
-                        UIImage(named: "friend4")!,
-                        UIImage(named: "friend5")!][Int.random(in: 0...4)] ,
                     notificationText: ["Added you.", "Challenged you!", "Completed your challenge.", "Declined your challenge."][challengeStatusRandInt],
                     timestampText:
                         Int.random(in: 0...1) == 1 ?
@@ -42,11 +35,12 @@ final class NotificationsDataSource: NSObject, UICollectionViewDataSource {
                             : "\(Int.random(in: 0...23))h",
                     type:
                         [
-                            NotificationType.friendStatus(buttonStatus: Int.random(in: 0...1) == 1 ? AddFriendButton.Mode.addBack : AddFriendButton.Mode.friend),
+                            NotificationType.friendStatus(buttonStatus: Int.random(in: 0...1) == 1 ? FriendStatus.addedMe : FriendStatus.friend),
                             NotificationType.challengeAction(image: challengeImage),
                             NotificationType.challengeStatus(image: challengeImage, status: true),
                             NotificationType.challengeStatus(image: challengeImage, status: false)
-                        ][challengeStatusRandInt]
+                        ][challengeStatusRandInt],
+                    user: FriendsDataManager.shared.allUsers.randomElement()!.toViewModel()
                 )
             )
         }

@@ -10,13 +10,12 @@ import UIKit
 enum NotificationType {
     case challengeAction(image: UIImage)
     case challengeStatus(image: UIImage, status: Bool)
-    case friendStatus(buttonStatus: AddFriendButton.Mode)
+    case friendStatus(buttonStatus: FriendStatus)
 }
 
 struct NotificationViewModel {
-    var nickname: String
-    var profileImage: UIImage
     var notificationText: String
     var timestampText: String
     var type: NotificationType
+    var user: UserViewModel
 }

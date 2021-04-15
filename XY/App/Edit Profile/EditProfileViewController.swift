@@ -84,7 +84,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     private func configure() {
-        let viewModel = ProfileDataManager.ownViewModel
+        let viewModel = ProfileDataManager.ownProfile
         
         nicknameTextField.text = viewModel.nickname
         nicknameTextField.sizeToFit()
@@ -176,9 +176,9 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     @objc private func tappedAnywhere() {
         if let text = nicknameTextField.text, text != "" {
-            ProfileDataManager.ownViewModel.nickname = text
+            ProfileDataManager.nickname = text
         } else {
-            nicknameTextField.text = ProfileDataManager.ownViewModel.nickname
+            nicknameTextField.text = ProfileDataManager.nickname
         }
         
         nicknameTextField.resignFirstResponder()

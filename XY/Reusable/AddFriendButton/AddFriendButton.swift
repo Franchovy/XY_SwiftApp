@@ -7,10 +7,6 @@
 
 import UIKit
 
-protocol AddFriendButtonDelegate: NSObject {
-    func didPressButtonForMode(mode: AddFriendButton.Mode)
-}
-
 class AddFriendButton: UIButton {
 
     init() {
@@ -35,29 +31,47 @@ class AddFriendButton: UIButton {
         layer.cornerRadius = height/2
     }
     
-    weak var delegate: AddFriendButtonDelegate?
+    var viewModel: UserViewModel?
+    var status: FriendStatus = .none
     
-    enum Mode {
-        case add
-        case addBack
-        case friend
-        case added
-        case none
-    }
-    var mode: Mode = .none
-    
-    public func configure(for mode: Mode) {
+    public func configure(with viewModel: UserViewModel) {
         isHidden = false
         layer.borderWidth = 0
         
-        self.mode = mode
+        self.viewModel = viewModel
+        self.status = viewModel.friendStatus
         
-        switch mode {
-        case .add:
+        if viewModel.nickname == ProfileDataManager.nickname {
+            isHidden = true
+            return
+        } else {
+            setupButtonForCurrentStatus()
+        }
+    }
+    
+    func changeStateTapped() {
+        switch status {
+        case .none:
+            status = .added
+        case .addedMe:
+            status = .friend
+        case .added:
+            status = .none
+        case .friend:
+            status = .addedMe
+        }
+        
+        setupButtonForCurrentStatus()
+    }
+    
+    func setupButtonForCurrentStatus() {
+        
+        switch status {
+        case .none:
             setTitle("Add", for: .normal)
             setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
             setTitleColor(.white, for: .normal)
-        case .addBack:
+        case .addedMe:
             setTitle("Add back", for: .normal)
             setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
             setTitleColor(.white, for: .normal)
@@ -72,28 +86,9 @@ class AddFriendButton: UIButton {
             setTitleColor(UIColor(named: "XYTint"), for: .normal)
             layer.borderWidth = 1
             layer.borderColor = UIColor(named: "XYTint")!.cgColor
-        case .none:
-            isHidden = true
         }
         
         titleLabel!.sizeToFit()
-    }
-    
-    func changeStateTapped() {
-        switch mode {
-        case .add:
-            mode = .added
-        case .addBack:
-            mode = .friend
-        case .added:
-            mode = .add
-        case .friend:
-            mode = .addBack
-        case .none:
-            break
-        }
-        
-        configure(for: mode)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -101,7 +96,7 @@ class AddFriendButton: UIButton {
         
         layer.borderColor = UIColor(named: "XYTint")!.cgColor
         
-        if mode == .added {
+        if status == .added {
             setTitleColor(UIColor(named: "XYTint"), for: .normal)
         }
     }
@@ -114,7 +109,7 @@ class AddFriendButton: UIButton {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         
-        switch mode {
+        switch status {
         case .added, .friend:
             UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseOut) {
                 self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
@@ -126,7 +121,7 @@ class AddFriendButton: UIButton {
                         self.transform = .identity
                     } completion: { (done) in
                         if done {
-                            self.delegate?.didPressButtonForMode(mode: self.mode)
+                            self.updateFriendDataForButtonPressed()
                         }
                     }
                 }
@@ -144,7 +139,7 @@ class AddFriendButton: UIButton {
                         self.transform = .identity
                     } completion: { (done) in
                         if done {
-                            self.delegate?.didPressButtonForMode(mode: self.mode)
+                            self.updateFriendDataForButtonPressed()
                         }
                     }
 
@@ -153,4 +148,10 @@ class AddFriendButton: UIButton {
         }
     }
     
+    func updateFriendDataForButtonPressed() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        FriendsDataManager.shared.updateFriendStatus(friend: viewModel, newStatus: status)
+    }
 }

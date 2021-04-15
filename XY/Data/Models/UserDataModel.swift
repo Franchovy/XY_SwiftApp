@@ -9,48 +9,14 @@ import UIKit
 import CoreData
 
 extension UserDataModel {
-    func toBubble() -> FriendBubbleViewModel {
-        FriendBubbleViewModel(image: UIImage(data: profileImage!)!, nickname: nickname!)
-    }
     
-    func toFriendListViewModel() -> FriendListViewModel {
-        FriendListViewModel(
+    func toViewModel() -> UserViewModel {
+        UserViewModel(
             profileImage: UIImage(data: profileImage!)!,
             nickname: nickname!,
-            buttonStatus: {
-                switch FriendStatus(rawValue: friendStatus!)! {
-                case .none:
-                    return AddFriendButton.Mode.add
-                case .added:
-                    return AddFriendButton.Mode.added
-                case .addedMe:
-                    return AddFriendButton.Mode.addBack
-                case .friend:
-                    return AddFriendButton.Mode.friend
-                }
-            }()
-        )
-    }
-    
-    func toProfile() -> ProfileViewModel {
-        
-        ProfileViewModel(
-            profileImage: UIImage(data: profileImage!)!,
-            nickname: nickname!,
+            friendStatus: FriendStatus(rawValue: friendStatus!)!,
             numChallenges: Int(numChallenges),
-            numFriends: Int(numFriends),
-            friendStatus: {
-                switch FriendStatus(rawValue: friendStatus!)! {
-                case .none:
-                    return AddFriendButton.Mode.add
-                case .added:
-                    return AddFriendButton.Mode.added
-                case .addedMe:
-                    return AddFriendButton.Mode.addBack
-                case .friend:
-                    return AddFriendButton.Mode.friend
-                }
-            }()
+            numFriends: Int(numFriends)
         )
     }
 }

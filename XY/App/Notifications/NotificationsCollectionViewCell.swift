@@ -17,7 +17,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
     private let nameLabel = Label(style: .nickname, fontSize: 15)
     private let textLabel = Label(style: .body, fontSize: 13)
     private let timestampLabel = Label(style: .bodyBold, fontSize: 12)
-    private let imageView = FriendBubble()
+    private let friendBubble = FriendBubble()
     
     private var followButton: AddFriendButton?
     private var previewImage: ChallengeNotificationImage?
@@ -31,7 +31,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(nameLabel)
         contentView.addSubview(textLabel)
         contentView.addSubview(timestampLabel)
-        contentView.addSubview(imageView)
+        contentView.addSubview(friendBubble)
     }
     
     required init?(coder: NSCoder) {
@@ -41,7 +41,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        imageView.frame = CGRect(
+        friendBubble.frame = CGRect(
             x: 10.25,
             y: 9.71,
             width: 50,
@@ -50,7 +50,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
         
         nameLabel.sizeToFit()
         nameLabel.frame = CGRect(
-            x: imageView.right + 10,
+            x: friendBubble.right + 10,
             y: 10.14,
             width: nameLabel.width,
             height: nameLabel.height
@@ -58,7 +58,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
         
         textLabel.sizeToFit()
         textLabel.frame = CGRect(
-            x: imageView.right + 10,
+            x: friendBubble.right + 10,
             y: nameLabel.bottom + 11.57,
             width: textLabel.width,
             height: textLabel.height
@@ -107,10 +107,10 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
     public func configure(with viewModel: NotificationViewModel) {
         self.viewModel = viewModel
         
-        nameLabel.text = viewModel.nickname
+        nameLabel.text = viewModel.user.nickname
         textLabel.text = viewModel.notificationText
         timestampLabel.text = viewModel.timestampText
-        imageView.setImage(viewModel.profileImage)
+        friendBubble.configure(with: viewModel.user)
         
         switch viewModel.type {
         case .challengeAction(let image):
@@ -130,7 +130,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
             previewImage?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
         case .friendStatus(let status):
             followButton = AddFriendButton()
-            followButton?.configure(for: status)
+            followButton?.configure(with: viewModel.user)
             contentView.addSubview(followButton!)
         }
         

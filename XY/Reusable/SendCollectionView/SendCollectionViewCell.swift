@@ -8,8 +8,8 @@
 import UIKit
 
 protocol SendToFriendCellDelegate: AnyObject {
-    func sendToFriendCell(selectedCellWith viewModel: SendCollectionViewCellViewModel)
-    func sendToFriendCell(deselectedCellWith viewModel: SendCollectionViewCellViewModel)
+    func sendToFriendCell(selectedCellWith viewModel: UserViewModel)
+    func sendToFriendCell(deselectedCellWith viewModel: UserViewModel)
 }
 
 class SendCollectionViewCell: UICollectionViewCell {
@@ -19,7 +19,7 @@ class SendCollectionViewCell: UICollectionViewCell {
     private let nicknameLabel = Label(style: .nickname)
     private let sendButton = SendButton()
     
-    var viewModel: SendCollectionViewCellViewModel?
+    var viewModel: UserViewModel?
     weak var delegate: SendToFriendCellDelegate?
     
     override init(frame: CGRect) {
@@ -70,10 +70,10 @@ class SendCollectionViewCell: UICollectionViewCell {
         nicknameLabel.text = nil
     }
     
-    public func configure(with viewModel: SendCollectionViewCellViewModel) {
+    public func configure(with viewModel: UserViewModel) {
         self.viewModel = viewModel
         
-        friendBubble.setImage(viewModel.profileImage)
+        friendBubble.configure(with: viewModel)
         nicknameLabel.text = viewModel.nickname
     }
     

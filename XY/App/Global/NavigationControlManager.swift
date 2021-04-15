@@ -23,7 +23,7 @@ final class NavigationControlManager {
         mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
     
-    static func presentProfileViewController(with viewModel: ProfileViewModel) {
+    static func presentProfileViewController(with viewModel: UserViewModel) {
         let vc = ProfileViewController()
         vc.configure(with: viewModel)
         

@@ -31,7 +31,7 @@ class AcceptChallengeViewController: UIViewController {
     init(viewModel: ChallengeCardViewModel) {
         super.init(nibName: nil, bundle: nil)
         
-        bubble.setImage(viewModel.senderProfile!.image)
+        bubble.configure(with: viewModel.senderProfile!)
         challengedYouLabel.text = "\(viewModel.senderProfile!.nickname) challenged you to:"
         
         challengeCard.configure(with: viewModel)

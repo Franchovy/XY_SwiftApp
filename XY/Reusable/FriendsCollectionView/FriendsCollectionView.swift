@@ -44,7 +44,7 @@ class FriendsCollectionView: UICollectionView, UICollectionViewDelegate {
                 return
             }
             
-            NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel(basedOn: (viewModel.nickname, viewModel.image)))
+            NavigationControlManager.presentProfileViewController(with: viewModel)
         }
     }
 }

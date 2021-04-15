@@ -80,7 +80,7 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         challengeCard.configure(with: viewModel)
     }
     
-    func sendToFriendDelegate(_ sendToList: [SendCollectionViewCellViewModel]) {
+    func sendToFriendDelegate(_ sendToList: [UserViewModel]) {
         if sendToList.count == 0 {
             navigationItem.rightBarButtonItem?.isEnabled = false
         } else {

@@ -8,7 +8,7 @@
 import UIKit
 
 
-class FriendsListCollectionViewCell: UICollectionViewCell, AddFriendButtonDelegate {
+class FriendsListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "FriendsListCollectionViewCell"
     
@@ -16,7 +16,7 @@ class FriendsListCollectionViewCell: UICollectionViewCell, AddFriendButtonDelega
     private let nicknameLabel = Label(style: .nickname)
     private let addFriendButton = AddFriendButton()
     
-    var viewModel: FriendListViewModel?
+    var viewModel: UserViewModel?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,8 +24,6 @@ class FriendsListCollectionViewCell: UICollectionViewCell, AddFriendButtonDelega
         contentView.addSubview(friendBubble)
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(addFriendButton)
-        
-        addFriendButton.delegate = self
         
         addFriendButton.translatesAutoresizingMaskIntoConstraints = false
         addFriendButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
@@ -64,23 +62,23 @@ class FriendsListCollectionViewCell: UICollectionViewCell, AddFriendButtonDelega
         
         friendBubble.imageView.image = nil
         nicknameLabel.text = nil
-        addFriendButton.configure(for: .none)
         
         viewModel = nil
     }
     
-    public func configure(with viewModel: FriendListViewModel) {
+    public func configure(with viewModel: UserViewModel) {
         self.viewModel = viewModel
         
-        friendBubble.setImage(viewModel.profileImage)
+        friendBubble.configure(with: viewModel)
         nicknameLabel.text = viewModel.nickname
-        addFriendButton.configure(for: viewModel.buttonStatus)
+        addFriendButton.configure(with: viewModel)
     }
     
-    func didPressButtonForMode(mode: AddFriendButton.Mode) {
+    func didPressButtonForMode(mode: FriendStatus) {
         guard let viewModel = viewModel else {
             return
         }
         FriendsDataManager.shared.updateFriendStatus(friend: viewModel, newStatus: mode)
     }
+    
 }

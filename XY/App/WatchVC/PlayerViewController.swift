@@ -102,7 +102,7 @@ class PlayerViewController: UIViewController {
         challengeHeader.appear(withDelay: viewed ? 0.5 : 5.0)
     }
     
-    func configureChallengeCard(with challengeCardViewModel: ChallengeCardViewModel, profileViewModel: FriendBubbleViewModel) {
+    func configureChallengeCard(with challengeCardViewModel: ChallengeCardViewModel, profileViewModel: UserViewModel) {
         challengeHeader.configure(challengeViewModel: challengeCardViewModel)
         challengeFooter.configure(profileViewModel: profileViewModel, challengeViewModel: challengeCardViewModel)
     }

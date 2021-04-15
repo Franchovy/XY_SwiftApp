@@ -57,10 +57,8 @@
 		B9268663261461CA00A306F6 /* FriendsListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9268662261461CA00A306F6 /* FriendsListCollectionViewCell.swift */; };
 		B9268667261461D800A306F6 /* FriendsListCollectionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9268666261461D800A306F6 /* FriendsListCollectionDataSource.swift */; };
 		B926866C2614637900A306F6 /* AddFriendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926866B2614637900A306F6 /* AddFriendButton.swift */; };
-		B9268672261466C100A306F6 /* FriendListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9268671261466C100A306F6 /* FriendListViewModel.swift */; };
 		B926867726148E5600A306F6 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926867626148E5600A306F6 /* EditProfileViewController.swift */; };
 		B926867D26148E6200A306F6 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926867C26148E6200A306F6 /* ProfileViewController.swift */; };
-		B926868526149C7800A306F6 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926868426149C7800A306F6 /* ProfileViewModel.swift */; };
 		B926868A2614A23100A306F6 /* NavigationControlManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92686892614A23100A306F6 /* NavigationControlManager.swift */; };
 		B926868F2614A8DD00A306F6 /* EditPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B926868E2614A8DD00A306F6 /* EditPasswordViewController.swift */; };
 		B92686952614A8FE00A306F6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92686942614A8FE00A306F6 /* SettingsViewController.swift */; };
@@ -120,6 +118,7 @@
 		B95FF4C125A6F0AE00CFCA9E /* FirebaseDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */; };
 		B95FF4FB25A71AD300CFCA9E /* FirebaseUpload.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */; };
 		B95FF51C25A7583B00CFCA9E /* _ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FF51B25A7583B00CFCA9E /* _ProfileViewModel.swift */; };
+		B9665F2726280482009811DE /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9665F2626280482009811DE /* UserViewModel.swift */; };
 		B9683231261DA98300AF1DD1 /* FriendBubblesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */; };
 		B968325A261DBA9D00AF1DD1 /* VideoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9683259261DBA9D00AF1DD1 /* VideoSaver.swift */; };
 		B968F9B525F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */; };
@@ -148,11 +147,9 @@
 		B972A2CA25DD96E2006A0476 /* TypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2C925DD96E2006A0476 /* TypeView.swift */; };
 		B97352E42618675A00183201 /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352E32618675A00183201 /* Button.swift */; };
 		B97352E826186D7200183201 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352E726186D7200183201 /* CameraViewController.swift */; };
-		B97352EE2618729900183201 /* FriendBubbleViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352ED2618729900183201 /* FriendBubbleViewModel.swift */; };
 		B97352F52618AEF500183201 /* SendCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352F42618AEF500183201 /* SendCollectionView.swift */; };
 		B97352F92618AF0B00183201 /* SendCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352F82618AF0B00183201 /* SendCollectionViewDataSource.swift */; };
 		B97352FD2618AF5200183201 /* SendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97352FC2618AF5200183201 /* SendCollectionViewCell.swift */; };
-		B97353012618AF7A00183201 /* SendCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */; };
 		B97353052618B41200183201 /* SendToFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97353042618B41200183201 /* SendToFriendsViewController.swift */; };
 		B973530B2618B8A200183201 /* ChallengeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973530A2618B8A200183201 /* ChallengeCard.swift */; };
 		B97353102618BFD300183201 /* HomeChallengeCardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B973530F2618BFD300183201 /* HomeChallengeCardViewModel.swift */; };
@@ -342,10 +339,8 @@
 		B9268662261461CA00A306F6 /* FriendsListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionViewCell.swift; sourceTree = "<group>"; };
 		B9268666261461D800A306F6 /* FriendsListCollectionDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListCollectionDataSource.swift; sourceTree = "<group>"; };
 		B926866B2614637900A306F6 /* AddFriendButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendButton.swift; sourceTree = "<group>"; };
-		B9268671261466C100A306F6 /* FriendListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewModel.swift; sourceTree = "<group>"; };
 		B926867626148E5600A306F6 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		B926867C26148E6200A306F6 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		B926868426149C7800A306F6 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		B92686892614A23100A306F6 /* NavigationControlManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControlManager.swift; sourceTree = "<group>"; };
 		B926868E2614A8DD00A306F6 /* EditPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPasswordViewController.swift; sourceTree = "<group>"; };
 		B92686942614A8FE00A306F6 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -409,6 +404,7 @@
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
 		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* _ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ProfileViewModel.swift; sourceTree = "<group>"; };
+		B9665F2626280482009811DE /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubblesView.swift; sourceTree = "<group>"; };
 		B9683259261DBA9D00AF1DD1 /* VideoSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSaver.swift; sourceTree = "<group>"; };
 		B968F9B425F91E1A00B7891D /* ChallengePreviewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengePreviewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -437,11 +433,9 @@
 		B972A2C925DD96E2006A0476 /* TypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeView.swift; sourceTree = "<group>"; };
 		B97352E32618675A00183201 /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		B97352E726186D7200183201 /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
-		B97352ED2618729900183201 /* FriendBubbleViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubbleViewModel.swift; sourceTree = "<group>"; };
 		B97352F42618AEF500183201 /* SendCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionView.swift; sourceTree = "<group>"; };
 		B97352F82618AF0B00183201 /* SendCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionViewDataSource.swift; sourceTree = "<group>"; };
 		B97352FC2618AF5200183201 /* SendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionViewCell.swift; sourceTree = "<group>"; };
-		B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
 		B97353042618B41200183201 /* SendToFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendToFriendsViewController.swift; sourceTree = "<group>"; };
 		B973530A2618B8A200183201 /* ChallengeCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeCard.swift; sourceTree = "<group>"; };
 		B973530F2618BFD300183201 /* HomeChallengeCardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeChallengeCardViewModel.swift; sourceTree = "<group>"; };
@@ -760,7 +754,6 @@
 				B926865E261461A400A306F6 /* FriendsListCollectionView.swift */,
 				B9268662261461CA00A306F6 /* FriendsListCollectionViewCell.swift */,
 				B9268666261461D800A306F6 /* FriendsListCollectionDataSource.swift */,
-				B9268671261466C100A306F6 /* FriendListViewModel.swift */,
 			);
 			path = FriendsListCollectionView;
 			sourceTree = "<group>";
@@ -777,7 +770,6 @@
 			isa = PBXGroup;
 			children = (
 				B926867C26148E6200A306F6 /* ProfileViewController.swift */,
-				B926868426149C7800A306F6 /* ProfileViewModel.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -967,6 +959,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		B9665F2526280475009811DE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B9665F2626280482009811DE /* UserViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		B96B7F1626132FA000B1CBF5 /* Home */ = {
 			isa = PBXGroup;
 			children = (
@@ -1005,7 +1005,6 @@
 				B96B7F1C2613307300B1CBF5 /* FriendsCollectionView.swift */,
 				B92686442613925800A306F6 /* FriendsDataSource.swift */,
 				B9268648261392A100A306F6 /* FriendCollectionViewCell.swift */,
-				B97352ED2618729900183201 /* FriendBubbleViewModel.swift */,
 			);
 			path = FriendsCollectionView;
 			sourceTree = "<group>";
@@ -1057,7 +1056,6 @@
 				B97352F42618AEF500183201 /* SendCollectionView.swift */,
 				B97352F82618AF0B00183201 /* SendCollectionViewDataSource.swift */,
 				B97352FC2618AF5200183201 /* SendCollectionViewCell.swift */,
-				B97353002618AF7A00183201 /* SendCollectionViewCellViewModel.swift */,
 				B97353042618B41200183201 /* SendToFriendsViewController.swift */,
 				B901BA2E2618CF700088193E /* SendButton.swift */,
 			);
@@ -1365,6 +1363,7 @@
 		B9CFB7D22624909000754552 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				B9665F2526280475009811DE /* ViewModels */,
 				B979AB0626258F920079C4E8 /* Models */,
 				B9CFB7D3262490A300754552 /* ProfileDataManager.swift */,
 				B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */,
@@ -1686,8 +1685,8 @@
 				B9781DC025DE6B3600A2FE2D /* ProfileCollectionViewController.swift in Sources */,
 				B9B92DD425644A3F005D9B86 /* AppDelegate.swift in Sources */,
 				B93D7BF525F41A7E005CE74D /* _WatchViewController.swift in Sources */,
-				B97352EE2618729900183201 /* FriendBubbleViewModel.swift in Sources */,
 				B9B92DF225644F9B005D9B86 /* SignupViewController.swift in Sources */,
+				B9665F2726280482009811DE /* UserViewModel.swift in Sources */,
 				B90C163825BB0ADA003811B2 /* TabBarViewController.swift in Sources */,
 				B9FEFF8D2604A5FF00313BA1 /* TextFieldCard.swift in Sources */,
 				B90EBA4225DFEA5B005DE0A0 /* PostViewModelBuilder.swift in Sources */,
@@ -1716,7 +1715,6 @@
 				B99020C425ED3817004AC25C /* AuthChoiceViewController.swift in Sources */,
 				B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
-				B9268672261466C100A306F6 /* FriendListViewModel.swift in Sources */,
 				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
 				B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
@@ -1742,7 +1740,6 @@
 				B9781DB825DE699300A2FE2D /* NewProfileViewController.swift in Sources */,
 				B990917625B759010047526B /* FirebaseFunctions.swift in Sources */,
 				B9ABAA9A25F78859009CB966 /* ChallengeVideoViewModel.swift in Sources */,
-				B97353012618AF7A00183201 /* SendCollectionViewCellViewModel.swift in Sources */,
 				B9DFBA6325B7495D0084E79D /* _Notification.swift in Sources */,
 				B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */,
 				B979AAFF26258E570079C4E8 /* ChallengeDataManager.swift in Sources */,
@@ -1877,7 +1874,6 @@
 				B9B302AA2614AE1000D14FC0 /* EditNicknameTextField.swift in Sources */,
 				B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */,
 				B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */,
-				B926868526149C7800A306F6 /* ProfileViewModel.swift in Sources */,
 				B979AB0A26258FF50079C4E8 /* UserDataModel.swift in Sources */,
 				B938490B2623604C00887291 /* RejectedChallengeViewController.swift in Sources */,
 				B94680D126010EEB001BDC3F /* PostFirestoreManager.swift in Sources */,

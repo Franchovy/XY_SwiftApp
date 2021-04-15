@@ -11,11 +11,18 @@ final class ProfileDataManager {
     static var shared = ProfileDataManager()
     private init() { }
     
-    static var ownViewModel = ProfileViewModel(
-        profileImage: UIImage(named: "friend0"),
-        nickname: "my_nickname",
-        numChallenges: 23,
-        numFriends: 111,
-        friendStatus: .none
-    )
+    static var profileImage: UIImage? = UIImage(named: "friend0")
+    static var nickname: String = "my_nickname"
+    
+    static var ownProfile: UserViewModel {
+        get {
+            UserViewModel(
+                profileImage: profileImage ?? UIImage(named: "friend0")!,
+                nickname: nickname,
+                friendStatus: .none,
+                numChallenges: 12,
+                numFriends: 69
+            )
+        }
+    }
 }

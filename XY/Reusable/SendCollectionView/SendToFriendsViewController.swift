@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SendToFriendsViewControllerDelegate: AnyObject {
-    func sendToFriendDelegate(_ sendToList: [SendCollectionViewCellViewModel])
+    func sendToFriendDelegate(_ sendToList: [UserViewModel])
 }
 
 class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendToFriendCellDelegate {
@@ -17,7 +17,7 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendTo
     private let collectionView = SendCollectionView()
     private let dataSource = SendCollectionViewDataSource()
     
-    var selectedFriendsToSend = [SendCollectionViewCellViewModel]()
+    var selectedFriendsToSend = [UserViewModel]()
     weak var delegate: SendToFriendsViewControllerDelegate?
     
     init() {
@@ -72,14 +72,14 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendTo
         collectionView.reloadData()
     }
     
-    func sendToFriendCell(selectedCellWith viewModel: SendCollectionViewCellViewModel) {
+    func sendToFriendCell(selectedCellWith viewModel: UserViewModel) {
         selectedFriendsToSend.append(viewModel)
         
         delegate?.sendToFriendDelegate(selectedFriendsToSend)
     }
     
-    func sendToFriendCell(deselectedCellWith viewModel: SendCollectionViewCellViewModel) {
-        selectedFriendsToSend.removeAll(where: {$0 == viewModel})
+    func sendToFriendCell(deselectedCellWith viewModel: UserViewModel) {
+        selectedFriendsToSend.removeAll(where: {$0.nickname == viewModel.nickname})
         
         delegate?.sendToFriendDelegate(selectedFriendsToSend)
     }

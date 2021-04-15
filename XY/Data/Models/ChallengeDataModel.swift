@@ -38,7 +38,7 @@ extension ChallengeDataModel {
             timeLeftText: "\(expiryTimestamp!.hoursFromNow())H",
             isReceived: true,
             friendBubbles: nil,
-            senderProfile: FriendBubbleViewModel.generateFakeData().first
+            senderProfile: fromUser?.toViewModel()
         )
     }
 }

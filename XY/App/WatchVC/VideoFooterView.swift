@@ -104,8 +104,8 @@ class VideoFooterView: UIView {
         frame.size.width = 375
     }
     
-    func configure(profileViewModel: FriendBubbleViewModel, challengeViewModel: ChallengeCardViewModel) {
-        profileBubble.setImage(profileViewModel.image)
+    func configure(profileViewModel: UserViewModel, challengeViewModel: ChallengeCardViewModel) {
+        profileBubble.configure(with: profileViewModel)
         challengedYouLabel.text = "\(profileViewModel.nickname) challenged you to:"
         challengeDescriptionLabel.text = challengeViewModel.description
     }
