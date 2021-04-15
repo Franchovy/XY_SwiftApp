@@ -37,7 +37,7 @@ final class ChallengeDataManager {
     func updateChallengeState(challengeViewModel: ChallengeCardViewModel, newState: ChallengeCompletionState) {
         print("Updated challenge \"\(challengeViewModel.title)\" state: \(newState)")
         if let index = activeChallenges.firstIndex(where: { $0.title == challengeViewModel.title }) {
-            var challenge = activeChallenges[index]
+            let challenge = activeChallenges[index]
             challenge.completionState = newState
             activeChallenges[index] = challenge
         }

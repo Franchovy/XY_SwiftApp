@@ -56,9 +56,9 @@ final class FriendsDataManager {
     
     func updateFriendStatus(friend: UserViewModel, newStatus: FriendStatus) {
         if let index = allUsers.firstIndex(where: { $0.nickname == friend.nickname }) {
-            var friend = allUsers[index]
-            friend.friendStatus = newStatus.rawValue
-            allUsers[index] = friend
+            let friendModel = allUsers[index]
+            friendModel.friendStatus = newStatus.rawValue
+            allUsers[index] = friendModel
             
             NotificationCenter.default.post(name: .didUpdateStateForUser, object: friend)
         }
