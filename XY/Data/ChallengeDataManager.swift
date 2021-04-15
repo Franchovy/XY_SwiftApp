@@ -24,6 +24,21 @@ final class ChallengeDataManager {
         activeChallenges = []
     }
     
+    func saveVideoForChallenge(temporaryURL: URL) -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let homeDirectory = paths[0]
+        
+        var fileURL = homeDirectory.appendingPathComponent(UUID().uuidString)
+        fileURL.appendPathExtension("mov")
+
+        let urlData = NSData(contentsOf: temporaryURL)
+        if urlData!.write(to: fileURL, atomically: true) {
+            return fileURL
+        } else {
+            fatalError()
+        }
+    }
+    
     func sendNewChallenge(challengeCard: ChallengeCardViewModel, to friendsList: [UserViewModel], completion: @escaping(() -> Void)) {
         let entity = ChallengeDataModel.entity()
         let context = CoreDataManager.shared.mainContext
@@ -33,7 +48,7 @@ final class ChallengeDataManager {
         newChallenge.challengeDescription = challengeCard.description
         newChallenge.completionStateValue = ChallengeCompletionState.sent.rawValue
         newChallenge.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
-        newChallenge.fileUrl = CreateChallengeManager.shared.videoUrl
+        newChallenge.fileUrl = saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!) 
         newChallenge.fromUser = ProfileDataManager.shared.ownProfileModel
         newChallenge.previewImage = challengeCard.image.pngData()
         
