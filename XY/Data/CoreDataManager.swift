@@ -11,6 +11,7 @@ import CoreData
 class CoreDataManager {
     static let shared = CoreDataManager()
     private init() {
+        
     }
     
     var isSetup = false
@@ -33,6 +34,30 @@ class CoreDataManager {
     
     func backgroundContext() -> NSManagedObjectContext {
         return persistentContainer.newBackgroundContext()
+    }
+    
+    func performOnBackgroundThreadAndSave(block: @escaping((NSManagedObjectContext) -> Void), completion: @escaping(() -> Void)) {
+        let context = backgroundContext()
+        context.perform {
+            block(context)
+            
+            do {
+                try context.save()
+            } catch let error {
+                fatalError(error.localizedDescription)
+            }
+            
+            completion()
+        }
+    }
+    
+    @objc func save() {
+        do {
+            try persistentContainer.viewContext.save()
+        } catch let error {
+            
+            fatalError(error.localizedDescription)
+        }
     }
     
     func performSetup() {

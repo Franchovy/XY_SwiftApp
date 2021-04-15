@@ -8,6 +8,7 @@
         <attribute name="previewImage" attributeType="Binary"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="fromUser" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataModel"/>
+        <relationship name="sentTo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserDataModel"/>
     </entity>
     <entity name="UserDataModel" representedClassName=".UserDataModel" syncable="YES" codeGenerationType="class">
         <attribute name="friendStatus" attributeType="String"/>
@@ -17,7 +18,7 @@
         <attribute name="profileImage" optional="YES" attributeType="Binary"/>
     </entity>
     <elements>
-        <element name="ChallengeDataModel" positionX="-63" positionY="-18" width="128" height="148"/>
+        <element name="ChallengeDataModel" positionX="-63" positionY="-18" width="128" height="163"/>
         <element name="UserDataModel" positionX="-54" positionY="-9" width="128" height="118"/>
     </elements>
 </model>

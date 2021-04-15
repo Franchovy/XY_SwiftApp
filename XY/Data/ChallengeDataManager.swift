@@ -40,31 +40,57 @@ final class ChallengeDataManager {
     }
     
     func sendNewChallenge(challengeCard: ChallengeCardViewModel, to friendsList: [UserViewModel], completion: @escaping(() -> Void)) {
-        let entity = ChallengeDataModel.entity()
         let context = CoreDataManager.shared.mainContext
+        let entity = ChallengeDataModel.entity()
         let newChallenge = ChallengeDataModel(entity: entity, insertInto: context)
         
         newChallenge.title = challengeCard.title
         newChallenge.challengeDescription = challengeCard.description
         newChallenge.completionStateValue = ChallengeCompletionState.sent.rawValue
         newChallenge.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
-        newChallenge.fileUrl = saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!) 
+        newChallenge.fileUrl = self.saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!)
         newChallenge.fromUser = ProfileDataManager.shared.ownProfileModel
         newChallenge.previewImage = challengeCard.image.pngData()
         
-        do {
-            try context.save()
-        } catch let error {
-            print("Error creating new challenge: \(error)")
-        }
+        let friendModels = friendsList.map({ FriendsDataManager.shared.getDataModel(for: $0)! })
+        friendModels.forEach({ friendModel in
+            context.insert(friendModel)
+            newChallenge.addToSentTo(friendModel)
+        })
         
-        activeChallenges.append(newChallenge)
+        try? context.save()
+        
+        self.activeChallenges.append(newChallenge)
         NotificationCenter.default.post(Notification(name: .didLoadActiveChallenges))
+    
+        completion()
+    }
+    
+    #if DEBUG
+    
+    func testLoadChallenge() {
+        let mainContext = CoreDataManager.shared.mainContext
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            completion()
+        let fetchRequest: NSFetchRequest<ChallengeDataModel> = ChallengeDataModel.fetchRequest()
+        do {
+            let results = try mainContext.fetch(fetchRequest)
+            
+            results.forEach({
+                                if let sentTo = $0.sentTo {
+                                    assert(sentTo.count == 0)
+                                }
+                
+            }
+            )
+            
+//            NotificationCenter.default.post(name: .didLoadActiveChallenges, object: nil)
+        }
+        catch {
+            debugPrint(error)
         }
     }
+    
+    #endif
     
     func loadNewActiveChallenge() {
         if Int.random(in: 0...3) == 3 {
@@ -84,14 +110,6 @@ final class ChallengeDataManager {
             activeChallenges[index] = challenge
         }
         assert(activeChallenges.first(where: { $0.title == challengeViewModel.title })!.completionState == newState)
-    }
-    
-    func savePersistent() {
-        do {
-            try CoreDataManager.shared.mainContext.save()
-        } catch let error {
-            print("Error saving context: \(error)")
-        }
     }
     
     func loadChallengesFromStorage() {

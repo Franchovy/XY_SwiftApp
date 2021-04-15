@@ -47,9 +47,7 @@ class ChallengeCard: UIView {
         previewImage.frame = bounds
         
         challengeTitleGradientLabel.sizeToFit()
-        
         let challengeTitleWidth = min(challengeTitleGradientLabel.width, width - 10)
-        
         challengeTitleGradientLabel.frame = CGRect(
             x: (width - challengeTitleWidth)/2,
             y: 17.51,
@@ -106,7 +104,9 @@ class ChallengeCard: UIView {
         }
     }
     
-    public func reset() {
+    public func prepareForReuse() {
+        challengeTitleGradientLabel.prepareForReuse()
+        
         clearTagLabel()
         friendBubbleView.reset()
     }
@@ -114,6 +114,7 @@ class ChallengeCard: UIView {
     public func configure(with viewModel: ChallengeCardViewModel, withoutTag: Bool = false) {
         self.viewModel = viewModel
         
+        print(viewModel.title)
         challengeTitleGradientLabel.text = viewModel.title
         descriptionLabel.text = viewModel.description
         
@@ -130,12 +131,10 @@ class ChallengeCard: UIView {
         
         previewImage.contentMode = .scaleAspectFill
         
-        if let timeLeftText = viewModel.timeLeftText {
-            timeleftLabel.text = timeLeftText
-        }
-        
         if !viewModel.isReceived, let friendBubbles = viewModel.friendBubbles {
             friendBubbleView.configure(with: friendBubbles, displayReceived: viewModel.isReceived)
+        } else if let timeLeftText = viewModel.timeLeftText {
+            timeleftLabel.text = timeLeftText
         }
     }
     

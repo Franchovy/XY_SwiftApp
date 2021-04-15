@@ -34,12 +34,40 @@ extension ChallengeDataModel {
             image: UIImage(data: previewImage!)!,
             title: title!,
             description: challengeDescription!,
-            tag: nil,
+            tag: tagFromChallenge(),
             timeLeftText: "\(expiryTimestamp!.hoursFromNow())H",
-            isReceived: true,
-            friendBubbles: nil,
+            isReceived: !sentByYou(),
+            friendBubbles: getSentToBubbles(),
             senderProfile: fromUser?.toViewModel()
         )
+    }
+    
+    func sentByYou() -> Bool {
+        if let nickname = fromUser!.nickname, nickname == ProfileDataManager.shared.nickname {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func getSentToBubbles() -> [UserViewModel]? {
+        if let sentTo = sentTo, let models = sentTo.allObjects as? [UserDataModel] {
+            return models.map({ $0.toViewModel() })
+        } else {
+            return nil
+        }
+    }
+    
+    func tagFromChallenge() -> ColorLabelViewModel? {
+        if sentByYou() {
+            return ColorLabelViewModel.sentTo
+        } else if expiryTimestamp!.hoursFromNow() < 2 {
+            return ColorLabelViewModel.expiring
+        } else if expiryTimestamp!.hoursFromNow() > 22 {
+            return ColorLabelViewModel.new
+        } else {
+            return nil
+        }
     }
 }
 

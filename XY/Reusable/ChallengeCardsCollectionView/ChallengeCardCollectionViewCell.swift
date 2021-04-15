@@ -42,6 +42,6 @@ class ChallengeCardCollectionViewCell: UICollectionViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        challengeCard.reset()
+        challengeCard.prepareForReuse()
     }
 }

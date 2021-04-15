@@ -49,10 +49,6 @@ class Label: UILabel {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        
-    }
-    
     var enableShadow: Bool = false {
         didSet {
             layer.shadowOpacity = enableShadow ? 1.0 : 0.0
@@ -76,6 +72,10 @@ class Label: UILabel {
         } else {
             self.text = text
         }
+    }
+    
+    public func prepareForReuse() {
+        textImage = nil
     }
     
     override open func draw(_ rect: CGRect) {
