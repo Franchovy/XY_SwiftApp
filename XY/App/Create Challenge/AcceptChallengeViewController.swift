@@ -157,7 +157,7 @@ class AcceptChallengeViewController: UIViewController {
     }
     
     @objc private func recordButtonPressed() {
-        if cameraViewController.state == .prepareToRecord || cameraViewController.state == .uninitialized {
+        if cameraViewController.state == .prepareToRecord {
             cameraViewController.startRecording()
             recordButton.setState(.recording)
         } else {

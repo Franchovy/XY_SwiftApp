@@ -88,10 +88,11 @@ class CreateChallengeViewController: UIViewController {
         prompt.tapEscapable = false
         prompt.setTitle(text: "Create Challenge", isGradient: true)
         prompt.addTextInputField(
-            placeholderText: "What is your challenge called?",
+            placeholderText: "Enter the name of your challenge",
             maxChars: 15,
             numLines: 1,
-            font: UIFont(name: "Raleway-Heavy", size: 15)!
+            font: UIFont(name: "Raleway-Heavy", size: 15)!,
+            limitCharacters: [" "]
         )
         prompt.addTextInputField(
             placeholderText: "Write a description for your challenge",
