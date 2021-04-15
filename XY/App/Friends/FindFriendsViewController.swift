@@ -45,6 +45,10 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
         tappedAnywhereGesture.isEnabled = false
     }
     
+    deinit {
+        
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         HapticsManager.shared.vibrateImpact(for: .soft)

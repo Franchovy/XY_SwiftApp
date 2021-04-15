@@ -25,6 +25,10 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        FriendsDataManager.shared.deregisterChangeListener(listener: self)
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         

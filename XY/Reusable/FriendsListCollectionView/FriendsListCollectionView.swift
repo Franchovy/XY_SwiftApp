@@ -23,13 +23,15 @@ class FriendsListCollectionView: UICollectionView, UICollectionViewDelegate {
         
         delegate = self
         register(FriendsListCollectionViewCell.self, forCellWithReuseIdentifier: FriendsListCollectionViewCell.identifier)
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        
+    }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = collectionView.cellForItem(at: indexPath) as? FriendsListCollectionViewCell, let viewModel = item.viewModel else {

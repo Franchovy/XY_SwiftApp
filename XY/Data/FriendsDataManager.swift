@@ -8,6 +8,13 @@
 import UIKit
 import CoreData
 
+final class WeakReferenceListener {
+    init(_ listener: FriendsDataManagerListener) {
+        reference = listener
+    }
+    
+    weak var reference: FriendsDataManagerListener?
+}
 
 protocol FriendsDataManagerListener: NSObject {
     func didUpdateFriendshipState(to state: FriendStatus)
@@ -24,26 +31,38 @@ final class FriendsDataManager {
         friends = []
     }
     
-    var changeListeners: [UserViewModel: [FriendsDataManagerListener]] = [:]
+    var changeListeners: [UserViewModel: [WeakReferenceListener]] = [:]
     
     func registerChangeListener(for viewModel: UserViewModel, listener: FriendsDataManagerListener) {
         if changeListeners[viewModel] != nil {
-            changeListeners[viewModel]!.append(listener)
+            changeListeners[viewModel]!.append(WeakReferenceListener(listener))
         } else {
-            changeListeners[viewModel] = [listener]
+            changeListeners[viewModel] = [WeakReferenceListener(listener)]
+        }
+    }
+    
+    func clearNilListeners() {
+        for var changeListener in changeListeners {
+            changeListener.value.removeAll(where: {$0.reference == nil})
+            if changeListener.value.count == 0 {
+                changeListeners.removeValue(forKey: changeListener.key)
+            }
         }
     }
     
     func deregisterChangeListener(listener: FriendsDataManagerListener) {
-        let listenersWithListener = changeListeners.filter({ $0.value.contains(where: { $0 == listener }) })
+        
+        let listenersWithListener = changeListeners.filter({ $0.value.contains(where: { $0.reference != nil && $0.reference! == listener }) })
         
         for keyValuePair in listenersWithListener {
             if keyValuePair.value.count == 1 {
                 changeListeners.removeValue(forKey: keyValuePair.key)
             } else {
-                changeListeners[keyValuePair.key]?.removeAll(where: { $0 == listener })
+                changeListeners[keyValuePair.key]?.removeAll(where: { $0.reference != nil && $0.reference! == listener })
             }
         }
+        
+        clearNilListeners()
     }
     
     func loadDataFromStorage() {
@@ -89,7 +108,7 @@ final class FriendsDataManager {
             friendModel.friendStatus = newStatus.rawValue
             allUsers[index] = friendModel
             
-            changeListeners[friend]?.forEach({ $0.didUpdateFriendshipState(to: newStatus ) })
+            changeListeners[friend]?.forEach({ $0.reference?.didUpdateFriendshipState(to: newStatus ) })
         }
     }
 }
