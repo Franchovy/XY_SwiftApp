@@ -31,13 +31,17 @@ final class FriendsDataManager {
         friends = []
     }
     
-    var changeListeners: [UserViewModel: [WeakReferenceListener]] = [:]
+    var changeListeners: [UserDataModel: [WeakReferenceListener]] = [:]
     
     func registerChangeListener(for viewModel: UserViewModel, listener: FriendsDataManagerListener) {
-        if changeListeners[viewModel] != nil {
-            changeListeners[viewModel]!.append(WeakReferenceListener(listener))
+        guard let dataModel = getDataModel(for: viewModel) else {
+            return
+        }
+        
+        if changeListeners[dataModel] != nil {
+            changeListeners[dataModel]!.append(WeakReferenceListener(listener))
         } else {
-            changeListeners[viewModel] = [WeakReferenceListener(listener)]
+            changeListeners[dataModel] = [WeakReferenceListener(listener)]
         }
     }
     
@@ -63,6 +67,10 @@ final class FriendsDataManager {
         }
         
         clearNilListeners()
+    }
+    
+    func getDataModel(for viewModel: UserViewModel) -> UserDataModel? {
+        return allUsers.first(where: { $0.nickname! == viewModel.nickname })
     }
     
     func loadDataFromStorage() {
@@ -103,14 +111,40 @@ final class FriendsDataManager {
     }
     
     func updateFriendStatus(friend: UserViewModel, newStatus: FriendStatus) {
-        if let index = allUsers.firstIndex(where: { $0.nickname == friend.nickname }) {
-            let friendModel = allUsers[index]
-            friendModel.friendStatus = newStatus.rawValue
-            allUsers[index] = friendModel
+        if let user = allUsers.first(where: { $0.nickname == friend.nickname }) {
             
-            changeListeners[friend]?.forEach({ $0.reference?.didUpdateFriendshipState(to: newStatus ) })
+            user.friendStatus = newStatus.rawValue
+            
+            changeListeners[user]?.forEach({ $0.reference?.didUpdateFriendshipState(to: newStatus ) })
+            
+            #if DEBUG
+            
+            if newStatus == .added {
+                Timer.scheduledTimer(timeInterval: TimeInterval.seconds(5), target: self, selector: #selector(fakeFriendAddBack(_:)), userInfo: ["nickname": friend.nickname], repeats: false)
+            }
+            
+            #endif
         }
     }
+    
+    #if DEBUG
+    
+    @objc private func fakeFriendAddBack(_ timer: Timer) {
+        let nickname = (timer.userInfo as! [String: String])["nickname"]
+        
+        guard let user = allUsers.first(where: { $0.nickname == nickname }) else {
+            return
+        }
+        let userViewModel = user.toViewModel()
+        
+        guard userViewModel.friendStatus == .added else {
+            return
+        }
+        
+        updateFriendStatus(friend: userViewModel, newStatus: .friend)
+    }
+    
+    #endif
 }
 
 
