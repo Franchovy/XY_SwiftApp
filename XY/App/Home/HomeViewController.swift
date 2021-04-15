@@ -145,8 +145,6 @@ class HomeViewController: UIViewController {
         default: break
         }
         
-//        ChallengeDataManager.shared.loadNewActiveChallenge()
-        
     }
     
     // MARK: - Layout

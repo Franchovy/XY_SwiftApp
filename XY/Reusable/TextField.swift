@@ -15,6 +15,8 @@ class TextField: UITextView {
     
     let placeholder: String?
     var placeholderActive:Bool
+    
+    var blockedCharacters: [Character]?
 
     init(placeholder: String? = nil, style: Style = .card, maxChars: Int? = nil, numLines: Int? = nil, font: UIFont? = nil) {
         if let maxChars = maxChars {
@@ -94,6 +96,10 @@ class TextField: UITextView {
         case card
     }
     
+    public func disallowCharacters(_ characters: [Character]) {
+        blockedCharacters = characters
+    }
+    
     public func setText(_ text: String) {
         self.text = text
         placeholderActive = false
@@ -122,7 +128,9 @@ class TextField: UITextView {
         }
         
         if let maxChars = maxChars {
-            if text.count > maxChars {
+            if text.count > maxChars ||
+                (blockedCharacters != nil && text.last != nil && blockedCharacters!.contains(text.last!))
+            {
                 text.popLast()
                 reverseBounceAnimation()
                 return

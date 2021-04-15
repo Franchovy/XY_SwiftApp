@@ -260,9 +260,14 @@ class Prompt: UIView, UITextViewDelegate {
         fields.append(label)
     }
     
-    public func addTextInputField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!) {
+    public func addTextInputField(placeholderText: String, maxChars: Int, numLines: Int, font: UIFont = UIFont(name: "Raleway-Medium", size: 16)!, limitCharacters: [Character]? = nil) {
+        
         let textField = TextField(placeholder: placeholderText, style: .card, maxChars: maxChars, numLines: numLines, font: font)
         textField.delegate = self
+        
+        if let limitCharacters = limitCharacters {
+            textField.disallowCharacters(limitCharacters)
+        }
         
         card.addSubview(textField)
         fields.append(textField)

@@ -48,6 +48,8 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
         challengeNameTextField.delegate = self
         challengeDescriptionTextField.delegate = self
         
+        challengeNameTextField.disallowCharacters([" "])
+        
         view.addSubview(challengeNameTextField)
         view.addSubview(challengeDescriptionTextField)
         view.addSubview(challengePreviewImage)
