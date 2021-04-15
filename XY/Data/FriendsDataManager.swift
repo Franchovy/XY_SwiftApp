@@ -59,6 +59,71 @@ final class FriendsDataManager {
             allUsers[index] = friend
         }
     }
+    
+    func updateFriendStatus(friend: UserDataModel, newStatus: FriendStatus) {
+        if let index = allUsers.firstIndex(where: { $0.nickname == friend.nickname }) {
+            var friend = allUsers[index]
+            friend.friendStatus = newStatus.rawValue
+            allUsers[index] = friend
+        }
+    }
+    
+    func updateFriendStatus(friend: FriendListViewModel, newStatus: AddFriendButton.Mode) {
+        let status:FriendStatus =
+            {
+                switch newStatus {
+                case .add:
+                    return .none
+                case .addBack:
+                    return .addedMe
+                case .added:
+                    return .added
+                case .friend:
+                    return .friend
+                case .none:
+                    return .none
+                }
+            }()
+        
+        if let index = allUsers.firstIndex(where: { $0.nickname == friend.nickname }) {
+            var friend = allUsers[index]
+            friend.friendStatus = status.rawValue
+            allUsers[index] = friend
+        }
+    }
+    
+    func updateFriendStatus(friend: ProfileViewModel, newStatus: AddFriendButton.Mode) {
+        let status:FriendStatus =
+            {
+                switch newStatus {
+                case .add:
+                    return .none
+                case .addBack:
+                    return .addedMe
+                case .added:
+                    return .added
+                case .friend:
+                    return .friend
+                case .none:
+                    return .none
+                }
+            }()
+        
+        if let index = allUsers.firstIndex(where: { $0.nickname == friend.nickname }) {
+            var friend = allUsers[index]
+            friend.friendStatus = status.rawValue
+            allUsers[index] = friend
+        }
+    }
+    
+    func profileFrom(_ viewModel: FriendListViewModel) -> ProfileViewModel? {
+        if let index = allUsers.firstIndex(where: { $0.nickname == viewModel.nickname }) {
+            var friend = allUsers[index]
+            return friend.toProfile()
+        } else {
+            return nil
+        }
+    }
 }
 
 

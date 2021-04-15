@@ -29,7 +29,11 @@ class FriendsListCollectionView: UICollectionView, UICollectionViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        NavigationControlManager.presentProfileViewController(with: ProfileViewModel.randomProfileViewModel())
+        guard let item = collectionView.cellForItem(at: indexPath) as? FriendsListCollectionViewCell, let viewModel = item.viewModel else {
+            return
+        }
+        NavigationControlManager.presentProfileViewController(with: FriendsDataManager.shared.profileFrom(viewModel)!)
     }
 }

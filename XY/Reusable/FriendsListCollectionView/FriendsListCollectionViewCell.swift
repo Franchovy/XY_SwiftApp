@@ -7,12 +7,16 @@
 
 import UIKit
 
-class FriendsListCollectionViewCell: UICollectionViewCell {
+
+class FriendsListCollectionViewCell: UICollectionViewCell, AddFriendButtonDelegate {
+    
     static let identifier = "FriendsListCollectionViewCell"
     
     private let friendBubble = FriendBubble()
     private let nicknameLabel = Label(style: .nickname)
     private let addFriendButton = AddFriendButton()
+    
+    var viewModel: FriendListViewModel?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -21,10 +25,12 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(nicknameLabel)
         contentView.addSubview(addFriendButton)
         
-        addFriendButton.translatesAutoresizingMaskIntoConstraints = false
+        addFriendButton.delegate = self
         
+        addFriendButton.translatesAutoresizingMaskIntoConstraints = false
         addFriendButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
         addFriendButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
+        
     }
     
     required init?(coder: NSCoder) {
@@ -51,12 +57,6 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         
         addFriendButton.sizeToFit()
         addFriendButton.layoutIfNeeded()
-//        addFriendButton.frame = CGRect(
-//            x: width - addFriendButton.width - 15,
-//            y: (height - addFriendButton.height)/2,
-//            width: addFriendButton.width,
-//            height: addFriendButton.height
-//        )
     }
     
     override func prepareForReuse() {
@@ -65,11 +65,22 @@ class FriendsListCollectionViewCell: UICollectionViewCell {
         friendBubble.imageView.image = nil
         nicknameLabel.text = nil
         addFriendButton.configure(for: .none)
+        
+        viewModel = nil
     }
     
     public func configure(with viewModel: FriendListViewModel) {
+        self.viewModel = viewModel
+        
         friendBubble.setImage(viewModel.profileImage)
         nicknameLabel.text = viewModel.nickname
         addFriendButton.configure(for: viewModel.buttonStatus)
+    }
+    
+    func didPressButtonForMode(mode: AddFriendButton.Mode) {
+        guard let viewModel = viewModel else {
+            return
+        }
+        FriendsDataManager.shared.updateFriendStatus(friend: viewModel, newStatus: mode)
     }
 }

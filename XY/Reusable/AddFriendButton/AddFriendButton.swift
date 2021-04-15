@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol AddFriendButtonDelegate: NSObject {
+    func didPressButtonForMode(mode: AddFriendButton.Mode)
+}
+
 class AddFriendButton: UIButton {
 
     init() {
@@ -30,6 +34,8 @@ class AddFriendButton: UIButton {
         
         layer.cornerRadius = height/2
     }
+    
+    weak var delegate: AddFriendButtonDelegate?
     
     enum Mode {
         case add
@@ -118,6 +124,10 @@ class AddFriendButton: UIButton {
                     
                     UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseIn) {
                         self.transform = .identity
+                    } completion: { (done) in
+                        if done {
+                            self.delegate?.didPressButtonForMode(mode: self.mode)
+                        }
                     }
                 }
             }
@@ -134,7 +144,7 @@ class AddFriendButton: UIButton {
                         self.transform = .identity
                     } completion: { (done) in
                         if done {
-                            
+                            self.delegate?.didPressButtonForMode(mode: self.mode)
                         }
                     }
 

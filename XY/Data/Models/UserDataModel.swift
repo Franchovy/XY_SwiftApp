@@ -31,6 +31,28 @@ extension UserDataModel {
             }()
         )
     }
+    
+    func toProfile() -> ProfileViewModel {
+        
+        ProfileViewModel(
+            profileImage: UIImage(data: profileImage!)!,
+            nickname: nickname!,
+            numChallenges: Int(numChallenges),
+            numFriends: Int(numFriends),
+            friendStatus: {
+                switch FriendStatus(rawValue: friendStatus!)! {
+                case .none:
+                    return AddFriendButton.Mode.add
+                case .added:
+                    return AddFriendButton.Mode.added
+                case .addedMe:
+                    return AddFriendButton.Mode.addBack
+                case .friend:
+                    return AddFriendButton.Mode.friend
+                }
+            }()
+        )
+    }
 }
 
 enum FriendStatus: String {

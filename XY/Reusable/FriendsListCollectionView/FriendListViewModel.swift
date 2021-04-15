@@ -12,3 +12,4 @@ struct FriendListViewModel {
     var nickname: String
     var buttonStatus: AddFriendButton.Mode
 }
+

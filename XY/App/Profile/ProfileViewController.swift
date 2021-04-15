@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, AddFriendButtonDelegate {
     
     private let profileBubble = FriendBubble()
     private let friendButton = AddFriendButton()
@@ -54,6 +54,11 @@ class ProfileViewController: UIViewController {
         challengeButton.setTitleColor(UIColor(named: "XYTint"), for: .normal)
         
         challengeButton.addTarget(self, action: #selector(didTapChallengeButton), for: .touchUpInside)
+        
+        friendButton.delegate = self
+        
+        friendButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        friendButton.topAnchor.constraint(equalTo: profileBubble.bottomAnchor, constant: 15).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -87,18 +92,10 @@ class ProfileViewController: UIViewController {
             height: profileBubbleSize
         )
         
-        friendButton.sizeToFit()
-        friendButton.frame = CGRect(
-            x: (view.width - friendButton.width)/2,
-            y: profileBubble.bottom + 10.5,
-            width: friendButton.width,
-            height: friendButton.height
-        )
-        
         friendsLabelView.sizeToFit()
         friendsLabelView.frame = CGRect(
             x: profileBubble.left + 5 - friendsLabelView.width/2,
-            y: friendButton.bottom + 10,
+            y: profileBubble.bottom + 45,
             width: friendsLabelView.width,
             height: friendsLabelView.height
         )
@@ -106,7 +103,7 @@ class ProfileViewController: UIViewController {
         challengeLabelView.sizeToFit()
         challengeLabelView.frame = CGRect(
             x: profileBubble.right - 5 - challengeLabelView.width/2,
-            y: friendButton.bottom + 10,
+            y: profileBubble.bottom + 45,
             width: challengeLabelView.width,
             height: challengeLabelView.height
         )
@@ -184,6 +181,7 @@ class ProfileViewController: UIViewController {
         profileBubble.setImage(viewModel.profileImage ?? UIImage(named: "defaultProfileImage")!)
         
         friendButton.configure(for: viewModel.friendStatus)
+        
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -197,4 +195,12 @@ class ProfileViewController: UIViewController {
         
         NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func didPressButtonForMode(mode: AddFriendButton.Mode) {
+        guard let viewModel = viewModel else {
+            return
+        }
+        FriendsDataManager.shared.updateFriendStatus(friend: viewModel, newStatus: mode)
+    }
+    
 }
