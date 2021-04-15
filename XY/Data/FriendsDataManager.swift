@@ -84,6 +84,8 @@ final class FriendsDataManager {
         let mainContext = CoreDataManager.shared.mainContext
         
         let fetchRequest: NSFetchRequest<UserDataModel> = UserDataModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "nickname != %@", ProfileDataManager.shared.nickname)
+        
         do {
             let results = try mainContext.fetch(fetchRequest)
             allUsers = results
