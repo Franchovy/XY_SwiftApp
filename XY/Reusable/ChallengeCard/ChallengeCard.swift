@@ -114,7 +114,6 @@ class ChallengeCard: UIView {
     public func configure(with viewModel: ChallengeCardViewModel, withoutTag: Bool = false) {
         self.viewModel = viewModel
         
-        print(viewModel.title)
         challengeTitleGradientLabel.text = viewModel.title
         descriptionLabel.text = viewModel.description
         
