@@ -189,6 +189,7 @@
 		B979AB0E26259BED0079C4E8 /* FriendsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */; };
 		B97C25E92608073F009EFB06 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C25E82608073F009EFB06 /* GameModel.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
+		B983B325262978DB0073C3DB /* FirebaseStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */; };
 		B98B06D925FAB9F800001986 /* ChallengeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */; };
 		B98B070525FB8E7E00001986 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */; };
 		B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */; };
@@ -239,6 +240,8 @@
 		B9C4225C2620380D008E9315 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C4225B2620380D008E9315 /* PlayerViewController.swift */; };
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
+		B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */; };
+		B9CE82222629754400C1B95B /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE82212629754400C1B95B /* FirestoreManager.swift */; };
 		B9CFB7D4262490A300754552 /* ProfileDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFB7D3262490A300754552 /* ProfileDataManager.swift */; };
 		B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */; };
 		B9D0D5C82607840E00D3F128 /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5C72607840E00D3F128 /* RankingView.swift */; };
@@ -402,7 +405,7 @@
 		B95D07E925A9B09B00D0517B /* ImageDownloaderHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloaderHelper.swift; sourceTree = "<group>"; };
 		B95FF4C025A6F0AE00CFCA9E /* FirebaseDownload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDownload.swift; sourceTree = "<group>"; };
 		B95FF4FA25A71AD300CFCA9E /* FirebaseUpload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUpload.swift; sourceTree = "<group>"; };
-		B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XY_APPTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		B95FF50425A71FB000CFCA9E /* XYTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XYTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B95FF51B25A7583B00CFCA9E /* _ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ProfileViewModel.swift; sourceTree = "<group>"; };
 		B9665F2626280482009811DE /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubblesView.swift; sourceTree = "<group>"; };
@@ -475,6 +478,7 @@
 		B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsDataManager.swift; sourceTree = "<group>"; };
 		B97C25E82608073F009EFB06 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
+		B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageTests.swift; sourceTree = "<group>"; };
 		B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoModel.swift; sourceTree = "<group>"; };
 		B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
 		B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
@@ -528,6 +532,8 @@
 		B9C4225B2620380D008E9315 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
+		B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
+		B9CE82212629754400C1B95B /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		B9CFB7D3262490A300754552 /* ProfileDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataManager.swift; sourceTree = "<group>"; };
 		B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowViewModel.swift; sourceTree = "<group>"; };
 		B9D0D5C72607840E00D3F128 /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
@@ -871,7 +877,8 @@
 			isa = PBXGroup;
 			children = (
 				B93D1BEF2597E9C6009ADBFC /* Info.plist */,
-				B95FF50425A71FB000CFCA9E /* XY_APPTests-Bridging-Header.h */,
+				B95FF50425A71FB000CFCA9E /* XYTests-Bridging-Header.h */,
+				B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */,
 			);
 			path = XYTests;
 			sourceTree = "<group>";
@@ -1360,6 +1367,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		B9CE8227262975C600C1B95B /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */,
+				B9CE82212629754400C1B95B /* FirestoreManager.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		B9CFB7D22624909000754552 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -1369,6 +1385,7 @@
 				B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */,
 				B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */,
 				B94C2F8A2627169B00282207 /* CoreDataManager.swift */,
+				B9CE8227262975C600C1B95B /* Firebase */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1646,6 +1663,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B983B325262978DB0073C3DB /* FirebaseStorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1818,6 +1836,7 @@
 				B9101DE325B9A198001126CC /* FirebaseSubscriptionManager.swift in Sources */,
 				B92686992614A91600A306F6 /* EditEmailViewController.swift in Sources */,
 				B91C553026107065000C2AAD /* UnicornViewController.swift in Sources */,
+				B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */,
 				B9ABA20225E45F930039280B /* CaptionView.swift in Sources */,
 				B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */,
 				B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */,
@@ -1858,6 +1877,7 @@
 				B9ABAA9E25F7974A009CB966 /* ChallengesViewModelBuilder.swift in Sources */,
 				B9E67E7125F441FA004FA873 /* CommentView.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
+				B9CE82222629754400C1B95B /* FirestoreManager.swift in Sources */,
 				B9D0D5CC2607841C00D3F128 /* OnlineNowView.swift in Sources */,
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
 				B901BA332618D5160088193E /* SearchBar.swift in Sources */,
@@ -1923,16 +1943,16 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
-				INFOPLIST_FILE = XY_APPTests/Info.plist;
+				INFOPLIST_FILE = XYTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.XYAPP.XY-APPTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.XY-APP.XYTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "XY_APPTests/XY_APPTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "XYTests/XYTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1948,16 +1968,16 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
-				INFOPLIST_FILE = XY_APPTests/Info.plist;
+				INFOPLIST_FILE = XYTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.XYAPP.XY-APPTests";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.XY-APP.XYTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "XY_APPTests/XY_APPTests-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "XYTests/XYTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XY.app/XY";

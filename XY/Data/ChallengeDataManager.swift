@@ -66,33 +66,43 @@ final class ChallengeDataManager {
         completion()
     }
     
-    #if DEBUG
-    
-    func testLoadChallenge() {
-        let mainContext = CoreDataManager.shared.mainContext
+    func uploadChallenge(challenge: ChallengeDataModel) {
+        // Get video file
+        assert(challenge.fileUrl != nil)
+        assert(FileManager.default.fileExists(atPath: challenge.fileUrl!.path))
+        let url = challenge.fileUrl!
         
-        let fetchRequest: NSFetchRequest<ChallengeDataModel> = ChallengeDataModel.fetchRequest()
-        do {
-            let results = try mainContext.fetch(fetchRequest)
+        // Get challenge info
+        assert(challenge.title != nil)
+        assert(challenge.challengeDescription != nil)
+        assert(challenge.previewImage != nil)
+        assert(challenge.fromUser != nil)
+        assert(challenge.sentTo != nil)
+        assert(challenge.sentTo!.count > 0)
+        
+        // Create challenge IDs
+        let challengeID = UUID().uuidString
+        let videoID = UUID().uuidString
+        
+        // Upload document to firestore
+        FirestoreManager.shared.uploadChallenge(model: challenge)
+        
+        // Upload video to storage
+        FirebaseStorageManager.shared.uploadVideoToStorage(videoFileUrl: url, filename: videoID, containerName: challengeID) { (progress) in
             
-            results.forEach({
-                                if let sentTo = $0.sentTo {
-                                    assert(sentTo.count == 0)
-                                }
-                
+        } onComplete: { (result) in
+            switch result {
+            case .success(let _):
+                print("Successfully uploaded")
+            case .failure(let error):
+                print("Failure to upload: \(error)")
             }
-            )
-            
-//            NotificationCenter.default.post(name: .didLoadActiveChallenges, object: nil)
         }
-        catch {
-            debugPrint(error)
-        }
+
     }
     
-    #endif
-    
     func loadNewActiveChallenge() {
+        #if DEBUG
         if Int.random(in: 0...3) == 3 {
             for _ in 0...Int.random(in: 1...3) {
                 activeChallenges.append(ChallengeDataModel.fakeChallenge())
@@ -100,6 +110,7 @@ final class ChallengeDataManager {
             
             NotificationCenter.default.post(Notification(name: .didReceiveChallenges))
         }
+        #endif
     }
     
     func updateChallengeState(challengeViewModel: ChallengeCardViewModel, newState: ChallengeCompletionState) {
