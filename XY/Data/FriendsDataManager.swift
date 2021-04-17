@@ -80,6 +80,33 @@ final class FriendsDataManager {
         return allUsers.first(where: { $0.nickname! == viewModel.nickname })
     }
     
+    func getOrCreateUserWithFirestoreID(id: String) -> UserDataModel? {
+        let context = CoreDataManager.shared.mainContext
+        
+        let fetchRequest:NSFetchRequest<UserDataModel> = UserDataModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "firebaseID == %@", id)
+        fetchRequest.fetchLimit = 1
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            
+            // Return new user document if not found
+            if result.isEmpty {
+                
+                let entity = UserDataModel.entity()
+                let model = UserDataModel(entity: entity, insertInto: context)
+                model.firebaseID = id
+                
+                return model
+            } else {
+                return result.first
+            }
+        } catch let error {
+            print("Error fetching for user with id: \(id) due to error: \(error)")
+            return nil
+        }
+    }
+    
     func loadDataFromStorage() {
         let mainContext = CoreDataManager.shared.mainContext
         

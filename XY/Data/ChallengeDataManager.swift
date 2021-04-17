@@ -89,14 +89,14 @@ final class ChallengeDataManager {
             challenge.firebaseVideoID = videoID
             
             // Upload document to firestore
-            FirestoreManager.shared.uploadChallenge(model: challenge) { error in
+            FirebaseFirestoreManager.shared.uploadChallenge(model: challenge) { error in
                 if let error = error {
                     print("Error creating challenge in firestore: \(error)")
                 }
             }
             
             // Upload video reference to firestore
-            FirestoreManager.shared.uploadChallengeSubmission(model: challenge) { error in
+            FirebaseFirestoreManager.shared.uploadChallengeSubmission(model: challenge) { error in
                 if let error = error {
                     print("Error creating submission document in firestore: \(error)")
                 }

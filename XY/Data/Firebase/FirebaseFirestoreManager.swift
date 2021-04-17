@@ -1,5 +1,5 @@
 //
-//  FirestoreManager.swift
+//  FirebaseFirestoreManager.swift
 //  XY
 //
 //  Created by Maxime Franchot on 16/04/2021.
@@ -12,11 +12,11 @@ import CodableFirebase
 
 extension Timestamp: TimestampType {}
 
-final class FirestoreManager {
-    static let shared = FirestoreManager()
+final class FirebaseFirestoreManager {
+    static let shared = FirebaseFirestoreManager()
     private init() { }
     
-    let root = FirestoreReferenceManager.root
+    let root:DocumentReference = FirestoreReferenceManager.root
     
     enum FirestoreManagerError: Error {
         case conversionError
@@ -73,6 +73,33 @@ final class FirestoreManager {
         }
     }
     
+    func fetchChallengeDocumentsFromFirestore(completion: @escaping(Result<[ChallengeDataModel], Error>) -> Void) {
+        
+        root.collection(FirebaseCollectionPath.challenges)
+            .whereField("memberIDs", arrayContains: ProfileDataManager.shared.ownID)
+            .addSnapshotListener { querySnapshot, error in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let snapshot = querySnapshot {
+                    var documents = [ChallengeDataModel]()
+                    
+                    snapshot.documentChanges.forEach { diff in
+                        if (diff.type == .added) {
+                            do {
+                                if let model = try self.convertChallengeFromDocument(document: diff.document) {
+                                    documents.append(model)
+                                }
+                            } catch let error {
+                                print("Error decoding challenge document: \(error)")
+                            }
+                        }
+                    }
+                    
+                    completion(.success(documents))
+                }
+            }
+    }
+    
     func createChallengeSubmissionDocument(model: ChallengeDataModel) -> [String: Any]? {
         
         let documentObject = ChallengeSubmission(
@@ -109,8 +136,30 @@ final class FirestoreManager {
         }
     }
     
-    func convertChallengeFromDocument(document: DocumentSnapshot) -> ChallengeDataModel? {
-        // TODO
-        return ChallengeDataModel()
+    func convertChallengeFromDocument(document: DocumentSnapshot) throws -> ChallengeDataModel? {
+        guard let data = document.data() else {
+            return nil
+        }
+        do {
+            let documentObject = try document.decode(as: ChallengeDocument.self, includingId: false)
+            
+            let context = CoreDataManager.shared.mainContext
+            let entity = ChallengeDataModel.entity()
+            let model = ChallengeDataModel(entity: entity, insertInto: context)
+            
+            model.title = documentObject.title
+            model.challengeDescription = documentObject.description
+            model.expiryTimestamp = documentObject.timestamp.dateValue().addingTimeInterval(TimeInterval.days(1))
+            model.firebaseID = document.documentID
+            model.completionState = .received
+            model.fromUser = FriendsDataManager.shared.getOrCreateUserWithFirestoreID(id: documentObject.creatorID)
+            
+            return model
+        } catch let error {
+            print("Decoding error: \(error)")
+            throw FirestoreManagerError.conversionError
+        }
     }
+    
+    
 }

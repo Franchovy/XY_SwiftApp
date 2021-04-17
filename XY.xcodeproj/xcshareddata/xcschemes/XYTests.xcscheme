@@ -21,6 +21,14 @@
                BlueprintName = "XYTests"
                ReferencedContainer = "container:XY.xcodeproj">
             </BuildableReference>
+            <SkippedTests>
+               <Test
+                  Identifier = "FirebaseStorageTests/testUploadStorageTask()">
+               </Test>
+               <Test
+                  Identifier = "FirestoreManagerTests/testFirebaseModelCreator()">
+               </Test>
+            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>

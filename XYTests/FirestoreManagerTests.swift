@@ -31,7 +31,7 @@ class FirestoreManagerTests: XCTestCase {
         
         userModels.enumerated().forEach({ $0.element.firebaseID = "ID-\($0.offset)" })
         let fromUserModel = UserDataModel(entity: userEntity, insertInto: context)
-        fromUserModel.firebaseID = "ID-X"
+        fromUserModel.firebaseID = "ID-1"
         
         ProfileDataManager.shared.ownProfileModel = fromUserModel
         
@@ -50,7 +50,7 @@ class FirestoreManagerTests: XCTestCase {
     }
 
     func testFirebaseModelCreator() throws {
-        let data = FirestoreManager.shared.convertChallengeToDocument(model: challengeModel)
+        let data = FirebaseFirestoreManager.shared.convertChallengeToDocument(model: challengeModel)
         XCTAssertNotNil(data)
         
         XCTAssert(data!["title"] as! String == "title")
@@ -59,6 +59,25 @@ class FirestoreManagerTests: XCTestCase {
         XCTAssert(data!["memberIDs"] as! [String] == ["ID-0", "ID-1", "ID-2"])
         XCTAssert(data!["creatorID"] as! String == "ID-X")
         
+    }
+    
+    func testFirebaseFetchChallengeDocuments() throws {
+        let expectation = XCTestExpectation()
+        
+        FirebaseFirestoreManager.shared.fetchChallengeDocumentsFromFirestore() { result in
+            defer {
+                expectation.fulfill()
+            }
+            switch result {
+            case .success(let models):
+                print("Fetched challenge documents: \(models)")
+                XCTAssertNotNil(models)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        }
+        
+        wait(for: [expectation], timeout: 10)
     }
     
 

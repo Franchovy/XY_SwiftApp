@@ -193,6 +193,7 @@
 		B983B33A2629A5370073C3DB /* FirebaseCollectionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */; };
 		B983B366262AB95E0073C3DB /* FirestoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B365262AB95E0073C3DB /* FirestoreManagerTests.swift */; };
 		B983B36A262AC6E10073C3DB /* ChallengeDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B369262AC6E10073C3DB /* ChallengeDataManagerTests.swift */; };
+		B983B3BA262B0D610073C3DB /* FirestoreDecoderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B3B9262B0D610073C3DB /* FirestoreDecoderExtension.swift */; };
 		B98B06D925FAB9F800001986 /* ChallengeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */; };
 		B98B070525FB8E7E00001986 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */; };
 		B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */; };
@@ -244,7 +245,7 @@
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
 		B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */; };
-		B9CE82222629754400C1B95B /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE82212629754400C1B95B /* FirestoreManager.swift */; };
+		B9CE82222629754400C1B95B /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */; };
 		B9CFB7D4262490A300754552 /* ProfileDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFB7D3262490A300754552 /* ProfileDataManager.swift */; };
 		B9D0D5C426077EB400D3F128 /* OnlineNowViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */; };
 		B9D0D5C82607840E00D3F128 /* RankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D0D5C72607840E00D3F128 /* RankingView.swift */; };
@@ -485,6 +486,7 @@
 		B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCollectionPath.swift; sourceTree = "<group>"; };
 		B983B365262AB95E0073C3DB /* FirestoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManagerTests.swift; sourceTree = "<group>"; };
 		B983B369262AC6E10073C3DB /* ChallengeDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDataManagerTests.swift; sourceTree = "<group>"; };
+		B983B3B9262B0D610073C3DB /* FirestoreDecoderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreDecoderExtension.swift; sourceTree = "<group>"; };
 		B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoModel.swift; sourceTree = "<group>"; };
 		B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
 		B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
@@ -539,7 +541,7 @@
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
 		B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
-		B9CE82212629754400C1B95B /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
 		B9CFB7D3262490A300754552 /* ProfileDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataManager.swift; sourceTree = "<group>"; };
 		B9D0D5C326077EB400D3F128 /* OnlineNowViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowViewModel.swift; sourceTree = "<group>"; };
 		B9D0D5C72607840E00D3F128 /* RankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingView.swift; sourceTree = "<group>"; };
@@ -1371,6 +1373,7 @@
 				B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */,
 				B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */,
 				B92161E425E279BE001BE793 /* XYClasses.swift */,
+				B983B3B9262B0D610073C3DB /* FirestoreDecoderExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1379,7 +1382,7 @@
 			isa = PBXGroup;
 			children = (
 				B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */,
-				B9CE82212629754400C1B95B /* FirestoreManager.swift */,
+				B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */,
 				B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */,
 			);
 			path = Firebase;
@@ -1704,6 +1707,7 @@
 				B9B302AE2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
+				B983B3BA262B0D610073C3DB /* FirestoreDecoderExtension.swift in Sources */,
 				B91C55482610E279000C2AAD /* BlurView.swift in Sources */,
 				B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */,
 				B979AB0326258F8F0079C4E8 /* ChallengeDataModel.swift in Sources */,
@@ -1889,7 +1893,7 @@
 				B9ABAA9E25F7974A009CB966 /* ChallengesViewModelBuilder.swift in Sources */,
 				B9E67E7125F441FA004FA873 /* CommentView.swift in Sources */,
 				B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */,
-				B9CE82222629754400C1B95B /* FirestoreManager.swift in Sources */,
+				B9CE82222629754400C1B95B /* FirebaseFirestoreManager.swift in Sources */,
 				B9D0D5CC2607841C00D3F128 /* OnlineNowView.swift in Sources */,
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
 				B901BA332618D5160088193E /* SearchBar.swift in Sources */,
