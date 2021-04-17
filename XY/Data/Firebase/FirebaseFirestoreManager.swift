@@ -13,14 +13,21 @@ import CodableFirebase
 extension Timestamp: TimestampType {}
 
 final class FirebaseFirestoreManager {
+    
+    // MARK: - Class Properties
+    
     static let shared = FirebaseFirestoreManager()
     private init() { }
     
     let root:DocumentReference = FirestoreReferenceManager.root
     
+    // MARK: - Enums
+    
     enum FirestoreManagerError: Error {
         case conversionError
     }
+    
+    // MARK: - Firebase Document Models
     
     struct ChallengeDocument: Codable {
         var description: String
@@ -35,6 +42,8 @@ final class FirebaseFirestoreManager {
         var videoID: String
         var timestamp: Timestamp
     }
+    
+    // MARK: - Upload functions
     
     func uploadChallenge(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
         assert(model.challengeDescription != nil)
@@ -73,6 +82,8 @@ final class FirebaseFirestoreManager {
         }
     }
     
+    // MARK: - Download functions
+    
     func fetchChallengeDocumentsFromFirestore(completion: @escaping(Result<[ChallengeDataModel], Error>) -> Void) {
         
         root.collection(FirebaseCollectionPath.challenges)
@@ -99,6 +110,8 @@ final class FirebaseFirestoreManager {
                 }
             }
     }
+    
+    // MARK: - Coredata-Firestore Conversions
     
     func createChallengeSubmissionDocument(model: ChallengeDataModel) -> [String: Any]? {
         
