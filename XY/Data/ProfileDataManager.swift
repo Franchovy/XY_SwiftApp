@@ -27,6 +27,12 @@ final class ProfileDataManager {
         }
     }
     
+    var ownID: String {
+        get {
+            return ownProfileModel.firebaseID!
+        }
+    }
+    
     var ownProfileModel: UserDataModel!
     
     func load() {

@@ -190,6 +190,9 @@
 		B97C25E92608073F009EFB06 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C25E82608073F009EFB06 /* GameModel.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
 		B983B325262978DB0073C3DB /* FirebaseStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */; };
+		B983B33A2629A5370073C3DB /* FirebaseCollectionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */; };
+		B983B366262AB95E0073C3DB /* FirestoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B365262AB95E0073C3DB /* FirestoreManagerTests.swift */; };
+		B983B36A262AC6E10073C3DB /* ChallengeDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B369262AC6E10073C3DB /* ChallengeDataManagerTests.swift */; };
 		B98B06D925FAB9F800001986 /* ChallengeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */; };
 		B98B070525FB8E7E00001986 /* ChallengeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */; };
 		B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */; };
@@ -479,6 +482,9 @@
 		B97C25E82608073F009EFB06 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
 		B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageTests.swift; sourceTree = "<group>"; };
+		B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCollectionPath.swift; sourceTree = "<group>"; };
+		B983B365262AB95E0073C3DB /* FirestoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManagerTests.swift; sourceTree = "<group>"; };
+		B983B369262AC6E10073C3DB /* ChallengeDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDataManagerTests.swift; sourceTree = "<group>"; };
 		B98B06D825FAB9F800001986 /* ChallengeVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeVideoModel.swift; sourceTree = "<group>"; };
 		B98B070425FB8E7E00001986 /* ChallengeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeViewModel.swift; sourceTree = "<group>"; };
 		B99020BB25ED36D3004AC25C /* NewLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
@@ -879,6 +885,8 @@
 				B93D1BEF2597E9C6009ADBFC /* Info.plist */,
 				B95FF50425A71FB000CFCA9E /* XYTests-Bridging-Header.h */,
 				B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */,
+				B983B369262AC6E10073C3DB /* ChallengeDataManagerTests.swift */,
+				B983B365262AB95E0073C3DB /* FirestoreManagerTests.swift */,
 			);
 			path = XYTests;
 			sourceTree = "<group>";
@@ -1372,6 +1380,7 @@
 			children = (
 				B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */,
 				B9CE82212629754400C1B95B /* FirestoreManager.swift */,
+				B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -1664,6 +1673,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B983B325262978DB0073C3DB /* FirebaseStorageTests.swift in Sources */,
+				B983B36A262AC6E10073C3DB /* ChallengeDataManagerTests.swift in Sources */,
+				B983B366262AB95E0073C3DB /* FirestoreManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1728,6 +1739,7 @@
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B926867D26148E6200A306F6 /* ProfileViewController.swift in Sources */,
 				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,
+				B983B33A2629A5370073C3DB /* FirebaseCollectionPath.swift in Sources */,
 				B92161EE25E2CC1B001BE793 /* Relationship.swift in Sources */,
 				B934B67C25F76E5600575972 /* _ChallengeCollectionViewCell.swift in Sources */,
 				B99020C425ED3817004AC25C /* AuthChoiceViewController.swift in Sources */,

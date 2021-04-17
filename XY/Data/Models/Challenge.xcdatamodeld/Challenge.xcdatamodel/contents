@@ -5,12 +5,15 @@
         <attribute name="completionStateValue" attributeType="String" defaultValueString=""/>
         <attribute name="expiryTimestamp" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="fileUrl" optional="YES" attributeType="URI"/>
+        <attribute name="firebaseID" optional="YES" attributeType="String"/>
+        <attribute name="firebaseVideoID" optional="YES" attributeType="String"/>
         <attribute name="previewImage" attributeType="Binary"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="fromUser" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataModel"/>
         <relationship name="sentTo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserDataModel"/>
     </entity>
     <entity name="UserDataModel" representedClassName=".UserDataModel" syncable="YES" codeGenerationType="class">
+        <attribute name="firebaseID" optional="YES" attributeType="String"/>
         <attribute name="friendStatus" attributeType="String"/>
         <attribute name="nickname" attributeType="String" defaultValueString=""/>
         <attribute name="numChallenges" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -18,7 +21,7 @@
         <attribute name="profileImage" optional="YES" attributeType="Binary"/>
     </entity>
     <elements>
-        <element name="ChallengeDataModel" positionX="-63" positionY="-18" width="128" height="163"/>
-        <element name="UserDataModel" positionX="-54" positionY="-9" width="128" height="118"/>
+        <element name="ChallengeDataModel" positionX="-63" positionY="-18" width="128" height="193"/>
+        <element name="UserDataModel" positionX="-54" positionY="-9" width="128" height="133"/>
     </elements>
 </model>

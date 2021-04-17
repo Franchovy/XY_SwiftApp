@@ -67,38 +67,73 @@ final class ChallengeDataManager {
     }
     
     func uploadChallenge(challenge: ChallengeDataModel) {
-        // Get video file
-        assert(challenge.fileUrl != nil)
-        assert(FileManager.default.fileExists(atPath: challenge.fileUrl!.path))
-        let url = challenge.fileUrl!
-        
-        // Get challenge info
-        assert(challenge.title != nil)
-        assert(challenge.challengeDescription != nil)
-        assert(challenge.previewImage != nil)
-        assert(challenge.fromUser != nil)
-        assert(challenge.sentTo != nil)
-        assert(challenge.sentTo!.count > 0)
-        
-        // Create challenge IDs
-        let challengeID = UUID().uuidString
-        let videoID = UUID().uuidString
-        
-        // Upload document to firestore
-        FirestoreManager.shared.uploadChallenge(model: challenge)
-        
-        // Upload video to storage
-        FirebaseStorageManager.shared.uploadVideoToStorage(videoFileUrl: url, filename: videoID, containerName: challengeID) { (progress) in
+//        DispatchQueue.global(qos: .background).async { // this messes up because of coredata multithreading sensitivity :(
+            // Get video file
+            assert(challenge.fileUrl != nil)
+            assert(FileManager.default.fileExists(atPath: challenge.fileUrl!.path))
+            let url = challenge.fileUrl!
             
-        } onComplete: { (result) in
-            switch result {
-            case .success(let _):
-                print("Successfully uploaded")
-            case .failure(let error):
-                print("Failure to upload: \(error)")
+            // Get challenge info
+            assert(challenge.title != nil)
+            assert(challenge.challengeDescription != nil)
+            assert(challenge.previewImage != nil)
+            assert(challenge.fromUser != nil)
+            assert(challenge.sentTo != nil)
+            assert(challenge.sentTo!.count > 0)
+            
+            // Create challenge IDs
+            let challengeID = UUID().uuidString
+            let videoID = UUID().uuidString
+            
+            challenge.firebaseID = challengeID
+            challenge.firebaseVideoID = videoID
+            
+            // Upload document to firestore
+            FirestoreManager.shared.uploadChallenge(model: challenge) { error in
+                if let error = error {
+                    print("Error creating challenge in firestore: \(error)")
+                }
             }
-        }
-
+            
+            // Upload video reference to firestore
+            FirestoreManager.shared.uploadChallengeSubmission(model: challenge) { error in
+                if let error = error {
+                    print("Error creating submission document in firestore: \(error)")
+                }
+            }
+            
+            // Upload previewImage to storage
+            FirebaseStorageManager.shared.uploadImageToStorage(
+                imageData: challenge.previewImage!,
+                filename: challengeID.appending(".png"),
+                containerName: challengeID
+            ) { (progress) in
+                print("Progress uploading image: \(progress)")
+            } onComplete: { (result) in
+                switch result {
+                case .success(let _):
+                    print("Successfully uploaded")
+                case .failure(let error):
+                    print("Failure to upload image: \(error)")
+                }
+            }
+            
+            // Upload video to storage
+            FirebaseStorageManager.shared.uploadVideoToStorage(
+                videoFileUrl: url,
+                filename: videoID.appending(".mov"),
+                containerName: challengeID
+            ) { (progress) in
+                print("Progress uploading video: \(progress)")
+            } onComplete: { (result) in
+                switch result {
+                case .success(let _):
+                    print("Successfully uploaded")
+                case .failure(let error):
+                    print("Failure to upload video: \(error)")
+                }
+            }
+//        }
     }
     
     func loadNewActiveChallenge() {

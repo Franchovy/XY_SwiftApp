@@ -14,11 +14,40 @@ final class FirebaseStorageManager {
     
     let root = Storage.storage().reference()
     
+    func uploadImageToStorage(imageData: Data, filename: String? = nil, containerName: String? = nil, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Result<String, Error>) -> Void)) {
+        
+        let name = filename ?? (UUID().uuidString + ".png")
+        let path = root.child(containerName ?? UUID().uuidString).child(name)
+        print("Uploading image data to firebaseStorage path: \(path.fullPath)")
+        
+        let uploadTask = path.putData(imageData)
+        
+        uploadTask.observe(.progress) { (snapshot) in
+            if let progress = snapshot.progress {
+                onProgress(progress.fractionCompleted)
+            }
+        }
+        
+        uploadTask.observe(.success) { (snapshot) in
+            onComplete(.success(path.fullPath))
+        }
+        
+        uploadTask.observe(.failure) { (snapshot) in
+            if let error = snapshot.error {
+                onComplete(.failure(error))
+            } else {
+                fatalError("Unknown error occured while uploading")
+            }
+        }
+        
+        uploadTask.resume()
+    }
+    
     func uploadVideoToStorage(videoFileUrl: URL, filename: String? = nil, containerName: String? = nil, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Result<String, Error>) -> Void)) {
-        let name = filename ?? UUID().uuidString + ".mov"
+        let name = filename ?? (UUID().uuidString + ".mov")
         
         let path = root.child(containerName ?? UUID().uuidString).child(name)
-        print("Uploading file with full path: \(path.fullPath)")
+        print("Uploading video file to firebaseStorage path: \(path.fullPath)")
         
         let uploadTask = path.putFile(from: videoFileUrl)
         
