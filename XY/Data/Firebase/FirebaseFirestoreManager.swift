@@ -111,6 +111,14 @@ final class FirebaseFirestoreManager {
             }
     }
     
+    func fetchAllProfiles(completion: @escaping(Result<[UserDataModel], Error>) -> Void) {
+        
+    }
+    
+    func fetchProfile(for profileId: String, completion: @escaping(Result<UserDataModel, Error>) -> Void) {
+        
+    }
+    
     // MARK: - Coredata-Firestore Conversions
     
     func createChallengeSubmissionDocument(model: ChallengeDataModel) -> [String: Any]? {

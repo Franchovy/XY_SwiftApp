@@ -84,7 +84,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     private func configure() {
-        let viewModel = ProfileDataManager.shared.ownProfile
+        let viewModel = ProfileDataManager.shared.ownProfileViewModel
         
         nicknameTextField.text = viewModel.nickname
         nicknameTextField.sizeToFit()

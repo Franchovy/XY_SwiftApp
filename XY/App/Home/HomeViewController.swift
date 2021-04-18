@@ -49,7 +49,6 @@ class HomeViewController: UIViewController {
         challengesCollectionView.dataSource = challengesDataSource
         friendsCollectionView.dataSource = friendsDataSource
         friendsDataSource.showEditProfile = true
-
     }
     
     required init?(coder: NSCoder) {
@@ -64,7 +63,7 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didLoadActiveChallenges), name: .didLoadActiveChallenges, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didFinishSendingChallenge), name: .didFinishSendingChallenge, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didReceiveChallenges, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didFinishDownloadingReceivedChallenges, object: nil)
         
         view.addSubview(friendsLabel)
         view.addSubview(friendsCollectionView)
@@ -105,25 +104,26 @@ class HomeViewController: UIViewController {
         ]
         
         // Some coredata loading
-        ProfileDataManager.shared.load()
-        
-        // Fetch Challenges from storage
-        ChallengeDataManager.shared.loadChallengesFromStorage()
-        FriendsDataManager.shared.loadDataFromStorage()
-        
-        if FriendsDataManager.shared.friends.count == 0 {
-            configureEmptyNoFriends()
-        } else {
-            friendsDataSource.reload()
-            friendsCollectionView.reloadData()
+        ProfileDataManager.shared.load() {
+            beginFetchChallenges()
             
-            if ChallengeDataManager.shared.activeChallenges.count == 0 {
-                configureEmptyNoChallenges()
+            // Fetch Challenges from storage
+            ChallengeDataManager.shared.loadChallengesFromStorage()
+            FriendsDataManager.shared.loadDataFromStorage()
+            
+            if FriendsDataManager.shared.friends.count == 0 {
+                configureEmptyNoFriends()
             } else {
-                configureNormal()
+                friendsDataSource.reload()
+                friendsCollectionView.reloadData()
+                
+                if ChallengeDataManager.shared.activeChallenges.count == 0 {
+                    configureEmptyNoChallenges()
+                } else {
+                    configureNormal()
+                }
             }
         }
- 
     }
     
     deinit {
@@ -297,6 +297,13 @@ class HomeViewController: UIViewController {
         view.setNeedsLayout()
     }
     
+    private func beginFetchChallenges() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onCoreDataPropertyUpdate), name: .NSManagedObjectContextObjectsDidChange, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didFinishDownloadingReceivedChallenges, object: nil)
+        
+        ChallengeDataManager.shared.fetchChallengeCards()
+    }
+    
     @objc private func tappedNotifications() {
         let vc = NotificationsViewController()
         
@@ -350,6 +357,13 @@ class HomeViewController: UIViewController {
         let currentNumChallenges = challengesCollectionView.numberOfItems(inSection: 0)
         let newNumChallenges = ChallengeDataManager.shared.activeChallenges.count
         
+        self.challengesDataSource.reload()
+        self.challengesCollectionView.reloadData()
+        
         self.promptChallengesReceived(numChallenges: newNumChallenges - currentNumChallenges)
+    }
+    
+    @objc private func onCoreDataPropertyUpdate() {
+        
     }
 }

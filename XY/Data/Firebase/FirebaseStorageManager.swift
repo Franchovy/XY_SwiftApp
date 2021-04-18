@@ -76,7 +76,46 @@ final class FirebaseStorageManager {
         
     }
     
-    func downloadVideo(with path: String, onProgress: @escaping((Double) -> Void), onCompletion: @escaping(Result<URL, Error>) -> Void) {
+    var downloadQueue: DispatchQueue?
+    
+    func initializeDownloadQueue() {
+        downloadQueue = DispatchQueue(label: "downloadQueue")
         
+    }
+    
+    func downloadImage(from path: String, onProgress: @escaping((Double) -> Void), completion: @escaping(Result<Data, Error>) -> Void) {
+        if downloadQueue == nil {
+            initializeDownloadQueue()
+        }
+        
+        downloadQueue!.async {
+            let downloadTask = self.root.child(path).getData(maxSize: .max) { (data, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let data = data {
+                    completion(.success(data))
+                }
+            }
+            
+            downloadTask.observe(.progress) { (snapshot) in
+                if let progress = snapshot.progress {
+                    onProgress(progress.fractionCompleted)
+                }
+            }
+        }
+    }
+    
+    func getVideoDownloadUrl(from path: String, onCompletion: @escaping(Result<URL, Error>) -> Void) {
+        if downloadQueue == nil {
+            initializeDownloadQueue()
+        }
+        
+        self.root.child(path).downloadURL { (url, error) in
+            if let error = error {
+                onCompletion(.failure(error))
+            } else if let url = url {
+                onCompletion(.success(url))
+            }
+        }
     }
 }

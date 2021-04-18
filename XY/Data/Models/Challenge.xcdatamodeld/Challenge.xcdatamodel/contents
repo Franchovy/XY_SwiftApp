@@ -3,6 +3,7 @@
     <entity name="ChallengeDataModel" representedClassName=".ChallengeDataModel" syncable="YES" codeGenerationType="class">
         <attribute name="challengeDescription" attributeType="String" defaultValueString=""/>
         <attribute name="completionStateValue" attributeType="String" defaultValueString=""/>
+        <attribute name="downloadUrl" optional="YES" attributeType="URI"/>
         <attribute name="expiryTimestamp" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="fileUrl" optional="YES" attributeType="URI"/>
         <attribute name="firebaseID" optional="YES" attributeType="String"/>
@@ -21,7 +22,7 @@
         <attribute name="profileImage" optional="YES" attributeType="Binary"/>
     </entity>
     <elements>
-        <element name="ChallengeDataModel" positionX="-63" positionY="-18" width="128" height="193"/>
+        <element name="ChallengeDataModel" positionX="-63" positionY="-18" width="128" height="208"/>
         <element name="UserDataModel" positionX="-54" positionY="-9" width="128" height="133"/>
     </elements>
 </model>

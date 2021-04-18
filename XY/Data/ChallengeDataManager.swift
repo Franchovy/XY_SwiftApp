@@ -10,7 +10,7 @@ import CoreData
 import UIKit
 
 extension Notification.Name {
-    static let didReceiveChallenges = Notification.Name("didReceiveChallenges")
+    static let didFinishDownloadingReceivedChallenges = Notification.Name("didReceiveChallenges")
     static let didLoadActiveChallenges = Notification.Name("didLoadActiveChallenges")
     static let didFinishSendingChallenge = Notification.Name("didFinishSendingChallenge")
 }
@@ -136,16 +136,42 @@ final class ChallengeDataManager {
 //        }
     }
     
-    func loadNewActiveChallenge() {
-        #if DEBUG
-        if Int.random(in: 0...3) == 3 {
-            for _ in 0...Int.random(in: 1...3) {
-                activeChallenges.append(ChallengeDataModel.fakeChallenge())
+    func fetchChallengeCards() {
+        // Fetch challenges
+        FirebaseFirestoreManager.shared.fetchChallengeDocumentsFromFirestore { (result) in
+            switch result {
+            case .success(let challengeModels):
+                
+                challengeModels.forEach { (challengeDataModel) in
+                    // Fetch preview images
+                    let imagePath = "\(challengeDataModel.firebaseID!)/\(challengeDataModel.firebaseID!)"
+                    FirebaseStorageManager.shared.downloadImage(from: imagePath) { progress in
+                        
+                    } completion: { result in
+                        switch result {
+                        case .success(let imageData):
+                            challengeDataModel.previewImage = imageData
+                        case .failure(let error):
+                            print("Error downloading preview images for challenge: \(error.localizedDescription)")
+                        }
+                    }
+                    
+                    // Download videos
+                    FirebaseStorageManager.shared.getVideoDownloadUrl(from: "\(challengeDataModel.firebaseID!)/\(challengeDataModel.firebaseVideoID!)") { (result) in
+                        switch result {
+                        case .success(let url):
+                            challengeDataModel.downloadUrl = url
+                        case .failure(let error):
+                            print("Error getting download link to video: \(error.localizedDescription)")
+                        }
+                    }
+                    
+                    NotificationCenter.default.post(name: .didFinishDownloadingReceivedChallenges, object: nil)
+                }
+            case .failure(let error):
+                print("Error fetching challenges: \(error.localizedDescription)")
             }
-            
-            NotificationCenter.default.post(Notification(name: .didReceiveChallenges))
         }
-        #endif
     }
     
     func updateChallengeState(challengeViewModel: ChallengeCardViewModel, newState: ChallengeCompletionState) {

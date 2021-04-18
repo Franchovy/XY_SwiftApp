@@ -15,33 +15,37 @@ final class ProfileDataManager {
     var profileImage: UIImage? = UIImage(named: "defaultProfileImage")
     var nickname: String = "my_nickname"
     
-    var ownProfile: UserViewModel {
-        get {
-            UserViewModel(
-                profileImage: profileImage ?? UIImage(named: "defaultProfileImage")!,
-                nickname: nickname,
-                friendStatus: .none,
-                numChallenges: 12,
-                numFriends: 69
-            )
-        }
-    }
-    
     var ownID: String {
         get {
             return ownProfileModel.firebaseID!
         }
     }
     
+    var ownProfileViewModel: UserViewModel {
+        get {
+            return UserViewModel(
+                profileImage: UIImage(data: ownProfileModel.profileImage!)!,
+                nickname: ownProfileModel.nickname!,
+                friendStatus: .none,
+                numChallenges: Int(ownProfileModel.numChallenges),
+                numFriends: Int(ownProfileModel.numFriends)
+            )
+        }
+    }
+    
     var ownProfileModel: UserDataModel!
     
-    func load() {
+    func load(completion: @escaping(() -> Void)) {
+        // Fetch profile from firebase
+        guard let ownFirebaseId = AuthManager.shared.userId else {
+            fatalError("Not authenticated")
+        }
         
         let context = CoreDataManager.shared.mainContext
         let entity = UserDataModel.entity()
 
         let fetchRequest:NSFetchRequest<UserDataModel> = UserDataModel.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "nickname == %@", nickname)
+        fetchRequest.predicate = NSPredicate(format: "firebaseID == %@", ownFirebaseId)
         fetchRequest.entity = entity
         
         do {
@@ -49,16 +53,22 @@ final class ProfileDataManager {
             
             if results.count == 1 {
                 ownProfileModel = results.first!
+                
+                completion()
             } else {
                 assert(results.count == 0)
                 
-                ownProfileModel = UserDataModel(entity: entity, insertInto: context)
-                
-                ownProfileModel.nickname = ownProfile.nickname
-                ownProfileModel.numChallenges = Int16(ownProfile.numChallenges)
-                ownProfileModel.numFriends = Int16(ownProfile.numFriends)
-                ownProfileModel.profileImage = UIImage(named: "defaultProfileImage")!.pngData()!
-                ownProfileModel.friendStatus = FriendStatus.none.rawValue
+                FirebaseFirestoreManager.shared.fetchProfile(for: ownFirebaseId) { (result) in
+                    defer {
+                        completion()
+                    }
+                    switch result {
+                    case .success(let userModel):
+                        self.ownProfileModel = userModel
+                    case .failure(let error):
+                        print("Error fetching own profile from firebase: \(error)")
+                    }
+                }
                 
                 do {
                     try context.save()
