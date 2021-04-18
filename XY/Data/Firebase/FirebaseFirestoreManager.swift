@@ -116,7 +116,7 @@ final class FirebaseFirestoreManager {
     }
     
     func fetchProfile(for profileId: String, completion: @escaping(Result<UserDataModel, Error>) -> Void) {
-        
+        fatalError("TODO")
     }
     
     // MARK: - Coredata-Firestore Conversions

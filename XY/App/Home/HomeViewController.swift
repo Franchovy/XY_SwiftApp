@@ -105,22 +105,22 @@ class HomeViewController: UIViewController {
         
         // Some coredata loading
         ProfileDataManager.shared.load() {
-            beginFetchChallenges()
+            self.beginFetchChallenges()
             
             // Fetch Challenges from storage
             ChallengeDataManager.shared.loadChallengesFromStorage()
             FriendsDataManager.shared.loadDataFromStorage()
             
             if FriendsDataManager.shared.friends.count == 0 {
-                configureEmptyNoFriends()
+                self.configureEmptyNoFriends()
             } else {
-                friendsDataSource.reload()
-                friendsCollectionView.reloadData()
+                self.friendsDataSource.reload()
+                self.friendsCollectionView.reloadData()
                 
                 if ChallengeDataManager.shared.activeChallenges.count == 0 {
-                    configureEmptyNoChallenges()
+                    self.configureEmptyNoChallenges()
                 } else {
-                    configureNormal()
+                    self.configureNormal()
                 }
             }
         }
