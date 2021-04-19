@@ -80,6 +80,13 @@ class FirestoreManagerTests: XCTestCase {
         wait(for: [expectation], timeout: 10)
     }
     
+    func testCreateProfile() throws {
+        
+    }
+    
+    func testFetchProfile() throws {
+        
+    }
 
     func testPerformanceExample() throws {
         self.measure {

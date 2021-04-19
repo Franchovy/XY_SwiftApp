@@ -10,4 +10,6 @@ import Foundation
 final class FirebaseCollectionPath {
     static let challenges = "Challenges"
     static let challengeSubmissions = "Submissions"
+    static let users = "Users"
+    static let friendships = "Friendships"
 }
