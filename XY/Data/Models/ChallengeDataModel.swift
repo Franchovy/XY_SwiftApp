@@ -31,11 +31,11 @@ enum ChallengeCompletionState: String {
 extension ChallengeDataModel {
     func toCard() -> ChallengeCardViewModel {
         ChallengeCardViewModel(
-            image: UIImage(data: previewImage!)!,
+            image: previewImage != nil ? UIImage(data: previewImage!)! : nil,
             title: title!,
             description: challengeDescription!,
             tag: tagFromChallenge(),
-            timeLeftText: "\(expiryTimestamp!.hoursFromNow())H",
+            timeLeftText: expiryTimestamp != nil ? "\(expiryTimestamp!.hoursFromNow())H" : "",
             isReceived: !sentByYou(),
             friendBubbles: getSentToBubbles(),
             senderProfile: fromUser?.toViewModel()
@@ -59,11 +59,15 @@ extension ChallengeDataModel {
     }
     
     func tagFromChallenge() -> ColorLabelViewModel? {
+        guard let expiryTimestamp = expiryTimestamp else {
+            return nil
+        }
+        
         if sentByYou() {
             return ColorLabelViewModel.sentTo
-        } else if expiryTimestamp!.hoursFromNow() < 2 {
+        } else if expiryTimestamp.hoursFromNow() < 2 {
             return ColorLabelViewModel.expiring
-        } else if expiryTimestamp!.hoursFromNow() > 22 {
+        } else if expiryTimestamp.hoursFromNow() > 22 {
             return ColorLabelViewModel.new
         } else {
             return nil

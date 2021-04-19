@@ -37,7 +37,7 @@ class FirestoreManagerTests: XCTestCase {
         
         challengeModel.title = "title"
         challengeModel.challengeDescription = "description"
-        challengeModel.firebaseID = "xxx"
+        challengeModel.firebaseID = "test"
         challengeModel.firebaseVideoID = "xxx"
         challengeModel.fromUser = fromUserModel
         challengeModel.addToSentTo(NSSet(array: userModels))
@@ -47,18 +47,6 @@ class FirestoreManagerTests: XCTestCase {
     override func tearDownWithError() throws {
         let context = CoreDataManager.shared.mainContext
         context.rollback()
-    }
-
-    func testFirebaseModelCreator() throws {
-        let data = FirebaseFirestoreManager.shared.convertChallengeToDocument(model: challengeModel)
-        XCTAssertNotNil(data)
-        
-        XCTAssert(data!["title"] as! String == "title")
-        XCTAssert(data!["description"] as! String == "description")
-        XCTAssertNotNil(data?["timestamp"] as? Timestamp)
-        XCTAssert(data!["memberIDs"] as! [String] == ["ID-0", "ID-1", "ID-2"])
-        XCTAssert(data!["creatorID"] as! String == "ID-X")
-        
     }
     
     func testFirebaseFetchChallengeDocuments() throws {
@@ -81,17 +69,62 @@ class FirestoreManagerTests: XCTestCase {
     }
     
     func testCreateProfile() throws {
+        let expectation = XCTestExpectation()
         
+        FirebaseFirestoreManager.shared.createProfile(userDataModel: ProfileDataManager.shared.ownProfileModel) { (error) in
+            defer {
+                expectation.fulfill()
+            }
+            XCTAssertNil(error)
+        }
+        
+        wait(for: [expectation], timeout: 10)
+    }
+    func testFetchProfile() throws {
+        let expectation = XCTestExpectation()
+        FirebaseFirestoreManager.shared.fetchProfile(for: ProfileDataManager.shared.ownID) { (result) in
+            defer {
+                expectation.fulfill()
+            }
+            switch result {
+            case .success(let userModel):
+                XCTAssertNotNil(userModel.nickname)
+                XCTAssertEqual(userModel.numFriends, 0)
+                XCTAssertEqual(userModel.numChallenges, 0)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        }
+        
+        wait(for: [expectation], timeout: 10)
     }
     
-    func testFetchProfile() throws {
+    func testSetProfileNickname() throws {
+        let expectation = XCTestExpectation()
         
-    }
-
-    func testPerformanceExample() throws {
-        self.measure {
-            
+        FirebaseFirestoreManager.shared.setProfileData(nickname: "Testing") { error in
+            defer {
+                expectation.fulfill()
+            }
+            XCTAssertNotNil(error)
         }
+        
+        wait(for: [expectation], timeout: 10)
     }
-
+    
+    func deleteTestProfile() throws {
+        let expectation = XCTestExpectation()
+        
+        let ownID = ProfileDataManager.shared.ownID
+        assert(ownID == "ID-1")
+        
+        FirebaseFirestoreManager.shared.deleteOwnProfile(idForVerificationPurposes: ownID) { (error) in
+            defer {
+                expectation.fulfill()
+            }
+            XCTAssertNotNil(error)
+        }
+        
+        wait(for: [expectation], timeout: 10)
+    }
 }

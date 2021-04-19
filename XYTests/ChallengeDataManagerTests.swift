@@ -26,7 +26,13 @@ class ChallengeDataManagerTests: XCTestCase {
             UserDataModel(entity: userEntity, insertInto: context)
         ]
         creatorUser.firebaseID = "ID-X"
-        sentToUsers.enumerated().forEach({$0.element.firebaseID = "ID-\($0.offset)"})
+        sentToUsers.enumerated().forEach({ model in
+            model.element.firebaseID = "ID-\(model.offset)"
+            model.element.friendStatus = .none
+            model.element.nickname = "nickname-\(model.offset)"
+            model.element.numChallenges = 0
+            model.element.numFriends = 0
+        })
         
         ProfileDataManager.shared.ownProfileModel = creatorUser
         
@@ -46,12 +52,6 @@ class ChallengeDataManagerTests: XCTestCase {
     
     func testUploadChallenge() throws {
         ChallengeDataManager.shared.uploadChallenge(challenge: challengeModel)
-    }
-
-    func testPerformanceExample() throws {
-        self.measure {
-            
-        }
     }
 
 }

@@ -86,6 +86,8 @@
 		B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D284D26039B3700F590BE /* PopupWarningView.swift */; };
 		B93D7BF525F41A7E005CE74D /* _WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF425F41A7E005CE74D /* _WatchViewController.swift */; };
 		B93D7BF925F41AD3005CE74D /* VideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93D7BF825F41AD3005CE74D /* VideoViewController.swift */; };
+		B93F170E262DA30D0068FB88 /* FirebaseStoragePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93F170D262DA30D0068FB88 /* FirebaseStoragePaths.swift */; };
+		B93F1712262DA9550068FB88 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93F1711262DA9550068FB88 /* ColorExtensions.swift */; };
 		B944DABF25E6C40F0040CEDB /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DABE25E6C40F0040CEDB /* MessageView.swift */; };
 		B944DAC525E6C4290040CEDB /* _PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */; };
 		B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */; };
@@ -378,6 +380,8 @@
 		B93D284D26039B3700F590BE /* PopupWarningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupWarningView.swift; sourceTree = "<group>"; };
 		B93D7BF425F41A7E005CE74D /* _WatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _WatchViewController.swift; sourceTree = "<group>"; };
 		B93D7BF825F41AD3005CE74D /* VideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewController.swift; sourceTree = "<group>"; };
+		B93F170D262DA30D0068FB88 /* FirebaseStoragePaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStoragePaths.swift; sourceTree = "<group>"; };
+		B93F1711262DA9550068FB88 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		B944DABE25E6C40F0040CEDB /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B944DAC425E6C4290040CEDB /* _PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _PreviewViewController.swift; sourceTree = "<group>"; };
 		B94680C92600E2DC001BDC3F /* CreatePostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostViewController.swift; sourceTree = "<group>"; };
@@ -1374,6 +1378,7 @@
 				B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */,
 				B92161E425E279BE001BE793 /* XYClasses.swift */,
 				B983B3B9262B0D610073C3DB /* FirestoreDecoderExtension.swift */,
+				B93F1711262DA9550068FB88 /* ColorExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1381,9 +1386,10 @@
 		B9CE8227262975C600C1B95B /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */,
-				B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */,
 				B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */,
+				B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */,
+				B93F170D262DA30D0068FB88 /* FirebaseStoragePaths.swift */,
+				B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -1704,6 +1710,7 @@
 				B936265125DADA1F0063AAD6 /* ConversationPreviewTableViewCell.swift in Sources */,
 				B952F5C7261762420063E7B4 /* RecordButton.swift in Sources */,
 				B96A904626060034000CE9F7 /* SubscriberCollectionViewCell.swift in Sources */,
+				B93F170E262DA30D0068FB88 /* FirebaseStoragePaths.swift in Sources */,
 				B9B302AE2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift in Sources */,
 				14607A7C25A0DDE5009B3B50 /* ProfileModel.swift in Sources */,
 				B99020BC25ED36D3004AC25C /* NewLoginViewController.swift in Sources */,
@@ -1750,6 +1757,7 @@
 				B94680CA2600E2DC001BDC3F /* CreatePostViewController.swift in Sources */,
 				B936264425DA83AC0063AAD6 /* ChatViewModelBuilder.swift in Sources */,
 				B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */,
+				B93F1712262DA9550068FB88 /* ColorExtensions.swift in Sources */,
 				B9781DCA25DE70C600A2FE2D /* UserFirestoreManager.swift in Sources */,
 				B925CC6525D5842700542A58 /* Conversation.swift in Sources */,
 				B9474B7E262444C400D4AD89 /* AcceptChallengeViewController.swift in Sources */,

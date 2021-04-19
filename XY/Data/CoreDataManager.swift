@@ -67,6 +67,9 @@ class CoreDataManager {
     }
     
     func deleteEverything() {
+        if !isSetup {
+            performSetup()
+        }
         // Delete challenges
         let challengeFetchRequest: NSFetchRequest<NSFetchRequestResult> = ChallengeDataModel.fetchRequest()
         let challengeDeleteRequest = NSBatchDeleteRequest(fetchRequest: challengeFetchRequest)
@@ -79,6 +82,8 @@ class CoreDataManager {
         do {
             try persistentContainer.viewContext.execute(challengeDeleteRequest)
             try persistentContainer.viewContext.execute(friendsDeleteRequest)
+            
+            save()
         } catch let error as NSError {
             print(error)
         }

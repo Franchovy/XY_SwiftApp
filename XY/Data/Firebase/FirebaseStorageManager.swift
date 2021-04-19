@@ -14,10 +14,9 @@ final class FirebaseStorageManager {
     
     let root = Storage.storage().reference()
     
-    func uploadImageToStorage(imageData: Data, filename: String? = nil, containerName: String? = nil, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Result<String, Error>) -> Void)) {
+    func uploadImageToStorage(imageData: Data, storagePath: String, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Result<Void, Error>) -> Void)) {
         
-        let name = filename ?? (UUID().uuidString + ".png")
-        let path = root.child(containerName ?? UUID().uuidString).child(name)
+        let path = root.child(storagePath)
         print("Uploading image data to firebaseStorage path: \(path.fullPath)")
         
         let uploadTask = path.putData(imageData)
@@ -29,7 +28,7 @@ final class FirebaseStorageManager {
         }
         
         uploadTask.observe(.success) { (snapshot) in
-            onComplete(.success(path.fullPath))
+            onComplete(.success(()))
         }
         
         uploadTask.observe(.failure) { (snapshot) in
@@ -43,10 +42,8 @@ final class FirebaseStorageManager {
         uploadTask.resume()
     }
     
-    func uploadVideoToStorage(videoFileUrl: URL, filename: String? = nil, containerName: String? = nil, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Result<String, Error>) -> Void)) {
-        let name = filename ?? (UUID().uuidString + ".mov")
-        
-        let path = root.child(containerName ?? UUID().uuidString).child(name)
+    func uploadVideoToStorage(videoFileUrl: URL, storagePath: String, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Result<Void, Error>) -> Void)) {
+        let path = root.child(storagePath)
         print("Uploading video file to firebaseStorage path: \(path.fullPath)")
         
         let uploadTask = path.putFile(from: videoFileUrl)
@@ -58,7 +55,7 @@ final class FirebaseStorageManager {
         }
         
         uploadTask.observe(.success) { (snapshot) in
-            onComplete(.success(path.fullPath))
+            onComplete(.success(()))
         }
         
         uploadTask.observe(.failure) { (snapshot) in

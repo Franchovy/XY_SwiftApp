@@ -50,7 +50,7 @@ final class ChallengeDataManager {
         newChallenge.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
         newChallenge.fileUrl = self.saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!)
         newChallenge.fromUser = ProfileDataManager.shared.ownProfileModel
-        newChallenge.previewImage = challengeCard.image.pngData()
+        newChallenge.previewImage = challengeCard.image!.pngData()
         
         let friendModels = friendsList.map({ FriendsDataManager.shared.getDataModel(for: $0)! })
         friendModels.forEach({ friendModel in
@@ -105,8 +105,7 @@ final class ChallengeDataManager {
             // Upload previewImage to storage
             FirebaseStorageManager.shared.uploadImageToStorage(
                 imageData: challenge.previewImage!,
-                filename: challengeID.appending(".png"),
-                containerName: challengeID
+                storagePath: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challenge.firebaseID!)
             ) { (progress) in
                 print("Progress uploading image: \(progress)")
             } onComplete: { (result) in
@@ -121,8 +120,7 @@ final class ChallengeDataManager {
             // Upload video to storage
             FirebaseStorageManager.shared.uploadVideoToStorage(
                 videoFileUrl: url,
-                filename: videoID.appending(".mov"),
-                containerName: challengeID
+                storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challenge.firebaseID!, videoId: challenge.firebaseVideoID!)
             ) { (progress) in
                 print("Progress uploading video: \(progress)")
             } onComplete: { (result) in
@@ -144,8 +142,9 @@ final class ChallengeDataManager {
                 
                 challengeModels.forEach { (challengeDataModel) in
                     // Fetch preview images
-                    let imagePath = "\(challengeDataModel.firebaseID!)/\(challengeDataModel.firebaseID!)"
-                    FirebaseStorageManager.shared.downloadImage(from: imagePath) { progress in
+                    FirebaseStorageManager.shared.downloadImage(
+                        from: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challengeDataModel.firebaseID!)
+                    ) { progress in
                         
                     } completion: { result in
                         switch result {
@@ -156,13 +155,12 @@ final class ChallengeDataManager {
                         }
                     }
                     
-                    // Download videos
-                    FirebaseStorageManager.shared.getVideoDownloadUrl(from: "\(challengeDataModel.firebaseID!)/\(challengeDataModel.firebaseVideoID!)") { (result) in
-                        switch result {
-                        case .success(let url):
-                            challengeDataModel.downloadUrl = url
-                        case .failure(let error):
-                            print("Error getting download link to video: \(error.localizedDescription)")
+                    // Download video
+                    self.loadVideosForChallengeModel(model: challengeDataModel) { (error) in
+                        if let error = error {
+                            print("Error fetching videos for challenge: \(error)")
+                        } else {
+                            
                         }
                     }
                     
@@ -170,6 +168,30 @@ final class ChallengeDataManager {
                 }
             case .failure(let error):
                 print("Error fetching challenges: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func loadVideosForChallengeModel(model: ChallengeDataModel, completion: @escaping((Error?) -> Void)) {
+        // Get video IDs from firestore
+        FirebaseFirestoreManager.shared.getVideosForChallenge(model: model) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                assert(model.firebaseVideoID != nil)
+                // Get download URL for video
+                FirebaseStorageManager.shared.getVideoDownloadUrl(
+                    from: FirebaseStoragePaths.challengeVideoPath(challengeId: model.firebaseID!, videoId: model.firebaseVideoID!)
+                ) { (result) in
+                    switch result {
+                    case .success(let url):
+                        model.downloadUrl = url
+                        completion(nil)
+                        
+                    case .failure(let error):
+                        completion(error)
+                    }
+                }
             }
         }
     }

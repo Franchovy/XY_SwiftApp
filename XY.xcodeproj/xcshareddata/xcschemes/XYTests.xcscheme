@@ -23,7 +23,13 @@
             </BuildableReference>
             <SkippedTests>
                <Test
+                  Identifier = "FirebaseStorageTests/testUploadImageTask()">
+               </Test>
+               <Test
                   Identifier = "FirebaseStorageTests/testUploadStorageTask()">
+               </Test>
+               <Test
+                  Identifier = "FirebaseStorageTests/testVideoStorageTasks()">
                </Test>
                <Test
                   Identifier = "FirestoreManagerTests/testFirebaseModelCreator()">

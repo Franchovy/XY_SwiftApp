@@ -8,7 +8,7 @@
 import UIKit
 
 struct ChallengeCardViewModel {
-    let image: UIImage
+    let image: UIImage?
     let title: String
     let description: String
     let tag: ColorLabelViewModel?

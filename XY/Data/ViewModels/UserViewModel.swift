@@ -8,7 +8,7 @@
 import UIKit
 
 struct UserViewModel: Hashable {
-    let profileImage: UIImage
+    let profileImage: UIImage?
     let nickname: String
     var friendStatus: FriendStatus
     let numChallenges: Int

@@ -22,7 +22,7 @@ struct ChallengeDocument: Codable {
     var creatorID: String
 }
 
-struct ChallengeSubmission: Codable {
+struct ChallengeSubmissionDocument: Codable {
     var creatorID: String
     var videoID: String
     var timestamp: Timestamp
@@ -124,6 +124,26 @@ final class FirebaseFirestoreManager {
         }
     }
     
+    func deleteOwnProfile(idForVerificationPurposes ownID: String, completion: @escaping(Error?) -> Void) {
+        assert(ProfileDataManager.shared.ownProfileModel != nil, "Please set firebaseID property to firebase Auth ID!")
+        assert(ProfileDataManager.shared.ownID == ownID)
+        
+        root.collection(FirebaseCollectionPath.users).document().delete { (error) in
+            completion(error)
+        }
+    }
+    
+    func setProfileData(nickname: String, completion: @escaping(Error?) -> Void) {
+        let data = [
+            UserDocument.CodingKeys.nickname.rawValue : nickname
+        ]
+        
+        root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID)
+            .setData(data, merge: true) { error in
+                completion(error)
+            }
+    }
+    
     // MARK: - Download functions
     
     func fetchChallengeDocumentsFromFirestore(completion: @escaping(Result<[ChallengeDataModel], Error>) -> Void) {
@@ -218,25 +238,52 @@ final class FirebaseFirestoreManager {
         }
     }
     
+    func getVideosForChallenge(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
+        assert(model.firebaseID != nil)
+        assert(model.firebaseVideoID == nil)
+        
+        root.collection(FirebaseCollectionPath.challenges).document(model.firebaseID!)
+            .collection(FirebaseCollectionPath.challengeSubmissions)
+            .order(by: "timestamp", descending: false) // Order by last one first
+            .limit(to: 1)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(error)
+                } else if let querySnapshot = querySnapshot {
+                    for document in querySnapshot.documents {
+                        do {
+                            if let submissionModel = try self.convertChallengeSubmissionFromDocument(document: document) {
+                                model.firebaseVideoID = submissionModel.videoID
+                                assert(model.fromUser?.firebaseID == submissionModel.creatorID)
+                            }
+                        } catch let error {
+                            completion(error)
+                            return
+                        }
+                    }
+                }
+            }
+    }
+    
     // MARK: - Coredata-Firestore Conversions
     
-    func createChallengeSubmissionDocument(model: ChallengeDataModel) -> [String: Any]? {
+    private func createChallengeSubmissionDocument(model: ChallengeDataModel) -> [String: Any]? {
         
-        let documentObject = ChallengeSubmission(
+        let documentObject = ChallengeSubmissionDocument(
             creatorID: model.fromUser!.firebaseID!,
             videoID: model.firebaseVideoID!,
             timestamp: Timestamp()
         )
         
         do {
-            return try FirestoreEncoder().encode(documentObject) as? [String: Any]
+            return try FirestoreEncoder().encode(documentObject)
         } catch let error {
             print("Encoding error: \(error)")
             return nil
         }
     }
     
-    func convertChallengeToDocument(model: ChallengeDataModel) -> [String: Any]? {
+    private func convertChallengeToDocument(model: ChallengeDataModel) -> [String: Any]? {
         
         let sentToUsers = model.sentTo!.allObjects.map({ ($0 as! UserDataModel).firebaseID! })
         
@@ -256,8 +303,8 @@ final class FirebaseFirestoreManager {
         }
     }
     
-    func convertChallengeFromDocument(document: DocumentSnapshot) throws -> ChallengeDataModel? {
-        guard let data = document.data() else {
+    private func convertChallengeFromDocument(document: DocumentSnapshot) throws -> ChallengeDataModel? {
+        guard document.data() != nil else {
             return nil
         }
         
@@ -277,8 +324,20 @@ final class FirebaseFirestoreManager {
         return model
     }
     
-    func convertUserFromDocument(document: DocumentSnapshot) throws -> UserDataModel? {
-        guard let data = document.data() else {
+    private func convertChallengeSubmissionFromDocument(document: DocumentSnapshot) throws -> ChallengeSubmissionDocument? {
+        guard document.data() != nil else {
+            return nil
+        }
+        
+        return try document.decode(as: ChallengeSubmissionDocument.self, includingId: false)
+    }
+    
+    private func convertChallengeSubmissionToDocument(model: ChallengeDataModel) throws -> ChallengeSubmissionDocument? {
+        fatalError("Not implemented yet.")
+    }
+    
+    private func convertUserFromDocument(document: DocumentSnapshot) throws -> UserDataModel? {
+        guard document.data() != nil else {
             return nil
         }
         
@@ -297,7 +356,7 @@ final class FirebaseFirestoreManager {
         return model
     }
     
-    func convertDocumentToFriendStatus(document: DocumentSnapshot) throws -> FriendStatus {
+    private func convertDocumentToFriendStatus(document: DocumentSnapshot) throws -> FriendStatus {
         if !document.exists {
             return FriendStatus.none
         }
@@ -312,7 +371,7 @@ final class FirebaseFirestoreManager {
         }
     }
     
-    func convertUserToDocument(userModel: UserDataModel) throws -> [String: Any]? {
+    private func convertUserToDocument(userModel: UserDataModel) throws -> [String: Any]? {
         assert(userModel.nickname != nil)
         
         let document = UserDocument(

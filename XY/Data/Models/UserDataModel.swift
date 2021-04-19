@@ -12,7 +12,7 @@ extension UserDataModel {
     
     func toViewModel() -> UserViewModel {
         UserViewModel(
-            profileImage: UIImage(data: profileImage!)!,
+            profileImage: profileImage != nil ? UIImage(data: profileImage!)! : nil,
             nickname: nickname!,
             friendStatus: FriendStatus(rawValue: friendStatus!)!,
             numChallenges: Int(numChallenges),

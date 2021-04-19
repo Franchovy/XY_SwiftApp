@@ -12,20 +12,29 @@ final class ProfileDataManager {
     static var shared = ProfileDataManager()
     private init() { }
     
-    var profileImage: UIImage? = UIImage(named: "defaultProfileImage")
-    var nickname: String = "my_nickname"
+    var profileImage: UIImage? {
+        get {
+            return ownProfileModel.profileImage == nil ? nil : UIImage(data: ownProfileModel.profileImage!)!
+        }
+    }
+    
+    var nickname: String {
+        get {
+            return ownProfileModel.nickname!
+        }
+    }
     
     var ownID: String {
         get {
-            return ownProfileModel.firebaseID!
+            return AuthManager.shared.userId!
         }
     }
     
     var ownProfileViewModel: UserViewModel {
         get {
             return UserViewModel(
-                profileImage: UIImage(data: ownProfileModel.profileImage!)!,
-                nickname: ownProfileModel.nickname!,
+                profileImage: profileImage,
+                nickname: nickname,
                 friendStatus: .none,
                 numChallenges: Int(ownProfileModel.numChallenges),
                 numFriends: Int(ownProfileModel.numFriends)
@@ -66,7 +75,19 @@ final class ProfileDataManager {
                     case .success(let userModel):
                         self.ownProfileModel = userModel
                     case .failure(let error):
-                        print("Error fetching own profile from firebase: \(error)")
+                        fatalError("Error fetching own profile from firebase: \(error)")
+                    }
+                }
+                
+                FirebaseStorageManager.shared.downloadImage(
+                    from: ownFirebaseId) { (progress) in
+                    
+                } completion: { (result) in
+                    switch result {
+                    case .success(let data):
+                        self.ownProfileModel.profileImage = data
+                    case .failure(let error):
+                        print("Error downloading own profile Image: \(error)")
                     }
                 }
                 
@@ -80,5 +101,23 @@ final class ProfileDataManager {
         } catch let error {
             print("Error performing fetch request: \(error)")
         }
+    }
+    
+    func setNickname(as newNickname: String, completion: @escaping(Error?) -> Void) {
+        // Set coredata nickname
+        ownProfileModel.nickname = newNickname
+        CoreDataManager.shared.save()
+        
+        // Set firebase firestore nickname
+        FirebaseFirestoreManager.shared.setProfileData(nickname: nickname) { error in
+            completion(error)
+        }
+    }
+    
+    func setImage(as newImage: UIImage, onProgress: @escaping(Double) -> Void, completion: @escaping(Error?) -> Void) {
+        // Set coredata image
+        
+        // Set firebase storage image
+        
     }
 }

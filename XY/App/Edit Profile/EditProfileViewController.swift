@@ -176,7 +176,14 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     @objc private func tappedAnywhere() {
         if let text = nicknameTextField.text, text != "" {
-            ProfileDataManager.shared.nickname = text
+            ProfileDataManager.shared.setNickname(as: text) { error in
+                if let error = error {
+                    print("Error saving nickname: \(error.localizedDescription)")
+                    self.displayTempLabel(centerPoint: self.view.center, labelText: "Error saving nickname!", labelColor: .systemRed)
+                } else {
+                    self.displayTempLabel(centerPoint: self.view.center, labelText: "Saved.", labelColor: .XYWhite)
+                }
+            }
         } else {
             nicknameTextField.text = ProfileDataManager.shared.nickname
         }

@@ -23,6 +23,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         FirebaseApp.configure()
         
+        #if DEBUG
+//        CoreDataManager.shared.deleteEverything()
+        #endif
+        
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
     
@@ -93,7 +97,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
+        #if DEBUG
 //        CoreDataManager.shared.deleteEverything()
+        #endif
         
         saveContext()
     }
