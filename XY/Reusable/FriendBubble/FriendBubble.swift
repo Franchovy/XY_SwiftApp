@@ -12,6 +12,8 @@ class FriendBubble: UIView {
     let imageView = UIImageView()
     let shadowLayer = CALayer()
     
+    var emptyImage:Bool = true
+    
     init() {
         super.init(frame: .zero)
         
@@ -42,7 +44,25 @@ class FriendBubble: UIView {
         imageView.layer.cornerRadius = height/2
     }
     
+    public func prepareForReuse() {
+        emptyImage = true
+        imageView.layer.borderWidth = 0
+        imageView.image = nil
+        shadowLayer.opacity = 1.0
+    }
+    
     public func configure(with viewModel: UserViewModel) {
-        imageView.image = viewModel.profileImage
+        if viewModel.profileImage != nil {
+            imageView.image = viewModel.profileImage
+            emptyImage = false
+        } else {
+            emptyImage = true
+            
+            imageView.image = UIImage(systemName: "person.fill")?.withTintColor(.systemGray, renderingMode: .alwaysOriginal)
+            
+            imageView.layer.borderWidth = 1
+            imageView.layer.borderColor = UIColor.white.cgColor
+            shadowLayer.opacity = 0.0
+        }
     }
 }
