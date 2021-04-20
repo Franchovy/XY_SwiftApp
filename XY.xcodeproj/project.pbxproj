@@ -910,6 +910,14 @@
 			path = WatchVC;
 			sourceTree = "<group>";
 		};
+		B94DEA86262F210400A2E683 /* FriendBubble */ = {
+			isa = PBXGroup;
+			children = (
+				B96B7F362613397000B1CBF5 /* FriendBubble.swift */,
+			);
+			path = FriendBubble;
+			sourceTree = "<group>";
+		};
 		B94FA39225710C9D00A44085 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -1014,7 +1022,7 @@
 				B9FD99412615C23400D6716C /* SeparatorLine.swift */,
 				B9FD99452615C48300D6716C /* FlatButton.swift */,
 				B9FD993D2615C08100D6716C /* TextField.swift */,
-				B96B7F362613397000B1CBF5 /* FriendBubble.swift */,
+				B94DEA86262F210400A2E683 /* FriendBubble */,
 				B926866A2614636400A306F6 /* AddFriendButton */,
 				B973530E2618BFC600183201 /* ChallengeCard */,
 			);

@@ -300,6 +300,8 @@ class HomeViewController: UIViewController {
             ChallengeDataManager.shared.loadChallengesFromStorage()
             FriendsDataManager.shared.loadDataFromStorage()
             
+            FriendsDataManager.shared.loadAllUsersFromFirebase()
+            
             if FriendsDataManager.shared.friends.count == 0 {
                 self.configureEmptyNoFriends()
             } else {

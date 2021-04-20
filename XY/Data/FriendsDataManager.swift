@@ -26,16 +26,15 @@ protocol FriendsDataManagerListener: NSObject {
 
 final class FriendsDataManager {
     static var shared = FriendsDataManager()
+    private init() {
+        allUsers = []
+    }
     
     var allUsers: [UserDataModel]
     var friends: [UserDataModel] {
         get {
             allUsers.filter({ $0.friendStatus == FriendStatus.friend.rawValue })
         }
-    }
-    
-    private init() {
-        allUsers = []
     }
     
     var changeListeners: [UserDataModel: [WeakReferenceListener]] = [:]
@@ -107,6 +106,17 @@ final class FriendsDataManager {
         }
     }
     
+    func loadAllUsersFromFirebase() {
+        FirebaseFirestoreManager.shared.fetchAllProfiles { (result) in
+            switch result {
+            case .success(let userModels):
+                self.allUsers = userModels
+            case .failure(let error):
+                print("Error fetching users from firebase: \(error.localizedDescription)")
+            }
+        }
+    }
+    
     func loadDataFromStorage() {
         let mainContext = CoreDataManager.shared.mainContext
         
@@ -118,11 +128,11 @@ final class FriendsDataManager {
             allUsers = results
             
             #if DEBUG
-            if allUsers.count == 0 {
-                for _ in 0...100 {
-                    allUsers.append(UserDataModel.fakeUser())
-                }
-            }
+//            if allUsers.count == 0 {
+//                for _ in 0...100 {
+//                    allUsers.append(UserDataModel.fakeUser())
+//                }
+//            }
             #endif
         }
         catch {

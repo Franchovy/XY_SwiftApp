@@ -174,6 +174,51 @@ final class FirebaseFirestoreManager {
     }
     
     func fetchAllProfiles(completion: @escaping(Result<[UserDataModel], Error>) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        
+        var friendModels = [UserDataModel]()
+        
+        dispatchGroup.enter()
+        
+        root.collection(FirebaseCollectionPath.users)
+            .getDocuments { (querySnapshot, error) in
+            defer {
+                dispatchGroup.leave()
+            }
+            if let error = error {
+                completion(.failure(error))
+            } else if let querySnapshot = querySnapshot {
+                for document in querySnapshot.documents {
+                    if document.documentID == ProfileDataManager.shared.ownID {
+                        // Skip self
+                        continue
+                    }
+                    
+                    if let userDocument = try? self.convertUserFromDocument(document: document) {
+                        
+                        dispatchGroup.enter()
+                        self.fetchFrienshipStatus(forID: document.documentID) { friendshipStatus, error in
+                            defer {
+                                dispatchGroup.leave()
+                            }
+                            if let error = error {
+                                print("Error fetching friendship status: \(error)")
+                            } else if let friendshipStatus = friendshipStatus {
+                                userDocument.friendStatus = friendshipStatus.rawValue
+                            }
+                        }
+                        
+                        friendModels.append(userDocument)
+                    } else {
+                        print("Could not convert data: \(document.data())")
+                    }
+                }
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(.success(friendModels))
+        }
         
     }
     
@@ -187,22 +232,13 @@ final class FirebaseFirestoreManager {
         if profileId != ProfileDataManager.shared.ownID {
             dispatchGroup.enter()
             // Fetch friendship status
-            root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID).collection(FirebaseCollectionPath.friendships)
-                .document(profileId)
-                .getDocument { (snapshot, error) in
-                    defer {
-                        dispatchGroup.leave()
-                    }
-                    if let error = error {
-                        completion(.failure(error))
-                    } else if let snapshot = snapshot {
-                        do {
-                            friendshipStatus = try self.convertDocumentToFriendStatus(document: snapshot)
-                        } catch let error {
-                            completion(.failure(error))
-                        }
-                    }
+            fetchFrienshipStatus(forID: profileId) { (friendStatus, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let friendStatus = friendStatus {
+                    friendshipStatus = friendStatus
                 }
+            }
         } else {
             friendshipStatus = FriendStatus.none
         }
@@ -236,6 +272,23 @@ final class FirebaseFirestoreManager {
                 completion(.failure(FirestoreManagerError.unknownError))
             }
         }
+    }
+    
+    func fetchFrienshipStatus(forID userID: String, completion: @escaping(FriendStatus?, Error?) -> Void) {
+        root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID).collection(FirebaseCollectionPath.friendships)
+            .document(userID)
+            .getDocument { (snapshot, error) in
+                if let error = error {
+                    completion(nil, error)
+                } else if let snapshot = snapshot {
+                    do {
+                        let friendshipStatus = try self.convertDocumentToFriendStatus(document: snapshot)
+                        completion(friendshipStatus, nil)
+                    } catch let error {
+                        completion(nil, error)
+                    }
+                }
+            }
     }
     
     func getVideosForChallenge(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
