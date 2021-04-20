@@ -14,13 +14,13 @@ final class ProfileDataManager {
     
     var profileImage: UIImage? {
         get {
-            return ownProfileModel.profileImage == nil ? nil : UIImage(data: ownProfileModel.profileImage!)!
+            return ( ownProfileModel == nil || ownProfileModel.profileImage == nil) ? nil : UIImage(data: ownProfileModel.profileImage!)!
         }
     }
     
-    var nickname: String {
+    var nickname: String? {
         get {
-            return ownProfileModel.nickname!
+            return (ownProfileModel == nil ? nil : ownProfileModel.nickname)
         }
     }
     
@@ -34,7 +34,7 @@ final class ProfileDataManager {
         get {
             return UserViewModel(
                 profileImage: profileImage,
-                nickname: nickname,
+                nickname: nickname!,
                 friendStatus: .none,
                 numChallenges: Int(ownProfileModel.numChallenges),
                 numFriends: Int(ownProfileModel.numFriends)
@@ -80,7 +80,7 @@ final class ProfileDataManager {
                 }
                 
                 FirebaseStorageManager.shared.downloadImage(
-                    from: ownFirebaseId) { (progress) in
+                    from: ownFirebaseId) { progress in
                     
                 } completion: { (result) in
                     switch result {
@@ -109,7 +109,7 @@ final class ProfileDataManager {
         CoreDataManager.shared.save()
         
         // Set firebase firestore nickname
-        FirebaseFirestoreManager.shared.setProfileData(nickname: nickname) { error in
+        FirebaseFirestoreManager.shared.setProfileData(nickname: nickname!) { error in
             completion(error)
         }
     }

@@ -39,6 +39,8 @@ class Prompt: UIView, UITextViewDelegate {
     var fields = [UIView]()
     var externalButtons = [UIButton]()
     
+    var loadingCircle: XPCircleView?
+    
     var onCompletion: (([String]) -> Void)?
     var executesCompletionOnTapOutside = false
     
@@ -104,6 +106,8 @@ class Prompt: UIView, UITextViewDelegate {
         
         var previousY:CGFloat = titleLabel?.bottom ?? 0
         for field in fields {
+            
+            var width: CGFloat = cardWidth - 32
             var height: CGFloat = 80
             
             if field is UITextView {
@@ -122,12 +126,15 @@ class Prompt: UIView, UITextViewDelegate {
                     
                     height = boundingRect.height
                 }
+            } else if field is XPCircleView {
+                height = 80
+                width = 80
             }
             
             field.frame = CGRect(
-                x: 16,
+                x: (cardWidth - width)/2,
                 y: previousY + 14,
-                width: cardWidth - 32,
+                width: width,
                 height: height
             )
             
@@ -271,6 +278,23 @@ class Prompt: UIView, UITextViewDelegate {
         
         card.addSubview(textField)
         fields.append(textField)
+    }
+    
+    public func addLoadingCircle(initialProgress: Double) {
+        loadingCircle = XPCircleView()
+        loadingCircle!.setColor(.XYBlue)
+        loadingCircle!.setThickness(.medium)
+        
+        card.addSubview(loadingCircle!)
+        fields.append(loadingCircle!)
+    }
+    
+    public func setLoadingProgress(progress: Double) {
+        guard let loadingCircle = loadingCircle else {
+            return
+        }
+        
+        loadingCircle.animateSetProgress(CGFloat(progress))
     }
     
     public func addButtonField(image: UIImage? = nil, buttonText: String, font: UIFont? = nil, onTap: (() -> Void)? = nil) {

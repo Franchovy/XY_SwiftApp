@@ -122,7 +122,7 @@ class ChatBubbleTableViewCell: UITableViewCell {
                                     y: 5,
                                     width: bubbleWidth,
                                     height: bubbleHeight)
-            chatBubbleView.backgroundColor = UIColor(named: "XYblue")
+            chatBubbleView.backgroundColor = .XYBlue
         }
 
         messageLabel.frame.origin = CGPoint(x: 12.5, y: 14.5)

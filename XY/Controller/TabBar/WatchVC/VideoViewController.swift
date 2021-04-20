@@ -476,7 +476,7 @@ class VideoViewController: UIViewController {
             modelText = "I love it omg"
         }
         
-        var commentView = CommentView(text: modelText, color: UIColor(named: "XYblue")!)
+        var commentView = CommentView(text: modelText, color: .XYBlue)
         
         commentView.frame = CGRect(
             x: view.width / 9,

@@ -38,4 +38,10 @@ extension UIColor {
             UIColor(named: "XYTint")!
         }
     }
+    
+    static var XYBlue: UIColor {
+        get {
+            UIColor(named: "XYBlue")!
+        }
+    }
 }

@@ -151,7 +151,7 @@ class CommentTableViewCell: UITableViewCell {
                                     y: 5,
                                     width: bubbleWidth,
                                     height: bubbleHeight)
-            chatBubbleView.backgroundColor = UIColor(named: "XYblue")
+            chatBubbleView.backgroundColor = .XYBlue
         }
         profileImage.layer.cornerRadius = profileImage.height / 2
         

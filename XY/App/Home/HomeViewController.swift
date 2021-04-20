@@ -27,16 +27,31 @@ class HomeViewController: UIViewController {
     private let noChallengesLabel = Label("You have no challenges.", style: .body, fontSize: 18)
     private let createChallengeButton = Button(title: "Create new", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
     
-    // MARK: - Properties
+    // MARK: - Reference properties
     
-    enum HomeState {
-        case normal
-        case noFriends
-        case noChallengesFirst
-        case noChallengesNormal
+    var state: AppStateManager.HomeState {
+        get {
+            AppStateManager.shared.homeState
+        }
+        
+        set {
+            guard AppStateManager.shared.homeState != newValue, newValue != state else {
+                return
+            }
+            AppStateManager.shared.homeState = newValue
+            
+            switch newValue {
+            case .uninit:
+                fatalError("This must load before")
+            case .normal:
+                configureNormal()
+            case .noChallengesFirst, .noChallengesNormal:
+                configureEmptyNoChallenges()
+            case .noFriends:
+                configureEmptyNoFriends()
+            }
+        }
     }
-    
-    var state: HomeState = .normal
     
     // MARK: - Initializers
     
@@ -64,6 +79,8 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didLoadActiveChallenges), name: .didLoadActiveChallenges, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didFinishSendingChallenge), name: .didFinishSendingChallenge, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didFinishDownloadingReceivedChallenges, object: nil)
+        
+        state = AppStateManager.shared.load()
         
         view.addSubview(friendsLabel)
         view.addSubview(friendsCollectionView)
@@ -102,28 +119,6 @@ class HomeViewController: UIViewController {
                 action: #selector(tappedNotifications)
             )
         ]
-        
-        // Some coredata loading
-        ProfileDataManager.shared.load() {
-            self.beginFetchChallenges()
-            
-            // Fetch Challenges from storage
-            ChallengeDataManager.shared.loadChallengesFromStorage()
-            FriendsDataManager.shared.loadDataFromStorage()
-            
-            if FriendsDataManager.shared.friends.count == 0 {
-                self.configureEmptyNoFriends()
-            } else {
-                self.friendsDataSource.reload()
-                self.friendsCollectionView.reloadData()
-                
-                if ChallengeDataManager.shared.activeChallenges.count == 0 {
-                    self.configureEmptyNoChallenges()
-                } else {
-                    self.configureNormal()
-                }
-            }
-        }
     }
     
     deinit {
@@ -141,15 +136,7 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        switch state {
-        case .noFriends:
-            configureEmptyNoFriends()
-        case .noChallengesFirst, .noChallengesNormal:
-            configureEmptyNoChallenges()
-        case .normal:
-            configureNormal()
-        default: break
-        }
+        initialiseSetup()
         
     }
     
@@ -302,6 +289,30 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didFinishDownloadingReceivedChallenges, object: nil)
         
         ChallengeDataManager.shared.fetchChallengeCards()
+    }
+    
+    private func initialiseSetup() {
+        // Some coredata loading
+        ProfileDataManager.shared.load() {
+            self.beginFetchChallenges()
+            
+            // Fetch Challenges from storage
+            ChallengeDataManager.shared.loadChallengesFromStorage()
+            FriendsDataManager.shared.loadDataFromStorage()
+            
+            if FriendsDataManager.shared.friends.count == 0 {
+                self.configureEmptyNoFriends()
+            } else {
+                self.friendsDataSource.reload()
+                self.friendsCollectionView.reloadData()
+                
+                if ChallengeDataManager.shared.activeChallenges.count == 0 {
+                    self.configureEmptyNoChallenges()
+                } else {
+                    self.configureNormal()
+                }
+            }
+        }
     }
     
     @objc private func tappedNotifications() {

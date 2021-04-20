@@ -97,6 +97,7 @@
 		B94CC3F225BAA5B900E97B78 /* _CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */; };
 		B94D46F1257253BA00A21355 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D46F0257253BA00A21355 /* PostModel.swift */; };
 		B94D91B425CFE85F0052BEE2 /* SectionLabelReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */; };
+		B94DEA83262F103900A2E683 /* AppStateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94DEA82262F103900A2E683 /* AppStateManager.swift */; };
 		B94E3F7126270D12001AE129 /* Challenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B94E3F6F26270D12001AE129 /* Challenge.xcdatamodeld */; };
 		B94EAD6025EEAEA400504A2A /* Gradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EAD5F25EEAEA400504A2A /* Gradient.swift */; };
 		B94EAD6A25EEE3CE00504A2A /* GradientLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */; };
@@ -391,6 +392,7 @@
 		B94CC3F125BAA5B900E97B78 /* _CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _CameraViewController.swift; sourceTree = "<group>"; };
 		B94D46F0257253BA00A21355 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		B94D91B325CFE85F0052BEE2 /* SectionLabelReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionLabelReusableView.swift; sourceTree = "<group>"; };
+		B94DEA82262F103900A2E683 /* AppStateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateManager.swift; sourceTree = "<group>"; };
 		B94E3F7026270D12001AE129 /* Challenge.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Challenge.xcdatamodel; sourceTree = "<group>"; };
 		B94EAD5F25EEAEA400504A2A /* Gradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradient.swift; sourceTree = "<group>"; };
 		B94EAD6925EEE3CE00504A2A /* GradientLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLabel.swift; sourceTree = "<group>"; };
@@ -1404,6 +1406,7 @@
 				B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */,
 				B94C2F8A2627169B00282207 /* CoreDataManager.swift */,
 				B9CE8227262975C600C1B95B /* Firebase */,
+				B94DEA82262F103900A2E683 /* AppStateManager.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1872,6 +1875,7 @@
 				B925CC6B25D5842E00542A58 /* Message.swift in Sources */,
 				B9B74D7D25F0296E0083D69A /* RankingViewModel.swift in Sources */,
 				B99020DB25ED64F1004AC25C /* GradientBorderTextField.swift in Sources */,
+				B94DEA83262F103900A2E683 /* AppStateManager.swift in Sources */,
 				B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */,
 				B952F5E026177DF80063E7B4 /* ConfirmSendChallengeViewController.swift in Sources */,
 				B972A2C625DD4282006A0476 /* Comment.swift in Sources */,

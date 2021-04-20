@@ -543,7 +543,7 @@ class ImagePostCell: UITableViewCell, FlowDataCell {
                                   height: ceil(boundingBox.height))
 
 
-        caption.backgroundColor = UIColor(named: "XYblue")
+        caption.backgroundColor = .XYBlue
         layoutChatBubble()
     }
     
