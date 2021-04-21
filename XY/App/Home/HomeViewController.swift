@@ -29,6 +29,8 @@ class HomeViewController: UIViewController {
     
     // MARK: - Reference properties
     
+    var setup = false
+    
     var state: AppStateManager.HomeState {
         get {
             AppStateManager.shared.homeState
@@ -136,7 +138,10 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        initialiseSetup()
+        if !setup {
+            initialiseSetup()
+            setup = true
+        }
         
     }
     
@@ -284,24 +289,21 @@ class HomeViewController: UIViewController {
         view.setNeedsLayout()
     }
     
-    private func beginFetchChallenges() {
+    private func initializeChallenges() {
         NotificationCenter.default.addObserver(self, selector: #selector(onCoreDataPropertyUpdate), name: .NSManagedObjectContextObjectsDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didFinishDownloadingReceivedChallenges, object: nil)
         
         ChallengeDataManager.shared.fetchChallengeCards()
+        
+        ChallengeDataManager.shared.loadChallengesFromStorage()
+        
     }
     
     private func initialiseSetup() {
         // Some coredata loading
         ProfileDataManager.shared.load() {
-            self.beginFetchChallenges()
-            
-            // Fetch Challenges from storage
-            ChallengeDataManager.shared.loadChallengesFromStorage()
-            FriendsDataManager.shared.loadDataFromStorage()
-            
-            FriendsDataManager.shared.loadAllUsersFromFirebase()
-            FriendsDataManager.shared.setupFriendshipStatusListener()
+            self.initializeChallenges()
+            self.initialiseFriends()
             
             if FriendsDataManager.shared.friends.count == 0 {
                 self.configureEmptyNoFriends()
@@ -316,6 +318,19 @@ class HomeViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func initialiseFriends() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
+        
+        FriendsDataManager.shared.loadDataFromStorage()
+        FriendsDataManager.shared.loadAllUsersFromFirebase() {
+            self.friendsDataSource.reload()
+            self.friendsCollectionView.reloadData()
+        }
+        FriendsDataManager.shared.setupFriendshipStatusListener()
+        
+        
     }
     
     @objc private func tappedNotifications() {

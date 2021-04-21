@@ -106,11 +106,12 @@ final class FriendsDataManager {
         }
     }
     
-    func loadAllUsersFromFirebase() {
+    func loadAllUsersFromFirebase(completion: @escaping(() -> Void)) {
         FirebaseFirestoreManager.shared.fetchAllProfiles { (result) in
             switch result {
             case .success(let userModels):
                 self.allUsers = userModels
+                completion()
             case .failure(let error):
                 print("Error fetching users from firebase: \(error.localizedDescription)")
             }
