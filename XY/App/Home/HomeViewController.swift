@@ -301,6 +301,7 @@ class HomeViewController: UIViewController {
             FriendsDataManager.shared.loadDataFromStorage()
             
             FriendsDataManager.shared.loadAllUsersFromFirebase()
+            FriendsDataManager.shared.setupFriendshipStatusListener()
             
             if FriendsDataManager.shared.friends.count == 0 {
                 self.configureEmptyNoFriends()

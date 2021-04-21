@@ -291,6 +291,90 @@ final class FirebaseFirestoreManager {
             }
     }
     
+    func listenForFriendStatusUpdates(onUpdate: @escaping(String?, FriendStatus?, Error?) -> Void) {
+        // Firebase listener
+        root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID)
+            .collection(FirebaseCollectionPath.friendships).addSnapshotListener { (querySnapshot, error) in
+                if let error = error {
+                    onUpdate(nil, nil, error)
+                } else if let querySnapshot = querySnapshot {
+                    for documentChange in querySnapshot.documentChanges {
+                        let document = documentChange.document
+                        
+                        do {
+                            let friendStatus = try self.convertDocumentToFriendStatus(document: document)
+                            onUpdate(document.documentID, friendStatus, nil)
+                        } catch let error {
+                            onUpdate(nil, nil, error)
+                        }
+                    }
+                }
+            }
+    }
+    
+    func setFriendshipStatus(for otherUser: UserDataModel, completion: @escaping(Error?) -> Void) {
+        assert(otherUser.firebaseID != nil)
+        assert(otherUser.friendStatus != nil)
+        
+        let otherID = otherUser.firebaseID!
+        let ownID = ProfileDataManager.shared.ownID
+        
+        let ownStatus = FriendStatus(rawValue: otherUser.friendStatus!)!
+        let otherDocumentFriendshipStatus:FriendStatus = {
+            switch FriendStatus(rawValue: otherUser.friendStatus!)! {
+            case .added:
+                return .addedMe
+            case .addedMe:
+                return .added
+            case .friend:
+                return .friend
+            case .none:
+                return .none
+        }
+        }()
+        
+        let ownFriendshipStatus = FriendshipDocument(friendstatus: ownStatus.rawValue)
+        let otherFriendshipStatus = FriendshipDocument(friendstatus: otherDocumentFriendshipStatus.rawValue)
+        
+        let dispatchGroup = DispatchGroup()
+        
+        do {
+            let ownDocumentData = try FirestoreEncoder().encode(ownFriendshipStatus)
+            
+            dispatchGroup.enter()
+            
+            // Set friend status on own document
+            root.collection(FirebaseCollectionPath.users).document(ownID)
+                .collection(FirebaseCollectionPath.friendships).document(otherID)
+                .setData(ownDocumentData, merge: true) { error in
+                    defer {
+                        dispatchGroup.leave()
+                    }
+                    completion(error)
+                }
+        } catch let error {
+            completion(error)
+        }
+        
+        do {
+            let otherDocumentData = try FirestoreEncoder().encode(otherFriendshipStatus)
+            
+            dispatchGroup.enter()
+            
+            // Set friend status on other document
+            root.collection(FirebaseCollectionPath.users).document(otherID)
+                .collection(FirebaseCollectionPath.friendships).document(ownID)
+                .setData(otherDocumentData) { error in
+                    defer {
+                        dispatchGroup.leave()
+                    }
+                    completion(error)
+                }
+        } catch let error {
+            completion(error)
+        }
+    }
+    
     func getVideosForChallenge(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
         assert(model.firebaseID != nil)
         assert(model.firebaseVideoID == nil)

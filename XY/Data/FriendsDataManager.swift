@@ -158,7 +158,6 @@ final class FriendsDataManager {
     
     func updateFriendStatus(friend: UserViewModel, newStatus: FriendStatus) {
         if let user = allUsers.first(where: { $0.nickname == friend.nickname }) {
-            assert(newStatus != .none)
             user.friendStatus = newStatus.rawValue
             
             FirebaseFirestoreManager.shared.setFriendshipStatus(for: user) { (error) in
@@ -181,7 +180,7 @@ final class FriendsDataManager {
             } else if let userID = userID, let friendStatus = friendStatus {
                 // Set coredata
                 if let user = self.allUsers.first(where: { $0.firebaseID == userID }) {
-                    assert(friendStatus != .none)
+                    
                     user.friendStatus = friendStatus.rawValue
                     
                     // Update listeners
