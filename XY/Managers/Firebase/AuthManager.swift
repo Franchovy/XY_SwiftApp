@@ -52,6 +52,8 @@ final class AuthManager {
             try Auth.auth().signOut()
             
             _ProfileManager.shared.resetProfileImageFile()
+            
+            CoreDataManager.shared.deleteEverything()
         } catch let error {
             print("Error logging out: \(error)")
         }
