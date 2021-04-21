@@ -158,20 +158,38 @@ final class FriendsDataManager {
     
     func updateFriendStatus(friend: UserViewModel, newStatus: FriendStatus) {
         if let user = allUsers.first(where: { $0.nickname == friend.nickname }) {
-            
+            assert(newStatus != .none)
             user.friendStatus = newStatus.rawValue
+            
+            FirebaseFirestoreManager.shared.setFriendshipStatus(for: user) { (error) in
+                if let error = error {
+                    print("Error setting friendship status: \(error.localizedDescription)")
+                }
+            }
             
             // Update listeners
             changeListeners[user]?.forEach({ $0.reference?.didUpdateFriendshipState(to: newStatus ) })
             NotificationCenter.default.post(name: .friendUpdateNotification, object: nil)
-            
-            #if DEBUG
-            
-            if newStatus == .added {
-                Timer.scheduledTimer(timeInterval: TimeInterval.seconds(5), target: self, selector: #selector(fakeFriendAddBack(_:)), userInfo: ["nickname": friend.nickname], repeats: false)
+        }
+    }
+    
+    func setupFriendshipStatusListener() {
+        // add firestore listener
+        FirebaseFirestoreManager.shared.listenForFriendStatusUpdates() { userID, friendStatus, error in
+            if let error = error {
+                fatalError(error.localizedDescription)
+            } else if let userID = userID, let friendStatus = friendStatus {
+                // Set coredata
+                if let user = self.allUsers.first(where: { $0.firebaseID == userID }) {
+                    assert(friendStatus != .none)
+                    user.friendStatus = friendStatus.rawValue
+                    
+                    // Update listeners
+                    self.changeListeners[user]?.forEach({ $0.reference?.didUpdateFriendshipState(to: friendStatus ) })
+                    NotificationCenter.default.post(name: .friendUpdateNotification, object: nil)
+                }
             }
             
-            #endif
         }
     }
     
