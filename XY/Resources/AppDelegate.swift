@@ -23,6 +23,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 
         FirebaseApp.configure()
         
+        let appVersion = UserDefaults.standard.string(forKey: "appVersion")
+        if appVersion == nil {
+            CoreDataManager.shared.deleteEverything()
+            UserDefaults.standard.setValue("1.2.2.0", forKey: "appVersion")
+        }
+        
         #if DEBUG
 //        CoreDataManager.shared.deleteEverything()
         #endif
