@@ -166,7 +166,7 @@ final class ChallengeDataManager {
     
     func fetchChallengeCards() {
         // Fetch challenges
-        FirebaseFirestoreManager.shared.fetchChallengeDocumentsFromFirestore { (result) in
+        FirebaseFirestoreManager.shared.listenForNewChallenges { (result) in
             switch result {
             case .success(let challengeModels):
                 
@@ -222,6 +222,56 @@ final class ChallengeDataManager {
                         completion(error)
                     }
                 }
+            }
+        }
+    }
+    
+    func setupChallengesListener() {
+        // set up firebase listener
+        FirebaseFirestoreManager.shared.listenForNewChallenges { (result) in
+            switch result {
+            case .success(let challengeModels):
+                
+                let dispatchGroup = DispatchGroup()
+                
+                challengeModels.forEach { (challengeDataModel) in
+                    
+                    // Fetch preview images
+                    dispatchGroup.enter()
+                    FirebaseStorageManager.shared.downloadImage(
+                        from: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challengeDataModel.firebaseID!)
+                    ) { progress in
+                        
+                    } completion: { result in
+                        defer {
+                            dispatchGroup.leave()
+                        }
+                        switch result {
+                        case .success(let imageData):
+                            challengeDataModel.previewImage = imageData
+                        case .failure(let error):
+                            print("Error downloading preview images for challenge: \(error.localizedDescription)")
+                        }
+                    }
+                    
+                    // Get video download url
+                    dispatchGroup.enter()
+                    self.loadVideosForChallengeModel(model: challengeDataModel) { (error) in
+                        defer {
+                            dispatchGroup.leave()
+                        }
+                        if let error = error {
+                            print("Error fetching videos for challenge: \(error)")
+                        }
+                    }
+                }
+                
+                dispatchGroup.notify(queue: .main) {
+                    self.activeChallenges.append(contentsOf: challengeModels.filter({ !self.activeChallenges.contains($0) }))
+                    NotificationCenter.default.post(name: .didFinishDownloadingReceivedChallenges, object: nil)
+                }
+            case .failure(let error):
+                print("Error fetching challenges: \(error.localizedDescription)")
             }
         }
     }

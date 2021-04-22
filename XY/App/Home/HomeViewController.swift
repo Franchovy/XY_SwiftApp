@@ -77,11 +77,6 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didLoadActiveChallenges), name: .didLoadActiveChallenges, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didFinishSendingChallenge), name: .didFinishSendingChallenge, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didFinishDownloadingReceivedChallenges, object: nil)
-        
         state = AppStateManager.shared.load()
         
         view.addSubview(friendsLabel)
@@ -292,11 +287,13 @@ class HomeViewController: UIViewController {
     private func initializeChallenges() {
         NotificationCenter.default.addObserver(self, selector: #selector(onCoreDataPropertyUpdate), name: .NSManagedObjectContextObjectsDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didReceiveChallenge), name: .didFinishDownloadingReceivedChallenges, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didFinishSendingChallenge), name: .didFinishSendingChallenge, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didLoadActiveChallenges), name: .didLoadActiveChallenges, object: nil)
         
-        ChallengeDataManager.shared.fetchChallengeCards()
+//        ChallengeDataManager.shared.fetchChallengeCards()
         
         ChallengeDataManager.shared.loadChallengesFromStorage()
-        
+        ChallengeDataManager.shared.setupChallengesListener()
     }
     
     private func initialiseSetup() {
@@ -378,7 +375,6 @@ class HomeViewController: UIViewController {
         
         if ChallengeDataManager.shared.activeChallenges.count > 0 {
             self.configureNormal()
-            
         }
     }
     

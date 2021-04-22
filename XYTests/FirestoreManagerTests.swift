@@ -52,7 +52,7 @@ class FirestoreManagerTests: XCTestCase {
     func testFirebaseFetchChallengeDocuments() throws {
         let expectation = XCTestExpectation()
         
-        FirebaseFirestoreManager.shared.fetchChallengeDocumentsFromFirestore() { result in
+        FirebaseFirestoreManager.shared.listenForNewChallenges() { result in
             defer {
                 expectation.fulfill()
             }

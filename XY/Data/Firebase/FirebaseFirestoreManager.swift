@@ -146,7 +146,7 @@ final class FirebaseFirestoreManager {
     
     // MARK: - Download functions
     
-    func fetchChallengeDocumentsFromFirestore(completion: @escaping(Result<[ChallengeDataModel], Error>) -> Void) {
+    func listenForNewChallenges(completion: @escaping(Result<[ChallengeDataModel], Error>) -> Void) {
         
         root.collection(FirebaseCollectionPath.challenges)
             .whereField("memberIDs", arrayContains: ProfileDataManager.shared.ownID)
@@ -169,6 +169,34 @@ final class FirebaseFirestoreManager {
                     }
                     
                     completion(.success(documents))
+                }
+            }
+    }
+    
+    func getVideosForChallenge(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
+        assert(model.firebaseID != nil)
+        assert(model.firebaseVideoID == nil)
+        
+        root.collection(FirebaseCollectionPath.challenges).document(model.firebaseID!)
+            .collection(FirebaseCollectionPath.challengeSubmissions)
+            .order(by: "timestamp", descending: false) // Order by last one first
+            .limit(to: 1)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(error)
+                } else if let querySnapshot = querySnapshot {
+                    for document in querySnapshot.documents {
+                        do {
+                            if let submissionModel = try self.convertChallengeSubmissionFromDocument(document: document) {
+                                model.firebaseVideoID = submissionModel.videoID
+                                assert(model.fromUser?.firebaseID == submissionModel.creatorID)
+                                completion(nil)
+                            }
+                        } catch let error {
+                            completion(error)
+                            return
+                        }
+                    }
                 }
             }
     }
@@ -375,32 +403,6 @@ final class FirebaseFirestoreManager {
         }
     }
     
-    func getVideosForChallenge(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
-        assert(model.firebaseID != nil)
-        assert(model.firebaseVideoID == nil)
-        
-        root.collection(FirebaseCollectionPath.challenges).document(model.firebaseID!)
-            .collection(FirebaseCollectionPath.challengeSubmissions)
-            .order(by: "timestamp", descending: false) // Order by last one first
-            .limit(to: 1)
-            .getDocuments { (querySnapshot, error) in
-                if let error = error {
-                    completion(error)
-                } else if let querySnapshot = querySnapshot {
-                    for document in querySnapshot.documents {
-                        do {
-                            if let submissionModel = try self.convertChallengeSubmissionFromDocument(document: document) {
-                                model.firebaseVideoID = submissionModel.videoID
-                                assert(model.fromUser?.firebaseID == submissionModel.creatorID)
-                            }
-                        } catch let error {
-                            completion(error)
-                            return
-                        }
-                    }
-                }
-            }
-    }
     
     // MARK: - Coredata-Firestore Conversions
     

@@ -14,7 +14,7 @@ extension UserDataModel {
         UserViewModel(
             profileImage: profileImage != nil ? UIImage(data: profileImage!)! : nil,
             nickname: nickname!,
-            friendStatus: FriendStatus(rawValue: friendStatus!)!,
+            friendStatus: FriendStatus(rawValue: friendStatus ?? "none") ?? .none,
             numChallenges: Int(numChallenges),
             numFriends: Int(numFriends)
         )
