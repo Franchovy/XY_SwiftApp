@@ -113,15 +113,30 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
             return
         }
         
-        ChallengeDataManager.shared.sendNewChallenge(challengeCard: viewModel, to: sendToFriendsViewController.selectedFriendsToSend) {
-            self.isHeroEnabled = true
-            self.challengeCard.heroID = "challengeCard"
+        do {
+            let challenge = try ChallengeDataManager.shared.saveChallenge(challengeCard: viewModel, to: sendToFriendsViewController.selectedFriendsToSend)
             
-            let vc = ConfirmSendChallengeViewController(challengeCardViewModel: viewModel, friendsList: self.sendToFriendsViewController.selectedFriendsToSend)
-            vc.isHeroEnabled = true
-            self.navigationController?.isHeroEnabled = true
-            
-            self.navigationController?.pushViewController(vc, animated: true)
+            ChallengeDataManager.shared.uploadChallenge(challenge: challenge) { (progress) in
+                print("firestore progress: \(progress)")
+            } uploadProgress: { (progress) in
+                print("upload progress: \(progress)")
+            } completion: { (error) in
+                if let error = error {
+                    print("Error uploading challenge: \(error.localizedDescription)")
+                }
+                self.isHeroEnabled = true
+                self.challengeCard.heroID = "challengeCard"
+                
+                let vc = ConfirmSendChallengeViewController(challengeCardViewModel: viewModel, friendsList: self.sendToFriendsViewController.selectedFriendsToSend)
+                vc.isHeroEnabled = true
+                self.navigationController?.isHeroEnabled = true
+                
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+
+        } catch let error {
+            print("Error saving challenge to CoreData: \(error.localizedDescription)")
         }
+                
     }
 }

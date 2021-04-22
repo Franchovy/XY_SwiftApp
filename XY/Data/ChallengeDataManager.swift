@@ -30,7 +30,7 @@ final class ChallengeDataManager {
         
         var fileURL = homeDirectory.appendingPathComponent(UUID().uuidString)
         fileURL.appendPathExtension("mov")
-
+        
         let urlData = NSData(contentsOf: temporaryURL)
         if urlData!.write(to: fileURL, atomically: true) {
             return fileURL
@@ -39,7 +39,7 @@ final class ChallengeDataManager {
         }
     }
     
-    func sendNewChallenge(challengeCard: ChallengeCardViewModel, to friendsList: [UserViewModel], completion: @escaping(() -> Void)) {
+    func saveChallenge(challengeCard: ChallengeCardViewModel, to friendsList: [UserViewModel]) throws -> ChallengeDataModel {
         let context = CoreDataManager.shared.mainContext
         let entity = ChallengeDataModel.entity()
         let newChallenge = ChallengeDataModel(entity: entity, insertInto: context)
@@ -58,80 +58,110 @@ final class ChallengeDataManager {
             newChallenge.addToSentTo(friendModel)
         })
         
-        try? context.save()
+        try context.save()
         
         self.activeChallenges.append(newChallenge)
         NotificationCenter.default.post(Notification(name: .didLoadActiveChallenges))
-    
-        completion()
+        
+        return newChallenge
     }
     
-    func uploadChallenge(challenge: ChallengeDataModel) {
-//        DispatchQueue.global(qos: .background).async { // this messes up because of coredata multithreading sensitivity :(
-            // Get video file
-            assert(challenge.fileUrl != nil)
-            assert(FileManager.default.fileExists(atPath: challenge.fileUrl!.path))
-            let url = challenge.fileUrl!
-            
-            // Get challenge info
-            assert(challenge.title != nil)
-            assert(challenge.challengeDescription != nil)
-            assert(challenge.previewImage != nil)
-            assert(challenge.fromUser != nil)
-            assert(challenge.sentTo != nil)
-            assert(challenge.sentTo!.count > 0)
-            
-            // Create challenge IDs
-            let challengeID = UUID().uuidString
-            let videoID = UUID().uuidString
-            
-            challenge.firebaseID = challengeID
-            challenge.firebaseVideoID = videoID
-            
-            // Upload document to firestore
-            FirebaseFirestoreManager.shared.uploadChallenge(model: challenge) { error in
-                if let error = error {
-                    print("Error creating challenge in firestore: \(error)")
-                }
+    func uploadChallenge(challenge: ChallengeDataModel, preparingProgress: @escaping(Double) -> Void, uploadProgress: @escaping(Double) -> Void, completion: @escaping(Error?) -> Void) {
+        
+        // Get video file
+        assert(challenge.fileUrl != nil)
+        assert(FileManager.default.fileExists(atPath: challenge.fileUrl!.path))
+        let url = challenge.fileUrl!
+        
+        // Get challenge info
+        assert(challenge.title != nil)
+        assert(challenge.challengeDescription != nil)
+        assert(challenge.previewImage != nil)
+        assert(challenge.fromUser != nil)
+        assert(challenge.sentTo != nil)
+        assert(challenge.sentTo!.count > 0)
+        
+        var imageUploadProgress = 0.0 {
+            didSet {
+                preparingProgress((firestoreTasksProgress + imageUploadProgress)/2)
             }
-            
-            // Upload video reference to firestore
-            FirebaseFirestoreManager.shared.uploadChallengeSubmission(model: challenge) { error in
-                if let error = error {
-                    print("Error creating submission document in firestore: \(error)")
-                }
+        }
+        var firestoreTasksProgress = 0.0 {
+            didSet {
+                preparingProgress((firestoreTasksProgress + imageUploadProgress)/2)
             }
-            
-            // Upload previewImage to storage
-            FirebaseStorageManager.shared.uploadImageToStorage(
-                imageData: challenge.previewImage!,
-                storagePath: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challenge.firebaseID!)
-            ) { (progress) in
-                print("Progress uploading image: \(progress)")
-            } onComplete: { (result) in
-                switch result {
-                case .success(let _):
-                    print("Successfully uploaded")
-                case .failure(let error):
-                    print("Failure to upload image: \(error)")
-                }
+        }
+        
+        // Create challenge IDs
+        let challengeID = UUID().uuidString
+        let videoID = UUID().uuidString
+        
+        challenge.firebaseID = challengeID
+        challenge.firebaseVideoID = videoID
+        
+        let dispatchGroup = DispatchGroup()
+        
+        // Upload document to firestore
+        dispatchGroup.enter()
+        FirebaseFirestoreManager.shared.uploadChallenge(model: challenge) { error in
+            defer {
+                dispatchGroup.leave()
             }
+            if let error = error {
+                completion(error)
+            }
+            firestoreTasksProgress += 0.5
+        }
+        
+        dispatchGroup.enter()
+        // Upload video reference to firestore
+        FirebaseFirestoreManager.shared.uploadChallengeSubmission(model: challenge) { error in
+            defer {
+                dispatchGroup.leave()
+            }
+            if let error = error {
+                completion(error)
+            }
+            firestoreTasksProgress += 0.5
+        }
+        
+        dispatchGroup.enter()
+        // Upload previewImage to storage
+        FirebaseStorageManager.shared.uploadImageToStorage(
+            imageData: challenge.previewImage!,
+            storagePath: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challenge.firebaseID!)
+        ) { (progress) in
+            imageUploadProgress = progress
+        } onComplete: { (result) in
+            defer {
+                dispatchGroup.leave()
+            }
+            switch result {
+            case .success( _):
+                imageUploadProgress = 1.0
+            case .failure(let error):
+                completion(error)
+            }
+        }
+        
+        dispatchGroup.notify(queue: .global(qos: .background)) {
+            completion(nil)
             
             // Upload video to storage
             FirebaseStorageManager.shared.uploadVideoToStorage(
                 videoFileUrl: url,
                 storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challenge.firebaseID!, videoId: challenge.firebaseVideoID!)
             ) { (progress) in
-                print("Progress uploading video: \(progress)")
+                uploadProgress(progress)
             } onComplete: { (result) in
                 switch result {
-                case .success(let _):
-                    print("Successfully uploaded")
+                case .success( _):
+                    uploadProgress(1.0)
                 case .failure(let error):
-                    print("Failure to upload video: \(error)")
+                    completion(error)
                 }
             }
-//        }
+        }
     }
     
     func fetchChallengeCards() {
