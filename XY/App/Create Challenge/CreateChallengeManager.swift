@@ -49,6 +49,36 @@ final class CreateChallengeManager {
         return videoUrl != nil && description != nil && title != nil
     }
     
+    var onUploadProgress: ((Double) -> Void)?
+    var onUploadComplete: ((Error?) -> Void)?
+    
+    func startUploadChallenge(preparingProgress: @escaping(Double) -> Void, preparingCompletion: @escaping(Error?) -> Void) {
+        guard let viewModel = getChallengeCardViewModel(), let friendsList = friendsToChallengeList else {
+            fatalError("Not all challenge fields have been configured!")
+        }
+        
+        var preparingCompletionCalled = false
+        
+        do {
+            let challenge = try ChallengeDataManager.shared.saveChallenge(challengeCard: viewModel, to: friendsList)
+            
+            ChallengeDataManager.shared.uploadChallenge(challenge: challenge) { (progress) in
+                preparingProgress(progress)
+                
+                if progress == 1.0, !preparingCompletionCalled {
+                    preparingCompletion(nil)
+                    preparingCompletionCalled = true
+                }
+            } uploadProgress: { (progress) in
+                self.onUploadProgress?(progress)
+            } completion: { (error) in
+                self.onUploadComplete?(error)
+            }
+        } catch let error {
+            preparingCompletion(error)
+        }
+    }
+    
     func loadAcceptedChallenge(_ viewModel: ChallengeCardViewModel) {
         acceptedChallenge = viewModel
         

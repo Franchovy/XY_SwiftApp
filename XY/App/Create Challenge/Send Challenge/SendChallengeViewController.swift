@@ -113,17 +113,25 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
             return
         }
         
-        do {
-            let challenge = try ChallengeDataManager.shared.saveChallenge(challengeCard: viewModel, to: sendToFriendsViewController.selectedFriendsToSend)
-            
-            ChallengeDataManager.shared.uploadChallenge(challenge: challenge) { (progress) in
-                print("firestore progress: \(progress)")
-            } uploadProgress: { (progress) in
-                print("upload progress: \(progress)")
-            } completion: { (error) in
-                if let error = error {
-                    print("Error uploading challenge: \(error.localizedDescription)")
-                }
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        CreateChallengeManager.shared.friendsToChallengeList = sendToFriendsViewController.selectedFriendsToSend
+        
+        let prompt = Prompt()
+        prompt.setTitle(text: "Preparing to upload...")
+        prompt.addLoadingCircle(initialProgress: 0.0)
+        
+        view.addSubview(prompt)
+        prompt.center = view.center
+        prompt.appear()
+        
+        CreateChallengeManager.shared.startUploadChallenge() { progress in
+            prompt.setLoadingProgress(progress: progress)
+        } preparingCompletion: { error in
+            if let error = error {
+                print("Error uploading challenge: \(error.localizedDescription)")
+            } else {
+                prompt.disappear()
+                
                 self.isHeroEnabled = true
                 self.challengeCard.heroID = "challengeCard"
                 
@@ -133,10 +141,6 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
                 
                 self.navigationController?.pushViewController(vc, animated: true)
             }
-
-        } catch let error {
-            print("Error saving challenge to CoreData: \(error.localizedDescription)")
         }
-                
     }
 }
