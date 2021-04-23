@@ -93,10 +93,9 @@ final class FirebaseFirestoreManager {
     }
     
     func setChallengeStatus(challengeModel: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
+        let data: [String: [String: String]] = ["status" : [ProfileDataManager.shared.ownID: challengeModel.completionStateValue!]]
         root.collection(FirebaseCollectionPath.challenges).document(challengeModel.firebaseID!)
-            .setData([
-                "status.\(ProfileDataManager.shared.ownID)": challengeModel.completionState
-            ], merge: true) { error in
+            .setData(data, merge: true) { error in
                 completion(error)
             }
     }

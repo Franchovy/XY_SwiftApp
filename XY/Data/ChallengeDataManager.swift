@@ -46,7 +46,7 @@ final class ChallengeDataManager {
         
         newChallenge.title = challengeCard.title
         newChallenge.challengeDescription = challengeCard.description
-        newChallenge.completionStateValue = ChallengeCompletionState.uploading.rawValue
+        newChallenge.completionStateValue = ChallengeCompletionState.sent.rawValue
         newChallenge.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
         newChallenge.fileUrl = self.saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!)
         newChallenge.fromUser = ProfileDataManager.shared.ownProfileModel
@@ -160,7 +160,9 @@ final class ChallengeDataManager {
         } onComplete: { (result) in
             switch result {
             case .success( _):
-                onProgress(1.0)
+                FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challenge, isUploading: false) { (error) in
+                    onComplete(error)
+                }
             case .failure(let error):
                 onComplete(error)
             }
@@ -237,6 +239,16 @@ final class ChallengeDataManager {
                     
                     CoreDataManager.shared.save()
                     
+                    // Update state on firebase as "received"
+                    newChallenges.forEach({
+                        assert($0.completionState == .received)
+                        FirebaseFirestoreManager.shared.setChallengeStatus(challengeModel: $0) { (error) in
+                            if let error = error {
+                                print("Error setting status for challenge: \(error)")
+                            }
+                        }
+                    })
+                    
                     NotificationCenter.default.post(name: .didFinishDownloadingReceivedChallenges, object: nil)
                 }
             case .failure(let error):
@@ -246,13 +258,20 @@ final class ChallengeDataManager {
     }
     
     func updateChallengeState(challengeViewModel: ChallengeCardViewModel, newState: ChallengeCompletionState) {
-        print("Updated challenge \"\(challengeViewModel.title)\" state: \(newState)")
-        if let index = activeChallenges.firstIndex(where: { $0.title == challengeViewModel.title }) {
+        if let index = activeChallenges.firstIndex(where: { $0.id == challengeViewModel.coreDataID }) {
+            
             let challenge = activeChallenges[index]
             challenge.completionState = newState
             activeChallenges[index] = challenge
+            
+            FirebaseFirestoreManager.shared.setChallengeStatus(challengeModel: challenge) { error in
+                if let error = error {
+                    print("Error setting new status for challenge in firestore: \(error.localizedDescription)")
+                } else {
+                    print("Successfully updated challenge state.")
+                }
+            }
         }
-        assert(activeChallenges.first(where: { $0.title == challengeViewModel.title })!.completionState == newState)
     }
     
     func loadChallengesFromStorage() {
@@ -263,7 +282,7 @@ final class ChallengeDataManager {
             let results = try mainContext.fetch(fetchRequest)
             activeChallenges = results
             
-            for challengeToUpload in activeChallenges.filter( { $0.completionState == .uploading }) {
+            for challengeToUpload in activeChallenges.filter( { $0.downloadUrl == nil }) {
                 if challengeToUpload.firebaseID == nil {
                     // Must upload challenge documents
                     
