@@ -20,6 +20,7 @@ extension ChallengeDataModel {
 }
 
 enum ChallengeCompletionState: String {
+    case uploading
     case sent
     case received
     case rejected

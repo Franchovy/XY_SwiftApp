@@ -35,7 +35,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         for challengeVideoModel in ChallengeDataManager.shared.activeChallenges {
             let playerViewController = PlayerViewController()
             
-            playerViewController.configureVideo(from: challengeVideoModel.fileUrl!)
+            playerViewController.configureVideo(from: challengeVideoModel.fileUrl ?? challengeVideoModel.downloadUrl!)
             playerViewController.configureChallengeCard(with: challengeVideoModel.toCard(), profileViewModel: challengeVideoModel.fromUser!.toViewModel())
             playerViewController.view.frame = view.bounds
             

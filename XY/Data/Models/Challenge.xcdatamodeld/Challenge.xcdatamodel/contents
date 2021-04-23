@@ -4,11 +4,11 @@
         <attribute name="challengeDescription" attributeType="String" defaultValueString=""/>
         <attribute name="completionStateValue" attributeType="String" defaultValueString=""/>
         <attribute name="downloadUrl" optional="YES" attributeType="URI"/>
-        <attribute name="expiryTimestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="expiryTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="fileUrl" optional="YES" attributeType="URI"/>
         <attribute name="firebaseID" optional="YES" attributeType="String"/>
         <attribute name="firebaseVideoID" optional="YES" attributeType="String"/>
-        <attribute name="previewImage" attributeType="Binary"/>
+        <attribute name="previewImage" optional="YES" attributeType="Binary"/>
         <attribute name="title" attributeType="String" defaultValueString=""/>
         <relationship name="fromUser" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataModel"/>
         <relationship name="sentTo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserDataModel"/>

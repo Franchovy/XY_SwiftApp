@@ -46,7 +46,7 @@ final class ChallengeDataManager {
         
         newChallenge.title = challengeCard.title
         newChallenge.challengeDescription = challengeCard.description
-        newChallenge.completionStateValue = ChallengeCompletionState.sent.rawValue
+        newChallenge.completionStateValue = ChallengeCompletionState.uploading.rawValue
         newChallenge.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
         newChallenge.fileUrl = self.saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!)
         newChallenge.fromUser = ProfileDataManager.shared.ownProfileModel
@@ -66,7 +66,7 @@ final class ChallengeDataManager {
         return newChallenge
     }
     
-    func uploadChallenge(challenge: ChallengeDataModel, preparingProgress: @escaping(Double) -> Void, uploadProgress: @escaping(Double) -> Void, completion: @escaping(Error?) -> Void) {
+    func uploadChallengeCard(challenge: ChallengeDataModel, preparingProgress: @escaping(Double) -> Void, completion: @escaping(Error?) -> Void) {
         
         // Get video file
         assert(challenge.fileUrl != nil)
@@ -146,58 +146,23 @@ final class ChallengeDataManager {
         
         dispatchGroup.notify(queue: .global(qos: .background)) {
             completion(nil)
-            
-            // Upload video to storage
-            FirebaseStorageManager.shared.uploadVideoToStorage(
-                videoFileUrl: url,
-                storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challenge.firebaseID!, videoId: challenge.firebaseVideoID!)
-            ) { (progress) in
-                uploadProgress(progress)
-            } onComplete: { (result) in
-                switch result {
-                case .success( _):
-                    uploadProgress(1.0)
-                case .failure(let error):
-                    completion(error)
-                }
-            }
         }
     }
     
-    func fetchChallengeCards() {
-        // Fetch challenges
-        FirebaseFirestoreManager.shared.listenForNewChallenges { (result) in
+    func uploadChallengeVideo(challenge: ChallengeDataModel, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Error?) -> Void)) {
+        assert(challenge.fileUrl != nil)
+        // Upload video to storage
+        FirebaseStorageManager.shared.uploadVideoToStorage(
+            videoFileUrl: challenge.fileUrl!,
+            storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challenge.firebaseID!, videoId: challenge.firebaseVideoID!)
+        ) { (progress) in
+            onProgress(progress)
+        } onComplete: { (result) in
             switch result {
-            case .success(let challengeModels):
-                
-                challengeModels.forEach { (challengeDataModel) in
-                    // Fetch preview images
-                    FirebaseStorageManager.shared.downloadImage(
-                        from: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challengeDataModel.firebaseID!)
-                    ) { progress in
-                        
-                    } completion: { result in
-                        switch result {
-                        case .success(let imageData):
-                            challengeDataModel.previewImage = imageData
-                        case .failure(let error):
-                            print("Error downloading preview images for challenge: \(error.localizedDescription)")
-                        }
-                    }
-                    
-                    // Download video
-                    self.loadVideosForChallengeModel(model: challengeDataModel) { (error) in
-                        if let error = error {
-                            print("Error fetching videos for challenge: \(error)")
-                        } else {
-                            
-                        }
-                    }
-                    
-                    NotificationCenter.default.post(name: .didFinishDownloadingReceivedChallenges, object: nil)
-                }
+            case .success( _):
+                onProgress(1.0)
             case .failure(let error):
-                print("Error fetching challenges: \(error.localizedDescription)")
+                onComplete(error)
             }
         }
     }
@@ -232,9 +197,16 @@ final class ChallengeDataManager {
             switch result {
             case .success(let challengeModels):
                 
+                let newChallenges = challengeModels.filter({ downloadedChallengeModel in
+                    !self.activeChallenges.contains(where: { $0.firebaseID == downloadedChallengeModel.firebaseID })
+                })
+                if newChallenges.count == 0 {
+                    return
+                }
+                
                 let dispatchGroup = DispatchGroup()
                 
-                challengeModels.forEach { (challengeDataModel) in
+                newChallenges.forEach { (challengeDataModel) in
                     
                     // Fetch preview images
                     dispatchGroup.enter()
@@ -267,7 +239,10 @@ final class ChallengeDataManager {
                 }
                 
                 dispatchGroup.notify(queue: .main) {
-                    self.activeChallenges.append(contentsOf: challengeModels.filter({ !self.activeChallenges.contains($0) }))
+                    self.activeChallenges.append(contentsOf: newChallenges)
+                    
+                    CoreDataManager.shared.save()
+                    
                     NotificationCenter.default.post(name: .didFinishDownloadingReceivedChallenges, object: nil)
                 }
             case .failure(let error):
@@ -293,6 +268,15 @@ final class ChallengeDataManager {
         do {
             let results = try mainContext.fetch(fetchRequest)
             activeChallenges = results
+            
+            for challengeToUpload in activeChallenges.filter( { $0.completionState == .uploading }) {
+                // Upload video
+                uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
+                    print("Progress uploading challenge video: \(progress)")
+                } onComplete: { (error) in
+                    print("Upload challenge video complete")
+                }
+            }
             
             NotificationCenter.default.post(name: .didLoadActiveChallenges, object: nil)
         }

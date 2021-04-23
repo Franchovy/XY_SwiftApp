@@ -57,22 +57,13 @@ final class CreateChallengeManager {
             fatalError("Not all challenge fields have been configured!")
         }
         
-        var preparingCompletionCalled = false
-        
         do {
             let challenge = try ChallengeDataManager.shared.saveChallenge(challengeCard: viewModel, to: friendsList)
             
-            ChallengeDataManager.shared.uploadChallenge(challenge: challenge) { (progress) in
+            ChallengeDataManager.shared.uploadChallengeCard(challenge: challenge) { (progress) in
                 preparingProgress(progress)
-                
-                if progress == 1.0, !preparingCompletionCalled {
-                    preparingCompletion(nil)
-                    preparingCompletionCalled = true
-                }
-            } uploadProgress: { (progress) in
-                self.onUploadProgress?(progress)
             } completion: { (error) in
-                self.onUploadComplete?(error)
+                preparingCompletion(error)
             }
         } catch let error {
             preparingCompletion(error)
