@@ -117,11 +117,11 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         CreateChallengeManager.shared.friendsToChallengeList = sendToFriendsViewController.selectedFriendsToSend
         
         let prompt = Prompt()
+        prompt.tapEscapable = false
         prompt.setTitle(text: "Preparing to upload...")
         prompt.addLoadingCircle(initialProgress: 0.0)
         
-        view.addSubview(prompt)
-        prompt.center = view.center
+        navigationController?.view.addSubview(prompt)
         prompt.appear()
         
         CreateChallengeManager.shared.startUploadChallenge() { progress in
@@ -130,16 +130,20 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
             if let error = error {
                 print("Error uploading challenge: \(error.localizedDescription)")
             } else {
-                prompt.disappear()
-                
-                self.isHeroEnabled = true
-                self.challengeCard.heroID = "challengeCard"
-                
-                let vc = ConfirmSendChallengeViewController(challengeCardViewModel: viewModel, friendsList: self.sendToFriendsViewController.selectedFriendsToSend)
-                vc.isHeroEnabled = true
-                self.navigationController?.isHeroEnabled = true
-                
-                self.navigationController?.pushViewController(vc, animated: true)
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.5) {
+                    prompt.disappear()
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.2) {
+                        self.isHeroEnabled = true
+                        self.challengeCard.heroID = "challengeCard"
+                        
+                        let vc = ConfirmSendChallengeViewController(challengeCardViewModel: viewModel, friendsList: self.sendToFriendsViewController.selectedFriendsToSend)
+                        vc.isHeroEnabled = true
+                        self.navigationController?.isHeroEnabled = true
+                        
+                        self.navigationController?.pushViewController(vc, animated: true)
+                    }
+                }
             }
         }
     }
