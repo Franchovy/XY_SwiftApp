@@ -64,6 +64,15 @@ final class CreateChallengeManager {
                 preparingProgress(progress)
             } completion: { (error) in
                 preparingCompletion(error)
+                if error != nil {
+                    ChallengeDataManager.shared.uploadChallengeVideo(challenge: challenge) { (progress) in
+                        print("Progress eeeee")
+                    } onComplete: { (error) in
+                        if let error = error {
+                            print("big probleme")
+                        }
+                    }
+                }
             }
         } catch let error {
             preparingCompletion(error)

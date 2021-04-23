@@ -285,7 +285,6 @@ final class ChallengeDataManager {
             for challengeToUpload in activeChallenges.filter( { $0.downloadUrl == nil }) {
                 if challengeToUpload.firebaseID == nil {
                     // Must upload challenge documents
-                    
                     continue
                 }
                 
@@ -293,7 +292,15 @@ final class ChallengeDataManager {
                 uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
                     print("Progress uploading challenge video: \(progress)")
                 } onComplete: { (error) in
-                    print("Upload challenge video complete")
+                    if let error = error {
+                        print("Error uploading video for challenge: \(error.localizedDescription)")
+                    } else {
+                        FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challengeToUpload, isUploading: false) { (error) in
+                            if let error = error {
+                                print("Error changing upload status for challenge: \(error.localizedDescription)")
+                            }
+                        }
+                    }
                 }
             }
             

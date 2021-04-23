@@ -30,7 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         #if DEBUG
-        CoreDataManager.shared.deleteEverything()
+//        CoreDataManager.shared.deleteEverything()
         #endif
         
         // Initialise Authentication stuff

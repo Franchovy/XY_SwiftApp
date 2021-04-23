@@ -169,6 +169,7 @@ final class FirebaseFirestoreManager {
         
         root.collection(FirebaseCollectionPath.challenges)
             .whereField("memberIDs", arrayContains: ProfileDataManager.shared.ownID)
+            .whereField("uploading", isEqualTo: false)
             .addSnapshotListener { querySnapshot, error in
                 if let error = error {
                     completion(.failure(error))
