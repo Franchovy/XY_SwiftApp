@@ -195,14 +195,7 @@ final class ChallengeDataManager {
         // set up firebase listener
         FirebaseFirestoreManager.shared.listenForNewChallenges { (result) in
             switch result {
-            case .success(let challengeModels):
-                
-                let newChallenges = challengeModels.filter({ downloadedChallengeModel in
-                    !self.activeChallenges.contains(where: { $0.firebaseID == downloadedChallengeModel.firebaseID })
-                })
-                if newChallenges.count == 0 {
-                    return
-                }
+            case .success(let newChallenges):
                 
                 let dispatchGroup = DispatchGroup()
                 
@@ -270,6 +263,12 @@ final class ChallengeDataManager {
             activeChallenges = results
             
             for challengeToUpload in activeChallenges.filter( { $0.completionState == .uploading }) {
+                if challengeToUpload.firebaseID == nil {
+                    // Must upload challenge documents
+                    
+                    continue
+                }
+                
                 // Upload video
                 uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
                     print("Progress uploading challenge video: \(progress)")

@@ -156,7 +156,10 @@ final class FirebaseFirestoreManager {
                 } else if let snapshot = querySnapshot {
                     var documents = [ChallengeDataModel]()
                     
-                    snapshot.documentChanges.forEach { diff in
+                    snapshot.documentChanges
+                        .filter({ documentSnapshot in
+                                    !ChallengeDataManager.shared.activeChallenges.contains(where: { $0.firebaseID == documentSnapshot.document.documentID }) })
+                        .forEach { diff in
                         if (diff.type == .added) {
                             do {
                                 if let model = try self.convertChallengeFromDocument(document: diff.document) {
