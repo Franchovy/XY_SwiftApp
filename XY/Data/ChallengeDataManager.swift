@@ -282,7 +282,7 @@ final class ChallengeDataManager {
             let results = try mainContext.fetch(fetchRequest)
             activeChallenges = results
             
-            for challengeToUpload in activeChallenges.filter( { $0.downloadUrl == nil }) {
+            for challengeToUpload in activeChallenges.filter( { $0.sentByYou() && $0.downloadUrl == nil }) {
                 if challengeToUpload.firebaseID == nil {
                     // Must upload challenge documents
                     continue
