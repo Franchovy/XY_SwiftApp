@@ -299,31 +299,34 @@ class HomeViewController: UIViewController {
     private func initialiseSetup() {
         // Some coredata loading
         ProfileDataManager.shared.load() {
-            self.initializeChallenges()
-            self.initialiseFriends()
-            
-            if FriendsDataManager.shared.friends.count == 0 {
-                self.configureEmptyNoFriends()
-            } else {
-                self.friendsDataSource.reload()
-                self.friendsCollectionView.reloadData()
-                
-                if ChallengeDataManager.shared.activeChallenges.count == 0 {
-                    self.configureEmptyNoChallenges()
+            self.initialiseFriends() {
+                self.initializeChallenges()
+                if FriendsDataManager.shared.friends.count == 0 {
+                    self.configureEmptyNoFriends()
                 } else {
-                    self.configureNormal()
+                    self.friendsDataSource.reload()
+                    self.friendsCollectionView.reloadData()
+                    
+                    if ChallengeDataManager.shared.activeChallenges.count == 0 {
+                        self.configureEmptyNoChallenges()
+                    } else {
+                        self.configureNormal()
+                    }
                 }
             }
+            
         }
     }
     
-    private func initialiseFriends() {
+    private func initialiseFriends(completion: @escaping(() -> Void)) {
         NotificationCenter.default.addObserver(self, selector: #selector(onFriendsUpdated), name: .friendUpdateNotification, object: nil)
         
         FriendsDataManager.shared.loadDataFromStorage()
         FriendsDataManager.shared.loadAllUsersFromFirebase() {
             self.friendsDataSource.reload()
             self.friendsCollectionView.reloadData()
+            
+            completion()
         }
         FriendsDataManager.shared.setupFriendshipStatusListener()
         
