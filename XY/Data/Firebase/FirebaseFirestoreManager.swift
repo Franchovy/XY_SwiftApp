@@ -19,7 +19,9 @@ struct ChallengeDocument: Codable {
     var title: String
     var timestamp: Timestamp
     var memberIDs: [String]
+    var status: [ String: String ]
     var creatorID: String
+    var uploading: Bool
 }
 
 struct ChallengeSubmissionDocument: Codable {
@@ -88,6 +90,24 @@ final class FirebaseFirestoreManager {
         } else {
             completion(FirestoreManagerError.friendshipStatusInvalid)
         }
+    }
+    
+    func setChallengeStatus(challengeModel: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
+        root.collection(FirebaseCollectionPath.challenges).document(challengeModel.firebaseID!)
+            .setData([
+                "status.\(ProfileDataManager.shared.ownID)": challengeModel.completionState
+            ], merge: true) { error in
+                completion(error)
+            }
+    }
+    
+    func setChallengeUploadStatus(challengeModel: ChallengeDataModel, isUploading: Bool, completion: @escaping(Error?) -> Void) {
+        root.collection(FirebaseCollectionPath.challenges).document(challengeModel.firebaseID!)
+            .setData( [
+                "uploading": isUploading
+            ], merge: true) { error in
+                completion(error)
+            }
     }
     
     func uploadChallengeSubmission(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
@@ -406,7 +426,6 @@ final class FirebaseFirestoreManager {
         }
     }
     
-    
     // MARK: - Coredata-Firestore Conversions
     
     private func createChallengeSubmissionDocument(model: ChallengeDataModel) -> [String: Any]? {
@@ -428,13 +447,17 @@ final class FirebaseFirestoreManager {
     private func convertChallengeToDocument(model: ChallengeDataModel) -> [String: Any]? {
         
         let sentToUsers = model.sentTo!.allObjects.map({ ($0 as! UserDataModel).firebaseID! })
+        var completionStatus: [String: String] = [:]
+        sentToUsers.forEach({ completionStatus[$0] = ChallengeCompletionState.sent.rawValue })
         
         let documentObject = ChallengeDocument(
             description: model.challengeDescription!,
             title: model.title!,
             timestamp: Timestamp(),
             memberIDs: sentToUsers,
-            creatorID: ProfileDataManager.shared.ownID
+            status: completionStatus,
+            creatorID: ProfileDataManager.shared.ownID,
+            uploading: model.downloadUrl == nil
         )
         
         do {
