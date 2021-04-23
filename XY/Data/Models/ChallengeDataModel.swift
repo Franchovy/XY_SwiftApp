@@ -32,6 +32,7 @@ enum ChallengeCompletionState: String {
 extension ChallengeDataModel {
     func toCard() -> ChallengeCardViewModel {
         ChallengeCardViewModel(
+            coreDataID: id,
             image: previewImage != nil ? UIImage(data: previewImage!)! : nil,
             title: title!,
             description: challengeDescription!,

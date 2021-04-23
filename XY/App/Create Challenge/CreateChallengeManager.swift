@@ -89,6 +89,7 @@ final class CreateChallengeManager {
         }
         
         return ChallengeCardViewModel(
+            coreDataID: nil,
             image: image,
             title: title,
             description: description,

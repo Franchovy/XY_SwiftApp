@@ -196,6 +196,7 @@ final class ChallengeDataManager {
         FirebaseFirestoreManager.shared.listenForNewChallenges { (result) in
             switch result {
             case .success(let newChallenges):
+                if newChallenges.isEmpty { return }
                 
                 let dispatchGroup = DispatchGroup()
                 

@@ -8,6 +8,7 @@
 import UIKit
 
 struct ChallengeCardViewModel {
+    let coreDataID: ObjectIdentifier?
     let image: UIImage?
     let title: String
     let description: String
