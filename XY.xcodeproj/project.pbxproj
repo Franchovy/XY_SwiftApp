@@ -137,11 +137,6 @@
 		B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F362613397000B1CBF5 /* FriendBubble.swift */; };
 		B96B7F4026135BAD00B1CBF5 /* ColorLabelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F3F26135BAD00B1CBF5 /* ColorLabelViewModel.swift */; };
 		B96B7F462613614300B1CBF5 /* ChallengesDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */; };
-		B96B7F4B26137FF300B1CBF5 /* video5.mov in Resources */ = {isa = PBXBuildFile; fileRef = B96B7F4A26137FF300B1CBF5 /* video5.mov */; };
-		B96B7F4F26137FFB00B1CBF5 /* video1.mov in Resources */ = {isa = PBXBuildFile; fileRef = B96B7F4E26137FFB00B1CBF5 /* video1.mov */; };
-		B96B7F532613800000B1CBF5 /* video4.mov in Resources */ = {isa = PBXBuildFile; fileRef = B96B7F522613800000B1CBF5 /* video4.mov */; };
-		B96B7F572613800500B1CBF5 /* video3.mov in Resources */ = {isa = PBXBuildFile; fileRef = B96B7F562613800500B1CBF5 /* video3.mov */; };
-		B96B7F5B2613800B00B1CBF5 /* video2.mov in Resources */ = {isa = PBXBuildFile; fileRef = B96B7F5A2613800B00B1CBF5 /* video2.mov */; };
 		B972A2AF25DD06E6006A0476 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2AE25DD06E6006A0476 /* PostViewController.swift */; };
 		B972A2BA25DD169E006A0476 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2B925DD169E006A0476 /* CommentViewModel.swift */; };
 		B972A2BE25DD1739006A0476 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B972A2BD25DD1739006A0476 /* CommentTableViewCell.swift */; };
@@ -258,6 +253,7 @@
 		B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D1AB3025A3A591009B428E /* FlowDataCell.swift */; };
 		B9D5E56125A5F362001859EA /* PostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56025A5F362001859EA /* PostViewModel.swift */; };
 		B9D5E56E25A62CEA001859EA /* FlowDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */; };
+		B9D74ADD263554A600F51BCA /* CameraContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D74ADC263554A600F51BCA /* CameraContainerViewController.swift */; };
 		B9DFBA6325B7495D0084E79D /* _Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9DFBA6225B7495D0084E79D /* _Notification.swift */; };
 		B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9B25ED746500C4FF9F /* Global.swift */; };
 		B9E55DA025ED8DF100C4FF9F /* NewSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */; };
@@ -433,11 +429,6 @@
 		B96B7F362613397000B1CBF5 /* FriendBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubble.swift; sourceTree = "<group>"; };
 		B96B7F3F26135BAD00B1CBF5 /* ColorLabelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorLabelViewModel.swift; sourceTree = "<group>"; };
 		B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengesDatasource.swift; sourceTree = "<group>"; };
-		B96B7F4A26137FF300B1CBF5 /* video5.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = video5.mov; path = ../../../../../Desktop/video5.mov; sourceTree = "<group>"; };
-		B96B7F4E26137FFB00B1CBF5 /* video1.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = video1.mov; path = ../../../../../Desktop/video1.mov; sourceTree = "<group>"; };
-		B96B7F522613800000B1CBF5 /* video4.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = video4.mov; path = ../../../../../Desktop/video4.mov; sourceTree = "<group>"; };
-		B96B7F562613800500B1CBF5 /* video3.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = video3.mov; path = ../../../../../Desktop/video3.mov; sourceTree = "<group>"; };
-		B96B7F5A2613800B00B1CBF5 /* video2.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = video2.mov; path = ../../../../../Desktop/video2.mov; sourceTree = "<group>"; };
 		B972A2AE25DD06E6006A0476 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
 		B972A2B925DD169E006A0476 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		B972A2BD25DD1739006A0476 /* CommentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentTableViewCell.swift; sourceTree = "<group>"; };
@@ -557,6 +548,7 @@
 		B9D1AB3025A3A591009B428E /* FlowDataCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataCell.swift; sourceTree = "<group>"; };
 		B9D5E56025A5F362001859EA /* PostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewModel.swift; sourceTree = "<group>"; };
 		B9D5E56D25A62CEA001859EA /* FlowDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowDataModel.swift; sourceTree = "<group>"; };
+		B9D74ADC263554A600F51BCA /* CameraContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraContainerViewController.swift; sourceTree = "<group>"; };
 		B9DFBA6225B7495D0084E79D /* _Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Notification.swift; sourceTree = "<group>"; };
 		B9E55D9B25ED746500C4FF9F /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		B9E55D9F25ED8DF100C4FF9F /* NewSignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewSignupViewController.swift; sourceTree = "<group>"; };
@@ -962,6 +954,7 @@
 			children = (
 				B952F5C6261762420063E7B4 /* RecordButton.swift */,
 				B97352E726186D7200183201 /* CameraViewController.swift */,
+				B9D74ADC263554A600F51BCA /* CameraContainerViewController.swift */,
 			);
 			path = Camera;
 			sourceTree = "<group>";
@@ -1059,18 +1052,6 @@
 			path = ColorLabel;
 			sourceTree = "<group>";
 		};
-		B96B7F4926137FE100B1CBF5 /* Videos */ = {
-			isa = PBXGroup;
-			children = (
-				B96B7F4E26137FFB00B1CBF5 /* video1.mov */,
-				B96B7F5A2613800B00B1CBF5 /* video2.mov */,
-				B96B7F562613800500B1CBF5 /* video3.mov */,
-				B96B7F522613800000B1CBF5 /* video4.mov */,
-				B96B7F4A26137FF300B1CBF5 /* video5.mov */,
-			);
-			path = Videos;
-			sourceTree = "<group>";
-		};
 		B972A2B225DD1522006A0476 /* Post */ = {
 			isa = PBXGroup;
 			children = (
@@ -1124,7 +1105,6 @@
 		B9781DDD25DE8E0F00A2FE2D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B96B7F4926137FE100B1CBF5 /* Videos */,
 				B9B92DDF25644A41005D9B86 /* Assets.xcassets */,
 				B9781DDE25DE8E3900A2FE2D /* Raleway */,
 				B9B92DE425644A41005D9B86 /* Info.plist */,
@@ -1585,7 +1565,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B96B7F572613800500B1CBF5 /* video3.mov in Resources */,
 				B9781DFE25DE8E3900A2FE2D /* Raleway-ExtraBoldItalic.ttf in Resources */,
 				B9781DFF25DE8E3900A2FE2D /* Raleway-Regular.ttf in Resources */,
 				B9B92DE325644A41005D9B86 /* LaunchScreen.storyboard in Resources */,
@@ -1597,15 +1576,12 @@
 				B99020D325ED4441004AC25C /* Raleway-Heavy.ttf in Resources */,
 				B9781E0425DE8E3900A2FE2D /* Raleway-BlackItalic.ttf in Resources */,
 				B9781E0B25DE8E3900A2FE2D /* README.txt in Resources */,
-				B96B7F532613800000B1CBF5 /* video4.mov in Resources */,
 				B9781DFD25DE8E3900A2FE2D /* Raleway-ExtraBold.ttf in Resources */,
 				B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */,
 				B9B92DDB25644A3F005D9B86 /* Main.storyboard in Resources */,
-				B96B7F4F26137FFB00B1CBF5 /* video1.mov in Resources */,
 				B9781DF925DE8E3900A2FE2D /* Raleway-ThinItalic.ttf in Resources */,
 				B9781E0725DE8E3900A2FE2D /* Raleway-Italic.ttf in Resources */,
 				B9781E0325DE8E3900A2FE2D /* Raleway-Black.ttf in Resources */,
-				B96B7F4B26137FF300B1CBF5 /* video5.mov in Resources */,
 				B9781E0925DE8E3900A2FE2D /* OFL.txt in Resources */,
 				B9781DF825DE8E3900A2FE2D /* Raleway-MediumItalic.ttf in Resources */,
 				B9781E0A25DE8E3900A2FE2D /* Raleway-VariableFont_wght.ttf in Resources */,
@@ -1613,7 +1589,6 @@
 				B9781E0025DE8E3900A2FE2D /* Raleway-ExtraLightItalic.ttf in Resources */,
 				B9781DFC25DE8E3900A2FE2D /* Raleway-SemiBold.ttf in Resources */,
 				B9781E0525DE8E3900A2FE2D /* Raleway-LightItalic.ttf in Resources */,
-				B96B7F5B2613800B00B1CBF5 /* video2.mov in Resources */,
 				B9781E0225DE8E3900A2FE2D /* Raleway-Light.ttf in Resources */,
 				B9530026259F476000DE926A /* CircleView.xib in Resources */,
 				B9781DF625DE8E3900A2FE2D /* Raleway-Italic-VariableFont_wght.ttf in Resources */,
@@ -1873,6 +1848,7 @@
 				B91C553026107065000C2AAD /* UnicornViewController.swift in Sources */,
 				B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */,
 				B9ABA20225E45F930039280B /* CaptionView.swift in Sources */,
+				B9D74ADD263554A600F51BCA /* CameraContainerViewController.swift in Sources */,
 				B93D284E26039B3700F590BE /* PopupWarningView.swift in Sources */,
 				B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */,
 				B972A2C225DD2697006A0476 /* PostHeaderView.swift in Sources */,

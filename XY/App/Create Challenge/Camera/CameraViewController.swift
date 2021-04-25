@@ -32,7 +32,6 @@ class CameraViewController: UIViewController {
         
         cameraManager.writeFilesToPhoneLibrary = false
         cameraManager.shouldRespondToOrientationChanges = false
-        
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +58,6 @@ class CameraViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        
         do {
             try AVAudioSession.sharedInstance().setAllowHapticsAndSystemSoundsDuringRecording(true)
         } catch let error {
@@ -72,7 +70,6 @@ class CameraViewController: UIViewController {
             
             cameraManager.startRecordingVideo()
             state = .recording
-            
         }
     }
     

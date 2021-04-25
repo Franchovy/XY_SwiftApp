@@ -1,0 +1,92 @@
+//
+//  CameraContainerViewController.swift
+//  XY
+//
+//  Created by Maxime Franchot on 25/04/2021.
+//
+
+import UIKit
+
+protocol CameraContainerDelegate {
+    func didFinishRecording(videoURL: URL)
+}
+
+class CameraContainerViewController: UIViewController {
+
+    private let cameraViewController = CameraViewController()
+    private let switchCameraButton = Button(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera.fill")?.withTintColor(.gray, renderingMode: .alwaysOriginal), style: .image)
+    private let flashButton = Button(image: UIImage(systemName: "bolt.fill")?.withTintColor(UIColor.yellow, renderingMode: .alwaysOriginal), style: .image)
+    private let recordButton = RecordButton()
+    
+    var delegate: CameraContainerDelegate?
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+        
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        view.addSubview(cameraViewController.view)
+        addChild(cameraViewController)
+        
+        view.addSubview(switchCameraButton)
+        view.addSubview(flashButton)
+        
+        view.addSubview(recordButton)
+        
+        recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        let switchCameraButtonSize = CGSize(width: 26.25, height: 22.5)
+        switchCameraButton.frame = CGRect(
+            x: view.width - 9.95 - switchCameraButtonSize.width,
+            y: 10.22,
+            width: switchCameraButtonSize.width,
+            height: switchCameraButtonSize.height
+        )
+        
+        let flashButtonSize = CGSize(width: 15, height: 26.26)
+        flashButton.frame = CGRect(
+            x: (view.width - flashButtonSize.width)/2,
+            y: 10.22,
+            width: flashButtonSize.width,
+            height: flashButtonSize.height
+        )
+        
+        let recordButtonSize: CGFloat = 64
+        recordButton.frame = CGRect(
+            x: (view.width - recordButtonSize)/2,
+            y: cameraViewController.view.bottom - recordButtonSize - 15,
+            width: recordButtonSize,
+            height: recordButtonSize
+        )
+    }
+    
+    // MARK: - OBJ-C FUNCTIONS
+    
+    @objc private func recordButtonPressed() {
+        if cameraViewController.state == .prepareToRecord {
+            HapticsManager.shared.vibrateImpact(for: .medium)
+            
+            cameraViewController.startRecording()
+            recordButton.setState(.recording)
+        } else {
+            HapticsManager.shared.vibrateImpact(for: .light)
+            
+            recordButton.setState(.notRecording)
+            cameraViewController.stopRecording() { outputUrl in
+                self.delegate?.didFinishRecording(videoURL: outputUrl)
+            }
+        }
+    }
+
+}

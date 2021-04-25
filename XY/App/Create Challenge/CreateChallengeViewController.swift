@@ -8,12 +8,11 @@
 import UIKit
 
 
-class CreateChallengeViewController: UIViewController {
+class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
     
     var videoURL: URL?
     
-    private let cameraViewController = CameraViewController()
-    private let recordButton = RecordButton()
+    let cameraContainerViewController = CameraContainerViewController()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -30,13 +29,10 @@ class CreateChallengeViewController: UIViewController {
         
         presentingViewController?.navigationItem.backButtonTitle = " "
         
-        view.addSubview(cameraViewController.view)
-        addChild(cameraViewController)
+        view.addSubview(cameraContainerViewController.view)
+        addChild(cameraContainerViewController)
         
-        view.addSubview(recordButton)
-        recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
-        
-        cameraViewController.view.layer.cornerRadius = 10
+        cameraContainerViewController.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,18 +65,18 @@ class CreateChallengeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        cameraViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
-        
-        let recordButtonSize: CGFloat = 64
-        recordButton.frame = CGRect(
-            x: (view.width - recordButtonSize)/2,
-            y: cameraViewController.view.bottom - recordButtonSize - 15,
-            width: recordButtonSize,
-            height: recordButtonSize
-        )
+        cameraContainerViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
     }
     
     // MARK: -
+    
+    func didFinishRecording(videoURL: URL) {
+        self.videoURL = videoURL
+        
+        DispatchQueue.main.async {
+            self.displayPreview()
+        }
+    }
     
     private func displayNewChallengePrompt() {
         let prompt = Prompt()
@@ -133,27 +129,5 @@ class CreateChallengeViewController: UIViewController {
         let previewVC = PreviewViewController(previewVideoURL: videoURL)
         
         navigationController?.pushViewController(previewVC, animated: true)
-    }
-    
-    // MARK: - OBJ-C FUNCTIONS
-    
-    @objc private func recordButtonPressed() {
-        if cameraViewController.state == .prepareToRecord {
-            HapticsManager.shared.vibrateImpact(for: .medium)
-            
-            cameraViewController.startRecording()
-            recordButton.setState(.recording)
-        } else {
-            HapticsManager.shared.vibrateImpact(for: .light)
-            
-            recordButton.setState(.notRecording)
-            cameraViewController.stopRecording() { outputUrl in
-                self.videoURL = outputUrl
-                
-                DispatchQueue.main.async {
-                    self.displayPreview()
-                }
-            }
-        }
     }
 }
