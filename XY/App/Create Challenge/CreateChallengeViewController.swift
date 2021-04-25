@@ -38,8 +38,7 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        configureBackButton(.xmark)
-        navigationController?.configureBackgroundStyle(.invisible)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,12 +53,12 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         HapticsManager.shared.vibrateImpact(for: .soft)
+        
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-        navigationController?.isNavigationBarHidden = false
     }
     
     override func viewDidLayoutSubviews() {
@@ -68,7 +67,7 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
         cameraContainerViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
     }
     
-    // MARK: -
+    // MARK: - CameraContainerDelegate Functions
     
     func didFinishRecording(videoURL: URL) {
         self.videoURL = videoURL
@@ -77,6 +76,12 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
             self.displayPreview()
         }
     }
+    
+    func closeButtonPressed() {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    // MARK: - Private functions
     
     private func displayNewChallengePrompt() {
         let prompt = Prompt()

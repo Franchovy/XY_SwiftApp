@@ -89,4 +89,17 @@ class CameraViewController: UIViewController {
             }
         }
     }
+    
+    public func toggleFlash() {
+        cameraManager.changeFlashMode()
+    }
+    
+    public func switchCamera() {
+        guard state != .recording else {
+            return
+        }
+        cameraManager.stopCaptureSession()
+        cameraManager.cameraDevice = cameraManager.cameraDevice == .front ? .back : .front
+        cameraManager.resumeCaptureSession()
+    }
 }

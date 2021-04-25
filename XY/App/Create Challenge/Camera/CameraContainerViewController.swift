@@ -9,6 +9,7 @@ import UIKit
 
 protocol CameraContainerDelegate {
     func didFinishRecording(videoURL: URL)
+    func closeButtonPressed()
 }
 
 class CameraContainerViewController: UIViewController {
@@ -17,6 +18,7 @@ class CameraContainerViewController: UIViewController {
     private let switchCameraButton = Button(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera.fill")?.withTintColor(.gray, renderingMode: .alwaysOriginal), style: .image)
     private let flashButton = Button(image: UIImage(systemName: "bolt.fill")?.withTintColor(UIColor.yellow, renderingMode: .alwaysOriginal), style: .image)
     private let recordButton = RecordButton()
+    private let closeButton = Button(image: UIImage(systemName: "xmark"), style: .image)
     
     var delegate: CameraContainerDelegate?
     
@@ -37,14 +39,26 @@ class CameraContainerViewController: UIViewController {
         
         view.addSubview(switchCameraButton)
         view.addSubview(flashButton)
+        view.addSubview(closeButton)
         
         view.addSubview(recordButton)
         
+        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
+        flashButton.addTarget(self, action: #selector(flashButtonPressed), for: .touchUpInside)
+        switchCameraButton.addTarget(self, action: #selector(switchCameraButtonPressed), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
+        let closeButtonSize: CGFloat = 20
+        closeButton.frame = CGRect(
+            x: 10,
+            y: 13.35,
+            width: closeButtonSize,
+            height: closeButtonSize
+        )
         
         let switchCameraButtonSize = CGSize(width: 26.25, height: 22.5)
         switchCameraButton.frame = CGRect(
@@ -88,5 +102,16 @@ class CameraContainerViewController: UIViewController {
             }
         }
     }
+    
+    @objc private func flashButtonPressed() {
+        cameraViewController.toggleFlash()
+    }
+    
+    @objc private func switchCameraButtonPressed() {
+        cameraViewController.switchCamera()
+    }
 
+    @objc private func closeButtonPressed() {
+        delegate?.closeButtonPressed()
+    }
 }
