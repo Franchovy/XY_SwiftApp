@@ -240,6 +240,8 @@
 		B9BF8BEE26023A670057210C /* PopupMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9BF8BED26023A670057210C /* PopupMessageView.swift */; };
 		B9C4225826203575008E9315 /* WatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C4225726203575008E9315 /* WatchViewController.swift */; };
 		B9C4225C2620380D008E9315 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C4225B2620380D008E9315 /* PlayerViewController.swift */; };
+		B9C6AD47263562510002F535 /* SegmentCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6AD46263562510002F535 /* SegmentCameraViewController.swift */; };
+		B9C6AD4B263567160002F535 /* VideoCompositionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */; };
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
 		B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */; };
@@ -535,6 +537,8 @@
 		B9BF8BED26023A670057210C /* PopupMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupMessageView.swift; sourceTree = "<group>"; };
 		B9C4225726203575008E9315 /* WatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchViewController.swift; sourceTree = "<group>"; };
 		B9C4225B2620380D008E9315 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
+		B9C6AD46263562510002F535 /* SegmentCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentCameraViewController.swift; sourceTree = "<group>"; };
+		B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompositionWriter.swift; sourceTree = "<group>"; };
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
 		B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
@@ -954,6 +958,8 @@
 			children = (
 				B952F5C6261762420063E7B4 /* RecordButton.swift */,
 				B97352E726186D7200183201 /* CameraViewController.swift */,
+				B9C6AD46263562510002F535 /* SegmentCameraViewController.swift */,
+				B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */,
 				B9D74ADC263554A600F51BCA /* CameraContainerViewController.swift */,
 			);
 			path = Camera;
@@ -1759,6 +1765,7 @@
 				B934B68225F76EF800575972 /* CategorySectionReusableView.swift in Sources */,
 				B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */,
 				B9ABAAA525F7CBB1009CB966 /* ThumbnailManager.swift in Sources */,
+				B9C6AD4B263567160002F535 /* VideoCompositionWriter.swift in Sources */,
 				B97352E42618675A00183201 /* Button.swift in Sources */,
 				B96B7F2B2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift in Sources */,
 				B94E3F7126270D12001AE129 /* Challenge.xcdatamodeld in Sources */,
@@ -1904,6 +1911,7 @@
 				B9ABA1FA25E454580039280B /* XPManager.swift in Sources */,
 				B9B74D8125F029D50083D69A /* RankingModel.swift in Sources */,
 				B9B302AA2614AE1000D14FC0 /* EditNicknameTextField.swift in Sources */,
+				B9C6AD47263562510002F535 /* SegmentCameraViewController.swift in Sources */,
 				B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */,
 				B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */,
 				B979AB0A26258FF50079C4E8 /* UserDataModel.swift in Sources */,

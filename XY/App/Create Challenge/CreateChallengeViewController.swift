@@ -7,11 +7,13 @@
 
 import UIKit
 
+let segmentCameraTest = true
 
 class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
     
     var videoURL: URL?
     
+    let segmentViewController = SegmentCameraViewController()
     let cameraContainerViewController = CameraContainerViewController()
     
     init() {
@@ -29,10 +31,15 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
         
         presentingViewController?.navigationItem.backButtonTitle = " "
         
-        view.addSubview(cameraContainerViewController.view)
-        addChild(cameraContainerViewController)
+        if segmentCameraTest {
+            view.addSubview(segmentViewController.view)
+            addChild(segmentViewController)
+        } else {
+            view.addSubview(cameraContainerViewController.view)
+            addChild(cameraContainerViewController)
+            cameraContainerViewController.delegate = self
+        }
         
-        cameraContainerViewController.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -64,7 +71,11 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        cameraContainerViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
+        if segmentCameraTest {
+            segmentViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
+        } else {
+            cameraContainerViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
+        }
     }
     
     // MARK: - CameraContainerDelegate Functions

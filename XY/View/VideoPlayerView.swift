@@ -12,7 +12,7 @@ import UIKit
 class VideoPlayerView: UIView {
     
     var playerLayer: AVPlayerLayer?
-    weak var player: AVPlayer?
+    var player: AVPlayer?
     
     var repeatObserverSet = false
     var timeControlObserverSet = false
