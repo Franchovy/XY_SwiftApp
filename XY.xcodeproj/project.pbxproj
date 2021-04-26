@@ -242,6 +242,7 @@
 		B9C4225C2620380D008E9315 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C4225B2620380D008E9315 /* PlayerViewController.swift */; };
 		B9C6AD47263562510002F535 /* SegmentCameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6AD46263562510002F535 /* SegmentCameraViewController.swift */; };
 		B9C6AD4B263567160002F535 /* VideoCompositionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */; };
+		B9C6AD592636C2360002F535 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6AD582636C2360002F535 /* Video.swift */; };
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
 		B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */; };
@@ -539,6 +540,7 @@
 		B9C4225B2620380D008E9315 /* PlayerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerViewController.swift; sourceTree = "<group>"; };
 		B9C6AD46263562510002F535 /* SegmentCameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentCameraViewController.swift; sourceTree = "<group>"; };
 		B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompositionWriter.swift; sourceTree = "<group>"; };
+		B9C6AD582636C2360002F535 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
 		B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
@@ -959,6 +961,7 @@
 				B952F5C6261762420063E7B4 /* RecordButton.swift */,
 				B97352E726186D7200183201 /* CameraViewController.swift */,
 				B9C6AD46263562510002F535 /* SegmentCameraViewController.swift */,
+				B9C6AD582636C2360002F535 /* Video.swift */,
 				B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */,
 				B9D74ADC263554A600F51BCA /* CameraContainerViewController.swift */,
 			);
@@ -1792,6 +1795,7 @@
 				B9D1AB3125A3A591009B428E /* FlowDataCell.swift in Sources */,
 				B9FD995B2616128E00D6716C /* NotificationsCollectionViewCell.swift in Sources */,
 				B9781DBC25DE6AAF00A2FE2D /* ProfileLivePostsViewController.swift in Sources */,
+				B9C6AD592636C2360002F535 /* Video.swift in Sources */,
 				B9B74D9625F03A230083D69A /* RankingCellViewModel.swift in Sources */,
 				B926865F261461A400A306F6 /* FriendsListCollectionView.swift in Sources */,
 				B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */,

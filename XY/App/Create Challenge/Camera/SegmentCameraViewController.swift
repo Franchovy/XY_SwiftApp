@@ -8,12 +8,12 @@
 import UIKit
 import AVFoundation
 
-class SegmentCameraViewController: UIViewController {
+class SegmentCameraViewController: UIViewController, VideoWriterDelegate {
     
     enum CameraState {
-        case prepareToRecord
         case recording
-        case finishedRecording
+        case ending
+        case idle
     }
     
     enum CameraDirection {
@@ -22,12 +22,12 @@ class SegmentCameraViewController: UIViewController {
     }
     
     var cameraFacing:CameraDirection = .back
-    var state:CameraState = .prepareToRecord
+    var state:CameraState = .idle
     
     // MARK: - UI Properties
     
     private var flipCameraButton = Button(image: UIImage(systemName: "arrow.triangle.2.circlepath.camera.fill"), style: .image)
-    private var recordButton = Button(image: UIImage(systemName: "video.circle.fill"), style: .image)
+    private var recordButton = RecordButton()
     private var doneButton = Button(image: UIImage(systemName: "checkmark.circle.fill"), style: .image)
     private var previewView = UIView()
     
@@ -38,6 +38,11 @@ class SegmentCameraViewController: UIViewController {
     var videoDeviceInput: AVCaptureDeviceInput!
     private var videoOutput: AVCaptureVideoDataOutput!
     
+    fileprivate var videoWriter: VideoWriter?
+    
+    var videoConnection: AVCaptureConnection?
+    var audioConnection: AVCaptureConnection?
+    
     private var _assetWriter: AVAssetWriter!
     private var _assetWriterInput: AVAssetWriterInput!
     private var _adapter: AVAssetWriterInputPixelBufferAdaptor?
@@ -45,6 +50,8 @@ class SegmentCameraViewController: UIViewController {
     private var _time: Double = 0
     var clips: [String] = []
     var audioPlayer: AVAudioPlayer?
+    
+    var screenDimensions: (Int, Int) = (0, 0)
     
     // MARK: - Initializers
     
@@ -71,6 +78,67 @@ class SegmentCameraViewController: UIViewController {
         recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
         doneButton.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
         
+        screenDimensions = (Int(view.width), Int(view.height))
+        
+        captureSession = AVCaptureSession()
+        
+        // Make sure this device has an available rear camera and microphone
+        guard let rearCamera = AVCaptureDevice.default(for: AVMediaType.video),
+              let audioInput = AVCaptureDevice.default(for: AVMediaType.audio)
+        else {
+            print("Unable to access capture devices!")
+            return
+        }
+        
+        DispatchQueue.global(qos: .userInitiated).async {
+            do {
+                // Create the two AVCaptureDeviceInput
+                let cameraInput = try AVCaptureDeviceInput(device: rearCamera)
+                let audioInput = try AVCaptureDeviceInput(device: audioInput)
+                
+                // Create the AVCaptureVideoDataOutput
+                if self.captureSession.canAddInput(cameraInput), self.captureSession.canAddInput(audioInput) {
+                    // Add inputs to capture session
+                    self.captureSession.addInput(cameraInput)
+                    self.captureSession.addInput(audioInput)
+                    self.videoDeviceInput = cameraInput
+                    
+                    // Set up the preview view
+                    DispatchQueue.main.async {
+                        self.setupLivePreview()
+                    }
+                }
+            } catch {
+                print("Error Unable to initialize inputs:  \(error.localizedDescription)")
+            }
+            
+            do {
+                let videoDataOutput = AVCaptureVideoDataOutput()
+                videoDataOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: NSNumber(value: kCVPixelFormatType_32BGRA)]
+                videoDataOutput.alwaysDiscardsLateVideoFrames = true
+                let queue = DispatchQueue(label: "com.shu223.videosamplequeue")
+                videoDataOutput.setSampleBufferDelegate(self, queue: queue)
+                guard self.captureSession.canAddOutput(videoDataOutput) else {
+                    fatalError()
+                }
+                self.captureSession.addOutput(videoDataOutput)
+                
+                self.videoConnection = videoDataOutput.connection(with: .video)
+            }
+            
+            // setup audio output
+            do {
+                let audioDataOutput = AVCaptureAudioDataOutput()
+                let queue = DispatchQueue(label: "com.shu223.audiosamplequeue")
+                audioDataOutput.setSampleBufferDelegate(self, queue: queue)
+                guard self.captureSession.canAddOutput(audioDataOutput) else {
+                    fatalError()
+                }
+                self.captureSession.addOutput(audioDataOutput)
+                
+                self.audioConnection = audioDataOutput.connection(with: .audio)
+            }
+        }
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -80,39 +148,6 @@ class SegmentCameraViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        captureSession = AVCaptureSession()
-        
-        // Make sure this device has an available rear camera and microphone
-        guard let rearCamera = AVCaptureDevice.default(for: AVMediaType.video),
-            let audioInput = AVCaptureDevice.default(for: AVMediaType.audio)
-        else {
-            print("Unable to access capture devices!")
-            return
-        }
-        do {
-            // Create the two AVCaptureDeviceInput
-            let cameraInput = try AVCaptureDeviceInput(device: rearCamera)
-            let audioInput = try AVCaptureDeviceInput(device: audioInput)
-            // Create the AVCaptureVideoDataOutput
-            let output = AVCaptureVideoDataOutput()
-
-            if captureSession.canAddInput(cameraInput), captureSession.canAddInput(audioInput), captureSession.canAddOutput(output) {
-                // Add inputs to capture session
-                captureSession.addInput(cameraInput)
-                captureSession.addInput(audioInput)
-                videoDeviceInput = cameraInput
-                // Add output to capture session
-                captureSession.addOutput(output)
-                videoOutput = output
-                // We will come back to this line
-                videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue(label: "com.nidhi.tiktok.record"))
-                // Set up the preview view
-                setupLivePreview()
-            }
-        } catch {
-            print("Error Unable to initialize inputs:  \(error.localizedDescription)")
-        }
         
         do {
             try AVAudioSession.sharedInstance().setAllowHapticsAndSystemSoundsDuringRecording(true)
@@ -133,10 +168,10 @@ class SegmentCameraViewController: UIViewController {
         previewView.frame = view.bounds
         
         recordButton.frame = CGRect(
-            x: (view.width - 40)/2,
-            y: view.bottom - 40 - 25,
-            width: 40,
-            height: 40
+            x: (view.width - 80)/2,
+            y: view.bottom - 80 - 25,
+            width: 80,
+            height: 80
         )
         
         flipCameraButton.frame = CGRect(
@@ -161,7 +196,7 @@ class SegmentCameraViewController: UIViewController {
         videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         videoPreviewLayer.videoGravity = .resizeAspectFill
         videoPreviewLayer.connection?.videoOrientation = .portrait
-
+        
         // Insert this sublayer into our previewView's layer
         previewView.layer.insertSublayer(videoPreviewLayer, at: 0)
         // On a background queue, start the capture session
@@ -178,21 +213,20 @@ class SegmentCameraViewController: UIViewController {
     
     // MARK: - Objc private functions
     
-    private enum _CaptureState {
-        case idle, start, capturing, end
-    }
-
-    private var _captureState = _CaptureState.idle
     
     @objc private func recordButtonPressed() {
-        switch _captureState {
-            case .idle:
-                _captureState = .start
-            case .capturing:
-                _captureState = .end
-            default:
-                break
-            }
+        switch state {
+        case .idle:
+            state = .recording
+            videoWriter?.start()
+            recordButton.setState(.recording)
+        case .recording:
+            state = .idle
+            videoWriter?.stop()
+            recordButton.setState(.notRecording)
+        default:
+            break
+        }
     }
     
     @objc private func flipCameraButtonPressed() {
@@ -231,29 +265,11 @@ class SegmentCameraViewController: UIViewController {
     
     // MARK: - Public Methods
     
-    public func startRecording() {
-        if state == .prepareToRecord {
-            
-            state = .recording
-        }
-    }
-    
-    public func stopRecording(onCompletedProcessing: @escaping(URL) -> Void) {
-        if state == .recording {
-            state = .finishedRecording
-            
-        }
-    }
-    
     public func toggleFlash() {
         
     }
     
     public func switchCamera() {
-        
-    }
-    
-    public func deleteSegment() {
         
     }
     
@@ -275,57 +291,37 @@ class SegmentCameraViewController: UIViewController {
     }
 }
 
-extension SegmentCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    func captureOutput(_: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from _: AVCaptureConnection) {
-        let timestamp = CMSampleBufferGetPresentationTimeStamp(sampleBuffer).seconds
+extension SegmentCameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate, AVCaptureAudioDataOutputSampleBufferDelegate {
+    func captureOutput(_ captureOutput: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from _: AVCaptureConnection) {
         
-        switch _captureState {
-        case .start:
-            
-            _filename = UUID().uuidString
-            clips.append("\(_filename).mov")
-            let videoPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent("\(_filename).mov")
-            
-            let writer = try! AVAssetWriter(outputURL: videoPath, fileType: .mov)
-            let settings = videoOutput!.recommendedVideoSettingsForAssetWriter(writingTo: .mov)
-            let input = AVAssetWriterInput(mediaType: .video, outputSettings: settings)
-            input.mediaTimeScale = CMTimeScale(bitPattern: 600)
-            input.expectsMediaDataInRealTime = true
-            input.transform = CGAffineTransform(rotationAngle: .pi / 2)
-
-            let adapter = AVAssetWriterInputPixelBufferAdaptor(assetWriterInput: input, sourcePixelBufferAttributes: nil)
-            if writer.canAdd(input) {
-                writer.add(input)
+        let isVideo = captureOutput is AVCaptureVideoDataOutput
+        if videoWriter == nil {
+            if !isVideo {
+                if let fmt = CMSampleBufferGetFormatDescription(sampleBuffer) {
+                    if let asbd = CMAudioFormatDescriptionGetStreamBasicDescription(fmt) {
+                        let channels = Int(asbd.pointee.mChannelsPerFrame)
+                        let samples = asbd.pointee.mSampleRate
+                        
+                        videoWriter = VideoWriter(height: 1920, width: 1080, channels: channels, samples: samples, recordingTime: 5)
+                        videoWriter?.delegate = self
+                    }
+                }
             }
-            
-            let startingTimeDelay = CMTimeMakeWithSeconds(0.5, preferredTimescale: 1_000_000_000)
-            writer.startWriting()
-            writer.startSession(atSourceTime: .zero + startingTimeDelay)
-
-            _assetWriter = writer
-            _assetWriterInput = input
-            _adapter = adapter
-            
-            _captureState = .capturing
-            _time = timestamp
-        case .capturing:
-            if _assetWriterInput?.isReadyForMoreMediaData == true {
-                // Append the sample buffer at the correct time
-                let time = CMTime(seconds: timestamp - _time, preferredTimescale: CMTimeScale(600))
-                _adapter?.append(CMSampleBufferGetImageBuffer(sampleBuffer)!, withPresentationTime: time)
-            }
-        case .end:
-            // When we have finished recording, finish writing the video data to disk
-            guard _assetWriterInput?.isReadyForMoreMediaData == true, _assetWriter!.status != .failed else { break }
-            _assetWriterInput?.markAsFinished()
-            _assetWriter?.finishWriting { [weak self] in
-                // Move to the idle state once we are done writing
-                self?._captureState = .idle
-                self?._assetWriter = nil
-                self?._assetWriterInput = nil
-            }
-        case .idle:
-            break
         }
+        
+        guard state == .recording else { return }
+
+        if videoWriter != nil {
+            videoWriter?.write(sampleBuffer: sampleBuffer, isVideo: isVideo)
+        }
+    }
+
+    func changeRecordingTime(s: Int64) {
+
+    }
+    
+    func finishRecording(fileUrl: URL) {
+        let vc = PreviewViewController(previewVideoURL: fileUrl)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
