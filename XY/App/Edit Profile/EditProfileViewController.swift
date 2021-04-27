@@ -16,6 +16,7 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     private let challengeLabelView = LabelView()
     
     private var imagePickerController: UIImagePickerController?
+    private var profileImagePickerPrompt: Prompt?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -127,8 +128,36 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.editedImage] as? UIImage ?? info[.originalImage] as? UIImage {
+            let progressPrompt = Prompt()
+            progressPrompt.setTitle(text: "Uploading")
+            progressPrompt.addLoadingCircle(initialProgress: 0.0)
+            progressPrompt.tapEscapable = false
+            
+            NavigationControlManager.displayPrompt(progressPrompt)
+            
+            ProfileDataManager.shared.setImage(as: image) { (progress) in
+                progressPrompt.setLoadingProgress(progress: progress)
+            } completion: { (error) in
+                progressPrompt.disappear()
+                
+                if let error = error {
+                    let errorPrompt = Prompt()
+                    errorPrompt.setTitle(text: "Error")
+                    errorPrompt.addText(text: "There was an error uploading your profile image", font: UIFont(name: "Raleway-Bold", size: 18)!)
+                    errorPrompt.addText(text: "\(error.localizedDescription)", font: UIFont(name: "Raleway-Medium", size: 10)!)
+                    errorPrompt.addCompletionButton(buttonText: "Ok", style: .embedded)
+                    
+                    NavigationControlManager.displayPrompt(errorPrompt)
+                }
+            }
+        }
+        
         imagePickerController?.dismiss(animated: true, completion: nil)
         imagePickerController = nil
+        
+        profileImagePickerPrompt?.disappear()
+        profileImagePickerPrompt = nil
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -137,21 +166,22 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc private func didTapProfileImage() {
-        let prompt = Prompt()
-        prompt.setTitle(text: "Change Profile Photo")
-        prompt.addButtonField(
+        let profileImagePickerPrompt = Prompt()
+        profileImagePickerPrompt.setTitle(text: "Change Profile Photo")
+        profileImagePickerPrompt.addButtonField(
             image: UIImage(systemName: "camera.fill"),
             buttonText: "Take Photo",
             font: UIFont(name: "Raleway-Medium", size: 15),
             onTap: didTapCamera)
-        prompt.addButtonField(
+        profileImagePickerPrompt.addButtonField(
             image: UIImage(systemName: "photo.fill.on.rectangle.fill"),
             buttonText: "Photo Library",
             font: UIFont(name: "Raleway-Medium", size: 15),
             onTap: didTapPhotoLibrary)
-        prompt.addCompletionButton(buttonText: "Cancel", style: .embedded, closeOnTap: true)
+        profileImagePickerPrompt.addCompletionButton(buttonText: "Cancel", style: .embedded, closeOnTap: true)
         
-        NavigationControlManager.displayPrompt(prompt)
+        NavigationControlManager.displayPrompt(profileImagePickerPrompt)
+        self.profileImagePickerPrompt = profileImagePickerPrompt
     }
     
     @objc private func didTapCamera() {

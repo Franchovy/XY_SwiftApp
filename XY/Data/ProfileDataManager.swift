@@ -115,9 +115,25 @@ final class ProfileDataManager {
     }
     
     func setImage(as newImage: UIImage, onProgress: @escaping(Double) -> Void, completion: @escaping(Error?) -> Void) {
+        guard let resizedImageData = ImageUtils.resizeImage(image: newImage, maxHeight: 150, maxWidth: 150, compressionQuality: 1.0) else {
+            fatalError("Error compressing image!")
+        }
+        
         // Set coredata image
+        ownProfileModel.profileImage = resizedImageData
         
         // Set firebase storage image
-        
+        let firebaseStoragePath = FirebaseStoragePaths.profileImagePath(userId: ownID)
+
+        FirebaseStorageManager.shared.uploadImageToStorage(imageData: resizedImageData, storagePath: firebaseStoragePath) { (progress) in
+            onProgress(progress)
+        } onComplete: { (result) in
+            switch result {
+            case .success():
+                completion(nil)
+            case .failure(let error):
+                completion(error)
+            }
+        }
     }
 }

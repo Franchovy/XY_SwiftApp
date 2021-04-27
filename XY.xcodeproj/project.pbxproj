@@ -187,6 +187,7 @@
 		B979AB0E26259BED0079C4E8 /* FriendsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */; };
 		B97C25E92608073F009EFB06 /* GameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C25E82608073F009EFB06 /* GameModel.swift */; };
 		B97E2E9425CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */; };
+		B97F906826384E92003E4BD4 /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97F906726384E92003E4BD4 /* ImageUtils.swift */; };
 		B983B325262978DB0073C3DB /* FirebaseStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */; };
 		B983B33A2629A5370073C3DB /* FirebaseCollectionPath.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */; };
 		B983B366262AB95E0073C3DB /* FirestoreManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B365262AB95E0073C3DB /* FirestoreManagerTests.swift */; };
@@ -481,6 +482,7 @@
 		B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsDataManager.swift; sourceTree = "<group>"; };
 		B97C25E82608073F009EFB06 /* GameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameModel.swift; sourceTree = "<group>"; };
 		B97E2E9325CBF2E200CB34A3 /* OnlineNowCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineNowCollectionViewCell.swift; sourceTree = "<group>"; };
+		B97F906726384E92003E4BD4 /* ImageUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
 		B983B324262978DB0073C3DB /* FirebaseStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageTests.swift; sourceTree = "<group>"; };
 		B983B3392629A5370073C3DB /* FirebaseCollectionPath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCollectionPath.swift; sourceTree = "<group>"; };
 		B983B365262AB95E0073C3DB /* FirestoreManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManagerTests.swift; sourceTree = "<group>"; };
@@ -985,6 +987,7 @@
 				B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */,
 				B9101DE225B9A198001126CC /* FirebaseSubscriptionManager.swift */,
 				B91C55412610D48A000C2AAD /* InviteService.swift */,
+				B97F906726384E92003E4BD4 /* ImageUtils.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -1826,6 +1829,7 @@
 				B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */,
 				140826B925867EC400DC055D /* ImagePostCell.swift in Sources */,
 				B9B0C07C25FE2587003DA5CB /* TimerIcon.swift in Sources */,
+				B97F906826384E92003E4BD4 /* ImageUtils.swift in Sources */,
 				B925CC9125D58B4F00542A58 /* ChatBubbleTableViewCell.swift in Sources */,
 				B96B7F1D2613307300B1CBF5 /* FriendsCollectionView.swift in Sources */,
 				B936264025DA824C0063AAD6 /* ChatEventRouter.swift in Sources */,
