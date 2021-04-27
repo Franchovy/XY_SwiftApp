@@ -34,6 +34,7 @@ struct UserDocument {
     var nickname: String
     var numFriends: Int
     var numChallenges: Int
+    var profileImageID: String?
 }
 
 extension UserDocument: Codable {
@@ -41,6 +42,7 @@ extension UserDocument: Codable {
         case nickname = "xyname"
         case numFriends = "numFriends"
         case numChallenges = "numChallenges"
+        case profileImageID = "profileImageID"
     }
     
     init(from decoder: Decoder) throws {
@@ -48,6 +50,7 @@ extension UserDocument: Codable {
         nickname = try values.decode(String.self, forKey: .nickname)
         numChallenges = try values.decodeIfPresent(Int.self, forKey: .numChallenges) ?? 0
         numFriends = try values.decodeIfPresent(Int.self, forKey: .numFriends) ?? 0
+        profileImageID = try values.decodeIfPresent(String.self, forKey: .profileImageID)
     }
 }
 
@@ -155,6 +158,17 @@ final class FirebaseFirestoreManager {
     func setProfileData(nickname: String, completion: @escaping(Error?) -> Void) {
         let data = [
             UserDocument.CodingKeys.nickname.rawValue : nickname
+        ]
+        
+        root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID)
+            .setData(data, merge: true) { error in
+                completion(error)
+            }
+    }
+    
+    func setProfileData(profileImageID: String, completion: @escaping(Error?) -> Void) {
+        let data = [
+            UserDocument.CodingKeys.profileImageID.rawValue : profileImageID
         ]
         
         root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID)
@@ -515,6 +529,7 @@ final class FirebaseFirestoreManager {
         model.nickname = documentObject.nickname
         model.numFriends = Int16(documentObject.numFriends)
         model.numChallenges = Int16(documentObject.numChallenges)
+        model.profileImageFirebaseID = documentObject.profileImageID
         
         return model
     }
@@ -540,7 +555,8 @@ final class FirebaseFirestoreManager {
         let document = UserDocument(
             nickname: userModel.nickname!,
             numFriends: Int(userModel.numFriends),
-            numChallenges: Int(userModel.numChallenges)
+            numChallenges: Int(userModel.numChallenges),
+            profileImageID: userModel.profileImageFirebaseID
         )
         
         do {

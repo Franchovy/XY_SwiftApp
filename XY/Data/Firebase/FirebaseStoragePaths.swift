@@ -8,8 +8,8 @@
 import Foundation
 
 final class FirebaseStoragePaths {
-    static func profileImagePath(userId: String) -> String {
-        "\(userId)/\(userId)_profileImg.png"
+    static func profileImagePath(userId: String, imageID: String) -> String {
+        "\(userId)/\(imageID)_profileImg.png"
     }
     
     static func challengeVideoPath(challengeId: String, videoId: String) -> String {

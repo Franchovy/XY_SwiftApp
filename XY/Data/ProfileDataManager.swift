@@ -119,11 +119,21 @@ final class ProfileDataManager {
             fatalError("Error compressing image!")
         }
         
+        let newID = UUID().uuidString
+        
         // Set coredata image
         ownProfileModel.profileImage = resizedImageData
         
+        FirebaseFirestoreManager.shared.setProfileData(profileImageID: newID) { error in
+            if let error = error {
+                completion(error)
+            } else {
+                self.ownProfileModel.profileImageFirebaseID = newID
+            }
+        }
+        
         // Set firebase storage image
-        let firebaseStoragePath = FirebaseStoragePaths.profileImagePath(userId: ownID)
+        let firebaseStoragePath = FirebaseStoragePaths.profileImagePath(userId: ownID, imageID: newID)
 
         FirebaseStorageManager.shared.uploadImageToStorage(imageData: resizedImageData, storagePath: firebaseStoragePath) { (progress) in
             onProgress(progress)

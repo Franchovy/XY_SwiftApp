@@ -20,9 +20,10 @@
         <attribute name="numChallenges" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="numFriends" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="profileImage" optional="YES" attributeType="Binary"/>
+        <attribute name="profileImageFirebaseID" optional="YES" attributeType="String"/>
     </entity>
     <elements>
         <element name="ChallengeDataModel" positionX="-63" positionY="-18" width="128" height="208"/>
-        <element name="UserDataModel" positionX="-54" positionY="-9" width="128" height="133"/>
+        <element name="UserDataModel" positionX="-54" positionY="-9" width="128" height="148"/>
     </elements>
 </model>

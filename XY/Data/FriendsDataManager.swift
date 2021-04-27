@@ -110,12 +110,48 @@ final class FriendsDataManager {
         FirebaseFirestoreManager.shared.fetchAllProfiles { (result) in
             switch result {
             case .success(let userModels):
-                self.allUsers = userModels
+                for userModel in userModels {
+                    if !self.allUsers.contains(where: { $0.firebaseID == userModel.firebaseID }) {
+                        // Add user to all Users
+                        self.allUsers.append(userModel)
+                        self.downloadProfileImageForUser(userModel: userModel)
+                    } else if let userDataModel = self.allUsers.first(where: { $0.firebaseID == userModel.firebaseID }) {
+                        if userDataModel.profileImageFirebaseID != userModel.profileImageFirebaseID {
+                            // Download new image
+                            userDataModel.profileImageFirebaseID = userModel.profileImageFirebaseID
+                            CoreDataManager.shared.save()
+                            
+                            self.downloadProfileImageForUser(userModel: userDataModel)
+                        }
+                    }
+                    
+                }
+                
                 completion()
             case .failure(let error):
                 print("Error fetching users from firebase: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func downloadProfileImageForUser(userModel: UserDataModel) {
+        guard let firebaseID = userModel.firebaseID, let profileImageFirebaseID = userModel.profileImageFirebaseID else {
+            return
+        }
+        
+        let path = FirebaseStoragePaths.profileImagePath(userId: firebaseID, imageID: profileImageFirebaseID)
+        FirebaseStorageManager.shared.downloadImage(from: path) { (progress) in
+            
+        } completion: { (result) in
+            switch result {
+            case .success(let image):
+                userModel.profileImage = image
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
+        CoreDataManager.shared.save()
     }
     
     func loadDataFromStorage() {
@@ -126,7 +162,10 @@ final class FriendsDataManager {
         
         do {
             let results = try mainContext.fetch(fetchRequest)
+            
             allUsers = results
+            
+            print("User profile image detection: \(allUsers.first(where: { $0.profileImageFirebaseID != nil }))")
             
             #if DEBUG
 //            if allUsers.count == 0 {

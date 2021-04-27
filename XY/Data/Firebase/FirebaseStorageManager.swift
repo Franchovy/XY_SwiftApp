@@ -99,6 +99,8 @@ final class FirebaseStorageManager {
                     onProgress(progress.fractionCompleted)
                 }
             }
+            
+            downloadTask.resume()
         }
     }
     
