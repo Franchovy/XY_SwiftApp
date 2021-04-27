@@ -197,12 +197,23 @@ final class ChallengeDataManager {
         // set up firebase listener
         FirebaseFirestoreManager.shared.listenForNewChallenges { (result) in
             switch result {
-            case .success(let newChallenges):
+            case .success(let challengesReceived):
+                let newChallenges = challengesReceived.filter({ (challengeDataModel) in
+                            !self.activeChallenges.contains(where: { $0.firebaseID == challengeDataModel.firebaseID }) })
+                .filter({ (challengeDataModel) -> Bool in
+                    if let expiry = challengeDataModel.expiryTimestamp, expiry < Date(timeIntervalSinceNow: TimeInterval.days(-1)) {
+                        return false
+                    } else {
+                        return true
+                    }
+                })
+                
                 if newChallenges.isEmpty { return }
                 
                 let dispatchGroup = DispatchGroup()
                 
-                newChallenges.forEach { (challengeDataModel) in
+                newChallenges
+                    .forEach { (challengeDataModel) in
                     
                     // Fetch preview images
                     dispatchGroup.enter()
@@ -274,6 +285,19 @@ final class ChallengeDataManager {
         }
     }
     
+    func expireOldChallenges() {
+        var indexesToRemove = [Int]()
+        
+        for (index, challengeDataModel) in activeChallenges.enumerated() {
+            if let expiry = challengeDataModel.expiryTimestamp, expiry < Date(timeIntervalSinceNow: TimeInterval.days(-1)) {
+                indexesToRemove.append(index)
+                CoreDataManager.shared.mainContext.delete(challengeDataModel)
+            }
+        }
+        
+        activeChallenges.removeAll(where: { $0.expiryTimestamp ?? Date() < Date(timeIntervalSinceNow: TimeInterval.days(-1)) })
+    }
+    
     func loadChallengesFromStorage() {
         let mainContext = CoreDataManager.shared.mainContext
         
@@ -281,6 +305,8 @@ final class ChallengeDataManager {
         do {
             let results = try mainContext.fetch(fetchRequest)
             activeChallenges = results
+            
+            expireOldChallenges()
             
             for challengeToUpload in activeChallenges.filter( { $0.sentByYou() && $0.downloadUrl == nil }) {
                 if challengeToUpload.firebaseID == nil {
