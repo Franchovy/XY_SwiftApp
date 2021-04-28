@@ -199,4 +199,8 @@ class ProfileViewController: UIViewController, FriendsDataManagerListener {
     func didUpdateFriendshipState(to state: FriendStatus) {
         viewModel?.friendStatus = state
     }
+    
+    func didUpdateProfileImage(to image: UIImage) {
+        viewModel?.profileImage = image
+    }
 }

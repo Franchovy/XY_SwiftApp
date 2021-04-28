@@ -8,6 +8,7 @@
 import UIKit
 
 class FriendCollectionViewCell: UICollectionViewCell, FriendsDataManagerListener {
+    
     static let identifier = "FriendCollectionViewCell"
     
     private let friendBubble = FriendBubble()
@@ -61,5 +62,10 @@ class FriendCollectionViewCell: UICollectionViewCell, FriendsDataManagerListener
     
     func didUpdateFriendshipState(to state: FriendStatus) {
         viewModel?.friendStatus = state
+    }
+    
+    func didUpdateProfileImage(to image: UIImage) {
+        friendBubble.imageView.image = image
+        viewModel?.profileImage = image
     }
 }

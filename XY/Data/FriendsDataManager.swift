@@ -22,6 +22,7 @@ final class WeakReferenceListener {
 
 protocol FriendsDataManagerListener: NSObject {
     func didUpdateFriendshipState(to state: FriendStatus)
+    func didUpdateProfileImage(to image: UIImage)
 }
 
 final class FriendsDataManager {
@@ -146,6 +147,7 @@ final class FriendsDataManager {
             switch result {
             case .success(let image):
                 userModel.profileImage = image
+                self.changeListeners[userModel]?.forEach({ $0.reference?.didUpdateProfileImage(to: UIImage(data: image)!) })
             case .failure(let error):
                 print(error.localizedDescription)
             }

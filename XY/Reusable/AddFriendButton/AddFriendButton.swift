@@ -68,6 +68,10 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
         setupButtonForCurrentStatus()
     }
     
+    func didUpdateProfileImage(to image: UIImage) {
+        
+    }
+    
     private func changeStateTapped() {
         switch status {
         case .none:

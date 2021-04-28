@@ -93,4 +93,9 @@ class FriendsListCollectionViewCell: UICollectionViewCell, FriendsDataManagerLis
     func didUpdateFriendshipState(to state: FriendStatus) {
         viewModel?.friendStatus = state
     }
+    
+    func didUpdateProfileImage(to image: UIImage) {
+        friendBubble.imageView.image = image
+        viewModel?.profileImage = image
+    }
 }
