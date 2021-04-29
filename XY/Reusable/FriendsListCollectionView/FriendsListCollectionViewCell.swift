@@ -98,4 +98,10 @@ class FriendsListCollectionViewCell: UICollectionViewCell, FriendsDataManagerLis
         friendBubble.imageView.image = image
         viewModel?.profileImage = image
     }
+    
+    func didUpdateNickname(to nickname: String) {
+        nicknameLabel.text = nickname
+        viewModel?.nickname = nickname
+    }
+    
 }

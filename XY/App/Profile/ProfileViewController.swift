@@ -203,4 +203,8 @@ class ProfileViewController: UIViewController, FriendsDataManagerListener {
     func didUpdateProfileImage(to image: UIImage) {
         viewModel?.profileImage = image
     }
+    
+    func didUpdateNickname(to nickname: String) {
+        viewModel?.nickname = nickname
+    }
 }

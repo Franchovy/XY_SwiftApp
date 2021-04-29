@@ -63,15 +63,6 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
         FriendsDataManager.shared.deregisterChangeListener(listener: self)
     }
     
-    func didUpdateFriendshipState(to state: FriendStatus) {
-        status = state
-        setupButtonForCurrentStatus()
-    }
-    
-    func didUpdateProfileImage(to image: UIImage) {
-        
-    }
-    
     private func changeStateTapped() {
         switch status {
         case .none:
@@ -178,5 +169,19 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
             return
         }
         FriendsDataManager.shared.updateFriendStatus(friend: self.viewModel!, newStatus: status)
+    }
+
+    func didUpdateFriendshipState(to state: FriendStatus) {
+        status = state
+        setupButtonForCurrentStatus()
+    }
+    
+    func didUpdateProfileImage(to image: UIImage) {
+        
+    }
+    
+    
+    func didUpdateNickname(to nickname: String) {
+        
     }
 }

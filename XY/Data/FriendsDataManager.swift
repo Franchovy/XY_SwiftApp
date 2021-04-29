@@ -23,6 +23,7 @@ final class WeakReferenceListener {
 protocol FriendsDataManagerListener: NSObject {
     func didUpdateFriendshipState(to state: FriendStatus)
     func didUpdateProfileImage(to image: UIImage)
+    func didUpdateNickname(to nickname: String)
 }
 
 final class FriendsDataManager {
@@ -117,12 +118,19 @@ final class FriendsDataManager {
                         self.allUsers.append(userModel)
                         self.downloadProfileImageForUser(userModel: userModel)
                     } else if let userDataModel = self.allUsers.first(where: { $0.firebaseID == userModel.firebaseID }) {
+                        // Download new image
                         if userDataModel.profileImageFirebaseID != userModel.profileImageFirebaseID {
-                            // Download new image
                             userDataModel.profileImageFirebaseID = userModel.profileImageFirebaseID
                             CoreDataManager.shared.save()
                             
                             self.downloadProfileImageForUser(userModel: userDataModel)
+                        }
+                        
+                        if userDataModel.nickname != userModel.nickname {
+                            userDataModel.nickname = userModel.nickname
+                            CoreDataManager.shared.save()
+                            
+                            self.updateNicknameForUser(userModel: userDataModel)
                         }
                     }
                     
@@ -133,6 +141,12 @@ final class FriendsDataManager {
                 print("Error fetching users from firebase: \(error.localizedDescription)")
             }
         }
+    }
+    
+    func updateNicknameForUser(userModel: UserDataModel) {
+        guard userModel.nickname != nil else { return }
+        
+        changeListeners[userModel]?.forEach({ $0.reference?.didUpdateNickname(to: userModel.nickname!) })
     }
     
     func downloadProfileImageForUser(userModel: UserDataModel) {

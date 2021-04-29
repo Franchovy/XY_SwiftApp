@@ -9,7 +9,7 @@ import UIKit
 
 struct UserViewModel: Hashable {
     var profileImage: UIImage?
-    let nickname: String
+    var nickname: String
     var friendStatus: FriendStatus
     let numChallenges: Int
     let numFriends: Int
