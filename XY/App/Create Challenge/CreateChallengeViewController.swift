@@ -7,7 +7,7 @@
 
 import UIKit
 
-let segmentCameraTest = true
+let segmentCameraTest = false
 
 class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
     
