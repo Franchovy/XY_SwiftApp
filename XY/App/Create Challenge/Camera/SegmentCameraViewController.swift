@@ -124,6 +124,7 @@ class SegmentCameraViewController: UIViewController, VideoWriterDelegate {
                 self.captureSession.addOutput(videoDataOutput)
                 
                 self.videoConnection = videoDataOutput.connection(with: .video)
+                self.videoConnection?.videoOrientation = .portrait
             }
             
             // setup audio output
@@ -221,7 +222,7 @@ class SegmentCameraViewController: UIViewController, VideoWriterDelegate {
             videoWriter?.start()
             recordButton.setState(.recording)
         case .recording:
-            state = .idle
+            state = .ending
             videoWriter?.stop()
             recordButton.setState(.notRecording)
         default:
@@ -240,6 +241,7 @@ class SegmentCameraViewController: UIViewController, VideoWriterDelegate {
         
         DispatchQueue.global(qos: .userInitiated).async {
             do {
+                
                 // Create the two AVCaptureDeviceInput
                 let cameraInput = try AVCaptureDeviceInput(device: newInputDevice)
                 
@@ -250,6 +252,12 @@ class SegmentCameraViewController: UIViewController, VideoWriterDelegate {
                     self.captureSession.addInput(cameraInput)
                     
                     self.videoDeviceInput = cameraInput
+                    
+                    self.captureSession.outputs.forEach( { output in
+                        if let videoOutput = output as? AVCaptureVideoDataOutput {
+                            videoOutput.connections.forEach({ $0.videoOrientation = .portrait })
+                        }
+                    })
                     
                     self.captureSession.commitConfiguration()
                 }
@@ -302,14 +310,14 @@ extension SegmentCameraViewController: AVCaptureVideoDataOutputSampleBufferDeleg
                         let channels = Int(asbd.pointee.mChannelsPerFrame)
                         let samples = asbd.pointee.mSampleRate
                         
-                        videoWriter = VideoWriter(height: 1920, width: 1080, channels: channels, samples: samples, recordingTime: 5)
+                        videoWriter = VideoWriter(height: 1280, width: 720, channels: channels, samples: samples, recordingTime: 5)
                         videoWriter?.delegate = self
                     }
                 }
             }
         }
         
-        guard state == .recording else { return }
+        guard state == .recording || state == .ending else { return }
 
         if videoWriter != nil {
             videoWriter?.write(sampleBuffer: sampleBuffer, isVideo: isVideo)
@@ -321,6 +329,7 @@ extension SegmentCameraViewController: AVCaptureVideoDataOutputSampleBufferDeleg
     }
     
     func finishRecording(fileUrl: URL) {
+        state = .idle
         let vc = PreviewViewController(previewVideoURL: fileUrl)
         navigationController?.pushViewController(vc, animated: true)
     }
