@@ -11,7 +11,8 @@ import AVKit
 
 class PlayerViewController: UIViewController {
     
-    let challengeFooter = VideoFooterView()
+    var challengeFooterReceived: ReceivedChallengeVideoFooterView?
+    var challengeFooterSent: SentChallengeVideoFooterView?
     let challengeHeader = VideoHeaderView()
     
     private var player: AVPlayer?
@@ -59,7 +60,6 @@ class PlayerViewController: UIViewController {
         super.viewDidLoad()
         
         view.addSubview(challengeHeader)
-        view.addSubview(challengeFooter)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,13 +83,23 @@ class PlayerViewController: UIViewController {
             videoLayer.frame = view.bounds
         }
         
-        challengeFooter.sizeToFit()
-        challengeFooter.frame = CGRect(
-            x: 0,
-            y: view.height - challengeFooter.height,
-            width: view.width,
-            height: challengeFooter.height
-        )
+        if let challengeFooterSent = challengeFooterSent {
+            challengeFooterSent.sizeToFit()
+            challengeFooterSent.frame = CGRect(
+                x: 0,
+                y: view.height - challengeFooterSent.height,
+                width: view.width,
+                height: challengeFooterSent.height
+            )
+        } else if let challengeFooterReceived = challengeFooterReceived {
+            challengeFooterReceived.sizeToFit()
+            challengeFooterReceived.frame = CGRect(
+                x: 0,
+                y: view.height - challengeFooterReceived.height,
+                width: view.width,
+                height: challengeFooterReceived.height
+            )
+        }
     }
     
     func prepareForDisplay() {
@@ -104,7 +114,16 @@ class PlayerViewController: UIViewController {
     
     func configureChallengeCard(with challengeCardViewModel: ChallengeCardViewModel, profileViewModel: UserViewModel) {
         challengeHeader.configure(challengeViewModel: challengeCardViewModel)
-        challengeFooter.configure(profileViewModel: profileViewModel, challengeViewModel: challengeCardViewModel)
+        
+        if challengeCardViewModel.isReceived {
+            challengeFooterReceived = ReceivedChallengeVideoFooterView()
+            view.addSubview(challengeFooterReceived!)
+            challengeFooterReceived?.configure(profileViewModel: profileViewModel, challengeViewModel: challengeCardViewModel)
+        } else {
+            challengeFooterSent = SentChallengeVideoFooterView()
+            view.addSubview(challengeFooterSent!)
+            challengeFooterSent?.configure(with: challengeCardViewModel)
+        }
     }
     
     func configureVideo(from url: URL) {

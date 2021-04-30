@@ -79,7 +79,7 @@
 		B936266025DC20D30063AAD6 /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */; };
 		B936266425DC23630063AAD6 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B936266325DC23630063AAD6 /* PushNotificationSender.swift */; };
 		B93849002623300E00887291 /* VideoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93848FF2623300E00887291 /* VideoHeaderView.swift */; };
-		B93849042623301C00887291 /* VideoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93849032623301C00887291 /* VideoFooterView.swift */; };
+		B93849042623301C00887291 /* ReceivedChallengeVideoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93849032623301C00887291 /* ReceivedChallengeVideoFooterView.swift */; };
 		B938490B2623604C00887291 /* RejectedChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B938490A2623604C00887291 /* RejectedChallengeViewController.swift */; };
 		B93CF22C25C53958003CB3DB /* ProfileHeaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */; };
 		B93CF23525C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93CF23425C566E8003CB3DB /* ProfileHeaderSettingsViewController.swift */; };
@@ -267,6 +267,7 @@
 		B9E73B5825B1E1A800042134 /* FlowHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5725B1E1A800042134 /* FlowHandler.swift */; };
 		B9E73B5C25B1E34D00042134 /* ProfileHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */; };
 		B9E89CEF25C3373A0007D6B1 /* _ProfileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E89CEE25C3373A0007D6B1 /* _ProfileManager.swift */; };
+		B9E98D60263B2533004A3A31 /* SentChallengeVideoFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E98D5F263B2533004A3A31 /* SentChallengeVideoFooterView.swift */; };
 		B9ECA20026066A4800B1C5CF /* VideoLevelLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9ECA1FF26066A4800B1C5CF /* VideoLevelLabel.swift */; };
 		B9FD993E2615C08100D6716C /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD993D2615C08100D6716C /* TextField.swift */; };
 		B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FD99412615C23400D6716C /* SeparatorLine.swift */; };
@@ -370,7 +371,7 @@
 		B936265F25DC20D30063AAD6 /* PushNotificationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		B936266325DC23630063AAD6 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		B93848FF2623300E00887291 /* VideoHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoHeaderView.swift; sourceTree = "<group>"; };
-		B93849032623301C00887291 /* VideoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFooterView.swift; sourceTree = "<group>"; };
+		B93849032623301C00887291 /* ReceivedChallengeVideoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceivedChallengeVideoFooterView.swift; sourceTree = "<group>"; };
 		B938490A2623604C00887291 /* RejectedChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectedChallengeViewController.swift; sourceTree = "<group>"; };
 		B93CD5F8A115B87F1DC0AE26 /* Pods-XYTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-XYTests.release.xcconfig"; path = "Target Support Files/Pods-XYTests/Pods-XYTests.release.xcconfig"; sourceTree = "<group>"; };
 		B93CF22B25C53958003CB3DB /* ProfileHeaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewController.swift; sourceTree = "<group>"; };
@@ -565,6 +566,7 @@
 		B9E73B5725B1E1A800042134 /* FlowHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowHandler.swift; sourceTree = "<group>"; };
 		B9E73B5B25B1E34D00042134 /* ProfileHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHandler.swift; sourceTree = "<group>"; };
 		B9E89CEE25C3373A0007D6B1 /* _ProfileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ProfileManager.swift; sourceTree = "<group>"; };
+		B9E98D5F263B2533004A3A31 /* SentChallengeVideoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentChallengeVideoFooterView.swift; sourceTree = "<group>"; };
 		B9ECA1FF26066A4800B1C5CF /* VideoLevelLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoLevelLabel.swift; sourceTree = "<group>"; };
 		B9FD993D2615C08100D6716C /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		B9FD99412615C23400D6716C /* SeparatorLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorLine.swift; sourceTree = "<group>"; };
@@ -1364,7 +1366,8 @@
 				B9C4225726203575008E9315 /* WatchViewController.swift */,
 				B9C4225B2620380D008E9315 /* PlayerViewController.swift */,
 				B93848FF2623300E00887291 /* VideoHeaderView.swift */,
-				B93849032623301C00887291 /* VideoFooterView.swift */,
+				B93849032623301C00887291 /* ReceivedChallengeVideoFooterView.swift */,
+				B9E98D5F263B2533004A3A31 /* SentChallengeVideoFooterView.swift */,
 			);
 			path = WatchVC;
 			sourceTree = "<group>";
@@ -1741,7 +1744,7 @@
 				B9FD995F2616165200D6716C /* ChallengeNotificationImage.swift in Sources */,
 				B90EBA4625DFEAC0005DE0A0 /* NewPostViewModel.swift in Sources */,
 				B9530020259F36CE00DE926A /* CircleView.swift in Sources */,
-				B93849042623301C00887291 /* VideoFooterView.swift in Sources */,
+				B93849042623301C00887291 /* ReceivedChallengeVideoFooterView.swift in Sources */,
 				B90C164425BC6474003811B2 /* MomentModel.swift in Sources */,
 				B926867D26148E6200A306F6 /* ProfileViewController.swift in Sources */,
 				B936265625DADF250063AAD6 /* ConversationFirestoreManager.swift in Sources */,
@@ -1905,6 +1908,7 @@
 				B9781E3225DEB9CC00A2FE2D /* ConversationManager.swift in Sources */,
 				B901BA332618D5160088193E /* SearchBar.swift in Sources */,
 				14251383259F936500DC08BB /* NotificationCell.swift in Sources */,
+				B9E98D60263B2533004A3A31 /* SentChallengeVideoFooterView.swift in Sources */,
 				B952F5DC26177C470063E7B4 /* SendChallengeViewController.swift in Sources */,
 				B9781DDA25DE84A400A2FE2D /* NewProfileViewModel.swift in Sources */,
 				B936262325D963E10063AAD6 /* FlowAlgorithmManager.swift in Sources */,

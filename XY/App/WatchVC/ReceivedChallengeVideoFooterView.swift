@@ -7,7 +7,7 @@
 
 import UIKit
 
-class VideoFooterView: UIView {
+class ReceivedChallengeVideoFooterView: UIView {
 
     private let profileBubble = FriendBubble()
     private let challengedYouLabel = Label(style: .title, fontSize: 15, adaptToLightMode: false)
