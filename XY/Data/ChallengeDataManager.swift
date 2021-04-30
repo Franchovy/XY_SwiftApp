@@ -32,7 +32,7 @@ final class ChallengeDataManager {
         fileURL.appendPathExtension("mov")
         
         let urlData = NSData(contentsOf: temporaryURL)
-        if urlData!.write(to: fileURL, atomically: true) {
+        if urlData!.write(to: fileURL, atomically: false) {
             return fileURL
         } else {
             fatalError()
@@ -321,6 +321,17 @@ final class ChallengeDataManager {
                     if let error = error {
                         print("Error uploading video for challenge: \(error.localizedDescription)")
                     } else {
+                        FirebaseStorageManager.shared.getVideoDownloadUrl(
+                            from: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeToUpload.firebaseID!, videoId: challengeToUpload.firebaseVideoID!)) { (result) in
+                            switch result {
+                            case .success(let url):
+                                challengeToUpload.downloadUrl = url
+                                CoreDataManager.shared.save()
+                            case .failure(let error):
+                                print("Error getting download url for challenge needing upload: \(error.localizedDescription)")
+                            }
+                        }
+                        
                         FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challengeToUpload, isUploading: false) { (error) in
                             if let error = error {
                                 print("Error changing upload status for challenge: \(error.localizedDescription)")
