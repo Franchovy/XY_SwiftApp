@@ -117,23 +117,24 @@ final class FriendsDataManager {
                         // Add user to all Users
                         self.allUsers.append(userModel)
                         self.downloadProfileImageForUser(userModel: userModel)
-                    } else if let userDataModel = self.allUsers.first(where: { $0.firebaseID == userModel.firebaseID }) {
-                        // Download new image
-                        if userDataModel.profileImageFirebaseID != userModel.profileImageFirebaseID {
-                            userDataModel.profileImageFirebaseID = userModel.profileImageFirebaseID
-                            CoreDataManager.shared.save()
+                    } else if self.allUsers.contains(where: { $0.firebaseID == userModel.firebaseID }) {
+                        if let userDataModel = self.allUsers.first(where: { $0.firebaseID == userModel.firebaseID }) {
+                            // Download new image
+                            if userDataModel.profileImageFirebaseID != userModel.profileImageFirebaseID {
+                                userDataModel.profileImageFirebaseID = userModel.profileImageFirebaseID
+                                
+                                self.downloadProfileImageForUser(userModel: userDataModel)
+                            }
                             
-                            self.downloadProfileImageForUser(userModel: userDataModel)
+                            if userDataModel.nickname != userModel.nickname {
+                                userDataModel.nickname = userModel.nickname
+                                
+                                self.updateNicknameForUser(userModel: userDataModel)
+                            }
                         }
                         
-                        if userDataModel.nickname != userModel.nickname {
-                            userDataModel.nickname = userModel.nickname
-                            CoreDataManager.shared.save()
-                            
-                            self.updateNicknameForUser(userModel: userDataModel)
-                        }
+                        CoreDataManager.shared.mainContext.delete(userModel)
                     }
-                    
                 }
                 
                 completion()
@@ -161,13 +162,14 @@ final class FriendsDataManager {
             switch result {
             case .success(let image):
                 userModel.profileImage = image
+                CoreDataManager.shared.save()
+                
                 self.changeListeners[userModel]?.forEach({ $0.reference?.didUpdateProfileImage(to: UIImage(data: image)!) })
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
         
-        CoreDataManager.shared.save()
     }
     
     func loadDataFromStorage() {
