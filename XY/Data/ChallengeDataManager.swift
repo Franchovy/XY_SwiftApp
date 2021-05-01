@@ -208,6 +208,8 @@ final class ChallengeDataManager {
                     }
                 })
                 
+                challengesReceived.filter({ !newChallenges.contains($0) }).forEach({ CoreDataManager.shared.mainContext.delete($0) })
+                
                 if newChallenges.isEmpty { return }
                 
                 let dispatchGroup = DispatchGroup()
