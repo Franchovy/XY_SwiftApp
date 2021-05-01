@@ -58,9 +58,9 @@ class Button: UIButton {
         
         layer.masksToBounds = false
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 3)
-        layer.shadowRadius = 6
-        layer.shadowOpacity = 0.7
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 1
+        layer.shadowOpacity = 0.6
         
         layer.insertSublayer(backgroundLayer, below: imageView?.layer)
         

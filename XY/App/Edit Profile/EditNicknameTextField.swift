@@ -20,10 +20,10 @@ class EditNicknameTextField: UITextField, UITextFieldDelegate {
         backgroundLayer.backgroundColor = UIColor(named: "XYCard")?.cgColor
         backgroundLayer.cornerRadius = 10
         
-        layer.shadowRadius = 6
-        layer.shadowOffset = CGSize(width: 0, height: 3)
+        layer.shadowRadius = 1
+        layer.shadowOffset = CGSize(width: 1, height: 1)
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOpacity = 1.0
+        layer.shadowOpacity = 0.6
         
         font = UIFont(name: "Raleway-Heavy", size: 25)
         textColor = UIColor(named: "XYTint")

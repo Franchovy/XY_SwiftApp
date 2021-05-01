@@ -17,10 +17,10 @@ class FriendBubble: UIView {
     init() {
         super.init(frame: .zero)
         
-        shadowLayer.shadowOpacity = 1.0
+        shadowLayer.shadowOpacity = 0.6
         shadowLayer.shadowColor = UIColor.black.cgColor
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        shadowLayer.shadowRadius = 6
+        shadowLayer.shadowOffset = CGSize(width: 1, height: 1)
+        shadowLayer.shadowRadius = 1
         
         layer.insertSublayer(shadowLayer, at: 0)
         
@@ -62,7 +62,7 @@ class FriendBubble: UIView {
             
             imageView.layer.borderWidth = 1
             imageView.layer.borderColor = UIColor.white.cgColor
-            shadowLayer.opacity = 0.0
+//            shadowLayer.opacity = 0.0
         }
     }
 }

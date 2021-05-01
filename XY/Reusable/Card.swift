@@ -20,9 +20,9 @@ class Card: UIView {
         layer.insertSublayer(backgroundLayer, at: 0)
         
         layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 3)
-        layer.shadowRadius = 6
-        layer.shadowOpacity = 0.8
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 1
+        layer.shadowOpacity = 0.6
     }
     
     required init?(coder: NSCoder) {
