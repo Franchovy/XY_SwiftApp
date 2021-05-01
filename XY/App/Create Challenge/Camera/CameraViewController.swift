@@ -58,6 +58,8 @@ class CameraViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        state = .prepareToRecord
+        
         do {
             try AVAudioSession.sharedInstance().setAllowHapticsAndSystemSoundsDuringRecording(true)
         } catch let error {
