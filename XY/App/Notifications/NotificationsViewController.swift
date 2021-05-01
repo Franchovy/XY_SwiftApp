@@ -16,6 +16,8 @@ class NotificationsViewController: UIViewController {
     private let findFriendsButton = GradientBorderButtonWithShadow()
     private let createChallengeButton = GradientBorderButtonWithShadow()
     
+    private let notificationsComingSoonLabel = Label("Notifications coming soon...", style: .bodyBold, fontSize: 18)
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -29,7 +31,10 @@ class NotificationsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(collectionView)
+        view.addSubview(notificationsComingSoonLabel)
+        notificationsComingSoonLabel.hoverAnimate()
+        
+//        view.addSubview(collectionView)
         collectionView.dataSource = dataSource
         dataSource.delegate = collectionView
         
@@ -77,6 +82,14 @@ class NotificationsViewController: UIViewController {
             y: findFriendsButton.bottom + 26.87,
             width: buttonSize.width,
             height: buttonSize.height
+        )
+        
+        notificationsComingSoonLabel.sizeToFit()
+        notificationsComingSoonLabel.frame = CGRect(
+            x: (view.width - notificationsComingSoonLabel.width)/2,
+            y: (view.height - notificationsComingSoonLabel.height)/2,
+            width: notificationsComingSoonLabel.width,
+            height: notificationsComingSoonLabel.height
         )
     }
     
