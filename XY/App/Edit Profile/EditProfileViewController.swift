@@ -28,6 +28,10 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -45,6 +49,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         
         navigationItem.title = "Your Profile"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .done, target: self, action: #selector(didTapSettings))
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeProfilePicture), name: .didChangeOwnProfilePicture, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
@@ -85,6 +91,8 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     private func configure() {
+        profileImage.image = ProfileDataManager.shared.profileImage
+        
         let viewModel = ProfileDataManager.shared.ownProfileViewModel
         
         nicknameTextField.text = viewModel.nickname
@@ -219,5 +227,9 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         }
         
         nicknameTextField.resignFirstResponder()
+    }
+    
+    @objc private func didChangeProfilePicture() {
+        profileImage.image = ProfileDataManager.shared.profileImage
     }
 }

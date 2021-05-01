@@ -17,6 +17,8 @@ class EditProfileImageView: UIImageView {
         changeImageIcon.tintColor = UIColor.white
         changeImageIcon.contentMode = .scaleAspectFill
         addSubview(changeImageIcon)
+        
+        layer.masksToBounds = true
     }
     
     required init?(coder: NSCoder) {

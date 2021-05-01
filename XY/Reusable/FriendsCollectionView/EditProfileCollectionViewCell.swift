@@ -20,25 +20,20 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
         
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
-        imageView.layer.borderWidth = 1
-        imageView.layer.borderColor = UIColor(named: "XYTint")!.cgColor
-        
-        if let profileImage = ProfileDataManager.shared.profileImage {
-            imageView.image = profileImage
-        } else {
-            imageLabel.text = "Profile"
-            imageLabel.alpha = 0.5
-            contentView.addSubview(imageLabel)
-        }
-        
-        label.text = ProfileDataManager.shared.nickname
         
         contentView.addSubview(imageView)
         contentView.addSubview(label)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didLoadProfileData), name: .didLoadProfileData, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(didChangeProfilePicture), name: .didChangeOwnProfilePicture, object: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func layoutSubviews() {
@@ -65,4 +60,24 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
         )
     }
     
+    
+    @objc private func didLoadProfileData() {
+        
+        if let profileImage = ProfileDataManager.shared.profileImage {
+            imageView.image = profileImage
+        } else {
+            imageLabel.text = "Profile"
+            imageLabel.alpha = 0.5
+            imageView.layer.borderWidth = 1
+            imageView.layer.borderColor = UIColor(named: "XYTint")!.cgColor
+            
+            contentView.addSubview(imageLabel)
+        }
+        
+        label.text = ProfileDataManager.shared.nickname
+    }
+    
+    @objc private func didChangeProfilePicture() {
+        imageView.image = ProfileDataManager.shared.profileImage
+    }
 }

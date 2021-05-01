@@ -394,4 +394,5 @@ class HomeViewController: UIViewController {
     @objc private func onCoreDataPropertyUpdate() {
         
     }
+    
 }

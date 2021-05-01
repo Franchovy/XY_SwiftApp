@@ -8,6 +8,11 @@
 import UIKit
 import CoreData
 
+extension Notification.Name {
+    static let didChangeOwnProfilePicture = Notification.Name("didChangeOwnProfilePicture")
+    static let didLoadProfileData = Notification.Name("didLoadProfileData")
+}
+
 final class ProfileDataManager {
     static var shared = ProfileDataManager()
     private init() { }
@@ -101,6 +106,8 @@ final class ProfileDataManager {
         } catch let error {
             print("Error performing fetch request: \(error)")
         }
+        
+        NotificationCenter.default.post(Notification(name: .didLoadProfileData))
     }
     
     func setNickname(as newNickname: String, completion: @escaping(Error?) -> Void) {
@@ -123,6 +130,7 @@ final class ProfileDataManager {
         
         // Set coredata image
         ownProfileModel.profileImage = resizedImageData
+        NotificationCenter.default.post(Notification(name: .didChangeOwnProfilePicture))
         
         FirebaseFirestoreManager.shared.setProfileData(profileImageID: newID) { error in
             if let error = error {
