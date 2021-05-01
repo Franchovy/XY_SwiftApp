@@ -62,19 +62,19 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
     
     
     @objc private func didLoadProfileData() {
+        imageLabel.text = "Profile"
+        imageLabel.alpha = 1.0
+        contentView.addSubview(imageLabel)
+        imageView.alpha = 0.5
         
         if let profileImage = ProfileDataManager.shared.profileImage {
             imageView.image = profileImage
         } else {
-            imageLabel.text = "Profile"
-            imageLabel.alpha = 0.5
             imageView.layer.borderWidth = 1
             imageView.layer.borderColor = UIColor(named: "XYTint")!.cgColor
-            
-            contentView.addSubview(imageLabel)
         }
         
-        label.text = ProfileDataManager.shared.nickname
+//        label.text = "Your Profile"
     }
     
     @objc private func didChangeProfilePicture() {
