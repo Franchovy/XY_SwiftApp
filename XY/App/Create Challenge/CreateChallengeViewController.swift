@@ -88,7 +88,7 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
         }
     }
     
-    func closeButtonPressed() {
+    @objc func closeButtonPressed() {
         navigationController?.popViewController(animated: true)
     }
     
@@ -136,6 +136,16 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
         
         view.addSubview(prompt)
         prompt.appear()
+        
+        let closeButton = Button(image: UIImage(systemName: "xmark"), style: .image)
+        prompt.addSubview(closeButton)
+        closeButton.frame = CGRect(x: 5, y: 45, width: 40, height: 40)
+        closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
+        
+        closeButton.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+        UIView.animate(withDuration: 0.5) {
+            closeButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+        }
     }
     
     private func displayPreview() {
