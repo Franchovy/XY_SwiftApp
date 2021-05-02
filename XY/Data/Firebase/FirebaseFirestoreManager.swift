@@ -67,6 +67,8 @@ final class FirebaseFirestoreManager {
     
     let root:DocumentReference = FirestoreReferenceManager.root
     
+    var listeners = [ListenerRegistration]()
+    
     // MARK: - Enums
     
     enum FirestoreManagerError: Error {
@@ -181,7 +183,7 @@ final class FirebaseFirestoreManager {
     
     func listenForNewChallenges(completion: @escaping(Result<[ChallengeDataModel], Error>) -> Void) {
         
-        root.collection(FirebaseCollectionPath.challenges)
+        let listener = root.collection(FirebaseCollectionPath.challenges)
             .whereField("memberIDs", arrayContains: ProfileDataManager.shared.ownID)
             .whereField("uploading", isEqualTo: false)
             .addSnapshotListener { querySnapshot, error in
@@ -206,6 +208,8 @@ final class FirebaseFirestoreManager {
                     completion(.success(documents))
                 }
             }
+        
+        listeners.append(listener)
     }
     
     func getVideosForChallenge(model: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
@@ -354,9 +358,14 @@ final class FirebaseFirestoreManager {
             }
     }
     
+    func removeAllListeners() {
+        listeners.forEach({ $0.remove() })
+        listeners = []
+    }
+    
     func listenForFriendStatusUpdates(onUpdate: @escaping(String?, FriendStatus?, Error?) -> Void) {
         // Firebase listener
-        root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID)
+        let listener = root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID)
             .collection(FirebaseCollectionPath.friendships).addSnapshotListener { (querySnapshot, error) in
                 if let error = error {
                     onUpdate(nil, nil, error)
@@ -373,6 +382,8 @@ final class FirebaseFirestoreManager {
                     }
                 }
             }
+        
+        listeners.append(listener)
     }
     
     func setFriendshipStatus(for otherUser: UserDataModel, completion: @escaping(Error?) -> Void) {

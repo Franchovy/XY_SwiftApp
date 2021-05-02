@@ -104,6 +104,8 @@ class SettingsViewController: UIViewController {
     }
     
     @objc private func didPressLogout() {
+        FirebaseFirestoreManager.shared.removeAllListeners()
+        AuthManager.shared.logout()
         NavigationControlManager.performLogout()
     }
 }
