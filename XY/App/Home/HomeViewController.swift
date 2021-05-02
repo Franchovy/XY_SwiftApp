@@ -116,6 +116,8 @@ class HomeViewController: UIViewController {
                 action: #selector(tappedNotifications)
             )
         ]
+        
+        configureBasedOnState()
     }
     
     deinit {
@@ -239,6 +241,17 @@ class HomeViewController: UIViewController {
         }
         
         NavigationControlManager.displayPrompt(prompt)
+    }
+    
+    private func configureBasedOnState() {
+        switch state {
+        case .noFriends, .uninit:
+            configureEmptyNoFriends()
+        case .noChallengesFirst, .noChallengesNormal:
+            configureEmptyNoChallenges()
+        case .normal:
+            configureNormal()
+        }
     }
     
     private func configureNormal() {
