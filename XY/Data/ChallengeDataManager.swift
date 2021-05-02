@@ -201,7 +201,7 @@ final class ChallengeDataManager {
                 let newChallenges = challengesReceived.filter({ (challengeDataModel) in
                             !self.activeChallenges.contains(where: { $0.firebaseID == challengeDataModel.firebaseID }) })
                 .filter({ (challengeDataModel) -> Bool in
-                    if let expiry = challengeDataModel.expiryTimestamp, expiry < Date(timeIntervalSinceNow: TimeInterval.days(-1)) {
+                    if let expiry = challengeDataModel.expiryTimestamp, expiry < Date() {
                         return false
                     } else {
                         return true
