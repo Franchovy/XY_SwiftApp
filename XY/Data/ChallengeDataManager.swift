@@ -291,13 +291,13 @@ final class ChallengeDataManager {
         var indexesToRemove = [Int]()
         
         for (index, challengeDataModel) in activeChallenges.enumerated() {
-            if let expiry = challengeDataModel.expiryTimestamp, expiry < Date(timeIntervalSinceNow: TimeInterval.days(-1)) {
+            if let expiry = challengeDataModel.expiryTimestamp, expiry < Date() {
                 indexesToRemove.append(index)
                 CoreDataManager.shared.mainContext.delete(challengeDataModel)
             }
         }
         
-        activeChallenges.removeAll(where: { $0.expiryTimestamp ?? Date() < Date(timeIntervalSinceNow: TimeInterval.days(-1)) })
+        activeChallenges.removeAll(where: { $0.expiryTimestamp ?? Date() < Date() })
     }
     
     func loadChallengesFromStorage() {
