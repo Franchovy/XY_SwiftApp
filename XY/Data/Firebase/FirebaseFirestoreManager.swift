@@ -181,7 +181,7 @@ final class FirebaseFirestoreManager {
     
     // MARK: - Download functions
     
-    func listenForNewChallenges(completion: @escaping(Result<[ChallengeDataModel], Error>) -> Void) {
+    func listenForNewChallenges(completion: @escaping(Result<[ChallengeModel], Error>) -> Void) {
         
         let listener = root.collection(FirebaseCollectionPath.challenges)
             .whereField("memberIDs", arrayContains: ProfileDataManager.shared.ownID)
@@ -190,15 +190,26 @@ final class FirebaseFirestoreManager {
                 if let error = error {
                     completion(.failure(error))
                 } else if let snapshot = querySnapshot {
-                    var documents = [ChallengeDataModel]()
+                    var documents = [ChallengeModel]()
                     
                     snapshot.documentChanges
                         .forEach { diff in
                         if (diff.type == .added) {
                             do {
-                                if let model = try self.convertChallengeFromDocument(document: diff.document) {
+                                if let challengeDocument = try? diff.document.decode(as: ChallengeDocument.self) {
+                                    let model = ChallengeModel(
+                                        title: challengeDocument.title,
+                                        challengeDescription: challengeDocument.description,
+                                        expiryTimestamp: challengeDocument.timestamp.dateValue().addingTimeInterval(TimeInterval.days(1)),
+                                        firebaseID: diff.document.documentID,
+                                        completionState: .received,
+                                        fromUserFirebaseID: challengeDocument.creatorID,
+                                        image: nil
+                                    )
+                                    
                                     documents.append(model)
                                 }
+                                
                             } catch let error {
                                 print("Error decoding challenge document: \(error)")
                             }

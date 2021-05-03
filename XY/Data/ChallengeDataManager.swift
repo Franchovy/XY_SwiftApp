@@ -15,6 +15,7 @@ extension Notification.Name {
     static let didFinishSendingChallenge = Notification.Name("didFinishSendingChallenge")
 }
 
+
 final class ChallengeDataManager {
     static var shared = ChallengeDataManager()
     
@@ -200,37 +201,27 @@ final class ChallengeDataManager {
             case .success(let challengesReceived):
                 let newChallenges = challengesReceived.filter({ (challengeDataModel) in
                             !self.activeChallenges.contains(where: { $0.firebaseID == challengeDataModel.firebaseID }) })
-                .filter({ (challengeDataModel) -> Bool in
-                    if let expiry = challengeDataModel.expiryTimestamp, expiry < Date() {
-                        return false
-                    } else {
-                        return true
-                    }
-                })
-                
-                challengesReceived.filter({ !newChallenges.contains($0) }).forEach({ CoreDataManager.shared.mainContext.delete($0) })
+                            .filter({ return $0.expiryTimestamp > Date() })
+                var newChallengeDataModels = [ChallengeDataModel]()
                 
                 if newChallenges.isEmpty { return }
                 
                 let dispatchGroup = DispatchGroup()
                 
                 newChallenges
-                    .forEach { (challengeDataModel) in
-                    
+                    .forEach { (challengeModel) in
+                        
+                    // Create new challenge object
+                    let challengeDataModel = self.createChallenge(model: challengeModel)
+                    newChallengeDataModels.append(challengeDataModel)
+                        
                     // Fetch preview images
                     dispatchGroup.enter()
-                    FirebaseStorageManager.shared.downloadImage(
-                        from: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challengeDataModel.firebaseID!)
-                    ) { progress in
-                        
-                    } completion: { result in
+                    self.getChallengeImage(for: challengeDataModel) { error in
                         defer {
                             dispatchGroup.leave()
                         }
-                        switch result {
-                        case .success(let imageData):
-                            challengeDataModel.previewImage = imageData
-                        case .failure(let error):
+                        if let error = error {
                             print("Error downloading preview images for challenge: \(error.localizedDescription)")
                         }
                     }
@@ -248,12 +239,12 @@ final class ChallengeDataManager {
                 }
                 
                 dispatchGroup.notify(queue: .main) {
-                    self.activeChallenges.append(contentsOf: newChallenges)
+                    self.activeChallenges.append(contentsOf: newChallengeDataModels)
                     
                     CoreDataManager.shared.save()
                     
                     // Update state on firebase as "received"
-                    newChallenges.forEach({
+                    newChallengeDataModels.forEach({
                         assert($0.completionState == .received)
                         FirebaseFirestoreManager.shared.setChallengeStatus(challengeModel: $0) { (error) in
                             if let error = error {
@@ -266,6 +257,24 @@ final class ChallengeDataManager {
                 }
             case .failure(let error):
                 print("Error fetching challenges: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func getChallengeImage(for challengeDataModel: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
+        FirebaseStorageManager.shared.downloadImage(
+            from: FirebaseStoragePaths.challengePreviewImgPath(challengeId: challengeDataModel.firebaseID!))
+        { progress in
+            
+        } completion: { result in
+            switch result {
+            case .success(let imageData):
+                challengeDataModel.previewImage = imageData
+                CoreDataManager.shared.save()
+                
+                completion(nil)
+            case .failure(let error):
+                completion(error)
             }
         }
     }
@@ -310,6 +319,38 @@ final class ChallengeDataManager {
             
             expireOldChallenges()
             
+            // Verification check on received challenges
+            let dispatchGroup = DispatchGroup()
+            
+            for challengeReceived in activeChallenges.filter( { !$0.sentByYou() }) {
+                // check image
+                if challengeReceived.previewImage == nil {
+                    dispatchGroup.enter()
+                    self.getChallengeImage(for: challengeReceived) { (error) in
+                        defer {
+                            dispatchGroup.leave()
+                        }
+                        if let error = error {
+                            print("Error fetching challenge image: \(error.localizedDescription)")
+                        }
+                    }
+                }
+                
+                // check video link
+                if challengeReceived.downloadUrl == nil {
+                    dispatchGroup.enter()
+                    self.loadVideosForChallengeModel(model: challengeReceived) { (error) in
+                        defer{
+                            dispatchGroup.leave()
+                        }
+                        if let error = error {
+                            print("Error fetching video download link for challenge: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+            
+            // Verification check on sent challenges
             for challengeToUpload in activeChallenges.filter( { $0.sentByYou() && $0.downloadUrl == nil }) {
                 if challengeToUpload.firebaseID == nil {
                     // Must upload challenge documents
@@ -343,10 +384,35 @@ final class ChallengeDataManager {
                 }
             }
             
-            NotificationCenter.default.post(name: .didLoadActiveChallenges, object: nil)
+            dispatchGroup.notify(queue: .main) {
+                NotificationCenter.default.post(name: .didLoadActiveChallenges, object: nil)
+            }
         }
         catch {
             debugPrint(error)
         }
+    }
+    
+    func createChallenge(model: ChallengeModel) -> ChallengeDataModel {
+        let entity = ChallengeDataModel.entity()
+        let context = CoreDataManager.shared.mainContext
+        
+        let challengeDataModel = ChallengeDataModel(entity: entity, insertInto: context)
+        
+        challengeDataModel.challengeDescription = model.challengeDescription
+        challengeDataModel.completionStateValue = model.completionState.rawValue
+        challengeDataModel.expiryTimestamp = model.expiryTimestamp
+        challengeDataModel.firebaseID = model.firebaseID
+        
+        let fetchRequest: NSFetchRequest<UserDataModel> = UserDataModel.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "firebaseID == %@", model.fromUserFirebaseID)
+        
+        guard let results = try? CoreDataManager.shared.mainContext.fetch(fetchRequest), let user = results.first else {
+            fatalError("User not found")
+        }
+        
+        challengeDataModel.fromUser = user
+        
+        return challengeDataModel
     }
 }
