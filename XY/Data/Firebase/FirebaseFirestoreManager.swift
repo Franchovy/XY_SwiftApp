@@ -240,10 +240,10 @@ final class FirebaseFirestoreManager {
             }
     }
     
-    func fetchAllProfiles(completion: @escaping(Result<[UserDataModel], Error>) -> Void) {
+    func fetchAllProfiles(completion: @escaping(Result<[UserModel], Error>) -> Void) {
         let dispatchGroup = DispatchGroup()
         
-        var friendModels = [UserDataModel]()
+        var friendModels = [UserModel]()
         
         dispatchGroup.enter()
         
@@ -261,7 +261,7 @@ final class FirebaseFirestoreManager {
                         continue
                     }
                     
-                    if let userDocument = try? self.convertUserFromDocument(document: document) {
+                    if let userDocument = try? document.decode(as: UserDocument.self) {
                         
                         dispatchGroup.enter()
                         self.fetchFrienshipStatus(forID: document.documentID) { friendshipStatus, error in
@@ -271,11 +271,19 @@ final class FirebaseFirestoreManager {
                             if let error = error {
                                 print("Error fetching friendship status: \(error)")
                             } else if let friendshipStatus = friendshipStatus {
-                                userDocument.friendStatus = friendshipStatus.rawValue
+                                
+                                let userModel = UserModel(
+                                    nickname: userDocument.nickname,
+                                    numFriends: userDocument.numFriends,
+                                    numChallenges: userDocument.numChallenges,
+                                    firebaseID: document.documentID,
+                                    profileImageFirebaseID: userDocument.profileImageID,
+                                    friendStatus: friendshipStatus
+                                )
+                                
+                                friendModels.append(userModel)
                             }
                         }
-                        
-                        friendModels.append(userDocument)
                     } else {
                         print("Could not convert data: \(document.data())")
                     }
@@ -286,15 +294,29 @@ final class FirebaseFirestoreManager {
         dispatchGroup.notify(queue: .main) {
             completion(.success(friendModels))
         }
-        
     }
     
-    func fetchProfile(for profileId: String, completion: @escaping(Result<UserDataModel, Error>) -> Void) {
+    func listenToUpdatesForUser(withID userID: String, completion: @escaping(Result<UserDocument, Error>) -> Void) {
+        let listener = root.collection("Users").document(userID).addSnapshotListener { (snapshot, error) in
+            if let error = error {
+                completion(.failure(error))
+            } else if let snapshot = snapshot,
+                      let userDocument = try? snapshot.decode(as: UserDocument.self)
+            {
+                completion(.success(userDocument))
+            }
+        }
+        
+        listeners.append(listener)
+    }
+    
+    func fetchProfile(for profileId: String, completion: @escaping(Result<UserModel, Error>) -> Void) {
         
         let dispatchGroup = DispatchGroup()
         
         var friendshipStatus: FriendStatus!
-        var userModel: UserDataModel!
+        var documentID: String!
+        var userDocument: UserDocument!
         
         if profileId != ProfileDataManager.shared.ownID {
             dispatchGroup.enter()
@@ -322,7 +344,8 @@ final class FirebaseFirestoreManager {
                     completion(.failure(error))
                 } else if let snapshot = snapshot {
                     do {
-                        userModel = try self.convertUserFromDocument(document: snapshot)
+                        userDocument = try snapshot.decode(as: UserDocument.self)
+                        documentID = snapshot.documentID
                         
                     } catch let error {
                         completion(.failure(error))
@@ -331,8 +354,15 @@ final class FirebaseFirestoreManager {
             }
         
         dispatchGroup.notify(queue: .main) {
-            if let userModel = userModel, let friendshipStatus = friendshipStatus {
-                userModel.friendStatus = friendshipStatus.rawValue
+            if let userDocument = userDocument, let friendshipStatus = friendshipStatus {
+                let userModel = UserModel(
+                    nickname: userDocument.nickname,
+                    numFriends: userDocument.numFriends,
+                    numChallenges: userDocument.numChallenges,
+                    firebaseID: documentID,
+                    profileImageFirebaseID: userDocument.profileImageID,
+                    friendStatus: friendshipStatus
+                )
                 
                 completion(.success(userModel))
             } else {
@@ -518,31 +548,6 @@ final class FirebaseFirestoreManager {
         }
         
         return try document.decode(as: ChallengeSubmissionDocument.self, includingId: false)
-    }
-    
-    private func convertChallengeSubmissionToDocument(model: ChallengeDataModel) throws -> ChallengeSubmissionDocument? {
-        fatalError("Not implemented yet.")
-    }
-    
-    private func convertUserFromDocument(document: DocumentSnapshot) throws -> UserDataModel? {
-        guard document.data() != nil else {
-            return nil
-        }
-        
-        let documentObject = try document.decode(as: UserDocument.self, includingId: false)
-        
-        let context = CoreDataManager.shared.mainContext
-        let entity = UserDataModel.entity()
-        let model = UserDataModel(entity: entity, insertInto: context)
-        
-        // set model properties
-        model.firebaseID = document.documentID
-        model.nickname = documentObject.nickname
-        model.numFriends = Int16(documentObject.numFriends)
-        model.numChallenges = Int16(documentObject.numChallenges)
-        model.profileImageFirebaseID = documentObject.profileImageID
-        
-        return model
     }
     
     private func convertDocumentToFriendStatus(document: DocumentSnapshot) throws -> FriendStatus {

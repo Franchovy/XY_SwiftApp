@@ -184,4 +184,14 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
     func didUpdateNickname(to nickname: String) {
         
     }
+    
+    func didUpdateNumFriends(to numFriends: Int) {
+        
+    }
+    
+    func didUpdateNumChallenges(to numChallenges: Int) {
+        
+    }
+    
+
 }

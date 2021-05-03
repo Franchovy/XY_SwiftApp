@@ -182,6 +182,7 @@ class ProfileViewController: UIViewController, FriendsDataManagerListener {
         friendButton.configure(with: viewModel)
         
         FriendsDataManager.shared.registerChangeListener(for: viewModel, listener: self)
+        
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -206,5 +207,15 @@ class ProfileViewController: UIViewController, FriendsDataManagerListener {
     
     func didUpdateNickname(to nickname: String) {
         viewModel?.nickname = nickname
+    }
+    
+    func didUpdateNumChallenges(to numChallenges: Int) {
+        challengeLabelView.labels.first!.text = String(describing: numChallenges)
+        viewModel?.numChallenges = numChallenges
+    }
+    
+    func didUpdateNumFriends(to numFriends: Int) {
+        friendsLabelView.labels.first!.text = String(describing: numFriends)
+        viewModel?.numFriends = numFriends
     }
 }

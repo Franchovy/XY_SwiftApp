@@ -24,6 +24,8 @@ protocol FriendsDataManagerListener: NSObject {
     func didUpdateFriendshipState(to state: FriendStatus)
     func didUpdateProfileImage(to image: UIImage)
     func didUpdateNickname(to nickname: String)
+    func didUpdateNumFriends(to numFriends: Int)
+    func didUpdateNumChallenges(to numChallenges: Int)
 }
 
 final class FriendsDataManager {
@@ -108,6 +110,8 @@ final class FriendsDataManager {
         }
     }
     
+    
+    
     func loadAllUsersFromFirebase(completion: @escaping(() -> Void)) {
         FirebaseFirestoreManager.shared.fetchAllProfiles { (result) in
             switch result {
@@ -115,8 +119,10 @@ final class FriendsDataManager {
                 for userModel in userModels {
                     if !self.allUsers.contains(where: { $0.firebaseID == userModel.firebaseID }) {
                         // Add user to all Users
-                        self.allUsers.append(userModel)
-                        self.downloadProfileImageForUser(userModel: userModel)
+                        let newUserDataModel = self.createUser(userModel: userModel)
+                        self.allUsers.append(newUserDataModel)
+                        self.downloadProfileImageForUser(userModel: newUserDataModel)
+                        
                     } else if self.allUsers.contains(where: { $0.firebaseID == userModel.firebaseID }) {
                         if let userDataModel = self.allUsers.first(where: { $0.firebaseID == userModel.firebaseID }) {
                             // Download new image
@@ -131,9 +137,19 @@ final class FriendsDataManager {
                                 
                                 self.updateNicknameForUser(userModel: userDataModel)
                             }
+                            
+                            if userDataModel.numFriends != userModel.numFriends {
+                                userDataModel.numFriends = Int16(userModel.numFriends)
+                                
+                                self.changeListeners[userDataModel]?.forEach({ $0.reference?.didUpdateNumFriends(to: userModel.numFriends) })
+                            }
+                            
+                            if userDataModel.numChallenges != userModel.numChallenges {
+                                userDataModel.numChallenges = Int16(userModel.numChallenges)
+                                
+                                self.changeListeners[userDataModel]?.forEach({ $0.reference?.didUpdateNumChallenges(to: userModel.numChallenges) })
+                            }
                         }
-                        
-                        CoreDataManager.shared.mainContext.delete(userModel)
                     }
                 }
                 
@@ -144,10 +160,48 @@ final class FriendsDataManager {
         }
     }
     
+    func createUser(userModel: UserModel) -> UserDataModel {
+        let context = CoreDataManager.shared.mainContext
+        let entity = UserDataModel.entity()
+        
+        let model = UserDataModel(entity: entity, insertInto: context)
+        model.firebaseID = userModel.firebaseID
+        model.friendStatus = userModel.friendStatus.rawValue
+        model.numFriends = Int16(userModel.numFriends)
+        model.numChallenges = Int16(userModel.numChallenges)
+        model.profileImageFirebaseID = userModel.profileImageFirebaseID
+        model.nickname = userModel.nickname
+        
+        return model
+    }
+    
     func updateNicknameForUser(userModel: UserDataModel) {
         guard userModel.nickname != nil else { return }
         
         changeListeners[userModel]?.forEach({ $0.reference?.didUpdateNickname(to: userModel.nickname!) })
+    }
+    
+    func setupListenerForUser(userDataModel: UserDataModel) {
+        FirebaseFirestoreManager.shared.listenToUpdatesForUser(withID: userDataModel.firebaseID!) { result in
+            switch result {
+            case .success(let userDocument):
+                
+                if userDataModel.nickname != userDocument.nickname {
+                    self.changeListeners[userDataModel]?.forEach({ $0.reference?.didUpdateNickname(to: userDocument.nickname)})
+                }
+                
+                if userDataModel.numFriends != userDocument.numFriends {
+                    self.changeListeners[userDataModel]?.forEach({ $0.reference?.didUpdateNumFriends(to: userDocument.numFriends)})
+                }
+                
+                if userDataModel.numChallenges != userDocument.numChallenges {
+                    self.changeListeners[userDataModel]?.forEach({ $0.reference?.didUpdateNumChallenges(to: userDocument.numChallenges)})
+                }
+                
+            case .failure(let error):
+                print("Error: \(error.localizedDescription)")
+            }
+        }
     }
     
     func downloadProfileImageForUser(userModel: UserDataModel) {

@@ -11,6 +11,6 @@ struct UserViewModel: Hashable {
     var profileImage: UIImage?
     var nickname: String
     var friendStatus: FriendStatus
-    let numChallenges: Int
-    let numFriends: Int
+    var numChallenges: Int
+    var numFriends: Int
 }

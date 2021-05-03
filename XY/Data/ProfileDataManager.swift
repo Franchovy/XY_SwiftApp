@@ -78,7 +78,9 @@ final class ProfileDataManager {
                     }
                     switch result {
                     case .success(let userModel):
-                        self.ownProfileModel = userModel
+                        
+                        // Create own profile model
+                        self.ownProfileModel = self.createOwnProfileModel(userModel: userModel)
                     case .failure(let error):
                         fatalError("Error fetching own profile from firebase: \(error)")
                     }
@@ -153,5 +155,20 @@ final class ProfileDataManager {
                 completion(error)
             }
         }
+    }
+    
+    func createOwnProfileModel(userModel: UserModel) -> UserDataModel {
+        let context = CoreDataManager.shared.mainContext
+        let entity = UserDataModel.entity()
+        
+        let model = UserDataModel(entity: entity, insertInto: context)
+        model.firebaseID = userModel.firebaseID
+        model.friendStatus = userModel.friendStatus.rawValue
+        model.nickname = userModel.nickname
+        model.numChallenges = Int16(userModel.numChallenges)
+        model.numFriends = Int16(userModel.numFriends)
+        model.profileImageFirebaseID = userModel.profileImageFirebaseID
+        
+        return model
     }
 }

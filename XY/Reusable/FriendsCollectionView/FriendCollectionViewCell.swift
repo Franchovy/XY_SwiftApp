@@ -73,4 +73,12 @@ class FriendCollectionViewCell: UICollectionViewCell, FriendsDataManagerListener
         nicknameLabel.text = nickname
         viewModel?.nickname = nickname
     }
+    
+    func didUpdateNumFriends(to numFriends: Int) {
+        
+    }
+    
+    func didUpdateNumChallenges(to numChallenges: Int) {
+        
+    }
 }

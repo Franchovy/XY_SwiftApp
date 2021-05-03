@@ -104,4 +104,12 @@ class FriendsListCollectionViewCell: UICollectionViewCell, FriendsDataManagerLis
         viewModel?.nickname = nickname
     }
     
+    func didUpdateNumFriends(to numFriends: Int) {
+        
+    }
+    
+    func didUpdateNumChallenges(to numChallenges: Int) {
+        
+    }
+    
 }
