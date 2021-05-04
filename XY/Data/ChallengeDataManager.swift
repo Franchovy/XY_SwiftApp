@@ -15,14 +15,33 @@ extension Notification.Name {
     static let didFinishSendingChallenge = Notification.Name("didFinishSendingChallenge")
 }
 
+protocol ChallengeUploadListener {
+    func uploadProgress(id: ObjectIdentifier, progressUpload: Double)
+    func finishedUpload(id: ObjectIdentifier)
+    func errorUpload(id: ObjectIdentifier, error: Error)
+}
 
 final class ChallengeDataManager {
     static var shared = ChallengeDataManager()
     
     var activeChallenges: [ChallengeDataModel]
     
+    var listeners: [ObjectIdentifier : [ChallengeUploadListener]?] = [:]
+    
     private init() {
         activeChallenges = []
+    }
+    
+    func registerListener(for challengeID: ObjectIdentifier, listener: ChallengeUploadListener) {
+        if listeners[challengeID] == nil {
+            listeners[challengeID] = [listener]
+        } else {
+            listeners[challengeID]!?.append(listener)
+        }
+    }
+    
+    func removeListeners(for challengeID: ObjectIdentifier) {
+        listeners.removeValue(forKey: challengeID)
     }
     
     func saveVideoForChallenge(temporaryURL: URL) -> URL {
@@ -99,6 +118,7 @@ final class ChallengeDataManager {
         
         challenge.firebaseID = challengeID
         challenge.firebaseVideoID = videoID
+        CoreDataManager.shared.save()
         
         let dispatchGroup = DispatchGroup()
         
@@ -150,21 +170,37 @@ final class ChallengeDataManager {
         }
     }
     
-    func uploadChallengeVideo(challenge: ChallengeDataModel, onProgress: @escaping((Double) -> Void), onComplete: @escaping((Error?) -> Void)) {
+    func isChallengeUploading(id: ObjectIdentifier) -> Bool {
+        guard let challengeDataModel = activeChallenges.first(where: { $0.id == id }) else {
+            return false
+        }
+        
+        return challengeDataModel.sentByYou() && challengeDataModel.downloadUrl == nil
+    }
+    
+    func uploadChallengeVideo(challenge: ChallengeDataModel, onProgress: @escaping(Double) -> Void, onComplete: @escaping(Error?) -> Void) {
         assert(challenge.fileUrl != nil)
+        
+        guard FileManager().fileExists(atPath: challenge.fileUrl!.relativePath) else {
+            return
+        }
+        
         // Upload video to storage
         FirebaseStorageManager.shared.uploadVideoToStorage(
             videoFileUrl: challenge.fileUrl!,
             storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challenge.firebaseID!, videoId: challenge.firebaseVideoID!)
         ) { (progress) in
+            self.listeners[challenge.id]??.forEach({ $0.uploadProgress(id: challenge.id, progressUpload: progress) })
             onProgress(progress)
         } onComplete: { (result) in
             switch result {
             case .success( _):
                 FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challenge, isUploading: false) { (error) in
-                    onComplete(error)
+                    self.listeners[challenge.id]??.forEach({ $0.finishedUpload(id: challenge.id) })
                 }
+                onComplete(nil)
             case .failure(let error):
+                self.listeners[challenge.id]??.forEach({ $0.errorUpload(id: challenge.id, error: error) })
                 onComplete(error)
             }
         }
@@ -352,13 +388,14 @@ final class ChallengeDataManager {
             
             // Verification check on sent challenges
             for challengeToUpload in activeChallenges.filter( { $0.sentByYou() && $0.downloadUrl == nil }) {
+                
                 if challengeToUpload.firebaseID == nil {
                     // Must upload challenge documents
                     continue
                 }
                 
                 // Upload video
-                uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
+                self.uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
                     print("Progress uploading challenge video: \(progress)")
                 } onComplete: { (error) in
                     if let error = error {
@@ -382,6 +419,7 @@ final class ChallengeDataManager {
                         }
                     }
                 }
+            
             }
             
             dispatchGroup.notify(queue: .main) {

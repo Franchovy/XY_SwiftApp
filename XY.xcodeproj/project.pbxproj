@@ -118,6 +118,7 @@
 		B9A7AC87263ECD81008A730D /* GradientButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC86263ECD81008A730D /* GradientButton.swift */; };
 		B9A7AC9C263F25FB008A730D /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC9B263F25FB008A730D /* UserModel.swift */; };
 		B9A8239A26403876005C40D3 /* ChallengeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A8239926403876005C40D3 /* ChallengeModel.swift */; };
+		B9A823A4264086BE005C40D3 /* ChallengeUploadingCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A823A3264086BD005C40D3 /* ChallengeUploadingCircle.swift */; };
 		B9AAB16525E106B4005B3903 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */; };
 		B9B302AA2614AE1000D14FC0 /* EditNicknameTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B302A92614AE1000D14FC0 /* EditNicknameTextField.swift */; };
 		B9B302AE2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B302AD2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift */; };
@@ -281,6 +282,7 @@
 		B9A7AC86263ECD81008A730D /* GradientButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientButton.swift; sourceTree = "<group>"; };
 		B9A7AC9B263F25FB008A730D /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		B9A8239926403876005C40D3 /* ChallengeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeModel.swift; sourceTree = "<group>"; };
+		B9A823A3264086BD005C40D3 /* ChallengeUploadingCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeUploadingCircle.swift; sourceTree = "<group>"; };
 		B9AAB16425E106B4005B3903 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B9B302A92614AE1000D14FC0 /* EditNicknameTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditNicknameTextField.swift; sourceTree = "<group>"; };
 		B9B302AD2614B02E00D14FC0 /* EditProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -558,6 +560,7 @@
 				B96B7F452613614300B1CBF5 /* ChallengesDatasource.swift */,
 				B96B7F24261331FF00B1CBF5 /* ChallengeCardsCollectionView.swift */,
 				B96B7F2A2613339200B1CBF5 /* ChallengeCardCollectionViewCell.swift */,
+				B9A823A3264086BD005C40D3 /* ChallengeUploadingCircle.swift */,
 			);
 			path = ChallengeCardsCollectionView;
 			sourceTree = "<group>";
@@ -1056,6 +1059,7 @@
 				B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */,
 				B9A7AC65263ECCB1008A730D /* SignupViewController.swift in Sources */,
 				B9FD99512616103600D6716C /* NotificationsViewController.swift in Sources */,
+				B9A823A4264086BE005C40D3 /* ChallengeUploadingCircle.swift in Sources */,
 				B92686582614616600A306F6 /* FindFriendsViewController.swift in Sources */,
 				B9268667261461D800A306F6 /* FriendsListCollectionDataSource.swift in Sources */,
 				B92686952614A8FE00A306F6 /* SettingsViewController.swift in Sources */,
