@@ -235,5 +235,9 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
     
     @objc private func didChangeProfilePicture() {
         profileImage.image = ProfileDataManager.shared.profileImage
+        
+        if SkinnerBoxManager.shared.taskNumber == 0 {
+            SkinnerBoxManager.shared.completedTask(number: 0)
+        }
     }
 }

@@ -32,6 +32,9 @@ class HomeViewController: UIViewController {
     
     // MARK: - Reference properties
     
+    var displayedTaskNumber: Int!
+    var taskNumber: Int!
+    
     var setup = false
     
     var state: AppStateManager.HomeState {
@@ -100,6 +103,9 @@ class HomeViewController: UIViewController {
         skinnerBoxCompletionCircle.setThickness(.medium)
         
         SkinnerBoxManager.shared.load()
+        self.taskNumber = SkinnerBoxManager.shared.taskNumber
+        self.displayedTaskNumber = taskNumber
+        
         skinnerBoxCompletionCircle.setProgress( max(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.uncompletedTaskDescriptions.count), 0.01))
         skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
         SkinnerBoxManager.shared.delegate = self
@@ -152,6 +158,17 @@ class HomeViewController: UIViewController {
         if !setup {
             initialiseSetup()
             setup = true
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
+            if (self.displayedTaskNumber < self.taskNumber) {
+                self.skinnerBoxCompletionCircle.animateSetProgress(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.numTasks))
+                self.skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    self.skinnerBox.scrollToItem(at: IndexPath(row: self.taskNumber, section: 0), at: .left, animated: true)
+                }
+            }
         }
     }
     
@@ -457,7 +474,6 @@ extension HomeViewController : SkinnerBoxManagerDelegate {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 vc.tappedProfileImage()
                 
-                NavigationControlManager.mainViewController.navigationController?.popViewController(animated: true)
             }
         } else if taskNumber == 1 {
             // Open find friends screen
@@ -468,7 +484,6 @@ extension HomeViewController : SkinnerBoxManagerDelegate {
     }
     
     func onTaskComplete(taskNumber: Int) {
-        skinnerBoxCompletionCircle.animateSetProgress(CGFloat(taskNumber) / CGFloat(SkinnerBoxManager.shared.numTasks))
-        skinnerBoxCompletionCircle.setLabel("\(taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
+        self.taskNumber = taskNumber
     }
 }
