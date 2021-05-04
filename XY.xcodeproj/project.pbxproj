@@ -97,6 +97,8 @@
 		B983B36A262AC6E10073C3DB /* ChallengeDataManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B369262AC6E10073C3DB /* ChallengeDataManagerTests.swift */; };
 		B983B3BA262B0D610073C3DB /* FirestoreDecoderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B983B3B9262B0D610073C3DB /* FirestoreDecoderExtension.swift */; };
 		B99020D325ED4441004AC25C /* Raleway-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */; };
+		B99BEC19264162FB00DFE491 /* SkinnerBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC18264162FB00DFE491 /* SkinnerBox.swift */; };
+		B99BEC1D264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */; };
 		B9A7AC43263ECBA1008A730D /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC42263ECBA1008A730D /* ImageUtils.swift */; };
 		B9A7AC4E263ECC37008A730D /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC4D263ECC37008A730D /* HapticsManager.swift */; };
 		B9A7AC52263ECC46008A730D /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC51263ECC46008A730D /* AuthManager.swift */; };
@@ -261,6 +263,8 @@
 		B983B369262AC6E10073C3DB /* ChallengeDataManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDataManagerTests.swift; sourceTree = "<group>"; };
 		B983B3B9262B0D610073C3DB /* FirestoreDecoderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreDecoderExtension.swift; sourceTree = "<group>"; };
 		B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Heavy.ttf"; sourceTree = "<group>"; };
+		B99BEC18264162FB00DFE491 /* SkinnerBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBox.swift; sourceTree = "<group>"; };
+		B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBoxCollectionViewCell.swift; sourceTree = "<group>"; };
 		B9A7AC42263ECBA1008A730D /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageUtils.swift; path = XY/ImageUtils.swift; sourceTree = SOURCE_ROOT; };
 		B9A7AC4D263ECC37008A730D /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		B9A7AC51263ECC46008A730D /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -509,6 +513,8 @@
 			isa = PBXGroup;
 			children = (
 				B96B7F1826132FDB00B1CBF5 /* HomeViewController.swift */,
+				B99BEC18264162FB00DFE491 /* SkinnerBox.swift */,
+				B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1029,6 +1035,7 @@
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B926867726148E5600A306F6 /* EditProfileViewController.swift in Sources */,
 				B979AB0E26259BED0079C4E8 /* FriendsDataManager.swift in Sources */,
+				B99BEC1D264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift in Sources */,
 				B9268649261392A100A306F6 /* FriendCollectionViewCell.swift in Sources */,
 				B9FD995F2616165200D6716C /* ChallengeNotificationImage.swift in Sources */,
 				B93849042623301C00887291 /* ReceivedChallengeVideoFooterView.swift in Sources */,
@@ -1082,6 +1089,7 @@
 				B93849002623300E00887291 /* VideoHeaderView.swift in Sources */,
 				B92686992614A91600A306F6 /* EditEmailViewController.swift in Sources */,
 				B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */,
+				B99BEC19264162FB00DFE491 /* SkinnerBox.swift in Sources */,
 				B9D74ADD263554A600F51BCA /* CameraContainerViewController.swift in Sources */,
 				B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */,
 				B9A7AC5A263ECC8A008A730D /* ThumbnailManager.swift in Sources */,

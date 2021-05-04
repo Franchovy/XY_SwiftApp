@@ -27,6 +27,8 @@ class HomeViewController: UIViewController {
     private let noChallengesLabel = Label("You have no challenges.", style: .body, fontSize: 18)
     private let createChallengeButton = Button(title: "Create new", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
     
+    private let skinnerBox = SkinnerBox()
+    
     // MARK: - Reference properties
     
     var setup = false
@@ -89,6 +91,8 @@ class HomeViewController: UIViewController {
         view.addSubview(welcomeTextLabel)
         view.addSubview(addFriendButton)
         view.addSubview(noChallengesLabel)
+        
+        view.addSubview(skinnerBox)
         
         welcomeTextLabel.numberOfLines = 0
         welcomeTextLabel.textAlignment = .center
@@ -191,6 +195,13 @@ class HomeViewController: UIViewController {
             width: view.width - 86.2
         )
         
+        skinnerBox.frame = CGRect(
+            x: 0,
+            y: welcomeTextLabel.bottom + 29.97,
+            width: view.width,
+            height: 142
+        )
+        
         let buttonSize = CGSize(width: 245, height: 59)
         
         addFriendButton.frame = CGRect(
@@ -260,6 +271,8 @@ class HomeViewController: UIViewController {
         challengesLabel.isHidden = false
         createChallengeButton.isHidden = false
         
+        skinnerBox.isHidden = true
+        
         noChallengesLabel.isHidden = true
         welcomeGradientLabel.isHidden = true
         welcomeTextLabel.isHidden = true
@@ -271,10 +284,13 @@ class HomeViewController: UIViewController {
     private func configureEmptyNoFriends() {
         state = .noFriends
         
+        skinnerBox.isHidden = false
+        
         noChallengesLabel.isHidden = false
         welcomeGradientLabel.isHidden = false
         welcomeTextLabel.isHidden = false
-        addFriendButton.isHidden = false
+        
+        addFriendButton.isHidden = true
         
         challengesLabel.isHidden = true
         noChallengesLabel.isHidden = true
@@ -285,6 +301,8 @@ class HomeViewController: UIViewController {
     
     private func configureEmptyNoChallenges() {
         state = .noChallengesFirst
+        
+        skinnerBox.isHidden = true
         
         noChallengesLabel.isHidden = false
         createChallengeButton.isHidden = false
