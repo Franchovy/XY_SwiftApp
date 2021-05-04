@@ -173,9 +173,13 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         imagePickerController = nil
     }
     
+    public func tappedProfileImage() {
+        didTapProfileImage()
+    }
+    
     @objc private func didTapProfileImage() {
         let profileImagePickerPrompt = Prompt()
-        profileImagePickerPrompt.setTitle(text: "Change Profile Photo")
+        profileImagePickerPrompt.setTitle(text: "Add Profile Photo")
         profileImagePickerPrompt.addButtonField(
             image: UIImage(systemName: "camera.fill"),
             buttonText: "Take Photo",

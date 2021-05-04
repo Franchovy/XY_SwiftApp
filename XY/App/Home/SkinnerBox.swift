@@ -9,11 +9,6 @@ import UIKit
 
 class SkinnerBox: UICollectionView, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    var cellData = [
-        ("Profile Image", UIImage(systemName: "eyes")!, "Add a profile image for friends to see you"),
-        ("Find Friends", UIImage(systemName: "eyes")!, "Find at least one friend to start a challenge")
-    ]
-    
     init() {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 250, height: 142)
@@ -36,20 +31,39 @@ class SkinnerBox: UICollectionView, UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellData.count
+        return SkinnerBoxManager.shared.uncompletedTaskDescriptions.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SkinnerBoxCollectionViewCell.identifier, for: indexPath) as! SkinnerBoxCollectionViewCell
         
         cell.configure(
-            title: cellData[indexPath.row].0,
-            image: cellData[indexPath.row].1,
-            description: cellData[indexPath.row].2
+            title: SkinnerBoxManager.shared.getTask(number: indexPath.row).0,
+            image: SkinnerBoxManager.shared.getTask(number: indexPath.row).1,
+            description: SkinnerBoxManager.shared.getTask(number: indexPath.row).2
         )
         
         return cell
     }
     
-
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let taskNumber = indexPath.row
+        
+        if taskNumber < SkinnerBoxManager.shared.taskNumber {
+            scrollToItem(
+                at: IndexPath(row: SkinnerBoxManager.shared.taskNumber, section: 0),
+                at: .left,
+                animated: true
+            )
+        } else if taskNumber > SkinnerBoxManager.shared.taskNumber {
+            scrollToItem(
+                at: IndexPath(row: 0, section: 0),
+                at: .left,
+                animated: true
+            )
+        } else {
+            SkinnerBoxManager.shared.pressedTask(taskNumber: taskNumber)
+        }
+    }
+    
 }

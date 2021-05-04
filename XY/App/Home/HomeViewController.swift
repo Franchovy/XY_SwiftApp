@@ -28,6 +28,7 @@ class HomeViewController: UIViewController {
     private let createChallengeButton = Button(title: "Create new", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
     
     private let skinnerBox = SkinnerBox()
+    private let skinnerBoxCompletionCircle = XPCircleView()
     
     // MARK: - Reference properties
     
@@ -93,6 +94,9 @@ class HomeViewController: UIViewController {
         view.addSubview(noChallengesLabel)
         
         view.addSubview(skinnerBox)
+        view.addSubview(skinnerBoxCompletionCircle)
+        
+        SkinnerBoxManager.shared.delegate = self
         
         welcomeTextLabel.numberOfLines = 0
         welcomeTextLabel.textAlignment = .center
@@ -202,6 +206,13 @@ class HomeViewController: UIViewController {
             height: 142
         )
         
+        skinnerBoxCompletionCircle.frame = CGRect(
+            x: (view.width - 50)/2,
+            y: skinnerBox.bottom + 63.6,
+            width: 50,
+            height: 50
+        )
+        
         let buttonSize = CGSize(width: 245, height: 59)
         
         addFriendButton.frame = CGRect(
@@ -272,6 +283,7 @@ class HomeViewController: UIViewController {
         createChallengeButton.isHidden = false
         
         skinnerBox.isHidden = true
+        skinnerBoxCompletionCircle.isHidden = true
         
         noChallengesLabel.isHidden = true
         welcomeGradientLabel.isHidden = true
@@ -285,6 +297,7 @@ class HomeViewController: UIViewController {
         state = .noFriends
         
         skinnerBox.isHidden = false
+        skinnerBoxCompletionCircle.isHidden = false
         
         noChallengesLabel.isHidden = false
         welcomeGradientLabel.isHidden = false
@@ -303,6 +316,7 @@ class HomeViewController: UIViewController {
         state = .noChallengesFirst
         
         skinnerBox.isHidden = true
+        skinnerBoxCompletionCircle.isHidden = true
         
         noChallengesLabel.isHidden = false
         createChallengeButton.isHidden = false
@@ -425,5 +439,28 @@ class HomeViewController: UIViewController {
     @objc private func onCoreDataPropertyUpdate() {
         
     }
+}
+
+extension HomeViewController : SkinnerBoxManagerDelegate {
     
+    func taskPressed(taskNumber: Int) {
+        if taskNumber == 0 {
+            // Open profile, open choose image
+            let vc = EditProfileViewController()
+            NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                vc.tappedProfileImage()
+            }
+        } else if taskNumber == 1 {
+            // Open find friends screen
+            let vc = FindFriendsViewController()
+            
+            NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+    
+    func onTaskComplete(taskNumber: Int, outOf: Int) {
+        skinnerBoxCompletionCircle.animateSetProgress(CGFloat(taskNumber) / CGFloat(outOf))
+    }
 }

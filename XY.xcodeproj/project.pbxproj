@@ -99,6 +99,7 @@
 		B99020D325ED4441004AC25C /* Raleway-Heavy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */; };
 		B99BEC19264162FB00DFE491 /* SkinnerBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC18264162FB00DFE491 /* SkinnerBox.swift */; };
 		B99BEC1D264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */; };
+		B99BEC212641715200DFE491 /* SkinnerBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC202641715200DFE491 /* SkinnerBoxManager.swift */; };
 		B9A7AC43263ECBA1008A730D /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC42263ECBA1008A730D /* ImageUtils.swift */; };
 		B9A7AC4E263ECC37008A730D /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC4D263ECC37008A730D /* HapticsManager.swift */; };
 		B9A7AC52263ECC46008A730D /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC51263ECC46008A730D /* AuthManager.swift */; };
@@ -265,6 +266,7 @@
 		B99020D225ED4441004AC25C /* Raleway-Heavy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Raleway-Heavy.ttf"; sourceTree = "<group>"; };
 		B99BEC18264162FB00DFE491 /* SkinnerBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBox.swift; sourceTree = "<group>"; };
 		B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBoxCollectionViewCell.swift; sourceTree = "<group>"; };
+		B99BEC202641715200DFE491 /* SkinnerBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBoxManager.swift; sourceTree = "<group>"; };
 		B9A7AC42263ECBA1008A730D /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageUtils.swift; path = XY/ImageUtils.swift; sourceTree = SOURCE_ROOT; };
 		B9A7AC4D263ECC37008A730D /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		B9A7AC51263ECC46008A730D /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 				B96B7F1826132FDB00B1CBF5 /* HomeViewController.swift */,
 				B99BEC18264162FB00DFE491 /* SkinnerBox.swift */,
 				B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */,
+				B99BEC202641715200DFE491 /* SkinnerBoxManager.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1119,6 +1122,7 @@
 				B901BA2F2618CF700088193E /* SendButton.swift in Sources */,
 				B9B302AA2614AE1000D14FC0 /* EditNicknameTextField.swift in Sources */,
 				B9C6AD47263562510002F535 /* SegmentCameraViewController.swift in Sources */,
+				B99BEC212641715200DFE491 /* SkinnerBoxManager.swift in Sources */,
 				B9A7AC56263ECC67008A730D /* VideoSaver.swift in Sources */,
 				B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */,
 				B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */,
