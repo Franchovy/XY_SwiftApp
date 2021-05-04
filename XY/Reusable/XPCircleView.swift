@@ -94,7 +94,7 @@ class XPCircleView: UIView {
         label.sizeToFit()
         label.frame = CGRect(
             x: (width - label.width)/2,
-            y: (height - label.height)/2 * 0.6,
+            y: (height - label.height)/2,
             width: label.width,
             height: label.height
         )
