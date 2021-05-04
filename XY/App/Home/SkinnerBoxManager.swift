@@ -9,7 +9,7 @@ import UIKit
 
 protocol SkinnerBoxManagerDelegate : class {
     func taskPressed(taskNumber: Int)
-    func onTaskComplete(taskNumber: Int, outOf: Int)
+    func onTaskComplete(taskNumber: Int)
 }
 
 final class SkinnerBoxManager {
@@ -20,7 +20,7 @@ final class SkinnerBoxManager {
     
     var completedTaskDescriptions = [
         ("Profile Image", UIImage(systemName: "eyes")!, "Your profile is now public!"),
-        ("Find Friends", UIImage(systemName: "eyes")!, "You've added a friend, you're ready to start challenges!")
+        ("Find Friends", UIImage(systemName: "eyes")!, "You're ready to play!")
     ]
     
     var uncompletedTaskDescriptions = [
@@ -32,6 +32,12 @@ final class SkinnerBoxManager {
     
     var taskNumber = 0
     
+    var numTasks: Int {
+        get {
+            uncompletedTaskDescriptions.count
+        }
+    }
+    
     func load() {
         if let taskNumber = UserDefaults.standard.object(forKey: userDefaultsKey) as? Int {
             self.taskNumber = taskNumber
@@ -40,8 +46,9 @@ final class SkinnerBoxManager {
     
     func completedTask(number: Int) {
         if number == taskNumber {
-            delegate?.onTaskComplete(taskNumber: taskNumber + 1, outOf: uncompletedTaskDescriptions.count)
+            delegate?.onTaskComplete(taskNumber: taskNumber + 1)
             taskNumber += 1
+            UserDefaults.standard.setValue(taskNumber, forKey: userDefaultsKey)
         }
     }
     

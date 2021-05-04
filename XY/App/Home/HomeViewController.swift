@@ -96,6 +96,12 @@ class HomeViewController: UIViewController {
         view.addSubview(skinnerBox)
         view.addSubview(skinnerBoxCompletionCircle)
         
+        skinnerBoxCompletionCircle.setColor(SkinnerBoxManager.shared.taskNumber < SkinnerBoxManager.shared.numTasks ? .XYRed : .XYGreen)
+        skinnerBoxCompletionCircle.setThickness(.medium)
+        
+        SkinnerBoxManager.shared.load()
+        skinnerBoxCompletionCircle.setProgress( max(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.uncompletedTaskDescriptions.count), 0.01))
+        skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
         SkinnerBoxManager.shared.delegate = self
         
         welcomeTextLabel.numberOfLines = 0
@@ -147,7 +153,6 @@ class HomeViewController: UIViewController {
             initialiseSetup()
             setup = true
         }
-        
     }
     
     // MARK: - Layout
@@ -451,6 +456,8 @@ extension HomeViewController : SkinnerBoxManagerDelegate {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 vc.tappedProfileImage()
+                
+                NavigationControlManager.mainViewController.navigationController?.popViewController(animated: true)
             }
         } else if taskNumber == 1 {
             // Open find friends screen
@@ -460,7 +467,8 @@ extension HomeViewController : SkinnerBoxManagerDelegate {
         }
     }
     
-    func onTaskComplete(taskNumber: Int, outOf: Int) {
-        skinnerBoxCompletionCircle.animateSetProgress(CGFloat(taskNumber) / CGFloat(outOf))
+    func onTaskComplete(taskNumber: Int) {
+        skinnerBoxCompletionCircle.animateSetProgress(CGFloat(taskNumber) / CGFloat(SkinnerBoxManager.shared.numTasks))
+        skinnerBoxCompletionCircle.setLabel("\(taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
     }
 }

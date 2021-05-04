@@ -44,4 +44,16 @@ extension UIColor {
             UIColor(named: "XYBlue")!
         }
     }
+    
+    static var XYGreen: UIColor {
+        get {
+            UIColor(named: "XYGreen")!
+        }
+    }
+    
+    static var XYRed: UIColor {
+        get {
+            UIColor(named: "XYRed")!
+        }
+    }
 }
