@@ -8,17 +8,22 @@
 import UIKit
 
 class AddFriendButton: UIButton, FriendsDataManagerListener {
+    
+    var friendIcon = UIImageView()
 
     init() {
         super.init(frame: .zero)
         
+        friendIcon.contentMode = .scaleAspectFill
+        addSubview(friendIcon)
+        
         titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 12)
         
-        titleEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
+        titleEdgeInsets = UIEdgeInsets(top: 5, left: 32, bottom: 5, right: 12)
         
         translatesAutoresizingMaskIntoConstraints = false
         heightAnchor.constraint(equalTo: titleLabel!.heightAnchor, constant: 16).isActive = true
-        widthAnchor.constraint(equalTo: titleLabel!.widthAnchor, constant: 30).isActive = true
+        widthAnchor.constraint(equalTo: titleLabel!.widthAnchor, constant: 45).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -33,6 +38,8 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
         super.layoutSubviews()
         
         layer.cornerRadius = height/2
+        
+        friendIcon.frame = CGRect(x: 10.55, y: 8, width: 20, height: 16)
     }
     
     var viewModel: UserViewModel?
@@ -82,21 +89,25 @@ class AddFriendButton: UIButton, FriendsDataManagerListener {
         switch status {
         case .none:
             setTitle("Add", for: .normal)
+            friendIcon.image = UIImage(named: "addFriend_plus_icon")
             setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
             setTitleColor(.white, for: .normal)
             layer.borderWidth = 0
         case .addedMe:
-            setTitle("Add back", for: .normal)
+            setTitle("Accept", for: .normal)
+            friendIcon.image = UIImage(named: "addFriend_plus_icon")
             setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
             setTitleColor(.white, for: .normal)
             layer.borderWidth = 0
         case .friend:
             setTitle("Friend", for: .normal)
+            friendIcon.image = UIImage(named: "addFriend_check_icon")
             setBackgroundColor(color: UIColor(0xFF0062), forState: .normal)
             setTitleColor(.white, for: .normal)
             layer.borderWidth = 0
         case .added:
             setTitle("Added", for: .normal)
+            friendIcon.image = UIImage(named: "addFriend_check_icon")
             setBackgroundColor(color: UIColor.clear, forState: .normal)
             setBackgroundColor(color: UIColor.lightGray, forState: .highlighted)
             setTitleColor(UIColor(named: "XYTint"), for: .normal)
