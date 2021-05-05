@@ -38,6 +38,7 @@ final class ProfileDataManager {
     var ownProfileViewModel: UserViewModel {
         get {
             return UserViewModel(
+                coreDataID: ownProfileModel.id,
                 profileImage: profileImage,
                 nickname: nickname!,
                 friendStatus: .none,

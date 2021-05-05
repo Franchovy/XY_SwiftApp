@@ -12,6 +12,7 @@ final class AppStateManager {
     private init() { }
     
     enum HomeState: String {
+        case skinnerBox
         case normal
         case noFriends
         case noChallengesFirst
@@ -28,6 +29,6 @@ final class AppStateManager {
     let homeStateKey = "homestate"
     
     func load() -> HomeState {
-        return HomeState(rawValue: UserDefaults.standard.value(forKey: homeStateKey) as? String ?? "") ?? .noFriends
+        return HomeState(rawValue: UserDefaults.standard.value(forKey: homeStateKey) as? String ?? "") ?? .skinnerBox
     }
 }

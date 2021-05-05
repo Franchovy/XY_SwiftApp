@@ -55,7 +55,7 @@ class HomeViewController: UIViewController {
                 configureNormal()
             case .noChallengesFirst, .noChallengesNormal:
                 configureEmptyNoChallenges()
-            case .noFriends:
+            case .noFriends, .skinnerBox:
                 configureEmptyNoFriends()
             }
         }
@@ -164,9 +164,17 @@ class HomeViewController: UIViewController {
             if (self.displayedTaskNumber < self.taskNumber) {
                 self.skinnerBoxCompletionCircle.animateSetProgress(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.numTasks))
                 self.skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
+                if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
+                    self.skinnerBoxCompletionCircle.setColor(.XYGreen)
+                }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                    self.skinnerBox.scrollToItem(at: IndexPath(row: self.taskNumber, section: 0), at: .left, animated: true)
+                if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
+                    self.animateHideSkinnerBox()
+                    
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                        self.skinnerBox.scrollToItem(at: IndexPath(row: self.taskNumber, section: 0), at: .left, animated: true)
+                    }
                 }
             }
         }
@@ -225,7 +233,7 @@ class HomeViewController: UIViewController {
             x: 0,
             y: welcomeTextLabel.bottom + 29.97,
             width: view.width,
-            height: 142
+            height: 152
         )
         
         skinnerBoxCompletionCircle.frame = CGRect(
@@ -289,12 +297,41 @@ class HomeViewController: UIViewController {
     
     private func configureBasedOnState() {
         switch state {
-        case .noFriends, .uninit:
+        case .noFriends, .uninit, .skinnerBox:
             configureEmptyNoFriends()
         case .noChallengesFirst, .noChallengesNormal:
             configureEmptyNoChallenges()
         case .normal:
             configureNormal()
+        }
+    }
+    
+    private func animateHideSkinnerBox() {
+        // Hide Skinner box, configure for normal
+        UIView.animate(withDuration: 0.3, delay: 0.5) {
+            self.skinnerBoxCompletionCircle.frame.size = CGSize(width: 10, height: 10)
+            self.skinnerBoxCompletionCircle.alpha = 0.0
+        } completion: { done in
+            if done {
+                UIView.animate(withDuration: 0.6, delay: 0.4) {
+                    self.skinnerBox.frame.size = CGSize(width: 10, height: 10)
+                    self.skinnerBox.alpha = 0.0
+                } completion: { done in
+                    if done {
+                        self.createChallengeButton.alpha = 0.0
+                        self.createChallengeButton.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                        
+                        UIView.animate(withDuration: 0.6, delay: 0.4) {
+                            self.createChallengeButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+                            self.createChallengeButton.alpha = 1.0
+                        }
+                        
+                        self.configureNormal()
+                        self.friendsDataSource.reload()
+                        self.friendsCollectionView.reloadData()
+                    }
+                }
+            }
         }
     }
     
@@ -426,7 +463,9 @@ class HomeViewController: UIViewController {
         friendsCollectionView.reloadData()
         
         if state == .noFriends, friendsCollectionView.numberOfItems(inSection: 0) > 1 {
-            configureEmptyNoChallenges()
+//            configureEmptyNoChallenges()
+            
+            SkinnerBoxManager.shared.completedTask(number: 1)
         }
     }
     
@@ -485,5 +524,9 @@ extension HomeViewController : SkinnerBoxManagerDelegate {
     
     func onTaskComplete(taskNumber: Int) {
         self.taskNumber = taskNumber
+        
+        if taskNumber == 1 {
+            animateHideSkinnerBox()
+        }
     }
 }

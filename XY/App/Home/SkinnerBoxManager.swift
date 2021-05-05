@@ -39,9 +39,9 @@ final class SkinnerBoxManager {
     }
     
     func load() {
-//        if let taskNumber = UserDefaults.standard.object(forKey: userDefaultsKey) as? Int {
-//            self.taskNumber = taskNumber
-//        }
+        if let taskNumber = UserDefaults.standard.object(forKey: userDefaultsKey) as? Int {
+            self.taskNumber = taskNumber
+        }
     }
     
     func completedTask(number: Int) {

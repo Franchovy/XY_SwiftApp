@@ -8,6 +8,7 @@
 import UIKit
 
 struct UserViewModel: Hashable {
+    var coreDataID: ObjectIdentifier
     var profileImage: UIImage?
     var nickname: String
     var friendStatus: FriendStatus

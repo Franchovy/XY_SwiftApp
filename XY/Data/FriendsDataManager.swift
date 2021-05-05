@@ -80,7 +80,7 @@ final class FriendsDataManager {
     }
     
     func getDataModel(for viewModel: UserViewModel) -> UserDataModel? {
-        return allUsers.first(where: { $0.nickname! == viewModel.nickname })
+        return allUsers.first(where: { $0.id == viewModel.coreDataID })
     }
     
     func getOrCreateUserWithFirestoreID(id: String) -> UserDataModel? {
@@ -261,7 +261,7 @@ final class FriendsDataManager {
     }
     
     func getStateForUser(_ viewModel: UserViewModel) -> FriendStatus {
-        if let userModel = allUsers.first(where: { $0.nickname == viewModel.nickname }) {
+        if let userModel = allUsers.first(where: { $0.id == viewModel.coreDataID }) {
             return FriendStatus(rawValue: userModel.friendStatus!)!
         } else {
             return .none
@@ -269,7 +269,7 @@ final class FriendsDataManager {
     }
     
     func updateFriendStatus(friend: UserViewModel, newStatus: FriendStatus) {
-        if let user = allUsers.first(where: { $0.nickname == friend.nickname }) {
+        if let user = allUsers.first(where: { $0.id == friend.coreDataID }) {
             user.friendStatus = newStatus.rawValue
             
             FirebaseFirestoreManager.shared.setFriendshipStatus(for: user) { (error) in
@@ -303,25 +303,6 @@ final class FriendsDataManager {
             
         }
     }
-    
-    #if DEBUG
-    
-    @objc private func fakeFriendAddBack(_ timer: Timer) {
-        let nickname = (timer.userInfo as! [String: String])["nickname"]
-        
-        guard let user = allUsers.first(where: { $0.nickname == nickname }) else {
-            return
-        }
-        let userViewModel = user.toViewModel()
-        
-        guard userViewModel.friendStatus == .added else {
-            return
-        }
-        
-        updateFriendStatus(friend: userViewModel, newStatus: .friend)
-    }
-    
-    #endif
 }
 
 
