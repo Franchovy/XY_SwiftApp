@@ -19,13 +19,13 @@ final class SkinnerBoxManager {
     weak var delegate: SkinnerBoxManagerDelegate?
     
     var completedTaskDescriptions = [
-        ("Profile Image", UIImage(systemName: "eyes")!, "Your profile is now public!"),
-        ("Find Friends", UIImage(systemName: "eyes")!, "You're ready to play!")
+        ("Profile Image", UIImage(named: "sb_task1_check")!, "Your profile is now public!"),
+        ("Find Friends", UIImage(named: "sb_task2_check")!, "You're ready to play!")
     ]
     
     var uncompletedTaskDescriptions = [
-        ("Profile Image", UIImage(systemName: "eyes")!, "Add a profile image for friends to see you"),
-        ("Find Friends", UIImage(systemName: "eyes")!, "Find at least one friend to start a challenge")
+        ("Profile Image", UIImage(named: "sb_task1_unchecked")!, "Add a profile image for friends to see you"),
+        ("Find Friends", UIImage(named: "sb_task2_unchecked")!, "Find at least one friend to start a challenge")
     ]
     
     let userDefaultsKey = "skinnerBoxTaskNumber"
