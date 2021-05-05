@@ -153,6 +153,18 @@ final class FriendsDataManager {
                     }
                 }
                 
+                // Perform opposite check - delete users not present in firebase
+                
+                for user in self.allUsers {
+                    if self.allUsers.filter({$0.firebaseID == user.firebaseID}).count != 1 {
+                        print("Delete user: \(user)")
+                        CoreDataManager.shared.mainContext.delete(user)
+                        self.allUsers.remove(at: self.allUsers.firstIndex(where: { $0.firebaseID == user.firebaseID })!)
+                    
+                    }
+                }
+                CoreDataManager.shared.save()
+                
                 completion()
             case .failure(let error):
                 print("Error fetching users from firebase: \(error.localizedDescription)")

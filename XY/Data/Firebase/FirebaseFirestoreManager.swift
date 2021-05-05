@@ -35,6 +35,7 @@ struct UserDocument {
     var numFriends: Int
     var numChallenges: Int
     var profileImageID: String?
+    var hidden: Bool?
 }
 
 extension UserDocument: Codable {
@@ -273,6 +274,8 @@ final class FirebaseFirestoreManager {
                     }
                     
                     if let userDocument = try? document.decode(as: UserDocument.self) {
+                        
+                        if userDocument.hidden != nil, userDocument.hidden! { continue }
                         
                         dispatchGroup.enter()
                         self.fetchFrienshipStatus(forID: document.documentID) { friendshipStatus, error in
