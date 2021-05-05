@@ -86,6 +86,8 @@ class HomeViewController: UIViewController {
             skinnerBoxCompletionCircle.setProgress( max(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.uncompletedTaskDescriptions.count), 0.01))
             skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
             SkinnerBoxManager.shared.delegate = self
+            
+            configureForSkinnerBox()
         }
         
         welcomeTextLabel.numberOfLines = 0
