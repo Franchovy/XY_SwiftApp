@@ -275,7 +275,10 @@ final class FirebaseFirestoreManager {
                     
                     if let userDocument = try? document.decode(as: UserDocument.self) {
                         
-                        if userDocument.hidden != nil, userDocument.hidden! { continue }
+                        if userDocument.profileImageID == nil ||
+                            (userDocument.hidden ?? false) {
+                            continue
+                        }
                         
                         dispatchGroup.enter()
                         self.fetchFrienshipStatus(forID: document.documentID) { friendshipStatus, error in
