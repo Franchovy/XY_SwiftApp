@@ -11,8 +11,8 @@ class SettingsViewController: UIViewController {
     
     private let changeEmailButton = FlatButton(text: "Change Email", icon: UIImage(systemName: "envelope.fill")!)
     private let changePasswordButton = FlatButton(text: "Change Password", icon: UIImage(systemName: "lock.fill")!)
-    private let darkModeButton = GradientButton(text: "Light Mode", textColor: .black, gradient: [UIColor(0xFFFFFF), UIColor(0xF2F2F2)], style: .basic)
-    private let lightModeButton = GradientButton(text: "Dark Mode", textColor: .white, gradient: [UIColor(0x626263), UIColor(0x141516)], style: .basic)
+    private let lightModeButton = GradientButton(text: "Light Mode", textColor: .black, gradient: [UIColor(0xFFFFFF), UIColor(0xF2F2F2)], style: .basic)
+    private let darkModeButton = GradientButton(text: "Dark Mode", textColor: .white, gradient: [UIColor(0x626263), UIColor(0x141516)], style: .basic)
     private let logoutButton = FlatButton(text: "Log out", icon: UIImage(named: "settings_logout_icon")!, tintColor: UIColor(0xEF3A30))
 
     init() {
@@ -96,11 +96,31 @@ class SettingsViewController: UIViewController {
     }
     
     @objc private func didPressDarkMode() {
+        let currentMode = UserDefaultsManager.shared.getUserInterfaceMode()
         
+        if currentMode == .dark {
+            UserDefaultsManager.shared.setUserInterfaceMode(.systemDefault)
+            darkModeButton.setTitle("Dark Mode", for: .normal)
+            view.window?.overrideUserInterfaceStyle = .unspecified
+        } else {
+            UserDefaultsManager.shared.setUserInterfaceMode(.dark)
+            darkModeButton.setTitle("System Default", for: .normal)
+            view.window?.overrideUserInterfaceStyle = .dark
+        }
     }
     
     @objc private func didPressLightMode() {
+        let currentMode = UserDefaultsManager.shared.getUserInterfaceMode()
         
+        if currentMode == .light {
+            UserDefaultsManager.shared.setUserInterfaceMode(.systemDefault)
+            lightModeButton.setTitle("Light Mode", for: .normal)
+            view.window?.overrideUserInterfaceStyle = .unspecified
+        } else {
+            UserDefaultsManager.shared.setUserInterfaceMode(.light)
+            lightModeButton.setTitle("System Default", for: .normal)
+            view.window?.overrideUserInterfaceStyle = .light
+        }
     }
     
     @objc private func didPressLogout() {

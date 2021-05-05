@@ -35,6 +35,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        CoreDataManager.shared.deleteEverything()
         #endif
         
+        
+        
         // Initialise Authentication stuff
         if AuthManager.shared.isLoggedIn() {
     

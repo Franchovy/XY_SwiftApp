@@ -12,7 +12,7 @@ class EditEmailViewController: UIViewController {
     private let separatorLine = SeparatorLine()
     private let currentEmailField = Label(style: .body, fontSize: 15)
     private let separatorLine2 = SeparatorLine()
-    private let newEmailTextField = TextField(placeholder: "New email")
+    private let newEmailTextField = TextField(placeholder: "New email", style: .clear, font: UIFont(name: "Raleway-Regular", size: 15))
 
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -45,7 +45,7 @@ class EditEmailViewController: UIViewController {
         
         currentEmailField.sizeToFit()
         currentEmailField.frame = CGRect(
-            x: 0,
+            x: 7,
             y: 1,
             width: view.width,
             height: 46.95

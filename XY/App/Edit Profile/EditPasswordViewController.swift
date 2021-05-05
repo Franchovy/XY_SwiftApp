@@ -10,11 +10,11 @@ import UIKit
 class EditPasswordViewController: UIViewController {
     
     private let separatorLine = SeparatorLine()
-    private let currentPasswordField = TextField(placeholder: "previous password")
+    private let currentPasswordField = TextField(placeholder: "previous password", style: .clear, font: UIFont(name: "Raleway-Regular", size: 15))
     private let separatorLine2 = SeparatorLine()
-    private let newPasswordTextField = TextField(placeholder: "new password")
+    private let newPasswordTextField = TextField(placeholder: "new password", style: .clear, font: UIFont(name: "Raleway-Regular", size: 15))
     private let separatorLine3 = SeparatorLine()
-    private let repeatPasswordTextField = TextField(placeholder: "repeat new password")
+    private let repeatPasswordTextField = TextField(placeholder: "repeat new password", style: .clear, font: UIFont(name: "Raleway-Regular", size: 15))
     
     init() {
         super.init(nibName: nil, bundle: nil)

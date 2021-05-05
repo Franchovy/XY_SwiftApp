@@ -9,6 +9,11 @@ import UIKit
 
 class TextField: UITextView {
     
+    enum Style {
+        case clear
+        case card
+    }
+    
     let shadowLayer = CALayer()
     let maxCharsLabel: UILabel?
     let maxChars: Int?
@@ -91,11 +96,6 @@ class TextField: UITextView {
         )
     }
     
-    enum Style {
-        case clear
-        case card
-    }
-    
     public func disallowCharacters(_ characters: [Character]) {
         blockedCharacters = characters
     }
@@ -114,6 +114,7 @@ class TextField: UITextView {
         switch style {
         case .clear:
             shadowLayer.isHidden = true
+            backgroundColor = .clear
         case .card:
             layer.cornerRadius = 15
             layer.sublayers?.filter({$0 != shadowLayer}).forEach({$0.masksToBounds = true})

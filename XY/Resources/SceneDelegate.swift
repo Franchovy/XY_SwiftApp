@@ -18,7 +18,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         // Set Dark or Light Mode
         if let window = window {
-            Global.isLightMode = window.traitCollection.userInterfaceStyle != .dark
+            switch UserDefaultsManager.shared.getUserInterfaceMode() {
+            case .light:
+                window.overrideUserInterfaceStyle = .light
+            case .dark:
+                window.overrideUserInterfaceStyle = .dark
+            case .systemDefault:
+                window.overrideUserInterfaceStyle = .unspecified
+            }
         }
         
         if AuthManager.shared.userId != nil {
