@@ -13,6 +13,7 @@ class SkinnerBox: UICollectionView, UICollectionViewDataSource, UICollectionView
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 250, height: 142)
         layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 50)
         
         super.init(frame: .zero, collectionViewLayout: layout)
         

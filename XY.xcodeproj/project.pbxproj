@@ -99,6 +99,7 @@
 		B99BEC19264162FB00DFE491 /* SkinnerBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC18264162FB00DFE491 /* SkinnerBox.swift */; };
 		B99BEC1D264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */; };
 		B99BEC212641715200DFE491 /* SkinnerBoxManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC202641715200DFE491 /* SkinnerBoxManager.swift */; };
+		B99BEC4B2642EB7700DFE491 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B99BEC4A2642EB7700DFE491 /* UserDefaultsManager.swift */; };
 		B9A7AC43263ECBA1008A730D /* ImageUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC42263ECBA1008A730D /* ImageUtils.swift */; };
 		B9A7AC4E263ECC37008A730D /* HapticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC4D263ECC37008A730D /* HapticsManager.swift */; };
 		B9A7AC52263ECC46008A730D /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC51263ECC46008A730D /* AuthManager.swift */; };
@@ -265,6 +266,7 @@
 		B99BEC18264162FB00DFE491 /* SkinnerBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBox.swift; sourceTree = "<group>"; };
 		B99BEC1C264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBoxCollectionViewCell.swift; sourceTree = "<group>"; };
 		B99BEC202641715200DFE491 /* SkinnerBoxManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkinnerBoxManager.swift; sourceTree = "<group>"; };
+		B99BEC4A2642EB7700DFE491 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		B9A7AC42263ECBA1008A730D /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageUtils.swift; path = XY/ImageUtils.swift; sourceTree = SOURCE_ROOT; };
 		B9A7AC4D263ECC37008A730D /* HapticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HapticsManager.swift; sourceTree = "<group>"; };
 		B9A7AC51263ECC46008A730D /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -794,6 +796,7 @@
 				B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */,
 				B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */,
 				B94C2F8A2627169B00282207 /* CoreDataManager.swift */,
+				B99BEC4A2642EB7700DFE491 /* UserDefaultsManager.swift */,
 				B9CE8227262975C600C1B95B /* Firebase */,
 			);
 			path = Data;
@@ -1092,6 +1095,7 @@
 				B99BEC19264162FB00DFE491 /* SkinnerBox.swift in Sources */,
 				B9D74ADD263554A600F51BCA /* CameraContainerViewController.swift in Sources */,
 				B96B7F372613397000B1CBF5 /* FriendBubble.swift in Sources */,
+				B99BEC4B2642EB7700DFE491 /* UserDefaultsManager.swift in Sources */,
 				B9A7AC5A263ECC8A008A730D /* ThumbnailManager.swift in Sources */,
 				B9FD99462615C48300D6716C /* FlatButton.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,

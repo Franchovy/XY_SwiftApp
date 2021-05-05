@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
     private let friendsDataSource = FriendsDataSource()
     
     private let welcomeGradientLabel = GradientLabel(text: "Welcome To XY!", fontSize: 40, gradientColours: Global.xyGradient)
-    private let welcomeTextLabel = Label("Here you'll find your challenges, but you need to add a friend to start.", style: .body, fontSize: 20)
+    private let welcomeTextLabel = Label("Finish setting up your profile to begin playing the game.", style: .body, fontSize: 20)
     
     private let noChallengesLabel = Label("You have no challenges.", style: .body, fontSize: 18)
     private let createChallengeButton = Button(title: "Create new", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
@@ -33,6 +33,7 @@ class HomeViewController: UIViewController {
     var displayedTaskNumber: Int!
     var taskNumber: Int!
     
+    var isVisible = false
     var setup = false
     var skinnerBoxMode = false
     
@@ -132,6 +133,8 @@ class HomeViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        isVisible = true
+        
         if !setup {
             initialiseSetup()
             setup = true
@@ -143,22 +146,15 @@ class HomeViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
             if (self.displayedTaskNumber < self.taskNumber) {
-                self.skinnerBoxCompletionCircle.animateSetProgress(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.numTasks))
-                self.skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
-                if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
-                    self.skinnerBoxCompletionCircle.setColor(.XYGreen)
-                }
-                
-                if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
-                    self.animateHideSkinnerBox()
-                    
-                } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
-                        self.skinnerBox.scrollToItem(at: IndexPath(row: self.taskNumber, section: 0), at: .left, animated: true)
-                    }
-                }
+                self.animateAdvanceSkinnerBox()
             }
         }
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        isVisible = false
     }
     
     // MARK: - Layout
@@ -258,25 +254,50 @@ class HomeViewController: UIViewController {
         NavigationControlManager.displayPrompt(prompt)
     }
     
+    private func animateAdvanceSkinnerBox() {
+        skinnerBoxCompletionCircle.animateSetProgress(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.numTasks))
+        skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
+        if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
+            skinnerBoxCompletionCircle.setColor(.XYGreen)
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+            if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
+                self.animateHideSkinnerBox()
+            } else {
+                self.skinnerBox.scrollToItem(at: IndexPath(row: self.taskNumber, section: 0), at: .left, animated: true)
+            }
+        }
+        
+        displayedTaskNumber = taskNumber
+    }
     
     private func animateHideSkinnerBox() {
+        guard taskNumber == SkinnerBoxManager.shared.numTasks else {
+            return
+        }
+        
         // Hide Skinner box, configure for normal
         UIView.animate(withDuration: 0.3, delay: 0.5) {
-            self.skinnerBoxCompletionCircle.frame.size = CGSize(width: 10, height: 10)
             self.skinnerBoxCompletionCircle.alpha = 0.0
         } completion: { done in
             if done {
                 UIView.animate(withDuration: 0.6, delay: 0.4) {
-                    self.skinnerBox.frame.size = CGSize(width: 10, height: 10)
                     self.skinnerBox.alpha = 0.0
+                    self.welcomeTextLabel.alpha = 0.0
+                    self.welcomeGradientLabel.alpha = 0.0
                 } completion: { done in
                     if done {
                         self.createChallengeButton.alpha = 0.0
                         self.createChallengeButton.transform = CGAffineTransform(scaleX: 0.1, y: 0.1)
+                        self.challengesLabel.alpha = 1.0
+                        self.noChallengesLabel.alpha = 1.0
                         
                         UIView.animate(withDuration: 0.6, delay: 0.4) {
                             self.createChallengeButton.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
                             self.createChallengeButton.alpha = 1.0
+                            self.challengesLabel.alpha = 1.0
+                            self.noChallengesLabel.alpha = 1.0
                         }
                         
                         self.configureForNotSkinnerBox()
@@ -295,7 +316,9 @@ class HomeViewController: UIViewController {
     }
     
     private func configureForNotSkinnerBox() {
-        
+        challengesLabel.isHidden = false
+        noChallengesLabel.isHidden = challengesDataSource.challengesData.count != 0
+        createChallengeButton.isHidden = false
     }
     
     private func initializeChallenges() {
@@ -417,9 +440,10 @@ extension HomeViewController : SkinnerBoxManagerDelegate {
     
     func onTaskComplete(taskNumber: Int) {
         self.taskNumber = taskNumber
+        skinnerBox.reloadData()
         
-        if taskNumber == 1 {
-            animateHideSkinnerBox()
+        if isVisible {
+            animateAdvanceSkinnerBox()
         }
     }
 }

@@ -51,6 +51,7 @@ final class AuthManager {
         do {
             try Auth.auth().signOut()
             
+            UserDefaultsManager.shared.removeAll()
             CoreDataManager.shared.deleteEverything()
             
         } catch let error {
@@ -109,11 +110,14 @@ final class AuthManager {
     func signUp(xyname: String, email: String, password: String, completion: @escaping(Result<String, Error>) -> Void) {
         Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
             if let error = error {
-                completion(.failure(error))
+                if (error as! NSError).code == 17007 {
+                    completion(.failure(CreateUserError.emailTaken))
+                } else {
+                    completion(.failure(error))
+                }
             }
             
             guard let uid = authResult?.user.uid else {
-                completion(.failure(CreateUserError.unknownError))
                 return
             }
             self.userId = uid
