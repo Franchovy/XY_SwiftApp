@@ -142,6 +142,11 @@ class ProfileViewController: UIViewController, FriendsDataManagerListener {
         navigationItem.title = viewModel.nickname
         startChallengeNameLabel.text = viewModel.nickname
         
+        let hideChallengeButton = viewModel.friendStatus != .friend
+        startChallengeLabel.isHidden = hideChallengeButton
+        startChallengeNameLabel.isHidden = hideChallengeButton
+        challengeButton.isHidden = hideChallengeButton
+        
         friendsLabelView.addLabel(String(describing: viewModel.numFriends), font: UIFont(name: "Raleway-Medium", size: 25)!)
         friendsLabelView.addLabel("Friends", font: UIFont(name: "Raleway-Medium", size: 15)!)
         friendsLabelView.addOnPress {
