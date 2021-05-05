@@ -11,7 +11,6 @@ class HomeViewController: UIViewController {
         
     // MARK: - UI Properties
     
-    private let friendsLabel = Label("Friends", style: .title)
     private let friendsCollectionView = FriendsCollectionView()
     
     private let challengesLabel = Label("Your Challenges", style: .title)
@@ -22,7 +21,6 @@ class HomeViewController: UIViewController {
     
     private let welcomeGradientLabel = GradientLabel(text: "Welcome To XY!", fontSize: 40, gradientColours: Global.xyGradient)
     private let welcomeTextLabel = Label("Here you'll find your challenges, but you need to add a friend to start.", style: .body, fontSize: 20)
-    private let addFriendButton = Button(title: "Find Friends", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
     
     private let noChallengesLabel = Label("You have no challenges.", style: .body, fontSize: 18)
     private let createChallengeButton = Button(title: "Create new", style: .roundButtonBorder(gradient: Global.xyGradient), font: UIFont(name: "Raleway-Heavy", size: 26))
@@ -36,30 +34,7 @@ class HomeViewController: UIViewController {
     var taskNumber: Int!
     
     var setup = false
-    
-    var state: AppStateManager.HomeState {
-        get {
-            AppStateManager.shared.homeState
-        }
-        
-        set {
-            guard AppStateManager.shared.homeState != newValue, newValue != state else {
-                return
-            }
-            AppStateManager.shared.homeState = newValue
-            
-            switch newValue {
-            case .uninit:
-                fatalError("This must load before")
-            case .normal:
-                configureNormal()
-            case .noChallengesFirst, .noChallengesNormal:
-                configureEmptyNoChallenges()
-            case .noFriends, .skinnerBox:
-                configureEmptyNoFriends()
-            }
-        }
-    }
+    var skinnerBoxMode = false
     
     // MARK: - Initializers
     
@@ -83,37 +58,39 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        state = AppStateManager.shared.load()
-        
-        view.addSubview(friendsLabel)
         view.addSubview(friendsCollectionView)
         view.addSubview(challengesLabel)
         view.addSubview(challengesCollectionView)
-        
-        view.addSubview(createChallengeButton)
-        view.addSubview(welcomeGradientLabel)
-        view.addSubview(welcomeTextLabel)
-        view.addSubview(addFriendButton)
         view.addSubview(noChallengesLabel)
-        
-        view.addSubview(skinnerBox)
-        view.addSubview(skinnerBoxCompletionCircle)
-        
-        skinnerBoxCompletionCircle.setColor(SkinnerBoxManager.shared.taskNumber < SkinnerBoxManager.shared.numTasks ? .XYRed : .XYGreen)
-        skinnerBoxCompletionCircle.setThickness(.medium)
+        view.addSubview(createChallengeButton)
         
         SkinnerBoxManager.shared.load()
-        self.taskNumber = SkinnerBoxManager.shared.taskNumber
-        self.displayedTaskNumber = taskNumber
-        
-        skinnerBoxCompletionCircle.setProgress( max(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.uncompletedTaskDescriptions.count), 0.01))
-        skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
-        SkinnerBoxManager.shared.delegate = self
+        if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
+            skinnerBoxMode = false
+            
+            configureForNotSkinnerBox()
+        } else {
+            skinnerBoxMode = true
+            
+            view.addSubview(welcomeGradientLabel)
+            view.addSubview(welcomeTextLabel)
+            view.addSubview(skinnerBox)
+            view.addSubview(skinnerBoxCompletionCircle)
+            
+            skinnerBoxCompletionCircle.setColor(SkinnerBoxManager.shared.taskNumber < SkinnerBoxManager.shared.numTasks ? .XYRed : .XYGreen)
+            skinnerBoxCompletionCircle.setThickness(.medium)
+            
+            self.taskNumber = SkinnerBoxManager.shared.taskNumber
+            self.displayedTaskNumber = taskNumber
+    
+            skinnerBoxCompletionCircle.setProgress( max(CGFloat(SkinnerBoxManager.shared.taskNumber) / CGFloat(SkinnerBoxManager.shared.uncompletedTaskDescriptions.count), 0.01))
+            skinnerBoxCompletionCircle.setLabel("\(SkinnerBoxManager.shared.taskNumber)/\(SkinnerBoxManager.shared.numTasks)")
+            SkinnerBoxManager.shared.delegate = self
+        }
         
         welcomeTextLabel.numberOfLines = 0
         welcomeTextLabel.textAlignment = .center
         
-        addFriendButton.addTarget(self, action: #selector(tappedSearch), for: .touchUpInside)
         createChallengeButton.addTarget(self, action: #selector(tappedCreateChallenge), for: .touchUpInside)
             
         let logoView = UIImageView(image: UIImage(named: "XYLogo"))
@@ -136,8 +113,6 @@ class HomeViewController: UIViewController {
                 action: #selector(tappedNotifications)
             )
         ]
-        
-        configureBasedOnState()
     }
     
     deinit {
@@ -158,6 +133,10 @@ class HomeViewController: UIViewController {
         if !setup {
             initialiseSetup()
             setup = true
+        }
+        
+        guard displayedTaskNumber != nil, taskNumber != nil else {
+            return
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.7) {
@@ -185,17 +164,9 @@ class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        friendsLabel.sizeToFit()
-        friendsLabel.frame = CGRect(
-            x: 10,
-            y: 10,
-            width: friendsLabel.width,
-            height: friendsLabel.height
-        )
-        
         friendsCollectionView.frame = CGRect(
             x: 10,
-            y: friendsLabel.bottom + 10,
+            y: 10,
             width: view.width - 20,
             height: 86
         )
@@ -245,13 +216,6 @@ class HomeViewController: UIViewController {
         
         let buttonSize = CGSize(width: 245, height: 59)
         
-        addFriendButton.frame = CGRect(
-            x: (view.width - buttonSize.width)/2,
-            y: view.height * 0.64,
-            width: buttonSize.width,
-            height: buttonSize.height
-        )
-        
         noChallengesLabel.sizeToFit()
         noChallengesLabel.frame = CGRect(
             x: (view.width - noChallengesLabel.width)/2,
@@ -262,9 +226,7 @@ class HomeViewController: UIViewController {
         
         createChallengeButton.frame = CGRect(
             x: (view.width - buttonSize.width)/2,
-            y: state == .normal ?
-                view.height - 53 - buttonSize.height :
-                noChallengesLabel.bottom + 22.02,
+            y: view.height - 53 - buttonSize.height,
             width: buttonSize.width,
             height: buttonSize.height
         )
@@ -287,24 +249,13 @@ class HomeViewController: UIViewController {
             self.challengesCollectionView.reloadData()
             
             if ChallengeDataManager.shared.activeChallenges.count > 0 {
-                self.configureNormal()
-                
+                self.configureForNotSkinnerBox()
             }
         }
         
         NavigationControlManager.displayPrompt(prompt)
     }
     
-    private func configureBasedOnState() {
-        switch state {
-        case .noFriends, .uninit, .skinnerBox:
-            configureEmptyNoFriends()
-        case .noChallengesFirst, .noChallengesNormal:
-            configureEmptyNoChallenges()
-        case .normal:
-            configureNormal()
-        }
-    }
     
     private func animateHideSkinnerBox() {
         // Hide Skinner box, configure for normal
@@ -326,7 +277,7 @@ class HomeViewController: UIViewController {
                             self.createChallengeButton.alpha = 1.0
                         }
                         
-                        self.configureNormal()
+                        self.configureForNotSkinnerBox()
                         self.friendsDataSource.reload()
                         self.friendsCollectionView.reloadData()
                     }
@@ -335,57 +286,14 @@ class HomeViewController: UIViewController {
         }
     }
     
-    private func configureNormal() {
-        state = .normal
-        
-        challengesLabel.isHidden = false
-        createChallengeButton.isHidden = false
-        
-        skinnerBox.isHidden = true
-        skinnerBoxCompletionCircle.isHidden = true
-        
-        noChallengesLabel.isHidden = true
-        welcomeGradientLabel.isHidden = true
-        welcomeTextLabel.isHidden = true
-        addFriendButton.isHidden = true
-        
-        view.setNeedsLayout()
-    }
-    
-    private func configureEmptyNoFriends() {
-        state = .noFriends
-        
-        skinnerBox.isHidden = false
-        skinnerBoxCompletionCircle.isHidden = false
-        
-        noChallengesLabel.isHidden = false
-        welcomeGradientLabel.isHidden = false
-        welcomeTextLabel.isHidden = false
-        
-        addFriendButton.isHidden = true
-        
+    private func configureForSkinnerBox() {
         challengesLabel.isHidden = true
         noChallengesLabel.isHidden = true
         createChallengeButton.isHidden = true
-        
-        view.setNeedsLayout()
     }
     
-    private func configureEmptyNoChallenges() {
-        state = .noChallengesFirst
+    private func configureForNotSkinnerBox() {
         
-        skinnerBox.isHidden = true
-        skinnerBoxCompletionCircle.isHidden = true
-        
-        noChallengesLabel.isHidden = false
-        createChallengeButton.isHidden = false
-        challengesLabel.isHidden = false
-        
-        welcomeGradientLabel.isHidden = true
-        welcomeTextLabel.isHidden = true
-        addFriendButton.isHidden = true
-        
-        view.setNeedsLayout()
     }
     
     private func initializeChallenges() {
@@ -405,20 +313,7 @@ class HomeViewController: UIViewController {
         ProfileDataManager.shared.load() {
             self.initialiseFriends() {
                 self.initializeChallenges()
-                if FriendsDataManager.shared.friends.count == 0 {
-                    self.configureEmptyNoFriends()
-                } else {
-                    self.friendsDataSource.reload()
-                    self.friendsCollectionView.reloadData()
-                    
-                    if ChallengeDataManager.shared.activeChallenges.count == 0 {
-                        self.configureEmptyNoChallenges()
-                    } else {
-                        self.configureNormal()
-                    }
-                }
             }
-            
         }
     }
     
@@ -433,8 +328,6 @@ class HomeViewController: UIViewController {
             completion()
         }
         FriendsDataManager.shared.setupFriendshipStatusListener()
-        
-        
     }
     
     @objc private func tappedNotifications() {
@@ -462,9 +355,7 @@ class HomeViewController: UIViewController {
         friendsDataSource.reload()
         friendsCollectionView.reloadData()
         
-        if state == .noFriends, friendsCollectionView.numberOfItems(inSection: 0) > 1 {
-//            configureEmptyNoChallenges()
-            
+        if friendsCollectionView.numberOfItems(inSection: 0) > 1 {
             SkinnerBoxManager.shared.completedTask(number: 1)
         }
     }
@@ -474,7 +365,7 @@ class HomeViewController: UIViewController {
         self.challengesCollectionView.reloadData()
         
         if ChallengeDataManager.shared.activeChallenges.count > 0 {
-            self.configureNormal()
+            self.configureForNotSkinnerBox()
         }
     }
     
@@ -483,7 +374,7 @@ class HomeViewController: UIViewController {
         self.challengesCollectionView.reloadData()
         
         if ChallengeDataManager.shared.activeChallenges.count > 0 {
-            self.configureNormal()
+            self.configureForNotSkinnerBox()
         }
     }
     
