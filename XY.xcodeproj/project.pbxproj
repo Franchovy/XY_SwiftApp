@@ -137,6 +137,10 @@
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
 		B9CD20952643D7A400F3D62F /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20942643D7A400F3D62F /* PushNotificationSender.swift */; };
 		B9CD20992643D7AA00F3D62F /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20982643D7AA00F3D62F /* PushNotificationsManager.swift */; };
+		B9CD20A22644285B00F3D62F /* ChallengeInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20A12644285B00F3D62F /* ChallengeInfoViewController.swift */; };
+		B9CD20A6264428F300F3D62F /* ChallengeStatusCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20A5264428F300F3D62F /* ChallengeStatusCollectionView.swift */; };
+		B9CD20AA2644295E00F3D62F /* ChallengeStatusCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20A92644295E00F3D62F /* ChallengeStatusCollectionViewCell.swift */; };
+		B9CD20AE2644310D00F3D62F /* ChallengeStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20AD2644310D00F3D62F /* ChallengeStatusView.swift */; };
 		B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */; };
 		B9CE82222629754400C1B95B /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */; };
 		B9CFB7D4262490A300754552 /* ProfileDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFB7D3262490A300754552 /* ProfileDataManager.swift */; };
@@ -309,6 +313,10 @@
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
 		B9CD20942643D7A400F3D62F /* PushNotificationSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		B9CD20982643D7AA00F3D62F /* PushNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
+		B9CD20A12644285B00F3D62F /* ChallengeInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeInfoViewController.swift; sourceTree = "<group>"; };
+		B9CD20A5264428F300F3D62F /* ChallengeStatusCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStatusCollectionView.swift; sourceTree = "<group>"; };
+		B9CD20A92644295E00F3D62F /* ChallengeStatusCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStatusCollectionViewCell.swift; sourceTree = "<group>"; };
+		B9CD20AD2644310D00F3D62F /* ChallengeStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeStatusView.swift; sourceTree = "<group>"; };
 		B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
 		B9CFB7D3262490A300754552 /* ProfileDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataManager.swift; sourceTree = "<group>"; };
@@ -680,6 +688,7 @@
 		B97E33A1261201B600AD00B5 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				B9CD20A02644283C00F3D62F /* Challenge Info */,
 				B9A7AC5D263ECCB1008A730D /* Launch & Auth */,
 				B93849092623603500887291 /* ChallengeStatusScreen */,
 				B9C4224C2620350C008E9315 /* WatchVC */,
@@ -780,6 +789,17 @@
 				B93F1711262DA9550068FB88 /* ColorExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		B9CD20A02644283C00F3D62F /* Challenge Info */ = {
+			isa = PBXGroup;
+			children = (
+				B9CD20A12644285B00F3D62F /* ChallengeInfoViewController.swift */,
+				B9CD20A5264428F300F3D62F /* ChallengeStatusCollectionView.swift */,
+				B9CD20A92644295E00F3D62F /* ChallengeStatusCollectionViewCell.swift */,
+				B9CD20AD2644310D00F3D62F /* ChallengeStatusView.swift */,
+			);
+			path = "Challenge Info";
 			sourceTree = "<group>";
 		};
 		B9CE8227262975C600C1B95B /* Firebase */ = {
@@ -1025,6 +1045,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9CD20AA2644295E00F3D62F /* ChallengeStatusCollectionViewCell.swift in Sources */,
 				B926868F2614A8DD00A306F6 /* EditPasswordViewController.swift in Sources */,
 				B9FD9963261619AD00D6716C /* NotificationsDataSource.swift in Sources */,
 				B926866C2614637900A306F6 /* AddFriendButton.swift in Sources */,
@@ -1081,9 +1102,11 @@
 				B92686952614A8FE00A306F6 /* SettingsViewController.swift in Sources */,
 				B96B7F462613614300B1CBF5 /* ChallengesDatasource.swift in Sources */,
 				B9A7AC6A263ECCB1008A730D /* LoginViewController.swift in Sources */,
+				B9CD20AE2644310D00F3D62F /* ChallengeStatusView.swift in Sources */,
 				B97353052618B41200183201 /* SendToFriendsViewController.swift in Sources */,
 				B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */,
 				B9B44E10261F4D26002E4776 /* LabelView.swift in Sources */,
+				B9CD20A6264428F300F3D62F /* ChallengeStatusCollectionView.swift in Sources */,
 				B9A7AC67263ECCB1008A730D /* AuthChoiceViewController.swift in Sources */,
 				B9C4225C2620380D008E9315 /* PlayerViewController.swift in Sources */,
 				B952F5CF26176D3F0063E7B4 /* PreviewViewController.swift in Sources */,
@@ -1091,6 +1114,7 @@
 				B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */,
 				B96B7F1D2613307300B1CBF5 /* FriendsCollectionView.swift in Sources */,
 				B9CD20992643D7AA00F3D62F /* PushNotificationsManager.swift in Sources */,
+				B9CD20A22644285B00F3D62F /* ChallengeInfoViewController.swift in Sources */,
 				B952F5D7261778BB0063E7B4 /* CreateChallengeManager.swift in Sources */,
 				B952F5C226174B6B0063E7B4 /* Card.swift in Sources */,
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,

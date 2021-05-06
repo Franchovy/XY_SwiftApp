@@ -75,6 +75,7 @@ final class FirebaseFirestoreManager {
     enum FirestoreManagerError: Error {
         case friendshipStatusInvalid
         case unknownError
+        case decodingError
     }
     
     // MARK: - Upload functions
@@ -247,6 +248,32 @@ final class FirebaseFirestoreManager {
                             completion(error)
                             return
                         }
+                    }
+                }
+            }
+    }
+    
+    func getChallengeStatus(for challengeModel: ChallengeDataModel, completion: @escaping(Result<[(String, ChallengeCompletionState)], Error>) -> Void) {
+        guard let firebaseID = challengeModel.firebaseID else {
+            return
+        }
+        
+        root.collection(FirebaseCollectionPath.challenges).document(firebaseID)
+            .getDocument { (snapshot, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let snapshot = snapshot {
+                    if let challengeModel = try? snapshot.decode(as: ChallengeDocument.self) {
+                        
+                        if challengeModel.status.contains(where: { ChallengeCompletionState(rawValue: $0.value) == nil }) {
+                            completion(.failure(FirestoreManagerError.decodingError))
+                        } else {
+                            let result = challengeModel.status.map { ($0.key, ChallengeCompletionState(rawValue: $0.value)!) }
+                            
+                            completion(.success(result))
+                        }
+                    } else {
+                        completion(.failure(FirestoreManagerError.decodingError))
                     }
                 }
             }

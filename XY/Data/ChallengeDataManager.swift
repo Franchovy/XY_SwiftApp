@@ -431,6 +431,29 @@ final class ChallengeDataManager {
         }
     }
     
+    func getChallengeStatuses(for challengeID: ObjectIdentifier, completion: @escaping([(UserDataModel, ChallengeCompletionState)]) -> Void) {
+        guard let challengeDataModel = activeChallenges.first(where: { $0.id == challengeID }) else {
+            return
+        }
+        
+        FirebaseFirestoreManager.shared.getChallengeStatus(for: challengeDataModel) { result in
+            switch result {
+            case .success(let statuses):
+                let returnData: [(UserDataModel, ChallengeCompletionState)] = statuses.map { (userFirebaseID, status) in
+                    if let user = FriendsDataManager.shared.getUserWithFirebaseID(userFirebaseID) {
+                        return (user, status)
+                    } else {
+                        return nil
+                    }
+                }.compactMap { $0 }
+                completion(returnData)
+            case .failure(let error):
+                print("Error decoding challenge status: \(error.localizedDescription)")
+            }
+            
+        }
+    }
+    
     func createChallenge(model: ChallengeModel) -> ChallengeDataModel {
         let entity = ChallengeDataModel.entity()
         let context = CoreDataManager.shared.mainContext

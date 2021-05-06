@@ -79,6 +79,10 @@ final class FriendsDataManager {
         clearNilListeners()
     }
     
+    func getUserWithFirebaseID(_ firebaseID: String) -> UserDataModel? {
+        return allUsers.first(where: { $0.firebaseID == firebaseID })
+    }
+    
     func getDataModel(for viewModel: UserViewModel) -> UserDataModel? {
         return allUsers.first(where: { $0.id == viewModel.coreDataID })
     }
