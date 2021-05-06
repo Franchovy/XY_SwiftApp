@@ -135,6 +135,8 @@
 		B9C6AD4B263567160002F535 /* VideoCompositionWriter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */; };
 		B9C8482725B096C8002F7CD5 /* ShakeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */; };
 		B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */; };
+		B9CD20952643D7A400F3D62F /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20942643D7A400F3D62F /* PushNotificationSender.swift */; };
+		B9CD20992643D7AA00F3D62F /* PushNotificationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CD20982643D7AA00F3D62F /* PushNotificationsManager.swift */; };
 		B9CE821E2629753800C1B95B /* FirebaseStorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */; };
 		B9CE82222629754400C1B95B /* FirebaseFirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */; };
 		B9CFB7D4262490A300754552 /* ProfileDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9CFB7D3262490A300754552 /* ProfileDataManager.swift */; };
@@ -305,6 +307,8 @@
 		B9C6AD4A263567160002F535 /* VideoCompositionWriter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCompositionWriter.swift; sourceTree = "<group>"; };
 		B9C8482625B096C8002F7CD5 /* ShakeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShakeExtensions.swift; sourceTree = "<group>"; };
 		B9C8483025B0A6AB002F7CD5 /* TextFieldTintExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldTintExtension.swift; sourceTree = "<group>"; };
+		B9CD20942643D7A400F3D62F /* PushNotificationSender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
+		B9CD20982643D7AA00F3D62F /* PushNotificationsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushNotificationsManager.swift; sourceTree = "<group>"; };
 		B9CE821D2629753800C1B95B /* FirebaseStorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageManager.swift; sourceTree = "<group>"; };
 		B9CE82212629754400C1B95B /* FirebaseFirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseFirestoreManager.swift; sourceTree = "<group>"; };
 		B9CFB7D3262490A300754552 /* ProfileDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDataManager.swift; sourceTree = "<group>"; };
@@ -693,6 +697,8 @@
 		B9A7AC4C263ECC26008A730D /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				B9CD20982643D7AA00F3D62F /* PushNotificationsManager.swift */,
+				B9CD20942643D7A400F3D62F /* PushNotificationSender.swift */,
 				B9A7AC59263ECC8A008A730D /* ThumbnailManager.swift */,
 				B9A7AC55263ECC67008A730D /* VideoSaver.swift */,
 				B9A7AC51263ECC46008A730D /* AuthManager.swift */,
@@ -1084,6 +1090,7 @@
 				B9A7AC66263ECCB1008A730D /* NewLoginViewController.swift in Sources */,
 				B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */,
 				B96B7F1D2613307300B1CBF5 /* FriendsCollectionView.swift in Sources */,
+				B9CD20992643D7AA00F3D62F /* PushNotificationsManager.swift in Sources */,
 				B952F5D7261778BB0063E7B4 /* CreateChallengeManager.swift in Sources */,
 				B952F5C226174B6B0063E7B4 /* Card.swift in Sources */,
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
@@ -1110,6 +1117,7 @@
 				B9A7AC73263ECD03008A730D /* XPCircleView.swift in Sources */,
 				B9B92DD625644A3F005D9B86 /* SceneDelegate.swift in Sources */,
 				B9A7AC6F263ECCF5008A730D /* GradientBorderButtonWithShadow.swift in Sources */,
+				B9CD20952643D7A400F3D62F /* PushNotificationSender.swift in Sources */,
 				B97352E826186D7200183201 /* CameraViewController.swift in Sources */,
 				B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */,
 				B97352F52618AEF500183201 /* SendCollectionView.swift in Sources */,
@@ -1326,7 +1334,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6;
+				CURRENT_PROJECT_VERSION = 2.8;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1352,7 +1360,7 @@
 				CODE_SIGN_ENTITLEMENTS = XY/XY.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.6;
+				CURRENT_PROJECT_VERSION = 2.8;
 				DEVELOPMENT_TEAM = Z9R45SX78W;
 				INFOPLIST_FILE = "$(SRCROOT)/XY/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
