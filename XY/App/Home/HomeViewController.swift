@@ -319,6 +319,11 @@ class HomeViewController: UIViewController {
         challengesLabel.isHidden = false
         noChallengesLabel.isHidden = challengesDataSource.challengesData.count != 0
         createChallengeButton.isHidden = false
+        
+        skinnerBox.isHidden = true
+        skinnerBoxCompletionCircle.isHidden = true
+        welcomeTextLabel.isHidden = true
+        welcomeGradientLabel.isHidden = true
     }
     
     private func initializeChallenges() {
@@ -349,6 +354,12 @@ class HomeViewController: UIViewController {
         FriendsDataManager.shared.loadAllUsersFromFirebase() {
             self.friendsDataSource.reload()
             self.friendsCollectionView.reloadData()
+            
+            if FriendsDataManager.shared.friends.count > 0 {
+                SkinnerBoxManager.shared.taskNumber = 2
+                SkinnerBoxManager.shared.save()
+                self.configureForNotSkinnerBox()
+            }
             
             completion()
         }

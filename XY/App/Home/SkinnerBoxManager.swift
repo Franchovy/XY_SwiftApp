@@ -44,6 +44,10 @@ final class SkinnerBoxManager {
         }
     }
     
+    func save() {
+        UserDefaults.standard.setValue(taskNumber, forKey: userDefaultsKey)
+    }
+    
     func completedTask(number: Int) {
         if number == taskNumber {
             delegate?.onTaskComplete(taskNumber: taskNumber + 1)
