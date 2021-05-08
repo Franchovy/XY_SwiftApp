@@ -30,7 +30,7 @@ struct ChallengeSubmissionDocument: Codable {
     var timestamp: Timestamp
 }
 
-struct UserDocument {
+struct UserDocument: Codable {
     var nickname: String
     var numFriends: Int
     var numChallenges: Int
@@ -38,7 +38,7 @@ struct UserDocument {
     var hidden: Bool?
 }
 
-extension UserDocument: Codable {
+extension UserDocument {
     enum CodingKeys: String, CodingKey {
         case nickname = "xyname"
         case numFriends = "numFriends"
@@ -53,6 +53,13 @@ extension UserDocument: Codable {
         numFriends = try values.decodeIfPresent(Int.self, forKey: .numFriends) ?? 0
         profileImageID = try values.decodeIfPresent(String.self, forKey: .profileImageID)
     }
+}
+
+struct NotificationDocument: Codable {
+    var timestamp: Timestamp
+    var type: String
+    var fromUser: String
+    var objectID: String
 }
 
 struct FriendshipDocument: Codable {
@@ -275,6 +282,34 @@ final class FirebaseFirestoreManager {
                     } else {
                         completion(.failure(FirestoreManagerError.decodingError))
                     }
+                }
+            }
+    }
+    
+    func fetchAllNotifications(completion: @escaping(Result<[NotificationModel], Error>) -> Void) {
+        
+        root.collection(FirebaseCollectionPath.users).document(ProfileDataManager.shared.ownID).collection(FirebaseCollectionPath.notifications)
+            .order(by: "timestamp", descending: true)
+            .getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    completion(.failure(error))
+                } else if let querySnapshot = querySnapshot {
+                    let notifications: [NotificationModel] = querySnapshot.documents.map({ documentSnapshot in
+                        if let document = try? documentSnapshot.decode(as: NotificationDocument.self, includingId: true),
+                           let type = NotificationType(rawValue: document.type) {
+                            return NotificationModel(
+                                firebaseID: documentSnapshot.documentID,
+                                fromUserFirebaseID: document.fromUser,
+                                challengeFirebaseID: document.objectID,
+                                timestamp: document.timestamp.dateValue(),
+                                type: type
+                            )
+                        } else {
+                            return nil
+                        }
+                    }).compactMap({ $0 })
+                    
+                    completion(.success(notifications))
                 }
             }
     }

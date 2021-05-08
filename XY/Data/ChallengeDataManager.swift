@@ -59,6 +59,10 @@ final class ChallengeDataManager {
         }
     }
     
+    func getChallengeWithFirebaseID(_ firebaseID: String) -> ChallengeDataModel? {
+        return activeChallenges.first(where: { $0.firebaseID == firebaseID })
+    }
+    
     func saveChallenge(challengeCard: ChallengeCardViewModel, to friendsList: [UserViewModel]) throws -> ChallengeDataModel {
         let context = CoreDataManager.shared.mainContext
         let entity = ChallengeDataModel.entity()

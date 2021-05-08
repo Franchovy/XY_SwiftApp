@@ -114,8 +114,6 @@ final class FriendsDataManager {
         }
     }
     
-    
-    
     func loadAllUsersFromFirebase(completion: @escaping(() -> Void)) {
         FirebaseFirestoreManager.shared.fetchAllProfiles { (result) in
             switch result {
@@ -253,15 +251,6 @@ final class FriendsDataManager {
             
             allUsers = results
             
-            print("User profile image detection: \(allUsers.first(where: { $0.profileImageFirebaseID != nil }))")
-            
-            #if DEBUG
-//            if allUsers.count == 0 {
-//                for _ in 0...100 {
-//                    allUsers.append(UserDataModel.fakeUser())
-//                }
-//            }
-            #endif
         }
         catch {
             debugPrint(error)

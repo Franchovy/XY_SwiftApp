@@ -12,4 +12,5 @@ final class FirebaseCollectionPath {
     static let challengeSubmissions = "Submissions"
     static let users = "Users"
     static let friendships = "Friendships"
+    static let notifications = "Notifications"
 }

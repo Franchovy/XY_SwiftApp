@@ -75,31 +75,3 @@ extension ChallengeDataModel {
         }
     }
 }
-
-#if DEBUG
-extension ChallengeDataModel {
-    static func fakeChallenge() -> ChallengeDataModel {
-        let url = [
-            Bundle.main.url(forResource: "video1", withExtension: "mov"),
-            Bundle.main.url(forResource: "video2", withExtension: "mov"),
-            Bundle.main.url(forResource: "video3", withExtension: "mov"),
-            Bundle.main.url(forResource: "video4", withExtension: "mov"),
-            Bundle.main.url(forResource: "video5", withExtension: "mov")
-        ][Int.random(in: 0...4)]
-        
-        let context = CoreDataManager.shared.mainContext
-        let entity = ChallengeDataModel.entity()
-        let challengeModel = ChallengeDataModel(entity: entity, insertInto: context)
-        
-        challengeModel.fileUrl = url!
-        challengeModel.title = "ScreamRandomly"
-        challengeModel.challengeDescription = "Scream randomly somewhere in public. Get your friend to film it."
-        challengeModel.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
-        challengeModel.fromUser = UserDataModel.fakeUser()
-        challengeModel.previewImage = ThumbnailManager.shared.generateVideoThumbnail(url: url!)!.pngData()!
-        challengeModel.completionState = .received
-        
-        return challengeModel
-    }
-}
-#endif

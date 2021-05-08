@@ -33,6 +33,9 @@
 		B93F170E262DA30D0068FB88 /* FirebaseStoragePaths.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93F170D262DA30D0068FB88 /* FirebaseStoragePaths.swift */; };
 		B93F1712262DA9550068FB88 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B93F1711262DA9550068FB88 /* ColorExtensions.swift */; };
 		B9474B7E262444C400D4AD89 /* AcceptChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9474B7D262444C400D4AD89 /* AcceptChallengeViewController.swift */; };
+		B94A7B412645CB7A003C89FA /* NotificationsDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94A7B402645CB7A003C89FA /* NotificationsDataManager.swift */; };
+		B94A7B452645CD35003C89FA /* NotificationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94A7B442645CD35003C89FA /* NotificationModel.swift */; };
+		B94A7B6D26469BAB003C89FA /* NotificationDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94A7B6C26469BAB003C89FA /* NotificationDataModel.swift */; };
 		B94C2F8B2627169B00282207 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B94C2F8A2627169B00282207 /* CoreDataManager.swift */; };
 		B94E3F7126270D12001AE129 /* Challenge.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B94E3F6F26270D12001AE129 /* Challenge.xcdatamodeld */; };
 		B952F5972617427F0063E7B4 /* CreateChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */; };
@@ -205,6 +208,9 @@
 		B93F170D262DA30D0068FB88 /* FirebaseStoragePaths.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStoragePaths.swift; sourceTree = "<group>"; };
 		B93F1711262DA9550068FB88 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		B9474B7D262444C400D4AD89 /* AcceptChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptChallengeViewController.swift; sourceTree = "<group>"; };
+		B94A7B402645CB7A003C89FA /* NotificationsDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsDataManager.swift; sourceTree = "<group>"; };
+		B94A7B442645CD35003C89FA /* NotificationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationModel.swift; sourceTree = "<group>"; };
+		B94A7B6C26469BAB003C89FA /* NotificationDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationDataModel.swift; sourceTree = "<group>"; };
 		B94C2F8A2627169B00282207 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B94E3F7026270D12001AE129 /* Challenge.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Challenge.xcdatamodel; sourceTree = "<group>"; };
 		B952F5962617427F0063E7B4 /* CreateChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateChallengeViewController.swift; sourceTree = "<group>"; };
@@ -678,9 +684,11 @@
 			children = (
 				B94E3F6F26270D12001AE129 /* Challenge.xcdatamodeld */,
 				B979AB0226258F8F0079C4E8 /* ChallengeDataModel.swift */,
+				B94A7B6C26469BAB003C89FA /* NotificationDataModel.swift */,
 				B979AB0926258FF50079C4E8 /* UserDataModel.swift */,
 				B9A7AC9B263F25FB008A730D /* UserModel.swift */,
 				B9A8239926403876005C40D3 /* ChallengeModel.swift */,
+				B94A7B442645CD35003C89FA /* NotificationModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -821,6 +829,7 @@
 				B9CFB7D3262490A300754552 /* ProfileDataManager.swift */,
 				B979AAFE26258E570079C4E8 /* ChallengeDataManager.swift */,
 				B979AB0D26259BED0079C4E8 /* FriendsDataManager.swift */,
+				B94A7B402645CB7A003C89FA /* NotificationsDataManager.swift */,
 				B94C2F8A2627169B00282207 /* CoreDataManager.swift */,
 				B99BEC4A2642EB7700DFE491 /* UserDefaultsManager.swift */,
 				B9CE8227262975C600C1B95B /* Firebase */,
@@ -1065,6 +1074,7 @@
 				B92161E525E279BE001BE793 /* XYClasses.swift in Sources */,
 				B926867726148E5600A306F6 /* EditProfileViewController.swift in Sources */,
 				B979AB0E26259BED0079C4E8 /* FriendsDataManager.swift in Sources */,
+				B94A7B412645CB7A003C89FA /* NotificationsDataManager.swift in Sources */,
 				B99BEC1D264163EE00DFE491 /* SkinnerBoxCollectionViewCell.swift in Sources */,
 				B9268649261392A100A306F6 /* FriendCollectionViewCell.swift in Sources */,
 				B9FD995F2616165200D6716C /* ChallengeNotificationImage.swift in Sources */,
@@ -1113,8 +1123,10 @@
 				B9A7AC66263ECCB1008A730D /* NewLoginViewController.swift in Sources */,
 				B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */,
 				B96B7F1D2613307300B1CBF5 /* FriendsCollectionView.swift in Sources */,
+				B94A7B452645CD35003C89FA /* NotificationModel.swift in Sources */,
 				B9CD20992643D7AA00F3D62F /* PushNotificationsManager.swift in Sources */,
 				B9CD20A22644285B00F3D62F /* ChallengeInfoViewController.swift in Sources */,
+				B94A7B6D26469BAB003C89FA /* NotificationDataModel.swift in Sources */,
 				B952F5D7261778BB0063E7B4 /* CreateChallengeManager.swift in Sources */,
 				B952F5C226174B6B0063E7B4 /* Card.swift in Sources */,
 				B9C8483125B0A6AB002F7CD5 /* TextFieldTintExtension.swift in Sources */,
