@@ -26,6 +26,7 @@ final class NotificationsDataManager {
             let result = try mainContext.fetch(fetchRequest)
             notifications = result
             
+            NotificationCenter.default.post(name: .didLoadNewNotifications, object: nil)
         } catch let error {
             print("Error fetching notifications from storage: \(error.localizedDescription)")
         }

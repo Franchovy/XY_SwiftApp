@@ -11,10 +11,10 @@ final class NotificationsDataSource: NSObject, UICollectionViewDataSource {
     
     weak var delegate: NotificationCollectionViewCellDelegate?
     
-    let data: [NotificationViewModel] = []
+    var data: [NotificationViewModel] = []
         
-    func load() {
-        NotificationsDataManager.shared.fetchNotifications()
+    func reload() {
+        data = NotificationsDataManager.shared.notifications.map({ $0.toViewModel() })
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

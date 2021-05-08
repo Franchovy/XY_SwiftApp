@@ -60,6 +60,20 @@ extension Date {
             return "\((ti / 3600 / 24))d"
         }
     }
+    
+    func timeAgo() -> String {
+        let ti = NSInteger(-self.timeIntervalSinceNow)
+
+        if ti < 60 {
+            return "\(ti)s ago"
+        } else if (ti / 60) < 60 {
+            return "\((ti / 60))m ago"
+        } else if (ti / 3600) < 26 {
+            return "\((ti / 3600))h ago"
+        } else {
+            return "\((ti / 3600 / 24))d ago"
+        }
+    }
 }
 
 extension UIView {

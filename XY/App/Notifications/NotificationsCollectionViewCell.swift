@@ -32,6 +32,8 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(textLabel)
         contentView.addSubview(timestampLabel)
         contentView.addSubview(friendBubble)
+        
+        timestampLabel.alpha = 0.7
     }
     
     required init?(coder: NSCoder) {
@@ -66,7 +68,7 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
         
         timestampLabel.sizeToFit()
         timestampLabel.frame = CGRect(
-            x: textLabel.right + 2.5,
+            x: textLabel.right + 5.5,
             y: nameLabel.bottom + 12.5,
             width: timestampLabel.width,
             height: timestampLabel.height
