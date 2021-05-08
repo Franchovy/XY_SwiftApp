@@ -398,31 +398,7 @@ final class ChallengeDataManager {
                     continue
                 }
                 
-                // Upload video
-                self.uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
-                    print("Progress uploading challenge video: \(progress)")
-                } onComplete: { (error) in
-                    if let error = error {
-                        print("Error uploading video for challenge: \(error.localizedDescription)")
-                    } else {
-                        FirebaseStorageManager.shared.getVideoDownloadUrl(
-                            from: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeToUpload.firebaseID!, videoId: challengeToUpload.firebaseVideoID!)) { (result) in
-                            switch result {
-                            case .success(let url):
-                                challengeToUpload.downloadUrl = url
-                                CoreDataManager.shared.save()
-                            case .failure(let error):
-                                print("Error getting download url for challenge needing upload: \(error.localizedDescription)")
-                            }
-                        }
-                        
-                        FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challengeToUpload, isUploading: false) { (error) in
-                            if let error = error {
-                                print("Error changing upload status for challenge: \(error.localizedDescription)")
-                            }
-                        }
-                    }
-                }
+                self.uploadChallengeCheck(challengeToUpload)
             
             }
             
@@ -432,6 +408,46 @@ final class ChallengeDataManager {
         }
         catch {
             debugPrint(error)
+        }
+    }
+    
+    func uploadChallengeCheck(_ challengeToUpload: ChallengeDataModel) {
+        if challengeToUpload.downloadUrl == nil {
+            FirebaseStorageManager.shared.getVideoDownloadUrl(
+                from: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeToUpload.firebaseID!, videoId: challengeToUpload.firebaseVideoID!)) { (result) in
+                switch result {
+                case .success(let url):
+                    challengeToUpload.downloadUrl = url
+                    CoreDataManager.shared.save()
+                case .failure(let error):
+                    
+                    // Upload video
+                    self.uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
+                        print("Progress uploading challenge video: \(progress)")
+                    } onComplete: { (error) in
+                        if let error = error {
+                            print("Error uploading video for challenge: \(error.localizedDescription)")
+                        } else {
+                            FirebaseStorageManager.shared.getVideoDownloadUrl(
+                                from: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeToUpload.firebaseID!, videoId: challengeToUpload.firebaseVideoID!)) { (result) in
+                                switch result {
+                                case .success(let url):
+                                    challengeToUpload.downloadUrl = url
+                                    CoreDataManager.shared.save()
+                                case .failure(let error):
+                                    print("Error getting download url for challenge needing upload: \(error.localizedDescription)")
+                                }
+                            }
+                            
+                            FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challengeToUpload, isUploading: false) { (error) in
+                                if let error = error {
+                                    print("Error changing upload status for challenge: \(error.localizedDescription)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
     
