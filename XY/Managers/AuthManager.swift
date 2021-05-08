@@ -16,7 +16,7 @@ final class AuthManager {
     var userId: String?
     var email: String?
     
-    func isLoggedIn() -> Bool {
+    func initialize() -> Bool {
         if let currentUser = Auth.auth().currentUser {
             userId = currentUser.uid
             email = currentUser.email

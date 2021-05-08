@@ -38,32 +38,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         // Initialise Authentication stuff
-        if AuthManager.shared.isLoggedIn() {
-    
-//            _ProfileManager.shared.initialiseForCurrentUser() { error in
-//                guard error == nil else {
-//                    print("Error initializing profile data: \(error)")
-//                    return
-//                }
-//                
-//                OnlineStatusManager.shared.setupOnlineStatus()
-//            }
-//            
-//            if let pushNotificationsEnabled = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool,
-//               pushNotificationsEnabled {
-//                let pushNotificationsManager = PushNotificationManager.init(userID: AuthManager.shared.userId!)
-//                pushNotificationsManager.checkPermissions()
-//                pushNotificationsManager.registerForPushNotifications()
-//            }
-//            
-//            FlowAlgorithmManager.shared.initialiseFollowing()
-//            
-//            ActionManager.shared.getActions()
-//            
-//            if UserDefaults.standard.object(forKey: "flowRefreshIndex") != nil {
-//                let index = UserDefaults.standard.integer(forKey: "flowRefreshIndex")
-//                PostManager.shared.userPostIndex = index
-//            }
+        if AuthManager.shared.initialize() {
+            if let pushNotificationsEnabled = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool,
+               pushNotificationsEnabled {
+
+                PushNotificationManager.shared.checkPermissions()
+                PushNotificationManager.shared.registerForPushNotifications()
+            }
         }
         
         return true

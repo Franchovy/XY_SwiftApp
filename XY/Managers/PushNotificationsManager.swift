@@ -13,16 +13,8 @@ import UserNotifications
 
 class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCenterDelegate {
     
-    static var shared: PushNotificationManager?
-        
-    let userID: String
-    init(userID: String) {
-        self.userID = userID
-        
-        super.init()
-        
-        PushNotificationManager.shared = self
-    }
+    static var shared = PushNotificationManager()
+    
 
     func arePushNotificationsEnabled(completion: @escaping(Bool) -> Void) {
         
@@ -83,7 +75,7 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
         if let token = Messaging.messaging().fcmToken {
             
             print("FCM Token: \(String(describing: token))")
-            let usersRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userID)
+            let usersRef = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(ProfileDataManager.shared.ownID)
             usersRef.setData([FirebaseKeys.UserKeys.fcmToken: token], merge: true)
         }
     }
