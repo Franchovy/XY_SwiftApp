@@ -12,6 +12,8 @@ class NotificationsViewController: UIViewController {
     private let collectionView = NotificationsCollectionView()
     private let dataSource = NotificationsDataSource()
     
+    private let refreshControl = UIRefreshControl()
+    
 //    private let noNotificationsLabel = Label("Find friends or create a challenge to receive more notifications!", style: .body, fontSize: 18)
 //    private let findFriendsButton = GradientBorderButtonWithShadow()
 //    private let createChallengeButton = GradientBorderButtonWithShadow()
@@ -35,8 +37,13 @@ class NotificationsViewController: UIViewController {
 //        notificationsComingSoonLabel.hoverAnimate()
         
         view.addSubview(collectionView)
+        collectionView.refreshControl = refreshControl
         collectionView.dataSource = dataSource
         dataSource.delegate = collectionView
+
+        collectionView.addSubview(refreshControl)
+        refreshControl.tintColor = .XYTint
+        refreshControl.addTarget(self, action: #selector(didPullToRefresh), for: .valueChanged)
         
         navigationItem.title = "Notifications"
         
@@ -79,5 +86,27 @@ class NotificationsViewController: UIViewController {
     @objc private func didLoadNotifications() {
         dataSource.reload()
         collectionView.reloadData()
+    }
+    
+    @objc private func didPullToRefresh() {
+        refreshControl.beginRefreshing()
+        
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
+        NotificationsDataManager.shared.fetchNotifications() {
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.refreshControl.endRefreshing()
+            self.dataSource.reload()
+            self.collectionView.reloadData()
+        }
     }
 }

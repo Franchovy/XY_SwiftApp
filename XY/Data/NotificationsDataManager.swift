@@ -32,7 +32,7 @@ final class NotificationsDataManager {
         }
     }
     
-    func fetchNotifications() {
+    func fetchNotifications(completion: (() -> Void)? = nil) {
         let entity = NotificationDataModel.entity()
         let context = CoreDataManager.shared.mainContext
         
@@ -45,6 +45,7 @@ final class NotificationsDataManager {
                         let model = NotificationDataModel(entity: entity, insertInto: context)
                         model.type = notificationModel.type.rawValue
                         model.timestamp = notificationModel.timestamp
+                        model.firebaseID = notificationModel.firebaseID
                         
                         if case .addedYou = notificationModel.type {
                             model.fromUser = FriendsDataManager.shared.getUserWithFirebaseID(notificationModel.fromUserFirebaseID)
@@ -59,6 +60,7 @@ final class NotificationsDataManager {
                     })
                 
                 NotificationCenter.default.post(name: .didLoadNewNotifications, object: nil)
+                completion?()
             case .failure(let error):
                 print("Error fetching notifications: \(error.localizedDescription)")
             }
