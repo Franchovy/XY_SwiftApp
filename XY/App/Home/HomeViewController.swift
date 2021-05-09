@@ -70,6 +70,7 @@ class HomeViewController: UIViewController {
             skinnerBoxMode = false
             
             configureForNotSkinnerBox()
+            
         } else {
             skinnerBoxMode = true
             
@@ -140,6 +141,12 @@ class HomeViewController: UIViewController {
             setup = true
         }
         
+        if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
+            if PushNotificationManager.shared.hasNotPrompted() {
+                showNotificationsPrompt()
+            }
+        }
+        
         guard displayedTaskNumber != nil, taskNumber != nil else {
             return
         }
@@ -149,6 +156,7 @@ class HomeViewController: UIViewController {
                 self.animateAdvanceSkinnerBox()
             }
         }
+        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -364,6 +372,35 @@ class HomeViewController: UIViewController {
             completion()
         }
         FriendsDataManager.shared.setupFriendshipStatusListener()
+    }
+    
+    func showNotificationsPrompt() {
+        let prompt = Prompt()
+        prompt.setTitle(text: "Enable Notifications")
+        prompt.addText(text: "Get notified of friend requests and challenges.", font: UIFont(name: "Raleway-Bold", size: 19)!)
+        prompt.addText(text: "You can change which notifications you see in the app settings.", font: UIFont(name: "Raleway-Regular", size: 12)!)
+        prompt.addCompletionButton(
+            buttonText: "Allow Notifications",
+            textColor: .XYWhite,
+            style: .action(style: .roundButtonGradient(gradient: Global.xyGradient)),
+            font: UIFont(name: "Raleway-Heavy", size: 17),
+            closeOnTap: true,
+            onTap: {
+                PushNotificationManager.shared.registerForPushNotifications()
+                
+                PushNotificationManager.shared.setHasPrompted(true)
+            })
+        prompt.addCompletionButton(
+            buttonText: "Dismiss",
+            textColor: UIColor.XYTint.withAlphaComponent(0.7),
+            style: .embedded,
+            font: UIFont(name: "Raleway-Regular", size: 13),
+            closeOnTap: true,
+            onTap: {
+                PushNotificationManager.shared.setHasPrompted(true)
+            })
+        
+        NavigationControlManager.displayPrompt(prompt)
     }
     
     @objc private func tappedNotifications() {

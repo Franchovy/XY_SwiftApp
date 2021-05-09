@@ -15,6 +15,17 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
     
     static var shared = PushNotificationManager()
     
+    func hasNotPrompted() -> Bool {
+        if let hasPrompted = UserDefaults.standard.object(forKey: "hasPromptedNotifications") as? Bool {
+            return !hasPrompted
+        } else {
+            return true
+        }
+    }
+    
+    func setHasPrompted(_ hasPrompted: Bool) {
+        UserDefaults.standard.setValue(hasPrompted, forKey: "hasPromptedNotifications")
+    }
 
     func arePushNotificationsEnabled(completion: @escaping(Bool) -> Void) {
         

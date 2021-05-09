@@ -13,6 +13,7 @@ class Button: UIButton {
         case circular(backgroundColor: UIColor)
         case card
         case roundButton(backgroundColor: UIColor)
+        case roundButtonGradient(gradient: [UIColor])
         case roundButtonBorder(gradient: [UIColor])
         case colorButton(color: UIColor, cornerRadius: CGFloat)
         case text
@@ -71,6 +72,15 @@ class Button: UIButton {
             backgroundLayer.backgroundColor = UIColor(named: "XYCard")!.cgColor
         case .roundButton(let backgroundColor):
             backgroundLayer.backgroundColor = backgroundColor.cgColor
+        case .roundButtonGradient(let gradientColors):
+            gradientLayer = CAGradientLayer()
+            gradientLayer.colors = gradientColors.map({ $0.cgColor })
+            gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.8)
+            gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.2)
+            
+            layer.insertSublayer(gradientLayer, above: backgroundLayer)
+            
+            setTitleColor(.XYWhite, for: .normal)
         case .roundButtonBorder(let gradientColors):
             gradientLayer = CAGradientLayer()
             gradientLayer.colors = gradientColors.map({ $0.cgColor })
@@ -121,6 +131,9 @@ class Button: UIButton {
         case .roundButton(backgroundColor: _):
             backgroundLayer.frame = bounds
             backgroundLayer.cornerRadius = height/2
+        case .roundButtonGradient(gradient: _):
+            gradientLayer.frame = bounds
+            gradientLayer.cornerRadius = height/2
         case .roundButtonBorder(gradient: _):
             shapeLayer.frame = bounds
             shapeLayer.cornerRadius = height/2

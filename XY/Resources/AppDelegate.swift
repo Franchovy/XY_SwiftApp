@@ -39,12 +39,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Initialise Authentication stuff
         if AuthManager.shared.initialize() {
-            if let pushNotificationsEnabled = UserDefaults.standard.object(forKey: "pushNotificationsEnabled") as? Bool,
-               pushNotificationsEnabled {
-
-                PushNotificationManager.shared.checkPermissions()
-                PushNotificationManager.shared.registerForPushNotifications()
-            }
+//            PushNotificationManager.shared.checkPermissions()
+//            PushNotificationManager.shared.registerForPushNotifications()
         }
         
         return true
