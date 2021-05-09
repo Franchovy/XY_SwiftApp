@@ -59,7 +59,7 @@ struct NotificationDocument: Codable {
     var timestamp: Timestamp
     var type: String
     var fromUser: String
-    var objectID: String
+    var objectID: String?
 }
 
 struct FriendshipDocument: Codable {
@@ -295,7 +295,7 @@ final class FirebaseFirestoreManager {
                     completion(.failure(error))
                 } else if let querySnapshot = querySnapshot {
                     let notifications: [NotificationModel] = querySnapshot.documents.map({ documentSnapshot in
-                        if let document = try? documentSnapshot.decode(as: NotificationDocument.self, includingId: true),
+                        if let document = try? documentSnapshot.decode(as: NotificationDocument.self),
                            let type = NotificationType(rawValue: document.type) {
                             return NotificationModel(
                                 firebaseID: documentSnapshot.documentID,

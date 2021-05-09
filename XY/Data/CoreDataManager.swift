@@ -78,10 +78,15 @@ class CoreDataManager {
         let friendsFetchRequest: NSFetchRequest<NSFetchRequestResult> = UserDataModel.fetchRequest()
         let friendsDeleteRequest = NSBatchDeleteRequest(fetchRequest: friendsFetchRequest)
 
+        // Delete all notifications
+        let notificationsFetchRequest: NSFetchRequest<NSFetchRequestResult> = NotificationDataModel.fetchRequest()
+        let notificationsDeleteRequest = NSBatchDeleteRequest(fetchRequest: notificationsFetchRequest)
+
         // perform the delete
         do {
             try persistentContainer.viewContext.execute(challengeDeleteRequest)
             try persistentContainer.viewContext.execute(friendsDeleteRequest)
+            try persistentContainer.viewContext.execute(notificationsDeleteRequest)
             
             save()
         } catch let error as NSError {

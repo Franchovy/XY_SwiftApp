@@ -47,7 +47,7 @@ final class NotificationsDataManager {
                         model.timestamp = notificationModel.timestamp
                         model.firebaseID = notificationModel.firebaseID
                         
-                        if case .addedYou = notificationModel.type {
+                        if notificationModel.type == .addedYou {
                             model.fromUser = FriendsDataManager.shared.getUserWithFirebaseID(notificationModel.fromUserFirebaseID)
                         } else {
                             model.fromUser = FriendsDataManager.shared.getUserWithFirebaseID(notificationModel.fromUserFirebaseID)
@@ -56,8 +56,12 @@ final class NotificationsDataManager {
                             }
                         }
                         
+                        assert(model.fromUser != nil)
+                        
                         self.notifications.append(model)
                     })
+                
+                CoreDataManager.shared.save()
                 
                 NotificationCenter.default.post(name: .didLoadNewNotifications, object: nil)
                 completion?()
