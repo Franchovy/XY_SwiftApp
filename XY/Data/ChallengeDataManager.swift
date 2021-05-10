@@ -480,6 +480,7 @@ final class ChallengeDataManager {
         
         let challengeDataModel = ChallengeDataModel(entity: entity, insertInto: context)
         
+        challengeDataModel.title = model.title
         challengeDataModel.challengeDescription = model.challengeDescription
         challengeDataModel.completionStateValue = model.completionState.rawValue
         challengeDataModel.expiryTimestamp = model.expiryTimestamp
