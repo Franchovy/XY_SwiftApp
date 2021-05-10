@@ -8,14 +8,15 @@
 import UIKit
 
 enum NotificationViewModelType {
-    case challengeAction(image: UIImage)
-    case challengeStatus(image: UIImage, status: Bool)
-    case friendStatus(buttonStatus: FriendStatus)
+    case challengeAction
+    case challengeStatus(status: ChallengeCompletionState)
+    case friendStatus
 }
 
 struct NotificationViewModel {
     var notificationText: String
     var timestampText: String
     var type: NotificationViewModelType
+    var challengeImage: UIImage?
     var user: UserViewModel
 }

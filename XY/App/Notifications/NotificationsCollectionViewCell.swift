@@ -34,6 +34,8 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(friendBubble)
         
         timestampLabel.alpha = 0.7
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -115,25 +117,33 @@ class NotificationsCollectionViewCell: UICollectionViewCell {
         friendBubble.configure(with: viewModel.user)
         
         switch viewModel.type {
-        case .challengeAction(let image):
+        case .challengeAction:
             previewImage = ChallengeNotificationImage()
-            previewImage?.setImage(image)
+            if let image = viewModel.challengeImage {
+                previewImage?.setImage(image)
+            }
             contentView.addSubview(previewImage!)
             
             previewImage?.isUserInteractionEnabled = true
             previewImage?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
-        case .challengeStatus(let image, let status):
+        case .challengeStatus(let challengeStatus):
             previewImage = ChallengeNotificationImage()
-            previewImage?.setImage(image)
-            previewImage?.setIcon(status ? .check : .xmark)
+            if let image = viewModel.challengeImage {
+                previewImage?.setImage(image)
+            }
+            previewImage?.setIcon(challengeStatus == .rejected ? .xmark : .check)
             contentView.addSubview(previewImage!)
             
             previewImage?.isUserInteractionEnabled = true
             previewImage?.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
-        case .friendStatus(let status):
+        case .friendStatus:
             followButton = AddFriendButton()
             followButton?.configure(with: viewModel.user)
             contentView.addSubview(followButton!)
+            
+            followButton?.translatesAutoresizingMaskIntoConstraints = false
+            followButton?.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16).isActive = true
+            followButton?.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         }
         
     }

@@ -15,6 +15,7 @@ extension NotificationDataModel {
             notificationText: notificationType.displayText(),
             timestampText: timestamp!.timeAgo(),
             type: notificationType.toViewModelType(),
+            challengeImage: challenge?.previewImage != nil ? UIImage(data: challenge!.previewImage!) : nil,
             user: fromUser!.toViewModel()
         )
     }
@@ -24,11 +25,15 @@ extension NotificationType {
     func toViewModelType() -> NotificationViewModelType {
         switch self {
         case .addedYou:
-            return .friendStatus(buttonStatus: .addedMe)
+            return .friendStatus
         case .challengedYou:
-            return .challengeAction(image: UIImage(named: "challenge1")!)
-        case .acceptedChallenge, .completedChallenge, .rejectedChallenge:
-            return .challengeStatus(image: UIImage(named: "challenge1")!, status: true)
+            return .challengeAction
+        case .acceptedChallenge:
+            return .challengeStatus(status: .accepted)
+        case .completedChallenge:
+            return .challengeStatus(status: .complete)
+        case .rejectedChallenge:
+            return .challengeStatus(status: .rejected)
         }
     }
     

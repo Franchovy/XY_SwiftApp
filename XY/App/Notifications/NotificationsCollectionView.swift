@@ -46,12 +46,12 @@ class NotificationsCollectionView: UICollectionView, UICollectionViewDelegate, N
     
     func notificationCellTappedPreview(with viewModel: NotificationViewModel) {
         switch viewModel.type {
-        case .challengeAction(let image):
+        case .challengeAction:
             let vc = CreateChallengeViewController()
             
             HapticsManager.shared.vibrateImpact(for: .light)
             NavigationControlManager.mainViewController.navigationController?.pushViewController(vc, animated: true)
-        case .challengeStatus(let image, let status):
+        case .challengeStatus(let status):
             break
         default:
             break
