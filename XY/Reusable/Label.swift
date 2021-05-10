@@ -26,8 +26,8 @@ class Label: UILabel {
         text = labelText
         textColor = adaptToLightMode ? UIColor(named: "XYTint") : UIColor(named: "XYWhite")
         
-        layer.shadowOffset = CGSize(width: 0, height: 3)
-        layer.shadowRadius = 6
+        layer.shadowOffset = CGSize(width: 1, height: 1)
+        layer.shadowRadius = 1
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOpacity = 0.0
         
@@ -51,7 +51,7 @@ class Label: UILabel {
     
     var enableShadow: Bool = false {
         didSet {
-            layer.shadowOpacity = enableShadow ? 1.0 : 0.0
+            layer.shadowOpacity = enableShadow ? 0.7 : 0.0
         }
     }
     
