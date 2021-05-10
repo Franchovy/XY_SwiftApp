@@ -14,7 +14,9 @@ final class NotificationsDataSource: NSObject, UICollectionViewDataSource {
     var data: [NotificationViewModel] = []
         
     func reload() {
-        data = NotificationsDataManager.shared.notifications.map({ $0.toViewModel() })
+        data = NotificationsDataManager.shared.notifications.map({ $0.toViewModel() }).sorted(by: { (viewModel1, viewModel2) -> Bool in
+            return viewModel1.timestamp > viewModel2.timestamp
+        })
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

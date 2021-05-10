@@ -16,6 +16,7 @@ enum NotificationViewModelType {
 struct NotificationViewModel {
     var notificationText: String
     var timestampText: String
+    var timestamp: Date
     var type: NotificationViewModelType
     var challengeImage: UIImage?
     var user: UserViewModel

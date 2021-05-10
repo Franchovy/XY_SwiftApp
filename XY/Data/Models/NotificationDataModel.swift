@@ -14,6 +14,7 @@ extension NotificationDataModel {
         return NotificationViewModel(
             notificationText: notificationType.displayText(),
             timestampText: timestamp!.timeAgo(),
+            timestamp: timestamp!,
             type: notificationType.toViewModelType(),
             challengeImage: challenge?.previewImage != nil ? UIImage(data: challenge!.previewImage!) : nil,
             user: fromUser!.toViewModel()
