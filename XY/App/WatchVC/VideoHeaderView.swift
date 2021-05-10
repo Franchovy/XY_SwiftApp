@@ -10,9 +10,9 @@ import UIKit
 
 class VideoHeaderView: UIView {
 
-    private let titleLabel = Label(style: .title, fontSize: 26, adaptToLightMode: false)
-    private let acceptButton = Button(title: "Accept", style: .colorButton(color: UIColor(0x03FF64), cornerRadius: 5), paddingVertical: 7.25, paddingHorizontal: 12)
-    private let declineButton = Button(title: "Reject", style: .colorButton(color: UIColor(0xFB473D), cornerRadius: 5), paddingVertical: 7.25, paddingHorizontal: 12)
+    private let titleLabel = Label(style: .title, fontSize: 31, adaptToLightMode: false)
+    private let acceptButton = Button(title: "Accept", style: .colorButton(color: UIColor(0x03FF64), cornerRadius: 5), paddingVertical: 11.25, paddingHorizontal: 15)
+    private let declineButton = Button(title: "Reject", style: .colorButton(color: UIColor(0xFB473D), cornerRadius: 5), paddingVertical: 11.25, paddingHorizontal: 15)
     
     var shouldDisplayAcceptDecline = true
     var acceptDeclineButtonsDisplayed = false
@@ -45,22 +45,22 @@ class VideoHeaderView: UIView {
         titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
             x: (width - titleLabel.width)/2,
-            y: 41.85,
+            y: 71.85,
             width: titleLabel.width,
             height: titleLabel.height
         )
         
-        let buttonSize = CGSize(width: 63.5, height: 24)
+        let buttonSize = CGSize(width: 90.5, height: 35)
         acceptButton.frame = CGRect(
-            x: width/2 - buttonSize.width - 10.25,
-            y: titleLabel.bottom + 8.75,
+            x: width/2 - buttonSize.width - 15.25,
+            y: titleLabel.bottom + 25.75,
             width: buttonSize.width,
             height: buttonSize.height
         )
         
         declineButton.frame = CGRect(
-            x: width/2 + 10.25,
-            y: titleLabel.bottom + 8.75,
+            x: width/2 + 15.25,
+            y: titleLabel.bottom + 25.75,
             width: buttonSize.width,
             height: buttonSize.height
         )
@@ -69,7 +69,7 @@ class VideoHeaderView: UIView {
     override func sizeToFit() {
         super.sizeToFit()
         
-        let height = 41.85 + titleLabel.height + 63.5 + 8.75
+        let height = 71.85 + titleLabel.height + 35 + 25.75
         frame.size.height = height
         frame.size.width = 375
     }

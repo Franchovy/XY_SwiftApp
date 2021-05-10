@@ -32,6 +32,12 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default, options: [])
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
         for challengeVideoModel in ChallengeDataManager.shared.activeChallenges {
             let playerViewController = PlayerViewController()
             

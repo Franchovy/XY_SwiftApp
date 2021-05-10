@@ -250,7 +250,7 @@ final class ChallengeDataManager {
                 
                 newChallenges
                     .forEach { (challengeModel) in
-                        
+                    
                     // Create new challenge object
                     let challengeDataModel = self.createChallenge(model: challengeModel)
                     newChallengeDataModels.append(challengeDataModel)
