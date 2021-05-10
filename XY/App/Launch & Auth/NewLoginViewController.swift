@@ -64,7 +64,6 @@ class NewLoginViewController : UIViewController {
         
         super.init(nibName: nil, bundle: nil)
         
-//        view.layer.insertSublayer(gradientLayer, at: 0)
         view.backgroundColor = UIColor(named: "Black")
         
         isHeroEnabled = true
@@ -73,6 +72,8 @@ class NewLoginViewController : UIViewController {
         view.layer.cornerRadius = 15
         
         loadingIcon.color = UIColor(named: "tintColor")
+        
+        emailTextField.adjustsFontSizeToFitWidth = true
         
         emailTextField.setGradient(Global.xyGradient)
         emailTextField.setBackgroundColor(color: UIColor(named:"Black")!)

@@ -105,6 +105,8 @@ class NewSignupViewController: UIViewController {
         checkPasswordTextField.setGradient(Global.xyGradient)
         checkPasswordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
         
+        emailTextField.adjustsFontSizeToFitWidth = true
+        
         xynameTextField.addTarget(self, action: #selector(xynameNext), for: .primaryActionTriggered)
         emailTextField.addTarget(self, action: #selector(emailNext), for: .primaryActionTriggered)
         passwordTextField.addTarget(self, action: #selector(passwordNext), for: .primaryActionTriggered)
