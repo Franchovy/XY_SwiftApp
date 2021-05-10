@@ -45,7 +45,7 @@ class VideoHeaderView: UIView {
         titleLabel.sizeToFit()
         titleLabel.frame = CGRect(
             x: (width - titleLabel.width)/2,
-            y: 71.85,
+            y: 46.85,
             width: titleLabel.width,
             height: titleLabel.height
         )
@@ -53,14 +53,14 @@ class VideoHeaderView: UIView {
         let buttonSize = CGSize(width: 90.5, height: 35)
         acceptButton.frame = CGRect(
             x: width/2 - buttonSize.width - 15.25,
-            y: titleLabel.bottom + 25.75,
+            y: titleLabel.bottom + 15.75,
             width: buttonSize.width,
             height: buttonSize.height
         )
         
         declineButton.frame = CGRect(
             x: width/2 + 15.25,
-            y: titleLabel.bottom + 25.75,
+            y: titleLabel.bottom + 15.75,
             width: buttonSize.width,
             height: buttonSize.height
         )
@@ -69,7 +69,7 @@ class VideoHeaderView: UIView {
     override func sizeToFit() {
         super.sizeToFit()
         
-        let height = 71.85 + titleLabel.height + 35 + 25.75
+        let height = 46.85 + titleLabel.height + 15.75 + 35
         frame.size.height = height
         frame.size.width = 375
     }
