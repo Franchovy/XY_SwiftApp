@@ -45,8 +45,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         profileImage.isUserInteractionEnabled = true
         profileImage.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapProfileImage)))
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
-        
         navigationItem.title = "Your Profile"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .done, target: self, action: #selector(didTapSettings))
         
@@ -216,22 +214,6 @@ class EditProfileViewController: UIViewController, UIImagePickerControllerDelega
         NavigationControlManager.mainViewController.navigationController?.pushViewController(SettingsViewController(), animated: true)
     }
     
-    @objc private func tappedAnywhere() {
-        if let text = nicknameTextField.text, text != "" {
-            ProfileDataManager.shared.setNickname(as: text) { error in
-                if let error = error {
-                    print("Error saving nickname: \(error.localizedDescription)")
-                    self.displayTempLabel(centerPoint: self.view.center, labelText: "Error saving nickname!", labelColor: .systemRed)
-                } else {
-                    self.displayTempLabel(centerPoint: self.view.center, labelText: "Saved.", labelColor: .XYWhite)
-                }
-            }
-        } else {
-            nicknameTextField.text = ProfileDataManager.shared.nickname
-        }
-        
-        nicknameTextField.resignFirstResponder()
-    }
     
     @objc private func didChangeProfilePicture() {
         profileImage.image = ProfileDataManager.shared.profileImage

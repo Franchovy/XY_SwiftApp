@@ -99,9 +99,6 @@ class LoginViewController : UIViewController {
         
         loginButton.addTarget(self, action: #selector(loginPressed), for: .touchUpInside)
         
-        let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
-        view.addGestureRecognizer(tapAnywhereGesture)
-        
         navigationItem.backBarButtonItem = UIBarButtonItem(image: UIImage(named: "backButton"), style: .plain, target: self, action: nil)
         
         emailTextField.addTarget(self, action: #selector(emailNext), for: .primaryActionTriggered)
@@ -169,16 +166,10 @@ class LoginViewController : UIViewController {
         )
     }
     
-    @objc private func tappedAnywhere() {
-        passwordTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-    }
-    
     @objc private func loginPressed() {
-        tappedAnywhere()
-    
+
         guard let identifier = emailTextField.text, identifier != "" else {
-            displayError(errorText: "Please enter an email")
+            displayError(errorText: "Please enter your email")
             return
         }
         

@@ -43,8 +43,6 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere)))
-        
         challengeNameTextField.delegate = self
         challengeDescriptionTextField.delegate = self
         
@@ -157,10 +155,5 @@ class DescriptionViewController: UIViewController, UITextViewDelegate {
                 }
             }
         }
-    }
-    
-    @objc private func tappedAnywhere() {
-        challengeDescriptionTextField.resignFirstResponder()
-        challengeNameTextField.resignFirstResponder()
     }
 }

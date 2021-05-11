@@ -62,6 +62,17 @@ class EditNicknameTextField: UITextField, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
-        print("Ended editing")
+        if let text = text, text != "" {
+            ProfileDataManager.shared.setNickname(as: text) { error in
+                if let error = error {
+                    print("Error saving nickname: \(error.localizedDescription)")
+                    NavigationControlManager.mainViewController.displayTempLabel(centerPoint: NavigationControlManager.mainViewController.view.center, labelText: "Error saving nickname!", labelColor: .systemRed)
+                } else {
+                    NavigationControlManager.mainViewController.displayTempLabel(centerPoint: NavigationControlManager.mainViewController.view.center, labelText: "Saved.", labelColor: .XYWhite)
+                }
+            }
+        } else {
+            text = ProfileDataManager.shared.nickname
+        }
     }
 }

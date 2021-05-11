@@ -14,8 +14,6 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
     private let friendsListCollectionView = FriendsListCollectionView()
     private let friendsListDataSource = FriendsListCollectionDataSource()
     
-    private var tappedAnywhereGesture: UITapGestureRecognizer!
-    
     init() {
         super.init(nibName: nil, bundle: nil)
         
@@ -39,10 +37,6 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
         friendsListCollectionView.reloadData()
         
         navigationItem.title = "Find Friends"
-        
-        tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
-        view.addGestureRecognizer(tappedAnywhereGesture)
-        tappedAnywhereGesture.isEnabled = false
         
         FriendsDataManager.shared.loadAllUsersFromFirebase {
             self.friendsListDataSource.reload()
@@ -82,18 +76,10 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         HapticsManager.shared.beginImpactSession(with: .rigid)
         HapticsManager.shared.vibrateImpact(for: .soft)
-        
-        tappedAnywhereGesture.isEnabled = true
     }
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         HapticsManager.shared.endImpactSession()
         HapticsManager.shared.vibrateImpact(for: .soft)
-        
-        tappedAnywhereGesture.isEnabled = false
-    }
-    
-    @objc private func tappedAnywhere() {
-        searchBar.resignFirstResponder()
     }
 }

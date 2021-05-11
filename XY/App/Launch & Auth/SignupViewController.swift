@@ -131,10 +131,7 @@ class SignupViewController: UIViewController {
         view.addSubview(loginButton)
         
         loginButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
-        
-        let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
-        view.addGestureRecognizer(tapAnywhereGesture)
-        
+
         if #available(iOS 14.0, *) {
             navigationItem.backButtonDisplayMode = .minimal
         }
@@ -214,16 +211,7 @@ class SignupViewController: UIViewController {
         )
     }
     
-    @objc private func tappedAnywhere() {
-        xynameTextField.resignFirstResponder()
-        passwordTextField.resignFirstResponder()
-        emailTextField.resignFirstResponder()
-        checkPasswordTextField.resignFirstResponder()
-    }
-    
     @objc private func signUpPressed() {
-        tappedAnywhere()
-        
         guard let email = emailTextField.text, email != "" else {
             displayError(errorText: "Please enter an email")
             return

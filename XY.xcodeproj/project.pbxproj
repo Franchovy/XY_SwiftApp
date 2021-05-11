@@ -723,9 +723,9 @@
 		B9A7AC5D263ECCB1008A730D /* Launch & Auth */ = {
 			isa = PBXGroup;
 			children = (
+				B9A7AC61263ECCB1008A730D /* SignupViewController.swift */,
 				B9A7AC5F263ECCB1008A730D /* LoginViewController.swift */,
 				B9A7AC60263ECCB1008A730D /* AuthChoiceViewController.swift */,
-				B9A7AC61263ECCB1008A730D /* SignupViewController.swift */,
 				B9A7AC62263ECCB1008A730D /* InterestsViewController.swift */,
 				B9A7AC64263ECCB1008A730D /* LaunchVC.swift */,
 			);
