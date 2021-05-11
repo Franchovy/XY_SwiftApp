@@ -108,12 +108,10 @@
 		B9A7AC52263ECC46008A730D /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC51263ECC46008A730D /* AuthManager.swift */; };
 		B9A7AC56263ECC67008A730D /* VideoSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC55263ECC67008A730D /* VideoSaver.swift */; };
 		B9A7AC5A263ECC8A008A730D /* ThumbnailManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC59263ECC8A008A730D /* ThumbnailManager.swift */; };
-		B9A7AC65263ECCB1008A730D /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC5E263ECCB1008A730D /* SignupViewController.swift */; };
-		B9A7AC66263ECCB1008A730D /* NewLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC5F263ECCB1008A730D /* NewLoginViewController.swift */; };
+		B9A7AC66263ECCB1008A730D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC5F263ECCB1008A730D /* LoginViewController.swift */; };
 		B9A7AC67263ECCB1008A730D /* AuthChoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC60263ECCB1008A730D /* AuthChoiceViewController.swift */; };
-		B9A7AC68263ECCB1008A730D /* NewSignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC61263ECCB1008A730D /* NewSignupViewController.swift */; };
+		B9A7AC68263ECCB1008A730D /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC61263ECCB1008A730D /* SignupViewController.swift */; };
 		B9A7AC69263ECCB1008A730D /* InterestsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC62263ECCB1008A730D /* InterestsViewController.swift */; };
-		B9A7AC6A263ECCB1008A730D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC63263ECCB1008A730D /* LoginViewController.swift */; };
 		B9A7AC6B263ECCB1008A730D /* LaunchVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC64263ECCB1008A730D /* LaunchVC.swift */; };
 		B9A7AC6F263ECCF5008A730D /* GradientBorderButtonWithShadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC6E263ECCF5008A730D /* GradientBorderButtonWithShadow.swift */; };
 		B9A7AC73263ECD03008A730D /* XPCircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9A7AC72263ECD03008A730D /* XPCircleView.swift */; };
@@ -284,12 +282,10 @@
 		B9A7AC51263ECC46008A730D /* AuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		B9A7AC55263ECC67008A730D /* VideoSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoSaver.swift; sourceTree = "<group>"; };
 		B9A7AC59263ECC8A008A730D /* ThumbnailManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThumbnailManager.swift; sourceTree = "<group>"; };
-		B9A7AC5E263ECCB1008A730D /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
-		B9A7AC5F263ECCB1008A730D /* NewLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewLoginViewController.swift; sourceTree = "<group>"; };
+		B9A7AC5F263ECCB1008A730D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B9A7AC60263ECCB1008A730D /* AuthChoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthChoiceViewController.swift; sourceTree = "<group>"; };
-		B9A7AC61263ECCB1008A730D /* NewSignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewSignupViewController.swift; sourceTree = "<group>"; };
+		B9A7AC61263ECCB1008A730D /* SignupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		B9A7AC62263ECCB1008A730D /* InterestsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestsViewController.swift; sourceTree = "<group>"; };
-		B9A7AC63263ECCB1008A730D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B9A7AC64263ECCB1008A730D /* LaunchVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchVC.swift; sourceTree = "<group>"; };
 		B9A7AC6E263ECCF5008A730D /* GradientBorderButtonWithShadow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GradientBorderButtonWithShadow.swift; sourceTree = "<group>"; };
 		B9A7AC72263ECD03008A730D /* XPCircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XPCircleView.swift; sourceTree = "<group>"; };
@@ -727,12 +723,10 @@
 		B9A7AC5D263ECCB1008A730D /* Launch & Auth */ = {
 			isa = PBXGroup;
 			children = (
-				B9A7AC5E263ECCB1008A730D /* SignupViewController.swift */,
-				B9A7AC5F263ECCB1008A730D /* NewLoginViewController.swift */,
+				B9A7AC5F263ECCB1008A730D /* LoginViewController.swift */,
 				B9A7AC60263ECCB1008A730D /* AuthChoiceViewController.swift */,
-				B9A7AC61263ECCB1008A730D /* NewSignupViewController.swift */,
+				B9A7AC61263ECCB1008A730D /* SignupViewController.swift */,
 				B9A7AC62263ECCB1008A730D /* InterestsViewController.swift */,
-				B9A7AC63263ECCB1008A730D /* LoginViewController.swift */,
 				B9A7AC64263ECCB1008A730D /* LaunchVC.swift */,
 			);
 			path = "Launch & Auth";
@@ -1104,14 +1098,12 @@
 				B926865F261461A400A306F6 /* FriendsListCollectionView.swift in Sources */,
 				B9A8239A26403876005C40D3 /* ChallengeModel.swift in Sources */,
 				B9FD99422615C23400D6716C /* SeparatorLine.swift in Sources */,
-				B9A7AC65263ECCB1008A730D /* SignupViewController.swift in Sources */,
 				B9FD99512616103600D6716C /* NotificationsViewController.swift in Sources */,
 				B9A823A4264086BE005C40D3 /* ChallengeUploadingCircle.swift in Sources */,
 				B92686582614616600A306F6 /* FindFriendsViewController.swift in Sources */,
 				B9268667261461D800A306F6 /* FriendsListCollectionDataSource.swift in Sources */,
 				B92686952614A8FE00A306F6 /* SettingsViewController.swift in Sources */,
 				B96B7F462613614300B1CBF5 /* ChallengesDatasource.swift in Sources */,
-				B9A7AC6A263ECCB1008A730D /* LoginViewController.swift in Sources */,
 				B9CD20AE2644310D00F3D62F /* ChallengeStatusView.swift in Sources */,
 				B97353052618B41200183201 /* SendToFriendsViewController.swift in Sources */,
 				B9E55D9C25ED746500C4FF9F /* Global.swift in Sources */,
@@ -1120,7 +1112,7 @@
 				B9A7AC67263ECCB1008A730D /* AuthChoiceViewController.swift in Sources */,
 				B9C4225C2620380D008E9315 /* PlayerViewController.swift in Sources */,
 				B952F5CF26176D3F0063E7B4 /* PreviewViewController.swift in Sources */,
-				B9A7AC66263ECCB1008A730D /* NewLoginViewController.swift in Sources */,
+				B9A7AC66263ECCB1008A730D /* LoginViewController.swift in Sources */,
 				B92686452613925800A306F6 /* FriendsDataSource.swift in Sources */,
 				B96B7F1D2613307300B1CBF5 /* FriendsCollectionView.swift in Sources */,
 				B94A7B452645CD35003C89FA /* NotificationModel.swift in Sources */,
@@ -1143,7 +1135,7 @@
 				B9FD99462615C48300D6716C /* FlatButton.swift in Sources */,
 				14C96787258E455B00E072EA /* Constants.swift in Sources */,
 				B9A7AC4E263ECC37008A730D /* HapticsManager.swift in Sources */,
-				B9A7AC68263ECCB1008A730D /* NewSignupViewController.swift in Sources */,
+				B9A7AC68263ECCB1008A730D /* SignupViewController.swift in Sources */,
 				B952F5E026177DF80063E7B4 /* ConfirmSendChallengeViewController.swift in Sources */,
 				B9D1AB2125A3945C009B428E /* FirestoreReferenceManager.swift in Sources */,
 				B9FD9967261619E000D6716C /* NotificationViewModel.swift in Sources */,

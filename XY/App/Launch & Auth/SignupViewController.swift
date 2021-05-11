@@ -1,8 +1,8 @@
 //
-//  ViewController.swift
-//  XY_APP
+//  NewSignupViewController.swift
+//  XY
 //
-//  Created by Maxime Franchot on 17/11/2020.
+//  Created by Maxime Franchot on 01/03/2021.
 //
 
 import UIKit
@@ -10,256 +10,285 @@ import Firebase
 
 class SignupViewController: UIViewController {
     
-    @IBOutlet weak var gradientView: UIView!
-    @IBOutlet weak var signupButton: UIButton!
-  
+    private let logo = UIImageView(image: UIImage(named: "XYNavbarLogo"))
+    
+    private let titleLabel = GradientLabel(text: "Create Account", fontSize: 40, gradientColours: Global.darkModeBackgroundGradient)
+    
+    private let xynameTextField: GradientBorderTextField = {
+        let textField = GradientBorderTextField()
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
+        textField.font = UIFont(name: "Raleway-Heavy", size: 20)
+        let attributes = [
+            NSAttributedString.Key.font : UIFont(name: "Raleway-Heavy", size: 26)!
+        ]
+        textField.attributedPlaceholder = NSAttributedString(string: "XYName", attributes:attributes)
+        textField.textAlignment = .center
+        return textField
+    }()
+    
+    private let emailTextField: GradientBorderTextField = {
+        let textField = GradientBorderTextField()
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
+        textField.font = UIFont(name: "Raleway-Heavy", size: 20)
+        let attributes = [
+            NSAttributedString.Key.font : UIFont(name: "Raleway-Heavy", size: 26)!
+        ]
+        textField.attributedPlaceholder = NSAttributedString(string: "Email", attributes:attributes)
+        textField.textAlignment = .center
+        textField.keyboardType = .emailAddress
+        textField.autocapitalizationType = .none
+        return textField
+    }()
+    
+    private let passwordTextField: GradientBorderTextField = {
+        let textField = GradientBorderTextField()
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
+        textField.font = UIFont(name: "Raleway-Heavy", size: 26)
+        textField.placeholder = "Password"
+        textField.setManualSecureEntry()
+        textField.textAlignment = .center
+        textField.autocapitalizationType = .none
+        return textField
+    }()
+    
+    private let checkPasswordTextField: GradientBorderTextField = {
+        let textField = GradientBorderTextField()
+        textField.textColor = UIColor(named: "tintColor")?.withAlphaComponent(0.5)
+        textField.font = UIFont(name: "Raleway-Heavy", size: 26)
+        textField.placeholder = "Repeat Password"
+        textField.setManualSecureEntry()
+        textField.textAlignment = .center
+        textField.autocapitalizationType = .none
+        return textField
+    }()
+    
+    private let loginButton: UIButton = {
+        let button = UIButton()
+        button.setTitleColor(UIColor(named: "tintColor"), for: .normal)
+        button.titleLabel?.font = UIFont(name: "Raleway-Heavy", size: 32)
+        button.setTitle("Sign Up", for: .normal)
+        return button
+    }()
+    
+    private let errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: "Raleway-Bold", size: 16)
+        label.textColor = UIColor(named: "tintColor")
+        label.text = " "
+        return label
+    }()
+    
+    private let gradientLayer: CAGradientLayer
+    private let loadingIcon = UIActivityIndicatorView()
+    
+    init() {
+        gradientLayer = Gradient.createGradientLayer(gradientColours: Global.lightModeBackgroundGradient, angle: 206)
+        
+        super.init(nibName: nil, bundle: nil)
+
+//        view.layer.insertSublayer(gradientLayer, at: 0)
+        view.backgroundColor = UIColor(named: "Black")
+        
+        isHeroEnabled = true
+        titleLabel.heroID = "titleLabel"
+        
+        view.layer.cornerRadius = 15
+        
+        loadingIcon.color = UIColor(named: "tintColor")
+        
+        xynameTextField.setGradient(Global.xyGradient)
+        xynameTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        emailTextField.setGradient(Global.xyGradient)
+        emailTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        passwordTextField.setGradient(Global.xyGradient)
+        passwordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        checkPasswordTextField.setGradient(Global.xyGradient)
+        checkPasswordTextField.setBackgroundColor(color: UIColor(named:"Black")!)
+        
+        emailTextField.adjustsFontSizeToFitWidth = true
+        
+        xynameTextField.addTarget(self, action: #selector(xynameNext), for: .primaryActionTriggered)
+        emailTextField.addTarget(self, action: #selector(emailNext), for: .primaryActionTriggered)
+        passwordTextField.addTarget(self, action: #selector(passwordNext), for: .primaryActionTriggered)
+        checkPasswordTextField.addTarget(self, action: #selector(checkPasswordNext), for: .primaryActionTriggered)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        signupButton.layer.cornerRadius = 8
-        signupButton.layer.borderWidth = 1.0
-        signupButton.layer.borderColor = UIColor.white.cgColor
-        gradientView.layer.cornerRadius = 20
+        view.addSubview(logo)
+        view.addSubview(titleLabel)
+        view.addSubview(xynameTextField)
+        view.addSubview(emailTextField)
+        view.addSubview(passwordTextField)
+        view.addSubview(checkPasswordTextField)
+        view.addSubview(loadingIcon)
+        view.addSubview(errorLabel)
+        view.addSubview(loginButton)
         
-        loadingIcon.isHidden = true
+        loginButton.addTarget(self, action: #selector(signUpPressed), for: .touchUpInside)
         
-        xyNameTextField.delegate = self
-        emailTextField.delegate = self
-        passwordTextField.delegate = self
-        repeatPasswordTextField.delegate = self
-        
-        passwordTextField.addTarget(self, action: #selector(securePassword), for: .editingDidBegin)
-        repeatPasswordTextField.addTarget(self, action: #selector(secureRepeatPassword), for: .editingDidBegin)
-
         let tapAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tapAnywhereGesture)
         
-        xyNameTextField.addTarget(self, action: #selector(xyNameDidPressReturn), for: .primaryActionTriggered)
-        emailTextField.addTarget(self, action: #selector(emailPhoneDidPressReturn), for: .primaryActionTriggered)
-        passwordTextField.addTarget(self, action: #selector(passwordDidPressReturn), for: .primaryActionTriggered)
-        repeatPasswordTextField.addTarget(self, action: #selector(repeatPasswordDidPressReturn), for: .primaryActionTriggered)
-    }
-    
-    // UI Textfield reference outlets
-
-    @IBOutlet weak var emailTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var xyNameTextField: UITextField!
-    @IBOutlet weak var repeatPasswordTextField: UITextField!
-    
-    // Error notification reference outlets
-    @IBOutlet weak var signupErrorLabel: UILabel!
-    
-    @IBOutlet weak var loadingIcon: UIActivityIndicatorView!
-    
-    @IBAction func signupButtonPressed(_ sender: UIButton) {
-        tappedAnywhere()
-        
-        guard xyNameTextField.text != "", xyNameTextField.text != nil else {
-            xyNameTextField.shake()
-            presentError(errorText: "Please fill in the XYName field")
-            return
-        }
-        
-        guard emailTextField.text != "", emailTextField.text != nil else {
-            emailTextField.shake()
-            presentError(errorText: "Please fill in the email field")
-            return
-        }
-        
-        guard emailTextField.text!.contains("@"), emailTextField.text!.contains(".") else {
-            emailTextField.shake()
-            presentError(errorText: "Please enter a valid email")
-            return
-        }
-        
-        guard passwordTextField.text != "", passwordTextField.text != nil else {
-            passwordTextField.shake()
-            presentError(errorText: "Please fill in the password field")
-            return
-        }
-        
-        guard repeatPasswordTextField.text != "", repeatPasswordTextField.text != nil else {
-            repeatPasswordTextField.shake()
-            presentError(errorText: "Please fill in the password field")
-            return
-        }
-        
-        guard passwordTextField.text == repeatPasswordTextField.text else {
-            passwordTextField.clear(self)
-            repeatPasswordTextField.clear(self)
-            passwordTextField.shake()
-            repeatPasswordTextField.shake()
-            presentError(errorText: "Passwords do not match.")
-            return
-        }
-        
-        if let email = emailTextField.text, let password = passwordTextField.text {
-            
-            loadingIcon.isHidden = false
-            loadingIcon.startAnimating()
-            
-            if let xyname = self.xyNameTextField.text {
-                AuthManager.shared.signUp(xyname: xyname, email: email, password: password) { result in
-                    self.loadingIcon.isHidden = true
-                    self.loadingIcon.stopAnimating()
-                    
-                    switch result {
-                    case .success(_):
-                        self.signupErrorLabel.isHidden = true
-                        self.performSegue(withIdentifier: "fromSignupToFlow", sender: self)
-                        
-                    case .failure(let error):
-                        print("Error creating profile: \(error)")
-                        
-                        if let signupErrorMessage = error as? AuthManager.CreateUserError {
-                            self.presentError(errorText: signupErrorMessage.message)
-                        } else {
-                            self.signupErrorLabel.isHidden = false
-                        }
-                    }
-                }
-            }
+        if #available(iOS 14.0, *) {
+            navigationItem.backButtonDisplayMode = .minimal
         }
     }
     
-    private func presentError(errorText: String) {
-        signupErrorLabel.isHidden = false
-        signupErrorLabel.text = "⚠️ " + errorText
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        gradientLayer.frame = view.bounds
+        
+        logo.frame = CGRect(
+            x: (view.width - 50.95)/2,
+            y: view.safeAreaInsets.top,
+            width: 50.95,
+            height: 27
+        )
+        
+        titleLabel.sizeToFit()
+        titleLabel.frame = CGRect(
+            x: (view.width - titleLabel.width)/2,
+            y: view.height / 4 - 50,
+            width: titleLabel.width,
+            height: 50
+        )
+        
+        let textFieldWidth:CGFloat = 281
+        let textFieldHeight:CGFloat = 50
+        let marginFromCenter:CGFloat = 12
+        
+        emailTextField.frame = CGRect(
+            x: (view.width - textFieldWidth)/2,
+            y: view.height/2 - textFieldHeight - marginFromCenter,
+            width: textFieldWidth,
+            height: textFieldHeight
+        )
+        
+        xynameTextField.frame = CGRect(
+            x: (view.width - textFieldWidth)/2,
+            y: emailTextField.top - textFieldHeight - 2*marginFromCenter,
+            width: textFieldWidth,
+            height: textFieldHeight
+        )
+        
+        passwordTextField.frame = CGRect(
+            x: (view.width - textFieldWidth)/2,
+            y: view.height/2 + marginFromCenter,
+            width: textFieldWidth,
+            height: textFieldHeight
+        )
+        
+        checkPasswordTextField.frame = CGRect(
+            x: (view.width - textFieldWidth)/2,
+            y: passwordTextField.bottom + 2*marginFromCenter,
+            width: textFieldWidth,
+            height: textFieldHeight
+        )
+        
+        loadingIcon.frame = CGRect(
+            x: view.width/2 - 15,
+            y: checkPasswordTextField.bottom + 10,
+            width: 30,
+            height: 30
+        )
+        
+        errorLabel.sizeToFit()
+        errorLabel.frame = CGRect(
+            x: (view.width - errorLabel.width)/2,
+            y: loadingIcon.bottom + 10,
+            width: errorLabel.width,
+            height: errorLabel.height
+        )
+        
+        loginButton.frame = CGRect(
+            x: (view.width - 150)/2,
+            y: errorLabel.bottom + 15,
+            width: 150,
+            height: 38
+        )
     }
     
     @objc private func tappedAnywhere() {
-        for view in [
-            view,
-            emailTextField,
-            xyNameTextField,
-            passwordTextField,
-            repeatPasswordTextField
-        ] {
-            view?.resignFirstResponder()
-        }
+        xynameTextField.resignFirstResponder()
+        passwordTextField.resignFirstResponder()
+        emailTextField.resignFirstResponder()
+        checkPasswordTextField.resignFirstResponder()
     }
     
-    @objc private func xyNameDidPressReturn() {
+    @objc private func signUpPressed() {
+        tappedAnywhere()
+        
+        guard let email = emailTextField.text, email != "" else {
+            displayError(errorText: "Please enter an email")
+            return
+        }
+        
+        guard let xyname = xynameTextField.text, xyname != "" else {
+            displayError(errorText: "Please enter a XYName")
+            return
+        }
+        
+        guard let password = passwordTextField.text, password != "" else {
+            displayError(errorText: "Please enter your password")
+            return
+        }
+        
+        guard let repeatPassword = checkPasswordTextField.text, repeatPassword == password else {
+            displayError(errorText: "Passwords don't match")
+            return
+        }
+        
+        loadingIcon.isHidden = false
+        loadingIcon.startAnimating()
+        
+        AuthManager.shared.signUp(xyname: xyname, email: email, password: password) { result in
+            self.loadingIcon.isHidden = true
+            self.loadingIcon.stopAnimating()
+            
+            switch result {
+            case .success(let _):
+                // Segue to main
+                HapticsManager.shared.vibrate(for: .success)
+                
+                NavigationControlManager.performedAuthentication()
+            case .failure(let error):
+                print("Error logging in: \(error)")
+                
+                if let signupErrorMessage = error as? AuthManager.CreateUserError {
+                    self.displayError(errorText: signupErrorMessage.message)
+                } else {
+                    self.displayError(errorText: "Error signing up!")
+                }
+            }
+        }
+        
+    }
+    
+    private func displayError(errorText: String) {
+        errorLabel.isHidden = false
+        errorLabel.text = "⚠️ " + errorText
+        view.setNeedsLayout()
+    }
+    
+    @objc private func xynameNext() {
         emailTextField.becomeFirstResponder()
     }
     
-    @objc private func emailPhoneDidPressReturn() {
+    @objc private func emailNext() {
         passwordTextField.becomeFirstResponder()
     }
     
-    @objc private func passwordDidPressReturn() {
-        repeatPasswordTextField.becomeFirstResponder()
-    }
-
-    @objc private func repeatPasswordDidPressReturn() {
-        signupButtonPressed(signupButton)
+    @objc private func passwordNext() {
+        checkPasswordTextField.becomeFirstResponder()
     }
     
-    @objc private func securePassword() {
-        passwordTextField.isSecureTextEntry = true
-    }
-    
-    @objc private func secureRepeatPassword() {
-        repeatPasswordTextField.isSecureTextEntry = true
+    @objc private func checkPasswordNext() {
+        signUpPressed()
     }
 }
-
-extension SignupViewController : UITextFieldDelegate {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        signupErrorLabel.isHidden = true
-        signupErrorLabel.text = "⚠️ Signup failed!"
-    }
-}
-
-
-@IBDesignable
-class GradientView: UIView {
-    let gradientLayer = CAGradientLayer()
-    
-    @IBInspectable
-    var topGradientColor: UIColor? {
-        didSet {
-            setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
-        }
-    }
-    
-    @IBInspectable
-    var bottomGradientColor: UIColor? {
-        didSet {
-            setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
-        }
-    }
-    
-    // the gradient angle, in degrees anticlockwise from 0 (east/right)
-    @IBInspectable var angle: CGFloat = 270 {
-        didSet {
-            setGradient(topGradientColor: topGradientColor, bottomGradientColor: bottomGradientColor)
-        }
-    }
-    
-    private func setGradient(topGradientColor: UIColor?, bottomGradientColor: UIColor?) {
-        if let topGradientColor = topGradientColor, let bottomGradientColor = bottomGradientColor {
-            gradientLayer.frame = bounds
-            gradientLayer.colors = [topGradientColor.cgColor, bottomGradientColor.cgColor]
-            
-            // Calculate start and end point positions
-            let (start, end) = gradientPointsForAngle(self.angle)
-            // Set start and end points
-            gradientLayer.startPoint = start
-            gradientLayer.endPoint = end
-            
-            gradientLayer.borderColor = layer.borderColor
-            gradientLayer.borderWidth = layer.borderWidth
-            gradientLayer.cornerRadius = 15
-            layer.insertSublayer(gradientLayer, at: 0)
-        } else {
-            gradientLayer.removeFromSuperlayer()
-        }
-    }
-    
-    // create vector pointing in direction of angle
-    private func gradientPointsForAngle(_ angle: CGFloat) -> (CGPoint, CGPoint) {
-        // get vector start and end points
-        let end = pointForAngle(angle)
-        //let start = pointForAngle(angle+180.0)
-        let start = oppositePoint(end)
-        // convert to gradient space
-        let p0 = transformToGradientSpace(start)
-        let p1 = transformToGradientSpace(end)
-        return (p0, p1)
-    }
-    
-    // get a point corresponding to the angle
-    private func pointForAngle(_ angle: CGFloat) -> CGPoint {
-        // convert degrees to radians
-        let radians = angle * .pi / 180.0
-        var x = cos(radians)
-        var y = sin(radians)
-        // (x,y) is in terms unit circle. Extrapolate to unit square to get full vector length
-        if (abs(x) > abs(y)) {
-            // extrapolate x to unit length
-            x = x > 0 ? 1 : -1
-            y = x * tan(radians)
-        } else {
-            
-            y = y > 0 ? 1 : -1
-            x = y / tan(radians)
-        }
-        return CGPoint(x: x, y: y)
-    }
-    
-    
-    private func transformToGradientSpace(_ point: CGPoint) -> CGPoint {
-        
-        return CGPoint(x: (point.x + 1) * 0.5, y: 1.0 - (point.y + 1) * 0.5)
-    }
-    
-    
-    private func oppositePoint(_ point: CGPoint) -> CGPoint {
-        return CGPoint(x: -point.x, y: -point.y)
-    }
-}
-
-
