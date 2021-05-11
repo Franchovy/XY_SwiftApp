@@ -38,8 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        CoreDataManager.shared.deleteEverything()
         #endif
         
-        
-        
         // Initialise Authentication stuff
         if AuthManager.shared.initialize() {
 //            PushNotificationManager.shared.checkPermissions()

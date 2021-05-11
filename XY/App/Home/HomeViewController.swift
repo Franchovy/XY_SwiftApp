@@ -142,8 +142,10 @@ class HomeViewController: UIViewController {
         }
         
         if SkinnerBoxManager.shared.taskNumber == SkinnerBoxManager.shared.numTasks {
-            if PushNotificationManager.shared.hasNotPrompted() {
-                showNotificationsPrompt()
+            PushNotificationManager.shared.shouldAskForPermissions() { shouldPrompt in
+                if shouldPrompt {
+                    self.showNotificationsPrompt()
+                }
             }
         }
         

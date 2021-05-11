@@ -15,12 +15,20 @@ class PushNotificationManager: NSObject, MessagingDelegate, UNUserNotificationCe
     
     static var shared = PushNotificationManager()
     
-    func hasNotPrompted() -> Bool {
-        if let hasPrompted = UserDefaults.standard.object(forKey: "hasPromptedNotifications") as? Bool {
-            return !hasPrompted
-        } else {
-            return true
+    func shouldAskForPermissions(completion: @escaping(Bool) -> Void) {
+        
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            if settings.authorizationStatus != .notDetermined {
+                completion(false)
+            } else {
+                if let hasPrompted = UserDefaults.standard.object(forKey: "hasPromptedNotifications") as? Bool {
+                    completion(!hasPrompted)
+                } else {
+                    completion(true)
+                }
+            }
         }
+        
     }
     
     func setHasPrompted(_ hasPrompted: Bool) {
