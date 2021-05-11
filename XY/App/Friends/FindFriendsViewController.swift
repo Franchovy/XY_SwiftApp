@@ -43,6 +43,11 @@ class FindFriendsViewController: UIViewController, UISearchBarDelegate {
         tappedAnywhereGesture = UITapGestureRecognizer(target: self, action: #selector(tappedAnywhere))
         view.addGestureRecognizer(tappedAnywhereGesture)
         tappedAnywhereGesture.isEnabled = false
+        
+        FriendsDataManager.shared.loadAllUsersFromFirebase {
+            self.friendsListDataSource.reload()
+            self.friendsListCollectionView.reloadData()
+        }
     }
     
     deinit {
