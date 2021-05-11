@@ -121,7 +121,7 @@ class VideoHeaderView: UIView {
     @objc private func tappedReject() {
         let prompt = Prompt()
         prompt.setTitle(text: "Reject Challenge")
-        prompt.addText(text: "Rejecting this challenge you’ll permanently lose the chance to perform it.")
+        prompt.addText(text: "If you reject this challenge, you won't be able to perform it.")
         prompt.addCompletionButton(
             buttonText: "Reject",
             textColor: UIColor(0xEF3A30),

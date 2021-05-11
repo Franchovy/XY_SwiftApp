@@ -97,7 +97,7 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
     @objc private func closeButtonPressed() {
         let prompt = Prompt()
         prompt.setTitle(text: "Discard Challenge")
-        prompt.addText(text: "Are you sure you want to quit? You will lose all your progress.")
+        prompt.addText(text: "Are you sure you want to quit? Your video will be lost.")
         prompt.addCompletionButton(buttonText: "Quit", textColor: UIColor(0xEF3A30), style: .embedded, onTap: {
             NavigationControlManager.backToCamera()
         })
