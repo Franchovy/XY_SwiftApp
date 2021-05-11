@@ -61,6 +61,8 @@ final class CreateChallengeManager {
                 preparingProgress(progress)
             } completion: { (error) in
                 preparingCompletion(error)
+                self.clearData()
+                
                 if error == nil {
                     ChallengeDataManager.shared.uploadChallengeVideo(challengeDataModel: challenge) { progress in
                         
@@ -72,6 +74,17 @@ final class CreateChallengeManager {
         } catch let error {
             preparingCompletion(error)
         }
+    }
+    
+    func clearData() {
+        friendsToChallengeList = []
+        videoUrl = nil
+        description = nil
+        title = nil
+        previewImage = nil
+        previewTimestamp = 1.0
+        friendsToChallengeList = nil
+        acceptedChallenge = nil
     }
     
     func loadAcceptedChallenge(_ viewModel: ChallengeCardViewModel) {

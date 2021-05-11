@@ -43,6 +43,9 @@ class CameraContainerViewController: UIViewController {
         
         view.addSubview(recordButton)
         
+        flashButton.contentEdgeInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
+        switchCameraButton.contentEdgeInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
+        
         closeButton.addTarget(self, action: #selector(closeButtonPressed), for: .touchUpInside)
         recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
         flashButton.addTarget(self, action: #selector(flashButtonPressed), for: .touchUpInside)
@@ -70,8 +73,8 @@ class CameraContainerViewController: UIViewController {
         
         let flashButtonSize = CGSize(width: 15, height: 26.26)
         flashButton.frame = CGRect(
-            x: (view.width - flashButtonSize.width)/2,
-            y: 10.22,
+            x: switchCameraButton.center.x - flashButtonSize.width/2,
+            y: switchCameraButton.bottom + 15,
             width: flashButtonSize.width,
             height: flashButtonSize.height
         )
@@ -112,6 +115,8 @@ class CameraContainerViewController: UIViewController {
     }
 
     @objc private func closeButtonPressed() {
+        CreateChallengeManager.shared.clearData()
+        
         delegate?.closeButtonPressed()
     }
 }

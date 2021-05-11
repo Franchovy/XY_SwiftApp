@@ -7,13 +7,14 @@
 
 import UIKit
 
-class AcceptChallengeViewController: UIViewController {
+class AcceptChallengeViewController: UIViewController, CameraContainerDelegate {
 
     var videoURL: URL?
     
-    private let cameraViewController = CameraViewController()
-    private let recordButton = RecordButton()
+    private let closeButton = Button(image: UIImage(systemName: "xmark"), style: .image)
     
+    private let cameraViewController = CameraContainerViewController()
+
     private let blurView: UIVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .regular)
         return UIVisualEffectView(effect: blurEffect)
@@ -36,6 +37,8 @@ class AcceptChallengeViewController: UIViewController {
         
         challengeCard.configure(with: viewModel)
         
+        cameraViewController.delegate = self
+        
         view.backgroundColor = .black
     }
     
@@ -51,9 +54,6 @@ class AcceptChallengeViewController: UIViewController {
         
         cameraViewController.view.layer.cornerRadius = 10
         
-        view.addSubview(recordButton)
-        recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchUpInside)
-        
         view.addSubview(blurView)
         view.addSubview(bubble)
         view.addSubview(challengedYouLabel)
@@ -66,8 +66,7 @@ class AcceptChallengeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        configureBackButton(.xmark)
-        navigationController?.configureBackgroundStyle(.invisible)
+        navigationController?.setNavigationBarHidden(true, animated: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -83,7 +82,7 @@ class AcceptChallengeViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        navigationController?.isNavigationBarHidden = false
+        navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     override func viewDidLayoutSubviews() {
@@ -106,14 +105,6 @@ class AcceptChallengeViewController: UIViewController {
         }
         
         cameraViewController.view.frame = view.bounds.inset(by: UIEdgeInsets(top: 46, left: 0, bottom: 80, right: 0))
-        
-        let recordButtonSize: CGFloat = 64
-        recordButton.frame = CGRect(
-            x: (view.width - recordButtonSize)/2,
-            y: cameraViewController.view.bottom - recordButtonSize - 15,
-            width: recordButtonSize,
-            height: recordButtonSize
-        )
     }
     
     // MARK: -
@@ -128,6 +119,20 @@ class AcceptChallengeViewController: UIViewController {
     }
     
     // MARK: - OBJ-C FUNCTIONS
+    
+    func didFinishRecording(videoURL: URL) {
+        self.videoURL = videoURL
+        
+        DispatchQueue.main.async {
+            self.displayPreview()
+        }
+    }
+    
+    func closeButtonPressed() {
+        CreateChallengeManager.shared.clearData()
+        
+        navigationController?.popViewController(animated: true)
+    }
     
     @objc private func startButtonPressed() {
         displayingCard = false
@@ -151,23 +156,7 @@ class AcceptChallengeViewController: UIViewController {
             self.challengeTitleLabel!.frame.origin = CGPoint(x: (self.view.width - self.challengeTitleLabel!.width)/2, y: 50)
         } completion: { (done) in
             if done {
-                self.recordButtonPressed()
-            }
-        }
-    }
-    
-    @objc private func recordButtonPressed() {
-        if cameraViewController.state == .prepareToRecord {
-            cameraViewController.startRecording()
-            recordButton.setState(.recording)
-        } else {
-            recordButton.setState(.notRecording)
-            cameraViewController.stopRecording() { outputUrl in
-                self.videoURL = outputUrl
                 
-                DispatchQueue.main.async {
-                    self.displayPreview()
-                }
             }
         }
     }

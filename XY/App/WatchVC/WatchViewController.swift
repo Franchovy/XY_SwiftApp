@@ -66,6 +66,8 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewWillAppear(animated)
         
         navigationController?.configureBackgroundStyle(.invisible)
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {

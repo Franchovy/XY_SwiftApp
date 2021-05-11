@@ -89,6 +89,8 @@ class CreateChallengeViewController: UIViewController, CameraContainerDelegate {
     }
     
     @objc func closeButtonPressed() {
+        CreateChallengeManager.shared.clearData()
+        
         navigationController?.popViewController(animated: true)
     }
     
