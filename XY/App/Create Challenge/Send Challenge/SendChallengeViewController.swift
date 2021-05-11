@@ -102,7 +102,12 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
             }
             
             print("Friends list: \(friendsList.map({$0.coreDataID}))")
-            sendToFriendsViewController.selectFriends(friendsList.map({$0.coreDataID}))
+            sendToFriendsViewController.setSelectedFriends(viewModels: friendsList)
+            
+            
+            if friendsList.count > 0 {
+                navigationItem.rightBarButtonItem?.isEnabled = true
+            }
         }
     }
     

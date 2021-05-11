@@ -64,8 +64,10 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendTo
         )
     }
     
-    public func selectFriends(_ friendIDs: [ObjectIdentifier]) {
-        dataSource.data.filter({ friendIDs.contains($0.0.coreDataID) }).forEach({ userViewModel in
+    public func setSelectedFriends(viewModels: [UserViewModel]) {
+        selectedFriendsToSend = viewModels
+        
+        dataSource.data.filter({ dataModel in viewModels.contains(where: { $0.coreDataID == dataModel.0.coreDataID }) }).forEach({ userViewModel in
             dataSource.setSelected(id: userViewModel.0.coreDataID, selected: true)
             
             collectionView.reloadData()
