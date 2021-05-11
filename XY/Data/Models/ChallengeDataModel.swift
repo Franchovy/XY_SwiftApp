@@ -39,7 +39,8 @@ extension ChallengeDataModel {
             timeLeftText: expiryTimestamp != nil ? "\(expiryTimestamp!.hoursFromNow())H" : "",
             isReceived: !sentByYou(),
             friendBubbles: getSentToBubbles(),
-            senderProfile: fromUser?.toViewModel()
+            senderProfile: fromUser?.toViewModel(),
+            completionState: completionState
         )
     }
     
@@ -70,6 +71,12 @@ extension ChallengeDataModel {
             return ColorLabelViewModel.expiring
         } else if expiryTimestamp.hoursFromNow() > 22 {
             return ColorLabelViewModel.new
+        } else if completionState == .accepted {
+            return ColorLabelViewModel.accepted
+        } else if completionState == .rejected {
+            return ColorLabelViewModel.rejected
+        } else if completionState == .complete {
+            return ColorLabelViewModel.complete
         } else {
             return nil
         }

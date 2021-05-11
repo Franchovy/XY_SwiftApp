@@ -17,4 +17,5 @@ struct ChallengeCardViewModel {
     let isReceived: Bool
     let friendBubbles: [UserViewModel]?
     let senderProfile: UserViewModel?
+    let completionState: ChallengeCompletionState
 }

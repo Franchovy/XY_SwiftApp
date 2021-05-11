@@ -28,4 +28,22 @@ struct ColorLabelViewModel {
             ColorLabelViewModel(colorLabelText: "Expiring", colorLabelColor: UIColor(0xAAAAAA))
         }
     }
+    
+    static var accepted: ColorLabelViewModel {
+        get {
+            ColorLabelViewModel(colorLabelText: "Accepted", colorLabelColor: .XYGreen)
+        }
+    }
+    
+    static var rejected: ColorLabelViewModel {
+        get {
+            ColorLabelViewModel(colorLabelText: "Rejected", colorLabelColor: .XYRed)
+        }
+    }
+    
+    static var complete: ColorLabelViewModel {
+        get {
+            ColorLabelViewModel(colorLabelText: "Complete", colorLabelColor: .XYBlue)
+        }
+    }
 }

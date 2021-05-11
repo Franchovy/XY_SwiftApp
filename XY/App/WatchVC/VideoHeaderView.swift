@@ -13,9 +13,11 @@ class VideoHeaderView: UIView {
     private let titleLabel = Label(style: .title, fontSize: 31, adaptToLightMode: false)
     private let acceptButton = Button(title: "Accept", style: .colorButton(color: UIColor(0x03FF64), cornerRadius: 5), paddingVertical: 11.25, paddingHorizontal: 15)
     private let declineButton = Button(title: "Reject", style: .colorButton(color: UIColor(0xFB473D), cornerRadius: 5), paddingVertical: 11.25, paddingHorizontal: 15)
+    private let playButton = Button(title: "Play", style: .colorButton(color: UIColor(0x03FF64), cornerRadius: 5), paddingVertical: 11.25, paddingHorizontal: 15)
     
+    var shouldDisplayPlay = false
     var shouldDisplayAcceptDecline = true
-    var acceptDeclineButtonsDisplayed = false
+    var buttonsDisplayed = false
         
     var viewModel: ChallengeCardViewModel?
     
@@ -25,14 +27,17 @@ class VideoHeaderView: UIView {
         addSubview(acceptButton)
         addSubview(declineButton)
         addSubview(titleLabel)
+        addSubview(playButton)
         
         titleLabel.enableShadow = true
         
         acceptButton.alpha = 0.0
         declineButton.alpha = 0.0
+        playButton.alpha = 0.0
         
         declineButton.addTarget(self, action: #selector(tappedReject), for: .touchUpInside)
         acceptButton.addTarget(self, action: #selector(tappedAccept), for: .touchUpInside)
+        playButton.addTarget(self, action: #selector(tappedPlay), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -50,6 +55,7 @@ class VideoHeaderView: UIView {
             height: titleLabel.height
         )
         
+        
         let buttonSize = CGSize(width: 90.5, height: 35)
         acceptButton.frame = CGRect(
             x: width/2 - buttonSize.width - 15.25,
@@ -60,6 +66,13 @@ class VideoHeaderView: UIView {
         
         declineButton.frame = CGRect(
             x: width/2 + 15.25,
+            y: titleLabel.bottom + 15.75,
+            width: buttonSize.width,
+            height: buttonSize.height
+        )
+    
+        playButton.frame = CGRect(
+            x: (width - buttonSize.width)/2,
             y: titleLabel.bottom + 15.75,
             width: buttonSize.width,
             height: buttonSize.height
@@ -75,31 +88,47 @@ class VideoHeaderView: UIView {
     }
     
     func appear(withDelay delay: Double) {
+        
+        
         acceptButton.alpha = 0.0
         declineButton.alpha = 0.0
+        playButton.alpha = 0.0
         
         acceptButton.transform = CGAffineTransform(translationX: 0, y: -34)
         declineButton.transform = CGAffineTransform(translationX: 0, y: -34)
+        playButton.transform = CGAffineTransform(translationX: 0, y: -34)
         
-        guard shouldDisplayAcceptDecline else { return }
         
-        UIView.animate(withDuration: 0.3, delay: delay, options: .curveEaseIn) {
-            self.acceptButton.transform = .identity
-            self.declineButton.transform = .identity
-            
-            self.acceptButton.alpha = 1.0
-            self.declineButton.alpha = 1.0
+        
+        if shouldDisplayAcceptDecline {
+            UIView.animate(withDuration: 0.3, delay: delay, options: .curveEaseIn) {
+                self.acceptButton.transform = .identity
+                self.declineButton.transform = .identity
+                
+                self.acceptButton.alpha = 1.0
+                self.declineButton.alpha = 1.0
 
-        } completion: { (done) in
-            if done {
-                self.acceptDeclineButtonsDisplayed = true
+            } completion: { (done) in
+                if done {
+                    self.buttonsDisplayed = true
+                }
+            }
+        } else if shouldDisplayPlay {
+            UIView.animate(withDuration: 0.3, delay: delay, options: .curveEaseIn) {
+                self.playButton.transform = .identity
+                
+                self.playButton.alpha = 1.0
+            } completion: { (done) in
+                if done {
+                    self.buttonsDisplayed = true
+                }
             }
         }
-
     }
     
     func configure(challengeViewModel: ChallengeCardViewModel) {
-        shouldDisplayAcceptDecline = challengeViewModel.isReceived
+        shouldDisplayAcceptDecline = challengeViewModel.isReceived && challengeViewModel.completionState == .received
+        shouldDisplayPlay = challengeViewModel.completionState == .accepted
         
         viewModel = challengeViewModel
         titleLabel.text = challengeViewModel.title
@@ -110,6 +139,14 @@ class VideoHeaderView: UIView {
         declineButton.alpha = 0.0
     }
 
+    @objc private func tappedPlay() {
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        NavigationControlManager.startChallenge(with: viewModel)
+    }
+    
     @objc private func tappedAccept() {
         guard let viewModel = viewModel else {
             return
