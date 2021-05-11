@@ -47,7 +47,7 @@ extension NotificationType {
         case .rejectedChallenge:
             return "Rejected your challenge"
         case .challengedYou:
-            return "Challenged you!"
+            return "Sent you a challenge"
         case .completedChallenge:
             return "Completed your challenge"
         }
