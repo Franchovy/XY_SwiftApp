@@ -62,7 +62,7 @@ final class CreateChallengeManager {
             } completion: { (error) in
                 preparingCompletion(error)
                 if error == nil {
-                    ChallengeDataManager.shared.uploadChallengeVideo(challenge: challenge) { progress in
+                    ChallengeDataManager.shared.uploadChallengeVideo(challengeDataModel: challenge) { progress in
                         
                     } onComplete: { (error) in
                         

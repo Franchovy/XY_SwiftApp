@@ -42,7 +42,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             let playerViewController = PlayerViewController()
             
             if challengeVideoModel.fileUrl == nil && challengeVideoModel.downloadUrl == nil {
-                ChallengeDataManager.shared.loadVideosForChallengeModel(model: challengeVideoModel) { (error) in
+                ChallengeDataManager.shared.loadVideosForChallengeModel(for: challengeVideoModel) { (error) in
                     if let error = error {
                         print("Error fetching video for challenge")
                     } else {

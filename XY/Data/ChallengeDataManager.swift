@@ -182,54 +182,63 @@ final class ChallengeDataManager {
         return challengeDataModel.sentByYou() && challengeDataModel.downloadUrl == nil
     }
     
-    func uploadChallengeVideo(challenge: ChallengeDataModel, onProgress: @escaping(Double) -> Void, onComplete: @escaping(Error?) -> Void) {
-        assert(challenge.fileUrl != nil)
+    func uploadChallengeVideo(challengeDataModel: ChallengeDataModel, onProgress: @escaping(Double) -> Void, onComplete: @escaping(Error?) -> Void) {
+        assert(challengeDataModel.fileUrl != nil)
         
-        guard FileManager().fileExists(atPath: challenge.fileUrl!.relativePath) else {
+        guard FileManager().fileExists(atPath: challengeDataModel.fileUrl!.relativePath) else {
             return
         }
         
         // Upload video to storage
         FirebaseStorageManager.shared.uploadVideoToStorage(
-            videoFileUrl: challenge.fileUrl!,
-            storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challenge.firebaseID!, videoId: challenge.firebaseVideoID!)
+            videoFileUrl: challengeDataModel.fileUrl!,
+            storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeDataModel.firebaseID!, videoId: challengeDataModel.firebaseVideoID!)
         ) { (progress) in
-            self.listeners[challenge.id]??.forEach({ $0.uploadProgress(id: challenge.id, progressUpload: progress) })
+            self.listeners[challengeDataModel.id]??.forEach({ $0.uploadProgress(id: challengeDataModel.id, progressUpload: progress) })
             onProgress(progress)
         } onComplete: { (result) in
             switch result {
-            case .success( _):
-                FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challenge, isUploading: false) { (error) in
-                    self.listeners[challenge.id]??.forEach({ $0.finishedUpload(id: challenge.id) })
+            case .success(let result):
+                FirebaseFirestoreManager.shared.setChallengeUploadStatus(challengeModel: challengeDataModel, isUploading: false) { (error) in
+                    self.listeners[challengeDataModel.id]??.forEach({ $0.finishedUpload(id: challengeDataModel.id) })
                 }
-                onComplete(nil)
+                
+                self.getVideoDownloadURL(for: challengeDataModel) { (error) in
+                    onComplete(error)
+                }
             case .failure(let error):
-                self.listeners[challenge.id]??.forEach({ $0.errorUpload(id: challenge.id, error: error) })
+                self.listeners[challengeDataModel.id]??.forEach({ $0.errorUpload(id: challengeDataModel.id, error: error) })
                 onComplete(error)
             }
         }
     }
     
-    func loadVideosForChallengeModel(model: ChallengeDataModel, completion: @escaping((Error?) -> Void)) {
+    func loadVideosForChallengeModel(for challengeDataModel: ChallengeDataModel, completion: @escaping((Error?) -> Void)) {
         // Get video IDs from firestore
-        FirebaseFirestoreManager.shared.getVideosForChallenge(model: model) { error in
+        FirebaseFirestoreManager.shared.getVideosForChallenge(model: challengeDataModel) { error in
             if let error = error {
                 completion(error)
             } else {
-                assert(model.firebaseVideoID != nil)
+                assert(challengeDataModel.firebaseVideoID != nil)
                 // Get download URL for video
-                FirebaseStorageManager.shared.getVideoDownloadUrl(
-                    from: FirebaseStoragePaths.challengeVideoPath(challengeId: model.firebaseID!, videoId: model.firebaseVideoID!)
-                ) { (result) in
-                    switch result {
-                    case .success(let url):
-                        model.downloadUrl = url
-                        completion(nil)
-                        
-                    case .failure(let error):
-                        completion(error)
-                    }
+                self.getVideoDownloadURL(for: challengeDataModel) { error in
+                    completion(error)
                 }
+            }
+        }
+    }
+    
+    func getVideoDownloadURL(for challengeDataModel: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
+        FirebaseStorageManager.shared.getVideoDownloadUrl(
+            from: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeDataModel.firebaseID!, videoId: challengeDataModel.firebaseVideoID!)
+        ) { (result) in
+            switch result {
+            case .success(let url):
+                challengeDataModel.downloadUrl = url
+                completion(nil)
+                
+            case .failure(let error):
+                completion(error)
             }
         }
     }
@@ -268,7 +277,7 @@ final class ChallengeDataManager {
                     
                     // Get video download url
                     dispatchGroup.enter()
-                    self.loadVideosForChallengeModel(model: challengeDataModel) { (error) in
+                    self.loadVideosForChallengeModel(for: challengeDataModel) { (error) in
                         defer {
                             dispatchGroup.leave()
                         }
@@ -379,7 +388,7 @@ final class ChallengeDataManager {
                 // check video link
                 if challengeReceived.downloadUrl == nil {
                     dispatchGroup.enter()
-                    self.loadVideosForChallengeModel(model: challengeReceived) { (error) in
+                    self.loadVideosForChallengeModel(for: challengeReceived) { (error) in
                         defer{
                             dispatchGroup.leave()
                         }
@@ -422,7 +431,7 @@ final class ChallengeDataManager {
                 case .failure(let error):
                     
                     // Upload video
-                    self.uploadChallengeVideo(challenge: challengeToUpload) { (progress) in
+                    self.uploadChallengeVideo(challengeDataModel: challengeToUpload) { (progress) in
                         print("Progress uploading challenge video: \(progress)")
                     } onComplete: { (error) in
                         if let error = error {
