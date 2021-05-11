@@ -28,6 +28,9 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         super.viewWillAppear(animated)
     
         configureChallengeCard()
+        if CreateChallengeManager.shared.acceptedChallenge != nil {
+            configureForAcceptedChallenge()
+        }
         
         navigationController?.configureBackgroundStyle(.visible)
     }
@@ -85,6 +88,21 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
             navigationItem.rightBarButtonItem?.isEnabled = false
         } else {
             navigationItem.rightBarButtonItem?.isEnabled = true
+        }
+    }
+    
+    func configureForAcceptedChallenge() {
+        guard let acceptedChallenge = CreateChallengeManager.shared.acceptedChallenge else {
+            return
+        }
+        
+        if var friendsList = acceptedChallenge.friendBubbles {
+            if let senderProfile = acceptedChallenge.senderProfile {
+                friendsList.append(senderProfile)
+            }
+            
+            print("Friends list: \(friendsList.map({$0.coreDataID}))")
+            sendToFriendsViewController.selectFriends(friendsList.map({$0.coreDataID}))
         }
     }
     

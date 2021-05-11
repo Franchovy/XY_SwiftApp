@@ -70,11 +70,18 @@ class SendCollectionViewCell: UICollectionViewCell {
         nicknameLabel.text = nil
     }
     
-    public func configure(with viewModel: UserViewModel) {
+    public func setIsPressed(_ isPressed: Bool) {
+        sendButton.isPressed = isPressed
+        sendButton.configureForPressMode()
+    }
+    
+    public func configure(with viewModel: UserViewModel, isSendButtonPressed: Bool) {
         self.viewModel = viewModel
         
         friendBubble.configure(with: viewModel)
         nicknameLabel.text = viewModel.nickname
+        
+        sendButton.configurePressed(isPressed: isSendButtonPressed)
     }
     
     @objc private func tappedSendButton() {

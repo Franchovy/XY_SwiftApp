@@ -64,6 +64,14 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendTo
         )
     }
     
+    public func selectFriends(_ friendIDs: [ObjectIdentifier]) {
+        dataSource.data.filter({ friendIDs.contains($0.0.coreDataID) }).forEach({ userViewModel in
+            dataSource.setSelected(id: userViewModel.0.coreDataID, selected: true)
+            
+            collectionView.reloadData()
+        })
+    }
+    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         HapticsManager.shared.vibrateImpact(for: .light)
         
@@ -76,12 +84,16 @@ class SendToFriendsViewController: UIViewController, UISearchBarDelegate, SendTo
     }
     
     func sendToFriendCell(selectedCellWith viewModel: UserViewModel) {
+        dataSource.setSelected(id: viewModel.coreDataID, selected: true)
+        
         selectedFriendsToSend.append(viewModel)
         
         delegate?.sendToFriendDelegate(selectedFriendsToSend)
     }
     
     func sendToFriendCell(deselectedCellWith viewModel: UserViewModel) {
+        dataSource.setSelected(id: viewModel.coreDataID, selected: false)
+        
         selectedFriendsToSend.removeAll(where: {$0.nickname == viewModel.nickname})
         
         delegate?.sendToFriendDelegate(selectedFriendsToSend)

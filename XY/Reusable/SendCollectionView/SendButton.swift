@@ -57,6 +57,18 @@ class SendButton: UIButton {
         
         isPressed = !isPressed
         
+        configureForPressMode()
+        
+        HapticsManager.shared.vibrateImpact(for: .soft)
+        HapticsManager.shared.vibrateImpact(for: .heavy)
+    }
+    
+    func configurePressed(isPressed: Bool) {
+        self.isPressed = isPressed
+        configureForPressMode()
+    }
+    
+    public func configureForPressMode() {
         if isPressed {
             gradientLayer.colors = [UIColor.clear.cgColor, UIColor.clear.cgColor]
             gradientLayer.backgroundColor = UIColor(named: "XYBackground")?.cgColor
@@ -73,8 +85,5 @@ class SendButton: UIButton {
             setTitleColor(UIColor(named: "XYWhite"), for: .normal)
             setTitle("Send", for: .normal)
         }
-        
-        HapticsManager.shared.vibrateImpact(for: .soft)
-        HapticsManager.shared.vibrateImpact(for: .heavy)
     }
 }

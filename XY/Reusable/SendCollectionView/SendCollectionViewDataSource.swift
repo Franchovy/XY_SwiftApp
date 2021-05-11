@@ -13,14 +13,14 @@ final class SendCollectionViewDataSource : NSObject, UICollectionViewDataSource 
     
     var searchString: String?
     
-    var data = [UserViewModel]()
+    var data = [(UserViewModel, Bool)]()
     
-    var filteredData: [UserViewModel] {
+    var filteredData: [(UserViewModel, Bool)] {
         get {
             if searchString == nil || searchString == "" {
                 return data
             } else {
-                return data.filter({$0.nickname.lowercased().contains(searchString!.lowercased())})
+                return data.filter({$0.0.nickname.lowercased().contains(searchString!.lowercased())})
             }
         }
     }
@@ -28,7 +28,7 @@ final class SendCollectionViewDataSource : NSObject, UICollectionViewDataSource 
     weak var delegate: SendToFriendCellDelegate?
     
     func reload() {
-        data = FriendsDataManager.shared.friends.map({ $0.toViewModel() })
+        data = FriendsDataManager.shared.friends.map({ ($0.toViewModel(), false) })
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -36,10 +36,17 @@ final class SendCollectionViewDataSource : NSObject, UICollectionViewDataSource 
         return filteredData.count
     }
     
+    func setSelected(id: ObjectIdentifier, selected: Bool) {
+        if let index = data.firstIndex(where: { $0.0.coreDataID == id }) {
+            data[index] = (data[index].0, selected)
+        }
+    }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SendCollectionViewCell.identifier, for: indexPath) as! SendCollectionViewCell
         
-        cell.configure(with: filteredData[indexPath.row])
+        cell.configure(with: filteredData[indexPath.row].0, isSendButtonPressed: filteredData[indexPath.row].1)
+        
         cell.delegate = delegate
         
         return cell
