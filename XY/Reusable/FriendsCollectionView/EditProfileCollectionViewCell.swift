@@ -60,7 +60,6 @@ class EditProfileCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    
     @objc private func didLoadProfileData() {
         imageLabel.text = "Profile"
         imageLabel.alpha = 1.0

@@ -69,6 +69,11 @@ final class ProfileDataManager {
             if results.count == 1 {
                 ownProfileModel = results.first!
                 
+                /// Compensation for previous version - profile image not being saved to coredata
+                if ownProfileModel.profileImage == nil {
+                    self.fetchOwnProfileImage()
+                }
+                
                 completion()
             } else {
                 assert(results.count == 0)
@@ -82,20 +87,11 @@ final class ProfileDataManager {
                         
                         // Create own profile model
                         self.ownProfileModel = self.createOwnProfileModel(userModel: userModel)
+                        CoreDataManager.shared.save()
+                        
+                        self.fetchOwnProfileImage()
                     case .failure(let error):
                         fatalError("Error fetching own profile from firebase: \(error)")
-                    }
-                }
-                
-                FirebaseStorageManager.shared.downloadImage(
-                    from: ownFirebaseId) { progress in
-                    
-                } completion: { (result) in
-                    switch result {
-                    case .success(let data):
-                        self.ownProfileModel.profileImage = data
-                    case .failure(let error):
-                        print("Error downloading own profile Image: \(error)")
                     }
                 }
                 
@@ -111,6 +107,27 @@ final class ProfileDataManager {
         }
         
         NotificationCenter.default.post(Notification(name: .didLoadProfileData))
+    }
+    
+    func fetchOwnProfileImage() {
+        guard let ownFirebaseID = ownProfileModel.firebaseID, let profileImageFirebaseID = ownProfileModel.profileImageFirebaseID else {
+            return
+        }
+        
+        FirebaseStorageManager.shared.downloadImage(
+            from: FirebaseStoragePaths.profileImagePath(userId: ownFirebaseID, imageID: profileImageFirebaseID)) { progress in
+            
+        } completion: { (result) in
+            switch result {
+            case .success(let data):
+                self.ownProfileModel.profileImage = data
+                CoreDataManager.shared.save()
+                
+                NotificationCenter.default.post(Notification(name: .didChangeOwnProfilePicture))
+            case .failure(let error):
+                print("Error downloading own profile Image: \(error)")
+            }
+        }
     }
     
     func setNickname(as newNickname: String, completion: @escaping(Error?) -> Void) {
