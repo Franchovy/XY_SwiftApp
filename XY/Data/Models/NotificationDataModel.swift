@@ -43,7 +43,7 @@ extension NotificationType {
         case .addedYou:
             return "Added you as a friend!"
         case .acceptedChallenge:
-            return "Accepted to perform your challenge"
+            return "Accepted your challenge"
         case .rejectedChallenge:
             return "Rejected your challenge"
         case .challengedYou:
