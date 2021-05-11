@@ -44,8 +44,6 @@ final class NavigationControlManager {
     }
     
     static func performLogout() {
-        mainViewController.navigationController?.popToRootViewController(animated: true)
-        
         let mainVC = AuthChoiceViewController()
         let navController = UINavigationController(rootViewController: mainVC)
         navController.navigationBar.backgroundColor = .clear
@@ -56,19 +54,14 @@ final class NavigationControlManager {
             navController.navigationItem.backButtonDisplayMode = .minimal
         }
         
-        navController.heroModalAnimationType = .zoomSlide(direction: .left)
-        
-        mainViewController.dismiss(animated: true, completion: nil)
         mainViewController = mainVC
         
-        if let window = UIApplication.shared.keyWindow {
-            if let previousRootViewController = window.rootViewController {
-                previousRootViewController.isHeroEnabled = true
-                navController.isHeroEnabled = true
-                previousRootViewController.heroReplaceViewController(with: navController)
-                window.rootViewController = navController
-            }
+        let window = UIApplication.shared.windows[0]
+        if let previousRootViewController = window.rootViewController {
+            window.rootViewController = navController
+            previousRootViewController.navigationController?.popToRootViewController(animated: true)
         }
+        
     }
     
     static func performedAuthentication() {
@@ -80,18 +73,13 @@ final class NavigationControlManager {
         navController.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "Raleway-Bold", size: 20)!]
         navController.navigationBar.tintColor = UIColor(named: "XYTint")
         
-//        navController.isHeroEnabled = true
-        
-        navController.heroModalAnimationType = .zoomSlide(direction: .left)
-        navController.modalPresentationStyle = .fullScreen
-        
+        let previousMainViewController = mainViewController
         mainViewController = mainVC
         
-        if let window = UIApplication.shared.keyWindow {
-            mainVC.view.frame = window.bounds
-            UIView.transition(with: window, duration: 0.5, options: .transitionCrossDissolve, animations: {
-                window.rootViewController = navController
-            }, completion: nil)
-        }
+        let window = UIApplication.shared.windows[0]
+        mainVC.view.frame = window.bounds
+        
+        window.rootViewController = navController
+        previousMainViewController?.navigationController?.popToRootViewController(animated: true)
     }
 }
