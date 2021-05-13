@@ -92,6 +92,10 @@ class CameraViewController: UIViewController {
         }
     }
     
+    public func stopSession() {
+        cameraManager.stopCaptureSession()
+    }
+    
     public func toggleFlash() {
         cameraManager.changeFlashMode()
     }

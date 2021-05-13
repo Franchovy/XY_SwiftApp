@@ -63,7 +63,7 @@ class CameraContainerViewController: UIViewController {
         super.viewDidDisappear(animated)
 
         UIApplication.shared.isIdleTimerDisabled = false
-
+        cameraViewController.stopSession()
     }
     
     override func viewDidLayoutSubviews() {
