@@ -23,6 +23,12 @@ class PlayerViewController: UIViewController {
     
     var viewed = false
     
+    weak var headerViewDelegate: VideoHeaderViewDelegate? {
+        didSet {
+            challengeHeader.delegate = headerViewDelegate
+        }
+    }
+    
     init() {
         super.init(nibName: nil, bundle: nil)
         

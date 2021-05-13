@@ -55,6 +55,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
             
             playerViewController.configureChallengeCard(with: challengeVideoModel.toCard(), profileViewModel: challengeVideoModel.fromUser!.toViewModel())
             playerViewController.view.frame = view.bounds
+            playerViewController.headerViewDelegate = self
             
             playerViewControllers.append(playerViewController)
         }
@@ -331,5 +332,40 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
                 self.draggedIntoNewPlayerController()
             }
         }
+    }
+}
+
+extension WatchViewController : VideoHeaderViewDelegate {
+    func pressedAccept(viewModel: ChallengeCardViewModel) {
+        ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .accepted)
+        NavigationControlManager.startChallenge(with: viewModel)
+    }
+    
+    func pressedReject(viewModel: ChallengeCardViewModel) {
+        let prompt = Prompt()
+        prompt.setTitle(text: "Reject Challenge")
+        prompt.addText(text: "If you reject this challenge, you won't be able to perform it.")
+        prompt.addCompletionButton(
+            buttonText: "Reject",
+            textColor: UIColor(0xEF3A30),
+            style: .embedded,
+            closeOnTap: true,
+            onTap: {
+                ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .rejected)
+                NavigationControlManager.mainViewController.navigationController?.pushViewController(RejectedChallengeViewController(viewModel: viewModel), animated: true)
+            }
+        )
+        prompt.addCompletionButton(
+            buttonText: "Cancel",
+            style: .embedded,
+            closeOnTap: true
+        )
+        prompt.backgroundStyle = .fade
+    
+        NavigationControlManager.displayPrompt(prompt)
+    }
+    
+    func pressedPlay(viewModel: ChallengeCardViewModel) {
+        NavigationControlManager.startChallenge(with: viewModel)
     }
 }

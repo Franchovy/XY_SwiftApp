@@ -8,6 +8,12 @@
 import UIKit
 
 
+protocol VideoHeaderViewDelegate: class {
+    func pressedAccept(viewModel: ChallengeCardViewModel)
+    func pressedReject(viewModel: ChallengeCardViewModel)
+    func pressedPlay(viewModel: ChallengeCardViewModel)
+}
+
 class VideoHeaderView: UIView {
 
     private let titleLabel = Label(style: .title, fontSize: 31, adaptToLightMode: false)
@@ -18,7 +24,9 @@ class VideoHeaderView: UIView {
     var shouldDisplayPlay = false
     var shouldDisplayAcceptDecline = true
     var buttonsDisplayed = false
-        
+    
+    weak var delegate: VideoHeaderViewDelegate?
+    
     var viewModel: ChallengeCardViewModel?
     
     init() {
@@ -135,8 +143,7 @@ class VideoHeaderView: UIView {
     }
     
     func hideButtons() {
-        acceptButton.alpha = 0.0
-        declineButton.alpha = 0.0
+        
     }
 
     @objc private func tappedPlay() {
@@ -144,40 +151,25 @@ class VideoHeaderView: UIView {
             return
         }
         
-        NavigationControlManager.startChallenge(with: viewModel)
+        delegate?.pressedPlay(viewModel: viewModel)
+        hideButtons()
     }
     
     @objc private func tappedAccept() {
         guard let viewModel = viewModel else {
             return
         }
-        ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .accepted)
-        NavigationControlManager.startChallenge(with: viewModel)
+        
+        delegate?.pressedAccept(viewModel: viewModel)
+        hideButtons()
     }
     
     @objc private func tappedReject() {
-        let prompt = Prompt()
-        prompt.setTitle(text: "Reject Challenge")
-        prompt.addText(text: "If you reject this challenge, you won't be able to perform it.")
-        prompt.addCompletionButton(
-            buttonText: "Reject",
-            textColor: UIColor(0xEF3A30),
-            style: .embedded,
-            closeOnTap: true,
-            onTap: {
-                if let viewModel = self.viewModel {
-                    ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .rejected)
-                    NavigationControlManager.mainViewController.navigationController?.pushViewController(RejectedChallengeViewController(viewModel: viewModel), animated: true)
-                }
-            }
-        )
-        prompt.addCompletionButton(
-            buttonText: "Cancel",
-            style: .embedded,
-            closeOnTap: true
-        )
-        prompt.backgroundStyle = .fade
-    
-        NavigationControlManager.displayPrompt(prompt)
+        guard let viewModel = viewModel else {
+            return
+        }
+        
+        delegate?.pressedReject(viewModel: viewModel)
+        hideButtons()
     }
 }
