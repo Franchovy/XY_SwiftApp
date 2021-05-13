@@ -52,6 +52,20 @@ class CameraContainerViewController: UIViewController {
         switchCameraButton.addTarget(self, action: #selector(switchCameraButtonPressed), for: .touchUpInside)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        UIApplication.shared.isIdleTimerDisabled = true
+
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        UIApplication.shared.isIdleTimerDisabled = false
+
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -92,6 +106,7 @@ class CameraContainerViewController: UIViewController {
     
     @objc private func recordButtonPressed() {
         if cameraViewController.state == .prepareToRecord {
+            
             HapticsManager.shared.vibrateImpact(for: .medium)
             
             cameraViewController.startRecording()
