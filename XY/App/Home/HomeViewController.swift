@@ -126,6 +126,8 @@ class HomeViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+        challengesDataSource.reload()
+        
         navigationController?.isNavigationBarHidden = false
         navigationController?.configureBackgroundStyle(.visible)
         configureBackButton(.backButton)
