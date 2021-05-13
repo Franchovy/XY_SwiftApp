@@ -294,10 +294,11 @@ final class ChallengeDataManager {
                     
                     // Update state on firebase as "received"
                     newChallengeDataModels.forEach({
-                        assert($0.completionState == .received)
-                        FirebaseFirestoreManager.shared.setChallengeStatus(challengeModel: $0) { (error) in
-                            if let error = error {
-                                print("Error setting status for challenge: \(error)")
+                        if ($0.completionState == .received) {
+                            FirebaseFirestoreManager.shared.setChallengeStatus(challengeModel: $0) { (error) in
+                                if let error = error {
+                                    print("Error setting status for challenge: \(error)")
+                                }
                             }
                         }
                     })

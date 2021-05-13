@@ -206,12 +206,15 @@ final class FirebaseFirestoreManager {
                         if (diff.type == .added) {
                             do {
                                 if let challengeDocument = try? diff.document.decode(as: ChallengeDocument.self) {
+                                    
+                                    let completionState = ChallengeCompletionState(rawValue: challengeDocument.status[ProfileDataManager.shared.ownID] ?? "") ?? .received
+                                    
                                     let model = ChallengeModel(
                                         title: challengeDocument.title,
                                         challengeDescription: challengeDocument.description,
                                         expiryTimestamp: challengeDocument.timestamp.dateValue().addingTimeInterval(TimeInterval.days(1)),
                                         firebaseID: diff.document.documentID,
-                                        completionState: .received,
+                                        completionState: completionState,
                                         fromUserFirebaseID: challengeDocument.creatorID,
                                         image: nil
                                     )
