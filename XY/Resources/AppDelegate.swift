@@ -27,7 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         // COREDATA VERSIONING
-        let currentVersion = "1.0"
+        let currentVersion = "1.2"
         let appVersion = UserDefaults.standard.string(forKey: "appVersion")
         if appVersion != currentVersion {
             CoreDataManager.shared.deleteEverything()
