@@ -67,6 +67,7 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         
         navigationController?.configureBackgroundStyle(.invisible)
         navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        navigationController?.setNavigationBarHidden(false, animated: true)
         
     }
     
