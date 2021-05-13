@@ -79,7 +79,7 @@ class SendChallengeViewController: UIViewController, SendToFriendsViewController
         guard let viewModel = CreateChallengeManager.shared.getChallengeCardViewModel() else {
             return
         }
-        
+        challengeCard.prepareForReuse()
         challengeCard.configure(with: viewModel)
     }
     
