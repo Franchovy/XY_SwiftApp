@@ -294,12 +294,8 @@ final class ChallengeDataManager {
                     
                     // Update state on firebase as "received"
                     newChallengeDataModels.forEach({
-                        if ($0.completionState == .received) {
-                            FirebaseFirestoreManager.shared.setChallengeStatus(challengeModel: $0) { (error) in
-                                if let error = error {
-                                    print("Error setting status for challenge: \(error)")
-                                }
-                            }
+                        if ($0.completionState == .sent) {
+                            self.updateChallengeState(challengeID: $0.id, newState: .received)
                         }
                     })
                     
@@ -329,12 +325,14 @@ final class ChallengeDataManager {
         }
     }
     
-    func updateChallengeState(challengeViewModel: ChallengeCardViewModel, newState: ChallengeCompletionState) {
-        if let index = activeChallenges.firstIndex(where: { $0.id == challengeViewModel.coreDataID }) {
+    func updateChallengeState(challengeID: ObjectIdentifier, newState: ChallengeCompletionState) {
+        if let index = activeChallenges.firstIndex(where: { $0.id == challengeID }) {
             
             let challenge = activeChallenges[index]
             challenge.completionState = newState
             activeChallenges[index] = challenge
+            
+            CoreDataManager.shared.save()
             
             FirebaseFirestoreManager.shared.setChallengeStatus(challengeModel: challenge) { error in
                 if let error = error {
@@ -367,7 +365,9 @@ final class ChallengeDataManager {
             let results = try mainContext.fetch(fetchRequest)
             activeChallenges = results
             
+            activeChallenges.filter({$0.completionState == .sent}).forEach({$0.completionState = .received})
             expireOldChallenges()
+            CoreDataManager.shared.save()
             
             // Verification check on received challenges
             let dispatchGroup = DispatchGroup()

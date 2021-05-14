@@ -56,8 +56,8 @@ final class CreateChallengeManager {
         
         do {
             let challenge = try ChallengeDataManager.shared.saveChallenge(challengeCard: viewModel, to: friendsList)
-            if acceptedChallenge != nil {
-                ChallengeDataManager.shared.updateChallengeState(challengeViewModel: acceptedChallenge!, newState: .complete)
+            if let challengeID = acceptedChallenge?.coreDataID {
+                ChallengeDataManager.shared.updateChallengeState(challengeID: challengeID, newState: .complete)
             }
             
             ChallengeDataManager.shared.uploadChallengeCard(challenge: challenge) { (progress) in

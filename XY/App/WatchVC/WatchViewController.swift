@@ -337,7 +337,10 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
 
 extension WatchViewController : VideoHeaderViewDelegate {
     func pressedAccept(viewModel: ChallengeCardViewModel) {
-        ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .accepted)
+        guard let challengeID = viewModel.coreDataID else {
+            return
+        }
+        ChallengeDataManager.shared.updateChallengeState(challengeID: challengeID, newState: .accepted)
         NavigationControlManager.startChallenge(with: viewModel)
     }
     
@@ -351,7 +354,10 @@ extension WatchViewController : VideoHeaderViewDelegate {
             style: .embedded,
             closeOnTap: true,
             onTap: {
-                ChallengeDataManager.shared.updateChallengeState(challengeViewModel: viewModel, newState: .rejected)
+                guard let challengeID = viewModel.coreDataID else {
+                    return
+                }
+                ChallengeDataManager.shared.updateChallengeState(challengeID: challengeID, newState: .rejected)
                 NavigationControlManager.mainViewController.navigationController?.pushViewController(RejectedChallengeViewController(viewModel: viewModel), animated: true)
             }
         )
