@@ -55,7 +55,7 @@ public func connectedToNetwork() {
     
 }
 
-fileprivate public class ConnectionSpeedChecker: NSObject,URLSessionDelegate, URLSessionDataDelegate {
+public class ConnectionSpeedChecker: NSObject,URLSessionDelegate, URLSessionDataDelegate {
     ////
     
     var startTime: CFAbsoluteTime!
