@@ -353,7 +353,6 @@ class HomeViewController: UIViewController {
     }
     
     private func initialiseSetup() {
-        connectedToNetwork()
         
         // Some coredata loading
         ProfileDataManager.shared.load() {

@@ -42,6 +42,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if AuthManager.shared.initialize() {
 //            PushNotificationManager.shared.checkPermissions()
 //            PushNotificationManager.shared.registerForPushNotifications()
+            
+            
+            
+        }
+        NetworkConnectionManager.shared.setupNetworkStatus() {
+            print("Connection to server active? \(NetworkConnectionManager.shared.currentlyConnected)")
+            print("Current connection speed: \(NetworkConnectionManager.shared.currentlyConnected)")
         }
         
         return true

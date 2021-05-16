@@ -14,7 +14,7 @@
 import Foundation
 import SystemConfiguration
 
-public func connectedToNetwork() {
+public func connectedToNetwork(completion: @escaping(Double?, Error?) -> Void) {
     
     var zeroAddress = sockaddr_in()
     
@@ -40,6 +40,8 @@ public func connectedToNetwork() {
     let isReachable = flags.contains(.reachable)
     let needsConnection = flags.contains(.connectionRequired)
     ConnectionSpeedChecker().testDownloadSpeedWithTimout(timeout: 5.0) { (megabytesPerSecond, error) -> () in
+        completion(megabytesPerSecond, error)
+        
         if ((error == nil) && isReachable && !needsConnection){
             if megabytesPerSecond!>=0.05{
             print("\n       | Connected |")
