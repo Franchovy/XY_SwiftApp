@@ -81,4 +81,24 @@ extension ChallengeDataModel {
             return nil
         }
     }
+    
+    /// Returns ideal video url based on current conditions
+    func getVideoUrl() -> URL? {
+        if let localFile = localFileName {
+            let fileUrl = ChallengeDataManager.shared.getURLforLocalFile(filename: localFile)
+            return fileUrl
+        } else if NetworkConnectionManager.shared.currentConnectionSpeed < 1.5,
+                  let downloadUrlSD = downloadUrlSD
+        {
+            return downloadUrlSD
+        } else if NetworkConnectionManager.shared.currentConnectionSpeed < 5.0,
+                  let downloadUrlHD = downloadUrlHD
+        {
+            return downloadUrlHD
+        } else if let downloadUrl = downloadUrl {
+            return downloadUrl
+        } else {
+            return nil
+        }
+    }
 }

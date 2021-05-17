@@ -35,15 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         #if DEBUG
-//        CoreDataManager.shared.deleteEverything()
+        CoreDataManager.shared.deleteEverything()
         #endif
         
         // Initialise Authentication stuff
         if AuthManager.shared.initialize() {
 //            PushNotificationManager.shared.checkPermissions()
 //            PushNotificationManager.shared.registerForPushNotifications()
-            
-            
             
         }
         NetworkConnectionManager.shared.setupNetworkStatus() {

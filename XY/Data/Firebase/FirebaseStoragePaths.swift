@@ -16,6 +16,14 @@ final class FirebaseStoragePaths {
         "\(challengeId)/\(videoId).mov"
     }
     
+    static func challengeVideoPathHD(challengeId: String, videoId: String) -> String {
+        "\(challengeId)/\(videoId)/processed/hd.mp4"
+    }
+    
+    static func challengeVideoPathSD(challengeId: String, videoId: String) -> String {
+        "\(challengeId)/\(videoId)/processed/sd.mp4"
+    }
+    
     static func challengePreviewImgPath(challengeId: String) -> String {
         "\(challengeId)/\(challengeId).png"
     }

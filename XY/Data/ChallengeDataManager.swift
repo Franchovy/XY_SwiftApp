@@ -242,17 +242,58 @@ final class ChallengeDataManager {
     }
     
     func getVideoDownloadURL(for challengeDataModel: ChallengeDataModel, completion: @escaping(Error?) -> Void) {
+        let dispatchGroup = DispatchGroup()
+        
+        dispatchGroup.enter()
         FirebaseStorageManager.shared.getVideoDownloadUrl(
             from: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeDataModel.firebaseID!, videoId: challengeDataModel.firebaseVideoID!)
         ) { (result) in
+            defer {
+                dispatchGroup.leave()
+            }
             switch result {
             case .success(let url):
                 challengeDataModel.downloadUrl = url
-                completion(nil)
                 
             case .failure(let error):
                 completion(error)
             }
+        }
+        
+        dispatchGroup.enter()
+        FirebaseStorageManager.shared.getVideoDownloadUrl(
+            from: FirebaseStoragePaths.challengeVideoPathHD(challengeId: challengeDataModel.firebaseID!, videoId: challengeDataModel.firebaseVideoID!)
+        ) { (result) in
+            defer {
+                dispatchGroup.leave()
+            }
+            switch result {
+            case .success(let url):
+                challengeDataModel.downloadUrlHD = url
+                
+            case .failure(let error):
+                completion(error)
+            }
+        }
+        
+        dispatchGroup.enter()
+        FirebaseStorageManager.shared.getVideoDownloadUrl(
+            from: FirebaseStoragePaths.challengeVideoPathSD(challengeId: challengeDataModel.firebaseID!, videoId: challengeDataModel.firebaseVideoID!)
+        ) { (result) in
+            defer {
+                dispatchGroup.leave()
+            }
+            switch result {
+            case .success(let url):
+                challengeDataModel.downloadUrlSD = url
+                
+            case .failure(let error):
+                completion(error)
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            completion(nil)
         }
     }
     
