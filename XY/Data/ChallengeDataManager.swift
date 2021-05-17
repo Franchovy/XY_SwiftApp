@@ -44,19 +44,26 @@ final class ChallengeDataManager {
         listeners.removeValue(forKey: challengeID)
     }
     
-    func saveVideoForChallenge(temporaryURL: URL) -> URL {
+    func saveVideoForChallenge(temporaryURL: URL) -> String {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let homeDirectory = paths[0]
         
-        var fileURL = homeDirectory.appendingPathComponent(UUID().uuidString)
-        fileURL.appendPathExtension("mov")
+        let fileName = UUID().uuidString.appending(".mov")
+        let fileURL = homeDirectory.appendingPathComponent(fileName)
         
         let urlData = NSData(contentsOf: temporaryURL)
         if urlData!.write(to: fileURL, atomically: false) {
-            return fileURL
+            return fileName
         } else {
             fatalError()
         }
+    }
+    
+    func getURLforLocalFile(filename: String) -> URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        let homeDirectory = paths[0]
+        
+        return homeDirectory.appendingPathComponent(filename)
     }
     
     func getChallengeWithFirebaseID(_ firebaseID: String) -> ChallengeDataModel? {
@@ -72,7 +79,7 @@ final class ChallengeDataManager {
         newChallenge.challengeDescription = challengeCard.description
         newChallenge.completionStateValue = ChallengeCompletionState.sent.rawValue
         newChallenge.expiryTimestamp = Date().addingTimeInterval(TimeInterval.days(1))
-        newChallenge.fileUrl = self.saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!)
+        newChallenge.localFileName = self.saveVideoForChallenge(temporaryURL: CreateChallengeManager.shared.videoUrl!)
         newChallenge.fromUser = ProfileDataManager.shared.ownProfileModel
         newChallenge.previewImage = challengeCard.image!.pngData()
         
@@ -93,9 +100,9 @@ final class ChallengeDataManager {
     func uploadChallengeCard(challenge: ChallengeDataModel, preparingProgress: @escaping(Double) -> Void, completion: @escaping(Error?) -> Void) {
         
         // Get video file
-        assert(challenge.fileUrl != nil)
-        assert(FileManager.default.fileExists(atPath: challenge.fileUrl!.path))
-        let url = challenge.fileUrl!
+        assert(challenge.localFileName != nil)
+        let fileUrl = getURLforLocalFile(filename: challenge.localFileName!)
+        assert(FileManager.default.fileExists(atPath: fileUrl.path))
         
         // Get challenge info
         assert(challenge.title != nil)
@@ -183,15 +190,21 @@ final class ChallengeDataManager {
     }
     
     func uploadChallengeVideo(challengeDataModel: ChallengeDataModel, onProgress: @escaping(Double) -> Void, onComplete: @escaping(Error?) -> Void) {
-        assert(challengeDataModel.fileUrl != nil)
+        assert(challengeDataModel.localFileName != nil)
         
-        guard FileManager().fileExists(atPath: challengeDataModel.fileUrl!.relativePath) else {
+        guard let fileName = challengeDataModel.localFileName else {
+            return
+        }
+        
+        let fileUrl = getURLforLocalFile(filename: fileName)
+              
+        guard FileManager().fileExists(atPath: fileUrl.relativePath) else {
             return
         }
         
         // Upload video to storage
         FirebaseStorageManager.shared.uploadVideoToStorage(
-            videoFileUrl: challengeDataModel.fileUrl!,
+            videoFileUrl: fileUrl,
             storagePath: FirebaseStoragePaths.challengeVideoPath(challengeId: challengeDataModel.firebaseID!, videoId: challengeDataModel.firebaseVideoID!)
         ) { (progress) in
             self.listeners[challengeDataModel.id]??.forEach({ $0.uploadProgress(id: challengeDataModel.id, progressUpload: progress) })

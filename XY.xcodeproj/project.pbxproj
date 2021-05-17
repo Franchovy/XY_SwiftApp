@@ -48,6 +48,8 @@
 		B952F5DC26177C470063E7B4 /* SendChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5DB26177C470063E7B4 /* SendChallengeViewController.swift */; };
 		B952F5E026177DF80063E7B4 /* ConfirmSendChallengeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B952F5DF26177DF80063E7B4 /* ConfirmSendChallengeViewController.swift */; };
 		B95BD7EB25B5EA4E00F3D31E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */; };
+		B95D187526525D4600B49BAF /* ChallengeV2MigrationPolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95D187426525D4600B49BAF /* ChallengeV2MigrationPolicy.swift */; };
+		B95D187B26525F7800B49BAF /* ChallengeMapping.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = B95D187A26525F7800B49BAF /* ChallengeMapping.xcmappingmodel */; };
 		B9665F2726280482009811DE /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9665F2626280482009811DE /* UserViewModel.swift */; };
 		B9683231261DA98300AF1DD1 /* FriendBubblesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */; };
 		B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B96B7F1826132FDB00B1CBF5 /* HomeViewController.swift */; };
@@ -223,6 +225,8 @@
 		B952F5DB26177C470063E7B4 /* SendChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendChallengeViewController.swift; sourceTree = "<group>"; };
 		B952F5DF26177DF80063E7B4 /* ConfirmSendChallengeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmSendChallengeViewController.swift; sourceTree = "<group>"; };
 		B95BD7EA25B5EA4E00F3D31E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		B95D187426525D4600B49BAF /* ChallengeV2MigrationPolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeV2MigrationPolicy.swift; sourceTree = "<group>"; };
+		B95D187A26525F7800B49BAF /* ChallengeMapping.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = ChallengeMapping.xcmappingmodel; sourceTree = "<group>"; };
 		B95FF50425A71FB000CFCA9E /* XYTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XYTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		B9665F2626280482009811DE /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		B9683230261DA98300AF1DD1 /* FriendBubblesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendBubblesView.swift; sourceTree = "<group>"; };
@@ -329,6 +333,7 @@
 		B9DED95626511CF300888C6E /* ImageUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageUtils.swift; sourceTree = "<group>"; };
 		B9DED95C26511CFE00888C6E /* connectedness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = connectedness.swift; sourceTree = "<group>"; };
 		B9DED96226513E8000888C6E /* NetworkConnectionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConnectionManager.swift; sourceTree = "<group>"; };
+		B9DED96626514A5C00888C6E /* Challenge 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Challenge 2.xcdatamodel"; sourceTree = "<group>"; };
 		B9E55D9B25ED746500C4FF9F /* Global.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		B9E98D5F263B2533004A3A31 /* SentChallengeVideoFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentChallengeVideoFooterView.swift; sourceTree = "<group>"; };
 		B9FD993D2615C08100D6716C /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
@@ -681,6 +686,8 @@
 				B9A7AC9B263F25FB008A730D /* UserModel.swift */,
 				B9A8239926403876005C40D3 /* ChallengeModel.swift */,
 				B94A7B442645CD35003C89FA /* NotificationModel.swift */,
+				B95D187426525D4600B49BAF /* ChallengeV2MigrationPolicy.swift */,
+				B95D187A26525F7800B49BAF /* ChallengeMapping.xcmappingmodel */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1189,6 +1196,8 @@
 				B9A7AC56263ECC67008A730D /* VideoSaver.swift in Sources */,
 				B96B7F1926132FDB00B1CBF5 /* HomeViewController.swift in Sources */,
 				B952F5BE261746BF0063E7B4 /* Prompt.swift in Sources */,
+				B95D187526525D4600B49BAF /* ChallengeV2MigrationPolicy.swift in Sources */,
+				B95D187B26525F7800B49BAF /* ChallengeMapping.xcmappingmodel in Sources */,
 				B979AB0A26258FF50079C4E8 /* UserDataModel.swift in Sources */,
 				B938490B2623604C00887291 /* RejectedChallengeViewController.swift in Sources */,
 				B9A7AC9C263F25FB008A730D /* UserModel.swift in Sources */,
@@ -1472,9 +1481,10 @@
 		B94E3F6F26270D12001AE129 /* Challenge.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B9DED96626514A5C00888C6E /* Challenge 2.xcdatamodel */,
 				B94E3F7026270D12001AE129 /* Challenge.xcdatamodel */,
 			);
-			currentVersion = B94E3F7026270D12001AE129 /* Challenge.xcdatamodel */;
+			currentVersion = B9DED96626514A5C00888C6E /* Challenge 2.xcdatamodel */;
 			path = Challenge.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

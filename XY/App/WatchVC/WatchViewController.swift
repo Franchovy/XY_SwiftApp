@@ -41,16 +41,19 @@ class WatchViewController: UIViewController, UIGestureRecognizerDelegate {
         for challengeVideoModel in ChallengeDataManager.shared.activeChallenges {
             let playerViewController = PlayerViewController()
             
-            if challengeVideoModel.fileUrl == nil && challengeVideoModel.downloadUrl == nil {
+            if let localFile = challengeVideoModel.localFileName {
+                let fileUrl = ChallengeDataManager.shared.getURLforLocalFile(filename: localFile)
+                playerViewController.configureVideo(from: fileUrl)
+            } else if let downloadUrl = challengeVideoModel.downloadUrl {
+                playerViewController.configureVideo(from: downloadUrl)
+            } else {
                 ChallengeDataManager.shared.loadVideosForChallengeModel(for: challengeVideoModel) { (error) in
                     if let error = error {
-                        print("Error fetching video for challenge")
+                        print("Error fetching video for challenge: \(error.localizedDescription)")
                     } else {
                         playerViewController.configureVideo(from: challengeVideoModel.downloadUrl!)
                     }
                 }
-            } else {
-                playerViewController.configureVideo(from: challengeVideoModel.fileUrl ?? challengeVideoModel.downloadUrl!)
             }
             
             playerViewController.configureChallengeCard(with: challengeVideoModel.toCard(), profileViewModel: challengeVideoModel.fromUser!.toViewModel())

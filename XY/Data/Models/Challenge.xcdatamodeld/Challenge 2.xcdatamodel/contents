@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="19H1030" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ChallengeDataModel" representedClassName=".ChallengeDataModel" syncable="YES" codeGenerationType="class">
+        <attribute name="challengeDescription" attributeType="String" defaultValueString=""/>
+        <attribute name="completionStateValue" attributeType="String" defaultValueString=""/>
+        <attribute name="downloadUrl" optional="YES" attributeType="URI"/>
+        <attribute name="downloadUrlHD" optional="YES" attributeType="URI"/>
+        <attribute name="downloadUrlSD" optional="YES" attributeType="URI"/>
+        <attribute name="expiryTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="firebaseID" optional="YES" attributeType="String"/>
+        <attribute name="firebaseVideoID" optional="YES" attributeType="String"/>
+        <attribute name="localFileName" optional="YES" attributeType="String"/>
+        <attribute name="previewImage" optional="YES" attributeType="Binary"/>
+        <attribute name="title" attributeType="String" defaultValueString=""/>
+        <relationship name="fromUser" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataModel" inverseName="challenges" inverseEntity="UserDataModel"/>
+        <relationship name="notifications" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NotificationDataModel" inverseName="challenge" inverseEntity="NotificationDataModel"/>
+        <relationship name="sentTo" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="UserDataModel" inverseName="challengesReceived" inverseEntity="UserDataModel"/>
+    </entity>
+    <entity name="NotificationDataModel" representedClassName="NotificationDataModel" syncable="YES" codeGenerationType="class">
+        <attribute name="firebaseID" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <relationship name="challenge" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChallengeDataModel" inverseName="notifications" inverseEntity="ChallengeDataModel"/>
+        <relationship name="fromUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserDataModel" inverseName="notificationsFromUser" inverseEntity="UserDataModel"/>
+    </entity>
+    <entity name="UserDataModel" representedClassName=".UserDataModel" syncable="YES" codeGenerationType="class">
+        <attribute name="firebaseID" optional="YES" attributeType="String"/>
+        <attribute name="friendStatus" attributeType="String"/>
+        <attribute name="nickname" attributeType="String" defaultValueString=""/>
+        <attribute name="numChallenges" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="numFriends" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="profileImage" optional="YES" attributeType="Binary"/>
+        <attribute name="profileImageFirebaseID" optional="YES" attributeType="String"/>
+        <relationship name="challenges" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ChallengeDataModel" inverseName="fromUser" inverseEntity="ChallengeDataModel"/>
+        <relationship name="challengesReceived" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ChallengeDataModel" inverseName="sentTo" inverseEntity="ChallengeDataModel"/>
+        <relationship name="notificationsFromUser" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NotificationDataModel" inverseName="fromUser" inverseEntity="NotificationDataModel"/>
+    </entity>
+    <elements>
+        <element name="ChallengeDataModel" positionX="-388.8828125" positionY="-78.0625" width="128" height="253"/>
+        <element name="NotificationDataModel" positionX="103.59375" positionY="113.5703125" width="128" height="118"/>
+        <element name="UserDataModel" positionX="-142.43359375" positionY="-193.3828125" width="128" height="193"/>
+    </elements>
+</model>

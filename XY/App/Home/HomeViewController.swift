@@ -346,8 +346,6 @@ class HomeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(didFinishSendingChallenge), name: .didFinishSendingChallenge, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(didLoadActiveChallenges), name: .didLoadActiveChallenges, object: nil)
         
-//        ChallengeDataManager.shared.fetchChallengeCards()
-        
         ChallengeDataManager.shared.loadChallengesFromStorage()
         ChallengeDataManager.shared.setupChallengesListener()
     }
