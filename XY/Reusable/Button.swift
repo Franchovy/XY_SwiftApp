@@ -50,16 +50,20 @@ class Button: UIButton {
         
         super.init(frame: .zero)
         
-        addSubview(contentView)
-        contentView.isUserInteractionEnabled = false 
-        
-        imageView?.contentMode = .scaleAspectFill
-
         setImage(image, for: .normal)
         tintColor = UIColor(named: "XYWhite")
         
         setTitle(title, for: .normal)
         titleLabel?.font = font
+        
+        if let imageView = imageView {
+            insertSubview(contentView, belowSubview: imageView)
+        } else {
+            addSubview(contentView)
+        }
+        contentView.isUserInteractionEnabled = false
+        
+        imageView?.contentMode = .scaleAspectFill
         
         contentView.layer.masksToBounds = false
         contentView.layer.shadowColor = UIColor.black.cgColor
