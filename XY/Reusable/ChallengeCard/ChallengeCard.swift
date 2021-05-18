@@ -28,7 +28,7 @@ class ChallengeCard: UIView {
         
         descriptionLabel.numberOfLines = 0
         challengeTitleGradientLabel.adjustsFontSizeToFitWidth = true
-        challengeTitleGradientLabel.applyGradient(gradientColours: Global.whiteGradient)
+        challengeTitleGradientLabel.textColor = .XYWhite
         
         addSubview(previewImage)
         addSubview(challengeTitleGradientLabel)
