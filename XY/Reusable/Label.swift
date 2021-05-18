@@ -83,8 +83,8 @@ class Label: UILabel {
         if let gradient = gradient {
             let size = bounds.size
             
-            let start = CGPoint(x: 0.4, y: 0.53)
-            let end = CGPoint(x: 0.6, y: 0.47)
+            let start = CGPoint(x: 0.3, y: 0.53)
+            let end = CGPoint(x: 0.7, y: 0.47)
             
             if textImage == nil {
                 let drawText = {
