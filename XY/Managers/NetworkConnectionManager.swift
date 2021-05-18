@@ -23,6 +23,7 @@ final class NetworkConnectionManager {
         networkMonitor.pathUpdateHandler = { networkPath in
             self.setupNetworkStatus()
         }
+        networkMonitor.start(queue: .main)
     }
     
     func setupNetworkStatus(completion: (() -> Void)? = nil) {
