@@ -8,6 +8,7 @@
 import UIKit
 
 class Button: UIButton {
+    let contentView = UIView()
     
     enum Style : Equatable {
         case circular(backgroundColor: UIColor)
@@ -49,6 +50,8 @@ class Button: UIButton {
         
         super.init(frame: .zero)
         
+        addSubview(contentView)
+        
         imageView?.contentMode = .scaleAspectFill
 
         setImage(image, for: .normal)
@@ -57,13 +60,13 @@ class Button: UIButton {
         setTitle(title, for: .normal)
         titleLabel?.font = font
         
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor.black.cgColor
-        layer.shadowOffset = CGSize(width: 1, height: 1)
-        layer.shadowRadius = 1
-        layer.shadowOpacity = 0.6
+        contentView.layer.masksToBounds = false
+        contentView.layer.shadowColor = UIColor.black.cgColor
+        contentView.layer.shadowOffset = CGSize(width: 1, height: 1)
+        contentView.layer.shadowRadius = 1
+        contentView.layer.shadowOpacity = 0.6
         
-        layer.insertSublayer(backgroundLayer, below: imageView?.layer)
+        contentView.layer.insertSublayer(backgroundLayer, below: imageView?.layer)
         
         switch style {
         case .circular(let backgroundColor):
@@ -78,7 +81,7 @@ class Button: UIButton {
             gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.8)
             gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.2)
             
-            layer.insertSublayer(gradientLayer, above: backgroundLayer)
+            contentView.layer.insertSublayer(gradientLayer, above: backgroundLayer)
             
             setTitleColor(.XYWhite, for: .normal)
         case .roundButtonBorder(let gradientColors):
@@ -92,15 +95,15 @@ class Button: UIButton {
             shapeLayer.borderWidth = 2
             shapeLayer.borderColor = UIColor.black.cgColor
             
-            layer.insertSublayer(gradientLayer, above: backgroundLayer)
+            contentView.layer.insertSublayer(gradientLayer, above: backgroundLayer)
             
             setTitleColor(UIColor(named: "XYTint"), for: .normal)
             backgroundLayer.backgroundColor = UIColor(named: "XYBackground")?.cgColor
         case .text:
-            layer.shadowOpacity = 0.0
+            contentView.layer.shadowOpacity = 0.0
             contentVerticalAlignment = .center
             contentHorizontalAlignment = .center
-        case .colorButton(let color, let _):
+        case .colorButton(let color, _):
             
             backgroundLayer.backgroundColor = color.cgColor
         case .image:
@@ -120,6 +123,8 @@ class Button: UIButton {
         }
         
         super.layoutSubviews()
+        
+        contentView.frame = self.bounds
         
         switch style {
         case .card:
@@ -199,27 +204,33 @@ class Button: UIButton {
     }
     
     private func animateSelect() {
-        guard !isAnimating else {
-            return
-        }
-        
         alpha = 0.8
-        UIView.animate(withDuration: 0.1) {
-            self.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
-        }
         isAnimating = true
+        
+        UIView.animate(withDuration: 0.1) {
+            self.contentView.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            self.titleLabel?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+            self.imageView?.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        } completion: { (done) in
+            if done {
+                self.isAnimating = false
+            }
+        }
     }
     
     private func animateDeselect() {
-        guard isAnimating else {
-            return
-        }
-        
         alpha = 1.0
+        isAnimating = true
+        
         UIView.animate(withDuration: 0.2) {
-            self.transform = .identity
+            self.contentView.transform = .identity
+            self.titleLabel?.transform = .identity
+            self.imageView?.transform = .identity
+        } completion: { (done) in
+            if done {
+                self.isAnimating = false
+            }
         }
-        isAnimating = false
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -236,7 +247,6 @@ class Button: UIButton {
         if isSelected {
             HapticsManager.shared.vibrateImpact(for: .rigid)
         }
-        
         
         animateDeselect()
     }
