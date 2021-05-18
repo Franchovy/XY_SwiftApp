@@ -76,6 +76,7 @@ class Label: UILabel {
     
     public func prepareForReuse() {
         textImage = nil
+        gradient = nil
     }
     
     override open func draw(_ rect: CGRect) {
