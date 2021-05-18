@@ -51,6 +51,7 @@ class Button: UIButton {
         super.init(frame: .zero)
         
         addSubview(contentView)
+        contentView.isUserInteractionEnabled = false 
         
         imageView?.contentMode = .scaleAspectFill
 
