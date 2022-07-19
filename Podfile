@@ -1,6 +1,6 @@
 
 
-platform :ios, '13.0'
+platform :ios, '15.5'
 
 target 'XY' do
   use_frameworks!
@@ -22,10 +22,10 @@ pod 'Firebase/Analytics'
 pod 'CodableFirebase'
 pod 'FaveButton'
 pod 'SwipeCellKit'
-pod 'CameraManager', '~> 5.1'
+pod 'CameraManager'
 pod 'IQKeyboardManagerSwift'
-pod 'ImagePicker'
-pod 'Kingfisher', '~> 6.0'
+pod 'ImagePicker', :git => 'https://github.com/hyperoslo/ImagePicker.git'
+pod 'Kingfisher'
 pod 'Hero'
 pod 'SwiftyCam'
 
