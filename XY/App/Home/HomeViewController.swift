@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class HomeViewController: UIViewController {
         
@@ -43,7 +44,6 @@ class HomeViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         NavigationControlManager.mainViewController = self
-        
         view.backgroundColor = UIColor(named: "XYBackground")
         challengesCollectionView.dataSource = challengesDataSource
         friendsCollectionView.dataSource = friendsDataSource
@@ -127,7 +127,7 @@ class HomeViewController: UIViewController {
         super.viewWillAppear(animated)
         
         challengesDataSource.reload()
-        
+
         navigationController?.isNavigationBarHidden = false
         navigationController?.configureBackgroundStyle(.visible)
         configureBackButton(.backButton)

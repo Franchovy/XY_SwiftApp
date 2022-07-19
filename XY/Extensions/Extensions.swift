@@ -148,6 +148,7 @@ enum NavigationControllerStyle {
 
 extension UINavigationController {
     func configureBackgroundStyle(_ style: NavigationControllerStyle) {
+        
         if style == .invisible {
             navigationBar.setBackgroundImage(UIImage(), for: .default)
             navigationBar.barTintColor = .clear

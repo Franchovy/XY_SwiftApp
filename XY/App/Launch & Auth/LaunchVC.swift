@@ -23,6 +23,7 @@ class LaunchVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.addSubview(imageView)
         
         view.backgroundColor = UIColor(named: "Black")
