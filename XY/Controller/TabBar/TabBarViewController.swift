@@ -26,6 +26,7 @@ class TabBarViewController: UITabBarController, UITabBarControllerDelegate {
         TabBarViewController.instance = self
         
         guard let userId = AuthManager.shared.userId else { return }
+        print("User ID: ", userId)
         setProfileIcon(userID: userId)
         
         isHeroEnabled = true

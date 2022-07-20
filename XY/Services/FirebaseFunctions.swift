@@ -18,13 +18,15 @@ final class FirebaseFunctionsManager {
     
     lazy var functions = Functions.functions()
     
-    public func register(email: String, xyname: String, password: String, completion: @escaping(Result<HTTPSCallableResult, Error>) -> Void) {
+    public func register(email: String, xyname: String, password: String, completion: @escaping(Result<HTTPSCallableResult?, Error>) -> Void) {
         let registerData = [
             "email": email,
             "xyname": xyname,
             "password": password
         ]
-                            
+        
+        completion(.success(nil))
+        /*
         functions.httpsCallable("register").call(registerData) { result, error in
             if let error = error {
                 completion(.failure(error))
@@ -32,7 +34,7 @@ final class FirebaseFunctionsManager {
                 completion(.success(result))
             }
             
-        }
+        }*/
     }
     
     public func swipeRight(viralId: String) {

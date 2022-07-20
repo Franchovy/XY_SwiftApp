@@ -76,12 +76,12 @@ class FollowButton: FaveButton {
             setBackgroundColor(color: .clear, forState: .normal)
             layer.borderColor = UIColor.white.cgColor
             layer.borderWidth = 1
-            setAnimationsEnabled(enabled: false)
+            FollowButton.setAnimationsEnabled(false)
         case .follower:
             setTitle("Subscriber", for: .normal)
             titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 12)
             setBackgroundColor(color: .gray, forState: .normal)
-            setAnimationsEnabled(enabled: true)
+            FollowButton.setAnimationsEnabled(true)
             resetBorder()
         case .friends:
             setTitle("Friends", for: .normal)
@@ -89,12 +89,12 @@ class FollowButton: FaveButton {
             setBackgroundColor(color: .clear, forState: .normal)
             resetBorder()
             setBorderGradient()
-            setAnimationsEnabled(enabled: false)
+            FollowButton.setAnimationsEnabled(false)
         case .none:
             setTitle("Subscribe", for: .normal)
             titleLabel?.font = UIFont(name: "Raleway-ExtraBold", size: 12)
             setBackgroundColor(color: UIColor(0x007BF5), forState: .normal)
-            setAnimationsEnabled(enabled: true)
+            FollowButton.setAnimationsEnabled(true)
             resetBorder()
         }
     }

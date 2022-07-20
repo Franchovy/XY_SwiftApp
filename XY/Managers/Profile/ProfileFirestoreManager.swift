@@ -21,7 +21,7 @@ class ProfileFirestoreManager {
             }
             
             if let userData = snapshot.data() as? [String: Any] {
-                let profileId = userData[FirebaseKeys.UserKeys.profile] as! String
+                let profileId = userData[FirebaseKeys.UserKeys.profile] as? String
                 completion(profileId, nil)
             }
         }

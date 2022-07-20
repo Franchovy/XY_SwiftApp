@@ -86,7 +86,7 @@ class LoginViewController: UIViewController {
                     self.performSegue(withIdentifier: "LoginToProfile", sender: self)
                 case .failure(let error):
                     print("Error logging in: \(error)")
-                    
+                    /*
                     if let errCode = AuthErrorCode(rawValue: error._code) {
                         // Error handling
                         if errCode == .userNotFound || errCode == .wrongPassword {
@@ -95,6 +95,7 @@ class LoginViewController: UIViewController {
                             self.displayError(errorText: "Login failed")
                         }
                     }
+                    */
                 }
             }
         }

@@ -37,7 +37,7 @@ struct Action {
     }
     
     static func getSwipeRightAction(id: String, contentType: ContentType, xp: Int) -> [String: Any] {
-        let userId = Auth.auth().currentUser!.uid
+        let userId = AuthManager.shared.userId
         let type = ActionType.swipeRight
         return [ FirebaseKeys.ActionKeys.user : userId,
                  FirebaseKeys.ActionKeys.item : id,
@@ -49,7 +49,7 @@ struct Action {
     }
     
     static func getSwipeLeftAction(id: String, contentType: ContentType, xp: Int) -> [String: Any] {
-        let userId = Auth.auth().currentUser!.uid
+        let userId = AuthManager.shared.userId
         let type = ActionType.swipeLeft
         return [ FirebaseKeys.ActionKeys.user : userId,
                  FirebaseKeys.ActionKeys.item : id,

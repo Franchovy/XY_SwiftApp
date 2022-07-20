@@ -20,9 +20,10 @@ final class AuthManager {
         if let currentUser = Auth.auth().currentUser {
             userId = currentUser.uid
             email = currentUser.email
-            
+            print("Is logged in")
             return true
         } else {
+            print("Is not logged in")
             return false
         }
     }
@@ -114,76 +115,65 @@ final class AuthManager {
         FirebaseFunctionsManager.shared.register(email: email, xyname: xyname, password: password) { (result) in
             switch result {
             case .success(let httpsResult):
-                guard let resultData = httpsResult.data as? [String: String] else {
-                    print("UNKNOWN ERROR")
-                    completion(.failure(CreateUserError.unknownError))
-                    return
-                }
-                if let error = resultData["error"] {
-                    print("error: \(error)")
-                    let createUserError = CreateUserError(rawValue: error) ?? CreateUserError.unknownError
-                    completion(.failure(createUserError))
-                } else {
-                    Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                    if let error = error {
+                        completion(.failure(error))
+                    }
+                    
+                    guard let uid = authResult?.user.uid else {
+                        completion(.failure(CreateUserError.unknownError))
+                        return
+                    }
+                    self.userId = uid
+                    self.email = email
+                    
+                    // Set user data in user firestore table after signup
+                    let newUserDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
+                    
+                    let newUserData: [String: Any] = [
+                        FirebaseKeys.UserKeys.xyname : xyname,
+                        FirebaseKeys.UserKeys.timestamp : FieldValue.serverTimestamp(),
+                        FirebaseKeys.UserKeys.level : 0,
+                        FirebaseKeys.UserKeys.xp : 0
+                    ]
+                    
+                    newUserDocument.setData(newUserData) { (error) in
                         if let error = error {
                             completion(.failure(error))
-                        }
-                        
-                        guard let uid = authResult?.user.uid else {
-                            completion(.failure(CreateUserError.unknownError))
                             return
                         }
-                        self.userId = uid
-                        self.email = email
                         
-                        // Set user data in user firestore table after signup
-                        let newUserDocument = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(uid)
+                        let newProfileData = ProfileModel.createNewProfileData(nickname: xyname)
                         
-                        let newUserData: [String: Any] = [
-                            FirebaseKeys.UserKeys.xyname : xyname,
-                            FirebaseKeys.UserKeys.timestamp : FieldValue.serverTimestamp(),
-                            FirebaseKeys.UserKeys.level : 0,
-                            FirebaseKeys.UserKeys.xp : 0
-                        ]
+                        guard let userId = self.userId else { return }
                         
-                        newUserDocument.setData(newUserData) { (error) in
+                        // Create new profile document
+                        let newProfile = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).addDocument(data: newProfileData) { error in
                             if let error = error {
                                 completion(.failure(error))
-                                return
                             }
-                            
-                            let newProfileData = ProfileModel.createNewProfileData(nickname: xyname)
-                            
-                            guard let userId = self.userId else { return }
-                            
-                            // Create new profile document
-                            let newProfile = FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.profile).addDocument(data: newProfileData) { error in
+                        }
+                        
+                        print ("Created new profile document with id: \(newProfile.documentID)")
+                        
+                        // Add new profile document id to user's profile field
+                        FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
+                            .setData([FirebaseKeys.UserKeys.profile : newProfile.documentID], merge: true) { error in
                                 if let error = error {
                                     completion(.failure(error))
                                 }
-                            }
-                            
-                            print ("Created new profile document with id: \(newProfile.documentID)")
-                            
-                            // Add new profile document id to user's profile field
-                            FirestoreReferenceManager.root.collection(FirebaseKeys.CollectionPath.users).document(userId)
-                                .setData([FirebaseKeys.UserKeys.profile : newProfile.documentID], merge: true) { error in
+                                let profileId = newProfile.documentID
+                                
+                                newUserDocument.setData([FirebaseKeys.UserKeys.profile : profileId], merge: true) { error in
                                     if let error = error {
                                         completion(.failure(error))
                                     }
-                                    let profileId = newProfile.documentID
                                     
-                                    newUserDocument.setData([FirebaseKeys.UserKeys.profile : profileId], merge: true) { error in
-                                        if let error = error {
-                                            completion(.failure(error))
-                                        }
-                                        
-                                        ProfileManager.shared.newProfileCreated(withId: profileId)
-                                        
-                                        completion(.success(uid))
-                                    }
+                                    ProfileManager.shared.newProfileCreated(withId: profileId)
+                                    
+                                    completion(.success(uid))
                                 }
-                        }
+                            }
                     }
                 }
             case .failure(let error):

@@ -204,7 +204,7 @@ class NewLoginViewController : UIViewController {
                 self.present(vc, animated: true)
             case .failure(let error):
                 print("Error logging in: \(error)")
-                
+                /*
                 if let errCode = AuthErrorCode(rawValue: error._code) {
                     // Error handling
                     if errCode == .userNotFound || errCode == .wrongPassword {
@@ -215,6 +215,7 @@ class NewLoginViewController : UIViewController {
                         self.displayError(errorText: "Login failed")
                     }
                 }
+                 */
             }
         }
     

@@ -34,7 +34,7 @@ final class StorageManager {
             if let error = error {
                 completion(error)
             } else {
-                for item in storageListResult.items {
+                for item in storageListResult!.items {
                     item.delete { (error) in
                         completion(error)
                     }
